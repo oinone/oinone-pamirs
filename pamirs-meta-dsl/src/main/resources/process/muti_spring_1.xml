@@ -1,0 +1,13 @@
+<process name="muti_spring" version="1">
+  <event name="park">
+    <spring-bean beanId="mockClazz" method="shot" args="a, b" result="r"/>
+    <spring-bean beanId="mockClazz" method="shot" args="a, b" result="r"/>
+    <spring-bean beanId="mockClazz" method="shot" args="a, b" result="r"/>
+  </event>
+  <event name="repair" triggers="park" rules="don't to that">
+    <spring-bean beanId="mockClazz" method="shot" args="a, b" result="r"/>
+  </event>
+  <event name="shopping" triggers="park:repair">
+    <spring-bean beanId="mockClazz" method="shot" args="a, b" result="r"/>
+  </event>
+</process>

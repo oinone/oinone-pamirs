@@ -1,0 +1,13 @@
+*.iml
+*.idea
+target
+gradle
+.DS_Store
+.project
+.settings/
+.classpath
+.vscode/
+logs/
+out
+generated
+generated_tests

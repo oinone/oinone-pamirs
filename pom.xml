@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>pro.shushi.pamirs</groupId>
+        <artifactId>pamirs</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>pro.shushi.pamirs</groupId>
+    <artifactId>pamirs-k2</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <modules>
+        <module>pamirs-meta-common</module>
+        <module>pamirs-meta-annotation</module>
+        <module>pamirs-meta-fun</module>
+        <module>pamirs-meta-model</module>
+        <module>pamirs-meta-dsl</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- pamirs k2 -->
+            <dependency>
+                <groupId>pro.shushi.pamirs.k2</groupId>
+                <artifactId>pamirs-meta-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.k2</groupId>
+                <artifactId>pamirs-meta-annotation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.k2</groupId>
+                <artifactId>pamirs-meta-fun</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.k2</groupId>
+                <artifactId>pamirs-meta-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.k2</groupId>
+                <artifactId>pamirs-meta-dsl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>
+

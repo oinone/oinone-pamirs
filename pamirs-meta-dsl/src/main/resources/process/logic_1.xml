@@ -1,0 +1,67 @@
+<logic name="pro.shushi.pamirs.base.model.meta.Functions.test" desc="这是一个逻辑" version="1">
+  <start id="start1">
+    <to id="action2"/>
+  </start>
+  <action id="action2" desc="模型操作2" model="pro.shushi.pamirs.base.model.resource.ResourceGroup" name="create" arg="model">
+    <to id="if3"/>
+  </action>
+  <if id="if3" desc="条件判断3" exp="COUNT(action2) == 11">
+    <to id="foreach4"/>
+    <else id="fun9"/>
+  </if>
+  <foreach id="foreach4" desc="遍历集合4" list="action2" start="2" end="8">
+    <to id="new5"/>
+    <each id="fun8"/>
+  </foreach>
+  <new id="new5" desc="新纪录5" model="pro.shushi.pamirs.base.model.paas.Environment">
+    <to id="assign6"/>
+    <field name="mode" exp="&quot;preview&quot;"/>
+  </new>
+  <assign id="assign6" desc="模型赋值6" arg="new5">
+    <to id="action7"/>
+    <field name="mode" exp="&quot;product&quot;"/>
+    <field name="name" exp="&quot;test1&quot;"/>
+    <field name="isTransient" exp="true"/>
+  </assign>
+  <action id="action7" desc="动作调用7" model="pro.shushi.pamirs.base.model.paas.Environment" name="change" arg="assign6">
+    <to id="fun9"/>
+  </action>
+  <fun id="fun8" desc="函数调用8" namespace="pamirs" name="JOIN">
+    <arg name="a" exp="1+2"/>
+    <arg name="b" exp="LISTGET(action2, 0).name + ':' + foreach4.name"/>
+  </fun>
+  <fun id="fun9" desc="函数调用9" namespace="pamirs" name="UPPERMONEY">
+    <to id="create11"/>
+    <arg name="a" exp="100000+2.5"/>
+  </fun>
+  <exception id="exception10" desc="异常处理10">
+    <catch exp="exception10 == 10000115" id="fun18"/>
+  </exception>
+  <create id="create11" desc="新增记录11" model="pro.shushi.pamirs.base.model.meta.Model" arg="model">
+    <ex id="exception10"/>
+    <to id="query12"/>
+  </create>
+  <query id="query12" desc="查询记录12" model="pro.shushi.pamirs.base.model.meta.Model" rsql="id&gt;0" aggs="id=count=countId" page="1" size="20" groupBy="name">
+    <to id="create13"/>
+  </query>
+  <create id="create13" desc="新增记录13" model="pro.shushi.pamirs.base.model.meta.Menu" arg="assign6">
+    <to id="foreach14"/>
+  </create>
+  <foreach id="foreach14" desc="遍历集合14" list="create13" start="0" end="5">
+    <each id="assign15"/>
+  </foreach>
+  <assign id="assign15" desc="模型赋值15" arg="foreach14">
+    <to id="update16"/>
+    <field name="name" exp="&quot;test_&quot; + foreach14$current_iterator_index"/>
+  </assign>
+  <update id="update16" desc="更新记录16" model="pro.shushi.pamirs.base.model.meta.Menu" arg="assign15">
+    <to id="delete17"/>
+  </update>
+  <delete id="delete17" desc="删除记录17" model="pro.shushi.pamirs.base.model.meta.Menu" arg="update16"/>
+  <fun id="fun18" desc="函数调用18" namespace="pamirs" name="JOIN">
+    <to id="query19"/>
+    <arg name="a" exp="1+2"/>
+    <arg name="b" exp="COUNT(action2)"/>
+  </fun>
+  <query id="query19" desc="查询记录19" model="pro.shushi.pamirs.base.model.meta.Model" rsql="id&gt;0" page="1" size="20"/>
+</logic>
