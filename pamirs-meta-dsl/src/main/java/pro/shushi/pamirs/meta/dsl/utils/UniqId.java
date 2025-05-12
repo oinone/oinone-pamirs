@@ -1,27 +1,30 @@
 package pro.shushi.pamirs.meta.dsl.utils;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 public class UniqId {
-	final static Logger log = LoggerFactory.getLogger(UniqId.class);
 
+    final static Logger log = LoggerFactory.getLogger(UniqId.class);
 
-    private static char[] digits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    private static char[] digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     private static Map<Character, Integer> rDigits = new HashMap<Character, Integer>(16);
+
     static {
         for (int i = 0; i < digits.length; ++i) {
             rDigits.put(digits[i], i);
@@ -36,39 +39,47 @@ public class UniqId {
 
     private final ReentrantLock opLock = new ReentrantLock();
 
+    private final static AtomicBoolean isDone = new AtomicBoolean(Boolean.FALSE);
+
 
     private UniqId() {
-        try {
-            InetAddress addr = InetAddress.getLocalHost();
-
-            this.hostAddr = addr.getHostAddress();
-        }
-        catch (IOException e) {
-            log.error("Get HostAddr Error", e);
-            this.hostAddr = String.valueOf(System.currentTimeMillis());
-        }
-
-        if (StringUtils.isBlank(this.hostAddr) || "127.0.0.1".equals(this.hostAddr)) {
-            this.hostAddr = String.valueOf(System.currentTimeMillis());
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug("hostAddr is:" + this.hostAddr);
-        }
 
         try {
             this.mHasher = MessageDigest.getInstance("MD5");
-        }
-        catch (NoSuchAlgorithmException nex) {
+        } catch (NoSuchAlgorithmException nex) {
             this.mHasher = null;
             log.error("new MD5 Hasher error", nex);
         }
+        UniqId.setInetAddress(this);
+    }
+
+    private static void setInetAddress(UniqId uniqId) {
+        Thread once = new Thread(() -> {
+            try {
+                final InetAddress addr = InetAddress.getLocalHost();
+                uniqId.hostAddr = addr.getHostAddress();
+            } catch (IOException e) {
+                log.error("Get HostAddr Error", e);
+                uniqId.hostAddr = String.valueOf(System.currentTimeMillis());
+            }
+
+            if (StringUtils.isBlank(uniqId.hostAddr) || "127.0.0.1".equals(uniqId.hostAddr)) {
+                uniqId.hostAddr = String.valueOf(System.currentTimeMillis());
+            }
+
+            if (log.isDebugEnabled()) {
+                log.debug("hostAddr is:" + uniqId.hostAddr);
+            }
+            isDone.compareAndSet(false, true);
+        });
+        once.setDaemon(true);
+        once.start();
     }
 
 
     /**
      * 获取UniqID实例
-     * 
+     *
      * @return UniqId
      */
     public static UniqId getInstance() {
@@ -78,7 +89,7 @@ public class UniqId {
 
     /**
      * 获得不会重复的毫秒数
-     * 
+     *
      * @return
      */
     public long getUniqTime() {
@@ -88,10 +99,29 @@ public class UniqId {
 
     /**
      * 获得UniqId
-     * 
+     *
      * @return uniqTime-randomNum-hostAddr-threadId
      */
     public String getUniqID() {
+
+        int counter = 0;
+        if (!isDone.get()) {
+            while (true) {
+                if (counter >= 5) {
+                    break;
+                }
+                try {
+                    TimeUnit.SECONDS.sleep(1L);
+                } catch (InterruptedException ignored) {
+                    // do nothing
+                }
+                if (isDone.get()) {
+                    break;
+                }
+                counter++;
+            }
+        }
+
         StringBuffer sb = new StringBuffer();
         long t = this.timer.getCurrentTime();
 
@@ -117,7 +147,7 @@ public class UniqId {
 
     /**
      * 获取MD5之后的uniqId string
-     * 
+     *
      * @return uniqId md5 string
      */
     public String getUniqIDHashString() {
@@ -127,7 +157,7 @@ public class UniqId {
 
     /**
      * 获取MD5之后的uniqId
-     * 
+     *
      * @return byte[16]
      */
     public byte[] getUniqIDHash() {
@@ -137,23 +167,19 @@ public class UniqId {
 
     /**
      * 对字符串进行md5
-     * 
+     *
      * @param str
      * @return md5 byte[16]
      */
     public byte[] hash(String str) {
         this.opLock.lock();
         try {
-            byte[] bt = this.mHasher.digest(str.getBytes("UTF-8"));
+            byte[] bt = this.mHasher.digest(str.getBytes(StandardCharsets.UTF_8));
             if (null == bt || bt.length != 16) {
                 throw new IllegalArgumentException("md5 need");
             }
             return bt;
-        }
-        catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("unsupported utf-8 encoding", e);
-        }
-        finally {
+        } finally {
             this.opLock.unlock();
         }
     }
@@ -161,8 +187,8 @@ public class UniqId {
 
     /**
      * 对二进制数据进行md5
-     * 
-     * @param str
+     *
+     * @param data
      * @return md5 byte[16]
      */
     public byte[] hash(byte[] data) {
@@ -173,8 +199,7 @@ public class UniqId {
                 throw new IllegalArgumentException("md5 need");
             }
             return bt;
-        }
-        finally {
+        } finally {
             this.opLock.unlock();
         }
     }
@@ -182,7 +207,7 @@ public class UniqId {
 
     /**
      * 对字符串进行md5 string
-     * 
+     *
      * @param str
      * @return md5 string
      */
@@ -194,7 +219,7 @@ public class UniqId {
 
     /**
      * 对字节流进行md5 string
-     * 
+     *
      * @param str
      * @return md5 string
      */
@@ -206,7 +231,7 @@ public class UniqId {
 
     /**
      * 将一个字节数组转化为可见的字符串
-     * 
+     *
      * @param bt
      * @return
      */
@@ -233,7 +258,7 @@ public class UniqId {
 
     /**
      * 将字符串转换为bytes
-     * 
+     *
      * @param str
      * @return byte[]
      */
@@ -256,7 +281,7 @@ public class UniqId {
 
     /**
      * 实现不重复的时间
-     * 
+     *
      * @author dogun
      */
     private static class UniqTimer {

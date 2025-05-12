@@ -4,6 +4,7 @@ import java.lang.annotation.*;
 
 /**
  * 标识枚举的类注解
+ *
  * @author deng
  */
 @Documented
@@ -17,7 +18,20 @@ public @interface Dict {
     // 显示名称
     String displayName() default "";
 
-    // 字段技术名称
+    // 技术名称
     String name() default "";
+
+    // 描述
+    String summary() default "";
+
+    // 类型
+    int type() default 1;
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.TYPE})
+    @interface dictionary {
+        // 数据字典的编码
+        String value();
+    }
 
 }

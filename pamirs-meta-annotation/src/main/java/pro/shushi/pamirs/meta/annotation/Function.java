@@ -1,9 +1,7 @@
 package pro.shushi.pamirs.meta.annotation;
 
-import pro.shushi.pamirs.meta.enmu.FunctionCategoryEnum;
-import pro.shushi.pamirs.meta.enmu.FunctionSceneEnum;
-import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
-import pro.shushi.pamirs.meta.enmu.FunctionUsageEnum;
+import pro.shushi.pamirs.meta.common.constants.FunctionDefaultsConstants;
+import pro.shushi.pamirs.meta.enmu.*;
 
 import java.lang.annotation.*;
 
@@ -19,7 +17,8 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Function {
 
-    // 技术名称，供接口调用使用，非实际调用方法名称，默认与方法名称相同
+    // api名称
+    // 供接口调用使用，非实际调用方法名称，默认与方法名称相同
     String name() default "";
 
     // 函数可执行场景
@@ -27,6 +26,9 @@ public @interface Function {
 
     // 描述
     String summary() default "";
+
+    // 函数开放级别
+    FunctionOpenEnum[] openLevel() default {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE};
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.METHOD})
@@ -47,16 +49,34 @@ public @interface Function {
         String displayName() default "";
 
         // 函数类型
-        FunctionTypeEnum type() default FunctionTypeEnum.JAVA;
+        FunctionTypeEnum[] type() default FunctionTypeEnum.UPDATE;
 
-        // 函数用途
-        FunctionUsageEnum usage() default FunctionUsageEnum.WRITE;
+        // 是否是数据库管理器函数
+        boolean managed() default false;
+
+        // 函数语言
+        FunctionLanguageEnum language() default FunctionLanguageEnum.JAVA;
 
         // 是否内置函数
         boolean builtin() default false;
 
+        // 校验
+        boolean check() default false;
+
         // 函数分类
         FunctionCategoryEnum category() default FunctionCategoryEnum.OTHER;
+
+        // 系统分组
+        String group() default FunctionDefaultsConstants.GROUP;
+
+        // 系统版本
+        String version() default FunctionDefaultsConstants.VERSION;
+
+        // 超时时间
+        int timeout() default FunctionDefaultsConstants.TIMEOUT;
+
+        // 重试次数
+        int retries() default 0;
 
         // 是否支持long polling
         boolean isLongPolling() default false;

@@ -1,9 +1,9 @@
 package pro.shushi.pamirs.meta.dsl.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import pro.shushi.pamirs.meta.dsl.utils.StringUtils;
 
 public class Process {
 
@@ -18,7 +18,7 @@ public class Process {
 	public Process(String name, int version) {
 		this.name = name;
 		this.version = version;
-		states = new HashMap<String, State>();
+		states = new HashMap<>();
 		
 		if(StringUtils.isBlank(name)) {
 			throw new IllegalArgumentException("name is blank");

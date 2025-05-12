@@ -1,9 +1,12 @@
 package pro.shushi.pamirs.meta.dsl.signal;
 
+import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.dsl.fun.LogicFunInvoker;
-import pro.shushi.pamirs.meta.dsl.utils.StringUtils;
 
 import java.util.Map;
+
+import static pro.shushi.pamirs.meta.dsl.enumeration.DslExpEnumerate.BASE_END_HANDLE_ERROR;
 
 public class End implements Exe {
 
@@ -14,12 +17,12 @@ public class End implements Exe {
     @Override
     public void dispatch(Map<String, Object> context) {
         try{
-            if(!StringUtils.isBlank(exp)){
+            if(StringUtils.isNotBlank(exp)){
                 Object result = LogicFunInvoker.exp(exp, context);
                 LogicFunInvoker.putReturn(context, result);
             }
         }catch(Exception e){
-            throw new RuntimeException(e);
+            throw PamirsException.construct(BASE_END_HANDLE_ERROR, e).errThrow();
         }
     }
 

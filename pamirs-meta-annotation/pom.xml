@@ -2,17 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-k2</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>6.1.6</version>
     </parent>
 
     <groupId>pro.shushi.pamirs.k2</groupId>
     <artifactId>pamirs-meta-annotation</artifactId>
     <packaging>jar</packaging>
-
-    <modelVersion>4.0.0</modelVersion>
 
     <dependencies>
 
@@ -23,8 +22,8 @@
 
         <!-- tool -->
         <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -51,29 +50,6 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
-
-        <!-- logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-        <dependency> <!-- log4j1 -> slf4j -->
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-        </dependency>
-        <dependency> <!-- commons-logging -> slf4j -->
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-        </dependency>
-
 
     </dependencies>
 

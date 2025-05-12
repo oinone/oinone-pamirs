@@ -18,18 +18,33 @@ public enum ModelTypeEnum implements IEnum<String> {
     STORE("store", "存储模型", "存储模型"),
     TRANSIENT("transient", "传输模型", "传输模型"),
     ABSTRACT("abstract", "抽象模型", "抽象模型"),
-    PROXY("proxy", "代理模型", "代理模型")
-    ;
+    PROXY("proxy", "代理模型", "代理模型");
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     ModelTypeEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
+        this.help = help;
+    }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

@@ -21,12 +21,12 @@ public @interface MetaModel {
 
     // 排序
     @AliasFor("priority")
-    int value() default 10;
+    int value() default 50;
 
     @AliasFor("value")
-    int priority() default 10;
+    int priority() default 50;
 
-    // 是否是主模型：module、model、function
-    boolean core() default false;
+    // 进入核心计算的扫描类型：module#Class、model#Class、field#Field、function#Method
+    Class<?>[] core() default {};
 
 }

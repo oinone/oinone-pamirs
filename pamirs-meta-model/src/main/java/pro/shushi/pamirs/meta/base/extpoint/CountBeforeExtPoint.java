@@ -2,7 +2,10 @@ package pro.shushi.pamirs.meta.base.extpoint;
 
 import pro.shushi.pamirs.meta.annotation.ExtPoint;
 import pro.shushi.pamirs.meta.annotation.Fun;
-import pro.shushi.pamirs.meta.api.dto.crud.Condition;
+import pro.shushi.pamirs.meta.annotation.x.XService;
+
+import static pro.shushi.pamirs.meta.constant.ExtPointConstants.BEFORE_SUFFIX;
+import static pro.shushi.pamirs.meta.constant.FunctionConstants.count;
 
 /**
  * 查询记录数量前置扩展点
@@ -12,9 +15,13 @@ import pro.shushi.pamirs.meta.api.dto.crud.Condition;
  * date 2020/1/1 1:11 下午
  */
 @Fun
+@XService(publish = false)
 public interface CountBeforeExtPoint<T> {
 
-    @ExtPoint(name = "countBefore")
-    Condition<T> countBefore(Condition<T> condition);
+    @ExtPoint.name(count + BEFORE_SUFFIX)
+    @ExtPoint(displayName = "获取数量前置扩展点")
+    default T countBefore(T condition) {
+        return condition;
+    }
 
 }

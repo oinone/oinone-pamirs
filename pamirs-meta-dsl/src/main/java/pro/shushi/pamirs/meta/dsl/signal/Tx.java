@@ -1,7 +1,7 @@
 package pro.shushi.pamirs.meta.dsl.signal;
 
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.dsl.model.TxConfig;
-import pro.shushi.pamirs.meta.dsl.utils.StringUtils;
 
 public class Tx {
 
@@ -21,7 +21,7 @@ public class Tx {
 
     public TxConfig tx() {
         TxConfig txConfig = null;
-        if(!StringUtils.isBlank(module)){
+        if(StringUtils.isNotBlank(module)){
             if(null != isolation || null != propagation || null != timeout || null != readOnly || null != rollbackFor || null != noRollbackFor){
                 txConfig = new TxConfig();
                 txConfig.setModuleName(module);

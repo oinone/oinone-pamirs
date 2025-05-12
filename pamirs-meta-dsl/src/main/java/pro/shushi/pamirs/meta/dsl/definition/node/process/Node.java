@@ -1,9 +1,9 @@
 package pro.shushi.pamirs.meta.dsl.definition.node.process;
 
-import java.util.List;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
+import java.util.List;
 
 public class Node {
 

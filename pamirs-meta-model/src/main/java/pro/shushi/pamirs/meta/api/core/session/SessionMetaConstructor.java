@@ -18,14 +18,14 @@ public interface SessionMetaConstructor extends CommonApi {
     /**
      * 构造
      *
-     * @return
+     * @return 元数据
      */
     List<Meta> construct();
 
     /**
      * 构造
      *
-     * @return
+     * @return 元数据
      */
     List<Meta> construct(Set<String> modules);
 

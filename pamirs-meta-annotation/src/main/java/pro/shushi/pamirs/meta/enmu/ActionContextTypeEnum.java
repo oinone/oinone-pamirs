@@ -9,21 +9,36 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
 public enum ActionContextTypeEnum implements IEnum<String> {
 
     SINGLE("SINGLE", "单行", "单行"),
-    BATCH("BATCH", "多行", "多行"),
+    BATCH("BATCH", "多行", "只在多行出现，例如合并包裹的动作"),
     SINGLE_AND_BATCH("SINGLE_AND_BATCH", "单行和多行", "单行和多行"),
     CONTEXT_FREE("CONTEXT_FREE", "上下文无关", "上下文无关"),
     ;
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
-    ActionContextTypeEnum(String  value, String displayName, String help) {
+    ActionContextTypeEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

@@ -11,15 +11,25 @@ public interface ExpBaseEnum extends IEnum<Integer> {
         REMOTE_ERROR("远程错误"),
         BIZ_ERROR("业务错误"),
         SECURITY_ERROR("权限错误"),
+        DATA_ERROR("数据错误"),
         LOGIC_ERROR("逻辑错误"),
 
         ;
 
-        public String type;
+        private String remark;
 
-        ERROR_TYPE(String type) {
-            this.type = type;
+        ERROR_TYPE(String remark) {
+            this.remark = remark;
         }
+
+        public String getType() {
+            return name();
+        }
+
+        public String getRemark() {
+            return remark;
+        }
+
     }
 
     enum LEVEL {
@@ -30,58 +40,42 @@ public interface ExpBaseEnum extends IEnum<Integer> {
         ERROR("错误"),
         ;
 
-        public String level;
+        private String level;
 
         LEVEL(String level) {
             this.level = level;
         }
+
+        public String getLevel() {
+            return level;
+        }
     }
 
-    default ERROR_TYPE type(){
+    default ERROR_TYPE type() {
         return (ERROR_TYPE) UnsafeUtil.getValue(this, "type");
     }
 
-    default int code(){
+    default int code() {
         return (Integer) UnsafeUtil.getValue(this, "code");
     }
 
-    default String msg(){
+    default String msg() {
         return (String) UnsafeUtil.getValue(this, "msg");
     }
 
     @Override
-    default String displayName(){
+    default String displayName() {
         return name();
     }
 
     @Override
-    default Integer value(){
+    default Integer value() {
         return code();
     }
 
     @Override
-    default String help(){
+    default String help() {
         return msg();
-    }
-
-    @Override
-    default String color() {
-        return null;
-    }
-
-    @Override
-    default String icon() {
-        return null;
-    }
-
-    @Override
-    default String extend1(){
-        return type().type;
-    }
-
-    @Override
-    default String extend2() {
-        return null;
     }
 
 }

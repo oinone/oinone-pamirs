@@ -2,6 +2,10 @@ package pro.shushi.pamirs.meta.base.extpoint;
 
 import pro.shushi.pamirs.meta.annotation.ExtPoint;
 import pro.shushi.pamirs.meta.annotation.Fun;
+import pro.shushi.pamirs.meta.annotation.x.XService;
+
+import static pro.shushi.pamirs.meta.constant.ExtPointConstants.AFTER_SUFFIX;
+import static pro.shushi.pamirs.meta.constant.FunctionConstants.update;
 
 /**
  * 更新后置扩展点
@@ -11,9 +15,13 @@ import pro.shushi.pamirs.meta.annotation.Fun;
  * date 2020/1/1 1:11 下午
  */
 @Fun
+@XService(publish = false)
 public interface UpdateAfterExtPoint<T> {
 
-    @ExtPoint(name = "updateAfter")
-    T updateAfter(T data);
+    @ExtPoint.name(update + AFTER_SUFFIX)
+    @ExtPoint(displayName = "更新后置扩展点")
+    default T updateAfter(T data) {
+        return data;
+    }
 
 }

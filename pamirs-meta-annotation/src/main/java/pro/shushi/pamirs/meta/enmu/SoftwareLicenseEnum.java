@@ -26,16 +26,31 @@ public enum SoftwareLicenseEnum implements IEnum<String> {
     PPL1("PPL1", "Pamirs Proprietary License v1.0", "Pamirs Proprietary License v1.0"),
     ORTHERPROPRIETARY("ORTHERPROPRIETARY", "Other Proprietary", "Other Proprietary");
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
-    SoftwareLicenseEnum(String  value, String displayName, String help) {
+    SoftwareLicenseEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

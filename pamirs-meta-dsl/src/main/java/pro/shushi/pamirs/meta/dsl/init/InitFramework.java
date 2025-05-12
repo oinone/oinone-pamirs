@@ -12,9 +12,9 @@ import java.util.Map;
 
 public class InitFramework {
 
-    private static Map<String, DefinitionHandler> definitionHandlerMap= new HashMap();
+    private static Map<String, DefinitionHandler> definitionHandlerMap= new HashMap<>();
 
-    private static Map<String, TransformHandler> transformHandlerMap= new HashMap();
+    private static Map<String, TransformHandler> transformHandlerMap= new HashMap<>();
 
     static {
         InitFramework.definitionHandlerMap.put(Definition.class.getName(), ProcessDefinitionHandler.get());

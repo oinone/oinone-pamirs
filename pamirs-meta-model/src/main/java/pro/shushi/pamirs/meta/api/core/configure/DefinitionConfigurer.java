@@ -2,12 +2,13 @@ package pro.shushi.pamirs.meta.api.core.configure;
 
 import pro.shushi.pamirs.meta.api.CommonApi;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
-import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
+import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 元数据引擎接口
@@ -23,24 +24,25 @@ public interface DefinitionConfigurer extends CommonApi {
      *
      * @param includeModules 包含模块编码列表
      * @param excludeModules 排除模块编码列表
-     * @return
+     * @return 元数据列表
      */
-    Result<List<Meta>> extractDefinition(List<String> includeModules, List<String> excludeModules);
+    Result<List<Meta>> extractDefinition(final Set<String> includeModules, final Set<String> excludeModules);
 
     /**
-     * 从模型定义中获取模型配置
+     * 读取模块所有模型定义
      *
-     * @param metaDataList
-     * @return
+     * @param installMeta     安装元数据
+     * @param includeModules  包含模块编码列表
+     * @param excludeModules  排除模块编码列表
+     * @param moduleInfoMap   所有模块信息
+     * @param updateModuleMap 更新模块
+     * @param loadModuleMap   重启模块
+     * @return 元数据列表
      */
-    Result<Map<String/*model*/, ModelConfig>> fetchConfig(List<MetaData> metaDataList);
-
-    /**
-     * 从模型配置中获取Model和Field的模型配置
-     *
-     * @param modelConfigMap
-     * @return
-     */
-    Result<Map<String/*model*/, ModelConfig>> fetchMeta(Map<String/*model*/, ModelConfig> modelConfigMap);
+    Result<List<Meta>> extractDefinition(final boolean installMeta,
+                                         final Set<String> includeModules, final Set<String> excludeModules,
+                                         final Map<String, ModuleDefinition> moduleInfoMap,
+                                         final Map<String, MetaData> updateModuleMap,
+                                         final Map<String, MetaData> loadModuleMap);
 
 }

@@ -1,7 +1,7 @@
 package pro.shushi.pamirs.meta.api.core.orm;
 
-import pro.shushi.pamirs.meta.api.dto.crud.Condition;
-import pro.shushi.pamirs.meta.api.dto.crud.UpdateCondition;
+import pro.shushi.pamirs.meta.api.dto.common.Result;
+import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 
 import java.util.List;
 
@@ -11,20 +11,49 @@ import java.util.List;
  * @author d@shushi.pro
  * @version 1.0.0
  * date 2020/1/18 2:11 下午
- *
  */
 public interface WriteApi {
 
-    <T> T create(T data);
+    <T> T createOne(T data);
 
-    <T> T update(T data);
+    <T> Integer createOrUpdate(T data);
 
-    <T> T update(UpdateCondition<T> condition);
+    <T> Result<T> createOrUpdateWithResult(T data);
 
-    <T> List<T> create(List<T> dataList);
+    <T> Integer updateByPk(T data);
 
-    <T> List<T> update(List<T> dataList);
+    <T> Integer updateByUniqueField(T data);
 
-    <T> Boolean delete(Condition<T> condition);
+    <T> Integer updateByEntity(T data, T query);
+
+    <T> Integer updateByWrapper(T data, IWrapper<T> updateWrapper);
+
+    <T> List<T> createBatch(List<T> dataList);
+
+    <T> List<T> createBatchWithSize(List<T> dataList, Integer batchSize);
+
+    <T> Integer createOrUpdateBatch(List<T> dataList);
+
+    <T> Result<List<T>> createOrUpdateBatchWithResult(List<T> dataList);
+
+    <T> Integer createOrUpdateBatchWithSize(List<T> dataList, Integer batchSize);
+
+    <T> Result<List<T>> createOrUpdateBatchWithSizeWithResult(List<T> dataList, Integer batchSize);
+
+    <T> Integer updateBatch(List<T> dataList);
+
+    <T> Integer updateBatchWithSize(List<T> dataList, Integer batchSize);
+
+    <T> Boolean deleteByPk(T data);
+
+    <T> Boolean deleteByPks(List<T> dataList);
+
+    <T> Boolean deleteByUniqueField(T data);
+
+    <T> Boolean deleteByUniques(List<T> dataList);
+
+    <T> Integer deleteByEntity(T query);
+
+    <T> Integer deleteByWrapper(IWrapper<T> queryWrapper);
 
 }

@@ -1,33 +1,56 @@
 package pro.shushi.pamirs.meta.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson.parser.ParserConfig;
+import com.alibaba.fastjson.serializer.SerializeConfig;
+import com.alibaba.fastjson.serializer.SerializeFilter;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.serializer.ValueFilter;
+import pro.shushi.pamirs.meta.api.core.orm.serialize.KernelJsonUtils;
+import pro.shushi.pamirs.meta.api.core.orm.serialize.config.PamirsParserConfig;
+import pro.shushi.pamirs.meta.api.core.orm.serialize.config.PamirsSerializerConfig;
+import pro.shushi.pamirs.meta.api.core.orm.serialize.filter.BigDecimalSerializeFilter;
+import pro.shushi.pamirs.meta.api.core.orm.serialize.type.EnumUsingValueDeserializer;
+import pro.shushi.pamirs.meta.api.core.orm.serialize.type.EnumUsingValueSerializer;
 
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import static pro.shushi.pamirs.meta.common.util.TypeReferences.TR_MAP_SO;
+
 public class JsonUtils {
 
+    private static final ParserConfig parserConfig = new PamirsParserConfig(
+            EnumUsingValueDeserializer.instance
+    );
+
+    private static final SerializeConfig serializeConfig = new PamirsSerializerConfig(
+            EnumUsingValueSerializer.instance
+    );
+
+    private static final SerializeFilter[] defaultFilters = new SerializeFilter[]{
+            new BigDecimalSerializeFilter()
+    };
+
     public static Object parseObject(String text) {
-        return JSON.parseObject(text);
+        return KernelJsonUtils.parseObject(text, parserConfig);
     }
 
     public static <T> T parseObject(String text, TypeReference<T> typeReference) {
-        return JSON.parseObject(text, typeReference, new Feature[0]);
+        return KernelJsonUtils.parseObject(text, typeReference.getType(), parserConfig);
     }
 
     public static <T> T parseObject(String text, Class<T> clazz) {
-        return JSON.parseObject(text, clazz, new Feature[0]);
+        return KernelJsonUtils.parseObject(text, clazz, parserConfig);
     }
 
     public static <T> T parseObject(String text, Type type) {
-        return JSON.parseObject(text, type, new Feature[0]);
+        return KernelJsonUtils.parseObject(text, type, parserConfig);
+    }
+
+    public static <T> T parseObject(String text, Type type, Feature... features) {
+        return KernelJsonUtils.parseObject(text, type, parserConfig, features);
     }
 
     public static <T> T parseMap2Object(Map<String, Object> map, Class<T> clazz) {
@@ -43,20 +66,19 @@ public class JsonUtils {
     }
 
     public static List<Object> parseObjectList(String json) {
-        return JSONObject.parseArray(json);
+        return KernelJsonUtils.parseObjectList(json, parserConfig);
     }
 
     public static <T> List<T> parseObjectList(String json, Class<T> clazz) {
-        return JSONObject.parseArray(json, clazz);
+        return KernelJsonUtils.parseObjectList(json, clazz, parserConfig);
     }
 
     public static Map<String, Object> parseMap(String json) {
-        return JSON.parseObject(json, new TypeReference<Map<String, Object>>() {
-        }.getType());
+        return parseObject(json, TR_MAP_SO.getType());
     }
 
     public static List<Map<String, Object>> parseMapList(String json) {
-        return JSON.parseObject(json, new TypeReference<List<Map<String, Object>>>() {
+        return parseObject(json, new TypeReference<List<Map<String, Object>>>() {
         }.getType());
     }
 
@@ -79,14 +101,21 @@ public class JsonUtils {
         return toJSONString(object);
     }
 
-    public static String toJSONString(Object object, SerializerFeature... features) {
-        return JSON.toJSONString(object, (ValueFilter) (o, s, value) -> {
-            if (null != value && value instanceof BigDecimal) {
-                if (new BigDecimal(((BigDecimal) value).intValue()).compareTo((BigDecimal) value) == 0) {
-                    return ((BigDecimal) value).setScale(2);
-                }
-            }
-            return value;
-        }, features);
+    public static String toJSONString(Object object, int defaultFeatures, SerializerFeature... features) {
+        return KernelJsonUtils.toJSONString(object, serializeConfig, defaultFilters, null, defaultFeatures, features);
     }
+
+    public static String toJSONString(Object object, SerializeFilter[] filters, int defaultFeatures, SerializerFeature... features) {
+        return KernelJsonUtils.toJSONString(object, serializeConfig, defaultFilters, filters, defaultFeatures, features);
+    }
+
+    public static String toJSONString(Object object, SerializerFeature... features) {
+        return KernelJsonUtils.toJSONString(object, serializeConfig, defaultFilters, features);
+    }
+
+    public static String toJSONString(Object object, SerializeFilter[] filters, SerializerFeature... features) {
+        return KernelJsonUtils.toJSONString(object, serializeConfig, defaultFilters, filters, features);
+    }
+
 }
+

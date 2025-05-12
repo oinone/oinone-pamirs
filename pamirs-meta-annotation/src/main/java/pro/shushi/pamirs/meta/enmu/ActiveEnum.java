@@ -18,16 +18,31 @@ public enum ActiveEnum implements IEnum<Boolean> {
     ACTIVE(true, "激活", "激活"),
     INACTIVE(false, "无效", "无效");
 
-    private Boolean value;
+    private final Boolean value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     ActiveEnum(Boolean value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public Boolean value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

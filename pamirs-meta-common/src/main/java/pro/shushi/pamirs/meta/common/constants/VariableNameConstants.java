@@ -11,11 +11,15 @@ public interface VariableNameConstants {
 
     String deprecated = "_d_";
 
-    String sessionModel = "_d_model";
+    String entityModel = "_d_model";
+
+    String dataModel = "_d_d_model";
 
     String id = "id";
 
     String module = "module";
+
+    String moduleAbbr = "moduleAbbr";
 
     String model = "model";
 

@@ -22,6 +22,15 @@ public interface DSLDefineConstants {
 	 */
 	public String SOME_SLOTS_EXECUTE_FAIL = "_some_slots_execute_fail";
 
+	/**
+	 * 保存执行失败的slot的异常原因
+	 */
+	String SOME_SLOTS_EXECUTE_FAIL_EXCEPTION = "_some_slots_execute_fail_exception";
+	/**
+	 * 保存执行失败的slot
+	 */
+	String SOME_SLOTS_EXECUTE_FAIL_SLOT = "_some_slots_execute_fail_slot";
+
 	public String CURRENT_STATE_NAME = "_current_state_name";
 
 	public String CURRENT_ITERATOR_INDEX = "$current_iterator_index";

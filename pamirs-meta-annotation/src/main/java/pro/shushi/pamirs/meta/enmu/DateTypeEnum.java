@@ -16,21 +16,36 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
 public enum DateTypeEnum implements IEnum<String> {
 
     DATETIME("datetime", "日期时间", "日期时间"),
-    //    YEAR("year", "年份", "年份"),
+    YEAR("year", "年份", "年份"),
     DATE("date", "日期", "日期"),
     TIME("time", "时间", "时间"),
     ;
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     DateTypeEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

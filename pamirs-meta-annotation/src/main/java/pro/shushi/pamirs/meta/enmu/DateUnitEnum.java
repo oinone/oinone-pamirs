@@ -18,16 +18,31 @@ public enum DateUnitEnum implements IEnum<Integer> {
     MONTH(Calendar.MONTH, "月", "月"),
     YEAR(Calendar.YEAR, "年", "年");
 
-    private Integer value;
+    private final Integer value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     DateUnitEnum(Integer value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public Integer value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

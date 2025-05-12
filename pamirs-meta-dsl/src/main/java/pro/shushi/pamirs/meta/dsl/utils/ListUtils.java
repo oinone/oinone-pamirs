@@ -2,6 +2,7 @@ package pro.shushi.pamirs.meta.dsl.utils;
 
 import java.util.List;
 
+@Deprecated
 public class ListUtils {
 
 	public static boolean isEmpty(List<?> list) {
@@ -10,8 +11,8 @@ public class ListUtils {
 		}
 		return false;
 	}
-	
-	public static String List2String(List list) {
+
+	public static String list2String(List list) {
 		StringBuffer buf = new StringBuffer();
 		if(null == list) {
 			return buf.toString();

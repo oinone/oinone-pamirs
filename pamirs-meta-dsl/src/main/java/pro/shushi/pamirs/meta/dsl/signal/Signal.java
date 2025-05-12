@@ -1,12 +1,12 @@
 package pro.shushi.pamirs.meta.dsl.signal;
 
 import org.apache.commons.beanutils.MethodUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mvel2.MVEL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pro.shushi.pamirs.meta.dsl.constants.DSLDefineConstants;
-import pro.shushi.pamirs.meta.dsl.utils.ListUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,12 +43,13 @@ public class Signal implements Exe {
 		return this;
 	}
 
+	@Override
 	public void dispatch(Map<String, Object> context) {
 		List<String> executedSlots = (List<String>) context.get(DSLDefineConstants.EXECUTED_SLOTS_DESCRIPTION);
 		for (Slot slot : slots) {
 			try {
 				// check if need to ignore
-				if(!ListUtils.isEmpty(executedSlots) && executedSlots.contains(slot.toMD5Description())) {
+				if(CollectionUtils.isNotEmpty(executedSlots) && executedSlots.contains(slot.toMD5Description())) {
 					continue ;
 				}
 				
@@ -65,7 +66,7 @@ public class Signal implements Exe {
 				String callback = slot.getResult();
 				// invoke listener (sync or not
 				Object result = null;
-				if (slot.getSync()) {
+				if (Boolean.TRUE.equals(slot.getSync())) {
 					result = this.invoke(slot, paramsType, args);
 				} else {
 					PendingTask task = new PendingTask(slot, paramsType, args);
@@ -85,6 +86,8 @@ public class Signal implements Exe {
 				successResults.put(slot, result);
 			} catch (Exception e) {
 				context.put(DSLDefineConstants.SOME_SLOTS_EXECUTE_FAIL, true);
+				context.put(DSLDefineConstants.SOME_SLOTS_EXECUTE_FAIL_EXCEPTION, e);
+				context.put(DSLDefineConstants.SOME_SLOTS_EXECUTE_FAIL_SLOT, slot);
 				logger.error(slot.toDescription());
 				logger.error(e.getMessage(), e);
 			}
@@ -117,6 +120,7 @@ public class Signal implements Exe {
 			this.paramsType = paramsType;
 		}
 
+		@Override
 		public void run() {
 			invoke(slot, paramsType, args);
 		}

@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.meta.dsl.utils;
 
+@Deprecated
 public class StringUtils {
 	
 	/** 空字符串。 */

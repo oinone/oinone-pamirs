@@ -1,11 +1,14 @@
 package pro.shushi.pamirs.meta.dsl.signal;
 
-import pro.shushi.pamirs.meta.dsl.model.TxConfig;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.dsl.fun.LogicFunInvoker;
+import pro.shushi.pamirs.meta.dsl.model.TxConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static pro.shushi.pamirs.meta.dsl.enumeration.DslExpEnumerate.BASE_FUNC_HANDLE_ERROR;
 
 public class Func extends Tx implements Exe {
 
@@ -34,7 +37,7 @@ public class Func extends Tx implements Exe {
             }
             LogicFunInvoker.putResult(context, result);
         }catch(Exception e){
-            throw new RuntimeException(e);
+            throw PamirsException.construct(BASE_FUNC_HANDLE_ERROR, e).errThrow();
         }
     }
 

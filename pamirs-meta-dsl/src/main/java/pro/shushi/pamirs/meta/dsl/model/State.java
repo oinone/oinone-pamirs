@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.meta.dsl.model;
 
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.dsl.constants.DSLDefineConstants;
 import pro.shushi.pamirs.meta.dsl.definition.node.To;
 import pro.shushi.pamirs.meta.dsl.exception.MachineException;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+@Slf4j
 public class State {
 
 	private String name;
@@ -38,11 +40,14 @@ public class State {
 	}
 
 	public void execute(Map<String, Object> context) {
+		log.error("开始执行节点:{}", this.getName());
 		for(Exe exe : this.exes){
+			log.error("节点执行逻辑:{}", exe.getClass().getSimpleName());
 			exe.dispatch(context);
 		}
 
 		afterExecute(context);
+		log.error("节点执行结束:{} \r\n", this.getName());
 	}
 
 	private void afterExecute(Map<String, Object> context) {

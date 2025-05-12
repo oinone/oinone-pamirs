@@ -3,17 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>6.0.0</version>
     </parent>
 
-    <groupId>pro.shushi.pamirs</groupId>
     <artifactId>pamirs-k2</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>6.1.6</version>
 
     <modules>
         <module>pamirs-meta-common</module>
@@ -23,8 +21,18 @@
         <module>pamirs-meta-dsl</module>
     </modules>
 
+    <properties>
+        <xpp3.version>1.1.4c</xpp3.version>
+        <pamirs.spi.version>6.0.0</pamirs.spi.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>pro.shushi.pamirs</groupId>
+                <artifactId>pamirs-spi</artifactId>
+                <version>${pamirs.spi.version}</version>
+            </dependency>
             <!-- pamirs k2 -->
             <dependency>
                 <groupId>pro.shushi.pamirs.k2</groupId>
@@ -51,7 +59,18 @@
                 <artifactId>pamirs-meta-dsl</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <scope>compile</scope>
+            </dependency>
 
+            <dependency>
+                <groupId>xpp3</groupId>
+                <artifactId>xpp3</artifactId>
+                <version>${xpp3.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

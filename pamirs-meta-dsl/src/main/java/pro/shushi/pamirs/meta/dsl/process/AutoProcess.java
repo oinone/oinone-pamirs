@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.meta.dsl.process;
 
-import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +11,8 @@ import pro.shushi.pamirs.meta.dsl.model.State;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.Map;
+
+import static pro.shushi.pamirs.meta.common.util.TypeReferences.TR_MAP_SO;
 
 public class AutoProcess {
 	final static Logger	logger	= LoggerFactory.getLogger(AutoProcess.class);
@@ -36,7 +37,7 @@ public class AutoProcess {
 					To toException = state != null ? state.getEx() : null;
 					if(null != toException && StringUtils.isNotBlank(toException.getId())){
 						runState = toException.getId();
-						Map<String, Object> emap = JsonUtils.parseObject(JsonUtils.toJSONString(e), new TypeReference<Map<String, Object>>() {});
+						Map<String, Object> emap = JsonUtils.parseObject(JsonUtils.toJSONString(e), TR_MAP_SO);
 						context.put(runState, emap.containsKey("code")?emap.get("code"):10000115);
                         logger.debug("AutoProcess throw an exception, Exception code:" + context.get(runState));
 					}else{

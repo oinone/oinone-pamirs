@@ -20,6 +20,8 @@ public class PamirsRequestResult implements Serializable {
 
     private Map<String, Object> data;
 
+    private Map<Object, Object> extensions;
+
     private List<Map<String, Object>> errors;
 
 }

@@ -3,6 +3,8 @@ package pro.shushi.pamirs.meta.api.core.protocol;
 import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestParam;
 import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestResult;
 
+import java.util.List;
+
 /**
  * 请求执行器接口
  *
@@ -12,6 +14,8 @@ import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestResult;
  */
 public interface RequestExecutor {
 
-    PamirsRequestResult execute(String moduleName, PamirsRequestParam param);
+    PamirsRequestResult execute(PamirsRequestParam param);
+
+    List<PamirsRequestResult> executeAsync(List<PamirsRequestParam> pamirsRequestParamList);
 
 }

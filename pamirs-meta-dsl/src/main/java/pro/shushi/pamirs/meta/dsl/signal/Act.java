@@ -2,17 +2,25 @@ package pro.shushi.pamirs.meta.dsl.signal;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.util.UnsafeUtil;
 import pro.shushi.pamirs.meta.dsl.fun.LogicFunInvoker;
 import pro.shushi.pamirs.meta.dsl.model.TxConfig;
+import pro.shushi.pamirs.meta.dsl.utils.ArgUtils;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static pro.shushi.pamirs.meta.common.util.TypeReferences.TR_MAP_SO;
+import static pro.shushi.pamirs.meta.dsl.enumeration.DslExpEnumerate.BASE_ACTION_HANDLE_ERROR;
+import static pro.shushi.pamirs.meta.dsl.enumeration.DslExpEnumerate.BASE_ACTION_PARAMS_IS_EMPTY_ERROR;
+import static pro.shushi.pamirs.meta.dsl.enumeration.DslExpEnumerate.BASE_COPY_DATA_ERROR;
+
 public class Act extends Tx implements Exe {
+
+    private final static Logger log = LoggerFactory.getLogger(Act.class);
 
     private String model;
 
@@ -21,76 +29,76 @@ public class Act extends Tx implements Exe {
     private String arg;
 
     @Override
+    @SuppressWarnings({"unchecked"})
     public void dispatch(Map<String, Object> context) {
         try {
-            Object param = context.get(arg);
-            if (null == param) {
-                throw new RuntimeException("参数为空，参数名：" + arg);
-            }
-            Object newParam = param;
-            try {
-                if (newParam instanceof List) {
-                    List<Object> params = (List<Object>) newParam;
-                    for (int i = 0; i < params.size(); i++) {
-                        Object stringObjectMap = params.get(i);
-                        if (stringObjectMap instanceof Map) {
-                            params.set(i, LogicFunInvoker.lowcodeMapToModelMap(stringObjectMap, model));
+            List<String> args     = ArgUtils.argArray(arg);
+            Object[]     fnParams = new Object[args.size()];
+            for (int i = 0; i < args.size(); i++) {
+                String       _am = args.get(i);
+                List<String> aml = ArgUtils.argModel(_am);
+                String       arg = aml.get(0);
+                String       am  = aml.get(1);
+
+                Object param = LogicFunInvoker.getArg(arg, context);
+                if (null == param) {
+                    throw PamirsException.construct(BASE_ACTION_PARAMS_IS_EMPTY_ERROR)
+                            .appendMsg("参数为空，参数名：" + arg)
+                            .errThrow();
+                }
+
+                Object newParam = param;
+                try {
+                    if (newParam instanceof List) {
+                        List<Object> params = (List<Object>) newParam;
+                        for (int j = 0; j < params.size(); j++) {
+                            Object stringObjectMap = params.get(j);
+                            if (stringObjectMap instanceof Map) {
+                                params.set(j, LogicFunInvoker.lowcodeMapToModelMap(stringObjectMap, am));
+                            } else {
+                                params.set(j, stringObjectMap);
+                            }
+                        }
+                        newParam = params;
+                    } else {
+                        if (newParam instanceof Map) {
+                            newParam = LogicFunInvoker.lowcodeMapToModelMap(newParam, am);
                         } else {
-                            params.set(i, LogicFunInvoker.lowcodeModelToMap(stringObjectMap, model));
+                            newParam = newParam;
                         }
                     }
-                    newParam = params;
-                } else {
-                    if (newParam instanceof Map) {
-                        newParam = LogicFunInvoker.lowcodeMapToModelMap(newParam, model);
-                    } else {
-                        newParam = LogicFunInvoker.lowcodeModelToMap(newParam, model);
-                    }
+                } catch (Exception e) {
+                    // 忽略异常
+                    log.error("动作入参处理异常", e);
+                    // TODO: 2021/10/25 先把异常抛出
+                    throw e;
                 }
-            } catch (Exception e) {
-                // 忽略异常
-                e.printStackTrace();
+
+                fnParams[i] = newParam;
             }
-            Object result;
-            if (LogicFunInvoker.isCUD(name)) {
-                if (!(newParam instanceof List)) {
-                    newParam = new ArrayList<>(Arrays.asList(newParam));
-                    result = ((List) invokeCUD(newParam)).get(0);
-                } else {
-                    result = invokeCUD(newParam);
-                }
-            } else {
-                if (!LogicFunInvoker.isDslFun(model, name)) {
-                    newParam = LogicFunInvoker.lowcodeMapToModel(newParam, model);
-                }
-                result = LogicFunInvoker.lowcodeModelToMap(invoke(newParam), model);
-            }
-            copyProperties(result, param);
-            LogicFunInvoker.putResult(context, param);
+            // FIXME: 2021/10/25 不清楚判断的作用,但是现在调用一定是模型对象
+//            if (!LogicFunInvoker.isDslFun(model, name)) {
+//                newParam = LogicFunInvoker.lowcodeMapToModel(newParam, model);
+//            }
+            Object result = LogicFunInvoker.lowcodeModelToMap(invoke(fnParams), model);
+            //action节点的执行结果,使用了入参对象,而不是action返回结果,为了保持引用一致?
+//                copyProperties(result, param);
+            LogicFunInvoker.putResult(context, result);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw PamirsException.construct(BASE_ACTION_HANDLE_ERROR, e).errThrow();
         }
     }
 
-    private Object invokeCUD(Object... param) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        String namespace = "PAMIRS";
+    private Object invoke(Object... param) {
         TxConfig txConfig = tx();
-        if(null == txConfig){
-            return LogicFunInvoker.exe(namespace, name, model, param);
-        }else{
-            return LogicFunInvoker.exeWithTx(namespace, name, txConfig, model, param);
-        }
-    }
-
-    private Object invoke(Object... param) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        TxConfig txConfig = tx();
-        if(null == txConfig){
+        if (null == txConfig) {
             return LogicFunInvoker.exe(model, name, param);
-        }else{
+        } else {
             return LogicFunInvoker.exeWithTx(model, name, txConfig, param);
         }
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private void copyProperties(Object source, Object dest) {
         if (null == source || null == dest) {
             return;
@@ -99,7 +107,7 @@ public class Act extends Tx implements Exe {
             ((List) dest).clear();
             ((List) dest).addAll((List) source);
         } else if (source instanceof List && !(dest instanceof List) || !(source instanceof List) && dest instanceof List) {
-            throw new RuntimeException("必须同为集合，才能进行数据拷贝");
+            throw PamirsException.construct(BASE_COPY_DATA_ERROR).errThrow();
         } else if (source instanceof Map && dest instanceof Map) {
             ((Map) dest).clear();
             for (Object key : ((Map) source).keySet()) {
@@ -111,8 +119,7 @@ public class Act extends Tx implements Exe {
             }
         } else if (dest instanceof Map) {
             ((Map) dest).clear();
-            Map sourceMap = JSON.parseObject(JSON.toJSONString(source), new TypeReference<Map<String, Object>>() {
-            }.getType());
+            Map<String, Object> sourceMap = JSON.parseObject(JSON.toJSONString(source), TR_MAP_SO);
             for (Object key : sourceMap.keySet()) {
                 ((Map) dest).put(key, sourceMap.get(key));
             }
@@ -142,5 +149,4 @@ public class Act extends Tx implements Exe {
     public void setArg(String arg) {
         this.arg = arg;
     }
-
 }

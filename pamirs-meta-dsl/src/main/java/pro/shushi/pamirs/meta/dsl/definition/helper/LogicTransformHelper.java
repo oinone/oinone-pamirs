@@ -1,7 +1,9 @@
 package pro.shushi.pamirs.meta.dsl.definition.helper;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.dsl.constants.DSLDefineConstants;
 import pro.shushi.pamirs.meta.dsl.definition.node.Exception;
 import pro.shushi.pamirs.meta.dsl.definition.node.*;
@@ -16,6 +18,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static pro.shushi.pamirs.meta.dsl.enumeration.DslExpEnumerate.*;
 
 /**
  * Logic DSL
@@ -35,7 +40,10 @@ public class LogicTransformHelper {
 	 */
 	public static List<Process> transform(Logic definition) {
 		List<Process> list = new ArrayList<>();
-		Map<String, Code> codeMap = definition.getNodes().stream().collect(Collectors.toMap(Code::getId, v->v));
+		Map<String, Code> codeMap = Stream
+				.concat(definition.getNodes().stream(),
+						definition.getEnds().stream()
+				).collect(Collectors.toMap(Code::getId, v -> v));
 		String[] processNames = definition.getName().split(",");
 		for(String processName : processNames) {
 			Process p = new Process(processName, definition.getVersion());
@@ -82,14 +90,14 @@ public class LogicTransformHelper {
 	private static void transfer(Process p, To start, Code node, Map<String, Code> codeMap) {
 		State s = null;
 		if(StringUtils.isBlank(node.getId())){
-			throw new RuntimeException("节点配置错误，未配置ID，节点："+ node.toString());
+			throw PamirsException.construct(BASE_TRANSFORM_NODE_ID_ERROR).appendMsg("节点配置错误，未配置ID，节点："+ node.toString()).errThrow();
 		}
 		if (node instanceof If) {
 			if(CollectionUtils.isEmpty(node.getTos()) && null == ((If) node).getEls()){
-				throw new RuntimeException("If节点配置错误，未配置分支，节点ID："+ node.getId());
+				throw PamirsException.construct(BASE_TRANSFORM_NODE_IF_ERROR).appendMsg("If节点配置错误，未配置分支，节点ID："+ node.getId()).errThrow();
 			}
 			if(node.getTos().size() > 1){
-				throw new RuntimeException("If节点配置错误，不允许配置多个分支，节点ID："+ node.getId());
+				throw PamirsException.construct(BASE_TRANSFORM_NODE_IF_BRANCH_ERROR).appendMsg("If节点配置错误，不允许配置多个分支，节点ID："+ node.getId()).errThrow();
 			}
 			s = new State(node.getId());
 			If code = (If) node;
@@ -108,6 +116,20 @@ public class LogicTransformHelper {
 			Foreach code = (Foreach) node;
 			transferForeach(s, code);
 			transferForeachTos(start, s, code, codeMap, p);
+		} else if (node instanceof Break) {
+			s = new State(node.getId());
+			Break code = (Break) node;
+			// TODO: 2021/10/26 这里对节点处理顺序有要求,需要先处理foreach节点,保证当前节点的tos有值(tos指向循环本身)
+			code.setForeachId(code.getTos().get(0).getId());
+			transferBreak(s, code);
+			transferTransition(start, s, code.getTos(), codeMap);
+		} else if (node instanceof Continue) {
+			s = new State(node.getId());
+			Continue code = (Continue) node;
+			// TODO: 2021/10/26 这里对节点处理顺序有要求,需要先处理foreach节点,保证当前节点的tos有值(tos指向循环本身)
+			code.setForeachId(code.getTos().get(0).getId());
+			transferContinue(s, code);
+			transferTransition(start, s, code.getTos(), codeMap);
 		} else if (node instanceof New) {
 			s = new State(node.getId());
 			New code = (New) node;
@@ -136,17 +158,17 @@ public class LogicTransformHelper {
 		} else if (node instanceof Create) {
 			s = new State(node.getId());
 			Create service = (Create) node;
-			transferAction(s, service.getModel(), "CREATE", service.getArg(), service);
+			transferAction(s, service.getModel(), FunctionConstants.create, service.getArg(), service);
 			transferTransition(start, s, service.getTos(), codeMap);
 		} else if (node instanceof Update) {
 			s = new State(node.getId());
 			Update service = (Update) node;
-			transferAction(s, service.getModel(), "UPDATE", service.getArg(), service);
+			transferAction(s, service.getModel(), FunctionConstants.update, service.getArg(), service);
 			transferTransition(start, s, service.getTos(), codeMap);
 		} else if (node instanceof Delete) {
 			s = new State(node.getId());
 			Delete service = (Delete) node;
-			transferAction(s, service.getModel(), "DELETE", service.getArg(), service);
+			transferAction(s, service.getModel(), FunctionConstants.delete, service.getArg(), service);
 			transferTransition(start, s, service.getTos(), codeMap);
 		} else if (node instanceof Exception) {
 			s = new State(node.getId());
@@ -206,12 +228,15 @@ public class LogicTransformHelper {
 
 	private static void transferFun(State s, Fun fun) {
 		Func func = new Func();
-		String funName = fun.getName();
-		if (StringUtils.isNotBlank(funName)) {
-			String[] funs = funName.split("#");
-			func.setNamespace(funs.length > 0 ? funs[0] : null);
-			func.setName(funs.length > 1 ? funs[1] : null);
-		}
+		// FIXME: 2021/10/26 看示例的xml不是用name分割的,应该没有必要
+//		String funName = fun.getName();
+//		if (StringUtils.isNotBlank(funName)) {
+//			String[] funs = funName.split("#");
+//			func.setNamespace(funs.length > 0 ? funs[0] : null);
+//			func.setName(funs.length > 1 ? funs[1] : null);
+//		}
+		func.setNamespace(fun.getNamespace());
+		func.setName(fun.getName());
 		if (!CollectionUtils.isEmpty(fun.getArgs())) {
 			for (Arg arg : fun.getArgs()) {
 				Field field = new Field();
@@ -259,9 +284,24 @@ public class LogicTransformHelper {
 		s.getExes().add(iterator);
 	}
 
+	private static void transferBreak(State s, Break code) {
+		IteratorIndex ext = new IteratorIndex();
+		ext.setForeachId(code.getForeachId());
+		ext.setOptType(Break.INDEX_OPT_TYPE);
+		s.getExes().add(ext);
+	}
+
+	private static void transferContinue(State s, Continue code) {
+		IteratorIndex ext = new IteratorIndex();
+		ext.setForeachId(code.getForeachId());
+		ext.setOptType(Continue.INDEX_OPT_TYPE);
+		s.getExes().add(ext);
+	}
+
 	private static void transferForeachTos(To start, State s, Foreach foreach, Map<String, Code> codeMap, Process process) {
 		if(null == foreach.getEach()){
-			throw new RuntimeException("Foreach节点配置错误，未配置分支，节点ID："+ foreach.getId());
+			throw PamirsException.construct(BASE_TRANSFORM_NODE_FOR_ERROR)
+					.appendMsg("Foreach节点配置错误，未配置分支，节点ID："+ foreach.getId()).errThrow();
 		}
 		List<Code> endEachCodes = new ArrayList<>();
 		findEndEach(endEachCodes, foreach.getEach().getId(), codeMap);
@@ -280,13 +320,14 @@ public class LogicTransformHelper {
 		}
 		if(!CollectionUtils.isEmpty(foreach.getTos())){
 			if(foreach.getTos().size() > 1){
-				throw new RuntimeException("Foreach节点配置错误，不允许配置多个分支，节点ID："+ foreach.getId());
+				throw PamirsException.construct(BASE_TRANSFORM_NODE_FOR_BRANCH_ERROR)
+						.appendMsg("Foreach节点配置错误，不允许配置多个分支，节点ID："+ foreach.getId()).errThrow();
 			}
 			foreach.getTos().get(0).setExp(foreach.getId() + DSLDefineConstants.CURRENT_ITERATOR_INDEX + " >= " + foreach.getEnd());
 			transferTransition(start, s, foreach.getTos(), codeMap);
 		}
 		To to = new To(foreach.getEach().getId());
-		to.setExp(foreach.getId() + DSLDefineConstants.CURRENT_ITERATOR_INDEX + " <= " + foreach.getEnd());
+		to.setExp(foreach.getId() + DSLDefineConstants.CURRENT_ITERATOR_INDEX + " < " + foreach.getEnd());
 		transferTransition(s, to);
 	}
 
@@ -316,7 +357,8 @@ public class LogicTransformHelper {
 
 	private static void transferTransition(State s, To to) {
 		if(StringUtils.isBlank(to.getId())){
-			throw new RuntimeException("跳转配置错误，未配置跳转接待ID，节点ID：" + s.getName());
+			throw PamirsException.construct(BASE_TRANSFORM_NODE_TO_ERROR)
+					.appendMsg("跳转配置错误，未配置跳转节点ID，节点ID：" + s.getName()).errThrow();
 		}
 		Path path = new Path();
 		path.setExp(ParseHelper.decode(to.getExp()));
@@ -326,7 +368,8 @@ public class LogicTransformHelper {
 
 	private static Integer checkTo(To code, String currentId, String toId, Map<String, Code> codeMap, boolean isCurrentFind){
 		if(null == code.getId()){
-			throw new RuntimeException("跳转失败，未配置跳转节点ID：" + code.toString());
+			throw PamirsException.construct(BASE_TRANSFORM_NODE_TO_CHECK_ERROR)
+					.appendMsg("跳转失败，未配置跳转节点ID：" + code.toString()).errThrow();
 		}
 		if(code.getId().equals(toId)){
 			if(!isCurrentFind){
@@ -340,7 +383,8 @@ public class LogicTransformHelper {
 		}
 		Code next = codeMap.get(code.getId());
 		if(null == next){
-			throw new RuntimeException("跳转失败，未找到节点，节点ID：" + code.getId());
+			throw PamirsException.construct(BASE_TRANSFORM_NODE_TO_IS_NOT_EXISTS_ERROR)
+					.appendMsg("跳转失败，未找到节点，节点ID：" + code.getId()).errThrow();
 		}
 		if(!CollectionUtils.isEmpty(next.getTos())){
 			for(To to : next.getTos()){
@@ -363,20 +407,25 @@ public class LogicTransformHelper {
 	private static void findEndEach(List<Code> codes, String eachId, Map<String, Code> codeMap){
 		Code each = codeMap.get(eachId);
 		if(null == each){
-			throw new RuntimeException("跳转失败，未找到节点，节点ID：" + eachId);
+			throw PamirsException.construct(BASE_TRANSFORM_NODE_FOR_END_IS_NOT_EXISTS_ERROR)
+					.appendMsg("跳转失败，未找到节点，节点ID：" + eachId).errThrow();
 		}
 		if(each instanceof If){
 			if (CollectionUtils.isEmpty(each.getTos()) && null == ((If) each).getEls()) {
-				throw new RuntimeException("If节点配置错误，未配置分支，节点ID：" + each.getId());
+				throw PamirsException.construct(BASE_TRANSFORM_NODE_IF_NO_BRANCH_ERROR)
+						.appendMsg("If节点配置错误，未配置分支，节点ID：" + each.getId()).errThrow();
 			}
 			if (null != ((If) each).getEls()) {
 				if (StringUtils.isBlank(((If) each).getEls().getId())) {
-					return;//throw new RuntimeException("If节点配置错误，未配置分支跳转节点ID，节点ID：" + each.id);
+					return;
 				}
 				findEndEach(codes, ((If) each).getEls().getId(), codeMap);
 			}
-		} else{
-			if(CollectionUtils.isEmpty(each.getTos())){
+		} else if (each instanceof Break || each instanceof Continue) {
+			codes.add(each);
+			return;
+		} else {
+			if (CollectionUtils.isEmpty(each.getTos())) {
 				codes.add(each);
 				return;
 			}
@@ -408,10 +457,12 @@ public class LogicTransformHelper {
 			return;
 		for (To t : tos) {
 			if(StringUtils.isBlank(t.getId())){
-				throw new RuntimeException("跳转配置错误，未配置跳转接待ID，节点ID：" + s.getName());
+				throw PamirsException.construct(BASE_TRANSFORM_NODE_TO_ID_ERROR)
+						.appendMsg("跳转配置错误，未配置跳转节点ID，节点ID：" + s.getName()).errThrow();
 			}
 			if(!Boolean.TRUE.equals(t.isSys()) && -1 == checkTo(start, s.getName(), t.getId(), codeMap, Boolean.FALSE)){
-				throw new RuntimeException("跳转配置错误，不允许跳转到前置节点，当前节点ID：" + s.getName() + "，跳转节点ID：" + t.getId());
+				throw PamirsException.construct(BASE_TRANSFORM_NODE_TO_PRE_ERROR)
+						.appendMsg("跳转配置错误，不允许跳转到前置节点，当前节点ID：" + s.getName() + "，跳转节点ID：" + t.getId()).errThrow();
 			}
 			Path path = new Path();
 			path.setExp(ParseHelper.decode(t.getExp()));

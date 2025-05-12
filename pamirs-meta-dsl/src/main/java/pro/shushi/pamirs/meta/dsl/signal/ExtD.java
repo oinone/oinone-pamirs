@@ -1,12 +1,17 @@
 package pro.shushi.pamirs.meta.dsl.signal;
 
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.dsl.fun.LogicFunInvoker;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static pro.shushi.pamirs.meta.dsl.enumeration.DslExpEnumerate.BASE_EXTD_HANDLE_ERROR;
+
 public class ExtD implements Exe {
+
+    private String namespace;
 
     private String name;
 
@@ -22,10 +27,10 @@ public class ExtD implements Exe {
                     l.add(LogicFunInvoker.exp(field.getExp(), context));
                 }
             }
-            Object result = LogicFunInvoker.extPoint(name, l.toArray());
+            Object result = LogicFunInvoker.extPoint(namespace, name, l.toArray());
             LogicFunInvoker.putResult(context, result);
         }catch(Exception e){
-            throw new RuntimeException(e);
+            throw PamirsException.construct(BASE_EXTD_HANDLE_ERROR, e).errThrow();
         }
     }
 

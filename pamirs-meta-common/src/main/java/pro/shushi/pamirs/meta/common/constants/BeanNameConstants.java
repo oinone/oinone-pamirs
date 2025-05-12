@@ -11,6 +11,6 @@ public interface BeanNameConstants {
 
     String DEFAULT = "default";
 
-    String META_API_CONFIGURE = "metaApiConfigure";
+    String COMMON_API_CONFIGURE = "commonApiConfigure";
 
 }

@@ -15,27 +15,44 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
 @Dict(dictionary = "base.ViewType", displayName = "视图类型")
 public enum ViewTypeEnum implements IEnum<String> {
 
+    CUSTOM("CUSTOM", "自定义视图类型", "自定义视图类型"),
+
     DETAIL("DETAIL", "详情", "详情"),
     FORM("FORM", "表单", "表单"),
     TABLE("TABLE", "表格", "表格"),
+    SEARCH("SEARCH", "搜索", "搜索"),
     CALENDAR("CALENDAR", "日历", "日历"),
     KANBAN("KANBAN", "看板", "看板"),
-    GALLERY("GALLERY", "画廊",  "画廊"),
-    CUSTOM("CUSTOM", "自定义视图类型", "自定义视图类型"),
-    CHART("CHART", "报表", "报表"),
-    SEARCH("SEARCH", "搜索", "搜索"),
+    GALLERY("GALLERY", "画廊", "画廊"),
+    CHART("CHART", "图表", "图表"),
+    TREE("TREE", "树", "树"),
     ;
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
-    ViewTypeEnum(String  value, String displayName, String help) {
+    ViewTypeEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

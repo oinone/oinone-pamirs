@@ -3,6 +3,7 @@ package pro.shushi.pamirs.meta.common.util;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 /**
  * id帮助类
@@ -13,16 +14,19 @@ import java.util.UUID;
  */
 public class UUIDUtil {
 
-    public static UUID getUUID(){
+    private static final Pattern HYPHEN_PATTERN = Pattern.compile(CharacterConstants.SEPARATOR_HYPHEN);
+
+    public static UUID getUUID() {
         return UUID.randomUUID();
     }
 
-    public static String getUUIDString(){
+    @SuppressWarnings("unused")
+    public static String getUUIDString() {
         return UUID.randomUUID().toString();
     }
 
-    public static String getUUIDNumberString(){
-        return UUID.randomUUID().toString().replaceAll(CharacterConstants.SEPARATOR_HYPHEN,"");
+    public static String getUUIDNumberString() {
+        return HYPHEN_PATTERN.matcher(UUID.randomUUID().toString()).replaceAll(CharacterConstants.SEPARATOR_EMPTY);
     }
 
 }

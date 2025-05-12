@@ -3,7 +3,6 @@ package pro.shushi.pamirs.meta.api.dto.protocol;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * 请求参数
@@ -19,10 +18,7 @@ public class PamirsRequestParam implements Serializable {
 
     private String query;
 
-    private Map<String, Object> variables;
+    private PamirsRequestVariables variables;
 
-    private Map<String, String> headers;
-
-    private String requestUrl;
-
+    private PamirsRequestResult result;
 }

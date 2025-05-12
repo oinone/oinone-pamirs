@@ -12,9 +12,13 @@ import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
  * date 2020/1/1 1:11 下午
  */
 @Base
-@Model.model("base.BaseRelation")
-@Model.Advanced(type = ModelTypeEnum.ABSTRACT)
-@Model(displayName = "关系模型抽象基类", summary = "关系模型抽象基类")
+@Model.model(BaseRelation.MODEL_MODEL)
+@Model.Advanced(type = ModelTypeEnum.ABSTRACT, priority = 41)
+@Model(displayName = "关系模型基类", summary = "关系模型基类")
 public abstract class BaseRelation extends BaseModel {
+
+    private static final long serialVersionUID = -6746514870272875427L;
+
+    public static final String MODEL_MODEL = "base.BaseRelation";
 
 }

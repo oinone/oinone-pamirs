@@ -1,13 +1,12 @@
 package pro.shushi.pamirs.meta.dsl.definition.helper;
 
-import java.io.InputStream;
-
+import com.thoughtworks.xstream.XStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.thoughtworks.xstream.XStream;
 import pro.shushi.pamirs.meta.dsl.definition.exception.DefinitionException;
+
+import java.io.InputStream;
 
 public class ParseHelper {
 

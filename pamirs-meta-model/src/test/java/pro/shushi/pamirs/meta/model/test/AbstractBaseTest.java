@@ -12,8 +12,7 @@ import java.util.TimeZone;
  */
 @DisplayName("基础服务测试")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-abstract
-public class AbstractBaseTest {
+abstract public class AbstractBaseTest {
 
     @BeforeAll
     @Order(0)

@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
  *
  * @author deng d@shushi.pro
  * date 2019.04.10
- *
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

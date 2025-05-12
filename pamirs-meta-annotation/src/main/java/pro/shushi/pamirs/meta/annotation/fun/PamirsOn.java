@@ -13,7 +13,9 @@ import java.lang.annotation.Target;
 public @interface PamirsOn {
 
     String name() default "";
+
     boolean fun() default false;// 是否生成fun变量
+
     String version() default "";
 
 }

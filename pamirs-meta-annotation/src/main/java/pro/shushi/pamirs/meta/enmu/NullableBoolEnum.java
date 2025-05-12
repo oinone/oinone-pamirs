@@ -19,16 +19,31 @@ public enum NullableBoolEnum implements IEnum<Boolean> {
     TRUE(true, "是", "真"),
     FALSE(false, "否", "假");
 
-    public final Boolean value;
+    private final Boolean value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     NullableBoolEnum(Boolean value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public Boolean value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

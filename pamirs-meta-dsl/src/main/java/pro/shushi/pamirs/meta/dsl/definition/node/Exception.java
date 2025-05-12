@@ -21,6 +21,11 @@ public class Exception extends Code {
 	}
 
 	@Override
+	public void setTos(List<To> tos){
+		this.tos = tos;
+	}
+
+	@Override
 	public String toString() {
 		return "Exception [id=" + this.getId() + ", catch=" + tos + "]";
 	}

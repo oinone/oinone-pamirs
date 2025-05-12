@@ -1,17 +1,16 @@
 package pro.shushi.pamirs.meta.dsl.process;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pro.shushi.pamirs.meta.dsl.Machine;
 import pro.shushi.pamirs.meta.dsl.enumeration.EventExecutableStatus;
 import pro.shushi.pamirs.meta.dsl.exception.DuplicateStateException;
 import pro.shushi.pamirs.meta.dsl.exception.MachineException;
 import pro.shushi.pamirs.meta.dsl.exception.MissTriggersException;
 import pro.shushi.pamirs.meta.dsl.model.Event;
-import pro.shushi.pamirs.meta.dsl.model.Process;
 import pro.shushi.pamirs.meta.dsl.model.Place;
-import pro.shushi.pamirs.meta.dsl.utils.ListUtils;
+import pro.shushi.pamirs.meta.dsl.model.Process;
 
 public class EventProcess {
 
@@ -53,11 +52,11 @@ public class EventProcess {
 
 		Event e = (Event) process.getStates().get(eventContext.executeEvent);
 		// if path and triggers all not null . then exec it
-		if (ListUtils.isEmpty(e.getTriggers())) {
+		if (CollectionUtils.isEmpty(e.getTriggers())) {
 			return EventExecutableStatus.NORMAL;
 		}
 		// contains trigger but path is empty, then exit
-		if(ListUtils.isEmpty(eventContext.executedPath)) {
+		if(CollectionUtils.isEmpty(eventContext.executedPath)) {
 			return EventExecutableStatus.MISSSTATE;
 		}
 		// single node and has been executed

@@ -5,7 +5,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.enumclass.ExpEnumerate;
+import pro.shushi.pamirs.meta.enmu.MetaExpEnumerate;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -27,6 +27,7 @@ public class MethodUtils {
     private static final Map<Class<?>, Set<Method>> annotatedBaseTypeCache =
             new ConcurrentReferenceHashMap<>(256);
 
+    @SuppressWarnings("unused")
     public static <A extends Annotation> List<Class<?>> getClasses4MethodWithAnnotationType(String packageName, Class<A> annotationType) {
         List<Class<?>> result = new ArrayList<>();
         Set<Class<?>> clazzs = ClassUtils.getClasses(packageName);
@@ -45,6 +46,7 @@ public class MethodUtils {
         return result;
     }
 
+    @SuppressWarnings("unused")
     public static <A extends Annotation> List<Class<?>> getClasses4MethodWithAnnotationTypeForFun(String packageName, Class<A> annotationType) {
         List<Class<?>> result = new ArrayList<>();
         Set<Class<?>> clazzs = ClassUtils.getClasses(packageName);
@@ -96,7 +98,7 @@ public class MethodUtils {
                     annotatedMethods.add(baseMethod);
                 }
             } catch (Throwable ex) {
-                log.error("{}", ExpEnumerate.SYSTEM_ERROR.msg(),ex);
+                log.error("{}", MetaExpEnumerate.SYSTEM_ERROR.msg(), ex);
             }
         }
         if (annotatedMethods == null) {
@@ -118,20 +120,20 @@ public class MethodUtils {
         return true;
     }
 
-    public static Class[] getClasses(Object[] params){
-        Class<? extends Object>[] paramClass = null;
+    public static Class<?>[] getClasses(Object[] params) {
+        Class<?>[] paramClass = null;
         if (params != null) {
             int paramsLength = params.length;
             paramClass = new Class[paramsLength];
             for (int i = 0; i < paramsLength; i++) {
-                if(null == params[i]){
+                if (null == params[i]) {
                     paramClass[i] = Object.class;
-                }else if(!(params[i] instanceof String)){
+                } else if (!(params[i] instanceof String)) {
                     paramClass[i] = params[i].getClass();
-                }else {
-                    try{
-                        paramClass[i] = Class.forName(StringUtils.trim((String)params[i]));
-                    }catch (Exception e){
+                } else {
+                    try {
+                        paramClass[i] = Class.forName(StringUtils.trim((String) params[i]));
+                    } catch (Exception e) {
                         paramClass[i] = String.class;
                     }
                 }
@@ -140,7 +142,7 @@ public class MethodUtils {
         return paramClass;
     }
 
-    public static String[] getClasses(Class[] paramTypes){
+    public static String[] getClasses(Class<?>[] paramTypes) {
         String[] paramTypeStrings = null;
         if (paramTypes != null) {
             int paramsLength = paramTypes.length;
@@ -152,33 +154,38 @@ public class MethodUtils {
         return paramTypeStrings;
     }
 
-    public static String getArgNamesString(Method method){
+    public static String getArgNamesString(Method method) {
         Parameter[] parameters = method.getParameters();
-        if(null == parameters || 0 == parameters.length){
+        if (null == parameters || 0 == parameters.length) {
             return "";
         }
-        return StringUtils.join(Arrays.stream(parameters).map(v->v.getName()).collect(Collectors.toList()), ",");
+        return StringUtils.join(Arrays.stream(parameters).map(Parameter::getName).collect(Collectors.toList()), ",");
     }
 
-    public static String[] getArgNames(Method method){
+    public static String[] getArgNames(Method method) {
         Parameter[] parameters = method.getParameters();
-        if(null == parameters || 0 == parameters.length){
+        if (null == parameters || 0 == parameters.length) {
             return null;
         }
         String[] argNames = new String[parameters.length];
-        return Arrays.stream(parameters).map(v->v.getName()).collect(Collectors.toList()).toArray(argNames);
+        return Arrays.stream(parameters).map(Parameter::getName).collect(Collectors.toList()).toArray(argNames);
     }
 
-    public static boolean isStatic(Method method){
+    public static boolean isStatic(Method method) {
         int modifiers = method.getModifiers();
         return Modifier.isStatic(modifiers);
     }
 
-    public static Object dealSingleDynamicParameterMethod(Object obj){
-        if(null == obj){
+    public static boolean isInterface(Method method) {
+        int modifiers = method.getDeclaringClass().getModifiers();
+        return Modifier.isInterface(modifiers);
+    }
+
+    public static Object dealSingleDynamicParameterMethod(Object obj) {
+        if (null == obj) {
             return obj;
-        }else if(obj.getClass().isArray()){
-            return ((Object[])obj)[0];
+        } else if (obj.getClass().isArray()) {
+            return ((Object[]) obj)[0];
         }
         return obj;
     }

@@ -1,9 +1,11 @@
 package pro.shushi.pamirs.meta.api;
 
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.api.core.compute.FunApi;
-import pro.shushi.pamirs.meta.api.dto.config.TxConfig;
+import pro.shushi.pamirs.meta.api.core.faas.FunApi;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
+import pro.shushi.pamirs.meta.common.lambda.Func;
+import pro.shushi.pamirs.meta.common.lambda.ref.*;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
 
 /**
@@ -13,45 +15,63 @@ import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
  * @version 2019-04-26
  */
 @Slf4j
-public class Fun<R> implements FunApi<R> {
+public class Fun {
 
-    public static <R> Fun<R> get() {
-        return new Fun<>();
+    private static volatile FunApi FUN_API;
+
+    public static Function fetch(String namespace, String fun) {
+        return getApi().fetch(namespace, fun);
     }
 
-    @Override
-    public Function fetch(String namespace, String fun) {
-        return MetaApiFactory.getApi(FunApi.class).fetch(namespace, fun);
+    public static Function generate(FunctionDefinition functionDefinition) {
+        return getApi().generate(functionDefinition);
     }
 
-    @Override
-    public Function generate(FunctionDefinition functionDefinition) {
-        return MetaApiFactory.getApi(FunApi.class).generate(functionDefinition);
+    public static <T> T run(String namespace, String fun, Object... args) {
+        return getApi().run(namespace, fun, args);
     }
 
-    @Override
-    public R run(String namespace, String fun, Object... args) {
-        return (R)MetaApiFactory.getApi(FunApi.class).run(namespace, fun, args);
+    public static <T> T run(Function function, Object... args) {
+        return getApi().run(function, args);
     }
 
-    @Override
-    public R run(Function function, Object... args) {
-        return (R)MetaApiFactory.getApi(FunApi.class).run(function, args);
+    public static <T, P, R> R run(Func<T, P, R> function, Object... args) {
+        return getApi().run(function, args);
     }
 
-    @Override
-    public R runTx(String namespace, String fun, Object... args) {
-        return (R)MetaApiFactory.getApi(FunApi.class).runTx(namespace, fun, args);
+    public static <T, R> R run(Func0<T, R> function, Object... args) {
+        return getApi().run(function, args);
     }
 
-    @Override
-    public R runTx(Function function, Object... args) {
-        return (R)MetaApiFactory.getApi(FunApi.class).runTx(function, args);
+    public static <T, A1, A2, R> R run(Func2<T, A1, A2, R> function, Object... args) {
+        return getApi().run(function, args);
     }
 
-    @Override
-    public R runTx(Function function, TxConfig txConfig, Object... args) {
-        return (R)MetaApiFactory.getApi(FunApi.class).runTx(function, txConfig, args);
+    public static <T, A1, A2, A3, R> R run(Func3<T, A1, A2, A3, R> function, Object... args) {
+        return getApi().run(function, args);
+    }
+
+    public static <T, A1, A2, A3, A4, R> R run(Func4<T, A1, A2, A3, A4, R> function, Object... args) {
+        return getApi().run(function, args);
+    }
+
+    public static <T, A1, A2, A3, A4, A5, R> R run(Func5<T, A1, A2, A3, A4, A5, R> function, Object... args) {
+        return getApi().run(function, args);
+    }
+
+    public static <T, A1, A2, A3, A4, A5, A6, R> R run(Func6<T, A1, A2, A3, A4, A5, A6, R> function, Object... args) {
+        return getApi().run(function, args);
+    }
+
+    private static FunApi getApi() {
+        if (null == FUN_API) {
+            synchronized (Fun.class) {
+                if (null == FUN_API) {
+                    Fun.FUN_API = Spider.getDefaultExtension(FunApi.class);
+                }
+            }
+        }
+        return FUN_API;
     }
 
 }

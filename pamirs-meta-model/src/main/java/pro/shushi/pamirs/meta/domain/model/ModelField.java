@@ -7,21 +7,26 @@ import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.annotation.sys.MetaModel;
-import pro.shushi.pamirs.meta.api.MetaApiFactory;
-import pro.shushi.pamirs.meta.api.core.systems.type.TypeProcessor;
+import pro.shushi.pamirs.meta.annotation.sys.MetaSimulator;
+import pro.shushi.pamirs.meta.annotation.validation.Validation;
+import pro.shushi.pamirs.meta.api.core.compute.systems.type.TypeProcessor;
+import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableConfig;
+import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
+import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.util.PStringUtils;
-import pro.shushi.pamirs.meta.domain.fun.CheckExpression;
+import pro.shushi.pamirs.meta.constant.MetaCheckConstants;
+import pro.shushi.pamirs.meta.constant.MetaDefaultConstants;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
-import pro.shushi.pamirs.meta.enmu.FieldTrackEnum;
-import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
-import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
-import pro.shushi.pamirs.meta.enumclass.DateFormatEnumCls;
-import pro.shushi.pamirs.meta.enumclass.TtypeEnumCls;
+import pro.shushi.pamirs.meta.enmu.*;
+import pro.shushi.pamirs.meta.util.DiffUtils;
 
 import java.util.List;
 import java.util.Optional;
 
-import static pro.shushi.pamirs.meta.annotation.Field.serialize.COMMA;
+import static pro.shushi.pamirs.meta.annotation.Field.serialize.DOT;
+import static pro.shushi.pamirs.meta.domain.model.ModelField.MODEL_MODEL;
 
 /**
  * 字段定义
@@ -31,12 +36,19 @@ import static pro.shushi.pamirs.meta.annotation.Field.serialize.COMMA;
  * date 2020/1/1 1:11 下午
  */
 @Slf4j
-@MetaModel(priority = 5, core = true)
+@MetaSimulator(onlyBasicTypeField = false)
+@MetaModel(priority = 5, core = java.lang.reflect.Field.class)
 @Base
-@Model.Advanced(name = "field", unique = {"name,model","column,model"})
-@Model.model("base.Field")
+@Model.Advanced(name = "field", priority = 10, unique = {"model,name", "model,field"})
+@Model.model(MODEL_MODEL)
 @Model(displayName = "模型字段", summary = "模型字段", labelFields = "displayName")
-public class ModelField extends Relation {
+public class ModelField extends Relation implements MetaCheckConstants {
+
+    private static final long serialVersionUID = 9128618382873717565L;
+
+    public static final String MODEL_MODEL = "base.Field";
+
+    public static final String UE_MODEL_MODEL = "base.UeField";
 
     @Base
     @Field.String
@@ -44,43 +56,52 @@ public class ModelField extends Relation {
     private String displayName;
 
     @Base
+    @Validation(check = checkFieldName)
     @Field.String
-    @Field(displayName = "代码字段名称", summary = "代码字段名称", check = "checkFieldName", invisible = true)
+    @Field(displayName = "代码字段名称", summary = "代码字段名称", invisible = true)
     private String lname;
 
     @Base
+    @Validation(check = checkColumnName)
     @Field.String
-    @Field(displayName = "数据库字段", summary = "数据库字段", check = "checkColumnName", invisible = true)
+    @Field(displayName = "数据库字段", summary = "数据库字段", invisible = true)
     private String column;
 
     @Base
-    @Field.String
-    @Field(displayName = "字段备注")
+    @Field.String(size = 500)
+    @Field(displayName = "备注", summary = "存储备注")
+    private String remark;
+
+    @Base
+    @Field.String(size = 500)
+    @Field(displayName = "简介", summary = "描述摘要")
     private String summary;
 
     @Base
     @Field.Text
-    @Field(displayName = "字段描述")
+    @Field(displayName = "描述", summary = "描述详情")
     private String description;
 
     @Base
     @Field.Enum
     @Field(required = true, displayName = "字段类型", summary = "字段的业务类型")
-    private TtypeEnumCls ttype;
+    private TtypeEnum ttype;
 
     @Base
     @Field.Enum
-    @Field(required = true, displayName = "引用字段类型", summary = "引用字段的业务类型")
-    private TtypeEnumCls relatedTtype;
+    @Field(displayName = "引用字段类型", summary = "引用字段的业务类型")
+    private TtypeEnum relatedTtype;
 
     @Base
-    @Field.String
-    @Field(displayName = "字段后台类型", summary = "字段java类型", check = "checkLtype", invisible = true)
+    @Validation(check = checkLtype)
+    @Field.String(size = 256)
+    @Field(displayName = "字段后台类型", summary = "字段java类型", invisible = true)
     private String ltype;
 
     @Base
-    @Field.String
-    @Field(displayName = "字段泛化类型", summary = "字段的java类型的泛型", check = "checkLtypeT", invisible = true)
+    @Validation(check = checkLtypeT)
+    @Field.String(size = 256)
+    @Field(displayName = "字段泛化类型", summary = "字段的java类型的泛型", invisible = true)
     private String ltypeT;
 
     @Base
@@ -92,6 +113,11 @@ public class ModelField extends Relation {
     @Field.String
     @Field(summary = "数据库字段定义", displayName = "数据库字段定义", invisible = true)
     private String columnDefinition;
+
+    @Base
+    @Field.Enum
+    @Field(displayName = "ID生成策略", invisible = true)
+    private KeyGeneratorEnum keyGenerator;
 
     @Base
     @Field.Integer
@@ -106,44 +132,74 @@ public class ModelField extends Relation {
     @Base
     @Field.Integer
     @Field(displayName = "精度", summary = "小数位数")
-    private Short decimal;
+    private Integer decimal;
 
     @Base
-    @Field.one2one
-    @Field.Relation(store = false)
-    @Field(summary = "序列生成配置", displayName = "序列生成配置", store = NullableBoolEnum.TRUE)
-    private SequenceConfig sequenceConfig;
+    @Field.String
+    @Field(displayName = "最小值", summary = "最小值")
+    private String min;
+
+    @Base
+    @Field.String
+    @Field(displayName = "最大值", summary = "最大值")
+    private String max;
+
+    @Base
+    @Field.Boolean
+    @Field(displayName = "主键", summary = "主键", defaultValue = "false")
+    private Boolean pk;
+
+    @Base
+    @Field.Integer
+    @Field(displayName = "主键排序", summary = "主键排序")
+    private Integer pkIndex;
 
     @Base
     @Field.many2one
-    @Field.Relation(relationFields = {"#serialize#", "serialize"}, referenceFields = {"namespace", "fun"}, domain = "namespace=eq=serialize,ttype=eq=@{argTtypes}")
-    @Field(summary = "序列化函数", displayName = "序列化函数")
-    private FunctionDefinition serializeFunction;
+    @Field.Relation(relationFields = "sequenceCode", referenceFields = "code")
+    @Field(summary = "序列生成配置", displayName = "序列生成配置")
+    private SequenceConfig sequenceConfig;
 
     @Base
-    @Field(summary = "序列化", displayName = "序列化", invisible = true)
-    private String serialize;
+    @Field.String(size = 256)
+    @Field(displayName = "序列生成配置编码", summary = "序列生成配置编码")
+    private String sequenceCode;
+
+    @Base
+    @Field.many2one
+    @Field.Relation(relationFields = {"#serialize#", "requestSerialize"}, referenceFields = {"namespace", "fun"}, domain = "namespace=eq=serialize,ttype=eq=@{argTtypes}")
+    @Field(summary = "请求序列化函数", displayName = "请求序列化函数")
+    private FunctionDefinition requestSerializeFunction;
+
+    @Base
+    @Field(summary = "请求序列化函数编码", displayName = "请求序列化函数编码", invisible = true)
+    private String requestSerialize;
+
+    @Base
+    @Field.many2one
+    @Field.Relation(relationFields = {"#serialize#", "storeSerialize"}, referenceFields = {"namespace", "fun"}, domain = "namespace=eq=serialize,ttype=eq=@{argTtypes}")
+    @Field(summary = "存储序列化函数", displayName = "存储序列化函数")
+    private FunctionDefinition storeSerializeFunction;
+
+    @Base
+    @Field(summary = "存储序列化函数编码", displayName = "存储序列化函数编码", invisible = true)
+    private String storeSerialize;
 
     @Base
     @Field.Enum
     @Field(summary = "时间格式", displayName = "时间格式")
-    private DateFormatEnumCls format;
+    private DateFormatEnum format;
 
     @Base
-    @Field.one2many
+    @Field.one2many(inverse = true)
     @Field.Relation(relationFields = {"model", "related"}, referenceFields = {"model", "field"}, domain = "model=eq=@{model}")
     @Field(displayName = "引用字段列表")
     private List<ModelField> relatedList;
 
     @Base
-    @Field.Related(related = {"relatedList","field"})
-    @Field(displayName = "引用字段", summary = "引用字段", check = "checkDotExpression", serialize = "DOT")
+    @Validation(check = checkDotExpression)
+    @Field(displayName = "引用字段", summary = "引用字段", serialize = DOT, store = NullableBoolEnum.TRUE)
     private List<String> related;
-
-    @Base
-    @Field.Enum
-    @Field(displayName = "字段来源", summary = "BASE是系统创建, MANUAL是人工创建")
-    private SystemSourceEnum source;
 
     @Base
     @Field.String
@@ -152,18 +208,19 @@ public class ModelField extends Relation {
 
     @Base
     @Field.many2one
-    @Field.Relation(referenceFields = "dictionary")
-    @Field(displayName = "可选项")
+    @Field.Relation(relationFields = "dictionary")
+    @Field(displayName = "数据字典")
     private DataDictionary selection;
 
     @Base
-    @Field(displayName = "数据字典", invisible = true)
+    @Field(displayName = "数据字典编码", invisible = true)
     private String dictionary;
 
     @Base
-    @Field.Related(related = {"selection","itemList"})
-    @Field(displayName = "可选项", invisible = true)
-    private String options;
+    @Field.Advanced(columnDefinition = "text")
+    @Field.one2many
+    @Field(displayName = "可选项", invisible = true, store = NullableBoolEnum.TRUE)
+    private List<DataDictionaryItem> options;
 
     @Base
     @Field.Boolean
@@ -172,8 +229,13 @@ public class ModelField extends Relation {
 
     @Base
     @Field.Integer
-    @Field(displayName = "排序", defaultValue = "100")
+    @Field(displayName = "优先级", defaultValue = MetaDefaultConstants.PRIORITY_VALUE_STRING)
     private Long priority;
+
+    @Base
+    @Field.Boolean
+    @Field(displayName = "乐观锁", summary = "乐观锁", defaultValue = "false")
+    private Boolean optimisticLocker;
 
     @Base
     @Field.many2one
@@ -183,62 +245,8 @@ public class ModelField extends Relation {
 
     @Base
     @Field.String(size = 512)
-    @Field(displayName = "计算规则", summary = "计算字段的规则")
+    @Field(displayName = "计算函数编码", summary = "计算函数编码")
     private String compute;
-
-    @Base
-    @Field.many2one
-    @Field.Relation(relationFields = {"model", "inverse"}, referenceFields = {"namespace", "fun"}, domain = "namespace=eq=@{model},name=eq=@{inverse}")
-    @Field(summary = "反向计算函数", displayName = "反向计算函数")
-    private FunctionDefinition inverseFunction;
-
-    @Base
-    @Field.String
-    @Field(displayName = "反向计算", summary = "字段值变化反向计算监听字段值并持久化")
-    private String inverse;
-
-    @Base
-    @Field.many2one
-    @Field.Relation(relationFields = {"model", "search"}, referenceFields = {"namespace", "fun"}, domain = "namespace=eq=@{model},name=eq=@{search}")
-    @Field(summary = "搜索函数", displayName = "搜索函数")
-    private FunctionDefinition searchFunction;
-
-    @Base
-    @Field.String(size = 512)
-    @Field(displayName = "搜索规则", summary = "自定义搜索规则")
-    private String search;
-
-    @Base
-    @Field.one2many
-    @Field.Relation(relationFields = {"model", "watch"}, referenceFields = {"model", "field"}, domain = "model=eq=@{model}")
-    @Field(displayName = "监听字段列表")
-    private List<ModelField> watchList;
-
-    @Base
-    @Field(displayName = "监听字段", summary = "监听字段", check = "checkFieldName", serialize = COMMA)
-    private List<String> watch;
-
-    @Base
-    @Field.one2many
-    @Field.Relation(relationFields = {"#constraint#", "checks"}, referenceFields = {"namespace", "fun"}, domain = "namespace=eq=constraint,ttype=eq=@{argTtypes}")
-    @Field(displayName = "校验函数列表")
-    private List<FunctionDefinition> checkList;
-
-    @Base
-    @Field.String
-    @Field(displayName = "校验函数")
-    private List<String> checks;
-
-    @Base
-    @Field.one2many
-    @Field.Relation(store = false)
-    @Field(displayName = "校验表达式")
-    private List<CheckExpression> ruleList;
-
-    @Base
-    @Field.Related(related = {"ruleList","rule"})
-    @Field(displayName = "校验表达式", check = "checkExpression", store = NullableBoolEnum.TRUE, serialize = COMMA)
-    private List<String> rules;
 
     @Base
     @Field.String
@@ -257,23 +265,23 @@ public class ModelField extends Relation {
 
     @Base
     @Field.Boolean
-    @Field(displayName = "只读", defaultValue = "false")
-    private Boolean readonly;
-
-    @Base
-    @Field.Boolean
     @Field(displayName = "索引", defaultValue = "false")
     private Boolean index;
 
     @Base
     @Field.Boolean
-    @Field(displayName = "是否必须", defaultValue = "false")
-    private Boolean required;
+    @Field(displayName = "唯一", defaultValue = "false")
+    private Boolean unique;
 
     @Base
     @Field.Boolean
-    @Field(displayName = "唯一", defaultValue = "false")
-    private Boolean unique;
+    @Field(displayName = "是否必填", defaultValue = "false")
+    private Boolean required;
+
+    @Base
+    @Field.String
+    @Field(displayName = "条件必填", summary = "required为true，则必填；若required为false，则按条件判断")
+    private String requiredCondition;
 
     @Base
     @Field.Boolean
@@ -290,35 +298,139 @@ public class ModelField extends Relation {
     @Field(displayName = "字段追踪", defaultValue = "no_track")
     private FieldTrackEnum track;
 
-    @Function
-    public ModelField construct(ModelField modelField){
-        if(null == modelField.getStore()){
-            modelField.setStore(Optional.ofNullable(modelField).map(v->v.getStore())
-                    .orElse(!TtypeEnumCls.isRelationType(modelField.getTtype())));
+    @Base
+    @Field.Boolean
+    @Field(displayName = "不支持列名格式化", invisible = true, defaultValue = "true")
+    private Boolean onlyColumn;
+
+    @Base
+    @Field.Enum
+    @Field(displayName = "插入策略", invisible = true, defaultValue = "default")
+    private FieldStrategyEnum insertStrategy;
+
+    @Base
+    @Field.Enum
+    @Field(displayName = "批量策略", invisible = true, defaultValue = "not_change")
+    private FieldStrategyEnum batchStrategy;
+
+    @Base
+    @Field.Enum
+    @Field(displayName = "更新策略", invisible = true, defaultValue = "default")
+    private FieldStrategyEnum updateStrategy;
+
+    @Base
+    @Field.Enum
+    @Field(displayName = "条件策略", invisible = true, defaultValue = "default")
+    private FieldStrategyEnum whereStrategy;
+
+    @Base
+    @Field.String
+    @Field(displayName = "默认查询条件", invisible = true, defaultValue = "%s = #{%s}")
+    private String whereCondition;
+
+    @Base
+    @Field.Enum
+    @Field(displayName = "字符集", invisible = true)
+    private CharsetEnum charset;
+
+    @Base
+    @Field.Enum
+    @Field(displayName = "字符集校验规则", invisible = true)
+    private CollationEnum collation;
+
+    @Base
+    @Field(displayName = "扩展配置", store = NullableBoolEnum.TRUE, invisible = true)
+    private ModelFieldConf extendConfig;
+
+    @Base
+    @Field(displayName = "可见", defaultValue = "true", summary = "如果show为false，则表示废弃但仍可使用")
+    private ActiveEnum show;
+
+    @Function(openLevel = FunctionOpenEnum.API)
+    @Function.Advanced(displayName = "初始化数据", type = FunctionTypeEnum.QUERY)
+    public ModelField construct(ModelField data) {
+        construct0(data);
+        if (null != data.getTtype()) {
+            defaultRelationStore(data);
         }
-        if(modelField.getStore() && StringUtils.isBlank(modelField.getColumn())){
-            modelField.setColumn(Optional.ofNullable(modelField).map(v->v.getColumn()).orElse(PStringUtils.fieldName2Column(modelField.getName())));
-        }
-        return modelField;
+        return data;
     }
 
-    public ModelField defaultColumnDefinition(ModelField modelField){
-        if(null == modelField.getStore()){
-            construct(modelField);
+    private Boolean relatedInternalStore = Boolean.TRUE;
+
+    public void construct0(ModelField data) {
+        if (null == data.getStore() && null != data.getTtype()) {
+            ModelConfig currentModel = PamirsSession.getContext().getModelConfig(data.getModel());
+            if (ModelTypeEnum.TRANSIENT.equals(currentModel.getType())) {
+                data.setStore(false);
+            } else {
+                data.setStore(Optional.of(data).map(ModelField::getStore)
+                        .orElse(!TtypeEnum.isRelationType(data.getTtype()) && !TtypeEnum.RELATED.value().equals(data.getTtype().value())));
+            }
         }
-        if(!modelField.getStore()){
-            modelField.unsetColumnDefinition();
-            return modelField;
+        if (null != data.getStore() && data.getStore() && StringUtils.isBlank(data.getColumn())) {
+            data.setColumn(Optional.of(data).map(ModelField::getColumn).orElse(ModelField.generateColumn(data.getModel(), data.getName(), null)));
         }
-        if(StringUtils.isNotBlank(modelField.getColumnDefinition())){
-            return modelField;
+        if (null == data.getSize() && Integer.class.getName().equals(data.getLtype())) {
+            data.setSize(TypeProcessor.DEFAULT_INTEGER);
         }
-        TypeProcessor typeProcessor = MetaApiFactory.getApi(TypeProcessor.class);
-        String columnDefinition = typeProcessor.defaultColumnTypeFromTtype(modelField.getTtype().value(),
-                modelField.getLtype(), modelField.getMulti(), modelField.getSize(), modelField.getDecimal());
-        columnDefinition = typeProcessor.defaultColumnDefinition(columnDefinition, !modelField.getRequired(), modelField.getDefaultValue(), null);
-        modelField.setColumnDefinition(columnDefinition);
-        return modelField;
+        if (null == data.getFormat()) {
+            if (TtypeEnum.DATETIME.name().equals(data.getTtype().name())) {
+                data.setFormat(DateFormatEnum.DATETIME);
+            } else if (TtypeEnum.DATE.name().equals(data.getTtype().name())) {
+                data.setFormat(DateFormatEnum.DATE);
+            } else if (TtypeEnum.TIME.name().equals(data.getTtype().name())) {
+                data.setFormat(DateFormatEnum.TIME);
+            } else if (TtypeEnum.YEAR.name().equals(data.getTtype().name())) {
+                data.setFormat(DateFormatEnum.YEAR);
+            }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static String generateColumn(ModelDefinition modelDefinition, String fieldName, String column) {
+        PamirsTableConfig pamirsTableConfig = PamirsTableInfo.fetchPamirsTableConfig(modelDefinition);
+        return generateColumn(fieldName, column, pamirsTableConfig.getTableNameCaseSensitive(),
+                pamirsTableConfig.getUnderCamel(), pamirsTableConfig.getCapitalMode());
+    }
+
+    public static String generateColumn(String model, String fieldName, String column) {
+        PamirsTableConfig pamirsTableConfig = PamirsTableInfo.fetchPamirsTableConfig(model);
+        return generateColumn(fieldName, column, pamirsTableConfig.getTableNameCaseSensitive(),
+                pamirsTableConfig.getUnderCamel(), pamirsTableConfig.getCapitalMode());
+    }
+
+    public static String generateColumn(String fieldName, String column, boolean tableNameCaseSensitive,
+                                        Boolean underCamel, Boolean capitalMode) {
+        if (StringUtils.isNotBlank(column)) {
+            return column;
+        }
+        column = fieldName;
+        if (underCamel) {
+            /* 开启字段下划线申明 */
+            column = PStringUtils.fieldName2Column(column);
+        }
+        if (!tableNameCaseSensitive) {
+            column = column.toLowerCase();
+        } else if (capitalMode) {
+            /* 开启字段全大写申明 */
+            column = column.toUpperCase();
+        }
+        return column;
+    }
+
+    public TtypeEnum getExactTtype() {
+        return TtypeEnum.RELATED.equals(this.getTtype()) ? this.getRelatedTtype() : this.getTtype();
+    }
+
+    @Override
+    public String stringify() {
+        return DiffUtils.stringify(this, "modelDefinition", "selection", "modelName",
+                "modelReferences", "modelThrough", "sequenceConfig");
+    }
+
+    public static String sign(String model, String field) {
+        return model + CharacterConstants.SEPARATOR_DOT + field;
     }
 
 }

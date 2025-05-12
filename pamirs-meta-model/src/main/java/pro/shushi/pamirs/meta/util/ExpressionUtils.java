@@ -1,13 +1,10 @@
 package pro.shushi.pamirs.meta.util;
 
 import com.google.common.collect.Sets;
-import org.springframework.util.CollectionUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
-import pro.shushi.pamirs.meta.enumclass.FunctionTypeEnumCls;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +24,6 @@ import java.util.stream.Collectors;
 public class ExpressionUtils {
 
     private final static Pattern EXP_PATTERN = Pattern.compile("\\b[A-Za-z_][A-Za-z_0-9\\.]*\\b");
-    private final static Pattern PARTNER_PATTERN = Pattern.compile("\\bu\\([A-Za-z_][A-Za-z_0-9\\.]*\\)\\B");
-    private final static Pattern COMPANY_PATTERN = Pattern.compile("\\bcom\\([A-Za-z_][A-Za-z_0-9\\.]*\\)\\B");
-    private final static Pattern ROLE_PATTERN = Pattern.compile("\\brole\\([A-Za-z_][A-Za-z_0-9\\.]*\\)\\B");
     private final static Pattern SUB_PATTERN = Pattern.compile("(\\b|\\B)\\.[A-Za-z_][A-Za-z_0-9\\.]*\\b");
     private final static Pattern OPERATOR_PATTERN_ONE = Pattern.compile("^[A-Za-z_\\(]");
     private final static Pattern OPERATOR_PATTERN_TWO = Pattern.compile("[A-Za-z_0-9\\)]$");
@@ -43,126 +37,87 @@ public class ExpressionUtils {
             "((0[48]|[2468][048]|[3579][26])00))-02-29))\n" +
             "\\s([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])\\.[0-9]{0,6}$");
 
-    public static String fetchJavaPlaceholder(Function function){
-        if(!function.getType().equals(FunctionTypeEnumCls.JAVA) || !ClassUtils.isPresent(function.getNamespace())){
-            return Fun.class.getName() + ".get().run(\""+function.getNamespace()+"\",\""+function.getFun()+"\",";
-        }
-        if(function.getNamespace().startsWith("java")){
-            return function.getNamespace() + "(";
-        }
-        try {
-            Method method = FunctionUtils.getMethod(function);
-            boolean isStatic = MethodUtils.isStatic(method);
-            String className = function.getNamespace();
-            String methodName = function.getFun();
-            return (isStatic?"":"new ") + className + (isStatic?".":"().") + methodName + "(";
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public static String fetchJavaPlaceholder(Function function) {
+        return Fun.class.getName() + ".run(\"" + function.getNamespace() + "\",\"" + function.getFun() + "\",";
     }
 
     /**
      * 获取所有变量名，包括函数名，子属性
      *
-     * @param content
-     * @return
+     * @param content 内容
+     * @return 变量名
      */
-    public static List<String> fetchExpVariable(String content){
+    public static List<String> fetchExpVariable(String content) {
         return fetchVariable(content, EXP_PATTERN);
     }
 
     /**
-     * 获取partner变量
-     *
-     * @param content
-     * @return
-     */
-    public static List<String> fetchPartnerVariable(String content){
-        return fetchVariable(content, PARTNER_PATTERN);
-    }
-
-    /**
-     * 获取company变量
-     *
-     * @param content
-     * @return
-     */
-    public static List<String> fetchCompanyVariable(String content){
-        return fetchVariable(content, COMPANY_PATTERN);
-    }
-
-    /**
-     * 获取角色变量
-     *
-     * @param content
-     * @return
-     */
-    public static List<String> fetchRoleVariable(String content){
-        return fetchVariable(content, ROLE_PATTERN);
-    }
-
-    /**
      * 获取子属性
-     * @param content
-     * @return
+     *
+     * @param content 内容
+     * @return 子属性列表
      */
-    public static List<String> fetchSubVariable(String content){
+    public static List<String> fetchSubVariable(String content) {
         return fetchVariable(content, SUB_PATTERN);
     }
 
-    public static boolean isValidOperatorVariable(String content){
+    public static boolean isValidOperatorVariable(String content) {
         return OPERATOR_PATTERN_ONE.matcher(content).matches() && OPERATOR_PATTERN_TWO.matcher(content).matches();
     }
 
-    public static boolean isValidSingleMethod(String content){
+    public static boolean isValidSingleMethod(String content) {
         return FUN_PATTERN.matcher(content).matches();
     }
 
-    public static boolean isNum(String content){
+    public static boolean isNum(String content) {
         return NUM_PATTERN.matcher(content).matches();
     }
 
-    public static boolean isDate(String content){
+    public static boolean isDate(String content) {
         return DATE_PATTERN.matcher(content).matches();
     }
 
     /**
      * 获取变量名，不包含函数名
-     * @param content
-     * @return
+     *
+     * @param content 内容
+     * @return 变量名列表
      */
-    public static List<String> fetchStrictVariable(String content){
-        return Sets.newHashSet(fetchOriginStrictVariable(content)).stream().collect(Collectors.toList());
+    public static List<String> fetchStrictVariable(String content) {
+        return new ArrayList<>(Sets.newHashSet(fetchOriginStrictVariable(content)));
     }
 
     /**
      * 获取变量名，不包含函数名，可能重复
-     * @param content
-     * @return
+     *
+     * @param content 内容
+     * @return 变量名列表
      */
-    public static List<String> fetchOriginStrictVariable(String content){
+    public static List<String> fetchOriginStrictVariable(String content) {
         content = ignoreString(content);
         List<String> vars = fetchExpVariable(content);
         List<String> funs = fetchFunQuote(content);
         List<String> subVars = fetchSubVariable(content);
-        return vars.stream().filter(v->!funs.contains(v+"(") && !subVars.contains("."+v)).collect(Collectors.toList());
+        return vars.stream().filter(v -> !funs.contains(v + "(") && !subVars.contains("." + v)).collect(Collectors.toList());
     }
 
     /**
      * 获取函数名，以(结尾
-     * @param content
-     * @return
+     *
+     * @param content 内容
+     * @return 函数名列表
      */
-    public static List<String> fetchFun(String content){
-        return fetchFunQuote(content).stream().map(v->v.replace("(", "")).collect(Collectors.toList());
+    public static List<String> fetchFun(String content) {
+        return fetchFunQuote(content).stream().map(v -> v.replace("(", "")).collect(Collectors.toList());
     }
 
     /**
      * 获取函数名，以(结尾
-     * @param content
-     * @return
+     *
+     * @param content 内容
+     * @return 函数名列表
      */
-    public static List<String> fetchFunQuote(String content){
+    public static List<String> fetchFunQuote(String content) {
         List<String> matches = fetchVariable(content, FUN_PATTERN_ONE);
         matches.addAll(fetchVariable(content, FUN_PATTERN_TWO));
         return matches;
@@ -171,49 +126,49 @@ public class ExpressionUtils {
     private static List<String> fetchVariable(String content, Pattern r) {
         List<String> result = new ArrayList<>();
         Matcher matcher = r.matcher(content);
-        while(matcher.find()){
+        while (matcher.find()) {
             String m = matcher.group();
             result.add(m);
         }
         return result;
     }
 
-    public static String ignoreString(String content){
+    public static String ignoreString(String content) {
         return replaceAllString(content, IGNORE_PATTERN, "\"\"");
     }
 
-    public static String ignoreString(String content, Map<String, String> replaceMap){
+    public static String ignoreString(String content, Map<String, String> replaceMap) {
         return replaceString(content, IGNORE_PATTERN, replaceMap);
     }
 
-    private static String replaceString(String content, String reg, Map<String, String> replaceMap){
+    private static String replaceString(String content, String reg, Map<String, String> replaceMap) {
         Pattern p = Pattern.compile(reg);
         return replaceString(content, p, replaceMap);
     }
 
-    private static String replaceString(String content, Pattern p, Map<String, String> replaceMap){
+    private static String replaceString(String content, Pattern p, Map<String, String> replaceMap) {
         Matcher matcher = p.matcher(content);
-        while(matcher.find()){
+        while (matcher.find()) {
             String m = matcher.group();
-            String replacement = "{"+ UUID.randomUUID().toString() + "}";
+            String replacement = "{" + UUID.randomUUID().toString() + "}";
             replaceMap.put(replacement, m);
             content = content.replace(m, replacement);
         }
         return content;
     }
 
-    private static String replaceAllString(String content, String reg, String replacement){
+    private static String replaceAllString(String content, String reg, String replacement) {
         Pattern p = Pattern.compile(reg);
         return replaceAllString(content, p, replacement);
     }
 
-    private static String replaceAllString(String content, Pattern p, String replacement){
+    private static String replaceAllString(String content, Pattern p, String replacement) {
         Matcher m = p.matcher(content);
         return m.replaceAll(replacement);
     }
 
-    public static String replaceLogical(String content){
-        return content.replace("AND", "&&").replace("OR", "||");
+    public static String replaceLogical(String content) {
+        return content.replace(" AND ", " && ").replace(" OR ", " || ");
     }
 
 }

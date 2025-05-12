@@ -12,9 +12,8 @@ import java.lang.annotation.Target;
  *
  * @author deng d@shushi.pro
  * date 2019.04.10
- *
  */
-@Target({ElementType.TYPE,ElementType.FIELD,ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Base {
 

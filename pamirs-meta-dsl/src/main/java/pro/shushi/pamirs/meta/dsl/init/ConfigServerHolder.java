@@ -5,10 +5,7 @@ import org.springframework.core.io.Resource;
 
 public class ConfigServerHolder implements InitializingBean {
 
-	
-	
 	private static String PLANFORM_NAME="DEFAULT_PAMIRS_PLANFORM";
-	
 	
 	private static Resource[] processLocations;
 

@@ -19,22 +19,34 @@ public enum ModuleStateEnum implements IEnum<String> {
     UNINSTALLED("uninstalled", "未安装", "未安装"),
     TOINSTALL("toinstall", "安装中", "安装中"),
     TOUPGRADE("toupgrade", "升级中", "升级中"),
-    TOPREVIEW("topreview", "预览中", "预览中"),
-    TOPUBLISH("topublish", "发布中", "发布中"),
     INSTALLED("installed", "已安装", "已安装"),
-    TOREMOVE("toremove", "卸载中", "卸载中"),
-    TORELOAD("toreload", "重启中", "重启中");
+    TOREMOVE("toremove", "卸载中", "卸载中");
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
-    ModuleStateEnum(String  value, String displayName, String help) {
+    ModuleStateEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

@@ -1,22 +1,28 @@
 package pro.shushi.pamirs.meta.domain.fun;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.google.common.collect.Lists;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.annotation.sys.MetaModel;
+import pro.shushi.pamirs.meta.annotation.sys.MetaSimulator;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.constants.PackageConstants;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
-import pro.shushi.pamirs.meta.enmu.FunctionSceneEnum;
-import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
-import pro.shushi.pamirs.meta.enmu.FunctionUsageEnum;
-import pro.shushi.pamirs.meta.enumclass.FunctionCategoryEnumCls;
-import pro.shushi.pamirs.meta.enumclass.FunctionSourceEnumCls;
+import pro.shushi.pamirs.meta.enmu.*;
+import pro.shushi.pamirs.meta.util.DiffUtils;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static pro.shushi.pamirs.meta.domain.fun.FunctionDefinition.MODEL_MODEL;
 
 /**
  * 函数定义
@@ -25,17 +31,27 @@ import java.util.Optional;
  * @version 1.0.0
  * date 2020/1/1 1:11 下午
  */
-@MetaModel(priority = 10, core = true)
+@MetaSimulator(onlyBasicTypeField = false)
+@MetaModel(core = Method.class)
 @Base
-@Model.Advanced(unique = "namespace, name")
-@Model.model("base.Function")
-@Model(displayName = "函数", summary = "函数")
+@Model.Advanced(unique = {"namespace, fun"} ,index = {"namespace, name"}, priority = 17)
+@Model.model(MODEL_MODEL)
+@Model(displayName = "函数", summary = "函数", labelFields = {"displayName", "name"})
 public class FunctionDefinition extends AbstractFunction {
+
+    public static final String MODEL_MODEL = "base.Function";
+
+    private static final long serialVersionUID = 7483208537239843128L;
 
     @Base
     @Field.String
-    @Field(displayName = "显示名称", required = true)
+    @Field(displayName = "显示名称",translate = true, required = true)
     private String displayName;
+
+    @Base
+    @Field.String
+    @Field(displayName = "模块", required = true)
+    private String module;
 
     @Base
     @Field.String
@@ -44,23 +60,34 @@ public class FunctionDefinition extends AbstractFunction {
 
     @Base
     @Field.String
-    @Field(displayName = "函数编码", required = true, immutable = true)
+    @Field(displayName = "函数编码", required = true)
     private String fun;
 
     @Base
+    @XStreamAsAttribute
     @Field.String
-    @Field(displayName = "技术名称", required = true)
+    @Field(displayName = "api名称", required = true)
     private String name;
 
     @Base
     @Field.Enum
-    @Field(displayName = "函数类型", summary = "代码类型", defaultValue = "DSL", required = true)
-    private FunctionTypeEnum type;
+    @Field(displayName = "函数语言", summary = "代码语言", defaultValue = "DSL", required = true)
+    private FunctionLanguageEnum language;
 
     @Base
     @Field.Enum
-    @Field(displayName = "函数用途", summary = "函数用途", defaultValue = "WRITE", required = true)
-    private FunctionUsageEnum usage;
+    @Field(displayName = "函数类型", summary = "函数类型", defaultValue = "4", required = true)
+    private List<FunctionTypeEnum> type;
+
+    @Base
+    @Field.Boolean
+    @Field(displayName = "数据管理器函数", defaultValue = "false")
+    private Boolean dataManager;
+
+    @Base
+    @Field.String
+    @Field(displayName = "bean名称", invisible = true)
+    private String beanName;
 
     @Base
     @Field.Text
@@ -80,7 +107,12 @@ public class FunctionDefinition extends AbstractFunction {
     @Base
     @Field.Enum
     @Field(displayName = "来源", summary = "来源", defaultValue = "ACTION", required = true)
-    private FunctionSourceEnumCls source;
+    private FunctionSourceEnum source;
+
+    @Base
+    @Field.Enum
+    @Field(displayName = "开放级别", summary = "开放级别", defaultValue = "3", required = true)
+    private List<FunctionOpenEnum> openLevel;
 
     @Base
     @Field.Html
@@ -90,7 +122,7 @@ public class FunctionDefinition extends AbstractFunction {
     @Base
     @Field.Enum
     @Field(displayName = "分类", summary = "分类", defaultValue = "OTHER")
-    private FunctionCategoryEnumCls category;
+    private FunctionCategoryEnum category;
 
     @Base
     @Field.Enum
@@ -109,6 +141,13 @@ public class FunctionDefinition extends AbstractFunction {
     private List<ExtPoint> extPointList;
 
     @Base
+    @Field.many2one
+    @Field.Relation(store = false)
+    @Field.Advanced(columnDefinition = "varchar(128)")
+    @Field(displayName = "事务配置", store = NullableBoolEnum.TRUE, invisible = true, serialize = Field.serialize.JSON, summary = "事务配置")
+    private TransactionConfig transactionConfig;
+
+    @Base
     @Field.String
     @Field(displayName = "系统分组", defaultValue = "pamirs")
     private String group;
@@ -124,6 +163,11 @@ public class FunctionDefinition extends AbstractFunction {
     private Integer timeout;
 
     @Base
+    @Field.Integer
+    @Field(displayName = "重试次数", defaultValue = "0")
+    private Integer retries;
+
+    @Base
     @Field(displayName = "是否支持long polling", summary = "是否支持long polling", defaultValue = "false", invisible = true)
     private Boolean isLongPolling;
 
@@ -135,19 +179,68 @@ public class FunctionDefinition extends AbstractFunction {
     @Field(displayName = "long polling超时时间", defaultValue = "1", invisible = true)
     private Integer longPollingTimeout;
 
+    @Function.Advanced(displayName = "初始化数据", type = FunctionTypeEnum.QUERY)
     @Function
-    public FunctionDefinition construct(FunctionDefinition function){
+    public FunctionDefinition construct(FunctionDefinition data) {
         String name = Function.class.getSimpleName() + CharacterConstants.SEPARATOR_UNDERLINE + UUIDUtil.getUUIDNumberString();
-        function.setNamespace(Optional.of(function).map(v->v.getNamespace()).filter(s->StringUtils.isNotBlank(s)).orElse(PackageConstants.PAMIRS))
-                .setName(Optional.of(function).map(v->v.getName()).filter(s->StringUtils.isNotBlank(s)).orElse(name))
-                .setDisplayName(Optional.of(function).map(v->v.getDisplayName()).filter(s->StringUtils.isNotBlank(s)).orElse(name))
-                .setFun(Optional.of(function).map(v->v.getFun()).filter(s->StringUtils.isNotBlank(s)).orElse(function.getName()))
+        data.setNamespace(Optional.of(data).map(FunctionDefinition::getNamespace).filter(StringUtils::isNotBlank).orElse(PackageConstants.PAMIRS))
+                .setFun(Optional.of(data).map(FunctionDefinition::getFun).filter(StringUtils::isNotBlank).orElse(name))
+                .setName(Optional.of(data).map(FunctionDefinition::getName).filter(StringUtils::isNotBlank).orElse(data.getFun()))
+                .setDisplayName(Optional.of(data).map(FunctionDefinition::getDisplayName).filter(StringUtils::isNotBlank).orElse(data.getName()))
+                .setType(Optional.of(data).map(FunctionDefinition::getType).orElse(Lists.newArrayList(FunctionTypeEnum.UPDATE)))
         ;
-        return function;
+        return data;
     }
 
-    public String getSign(){
-        return getNamespace() + CharacterConstants.SEPARATOR_DOT + getFun();
+    public static FunctionDefinition simplify(FunctionDefinition functionDefinition) {
+        if (null == functionDefinition) {
+            return null;
+        }
+        return (FunctionDefinition) new FunctionDefinition()
+                .setName(functionDefinition.getName())
+                .setType(functionDefinition.getType())
+                .setArgumentList(simplify(functionDefinition.getArgumentList()))
+                .setReturnType(simplify(functionDefinition.getReturnType()))
+                .setSign(null);
+    }
+
+    public static List<Argument> simplify(List<Argument> argumentList) {
+        if (CollectionUtils.isEmpty(argumentList)) {
+            return null;
+        }
+        List<Argument> resultList = new ArrayList<>(argumentList.size());
+        Argument result;
+        for (Argument argument : argumentList) {
+            result = new Argument();
+            result.setName(argument.getName());
+            result.setTtype(argument.getTtype());
+            resultList.add(result);
+        }
+        return resultList;
+    }
+
+    public static Type simplify(Type type) {
+        if (null == type) {
+            return null;
+        }
+        Type result = new Argument();
+        result.setTtype(type.getTtype());
+        return result;
+    }
+
+    @JSONField(serialize = false)
+    @Override
+    public String getSignModel() {
+        return MODEL_MODEL;
+    }
+
+    @Override
+    public String stringify() {
+        return DiffUtils.stringify(this, "extPointList");
+    }
+
+    public static String sign(String namespace, String fun) {
+        return namespace + CharacterConstants.SEPARATOR_DOT + fun;
     }
 
 }

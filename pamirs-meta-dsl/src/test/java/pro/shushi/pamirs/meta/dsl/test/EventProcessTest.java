@@ -1,20 +1,18 @@
 package pro.shushi.pamirs.meta.dsl.test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
-
 import pro.shushi.pamirs.meta.dsl.definition.helper.DefinitionHelper;
 import pro.shushi.pamirs.meta.dsl.enumeration.EventExecutableStatus;
 import pro.shushi.pamirs.meta.dsl.process.EventProcess;
 import pro.shushi.pamirs.meta.dsl.process.EventProcessContext;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EventProcessTest extends TestCase{
 

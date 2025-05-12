@@ -3,15 +3,17 @@ package pro.shushi.pamirs.meta.dsl;
 import org.mvel2.MVEL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.dsl.constants.DSLDefineConstants;
 import pro.shushi.pamirs.meta.dsl.exception.MachineException;
 import pro.shushi.pamirs.meta.dsl.fun.LogicFunInvoker;
 import pro.shushi.pamirs.meta.dsl.model.Path;
 import pro.shushi.pamirs.meta.dsl.model.Process;
 import pro.shushi.pamirs.meta.dsl.model.State;
-import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.Map;
+
+import static pro.shushi.pamirs.meta.dsl.enumeration.DslExpEnumerate.BASE_MACHINE_ERROR;
 
 public class Machine {
 
@@ -87,7 +89,7 @@ public class Machine {
 			// has "exp" and "to" #=> eval exp then if true to = next else
 			// continue
 			// has "to" and "exp" == null #=> then to = next
-			logger.debug("compute next state,"+"exp:"+path.getExp()+",to:"+path.getTo()+",context:"+ JsonUtils.toJSONString(context));
+//			logger.debug("compute next state,"+"exp:"+path.getExp()+",to:"+path.getTo()+",context:"+ JsonUtils.toJSONString(context));
 			if (path.getExp() == null)
 				next = path.getTo();
 			else {
@@ -96,7 +98,7 @@ public class Machine {
 					try{
 						result = (Boolean) LogicFunInvoker.exp(path.getExp(), context);
 					}catch (Exception e){
-						throw new RuntimeException(e);
+						throw PamirsException.construct(BASE_MACHINE_ERROR, e).errThrow();
 					}
 				}else{
 					result = MVEL.evalToBoolean(path.getExp(), context);

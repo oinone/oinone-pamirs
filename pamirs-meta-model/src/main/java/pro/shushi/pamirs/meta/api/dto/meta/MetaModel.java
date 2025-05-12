@@ -2,6 +2,8 @@ package pro.shushi.pamirs.meta.api.dto.meta;
 
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 
+import java.util.Set;
+
 /**
  * 元模型
  *
@@ -13,9 +15,14 @@ import pro.shushi.pamirs.meta.annotation.fun.Data;
 public class MetaModel {
 
     /**
-     * 元模型类
+     * 元模型转换器分组
      */
-    private Class clazz;
+    private String group;
+
+    /**
+     * 进入核心计算的扫描类型
+     */
+    private Set<Class<?>> core;
 
     /**
      * 模型优先级

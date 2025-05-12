@@ -3,6 +3,7 @@ package pro.shushi.pamirs.meta.domain.module;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
+import pro.shushi.pamirs.meta.annotation.sys.MetaSimulator;
 import pro.shushi.pamirs.meta.base.BaseRelation;
 
 /**
@@ -12,10 +13,13 @@ import pro.shushi.pamirs.meta.base.BaseRelation;
  * @version 1.0.0
  * date 2020/1/1 1:11 下午
  */
+@MetaSimulator(onlyBasicTypeField = false)
 @Base
 @Model.model("base.ModuleExclusion")
-@Model(displayName = "模块互斥", summary = "模块互斥", pk = {"module", "excludeModule"}, labelFields = {"module", "excludeModule"})
+@Model(displayName = "模块互斥", summary = "模块互斥", labelFields = {"module", "excludeModule"})
 public class ModuleExclusion extends BaseRelation {
+
+    private static final long serialVersionUID = -2440195815490045315L;
 
     @Base
     @Field.many2one
@@ -24,6 +28,7 @@ public class ModuleExclusion extends BaseRelation {
     private ModuleDefinition moduleDefinition;
 
     @Base
+    @Field.PrimaryKey
     @Field(summary = "主模块编码", invisible = true)
     private String module;
 
@@ -34,6 +39,7 @@ public class ModuleExclusion extends BaseRelation {
     private ModuleDefinition excludeModuleDefinition;
 
     @Base
+    @Field.PrimaryKey(1)
     @Field(summary = "互斥模块编码", invisible = true)
     private String excludeModule;
 

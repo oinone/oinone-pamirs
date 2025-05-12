@@ -17,19 +17,34 @@ public enum SerializeEnum implements IEnum<String> {
 
     JSON("JSON", "JSON序列化", "JSON序列化"),
     COMMA("COMMA", "逗号拼接集合元素", "逗号拼接集合元素"),
-    DOT("DOT", "点拼接集合元素", "点拼接集合元素")
-    ;
+    DOT("DOT", "点拼接集合元素", "点拼接集合元素"),
+    BIT("BIT", "2次幂数求和", "2次幂数求和");
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     SerializeEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

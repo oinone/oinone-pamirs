@@ -1,11 +1,10 @@
 package pro.shushi.pamirs.meta.dsl.definition.helper;
 
+import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.meta.dsl.model.Process;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang.StringUtils;
-
-import pro.shushi.pamirs.meta.dsl.model.Process;
 
 public class ValidationHelper {
 

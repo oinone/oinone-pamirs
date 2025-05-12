@@ -20,16 +20,31 @@ public enum OnCascadeEnum implements IEnum<String> {
     CASCADE("cascade", "级联操作", "级联操作"),
     RESTRICT("restrict", "限制操作", "限制操作");
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
-    OnCascadeEnum(String  value, String displayName, String help) {
+    OnCascadeEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

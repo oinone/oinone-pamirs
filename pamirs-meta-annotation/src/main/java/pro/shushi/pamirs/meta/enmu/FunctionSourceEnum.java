@@ -16,21 +16,35 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
 public enum FunctionSourceEnum implements IEnum<String> {
 
     FUNCTION("FUNCTION", "函数", "函数"),
-    DATACONFIG("DATACONFIG", "配置文件", "配置文件"),
     ACTION("ACTION", "服务器动作", "服务器动作"),
     EXTPOINT("EXTPOINT", "扩展点", "扩展点"),
     HOOK("HOOK", "平台扩展机制", "平台扩展机制");
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
-    FunctionSourceEnum(String  value, String displayName, String help) {
+    FunctionSourceEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
 }

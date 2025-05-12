@@ -9,8 +9,16 @@ package pro.shushi.pamirs.meta.common.constants;
  */
 public interface NamespaceConstants {
 
+    String spiDefault = "default";
+
+    String spiMono = "mono";
+
     String pamirs = "pamirs";
 
     String constraint = "constraint";
+
+    String expression = "expression";
+
+    String sequence = "sequence";
 
 }

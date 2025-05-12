@@ -19,15 +19,31 @@ public enum SortDirectionEnum implements IEnum<String> {
     DESC("DESC", "降序", "降序"),
     ;
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     SortDirectionEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
     }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
+    }
+
 }

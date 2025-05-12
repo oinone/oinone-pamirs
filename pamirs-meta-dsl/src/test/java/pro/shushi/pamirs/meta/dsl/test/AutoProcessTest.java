@@ -1,15 +1,13 @@
 package pro.shushi.pamirs.meta.dsl.test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
 import org.springframework.core.io.ClassPathResource;
-
 import pro.shushi.pamirs.meta.dsl.definition.helper.DefinitionHelper;
 import pro.shushi.pamirs.meta.dsl.process.AutoProcess;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AutoProcessTest extends TestCase{
 

@@ -9,8 +9,12 @@ package pro.shushi.pamirs.meta.common.constants;
  */
 public interface ModuleConstants {
 
-    String MODULE_BASE = "pro.shushi.pamirs.base";
+    String MODULE_BASE = "base";
 
     String MODULE_BASE_NAME = "base";
+
+    String MODULE_SYSTEM = "system";
+
+    String MODULE_SYSTEM_NAME = "system";
 
 }

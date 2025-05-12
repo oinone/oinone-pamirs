@@ -18,11 +18,27 @@ public class MetaNames {
     private String module;
 
     /**
+     * 模块api名称
+     */
+    private String moduleName;
+
+    /**
+     * 模块简称
+     */
+    private String moduleAbbr;
+
+    /**
+     * 数据源
+     */
+    private String dsKey;
+
+    /**
      * 模型编码
      */
     private String model;
 
-    public void clearModel(){
+    @SuppressWarnings("unused")
+    public void clearModel() {
         this.model = null;
     }
 

@@ -1,6 +1,9 @@
 package pro.shushi.pamirs.meta.annotation;
 
+import org.springframework.core.annotation.AliasFor;
 import pro.shushi.pamirs.meta.base.Empty;
+import pro.shushi.pamirs.meta.common.constants.MetaValueConstants;
+import pro.shushi.pamirs.meta.common.constants.TableInfoDefaultValueConstants;
 import pro.shushi.pamirs.meta.enmu.*;
 
 import java.lang.annotation.*;
@@ -18,44 +21,45 @@ import java.lang.annotation.*;
 public @interface Model {
 
     // 显示名称
+    @AliasFor("displayName")
+    String value() default "";
+
+    // 显示名称
+    @AliasFor("value")
     String displayName() default "";
 
-    // 主键
-    String[] pk() default {};
-
-    // 描述摘要
+    // 简介，描述摘要
     String summary() default "";
-
-    // 模型约束-校验，校验函数
-    String[] check() default {};
-
-    // 模型约束-校验，校验表达式
-    String[] rule() default {};
 
     // 数据标题, 用于前端展示
     String[] labelFields() default {};
 
-    // 进度条字段, 默认为空
-    String progressField() default "";
+    // 数据标题格式, 默认为空
+    String label() default "";
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.TYPE})
+    @interface Ds {
+        // 数据源名
+        String value() default "";
+    }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE})
     @interface Advanced {
 
-        // 技术名称
+        // api名称
         String name() default "";
 
         // 是否是链式模型
+        @SuppressWarnings("unused")
         boolean chain() default true;
 
-        // 数据库名
-        String database() default "";
-
-        // 数据表名
+        // 逻辑数据表名
         String table() default "";
 
-        // 指定数据源类型
-        DataSourceEnum ds() default DataSourceEnum.MYSQL;
+        // 表备注，默认取简介summary
+        String remark() default "";
 
         // 索引/联合索引
         String[] index() default {};
@@ -64,7 +68,7 @@ public @interface Model {
         String[] unique() default {};
 
         // 优先级
-        long priority() default 100;
+        long priority() default MetaValueConstants.priority;
 
         // 可被管理，例如自动建表或更新表
         boolean managed() default true;
@@ -77,6 +81,9 @@ public @interface Model {
 
         // 是否是描述多对多关系的模型
         NullableBoolEnum relationship() default NullableBoolEnum.NULL;
+
+        // 支持客户端
+        boolean supportClient() default true;
 
         // 继承
         String[] inherited() default {};
@@ -94,24 +101,58 @@ public @interface Model {
 
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
-    @interface Persistence {
+    @interface MultiTable {
 
-        boolean logicDelete() default true;
+        // 多表继承父模型中的类型字段编码
+        String typeField() default "";
 
-        String logicDeleteColumn() default "is_deleted";
+    }
 
-        String logicDeleteValue() default "REPLACE(unix_timestamp(NOW(6)),'.','')";
+    // 子模型多表继承父模型
+    @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface MultiTableInherited {
 
-        String logicNotDeleteValue() default "0";
+        // 多表继承父模型中的类型字段值
+        String type() default "";
 
-        boolean optimisticLocker() default false;
+        // 冗余父模型除主键值外的数据
+        boolean redundancy() default true;
 
-        String optimisticLockerColumn() default "";
+    }
+
+    // 换表继承
+    @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface ChangeTableInherited {
 
     }
 
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
+    @interface Persistence {
+
+        boolean logicDelete() default TableInfoDefaultValueConstants.DEFAULT_LOGIC_DELETE;
+
+        String logicDeleteColumn() default TableInfoDefaultValueConstants.DEFAULT_LOGIC_DELETE_COLUMN;
+
+        String logicDeleteValue() default TableInfoDefaultValueConstants.DEFAULT_LOGIC_DELETE_VALUE;
+
+        String logicNotDeleteValue() default TableInfoDefaultValueConstants.DEFAULT_LOGIC_NOT_DELETE_VALUE;
+
+        boolean underCamel() default TableInfoDefaultValueConstants.DEFAULT_UNDER_CAMEL;
+
+        boolean capitalMode() default TableInfoDefaultValueConstants.DEFAULT_CAPITAL_MODE;
+
+        CharsetEnum charset() default CharsetEnum.UTF8MB4;
+
+        CollationEnum collate() default CollationEnum.BIN;
+
+    }
+
+    @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Inherited
     @interface Code {
 
         String sequence();
@@ -120,8 +161,19 @@ public @interface Model {
 
         String suffix() default "";
 
-        String separator() default "";
+        int size() default 16;
 
+        int step() default 1;
+
+        boolean isRandomStep() default false;
+
+        long initial() default 1000L;
+
+        String format() default "";
+
+        SystemSourceEnum source() default SystemSourceEnum.MANUAL;
+
+        TimePeriodEnum zeroingPeriod() default TimePeriodEnum.YEAR;
     }
 
     @Retention(RetentionPolicy.RUNTIME)
@@ -160,7 +212,7 @@ public @interface Model {
         java.lang.String references() default "";
 
         // 关联模型class，java模型有class可以填此项
-        Class referenceClass() default Empty.class;
+        Class<?> referenceClass() default Empty.class;
 
         // 关联模型的关联字段，关联模型的唯一索引
         java.lang.String[] referenceFields();
@@ -169,7 +221,7 @@ public @interface Model {
         int limit() default -1;
 
         // 查询每页个数
-        int pageSize() default 20;
+        long pageSize() default 20;
 
         // 模型筛选可选项每页个数
         int domainSize() default 100;
@@ -182,6 +234,26 @@ public @interface Model {
 
         // 删除关联操作
         OnCascadeEnum onDelete() default OnCascadeEnum.SET_NULL;
+
+    }
+
+    // 静态模型配置，非低代码方式
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.TYPE})
+    @interface Static {
+
+        String module() default "";
+
+        String moduleAbbr() default "";
+
+        boolean onlyBasicTypeField() default true;
+
+    }
+
+    // 无代码模型 (低无一体)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.TYPE})
+    @interface Fuse {
 
     }
 

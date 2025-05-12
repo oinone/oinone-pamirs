@@ -6,7 +6,6 @@ package pro.shushi.pamirs.meta.api.dto.meta;
  * @author d@shushi.pro
  * @version 1.0.0
  * date 2020/3/2 11:51 上午
- *
  */
 public class ExecuteContext {
 
@@ -39,7 +38,7 @@ public class ExecuteContext {
         return this;
     }
 
-    public ExecuteContext error(){
+    public ExecuteContext error() {
         this.setSuccess(Boolean.FALSE);
         return this;
     }

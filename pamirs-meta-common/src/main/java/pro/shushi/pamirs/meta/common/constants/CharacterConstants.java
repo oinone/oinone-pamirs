@@ -9,9 +9,15 @@ package pro.shushi.pamirs.meta.common.constants;
  */
 public interface CharacterConstants {
 
+    String SEPARATOR_ESCAPE_DOT = "\\.";
+
+    String SEPARATOR_ESCAPE_COMMA = "\\,";
+
     String SEPARATOR_DOT = ".";
 
     String SEPARATOR_COLON = ":";
+
+    String SEPARATOR_SEMICOLON = ";";
 
     String SEPARATOR_DOLLAR = "$";
 
@@ -35,6 +41,16 @@ public interface CharacterConstants {
 
     String SEPARATOR_ASTERISK = "*";
 
+    String SEPARATOR_SLASH = "/";
+
     String LOG_PLACEHOLDER = "{}";
+
+    String LEFT_BRACKET = "(";
+
+    String RIGHT_BRACKET = ")";
+
+    String PERCENT = "%";
+
+    String NEWLINE = "\n";
 
 }

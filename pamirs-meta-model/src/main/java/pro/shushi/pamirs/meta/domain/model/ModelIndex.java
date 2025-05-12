@@ -3,6 +3,7 @@ package pro.shushi.pamirs.meta.domain.model;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
+import pro.shushi.pamirs.meta.annotation.sys.MetaSimulator;
 import pro.shushi.pamirs.meta.base.IdModel;
 
 import java.util.List;
@@ -17,10 +18,15 @@ import static pro.shushi.pamirs.meta.annotation.Field.serialize.COMMA;
  * date 2020/1/18 2:59 下午
  */
 @Base
+@MetaSimulator(onlyBasicTypeField = false)
 @Model.Advanced(unique = {"model, fields"})
-@Model.model("base.ModelIndex")
-@Model(displayName = "模型索引", summary = "模型索引", labelFields = {"model","fields"})
+@Model.model(ModelIndex.MODEL_MODEL)
+@Model(displayName = "模型索引", summary = "模型索引", labelFields = {"model", "fields"})
 public class ModelIndex extends IdModel {
+
+    private static final long serialVersionUID = 4492620190664140370L;
+
+    public static final String MODEL_MODEL = "base.ModelIndex";
 
     @Base
     @Field.Boolean

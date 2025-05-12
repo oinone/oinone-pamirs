@@ -5,9 +5,13 @@ import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
+import pro.shushi.pamirs.meta.annotation.sys.MetaSimulator;
 import pro.shushi.pamirs.meta.base.IdModel;
+import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 
 import java.util.List;
+
+import static pro.shushi.pamirs.meta.domain.module.ModuleCategory.MODEL_MODEL;
 
 /**
  * 应用分类
@@ -16,21 +20,25 @@ import java.util.List;
  * @version 1.0.0
  * date 2020/1/18 2:59 下午
  */
+@MetaSimulator(onlyBasicTypeField = false)
 @Base
 @Model.Advanced(unique = "code")
-@Model.model("base.ModuleCategory")
+@Model.model(MODEL_MODEL)
 @Model(displayName = "应用分类", summary = "应用分类", labelFields = "name")
 public class ModuleCategory extends IdModel {
 
+    public final static String MODEL_MODEL = "base.ModuleCategory";
+    private static final long serialVersionUID = 7900744640411971993L;
+
     @Base
     @Field.many2one
-    @Field.Relation(relationFields = "code")
+    @Field.Relation(relationFields = "parentCode", referenceFields = "code")
     @Field(displayName = "父分类")
     private ModuleCategory parent;
 
     @Base
     @Field.String
-    @Field(displayName = "分类名称", unique = true, required = true)
+    @Field(displayName = "分类名称", unique = true, required = true, translate = true)
     private String name;
 
     @Base
@@ -55,6 +63,11 @@ public class ModuleCategory extends IdModel {
 
     @Base
     @Field.Boolean
+    @Field(displayName = "业务大屏是否可见", defaultValue = "true")
+    private Boolean screenVisible;
+
+    @Base
+    @Field.Boolean
     @Field(displayName = "是否高级")
     private Boolean exclusive;
 
@@ -64,12 +77,14 @@ public class ModuleCategory extends IdModel {
     @Field(displayName = "模块")
     private List<ModuleDefinition> modules;
 
+    @Function.Advanced(displayName = "初始化数据", type = FunctionTypeEnum.QUERY)
     @Function
-    public ModuleCategory construct(ModuleCategory moduleCategory){
-        if(StringUtils.isBlank(moduleCategory.getCode())){
+    public ModuleCategory construct(ModuleCategory moduleCategory) {
+        if (StringUtils.isBlank(moduleCategory.getCode())) {
             moduleCategory.setCode(moduleCategory.getId() + "");
         }
         return moduleCategory;
     }
+
 
 }
