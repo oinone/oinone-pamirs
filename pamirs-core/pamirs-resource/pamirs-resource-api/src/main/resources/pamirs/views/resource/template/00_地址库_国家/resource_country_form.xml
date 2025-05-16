@@ -1,0 +1,94 @@
+<view widget="form" name="国家form" title="国家" model="resource.ResourceCountry" type="FORM"  priority="10">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
+                type="default"/>
+        <action name="create" invisible="activeRecord.id &gt; 0" model="resource.ResourceCountry" goBack="true" validateForm="true" tag="contextFreeAction"/>
+        <action name="update" invisible="!(activeRecord.id &gt; 0)" model="resource.ResourceCountry" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="resource.ResourceCountry" data="id"/>
+            <field span="1" name="name" widget="Input" model="resource.ResourceCountry" data="name" label="国家/地区名称"
+                   required="true" pattern="/^(?!\s|-|_|\(|\))[\u4e00-\u9fa5\dA-Za-z-_\s]{1,50}$/"/>
+            <field span="1" name="phoneCode" widget="Input" model="resource.ResourceCountry" data="phoneCode"
+                   label="长途区号"/>
+            <field span="1" name="completeName" widget="Input" model="resource.ResourceCountry" data="completeName"
+                   label="国家/地区详细名称"/>
+            <field span="1" name="currency" widget="Input" model="resource.ResourceCountry" data="currency" label="币种"
+                   domain="active == 1"/>
+            <field span="1" name="code" widget="Input" model="resource.ResourceCountry" data="code" label="国家/地区编码"
+                   required="true" readonly="context.activeRecord.id"/>
+            <field span="1" name="lang" widget="Input" model="resource.ResourceCountry" data="lang" label="官方语言"/>
+            <field span="1" name="vatLabel" widget="Select" model="resource.ResourceCountry" data="vatLabel"
+                   label="消费税显示名称"/>
+            <field span="1" name="countryGroup" widget="Input" model="resource.ResourceCountry" data="countryGroup"
+                   label="所在洲"
+                   domain="code =in= (&apos;Asia&apos;,&apos;Europe&apos;,&apos;Americas&apos;,&apos;Africa&apos;,&apos;Oceania&apos;)"/>
+            <field span="1" name="flag" widget="UploadImg" model="resource.ResourceCountry" data="flag" label="国旗" optionFields="url" size="1024"/>
+        </pack>
+        <pack widget="group" title="高级属性" cols="1">
+            <field span="1" name="addrFormat" widget="TextArea" model="resource.ResourceCountry" data="addrFormat"
+                   label="地址显示格式" size="2048"/>
+        </pack>
+        <pack widget="tabs">
+            <pack widget="group" title="省/州列表" cols="1">
+                <field name="provinceList" widget="Table" model="resource.ResourceCountry" data="provinceList"
+                       label="false">
+                    <view widget="table" model="resource.ResourceProvince">
+                        <template slot="actionBar" widget="actionBar">
+                            <action allowClear="true" cancelText="取消" confirm="确认要执行动作吗？" confirmPosition="BM" confirmType="POPPER" disabled="false" enableConfirm="false" enterText="确定" invisible="false" label="创建" model="resource.ResourceProvince" name="countryCreateProvince" readonly="false" required="false" type="PRIMARY" widget="ViewAction">
+                                <template slot="default" widget="modal">
+                                    <view model="resource.ResourceProvince" type="form">
+                                        <template slot="form" widget="form">
+                                            <field name="id" invisible="true" model="resource.ResourceProvince" data="id"/>
+                                            <field name="code" widget="Input" model="resource.ResourceProvince" data="code" label="省/州编码"/>
+                                            <field name="name" widget="Input" model="resource.ResourceProvince" data="name" label="省/州名称"/>
+                                        </template>
+                                    </view>
+                                </template>
+                            </action>
+                            <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
+                        </template>
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="resource.ResourceProvince" data="id"/>
+                            <field name="code" widget="Input" model="resource.ResourceProvince" data="code" label="省/州编码"/>
+                            <field name="name" widget="Input" model="resource.ResourceProvince" data="name" label="省/州名称"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack widget="group" title="外部编码" cols="1">
+                <field name="outResourceRelationList" widget="Table" model="resource.ResourceCountry"
+                       data="outResourceRelationList" label="false">
+                    <view widget="table" model="resource.OutResourceRelation" showInlineActions="false"
+                          excluded-actions="redirectUpdatePage,redirectCreatePage">
+                        <template slot="actionBar" widget="actionBar">
+                            <action allowClear="true" cancelText="取消" confirm="确认要执行动作吗？" confirmPosition="BM" confirmType="POPPER" disabled="false" enableConfirm="false" enterText="确定" invisible="false" label="创建" model="resource.OutResourceRelation" name="countryCreateOutResourceRelation" readonly="false" required="false" type="PRIMARY" widget="ViewAction">
+                                <template slot="default" widget="modal">
+                                    <view model="resource.OutResourceRelation" type="form">
+                                        <template slot="form" widget="form">
+                                            <field data="id" invisible="true"/>
+                                            <field name="sourceType" widget="Input" model="resource.OutResourceRelation" data="sourceType" label="来源类型" independently-editable="true"/>
+                                            <field name="outCode" widget="Input" model="resource.OutResourceRelation" data="outCode" label="外部编码" independently-editable="true"/>
+                                            <field name="extra" widget="Text" model="resource.OutResourceRelation" data="extra" label="拓展字段" independently-editable="true"/>
+                                            <field name="relationCode" invisible="true" model="resource.OutResourceRelation" data="relationCode"/>
+                                        </template>
+                                    </view>
+                                </template>
+                            </action>
+                            <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
+                        </template>
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="resource.OutResourceRelation" data="id"/>
+                            <field name="sourceType" widget="Input" model="resource.OutResourceRelation" data="sourceType" label="来源类型" independently-editable="true"/>
+                            <field name="outCode" widget="Input" model="resource.OutResourceRelation" data="outCode" label="外部编码" independently-editable="true"/>
+                            <field name="extra" widget="Text" model="resource.OutResourceRelation" data="extra" label="拓展字段" independently-editable="true"/>
+                            <field name="relationCode" invisible="true" model="resource.OutResourceRelation" data="relationCode"/>
+                            <field name="model" invisible="true" model="resource.OutResourceRelation" data="model"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+        </pack>
+    </template>
+</view>

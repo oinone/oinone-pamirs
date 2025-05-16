@@ -1,0 +1,41 @@
+<view type="TABLE" title="公司列表" name="公司列表table" widget="table" model="business.PamirsCompany"
+      view-action-filter="partnerType == 'COMPANY'">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="business.PamirsCompany" displayName="创建"/>
+        <action name="delete" label="删除" model="business.PamirsCompany" displayName="删除"/>
+        <action name="internalGotoListImportDialog" label="导入" displayName="导入"/>
+        <action name="internalGotoListExportDialog" label="导出" displayName="导出"/>
+    </template>
+
+    <template slot="search">
+        <field allowClear="true" name="code" model="business.PamirsCompany" data="code" label="公司编码"/>
+        <field allowClear="true" name="name" model="business.PamirsCompany" data="name" label="公司名称"/>
+        <field allowClear="true" name="dataStatus" model="business.PamirsCompany" data="dataStatus" label="数据状态" defaultValue=""/>
+        <field allowClear="true" name="companyNature" model="business.PamirsCompany" data="companyNature" label="公司性质"/>
+        <field allowClear="true" name="creditCode" model="business.PamirsCompany" data="creditCode" label="统一社会信用代码"/>
+        <field allowClear="true" name="createDate" model="business.PamirsCompany" data="createDate" label="创建时间"/>
+        <field allowClear="true" name="writeDate" model="business.PamirsCompany" data="writeDate" label="修改时间"/>
+    </template>
+    <template  enabledTreeConfig="true" expandTreeField="code" inlineActiveCount="THREE" slot="table" treeRelationField="parent">
+        <field name="id" invisible="true" model="business.PamirsCompany" data="id"/>
+        <field name="code" model="business.PamirsCompany" data="code" label="公司编码"/>
+        <field name="name" model="business.PamirsCompany" data="name" label="公司名称"/>
+        <field name="dataStatus" model="business.PamirsCompany" data="dataStatus" label="数据状态"/>
+        <field name="parent" model="business.PamirsCompany" data="parent" label="上级公司"/>
+        <field name="parentCode" model="business.PamirsCompany" data="parentCode" label="上级公司编码"/>
+        <field name="companyNature" model="business.PamirsCompany" data="companyNature" label="公司性质"/>
+        <field name="creditCode" model="business.PamirsCompany" data="creditCode" label="统一社会信用代码"/>
+        <field name="registerAddress" model="business.PamirsCompany" data="registerAddress" label="注册地址"/>
+        <field span="1" name="logoUrl" widget="UploadImg" model="business.PamirsCompany" data="logoUrl" label="Logo"/>
+        <field name="remark" model="business.PamirsCompany" data="remark" label="备注"/>
+        <field name="createUserName" model="business.PamirsCompany" data="createUserName" label="创建人"/>
+        <field name="writeUserName" model="business.PamirsCompany" data="writeUserName" label="更新人"/>
+        <field name="createDate" model="business.PamirsCompany" data="createDate" label="创建时间"/>
+        <field name="writeDate" model="business.PamirsCompany" data="writeDate" label="修改时间"/>
+
+        <template slot="rowActions">
+            <action name="redirectUpdatePage" label="编辑" model="business.PamirsCompany" displayName="编辑"/>
+            <action name="redirectDetailPage" label="详情" model="business.PamirsCompany" displayName="详情"/>
+        </template>
+    </template>
+</view>

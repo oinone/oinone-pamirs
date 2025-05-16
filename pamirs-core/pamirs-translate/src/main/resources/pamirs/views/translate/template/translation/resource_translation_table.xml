@@ -1,0 +1,66 @@
+<view type="TABLE" title="翻译" name="translationItemTable" model="translation.TranslationItemProxy"
+      layout="translationItemTableLayout">
+
+    <template slot="search">
+        <field data="scope" label="翻译应用范围" allowClear="true"/>
+        <field data="origin" label="源术语" allowClear="true"/>
+        <field data="target" label="翻译值" allowClear="true"/>
+        <field data="lang" label="目标语言" allowClear="true" domain="code != 'zh-CN'"/>
+        <field data="state" label="激活状态" allowClear="true">
+            <options>
+                <option displayName="激活" invisible="false" name="true"/>
+                <option displayName="未激活" invisible="false" name="false"/>
+            </options>
+        </field>
+    </template>
+
+    <template enableSearch="true" colSpan="FULL" searchRemote="false" slot="tree" searchPlaceholder="请输入应用名称查询" refresh="once" checkable="true" checkboxAll="true" checkboxLabel="选择应用" autoExpandParent="true" showIcon="true">
+        <nodes>
+            <node icon="activeRecord.logo" translate="true" label="activeRecord.displayName" labelFields="displayName" model="translate.TranslationModuleProxy" search="translation.TranslationItemProxy#moduleDefinition"/>
+        </nodes>
+    </template>
+
+    <template slot="actionBar">
+        <action name="resourceResourceTranslationCreate"/>
+        <action name="refreshRemoteResource"/>
+        <action name="delete" confirm="确认要删除吗？"/>
+        <action name="active"/>
+    </template>
+
+    <template slot="table" editorMode="cell" editorTrigger="click" editorCloseTrigger="auto">
+        <field data="id" invisible="true"/>
+        <field data="moduleDefinition" label="翻译所在应用"/>
+        <field data="resLang" label="源语言"/>
+        <field data="lang" label="目标语言"/>
+        <field data="origin" label="源术语"/>
+        <field data="target" label="翻译值" editable="true"/>
+        <field data="scope" label="翻译应用范围"/>
+        <field data="writeDate" label="更新时间"/>
+        <field data="createDate" label="创建时间" invisible="true"/>
+        <field data="system" label="系统字段" invisible="true"/>
+        <field data="state" label="激活状态">
+            <options>
+                <option displayName="激活" invisible="false" name="true"/>
+                <option displayName="未激活" invisible="false" name="false"/>
+            </options>
+        </field>
+        <template slot="rowActions">
+            <action name="resourceResourceTranslationDetail" context-scope="activeRecord.scope">
+                <template slot="default" title="详情" width="MEDIUM">
+                    <template slot="footer">
+                        <action name="$$internal_GotoListTableRouter" label="关闭" type="default"/>
+                    </template>
+                </template>
+            </action>
+            <action name="resourceResourceTranslationEdit">
+                <template slot="default" title="编辑" width="MEDIUM">
+                    <template slot="footer">
+                        <action name="$$internal_GotoListTableRouter" label="关闭" type="default"/>
+                        <action name="update" label="确定" invisible="!activeRecord.id" goBack="true" validateForm="true"/>
+                    </template>
+                </template>
+            </action>
+            <action name="delete" confirm="确认要删除吗？"/>
+        </template>
+    </template>
+</view>

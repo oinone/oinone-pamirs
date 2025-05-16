@@ -1,0 +1,53 @@
+package pro.shushi.pamirs.framework.compute.system.check.field.meta;
+
+import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.framework.compute.system.check.util.CheckUtils;
+import pro.shushi.pamirs.meta.annotation.Fun;
+import pro.shushi.pamirs.meta.annotation.Function;
+import pro.shushi.pamirs.meta.api.core.compute.systems.constraint.Checker;
+import pro.shushi.pamirs.meta.api.dto.common.Message;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.constant.MetaCheckConstants;
+import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
+
+import static pro.shushi.pamirs.framework.compute.emnu.ComputeExpEnumerate.BASE_CHECK_MODULE_ABBR_ERROR;
+import static pro.shushi.pamirs.framework.compute.emnu.ComputeExpEnumerate.BASE_CHECK_MODULE_NAME_START_WITH_EN;
+import static pro.shushi.pamirs.meta.common.util.PStringUtils.startWithNumber;
+
+/**
+ * 模块简称检查
+ *
+ * @author d@shushi.pro
+ * @version 1.0.0
+ * date 2020/3/2 1:16 下午
+ */
+@Fun
+public class ModuleAbbrChecker implements Checker<String>, MetaCheckConstants {
+
+    @Function.Advanced(displayName = "校验模块简称", type = FunctionTypeEnum.QUERY)
+    @Function.fun(checkModuleAbbr)
+    @Override
+    public Boolean check(String value) {
+        if (null == value) {
+            return true;
+        }
+        if (StringUtils.isNotBlank(value)) {
+            if (startWithNumber(value)) {
+                PamirsSession.getMessageHub().msg(Message.init().error(BASE_CHECK_MODULE_NAME_START_WITH_EN).setData(value));
+                return false;
+            }
+
+            if (value.length() > 8) {
+                PamirsSession.getMessageHub().msg(Message.init().error(BASE_CHECK_MODULE_ABBR_ERROR).setData(value));
+                return false;
+            }
+
+            if (!CheckUtils.onlyLetterAndNumber(value)) {
+                PamirsSession.getMessageHub().msg(Message.init().error(BASE_CHECK_MODULE_ABBR_ERROR).setData(value));
+                return false;
+            }
+        }
+        return true;
+    }
+
+}

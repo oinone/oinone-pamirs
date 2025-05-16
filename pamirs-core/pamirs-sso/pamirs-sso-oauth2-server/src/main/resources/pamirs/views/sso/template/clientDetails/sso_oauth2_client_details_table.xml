@@ -1,0 +1,21 @@
+<view name="tableView" type="TABLE" cols="2" model="sso.SsoOauth2ClientDetails" enableSequence="false">
+    <template slot="actions">
+        <action name="saveSsoOauth2ClientDetails" priority="3" label="生成客户端密钥" model="sso.SsoOauth2ClientDetails" displayName="生成客户端密钥" tag="contextFreeAction"/>
+        <action name="deleteMultipleOrSingleIds" priority="3" label="删除" model="sso.SsoOauth2ClientDetails" displayName="删除" tag="contextFreeAction"/>
+    </template>
+    <template slot="rowActions" autoFill="true">
+        <action name="clientDetail"/>
+        <action name="clientEdit"/>
+    </template>
+    <template slot="fields">
+        <field span="1" invisible="true" priority="5" data="id" label="ID" readonly="true"/>
+        <field span="1" priority="101" data="clientId" label="应用唯一标识"/>
+        <field span="1" priority="102" data="clientSecret" label="应用唯一密钥"/>
+        <field span="1" priority="103" data="homepageUrl" label="跳转首页" invisible="true"/>
+        <field span="1" priority="200" data="createDate" label="创建时间" readonly="true"/>
+        <field span="1" priority="210" data="writeDate" label="更新时间" readonly="true"/>
+        <field span="1" priority="220" data="createUid" label="创建人ID"/>
+        <field span="1" priority="230" data="writeUid" label="更新人ID"/>
+    </template>
+    <template slot="search" autoFill="true" cols="4"/>
+</view>

@@ -1,0 +1,23 @@
+package pro.shushi.pamirs.framework.configure.inject.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * 元数据注入字段标识
+ *
+ * @author deng d@shushi.pro
+ * date 2019.04.10
+ */
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MetaFields {
+
+    String model();
+
+    // 注入配置
+    MetaField[] inject();
+
+}

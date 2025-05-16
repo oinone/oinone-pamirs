@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="demoTaskBean" class="com.taobao.pamirs.schedule.test.DemoTaskBean"/>
+	<bean id="scheduleManagerFactory" class="com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory"
+		init-method="init">
+		<property name="zkConfig">
+           <map>
+              <entry key="zkConnectString" value="localhost:2181" />
+              <entry key="rootPath" value="/schedule/demo" />
+              <entry key="zkSessionTimeout" value="60000" />
+              <entry key="userName" value="admin" />
+              <entry key="password" value="admin" />
+              <entry key="isCheckParentPath" value="true" />
+           </map>
+       </property>	
+	</bean>
+</beans>

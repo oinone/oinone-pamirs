@@ -1,0 +1,43 @@
+<view type="FORM" widget="form" title="新增应用" model="pamirs.eip.proxy.EipApplicationProxy" name="集成应用form">
+    <template slot="actions">
+        <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
+        <action name="create" label="保存" goBack="true" validateForm="true"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="1">
+            <field data="name" label="应用名称" required="true"
+                   pattern="/^[\u4E00-\u9FA5A-Za-z0-9_-]*$/" tips="支持录入中文、英文、数字、-、_"/>
+            <field data="encryptType" label="数据传输加密算法" required="true"
+                   hint="选择请求开放接口时所使用的数据加密算法，密钥可在创建后查看"/>
+            <field data="requestDecryptFunc" label="请求解密处理函数"
+                   domain="namespace == 'pamirs.eip.default.namespace' and fun =starts= 'EIP_OPEN_REQUEST_DECRYPT_PREFIX_'"/>
+            <field data="responseEncryptionFunc" label="响应加密处理函数"
+                   domain="namespace == 'pamirs.eip.default.namespace' and fun =starts= 'EIP_OPEN_RESPONSE_ENCRYPTION_PREFIX_'"/>
+            <field data="description" label="应用描述" required="true"
+                   widget="EipOpenText"
+                   placeholder="请输入当前 Key Pair 的应用描述"
+                   hint="精准明确的描述有助于后续管理 ^_^"/>
+        </pack>
+
+        <pack widget="group" title="授权API范围" cols="1">
+            <field data="openInterfaceList" widget="WorkScopeWidget"/>
+        </pack>
+
+        <pack widget="group" title="IP白名单配置" cols="1">
+            <field data="ipWhiteRespHttpCode" label="状态码" readonly="false" placeholder="被IP白名单规则限制时的响应状态码，默认403"/>
+            <field data="ipWhiteHttpResult" label="响应结果" readonly="false" placeholder="被IP白名单规则限制时的响应结果"/>
+            <field data="ipWhiteList" label="IP白名单" readonly="false" placeholder="请输入IP 或 IP网段"
+                   patternType="CUSTOM" rows="10"
+                   pattern="/^(?:(?:\d{1,3}\.){3}\d{1,3}(?:\/(?:[1-2][0-9]|3[0-2]|[0-9]))?)(?:,(?:\d{1,3}\.){3}\d{1,3}(?:\/(?:[1-2][0-9]|3[0-2]|[0-9]))?){0,499}$/"/>
+            <element borderMode="NONE" disabled="false" invisible="false" readonly="false"
+                     required="false" widget="paragraph"
+                     content="&lt;p&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0.25);&quot;&gt;多个 IP 用英文逗号分隔，无空格。&lt;/span&gt;&lt;/p&gt;
+                              &lt;p&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0.25);&quot;&gt;设置为 0.0.0.0/0 或留空表示 允许全部地址。&lt;/span&gt;&lt;/p&gt;
+                              &lt;p&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0.25);&quot;&gt;支持 IP 段，如 10.10.10.0/24。&lt;/span&gt;&lt;/p&gt;
+                              &lt;p&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0.25);&quot;&gt;最大支持配置 500 条规则。&lt;/span&gt;&lt;/p&gt;
+                              &lt;p&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0.25);&quot;&gt;暂不支持 IPv6 地址。&lt;/span&gt;&lt;/p&gt;"
+            />
+        </pack>
+
+    </template>
+</view>

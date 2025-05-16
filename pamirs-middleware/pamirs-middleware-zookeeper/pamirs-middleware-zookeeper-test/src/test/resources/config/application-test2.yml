@@ -1,0 +1,8 @@
+pamirs:
+  zookeeper:
+    enabled: true
+    zk-connect-string: 127.0.0.1:2181
+    zk-session-timeout: 60000
+    root-path: /zk/test
+    username: pamirs
+    password: pamirs

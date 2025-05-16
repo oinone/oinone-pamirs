@@ -1,0 +1,49 @@
+<view widget="table" name="货币table" operationWidth="200" title="货币" model="resource.ResourceCurrency" type="TABLE">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="resource.ResourceCurrency"/>
+        <action name="delete" label="删除" model="resource.ResourceCurrency"/>
+        <!--
+        <action name="internalGotoListImportDialog" label="导入" model="resource.ResourceCurrency"/>
+        <action name="internalGotoListExportDialog" label="导出" model="resource.ResourceCurrency"/>
+        -->
+    </template>
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情" model="resource.ResourceCurrency"/>
+        <action name="redirectUpdatePage" label="编辑" model="resource.ResourceCurrency"/>
+        <action name="active" label="激活" model="resource.ResourceCurrency"/>
+        <action name="cancel" label="取消激活" model="resource.ResourceCurrency"/>
+    </template>
+    <template slot="search" widget="search">
+        <pack gutter="24,24" widget="row">
+            <field name="name" widget="Input" model="resource.ResourceCurrency" data="name" label="名称"
+                   required="false"/>
+            <field name="symbol" model="resource.ResourceCurrency" data="symbol" label="货币符号"
+                   required="false"/>
+            <field name="position" widget="Select" model="resource.ResourceCurrency" data="position" label="符号位置"
+                   required="false"/>
+            <field name="rounding" widget="Select" model="resource.ResourceCurrency" data="rounding" label="精确方式"
+                   required="false" defaultValue=""/>
+            <field name="active" widget="Select" model="resource.ResourceCurrency" data="active" label="是否激活"
+                   required="false" defaultValue=""/>
+        </pack>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="resource.ResourceCurrency" data="id" required="false"/>
+        <field name="code" widget="Input" model="resource.ResourceCurrency" data="code" label="编码" required="false"/>
+        <field name="name" widget="Input" model="resource.ResourceCurrency" data="name" label="名称" required="false"/>
+        <field name="symbol" widget="Select" model="resource.ResourceCurrency" data="symbol" label="货币符号"
+               required="false"/>
+        <field name="position" widget="Select" model="resource.ResourceCurrency" data="position" label="符号位置"
+               required="false"/>
+        <field name="rounding" widget="Select" model="resource.ResourceCurrency" data="rounding" label="精确方式"
+               required="false"/>
+        <field name="decimalPlaces" widget="Integer" model="resource.ResourceCurrency" data="decimalPlaces" label="小数精度"
+               required="false"/>
+        <field name="currencyUnitLabel" widget="Select" model="resource.ResourceCurrency" data="currencyUnitLabel"
+               label="整数单位" required="false"/>
+        <field name="currencySubunitLabel" widget="Select" model="resource.ResourceCurrency" data="currencySubunitLabel"
+               label="小数单位" required="false"/>
+        <field name="active" widget="Select" model="resource.ResourceCurrency" data="active" label="是否激活"
+               required="false"/>
+    </template>
+</view>

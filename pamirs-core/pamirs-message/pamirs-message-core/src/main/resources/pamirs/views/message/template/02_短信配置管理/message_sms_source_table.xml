@@ -1,0 +1,42 @@
+<view widget="table" title="短信通道" name="短信通道table" type="TABLE" model="pamirs.message.SmsChannelConfig"
+      excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="pamirs.message.SmsChannelConfig" text="创建"/>
+        <action name="delete" label="删除" model="pamirs.message.SmsChannelConfig" text="删除"/>
+    </template>
+    <template slot="rowActions">
+        <action name="redirectUpdatePage" label="编辑" model="pamirs.message.SmsChannelConfig" text="编辑"/>
+        <action name="redirectDetailPage" label="详情" model="pamirs.message.SmsChannelConfig" text="详情"/>
+    </template>
+
+    <template slot="search" widget="search">
+        <pack gutter="24,24" widget="row">
+            <field allowClear="true" name="signName" widget="Input" model="pamirs.message.SmsChannelConfig" data="signName" label="名称" required="false"/>
+            <field allowClear="true" name="channel" widget="Select" model="pamirs.message.SmsChannelConfig" data="channel" label="短信通道" required="false"/>
+            <field allowClear="true" name="action" widget="Select" model="pamirs.message.SmsChannelConfig" data="action" label="发送形式" required="false"/>
+            <field allowClear="true" name="active" widget="Select" model="pamirs.message.SmsChannelConfig" data="active" label="是否激活" required="false" defaultValue=""/>
+            <field allowClear="true" name="createDate" widget="DateTimePicker" model="pamirs.message.SmsChannelConfig" data="createDate" label="创建时间" required="false"/>
+            <field allowClear="true" name="writeDate" widget="DateTimePicker" model="pamirs.message.SmsChannelConfig" data="writeDate" label="修改时间" required="false"/>
+        </pack>
+    </template>
+
+    <template slot="fields">
+        <field name="id" invisible="true" model="pamirs.message.SmsChannelConfig" data="id"/>
+        <field name="signName" widget="Input" model="pamirs.message.SmsChannelConfig" data="signName" label="名称" required="false"/>
+        <field name="channel" widget="Select" model="pamirs.message.SmsChannelConfig" data="channel" label="短信通道" required="false"/>
+        <field name="accessKeyId" widget="Input" model="pamirs.message.SmsChannelConfig" data="accessKeyId" label="Access Key" required="false"/>
+        <field name="accessKeySecret" widget="Input" model="pamirs.message.SmsChannelConfig" data="accessKeySecret" label="Access Secret" required="false"/>
+        <field name="action" widget="Select" model="pamirs.message.SmsChannelConfig" data="action" label="发送形式" required="false"/>
+        <field name="endpoint" widget="Input" model="pamirs.message.SmsChannelConfig" data="endpoint" label="发送渠道Endpoint" required="false"/>
+        <field name="regionId" widget="Input" model="pamirs.message.SmsChannelConfig" data="regionId" label="API支持的RegionID" required="false"/>
+        <field name="timeZone" widget="Input" model="pamirs.message.SmsChannelConfig" data="timeZone" label="时区" required="false"/>
+        <field name="signatureMethod" widget="Input" model="pamirs.message.SmsChannelConfig" data="signatureMethod" label="签名方式" required="false"/>
+        <field name="signatureVersion" widget="Input" model="pamirs.message.SmsChannelConfig" data="signatureVersion" label="签名算法版本" required="false"/>
+        <field name="version" widget="Input" model="pamirs.message.SmsChannelConfig" data="version" label="API的版本号" required="false"/>
+        <field name="active" widget="Select" model="pamirs.message.SmsChannelConfig" data="active" label="是否激活" required="false"/>
+        <field name="createUid" widget="UserInput" model="pamirs.message.SmsChannelConfig" data="createUid" label="创建人" required="false"/>
+        <field name="writeUid" widget="UserInput" model="pamirs.message.SmsChannelConfig" data="writeUid" label="修改人" required="false"/>
+        <field name="createDate" widget="DateTimePicker" model="pamirs.message.SmsChannelConfig" data="createDate" label="创建时间" required="false"/>
+        <field name="writeDate" widget="DateTimePicker" model="pamirs.message.SmsChannelConfig" data="writeDate" label="修改时间" required="false"/>
+    </template>
+</view>

@@ -1,0 +1,14 @@
+<view widget="detail" type="DETAIL" model="pamirs.message.MessageChannel" title="频道管理" name="频道管理detail">
+<template slot="actions">
+    <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+</template>
+<template slot="fields">
+    <pack widget="group" title="基础信息" cols="1">
+        <field name="id" invisible="true" model="pamirs.message.MessageChannel" data="id"/>
+        <field span="1" name="name" widget="Input" model="pamirs.message.MessageChannel" data="name" label="名称"/>
+        <field span="1" name="channelType" widget="Select" model="pamirs.message.MessageChannel" data="channelType" label="类型"/>
+        <field span="1" name="iconUrl" widget="UploadImg" model="pamirs.message.MessageChannel" data="iconUrl" label="图标"/>
+        <field span="1" name="openType" widget="Select" model="pamirs.message.MessageChannel" data="openType" label="开放类型"/>
+    </pack>
+</template>
+</view>

@@ -1,0 +1,31 @@
+<view widget="detail" model="resource.ResourceTax" name="税率detail" title="税率" type="DETAIL">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="resource.ResourceTax" data="id"/>
+            <field name="code" widget="Input" model="resource.ResourceTax" data="code" label="税率编码"/>
+            <field name="name" widget="Input" model="resource.ResourceTax" data="name" label="税率名称"/>
+            <field name="tax" widget="Float" model="resource.ResourceTax" data="tax" label="税率"/>
+            <field name="taxKind" widget="Select" model="resource.ResourceTax" data="taxKind" label="税种"/>
+        </pack>
+        <pack widget="tabs">
+
+            <pack widget="group" title="外部编码" cols="1">
+                <field name="outResourceRelationList" widget="Table" model="resource.ResourceTax" data="outResourceRelationList" label="false">
+                    <view widget="table" model="resource.OutResourceRelation" showInlineActions="false"
+                          excluded-actions="redirectUpdatePage,redirectCreatePage">
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="resource.OutResourceRelation" data="id"/>
+                            <field name="sourceType" widget="Input" model="resource.OutResourceRelation" data="sourceType" label="来源类型" independently-editable="true"/>
+                            <field name="outCode" widget="Input" model="resource.OutResourceRelation" data="outCode" label="外部编码" independently-editable="true"/>
+                            <field name="extra" widget="Text" model="resource.OutResourceRelation" data="extra" label="拓展字段" independently-editable="true"/>
+                            <field name="relationCode" invisible="true" model="resource.OutResourceRelation" data="relationCode"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+        </pack>
+    </template>
+</view>

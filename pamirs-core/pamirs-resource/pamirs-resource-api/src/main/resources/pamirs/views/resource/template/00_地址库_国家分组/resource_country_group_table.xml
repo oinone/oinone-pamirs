@@ -1,0 +1,20 @@
+<view widget="table" type="TABLE" model="resource.ResourceCountryGroup" title="国家分组" name="国家分组table">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建"/>
+        <action name="delete" label="删除"/>
+    </template>
+    <template slot="searchFields">
+        <field data="code"/>
+        <field data="name"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <field data="code"/>
+        <field data="name"/>
+        <field data="countryList"/>
+    </template>
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情"/>
+        <action name="redirectUpdatePage" label="编辑"/>
+    </template>
+</view>

@@ -1,0 +1,60 @@
+<view type="FORM" title="任务" name="任务form" widget="form" model="trigger.TaskActionTransientModel">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" invisible="activeRecord.id" model="trigger.TaskActionTransientModel" goBack="true" validateForm="true" tag="contextFreeAction"/>
+        <action name="update" invisible="!activeRecord.id" model="trigger.TaskActionTransientModel" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field span="1" name="id" widget="Integer" model="trigger.TaskActionTransientModel" data="id" label="任务id" readonly="true"/>
+            <field span="1" name="taskStatus" widget="Integer" model="trigger.TaskActionTransientModel" data="taskStatus" label="任务状态" readonly="true"/>
+            <field span="1" name="isTransfer" widget="Switch" model="trigger.TaskActionTransientModel" data="isTransfer" label="是否已迁移" readonly="true"/>
+            <field span="1" name="isCanceled" widget="Switch" model="trigger.TaskActionTransientModel" data="isCanceled" label="是否已取消" readonly="true"/>
+            <field span="1" name="createUid" widget="UserInput" model="trigger.TaskActionTransientModel" data="createUid" label="创建人" readonly="true"/>
+            <field span="1" name="writeUid" widget="UserInput" model="trigger.TaskActionTransientModel" data="writeUid" label="修改人" readonly="true"/>
+            <field span="1" name="createDate" widget="DateTimePicker" model="trigger.TaskActionTransientModel" data="createDate" label="创建时间" readonly="true"/>
+            <field span="1" name="writeDate" widget="DateTimePicker" model="trigger.TaskActionTransientModel" data="writeDate" label="修改时间" readonly="true"/>
+        </pack>
+        <pack widget="group" title="任务参数" cols="2">
+            <field span="1" name="technicalName" widget="Input" model="trigger.TaskActionTransientModel" data="technicalName" label="技术名称" readonly="true"/>
+            <field span="1" name="taskType" widget="Input" model="trigger.TaskActionTransientModel" data="taskType" label="任务类型"/>
+        </pack>
+        <pack widget="group" title="函数参数" cols="2">
+            <field span="1" name="interfaceName" widget="Input" model="trigger.TaskActionTransientModel" data="interfaceName" label="执行函数命名空间"/>
+            <field span="1" name="methodName" widget="Input" model="trigger.TaskActionTransientModel" data="methodName" label="执行函数名称"/>
+            <field span="1" name="version" widget="Input" model="trigger.TaskActionTransientModel" data="version" label="函数版本"/>
+            <field span="1" name="group" widget="Input" model="trigger.TaskActionTransientModel" data="group" label="函数组"/>
+            <field span="1" name="timeout" widget="Integer" model="trigger.TaskActionTransientModel" data="timeout" label="函数超时时间"/>
+            <field span="1" name="context" widget="Text" model="trigger.TaskActionTransientModel" data="context" label="任务上下文"/>
+        </pack>
+        <pack widget="group" title="控制参数" cols="2">
+            <field span="1" name="tableNum" widget="Integer" model="trigger.TaskActionTransientModel" data="tableNum" label="数据表编号" readonly="true"/>
+            <field span="1" name="bizId" widget="Integer" model="trigger.TaskActionTransientModel" data="bizId" label="业务id"/>
+            <field span="1" name="parentBizId" widget="Integer" model="trigger.TaskActionTransientModel" data="parentBizId" label="父业务id"/>
+            <field span="1" name="bizCode" widget="Input" model="trigger.TaskActionTransientModel" data="bizCode" label="业务code"/>
+            <field span="1" name="limitExecuteNumber" widget="Integer" model="trigger.TaskActionTransientModel" data="limitExecuteNumber" label="最大执行次数"/>
+            <field span="1" name="isCycle" widget="Switch" model="trigger.TaskActionTransientModel" data="isCycle" label="是否循环任务"/>
+            <field span="1" name="periodTimeValue" widget="Integer" model="trigger.TaskActionTransientModel" data="periodTimeValue" label="执行周期时间"/>
+            <field span="1" name="periodTimeUnit" widget="Integer" model="trigger.TaskActionTransientModel" data="periodTimeUnit" label="执行周期时间单位"/>
+            <field span="1" name="periodTimeAnchor" widget="Integer" model="trigger.TaskActionTransientModel" data="periodTimeAnchor" label="执行周期时间锚点"/>
+            <field span="1" name="limitRetryNumber" widget="Integer" model="trigger.TaskActionTransientModel" data="limitRetryNumber" label="最大重试次数"/>
+            <field span="1" name="nextRetryTimeValue" widget="Integer" model="trigger.TaskActionTransientModel" data="nextRetryTimeValue" label="下次重试间隔时间"/>
+            <field span="1" name="nextRetryTimeUnit" widget="Integer" model="trigger.TaskActionTransientModel" data="nextRetryTimeUnit" label="下次重试间隔时间单位"/>
+            <field span="1" name="executeNumber" widget="Integer" model="trigger.TaskActionTransientModel" data="executeNumber" label="执行次数"/>
+            <field span="1" name="nextExecuteTime" widget="DateTimePicker" model="trigger.TaskActionTransientModel" data="nextExecuteTime" label="下次执行时间"/>
+            <field span="1" name="lastExecuteTime" widget="DateTimePicker" model="trigger.TaskActionTransientModel" data="lastExecuteTime" label="最新执行时间" readonly="true"/>
+            <field span="1" name="anchorExecuteTime" widget="DateTimePicker" model="trigger.TaskActionTransientModel" data="anchorExecuteTime" label="锚定执行时间" readonly="true"/>
+            <field span="1" name="retryNumber" widget="Integer" model="trigger.TaskActionTransientModel" data="retryNumber" label="重试次数"/>
+        </pack>
+        <pack widget="group" title="环境参数" cols="2">
+            <field span="1" name="tenant" widget="Input" model="trigger.TaskActionTransientModel" data="tenant" label="租户"/>
+            <field span="1" name="env" widget="Input" model="trigger.TaskActionTransientModel" data="env" label="环境"/>
+            <field span="1" name="ownSign" widget="Input" model="trigger.TaskActionTransientModel" data="ownSign" label="所有者标记"/>
+            <field span="1" name="application" widget="Input" model="trigger.TaskActionTransientModel" data="application" label="应用名"/>
+        </pack>
+        <pack widget="group" title="日志" cols="1">
+            <field span="1" name="remark" widget="Text" model="trigger.TaskActionTransientModel" data="remark" label="备注"/>
+            <field span="1" name="errorLog" widget="Text" model="trigger.TaskActionTransientModel" data="errorLog" label="异常日志"/>
+        </pack>
+    </template>
+</view>

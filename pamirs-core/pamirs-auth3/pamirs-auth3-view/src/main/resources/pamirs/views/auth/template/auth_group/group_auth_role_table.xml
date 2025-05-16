@@ -1,0 +1,27 @@
+<view model="auth.AuthRoleProxy" name="系统权限-角色列表table" type="TABLE" title="系统权限-角色列表">
+    <template slot="search">
+        <field data="name" label="角色名称"/>
+        <field data="active" label="角色状态"/>
+        <field data="roleType" label="角色类型"/>
+        <field data="code" label="角色编码"/>
+    </template>
+    <template slot="rowActions">
+        <action name="authRoleDetail" label="角色详情">
+            <template slot="default" width="large"/>
+        </action>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <field data="permissionDataSource" invisible="true"/>
+
+        <field data="name" label="角色名称"/>
+        <field data="roleType" label="角色类型"/>
+        <field data="description" label="角色描述"/>
+        <field data="code" label="角色编码"/>
+        <field data="active" label="是否有效"/>
+        <field data="createUserName" label="创建人"/>
+        <field data="createDate" label="创建时间"/>
+        <field data="writeUserName" label="更新人"/>
+        <field data="writeDate" label="更新时间"/>
+    </template>
+</view>

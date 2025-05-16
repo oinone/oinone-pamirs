@@ -1,0 +1,8 @@
+pro.shushi.k2.fun.processor.PamirsDataProcessor
+pro.shushi.k2.fun.processor.PamirsModelProcessor
+pro.shushi.k2.fun.processor.PamirsDProcessor
+pro.shushi.k2.fun.processor.PamirsFunProcessor
+pro.shushi.k2.fun.processor.PamirsOnFaaSProcessor
+pro.shushi.k2.fun.processor.PamirsSl4jProcessor
+pro.shushi.k2.fun.processor.PamirsDictProcessor
+pro.shushi.k2.fun.processor.PamirsFuncProcessor

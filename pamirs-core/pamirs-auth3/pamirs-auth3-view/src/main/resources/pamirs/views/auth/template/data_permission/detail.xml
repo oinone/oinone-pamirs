@@ -1,0 +1,49 @@
+<view type="DETAIL" model="auth.AuthGroupDataPermissionProxy" name="AuthGroupDataPermissionDetail" title='数据权限组详情'>
+    <template slot="actions">
+        <action name="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <field data="name" invisible="true"/>
+        <pack widget="group" title="基础信息">
+            <field data="displayName" label="名称" required="true"/>
+            <field data="comment" label="描述"/>
+        </pack>
+        <pack widget="tabs">
+            <pack widget="tab" title="角色">
+                <field data="roles" widget="Table" labelInvisible="true">
+                    <view type="table">
+                        <template slot="fields">
+                            <field data="id" invisible="true"/>
+                            <field data="name" label="名称"/>
+                            <field data="code" label="编码"/>
+                            <field data="description" label="描述"/>
+                            <field data="active" label="是否激活"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack widget="tab" title="数据权限">
+                <field data="rowPermissions" widget="Table" labelInvisible="true">
+                    <view type="table">
+                        <template slot="fields">
+                            <field data="id" invisible="true"/>
+                            <field data="code" invisible="true"/>
+                            <field data="model" invisible="true"/>
+                            <field data="domainExp" invisible="true"/>
+                            <field data="domainExpJson" invisible="true"/>
+
+                            <field data="displayName" label="名称"/>
+                            <field data="description" label="描述"/>
+                            <field data="modelDefinition" label="权限模型"/>
+                            <field data="domainExpDisplayName" label="过滤条件"/>
+                            <field data="permRead" label="读权限" editable="true"/>
+                            <field data="permWrite" label="写权限" editable="true"/>
+                            <field data="permDelete" label="删除权限" editable="true"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+        </pack>
+    </template>
+</view>

@@ -1,0 +1,75 @@
+<view widget="form" model="resource.ResourceCity" name="市form" title="市" type="FORM" priority="10">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" invisible="activeRecord.id &gt; 0" model="resource.ResourceCity" goBack="true" validateForm="true" tag="contextFreeAction"/>
+        <action name="update" invisible="!(activeRecord.id &gt; 0)" model="resource.ResourceCity" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="resource.ResourceCity" data="id"/>
+            <field name="sourceType" invisible="true" model="resource.ResourceCity" data="sourceType"/>
+            <field span="1" name="code" widget="Input" model="resource.ResourceCity" data="code" label="市代码"/>
+            <field span="1" name="name" widget="Input" model="resource.ResourceCity" data="name" label="市名称"/>
+            <field span="1" name="country" widget="Select" model="resource.ResourceCity" data="country" label="国家/地区"/>
+            <field span="1" name="province" widget="Select" model="resource.ResourceCity" data="province" label="省/州"/>
+        </pack>
+        <pack widget="tabs">
+            <pack widget="group" title="区/县列表" cols="1">
+                <field name="districtList" widget="Table" model="resource.ResourceCity" data="districtList" label="false">
+                    <view widget="table" model="resource.ResourceDistrict">
+                        <template slot="actionBar" widget="actionBar">
+                            <action allowClear="true" cancelText="取消" confirm="确认要执行动作吗？" confirmPosition="BM" confirmType="POPPER" disabled="false" enableConfirm="false" enterText="确定" invisible="false" label="创建" model="resource.ResourceDistrict" name="cityCreateDirect" readonly="false" required="false" type="PRIMARY" widget="ViewAction">
+                                <template slot="default" widget="modal">
+                                    <view model="resource.ResourceDistrict" type="form">
+                                        <template slot="form" widget="form">
+                                            <field data="id" invisible="true"/>
+                                            <field name="code" widget="Input" model="resource.ResourceDistrict" data="code" label="区/县编码"/>
+                                            <field name="name" widget="Input" model="resource.ResourceDistrict" data="name" label="区/县名称"/>
+                                        </template>
+                                    </view>
+                                </template>
+                            </action>
+                            <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" model="resource.ResourceDistrict" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
+                        </template>
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="resource.ResourceDistrict" data="id"/>
+                            <field name="code" widget="Input" model="resource.ResourceDistrict" data="code" label="区/县编码"/>
+                            <field name="name" widget="Input" model="resource.ResourceDistrict" data="name" label="区/县名称"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack widget="group" title="外部编码" cols="1">
+                <field name="outResourceRelationList" widget="Table" model="resource.ResourceCity" data="outResourceRelationList" label="false">
+                    <view widget="table" model="resource.OutResourceRelation" showInlineActions="false"
+                          excluded-actions="redirectUpdatePage,redirectCreatePage">
+                        <template slot="actionBar" widget="actionBar">
+                            <action allowClear="true" cancelText="取消" confirm="确认要执行动作吗？" confirmPosition="BM" confirmType="POPPER" disabled="false" enableConfirm="false" enterText="确定" invisible="false" label="创建" model="resource.OutResourceRelation" name="cityCreateOutResourceRelation" readonly="false" required="false" type="PRIMARY" widget="ViewAction">
+                                <template slot="default" widget="modal">
+                                    <view model="resource.OutResourceRelation" type="form">
+                                        <template slot="form" widget="form">
+                                            <field data="id" invisible="true"/>
+                                            <field name="sourceType" widget="Input" model="resource.OutResourceRelation" data="sourceType" label="来源类型" independently-editable="true"/>
+                                            <field name="outCode" widget="Input" model="resource.OutResourceRelation" data="outCode" label="外部编码" independently-editable="true"/>
+                                            <field name="extra" widget="Text" model="resource.OutResourceRelation" data="extra" label="拓展字段" independently-editable="true"/>
+                                            <field name="relationCode" invisible="true" model="resource.OutResourceRelation" data="relationCode"/>
+                                        </template>
+                                    </view>
+                                </template>
+                            </action>
+                            <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" model="resource.OutResourceRelation" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
+                        </template>
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="resource.OutResourceRelation" data="id"/>
+                            <field name="sourceType" widget="Input" model="resource.OutResourceRelation" data="sourceType" label="来源类型" independently-editable="true"/>
+                            <field name="outCode" widget="Input" model="resource.OutResourceRelation" data="outCode" label="外部编码" independently-editable="true"/>
+                            <field name="extra" widget="Text" model="resource.OutResourceRelation" data="extra" label="拓展字段" independently-editable="true"/>
+                            <field name="relationCode" invisible="true" model="resource.OutResourceRelation" data="relationCode"/>
+                            <field name="model" invisible="true" model="resource.OutResourceRelation" data="model"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+        </pack>
+    </template>
+</view>

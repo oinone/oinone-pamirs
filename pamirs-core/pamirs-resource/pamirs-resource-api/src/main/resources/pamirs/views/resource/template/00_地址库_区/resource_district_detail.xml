@@ -1,0 +1,44 @@
+<view widget="detail" type="DETAIL" model="resource.ResourceDistrict" name="区detail" title="区">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="resource.ResourceDistrict" data="id"/>
+            <field name="sourceType" invisible="true" model="resource.ResourceDistrict" data="sourceType"/>
+            <field span="1" name="code" widget="Input" model="resource.ResourceDistrict" data="code" label="区/县代码"/>
+            <field span="1" name="name" widget="Input" model="resource.ResourceDistrict" data="name" label="区/县名称"/>
+            <field span="1" name="country" widget="Select" model="resource.ResourceDistrict" data="country" label="国家/地区"/>
+            <field span="1" name="province" widget="Select" model="resource.ResourceDistrict" data="province" label="省/州"/>
+            <field span="1" name="city" widget="Select" model="resource.ResourceDistrict" data="city" label="市"/>
+        </pack>
+        <pack widget="tabs">
+            <pack widget="group" title="街道列表" cols="1">
+                <field name="streetList" widget="Table" model="resource.ResourceDistrict" data="streetList" label="false">
+                    <view widget="table" model="resource.ResourceStreet">
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="resource.ResourceStreet" data="id"/>
+                            <field name="code" widget="Input" model="resource.ResourceStreet" data="code" label="街道编码"/>
+                            <field name="name" widget="Input" model="resource.ResourceStreet" data="name" label="街道名称"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack widget="group" title="外部编码" cols="1">
+                <field name="outResourceRelationList" widget="Table" model="resource.ResourceDistrict" data="outResourceRelationList" label="false">
+                    <view widget="table" model="resource.OutResourceRelation" showInlineActions="false"
+                          excluded-actions="redirectUpdatePage,redirectCreatePage">
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="resource.OutResourceRelation" data="id"/>
+                            <field name="sourceType" widget="Input" model="resource.OutResourceRelation" data="sourceType" label="来源类型" independently-editable="true"/>
+                            <field name="outCode" widget="Input" model="resource.OutResourceRelation" data="outCode" label="外部编码" independently-editable="true"/>
+                            <field name="extra" widget="Text" model="resource.OutResourceRelation" data="extra" label="拓展字段" independently-editable="true"/>
+                            <field name="relationCode" invisible="true" model="resource.OutResourceRelation" data="relationCode"/>
+                            <field name="model" invisible="true" model="resource.OutResourceRelation" data="model"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+        </pack>
+    </template>
+</view>

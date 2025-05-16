@@ -1,0 +1,37 @@
+<view type="DETAIL" model="apps.AppsManagementModule" name="apps_module_detail" title="了解更多">
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <pack title="基础信息" cols="2">
+            <field data="displayName" label="应用名称" span="1"/>
+            <field data="name" label="技术名称" span="1"/>
+            <field data="latestVersion" label="已安装版本" span="1"/>
+            <field data="state" label="状态" span="1"/>
+            <field data="platformVersion" label="最新版本" span="1"/>
+            <field data="description" label="应用描述" span="2"/>
+        </pack>
+        <pack title="依赖">
+            <field data="appsModuleDependencyList" widget="Table" labelInvisible="true">
+                <view type="table">
+                    <template slot="fields">
+                        <field data="displayName" label="应用名称"/>
+                        <field data="name" label="技术名称"/>
+                        <field data="author" label="作者"/>
+                        <field data="state" label="状态"/>
+                    </template>
+                </view>
+            </field>
+        </pack>
+        <pack title="互斥">
+            <field data="appsModuleExclusionList" widget="Table" labelInvisible="true">
+                <view type="table">
+                    <template slot="fields">
+                        <field data="displayName" label="应用名称"/>
+                        <field data="name" label="技术名称"/>
+                        <field data="author" label="作者"/>
+                        <field data="state" label="状态"/>
+                    </template>
+                </view>
+            </field>
+        </pack>
+    </template>
+</view>

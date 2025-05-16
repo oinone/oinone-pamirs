@@ -1,0 +1,33 @@
+<view model="auth.AuthRoleProxy" name="系统权限-角色详情detail" type="DETAIL" title="系统权限-角色详情">
+    <template slot="actions">
+        <action name="$$internal_DialogCancel" type="default" label="关闭"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <field data="permissionDataSource" invisible="true"/>
+
+        <pack title="基础信息" cols="2">
+            <field data="name" label="角色名称" span="1"/>
+            <field data="code" label="角色编码" span="1"/>
+            <field data="description" label="角色描述" span="2"/>
+        </pack>
+
+        <pack widget="tabs">
+            <pack widget="tab" title="管理权限">
+                <field data="groups" widget="default-tree-permission" label="false" groupType="MANAGEMENT"/>
+            </pack>
+            <pack widget="tab" title="资源权限">
+                <field data="groups" widget="default-tree-permission" label="false" groupType="RUNTIME"/>
+            </pack>
+            <pack widget="tab" title="字段权限">
+                <field data="groups" widget="default-field-permission" label="false"/>
+            </pack>
+            <pack widget="tab" title="数据权限">
+                <field data="groups" widget="default-data-permission" label="false"/>
+            </pack>
+            <pack widget="tab" title="关联用户">
+                <field data="groups" widget="default-user-permission" label="false"/>
+            </pack>
+        </pack>
+    </template>
+</view>

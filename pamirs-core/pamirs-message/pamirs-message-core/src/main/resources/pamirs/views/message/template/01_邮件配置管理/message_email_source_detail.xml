@@ -1,0 +1,21 @@
+<view widget="detail" type="DETAIL" model="pamirs.message.EmailSenderSource" title="邮件服务器" name="邮件服务器detail">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
+                type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field span="1" name="name" widget="Input" model="pamirs.message.EmailSenderSource" data="name" label="名称"/>
+            <field span="1" name="smtpUser" widget="Input" model="pamirs.message.EmailSenderSource" data="smtpUser"
+                   label="SMTP用户名"/>
+            <field span="1" name="smtpSecurity" widget="Select" model="pamirs.message.EmailSenderSource"
+                   data="smtpSecurity" label="加密类型"/>
+            <field span="1" name="smtpHost" widget="Input" model="pamirs.message.EmailSenderSource" data="smtpHost"
+                   label="SMTP服务器地址"/>
+            <field span="1" name="smtpPort" widget="Integer" model="pamirs.message.EmailSenderSource" data="smtpPort"
+                   label="SMTP服务器端口"/>
+            <field span="1" name="active" widget="Select" model="pamirs.message.EmailSenderSource" data="active"
+                   label="是否启用"/>
+        </pack>
+    </template>
+</view>

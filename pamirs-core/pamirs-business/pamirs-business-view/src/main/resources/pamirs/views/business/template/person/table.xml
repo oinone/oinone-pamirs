@@ -1,0 +1,29 @@
+<view widget="table" model="business.PamirsPerson" type="TABLE" title="个人列表" name="个人列表table">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="business.PamirsPerson" displayName="创建"/>
+        <action name="delete" label="删除" model="business.PamirsPerson" displayName="删除"/>
+    </template>
+    <template slot="rowActions">
+        <action name="redirectUpdatePage" label="编辑" model="business.PamirsPerson" displayName="编辑"/>
+        <action name="redirectDetailPage" label="详情" model="business.PamirsPerson" displayName="详情"/>
+    </template>
+    <template slot="search">
+        <field allowClear="true" name="code" model="business.PamirsPerson" data="code" label="个人编码"/>
+        <field allowClear="true" name="name" model="business.PamirsPerson" data="name" label="个人名称"/>
+        <field allowClear="true" name="dataStatus" model="business.PamirsPerson" data="dataStatus" label="数据状态" defaultValue=""/>
+        <field allowClear="true" name="createDate" model="business.PamirsPerson" data="createDate" label="创建时间"/>
+        <field allowClear="true" name="writeDate" model="business.PamirsPerson" data="writeDate" label="修改时间"/>
+    </template>
+
+    <template slot="fields">
+        <field name="id" invisible="true" model="business.PamirsPerson" data="id"/>
+        <field name="dataStatus" invisible="true" model="business.PamirsPerson" data="dataStatus"/>
+        <field name="code" model="business.PamirsPerson" data="code" label="个人编码"/>
+        <field name="name" model="business.PamirsPerson" data="name" label="个人名称"/>
+        <field name="dataStatus" model="business.PamirsPerson" data="dataStatus" label="数据状态"/>
+        <field name="createUserName" model="business.PamirsPerson" data="createUserName" label="创建人"/>
+        <field name="writeUserName" model="business.PamirsPerson" data="writeUserName" label="更新人"/>
+        <field name="createDate" model="business.PamirsPerson" data="createDate" label="创建时间"/>
+        <field name="writeDate" model="business.PamirsPerson" data="writeDate" label="修改时间"/>
+    </template>
+</view>

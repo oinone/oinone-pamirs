@@ -1,0 +1,19 @@
+<view type="TABLE" widget="table" model="pamirs.eip.EipSceneDefinitionProxy" name="场景table" excluded-actions="delete,$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
+    <template slot="rowActions">
+        <action name="dataStatusEnable" label="启用" model="pamirs.eip.EipSceneDefinitionProxy" text="启用"/>
+        <action name="dataStatusDisable" label="禁用" model="pamirs.eip.EipSceneDefinitionProxy" confirm="禁用场景后,将同时禁用场景下的所有实例，请谨慎操作" text="禁用"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="pamirs.eip.EipSceneDefinitionProxy" data="id"/>
+        <field name="name" widget="Input" model="pamirs.eip.EipSceneDefinitionProxy" data="name" label="场景名称"/>
+        <field name="sceneName" widget="Input" model="pamirs.eip.EipSceneDefinitionProxy" data="sceneName" label="场景技术名称"/>
+        <field name="dataSourceStr" widget="Input" model="pamirs.eip.EipSceneDefinitionProxy" data="dataSourceStr" label="支持的数据来源系统"/>
+        <field name="dataTargetStr" widget="Input" model="pamirs.eip.EipSceneDefinitionProxy" data="dataTargetStr" label="支持的数据接收系统"/>
+        <field name="instanceNum" widget="Integer" model="pamirs.eip.EipSceneDefinitionProxy" data="instanceNum" label="实例数量"/>
+        <field name="dataStatus" widget="Select" model="pamirs.eip.EipSceneDefinitionProxy" data="dataStatus" label="状态"/>
+        <field name="createUid" widget="UserInput" model="pamirs.eip.EipSceneDefinitionProxy" data="createUid" label="创建人" required="false"/>
+        <field name="writeUid" widget="UserInput" model="pamirs.eip.EipSceneDefinitionProxy" data="writeUid" label="修改人" required="false"/>
+        <field name="createDate" widget="DateTimePicker" model="pamirs.eip.EipSceneDefinitionProxy" data="createDate" label="创建时间" required="false"/>
+        <field name="writeDate" widget="DateTimePicker" model="pamirs.eip.EipSceneDefinitionProxy" data="writeDate" label="修改时间" required="false"/>
+    </template>
+</view>

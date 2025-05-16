@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>pro.shushi.pamirs</groupId>
+        <artifactId>pamirs</artifactId>
+        <version>6.2.0.1</version>
+    </parent>
+
+    <artifactId>pamirs-framework</artifactId>
+    <packaging>pom</packaging>
+    <version>6.2.0</version>
+
+    <properties>
+        <pamirs.framework.a.version>6.2.0</pamirs.framework.a.version>
+        <pamirs.k2.version>6.2.0</pamirs.k2.version>
+
+        <pamirs.framework.adaptor.version>6.2.0</pamirs.framework.adaptor.version>
+        <pamirs.framework.commons.version>6.2.0</pamirs.framework.commons.version>
+    </properties>
+
+    <modules>
+        <module>pamirs-framework-configure-annotation</module>
+        <module>pamirs-framework-configure-db</module>
+        <module>pamirs-framework-compute</module>
+        <module>pamirs-framework-compare</module>
+        <module>pamirs-framework-faas</module>
+        <module>pamirs-framework-orm</module>
+        <module>pamirs-framework-orm-client</module>
+        <module>pamirs-framework-orm-json</module>
+        <module>pamirs-framework-orm-xml</module>
+
+        <module>pamirs-connectors-data-api</module>
+        <module>pamirs-connectors-data-dialect</module>
+        <module>pamirs-connectors-data</module>
+        <module>pamirs-connectors-data-tx</module>
+        <module>pamirs-connectors-data-autoconfigure</module>
+        <module>pamirs-connectors-data-xa</module>
+        <module>pamirs-connectors-data-ddl</module>
+        <module>pamirs-connectors-data-infrastructure</module>
+        <module>pamirs-connectors-data-elastic-common</module>
+        <module>pamirs-connectors-data-elastic-rest</module>
+        <module>pamirs-connectors-event</module>
+        <module>pamirs-connectors-event-rocketmq</module>
+        <module>pamirs-connectors-event-kafka</module>
+        <module>pamirs-connectors-event-rabbitmq</module>
+        <module>pamirs-connectors-zookeeper</module>
+        <module>pamirs-connectors-cdn</module>
+
+        <module>pamirs-framework-session-tenant</module>
+
+        <module>pamirs-gateways-graph</module>
+        <module>pamirs-gateways-graph-java</module>
+        <module>pamirs-gateways-rsql</module>
+
+        <module>pamirs-framework-configure-printer</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>pro.shushi.pamirs</groupId>
+                <artifactId>a</artifactId>
+                <version>${pamirs.framework.a.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs</groupId>
+                <artifactId>pamirs-k2</artifactId>
+                <version>${pamirs.k2.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-common</artifactId>
+                <version>${pamirs.framework.commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-configure</artifactId>
+                <version>${pamirs.framework.commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-test</artifactId>
+                <version>${pamirs.framework.commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-sql</artifactId>
+                <version>${pamirs.framework.adaptor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-compare</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-compute</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-configure-annotation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-configure-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-faas</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-orm</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-orm-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-orm-json</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-orm-xml</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-dialect</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-tx</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-xa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-ddl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-elastic-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-elastic-jdbc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-elastic-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-data-elastic-xpack-jdbc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-event</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-event-rocketmq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-event-kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-event-rabbitmq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-zookeeper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-connectors-cdn</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-gateways-graph</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-gateways-graph-java</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-gateways-rsql</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+
+        <!-- mvel -->
+        <dependency>
+            <groupId>org.mvel</groupId>
+            <artifactId>mvel2</artifactId>
+        </dependency>
+
+        <!-- tool -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+
+        <!-- config yml -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
+
+        <!-- apache -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+
+        <!-- groovy -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
+

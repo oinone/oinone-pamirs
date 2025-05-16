@@ -1,0 +1,15 @@
+<view type="FORM" widget="form" model="pamirs.eip.EipSceneInstanceProxy" name="实例调用测试form" submit="all" >
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action label="测试" actionType="COMPOSITION" model="pamirs.eip.EipSceneInstanceProxy" displayName="测试">
+            <action name="$$internal_ValidateForm" model="pamirs.eip.EipSceneInstanceProxy"/>
+            <action name="testCall" model="pamirs.eip.EipSceneInstanceProxy"/>
+        </action>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="pamirs.eip.EipSceneInstanceProxy" data="id" required="false"/>
+        <pack widget="group" title="测试参数" cols="2">
+            <field span="2" name="instanceBody" widget="TextArea" model="pamirs.eip.EipSceneInstanceProxy" data="instanceBody" label="场景实例入参"/>
+        </pack>
+    </template>
+</view>

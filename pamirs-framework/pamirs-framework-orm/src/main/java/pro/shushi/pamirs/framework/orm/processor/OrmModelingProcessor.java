@@ -1,0 +1,32 @@
+package pro.shushi.pamirs.framework.orm.processor;
+
+import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.meta.api.Models;
+import pro.shushi.pamirs.meta.api.core.orm.template.function.ModelAfterComputeApi;
+import pro.shushi.pamirs.meta.api.core.orm.template.function.ModelBeforeComputeApi;
+import pro.shushi.pamirs.meta.api.core.orm.template.function.FieldRecursionComputeApi;
+
+/**
+ * ORM 模型化 处理器
+ *
+ * @author d@shushi.pro
+ * @version 1.0.0
+ * date 2020/2/18 6:35 下午
+ */
+@SuppressWarnings("rawtypes")
+@Component
+public class OrmModelingProcessor implements ModelBeforeComputeApi, ModelAfterComputeApi,
+        FieldRecursionComputeApi {
+
+    @Override
+    public Object before(String model, Object obj) {
+        Models.api().setModel(obj, model);
+        return obj;
+    }
+
+    @Override
+    public Object after(String model, Object obj) {
+        return obj;
+    }
+
+}

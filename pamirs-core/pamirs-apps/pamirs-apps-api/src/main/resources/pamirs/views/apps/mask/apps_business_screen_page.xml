@@ -1,0 +1,24 @@
+<mask name="apps_business_screen_page">
+    <multi-tabs />
+    <header>
+        <widget widget="app-switcher" />
+        <block>
+            <widget widget="notification" />
+            <widget widget="divider" />
+            <widget widget="language" />
+            <widget widget="divider" />
+            <widget widget="user" />
+        </block>
+    </header>
+    <container>
+<!--        <sidebar>-->
+<!--            <widget widget="nav-menu" height="100%" />-->
+<!--        </sidebar>-->
+        <content>
+<!--            <widget widget="breadcrumb" />-->
+            <block height="100%" width="100%">
+                <widget width="100%" widget="main-view"/>
+            </block>
+        </content>
+    </container>
+</mask>

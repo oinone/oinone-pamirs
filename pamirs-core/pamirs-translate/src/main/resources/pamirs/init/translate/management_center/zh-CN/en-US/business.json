@@ -1,0 +1,15 @@
+{
+  "草稿": "draft",
+  "已启用": "activated",
+  "未启用": "Not Enabled",
+  "已禁用": "disabled",
+  "个体户": "self-employed",
+  "合资": "joint venture",
+  "独资": "sole proprietorship",
+  "国有": "state-owned",
+  "私营": "private",
+  "全民所有制": "ownership by the whole people",
+  "集体所有制": "collective ownership",
+  "股份有限公司": "Co., Ltd.",
+  "有限责任公司": "limited liability company"
+}

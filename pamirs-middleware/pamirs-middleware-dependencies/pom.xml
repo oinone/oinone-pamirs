@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>pro.shushi.pamirs.middleware</groupId>
+        <artifactId>pamirs-middleware</artifactId>
+        <version>6.2.0</version>
+    </parent>
+
+    <artifactId>pamirs-middleware-dependencies</artifactId>
+    <version>6.2.0</version>
+    <packaging>pom</packaging>
+    <name>pamirs-middleware-dependencies</name>
+    <description>Pamirs Platform Middleware Dependencies</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware</groupId>
+                <artifactId>pamirs-middleware-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.zookeeper</groupId>
+                <artifactId>pamirs-middleware-zookeeper-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.zookeeper</groupId>
+                <artifactId>pamirs-middleware-zookeeper-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.canal</groupId>
+                <artifactId>pamirs-middleware-canal-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.lock</groupId>
+                <artifactId>pamirs-middleware-lock-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.lock</groupId>
+                <artifactId>pamirs-middleware-lock-zookeeper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
+                <artifactId>pamirs-middleware-tbschedule</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
+                <artifactId>pamirs-middleware-schedule-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
+                <artifactId>pamirs-middleware-schedule-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

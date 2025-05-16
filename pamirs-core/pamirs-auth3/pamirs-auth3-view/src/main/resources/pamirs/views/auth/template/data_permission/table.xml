@@ -1,0 +1,23 @@
+<view type="TABLE" model="auth.AuthGroupDataPermissionProxy" name="AuthGroupDataPermissionTable" title='数据权限组列表'>
+    <template slot="actions">
+        <action name="authGroupDataPermissionCreate"/>
+    </template>
+    <template slot="search">
+        <field data="displayName" label="名称"/>
+    </template>
+    <template slot="table" activeCount="4">
+        <field data="id" invisible="true"/>
+        <field data="displayName" label="名称"/>
+        <field data="comment" label="描述"/>
+        <field data="active" label="激活状态"/>
+        <field data="createDate"/>
+        <field data="writeDate"/>
+        <template slot="rowActions">
+            <action name="authGroupDataPermissionEdit"/>
+            <action name="authGroupDataPermissionLookup"/>
+            <action name="active"/>
+            <action name="disable"/>
+            <action name="deleteOne" confirm="删除权限组将清空关联角色的对应权限，确认删除吗？"/>
+        </template>
+    </template>
+</view>

@@ -1,0 +1,11 @@
+<view type="FORM" widget="form" model="sysSetting.GlobalAppConfigProxy" name="advanced_home_page_configuration" title="高级首页配置">
+    <template slot="actions">
+        <action name="saveAdvancedHomePage" label="确定" invisible="true"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <field data="extend" labelInvisible="true" widget="HomepageSettingFieldWidget"/>
+    </template>
+    <template slot="form" widget="AdvancedHomepageSettingWidget">
+    </template>
+</view>

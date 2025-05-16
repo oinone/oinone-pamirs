@@ -1,0 +1,11 @@
+*.iml
+*.idea
+target
+gradle
+.DS_Store
+.project
+.settings/
+.classpath
+.vscode/
+logs/
+pamirs-emtransfer/conf/

@@ -1,0 +1,24 @@
+<mask name="default">
+    <header>
+        <container name="app-panel">
+            <widget widget="logo"/>
+            <widget widget="app-finder"/>
+        </container>
+        <container name="operations">
+            <widget widget="notification"/>
+            <widget widget="divider-vertical" />
+            <widget widget="languages"/>
+            <widget widget="user-profile"/>
+        </container>
+    </header>
+    <container name="content">
+        <sidebar>
+            <widget widget="nav-menu"/>
+        </sidebar>
+        <container name="view-panel">
+            <widget widget="breadcrumb"/>
+            <widget widget="main-view" />
+        </container>
+    </container>
+    <footer/>
+</mask>

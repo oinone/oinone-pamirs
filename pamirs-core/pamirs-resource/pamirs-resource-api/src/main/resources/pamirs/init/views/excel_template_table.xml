@@ -1,0 +1,9 @@
+<view widget="table">
+    <config excluded-actions="delete,redirectUpdatePage,redirectDetailPage,$$internal_GotoListExportDialog,$$internal_GotoListImportDialog"/>
+    <field name="id" invisible="true"/>
+    <field name="activePks" invisible="true"/>
+    <field name="modelModel" label="模型" widget="Input"/>
+    <field name="templateType" label="模板类型" widget="Select"/>
+    <field name="fields" label="模板字段" widget="Input"/>
+    <field name="writeDate" label="修改时间" widget="DateTimePicker"/>
+</view>

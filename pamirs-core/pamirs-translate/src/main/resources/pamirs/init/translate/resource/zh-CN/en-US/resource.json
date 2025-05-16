@@ -1,0 +1,10 @@
+{
+  "点击上传 或 拖拽上传图标文件": "Click to upload or drag and drop to upload the icon file",
+  "仅支持上传.zip文件，且zip中 .js，.css，.json必须同时存在，.tff，.woff，.woff2文件可选；目前只支持阿里iconfont的图标文件": "Only .zip files can be uploaded, and .js, .css, and .json must coexist in the zip. .tff, .woff, and .woff2 files are optional; currently only Alibaba iconfont icon files are supported.",
+  "无匹配条件图标": "No matching criteria icon",
+  "导入开始时间": "Import start time",
+  "导入结束时间": "Import end time",
+  "未分组": "Unclassified",
+  "全部": "All",
+  "确定要删除图标吗？": "Are you sure you want to delete the icon?"
+}

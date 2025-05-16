@@ -1,0 +1,19 @@
+<view type="FORM"  widget="form" model="pamirs.eip.EipRouteDefinition" name="组合接口form" submit="all">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" invisible="activeRecord.id &gt; 0" model="pamirs.eip.EipRouteDefinition" goBack="true" validateForm="true" tag="contextFreeAction"/>
+        <action name="update" invisible="!(activeRecord.id &gt; 0)" model="pamirs.eip.EipRouteDefinition" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="pamirs.eip.EipRouteDefinition" data="id" required="false"/>
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="pamirs.eip.EipRouteDefinition" data="id" required="false"/>
+            <field name="dataStatus" invisible="true" model="pamirs.eip.EipRouteDefinition" data="dataStatus" required="false"/>
+            <field name="tenant" invisible="true" model="pamirs.eip.EipRouteDefinition" data="tenant" required="false"/>
+            <field span="1" name="name" widget="Input" model="pamirs.eip.EipRouteDefinition" data="name" label="名称" required="true"/>
+            <field span="1" name="interfaceName" widget="Input" model="pamirs.eip.EipRouteDefinition" data="interfaceName" label="技术名称" required="true"/>
+            <field span="1" name="moduleDefinition" widget="Select" model="pamirs.eip.EipRouteDefinition" data="moduleDefinition" label="所在模块" required="true"/>
+            <field span="1" name="isEnabledLog" widget="Switch" model="pamirs.eip.EipRouteDefinition" data="isEnabledLog" label="是否启用日志" required="true"/>
+        </pack>
+    </template>
+</view>

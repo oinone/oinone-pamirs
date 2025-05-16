@@ -1,0 +1,48 @@
+<view widget="table" type="TABLE" title="集成应用" model="pamirs.eip.proxy.EipApplicationProxy" name="集成应用table">
+    <template slot="search">
+        <field data="name" label="应用名称" required="false"/>
+        <field data="description" label="应用描述" required="false"/>
+        <field data="createDate" label="创建时间" required="false"/>
+        <field data="dataStatus" label="启用状态" required="false">
+            <options>
+                <option label="已启用" name="ENABLED"/>
+                <option label="已停用" name="DISABLED"/>
+            </options>
+        </field>
+    </template>
+
+    <template slot="actions">
+        <action name="EipApplicationCreate">
+            <template slot="default" width="MEDIUM"/>
+        </action>
+    </template>
+
+    <template slot="rowActions">
+        <action name="EipApplicationPrivateDetail"/>
+        <action name="EipApplicationAuth">
+            <template slot="default" width="MEDIUM"/>
+        </action>
+        <action name="dataStatusEnable" invisible="true"/>
+        <action name="dataStatusDisable" invisible="true"/>
+    </template>
+
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+
+        <field data="code" label="应用编码"/>
+        <field data="name" label="应用名称"/>
+        <field data="appKey" label="API Key"/>
+        <field data="encryptType" label="数据传输加密算法"/>
+        <field data="encryptKeyType" label="数据传输加密密钥类型"/>
+        <field data="description" label="应用描述"/>
+
+        <field data="dataStatus" label="启用状态"
+               widget="EipTableSwitchEnum"
+               tips="确认停用当前应用吗？停用后，对应开发者将无法访问授权的资源"
+               truthyValue="ENABLED" falsyValue="DISABLED"
+               truthyAction="dataStatusEnable" falsyAction="dataStatusDisable"/>
+
+        <field data="createDate" label="创建时间"/>
+        <field data="createUserName" label="创建人"/>
+    </template>
+</view>

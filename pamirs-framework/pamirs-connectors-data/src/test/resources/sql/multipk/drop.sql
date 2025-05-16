@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `test911`.`test_multi_pk`;

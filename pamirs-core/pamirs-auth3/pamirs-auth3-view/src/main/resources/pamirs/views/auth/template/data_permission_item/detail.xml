@@ -1,0 +1,24 @@
+<view type="DETAIL" model="auth.AuthRowPermissionItem" name="AuthRowPermissionItemDetail" title="数据权限项详情">
+    <template slot="actions">
+        <action name="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <field data="code" invisible="true"/>
+        <field data="model" invisible="true"/>
+        <field data="domainExpJson" invisible="true" size="8192"/>
+
+        <pack title="基础信息" cols="2">
+            <field data="displayName" required="true" readonly="activeRecord.id" span="1"/>
+            <field data="modelDefinition" label="权限模型" required="true" span="1"
+                   optionLabel="activeRecord.displayName + ' - ' + activeRecord.model"
+                   optionFields="displayName,model"
+                   searchFields="displayName,model"
+                   domain="module != 'base' and type =in= (store, proxy)"/>
+            <field data="description" span="2"/>
+        </pack>
+        <pack title="过滤条件" cols="1">
+            <field data="domainExpDisplayName" widget="DomainExpDisplayName" label="权限范围" readonly="true" help="您所拥有的当前资源数据权限，未设置则视为拥有全部数据权限"/>
+        </pack>
+    </template>
+</view>

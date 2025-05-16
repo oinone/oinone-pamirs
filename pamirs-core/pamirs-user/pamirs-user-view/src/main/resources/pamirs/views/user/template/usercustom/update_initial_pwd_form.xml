@@ -1,0 +1,10 @@
+<view type="FORM" title="修改用户初始化密码" name="修改用户初始化密码" widget="form" model="user.PamirsUser" >
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="initialPassword" model="user.PamirsUser" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="user.PamirsUser" data="id"/>
+        <field span="1" name="initialPassword" model="user.PamirsUser" data="initialPassword" label="初始密码"/>
+    </template>
+</view>

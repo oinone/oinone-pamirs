@@ -1,0 +1,104 @@
+package pro.shushi.pamirs.resource.api.enmu;
+
+import pro.shushi.pamirs.meta.annotation.Errors;
+import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
+import pro.shushi.pamirs.meta.common.enmu.IEnum;
+
+//fixme zbh 20200927 引用过多，特例枚举！！！
+@Errors(displayName = "资源模块错误枚举")
+public enum ExpEnumerate implements ExpBaseEnum, IEnum<Integer> {
+
+    /**
+     * 请手动定义业务枚举，禁用该枚举
+     *
+     * @deprecated 2.2.1
+     */
+    @Deprecated
+    BIZ_ERROR(ERROR_TYPE.BIZ_ERROR, 10023000, ""),
+    RESOURCE_MAP_DATA_SYNCHRONIZATION_IN_PROGRESS_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10023001, "地址数据同步中地址数据同步中,请稍后再试"),
+    RESOURCE_NO_DEFAULT_RESOURCE_COUNTRY(ERROR_TYPE.SYSTEM_ERROR, 10023002, "未配置默认国家"),
+    RESOURCE_NO_DEFAULT_RESOURCE_CURRENCY(ERROR_TYPE.SYSTEM_ERROR, 10023003, "未配置默认货币"),
+    RESOURCE_NO_RESOURCE_AUTO_CURRENCY_CONFIG_ERROR(ERROR_TYPE.BIZ_ERROR, 10023004, "未配置自动汇率配置"),
+    RESOURCE_NO_DEFAULT_RESOURCE_LANG(ERROR_TYPE.SYSTEM_ERROR, 10023005, "未配置默认语言"),
+    RESOURCE_NO_DEFAULT_TIME_ZONE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10023006, "未配置默认时区"),
+    RESOURCE_NO_DEFAULT_BASE_TIME_ZONE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10023007, "未配置基准时区"),
+    //region DataStatusError 20050008-20050011
+    DATA_STATUS_DRAFT_TO_ENABLED_ERROR(ERROR_TYPE.BIZ_ERROR, 10023008, "草稿状态无法启用"),
+    DATA_STATUS_DRAFT_TO_DISABLED_ERROR(ERROR_TYPE.BIZ_ERROR, 10023009, "草稿状态无法禁用"),
+    DATA_STATUS_ENABLED_TO_ENABLED_ERROR(ERROR_TYPE.BIZ_ERROR, 10023010, "已启用，无法重复操作"),
+    DATA_STATUS_DISABLED_TO_DISABLED_ERROR(ERROR_TYPE.BIZ_ERROR, 10023011, "已禁用，无法重复操作"),
+    REGION_QUERY_CODE_NO_COUNTRY_NAME(ERROR_TYPE.BIZ_ERROR, 10023012, "国家/地区未填"),
+    REGION_QUERY_CODE_INVALID_COUNTRY_NAME(ERROR_TYPE.BIZ_ERROR, 10023013, "错误的国家/地区名称"),
+    REGION_QUERY_CODE_INVALID_PROVINCE_NAME(ERROR_TYPE.BIZ_ERROR, 10023014, "错误的省名称"),
+    REGION_QUERY_CODE_INVALID_CITY_NAME(ERROR_TYPE.BIZ_ERROR, 10023015, "错误的市名称"),
+    REGION_QUERY_CODE_INVALID_DISTRICT_NAME(ERROR_TYPE.BIZ_ERROR, 10023016, "错误的县/区名称"),
+    REGION_QUERY_CODE_INVALID_STREET_NAME(ERROR_TYPE.BIZ_ERROR, 10023017, "错误的街道名称"),
+    RESOURCE_NO_DEFAULT_BASE_MAJOR_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10023018, "先配置系统基础信息"),
+    RESOURCE_CURRENCY_NOTEXIST(ERROR_TYPE.SYSTEM_ERROR, 10023019, "货币信息不存在"),
+    RESOURCE_COMPANY_CODE_ISNULL(ERROR_TYPE.SYSTEM_ERROR, 10023020, "编码是必填项"),
+    RESOURCE_COMPANY_CODE_ISEXIST(ERROR_TYPE.SYSTEM_ERROR, 10023021, "编码不允许重复"),
+    NOTFOUND_FILE_CLIEND_CONFIG(ERROR_TYPE.SYSTEM_ERROR, 10023022, "未找到文件服务器配置，刷新失败"),
+    //endregion
+    RATE_LT_ZERO(ERROR_TYPE.BIZ_ERROR, 10023023, "百分比不得小于0"),
+    RATE_GT_100(ERROR_TYPE.BIZ_ERROR, 10023024, "百分比不得大于100%"),
+    EMAIL_INVALID(ERROR_TYPE.BIZ_ERROR, 10023025, "邮件格式不正确"),
+    DELETE_ERROR(ERROR_TYPE.BIZ_ERROR, 10023026, "当前数据被使用，无法删除"),
+    /**
+     * @see pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate#SELECT_NULL
+     */
+    @Deprecated
+    SELECT_NULL(ERROR_TYPE.BIZ_ERROR, 10023027, "未选择数据行"),
+    /**
+     * @see pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate#PLEASE_REFRESH_PAGE
+     */
+    @Deprecated
+    PLEASE_REFRESH_PAGE(ERROR_TYPE.BIZ_ERROR, 10023028, "请刷新页面后重试"),
+    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10023029, "系统异常"),
+    GROUP_NAME_IS_EMPTY(ERROR_TYPE.DATA_ERROR, 10023030, "分组名称不能为空"),
+    GROUP_NAME_EXISTS(ERROR_TYPE.DATA_ERROR, 10023031, "分组名称不能重复"),
+    GROUP_NAME_TOO_LONG(ERROR_TYPE.DATA_ERROR, 10023032, "分组名称长度不能大于100"),
+    ICON_QUERY_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10023033, "图标查询失败"),
+    NON_ZIP_FILE(ERROR_TYPE.SYSTEM_ERROR, 10023034, "上传失败：无法识别此文件"),
+    FILE_NOT_EXIST(ERROR_TYPE.BIZ_ERROR, 10023035, "该路径文件不存在"),
+    RESPONSE_RESULT_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10023036, "响应结果集错误"),
+    DECOMPRESSION_FAILURE(ERROR_TYPE.SYSTEM_ERROR, 10023037, "文件解压失败"),
+    UPLOAD_FAILURE(ERROR_TYPE.SYSTEM_ERROR, 10023038, "文件上传失败"),
+    FAILED_FILE_PARSING(ERROR_TYPE.SYSTEM_ERROR, 10023039, "解压目录获取失败"),
+    FILE_STREAM_FAILURE(ERROR_TYPE.SYSTEM_ERROR, 10023040, "获取文件流失败"),
+    JSON_INVALID(ERROR_TYPE.DATA_ERROR, 10023041, "JSON文件内容不合法"),
+    NAME_IS_EMPTY(ERROR_TYPE.DATA_ERROR, 10023042, "名称不能为空"),
+    ICON_NAME_TOO_LONG(ERROR_TYPE.DATA_ERROR, 10023043, "图标名称不能超出100个字符"),
+    REMARK_NAME_TOO_LONG(ERROR_TYPE.DATA_ERROR, 10023044, "备注长度不能超过500个字符"),
+    UNGROUPED_GROUPS(ERROR_TYPE.SYSTEM_ERROR, 10023045, "不能删除未分组"),
+    OUT_OF_SIZE_LIMIT(ERROR_TYPE.SYSTEM_ERROR, 10023046, "文件大小不能超过10MB"),
+    FAILED_CREATE_DIRECTORY(ERROR_TYPE.SYSTEM_ERROR, 10023047, "创建临时目录失败"),
+    FONT_CLASS_REPEAT(ERROR_TYPE.SYSTEM_ERROR, 10023048, "目前已存在图标库前缀为“{}”的图标库“{}”，图标fontClass名称为“{}”的图标，无法上传，请至第三方图标库修改图标库前缀或图标fontclass后，再次上传"),
+    FONT_CLASS_PREFIX_REPEAT(ERROR_TYPE.SYSTEM_ERROR, 10023049, "目前已存在图标库前缀为“{}”的图标库“{}”，无法上传，请至第三方图标库修改图标库前缀后再次上传");
+
+    private ERROR_TYPE type;
+
+    private int code;
+
+    private String msg;
+
+    ExpEnumerate(ERROR_TYPE type, int code, String msg) {
+        this.type = type;
+        this.code = code;
+        this.msg = msg;
+    }
+
+    @Override
+    public ERROR_TYPE type() {
+        return type;
+    }
+
+    @Override
+    public int code() {
+        return code;
+    }
+
+    @Override
+    public String msg() {
+        return msg;
+    }
+}

@@ -1,0 +1,17 @@
+<view type="FORM" model="base.SharedPage" name="shared">
+    <template slot="actions">
+        <action name="shared" closeDialog="false" refreshData="false" updateData="true" invisible="activeRecord.linkText"/>
+        <action name="$$internal_DialogCancel" type="default" label="关闭"/>
+    </template>
+    <template slot="fields">
+        <field data="origin" invisible="true"/>
+        <field data="shareActionModel" invisible="true"/>
+        <field data="shareActionName" invisible="true"/>
+        <field data="parameters" invisible="true"/>
+        <field data="browserTitle" invisible="true"/>
+        <field data="language" invisible="true"/>
+        <field data="languageIsoCode" invisible="true"/>
+
+        <field data="linkText" label="分享链接" invisible="!activeRecord.linkText"/>
+    </template>
+</view>

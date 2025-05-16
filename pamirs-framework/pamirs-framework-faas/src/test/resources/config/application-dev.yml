@@ -1,0 +1,6 @@
+pamirs:
+  zookeeper:
+    zkConnectString: 127.0.0.1:2181
+    zkSessionTimeout: 60000
+    rootPath: /test
+    

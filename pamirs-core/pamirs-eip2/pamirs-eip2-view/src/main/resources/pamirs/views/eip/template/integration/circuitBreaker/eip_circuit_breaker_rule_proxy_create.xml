@@ -1,0 +1,35 @@
+<view type="FORM" widget="form" title="创建" model="eip.EipCircuitBreakerRuleProxy" name="熔断配置create">
+    <template slot="actions">
+        <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
+        <action name="create" label="保存" goBack="true" validateForm="true"/>
+    </template>
+    <template slot="fields">Ï
+        <field colSpan="HALF" data="ruleName" label="规则名称" required="true"
+               pattern="/^[\u4e00-\u9fa5_a-zA-Z0-9]{2,50}$/" hint="仅支持中英文、数字、下划线"/>
+        <field colSpan="HALF" data="circuitBreakerType" label="熔断类型" required="true" defaultValue="SLOW_CALL"
+               clearFields="slowCallResponseTime,circuitBreakerDuration,failureRateThreshold">
+            <options>
+                <option label="慢调用熔断" name="SLOW_CALL"/>
+                <option label="异常熔断" name="EXCEPTION"/>
+            </options>
+        </field>
+        <field colSpan="HALF" data="integrationInterfaceList" label="集成接口" widget="table" rows="10" required="true"
+               domain="circuitBreakerRuleCode =isnull=true or circuitBreakerRuleCode == ${activeRecord.code}"/>
+        <field colSpan="HALF" data="statisticalDuration" label="统计时长" required="true" showSuffix="true" suffix="s"
+               suffixStore="false" suffixText="s" suffixType="TEXT" defaultValue="300" min="1" max="7200"/>
+        <field colSpan="HALF" data="minRequestCount" label="最小请求数目" required="true" min="1"/>
+        <field colSpan="HALF" data="slowCallThreshold" label="熔断比例阈值" required="true" showSuffix="true" suffix="%"
+               suffixStore="false" suffixText="%" suffixType="TEXT" placeholder="慢调用熔断比例阈值" min="1" max="100"
+               invisible="activeRecord.circuitBreakerType != 'SLOW_CALL'"/>
+        <field colSpan="HALF" data="failureRateThreshold" label="熔断比例阈值" required="true" showSuffix="true" suffix="%"
+               suffixStore="false" suffixText="%" suffixType="TEXT" placeholder="异常熔断比例阈值" min="1" max="100"
+               invisible="activeRecord.circuitBreakerType != 'EXCEPTION'"/>
+        <field colSpan="HALF" data="circuitBreakerDuration" label="熔断时长" required="true" showSuffix="true"
+               suffix="s" suffixStore="false" suffixText="s" suffixType="TEXT" min="1" defaultValue="60"/>
+        <field colSpan="HALF" data="slowCallResponseTime" label="慢调用判定阈值" required="true" showSuffix="true"
+               suffix="ms" suffixStore="false" suffixText="ms" suffixType="TEXT"
+               invisible="activeRecord.circuitBreakerType != 'SLOW_CALL'"/>
+        <field colSpan="HALF" data="recoveryStrategy" label="熔断恢复策略" readonly="true" required="true"
+               defaultValue="SINGLE_PROBE"/>
+    </template>
+</view>

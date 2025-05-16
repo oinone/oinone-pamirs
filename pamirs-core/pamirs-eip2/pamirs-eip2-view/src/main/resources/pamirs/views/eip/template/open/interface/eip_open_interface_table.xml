@@ -1,0 +1,61 @@
+<view type="TABLE" widget="table" title="开放接口" model="pamirs.eip.EipOpenInterface" name="开放接口table">
+    <template slot="search">
+        <field data="connGroup" label="业务域" required="false"/>
+        <field data="name" label="API名称" required="false"/>
+        <field data="dataStatus" label="启用状态" required="false">
+            <options>
+                <option label="已启用" name="ENABLED"/>
+                <option label="已停用" name="DISABLED"/>
+            </options>
+        </field>
+    </template>
+
+    <template slot="rowActions" invisible="true">
+        <action name="dataStatusEnable" invisible="true"/>
+        <action name="dataStatusDisable" invisible="true"/>
+        <action name="ignoreLogFrequency" invisible="true"/>
+        <action name="cancelIgnoreLogFrequency" invisible="true"/>
+    </template>
+
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <field data="isDBManaged" invisible="true"/>
+
+        <field data="connGroup" label="业务域"/>
+        <field data="name" label="API名称"/>
+        <field data="uri" label="API路径"/>
+        <field data="interfaceName" label="技术名称"/>
+
+        <field data="moduleDefinition" label="所属模块"/>
+        <field data="isEnabledLog" label="是否启用日志"/>
+
+        <field data="createDate" label="创建时间"/>
+        <field data="writeDate" label="更新时间"/>
+        <field data="createUserName" label="创建人"/>
+
+        <field data="dataStatus" label="启用状态"
+               widget="EipTableSwitchEnum"
+               tips="确认停用当前接口吗？停用后，对应开发者将无法访问授权的资源"
+               disabled="!context.activeRecord.isDBManaged"
+               truthyValue="ENABLED" falsyValue="DISABLED"
+               truthyAction="dataStatusEnable" falsyAction="dataStatusDisable"/>
+
+        <field data="isIgnoreLogFrequency" label="忽略日志频率配置"
+               widget="Switch"
+               truthyValue="true" falsyValue="false"
+               tips="停用后日志内容不再全量记录，将会受到日志频率限制管控"
+               truthyAction="ignoreLogFrequency" falsyAction="cancelIgnoreLogFrequency"/>
+
+        <field data="callCount" label="调用总次数"/>
+        <field data="successCallCount" label="成功次数"/>
+        <field data="failCallCount" label="失败次数"/>
+        <field data="ultraFastCall" label="&lt;100ms"/>
+        <field data="veryFastCall" label="100-300ms"/>
+        <field data="fastCall" label="300-500ms"/>
+        <field data="moderateCall" label="500-1000ms"/>
+        <field data="slowCall" label="1s-3s"/>
+        <field data="verySlowCall" label="3s-8s"/>
+        <field data="slowestCall" label="8s-30s"/>
+        <field data="timeoutCall" label="&gt;30s"/>
+    </template>
+</view>

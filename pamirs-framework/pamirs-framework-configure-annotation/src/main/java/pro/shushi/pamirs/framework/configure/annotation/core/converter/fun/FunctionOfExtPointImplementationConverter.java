@@ -1,0 +1,110 @@
+package pro.shushi.pamirs.framework.configure.annotation.core.converter.fun;
+
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.meta.annotation.ExtPoint;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
+import pro.shushi.pamirs.meta.api.dto.common.Result;
+import pro.shushi.pamirs.meta.api.dto.meta.ExecuteContext;
+import pro.shushi.pamirs.meta.api.dto.meta.MetaNames;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
+import pro.shushi.pamirs.meta.enmu.*;
+import pro.shushi.pamirs.meta.util.ExtNamespaceAndNameUtils;
+import pro.shushi.pamirs.meta.util.FunctionUtils;
+import pro.shushi.pamirs.meta.util.NamespaceAndFunUtils;
+import pro.shushi.pamirs.meta.util.SystemSourceUtils;
+
+import java.lang.reflect.Method;
+import java.text.MessageFormat;
+
+import static pro.shushi.pamirs.framework.configure.annotation.emnu.AnnotationExpEnumerate.BASE_EXT_POINT_FUN_CONFLICT_ERROR;
+
+/**
+ * 扩展点实例函数注解转化器
+ *
+ * @author d@shushi.pro
+ * @version 1.0.0
+ * date 2020/1/18 2:59 下午
+ */
+@SuppressWarnings({"rawtypes", "unused"})
+@Slf4j
+@Component
+public class FunctionOfExtPointImplementationConverter implements ModelConverter<FunctionDefinition, Method> {
+
+    @Override
+    public int priority() {
+        return 1;
+    }
+
+    @Override
+    public Result validate(ExecuteContext context, MetaNames names, Method source) {
+        // 可以在这里进行注解配置建议
+        Result result = new Result();
+        ExtPoint.Implement extPointAnnotation = AnnotationUtils.getAnnotation(source, ExtPoint.Implement.class);
+        if (null == extPointAnnotation) {
+            return result.error();
+        }
+        return result;
+    }
+
+    @Override
+    public FunctionDefinition convert(MetaNames names, Method method, FunctionDefinition function) {
+        ExtPoint.Implement extPointImplementAnnotation = AnnotationUtils.getAnnotation(method, ExtPoint.Implement.class);
+        String executeNamespace = NamespaceAndFunUtils.namespace(method);
+        String fun = NamespaceAndFunUtils.fun(method);
+        if (StringUtils.isNotBlank(function.getClazz()) && StringUtils.isNotBlank(function.getMethod())
+                && !method.getDeclaringClass().getName().equals(function.getClazz()) && !method.getName().equals(function.getMethod())) {
+            throw PamirsException.construct(BASE_EXT_POINT_FUN_CONFLICT_ERROR)
+                    .appendMsg(MessageFormat.format("扩展点实例函数编码冲突，请使用@Function.fun注解修改函数编码解决冲突，class:{0}，method:{1}", method.getDeclaringClass().getName(), method.getName())).errThrow();
+        }
+        String name = ExtNamespaceAndNameUtils.name(method);
+        NamespaceAndFunUtils.fillBeanName(method, function);
+        SystemSourceEnum systemSource = SystemSourceUtils.fetch(method);
+        assert extPointImplementAnnotation != null;
+        function.setDisplayName(extPointImplementAnnotation.displayName())
+                .setModule(names.getModule())
+                .setNamespace(executeNamespace)
+                .setFun(fun)
+                .setName(name)
+                .setType(Lists.newArrayList(FunctionTypeEnum.UPDATE))
+                .setLanguage(FunctionLanguageEnum.JAVA)
+                .setCategory(FunctionCategoryEnum.OTHER)
+                .setSource(FunctionSourceEnum.EXTPOINT)
+                .setOpenLevel(Lists.newArrayList(FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE))
+                .setDataManager(false)
+                .setDescription(extPointImplementAnnotation.summary())
+                .setClazz(method.getDeclaringClass().getName())
+                .setMethod(method.getName())
+                .setArgumentList(FunctionUtils.convertArgumentList(method))
+                .setReturnType(FunctionUtils.convertReturnType(method))
+                .setSystemSource(systemSource)
+        ;
+        return function;
+    }
+
+    @Override
+    public String sign(MetaNames names, Method source) {
+        String namespace = NamespaceAndFunUtils.namespace(source);
+        String fun = NamespaceAndFunUtils.fun(source);
+        if (StringUtils.isBlank(namespace) || StringUtils.isBlank(fun)) {
+            return null;
+        }
+        return namespace + CharacterConstants.SEPARATOR_DOT + fun;
+    }
+
+    @Override
+    public String group() {
+        return FunctionDefinition.MODEL_MODEL;
+    }
+
+    @Override
+    public Class<?> metaModelClazz() {
+        return FunctionDefinition.class;
+    }
+
+}

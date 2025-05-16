@@ -1,0 +1,57 @@
+<view model="translation.TranslationItemExportProxy" type="form" name="translationItemExport">
+    <template colSpan="FULL" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" slot="form">
+        <element widget="actionBar">
+            <action name="export" label="导出文件" />
+        </element>
+        <pack colSpan="FULL" cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="选项页" widget="containers">
+            <pack widget="row">
+                <pack widget="container">
+                    <field allowClear="true" colSpan="FULL" defaultValue="ALL" constructSubmitType="CURRENT" data="isTranslate" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="false" justifyContent="START" label="是否已翻译" labelInvisible="false" optionType="数据字典" orientation="TRANSVERSE" placeholder="请选择是否已翻译" prefixStore="false" prefixType="TEXT" readonly="false" required="true" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" widget="Select">
+                        <options>
+                            <option displayName="全部" invisible="false" label="全部" name="ALL"/>
+                            <option displayName="已翻译" invisible="false" label="已翻译" name="TRANSLATED"/>
+                            <option displayName="未翻译" invisible="false" label="未翻译" name="NOT_TRANSLATED"/>
+                        </options>
+                    </field>
+                </pack>
+                <pack cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" span="12" title="容器" widget="container" widthType="MANUAL">
+                    <field allowClear="true" colSpan="FULL" constructSubmitType="CURRENT" data="moduleDefinition" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" hint="导出全部应用可能会因为数据过多耗时较长，推荐按照源术语所属应用进行导出;" independentlyEditable="false" invisible="false" justifyContent="START" label="源术语所属应用" labelInvisible="false" maxLength="1024" optionFields="displayName" optionLabel="activeRecord.displayName" optionType="关联模型字段" orientation="TRANSVERSE" placeholder="请选择源术语所属应用" prefixStore="false" prefixType="TEXT" readonly="false" required="false" searchFields="displayName" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" widget="Select"/>
+                </pack>
+            </pack>
+        </pack>
+        <pack colSpan="FULL" cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="选项页" widget="containers">
+            <pack widget="row">
+                <pack cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="容器" widget="container" widthType="FULL">
+                    <field allowClear="true" colSpan="FULL" constructSubmitType="CURRENT" data="state" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="false" justifyContent="START" label="是否激活" labelInvisible="false" optionType="数据字典" orientation="TRANSVERSE" placeholder="请选择是否激活" prefixStore="false" prefixType="TEXT" readonly="false" required="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" widget="Select"></field>
+                </pack>
+                <pack widget="container">
+                    <field allowClear="true" colSpan="FULL" constructSubmitType="CURRENT" data="lang" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="activeRecord.isTranslate == 'NOT_TRANSLATED'" justifyContent="START" label="目标语言" labelInvisible="false" maxLength="1024" optionFields="name" optionLabel="activeRecord.name" optionType="关联模型字段" orientation="TRANSVERSE" placeholder="请选择目标语言" prefixStore="false" prefixType="TEXT" readonly="false" required="false" searchFields="name" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" validator="" widget="Select"/>
+                </pack>
+            </pack>
+        </pack>
+        <pack colSpan="FULL" cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="选项页" widget="containers">
+            <pack widget="row">
+                <pack cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="容器" widget="container" widthType="FULL">
+                    <pack colSpan="FULL" cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="选项页" widget="containers">
+                        <pack widget="row">
+                            <pack cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" widget="container" widthType="FULL">
+                                <field allowClear="true" colSpan="HALF" constructSubmitType="CURRENT"  data="scope" disabled="false"  invisible="activeRecord.isTranslate == 'NOT_TRANSLATED'" justifyContent="START" label="翻译应用范围" labelInvisible="false" limit="-1" maxLength="128" optionType="数据字典" orientation="TRANSVERSE" placeholder="请选择" prefixStore="false" prefixType="TEXT" readonly="false" required="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" widget="Select">
+                                    <options>
+                                        <option displayName="源术语所在应用" invisible="false" label="源术语所在应用" name="MODULE"/>
+                                        <option displayName="全局" invisible="false" label="全局" name="GLOBAL"/>
+                                    </options>
+                                </field>
+                                <field allowClear="true" colSpan="HALF" constructSubmitType="CURRENT" data="resLangInclude" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="false" justifyContent="START" label="源术语包含" labelInvisible="false" maxLength="1024" orientation="TRANSVERSE" patternType="NONE" placeholder="输入包含项包含模糊匹配" prefixStore="false" prefixType="TEXT" readonly="false" required="false" showCount="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" type="TEXT" widget="Input"/>
+                            </pack>
+                            <pack cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="容器" widget="container" widthType="FULL">
+                                <field allowClear="true" colSpan="HALF" constructSubmitType="CURRENT" data="targetInclude" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="activeRecord.isTranslate == 'NOT_TRANSLATED'" justifyContent="START" label="翻译值包含" labelInvisible="false" maxLength="1024" orientation="TRANSVERSE" patternType="NONE" placeholder="请输入翻译包含项模糊匹配" prefixStore="false" prefixType="TEXT" readonly="false" required="false" showCount="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" type="TEXT" widget="Input"/>
+                            </pack>
+                        </pack>
+                    </pack>
+                </pack>
+            </pack>
+        </pack>
+        <field data="id" invisible="true"/>
+    </template>
+</view>
+

@@ -1,0 +1,21 @@
+<view type="FORM" title="修改初始密码" name="modify_initial_pwd_view" widget="form" model="user.PamirsUserTransient" excluded-actions="redirectCreatePage,$$internal_GotoListImportDialog,$$internal_GotoListExportDialog,modify_pwd_view_action" pagePath="page/modify_initial_pwd_page.xml">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="modifyCurrentUserPassword" label="确定" model="user.PamirsUserTransient" goBack="true" validateForm="true" text="确定"/>
+        <action name="redirectDetailPage" label="详情" model="user.PamirsUserTransient" text="详情"/>
+        <action name="redirectUpdatePage" label="编辑" model="user.PamirsUserTransient" text="编辑"/>
+        <action name="dataStatusEnable" label="启用" model="user.PamirsUserTransient" text="启用"/>
+        <action name="dataStatusDisable" label="禁用" model="user.PamirsUserTransient" text="禁用"/>
+        <action name="用户角色授权dialog" label="角色授权" model="user.PamirsUserTransient" construct-param-fields="tags" text="角色授权"/>
+        <action name="用户设置新密码dialog" label="设置新密码" model="user.PamirsUserTransient" construct-param-fields="tags" text="设置新密码"/>
+        <action name="delete" label="删除" model="user.PamirsUserTransient" text="删除"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group">
+            <field name="rawPassword" model="user.PamirsUserTransient" data="rawPassword" required="true" type="PASSWORD" crypto="true"/>
+            <field name="password" model="user.PamirsUserTransient" data="password" required="true" type="PASSWORD" crypto="true"/>
+            <field name="confirmPassword" model="user.PamirsUserTransient" data="confirmPassword" required="true" value-same-as="password" type="PASSWORD" crypto="true"/>
+            <field name="picCode" widget="VerificationCode" model="user.PamirsUserTransient" data="picCode" label="图片验证码" required="true" picCodeScene="modify_pwd_pic_code"/>
+        </pack>
+    </template>
+</view>

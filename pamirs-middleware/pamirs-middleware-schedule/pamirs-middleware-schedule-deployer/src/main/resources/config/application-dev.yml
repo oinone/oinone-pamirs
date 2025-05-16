@@ -1,0 +1,28 @@
+server:
+  port: 10013
+
+spring:
+  profiles: dev
+
+logging:
+  level:
+    root: info
+    pro.shushi.pamirs.middleware.schedule.deployer.dao.mapper.ScheduleItemMapper: debug
+    pro.shushi.pamirs.middleware.schedule.deployer.dao.mapper.ScheduleItemTruncateMapper: debug
+
+pamirs:
+  middleware:
+    data-source:
+      jdbc-url: jdbc:mysql://localhost:3306/pamirs_schedule?useUnicode=true&characterEncoding=utf-8&verifyServerCertificate=false&useSSL=false&requireSSL=false
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: shushi@2019
+  zookeeper:
+    zkConnectString: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183
+    rootPath: /shushi_tbschedule
+  event:
+    schedule:
+      enabled: true
+      ownSign: PAMIRS
+      auto-init: true
+      auto-create-config-file: true

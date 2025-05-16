@@ -1,0 +1,8 @@
+server:
+  port: 10014
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: canal-server

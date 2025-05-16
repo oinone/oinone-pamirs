@@ -1,0 +1,41 @@
+<view widget="form" model="resource.ResourceProvince" title="省" name="省关键字设置form" type="FORM"  priority="100">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
+                type="default"/>
+        <action name="update" label="确定" invisible="!(activeRecord.id &gt; 0)" model="resource.ResourceProvince" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="resource.ResourceProvince" data="id"/>
+        <field name="code" invisible="true" model="resource.ResourceProvince" data="code"/>
+        <field name="name" model="resource.ResourceProvince" data="name" label="省/州" readonly="true"/>
+        <field name="mappingList" widget="Table" model="resource.ResourceProvince" data="mappingList" label="关键字">
+            <view widget="table" model="resource.ResourceRegionMapping" showInlineActions="false">
+                <template slot="actionBar" widget="actionBar">
+                    <action allowClear="true" cancelText="取消" confirm="确认要执行动作吗？" confirmPosition="BM" confirmType="POPPER" disabled="false" enableConfirm="false" enterText="确定" invisible="false" label="创建" model="resource.ResourceRegionMapping" name="provinceCreateResourceRegionMapping" readonly="false" required="false" type="PRIMARY" widget="ViewAction">
+                        <template slot="default" widget="modal">
+                            <view model="resource.ResourceRegionMapping" type="form">
+                                <template slot="form" widget="form">
+                                    <field data="id" invisible="true"/>
+                                    <field name="keywords" model="resource.ResourceRegionMapping" data="keywords" label="关键字"/>
+                                </template>
+                            </view>
+                        </template>
+                    </action>
+                    <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
+                </template>
+                <template slot="fields">
+                    <field name="id" invisible="true" model="resource.ResourceRegionMapping" data="id"
+                           required="false"/>
+                    <field name="keywords" model="resource.ResourceRegionMapping" data="keywords" label="关键字"/>
+                </template>
+            </view>
+            <view widget="dialog-form" model="resource.ResourceRegionMapping">
+                <template slot="fields">
+                    <field name="id" invisible="true" model="resource.ResourceRegionMapping" data="id"
+                           required="false"/>
+                    <field name="keywords" model="resource.ResourceRegionMapping" data="keywords" label="关键字"/>
+                </template>
+            </view>
+        </field>
+    </template>
+</view>

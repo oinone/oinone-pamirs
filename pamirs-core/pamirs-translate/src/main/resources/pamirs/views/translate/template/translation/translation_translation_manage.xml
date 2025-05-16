@@ -1,0 +1,30 @@
+<view type="form" title="翻译" model="resource.ResourceTranslation" name="translationManage"
+      layout="translationManageLayout">
+    <template slot="translationManagementCenter">
+        <pack widget="MultiViewTabs" tabPosition="top" tabAlign="center">
+            <pack widget="MultiViewTab" title="翻译管理" viewModel="translation.TranslationItemProxy" viewName="translationItemTable" type="TABLE"/>
+            <pack widget="MultiViewTab" title="导入翻译文件" viewModel="translation.TranslationItemImport" viewName="translationImport" type="form"/>
+            <pack widget="MultiViewTab" title="导出文件" viewModel="translation.TranslationItemExportProxy" viewName="translationItemExport" type="form"/>
+            <pack widget="MultiViewTab" title="更改翻译项" viewModel="translation.TranslationItemChange" viewName="translationUpdate" type="form"/>
+        </pack>
+    </template>
+
+    <template slot="actions">
+        <!--翻译管理-->
+        <action name="resourceResourceTranslationCreate" model="translation.TranslationItemProxy"/>
+        <action name="refreshRemoteResource" model="translation.TranslationItemProxy"/>
+        <action name="delete" model="translation.TranslationItemProxy"/>
+        <action name="active" model="translation.TranslationItemProxy"/>
+        <action name="resourceResourceTranslationDetail" model="translation.TranslationItemProxy"/>
+        <action name="resourceResourceTranslationEdit" model="translation.TranslationItemProxy"/>
+
+        <!--导入翻译文件-->
+        <action name="importTranslation" label="批量导入翻译文件" model="translation.TranslationItemImport"/>
+
+        <!--导出翻译文件-->
+        <action name="export" label="导出文件" model="translation.TranslationItemExportProxy"/>
+
+        <!--更改翻译文件-->
+        <action name="importTranslationChange" model="translation.TranslationItemChange" label="批量导入更改翻译文件"/>
+    </template>
+</view>

@@ -1,0 +1,52 @@
+server:
+  address: 0.0.0.0
+  port: 8091
+  sessionTimeout: 3600
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: libra-boot
+
+pamirs:
+  default:
+    environment-check: true
+    tenant-check: true
+
+---
+spring:
+  profiles: local
+  cloud:
+    config:
+      enabled: false
+      uri: http://127.0.0.1:7001
+      label: master
+      profile: local
+    nacos:
+      server-addr: http://127.0.0.1:8848
+      discovery:
+        enabled: false
+        namespace:
+        prefix: application
+        file-extension: yml
+      config:
+        enabled: false
+        namespace:
+        prefix: application
+        file-extension: yml
+  dubbo:
+    application:
+      name: ${spring.application.name}
+      version: 1.0.0
+    registry:
+      address: zookeeper://127.0.0.1:2181
+    protocol:
+      name: dubbo
+      port: -1
+    scan:
+      base-packages: pro.shushi
+    cloud:
+      subscribed-services:
+    metadata-report:
+      address: ${dubbo.registry.address}

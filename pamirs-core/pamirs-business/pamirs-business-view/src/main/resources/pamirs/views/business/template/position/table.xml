@@ -1,0 +1,41 @@
+<view type="TABLE" title="岗位列表" name="岗位列表table" widget="table" model="business.PamirsPosition">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" displayName="创建"/>
+        <action name="delete" label="删除" displayName="删除"/>
+        <action name="internalGotoListImportDialog" label="导入" displayName="导入"/>
+        <action name="internalGotoListExportDialog" label="导出" displayName="导出"/>
+    </template>
+
+
+    <template slot="search">
+        <field allowClear="true" name="code" data="code" label="岗位编码"/>
+        <field allowClear="true" name="name" data="name" label="岗位名称"/>
+        <field allowClear="true" name="dataStatus" data="dataStatus" label="数据状态" defaultValue=""/>
+        <field allowClear="true" name="company" data="company" label="所属公司"/>
+        <field allowClear="true" name="department" data="department" label="所属部门"/>
+        <field allowClear="true" name="parent" data="parent" label="直属岗位"/>
+        <field allowClear="true" name="createDate" data="createDate" label="创建时间"/>
+    </template>
+
+    <template  enabledTreeConfig="true" expandTreeField="code" inlineActiveCount="THREE" slot="table" treeRelationField="parent">
+        <field name="id" invisible="true" data="id"/>
+        <field name="code" data="code" label="岗位编码"/>
+        <field name="name" data="name" label="岗位名称"/>
+        <field name="dataStatus" data="dataStatus" label="数据状态"/>
+        <field name="company" data="company" label="所属公司"/>
+        <field name="companyCode" data="companyCode" label="所属公司编码"/>
+        <field name="department" data="department" label="所属部门"/>
+        <field name="departmentCode" data="departmentCode" label="所属部门编码"/>
+        <field name="parent" data="parent" label="直属岗位"/>
+        <field name="parentCode" data="parentCode" label="直属岗位编码"/>
+        <field name="createUserName" data="createUserName" label="创建人"/>
+        <field name="writeUserName" data="writeUserName" label="更新人"/>
+        <field name="createDate" data="createDate" label="创建时间"/>
+        <field name="writeDate" data="writeDate" label="修改时间"/>
+
+        <template slot="rowActions">
+            <action name="redirectUpdatePage" label="编辑" displayName="编辑"/>
+            <action name="redirectDetailPage" label="详情" displayName="详情"/>
+        </template>
+    </template>
+</view>

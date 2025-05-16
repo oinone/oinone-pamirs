@@ -1,0 +1,22 @@
+<view widget="detail" type="DETAIL" name="短信通道detail" title="短信通道" model="pamirs.message.SmsChannelConfig" >
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="pamirs.message.SmsChannelConfig" data="id"/>
+            <field span="1" name="signName" widget="Input" model="pamirs.message.SmsChannelConfig" data="signName" label="名称"/>
+            <field span="1" name="channel" widget="Select" model="pamirs.message.SmsChannelConfig" data="channel" label="短信通道"/>
+            <field span="1" name="accessKeyId" widget="Input" model="pamirs.message.SmsChannelConfig" data="accessKeyId" label="Access Key"/>
+            <field span="1" name="accessKeySecret" widget="Input" model="pamirs.message.SmsChannelConfig" data="accessKeySecret" label="Access Secret"/>
+            <field span="1" name="action" widget="Select" model="pamirs.message.SmsChannelConfig" data="action" label="发送形式"/>
+            <field span="1" name="endpoint" widget="Input" model="pamirs.message.SmsChannelConfig" data="endpoint" label="发送渠道Endpoint"/>
+            <field span="1" name="regionId" widget="Input" model="pamirs.message.SmsChannelConfig" data="regionId" label="API支持的RegionID"/>
+            <field span="1" name="timeZone" widget="Input" model="pamirs.message.SmsChannelConfig" data="timeZone" label="时区"/>
+            <field span="1" name="signatureMethod" widget="Input" model="pamirs.message.SmsChannelConfig" data="signatureMethod" label="签名方式"/>
+            <field span="1" name="signatureVersion" widget="Input" model="pamirs.message.SmsChannelConfig" data="signatureVersion" label="签名算法版本"/>
+            <field span="1" name="version" widget="Input" model="pamirs.message.SmsChannelConfig" data="version" label="API的版本号"/>
+            <field span="1" name="active" widget="Select" model="pamirs.message.SmsChannelConfig" data="active" label="是否激活"/>
+        </pack>
+    </template>
+</view>

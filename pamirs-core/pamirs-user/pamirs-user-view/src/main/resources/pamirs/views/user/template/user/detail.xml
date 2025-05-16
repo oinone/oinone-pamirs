@@ -1,0 +1,38 @@
+<view type="DETAIL" title="用户表详情" name="用户表detail" widget="detail" model="user.PamirsUser">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="user.PamirsUser" data="id"/>
+        <pack widget="group" title="基础信息" cols="2">
+            <field span="1" name="code" model="user.PamirsUser" data="code" label="编码"/>
+            <field span="1" data="name" label="名称"/>
+            <field span="1" name="nickname" model="user.PamirsUser" data="nickname" label="昵称"/>
+            <field span="1" name="login" model="user.PamirsUser" data="login" label="登录账号"/>
+            <field span="1" name="email" model="user.PamirsUser" data="email" label="登录邮箱"/>
+            <field span="1" name="phone" model="user.PamirsUser" data="phone" label="登录手机"/>
+            <field span="1" name="initialPassword" model="user.PamirsUser" data="initialPassword" label="初始密码"/>
+        </pack>
+        <pack widget="group" title="个人信息" cols="2">
+            <field span="1" name="contactPhone" model="user.PamirsUser" data="contactPhone" label="联系电话"/>
+            <field span="1" name="contactEmail" model="user.PamirsUser" data="contactEmail" label="联系邮箱"/>
+            <field span="1" name="birthday" model="user.PamirsUser" data="birthday" label="生日" endDate="NOW()" widget="DatePicker" endDateOffsetUnit="day" dateFormat="HYPHEN" startDateOffsetUnit="day"/>
+            <field span="1" name="gender" model="user.PamirsUser" data="gender" label="性别"/>
+            <field span="1" data="realname" label="姓名"/>
+            <field span="1" name="idCard" model="user.PamirsUser" data="idCard" label="身份证号码"/>
+            <field span="1" name="regDate" model="user.PamirsUser" data="regDate" label="注册日期" endDate="NOW()"/>
+        </pack>
+        <pack widget="group" title="角色">
+            <field name="roles" model="user.PamirsUser" data="roles" labelInvisible="true" label="角色"/>
+        </pack>
+        <pack widget="group" invisible="!activeRecord.id" title="其他信息" cols="4">
+            <field span="1" name="regDate" model="user.PamirsUser" data="regDate" label="注册日期"/>
+            <field span="1" name="active" model="user.PamirsUser" data="active" label="是否有效"/>
+            <field span="1" name="createUserName" model="user.PamirsUser" data="createUserName" label="创建人"/>
+            <field span="1" name="writeUserName" model="user.PamirsUser" data="writeUserName" label="修改人"/>
+            <field span="1" name="createDate" model="user.PamirsUser" data="createDate" label="创建时间"/>
+            <field span="1" name="writeDate" model="user.PamirsUser" data="writeDate" label="修改时间"/>
+        </pack>
+    </template>
+</view>
+

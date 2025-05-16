@@ -1,0 +1,22 @@
+<view type="FORM" title="导入/导出模板" name="Excel工作簿form" widget="form" model="file.ExcelWorkbookDefinition">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" invisible="activeRecord.id" model="file.ExcelWorkbookDefinition" goBack="true" validateForm="true" tag="contextFreeAction"/>
+        <action name="update" invisible="!activeRecord.id" model="file.ExcelWorkbookDefinition" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="file.ExcelWorkbookDefinition" data="id"/>
+            <field span="1" name="name" widget="Input" model="file.ExcelWorkbookDefinition" data="name" label="名称"/>
+            <field span="1" name="filename" widget="Input" model="file.ExcelWorkbookDefinition" data="filename" label="文件名"/>
+            <field span="1" name="type" widget="Select" model="file.ExcelWorkbookDefinition" data="type" label="模板类型"/>
+            <field span="1" name="version" widget="Select" model="file.ExcelWorkbookDefinition" data="version" label="Office版本"/>
+        </pack>
+        <pack widget="group" title="工作表" cols="2">
+            <field span="2" name="sheetDefinitions" widget="TextArea" maxLength="4294967295" model="file.ExcelWorkbookDefinition" data="sheetDefinitions" label="JSON"/>
+        </pack>
+        <pack widget="group" title="解析数据" cols="2">
+            <field span="2" name="definitionContext" widget="TextArea" maxLength="4294967295" model="file.ExcelWorkbookDefinition" data="definitionContext" label="JSON" readonly="true"/>
+        </pack>
+    </template>
+</view>

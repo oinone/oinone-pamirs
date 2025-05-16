@@ -1,0 +1,31 @@
+<view type="DETAIL" title="导出任务" name="导出任务detail" widget="detail" model="file.ExcelExportTask">
+    <template slot="actions">
+        <action name="$$internal_GotoListTableRouter" label="返回" type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field data="id" label="任务编号" span="1"/>
+            <field data="name" label="任务名称" span="1"/>
+            <field data="moduleDefinition" label="所属应用" span="1"/>
+            <field data="workbookName" label="关联业务单据类型" span="1"/>
+            <field data="state" label="状态" span="1"/>
+            <field data="rsql" label="过滤条件" span="1"/>
+            <field data="file" label="关联文件" widget="Upload" optionFields="name,url,id" span="1"/>
+            <field data="createUserName" label="发起人" span="1"/>
+            <field data="createDate" label="发起时间" span="1"/>
+        </pack>
+        <pack widget="group" title="任务信息" cols="2">
+            <field data="messages" widget="Table" labelInvisible="true">
+                <view type="table">
+                    <template slot="fields">
+                        <field data="id" invisible="true"/>
+
+                        <field data="level" label="消息级别"/>
+                        <field data="recordDate" label="记录时间"/>
+                        <field data="message" label="消息内容"/>
+                    </template>
+                </view>
+            </field>
+        </pack>
+    </template>
+</view>

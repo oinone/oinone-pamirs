@@ -1,0 +1,41 @@
+<configuration>
+    <!--    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>-->
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
+    <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="KafkaAppender" class="pro.shushi.pamirs.core.logger.appender.PamirsLogbackAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+
+        <topic>logs</topic>
+        <keyingStrategy class="pro.shushi.pamirs.core.logger.keying.LoggerNameKeyingStrategy"/>
+        <deliveryStrategy class="pro.shushi.pamirs.core.logger.delivery.AsynchronousDeliveryStrategy"/>
+
+        <producerConfig>
+            bootstrap.servers=192.168.1.149:9092
+        </producerConfig>
+
+        <appender-ref ref="STDOUT"/>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="KafkaAppender"/>
+    </root>
+</configuration>

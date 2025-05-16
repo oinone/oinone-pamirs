@@ -1,0 +1,40 @@
+<view widget="detail" name="货币detail" title="货币" model="resource.ResourceCurrency" type="DETAIL">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
+                type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="resource.ResourceCurrency" data="id" required="false"/>
+            <field span="1" name="code" widget="Input" model="resource.ResourceCurrency" data="code" label="编码"/>
+            <field span="1" name="name" widget="Input" model="resource.ResourceCurrency" data="name" label="名称"/>
+            <field span="1" name="symbol" widget="Input" model="resource.ResourceCurrency" data="symbol" label="货币符号"/>
+            <field span="1" name="position" widget="Select" model="resource.ResourceCurrency" data="position"
+                   label="符号位置"/>
+            <field span="1" name="rounding" widget="Select" model="resource.ResourceCurrency" data="rounding"
+                   label="精确方式"/>
+            <field span="1" name="decimalPlaces" widget="Integer" model="resource.ResourceCurrency" data="decimalPlaces"
+                   label="小数精度"/>
+            <field span="1" name="currencyUnitLabel" widget="Input" model="resource.ResourceCurrency"
+                   data="currencyUnitLabel" label="整数单位"/>
+            <field span="1" name="currencySubunitLabel" widget="Input" model="resource.ResourceCurrency"
+                   data="currencySubunitLabel" label="小数单位"/>
+        </pack>
+        <pack widget="group" title="外部编码关联" cols="1">
+            <field name="outResourceRelationList" widget="Table" model="resource.ResourceCurrency"
+                   data="outResourceRelationList" label="false">
+                <view widget="table" model="resource.OutResourceRelation">
+                    <template slot="fields">
+                        <field name="id" invisible="true" model="resource.OutResourceRelation" data="id"/>
+                        <field name="relationCode" widget="Input" model="resource.OutResourceRelation"
+                               data="relationCode" label="内部编码"/>
+                        <field name="sourceType" widget="Input" model="resource.OutResourceRelation" data="sourceType"
+                               label="外部系统"/>
+                        <field name="outCode" widget="Input" model="resource.OutResourceRelation" data="outCode"
+                               label="外部编码"/>
+                    </template>
+                </view>
+            </field>
+        </pack>
+    </template>
+</view>

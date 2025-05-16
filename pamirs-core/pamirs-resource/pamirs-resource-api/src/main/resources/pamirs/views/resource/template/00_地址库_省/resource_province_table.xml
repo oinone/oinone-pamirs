@@ -1,0 +1,32 @@
+<view widget="table" operationWidth="200" model="resource.ResourceProvince" title="省" name="省table" type="TABLE">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="resource.ResourceProvince"/>
+        <action name="delete" label="删除" model="resource.ResourceProvince"/>
+        <!--
+        <action name="internalGotoListImportDialog" label="导入" model="resource.ResourceProvince"/>
+        <action name="internalGotoListExportDialog" label="导出" model="resource.ResourceProvince"/>
+        -->
+    </template>
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情" model="resource.ResourceProvince"/>
+        <action name="redirectUpdatePage" label="编辑" model="resource.ResourceProvince"/>
+        <action name="省关键字设置dialog" label="省关键字设置" model="resource.ResourceProvince"/>
+    </template>
+
+    <template slot="search" widget="search">
+        <pack gutter="24,24" widget="row">
+            <field name="name" widget="Input" model="resource.ResourceProvince" data="name" label="省/州名称"/>
+            <field name="code" widget="Input" model="resource.ResourceProvince" data="code" label="省/州代码"/>
+            <field name="country" widget="Select" model="resource.ResourceProvince" data="country" label="国家/地区"/>
+            <field name="mappingList" widget="Select" model="resource.ResourceProvince" data="mappingList" label="关键字"/>
+        </pack>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="resource.ResourceProvince" data="id"/>
+        <field name="sourceType" invisible="true" model="resource.ResourceProvince" data="sourceType"/>
+        <field name="code" widget="Input" model="resource.ResourceProvince" data="code" label="省/州代码"/>
+        <field name="name" widget="Input" model="resource.ResourceProvince" data="name" label="省/州名称"/>
+        <field name="country" widget="Select" model="resource.ResourceProvince" data="country" label="国家/地区"/>
+        <field name="mappingList" widget="Select" model="resource.ResourceProvince" data="mappingList" label="关键字"/>
+    </template>
+</view>

@@ -1,0 +1,28 @@
+<view type="FORM" widget="form" model="pamirs.eip.EipSceneInstanceProxy" name="实例更新定时任务form" submit="all" excluded-actions="create,update,updateIncUpdateLog,testCall">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action label="确定" actionType="COMPOSITION" model="pamirs.eip.EipSceneInstanceProxy" displayName="确定">
+            <action name="$$internal_ValidateForm" model="pamirs.eip.EipSceneInstanceProxy"/>
+            <action name="updateTask" model="pamirs.eip.EipSceneInstanceProxy"/>
+            <action name="$$internal_ReloadData" model="pamirs.eip.EipSceneInstanceProxy" reload-target="parent-of-opener"/>
+            <action name="$$internal_DialogCancel" model="pamirs.eip.EipSceneInstanceProxy"/>
+        </action>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="pamirs.eip.EipSceneInstanceProxy" data="id" required="false"/>
+        <pack widget="group" title="基础配置" cols="2">
+            <field span="2" name="initTask" widget="Switch" model="pamirs.eip.EipSceneInstanceProxy" data="initTask" label="定时执行"/>
+            <field span="1" name="periodTimeUnit" widget="Select" model="pamirs.eip.EipSceneInstanceProxy" data="periodTimeUnit" label="执行周期时间单位" required="activeRecord.initTask"/>
+            <field span="1" name="periodTimeValue" widget="Integer" model="pamirs.eip.EipSceneInstanceProxy" data="periodTimeValue" label="执行周期时间" required="activeRecord.initTask"/>
+            <field span="1" name="nextRetryTimeUnit" widget="Select" model="pamirs.eip.EipSceneInstanceProxy" data="nextRetryTimeUnit" label="失败重试时间单位"/>
+            <field span="1" name="nextRetryTimeValue" widget="Integer" model="pamirs.eip.EipSceneInstanceProxy" data="nextRetryTimeValue" label="失败重试时间"/>
+            <field span="1" name="limitRetryNumber" widget="Integer" model="pamirs.eip.EipSceneInstanceProxy" data="limitRetryNumber" label="最大重试次数"/>
+            <field span="2" name="instanceBody" widget="TextArea" model="pamirs.eip.EipSceneInstanceProxy" data="instanceBody" label="场景实例入参"/>
+        </pack>
+        <pack widget="group" title="执行状态" cols="2">
+            <field span="1" name="scheduleLastExecuteTime" widget="DateTimePicker" model="pamirs.eip.EipSceneInstanceProxy" data="scheduleLastExecuteTime" label="上次执行时间" readonly="true"/>
+            <field span="1" name="scheduleNextExecuteTime" widget="DateTimePicker" model="pamirs.eip.EipSceneInstanceProxy" data="scheduleNextExecuteTime" label="下次执行时间" readonly="true"/>
+            <field span="1" name="scheduleExecuteNumber" widget="Integer" model="pamirs.eip.EipSceneInstanceProxy" data="scheduleExecuteNumber" label="累计执行次数" readonly="true"/>
+        </pack>
+    </template>
+</view>

@@ -1,0 +1,21 @@
+<view widget="form" name="频道管理form" title="频道管理" type="FORM" model="pamirs.message.MessageChannel">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" tag="contextFreeAction" invisible="activeRecord.id > 0" validateForm="true" goBack="true"/>
+        <action name="update" tag="contextFreeAction" invisible="!(activeRecord.id > 0)" validateForm="true" goBack="true"/>
+
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="1">
+            <field name="id" invisible="true" model="pamirs.message.MessageChannel" data="id"/>
+            <field span="1" name="name" widget="Input" model="pamirs.message.MessageChannel" data="name" label="名称"
+                   required="true"/>
+            <field span="1" name="channelType" widget="Select" model="pamirs.message.MessageChannel" data="channelType"
+                   label="类型" required="true"/>
+            <field span="1" name="iconUrl" widget="UploadImg" model="pamirs.message.MessageChannel" data="iconUrl" label="图标"
+                   required="true"/>
+            <field span="1" name="openType" widget="Select" model="pamirs.message.MessageChannel" data="openType"
+                   label="开放类型" required="true"/>
+        </pack>
+    </template>
+</view>

@@ -1,0 +1,12 @@
+<view type="FORM" title="导入" name="import_dialog" widget="form" model="file.ExcelImportTask" width="small">
+    <template slot="form" cols="1">
+        <field data="model" invisible="true"/>
+        <field data="workbookDefinition" widget="Select" label="导入模板" required="true"
+               domain="model == ${activeRecord.model} and dataStatus == 'ENABLED' and type =in= ('IMPORT_EXPORT','IMPORT')"/>
+        <field data="file" widget="Upload" label="上传文件" required="true"/>
+    </template>
+    <template slot="footer">
+        <action name="$$internal_DownloadImportWorkbook" label="下载模板" type="PRIMARY"/>
+        <action name="$$internal_ImportWorkbook" label="导入" type="PRIMARY" validateForm="true" closeDialog="true" refreshData="true"/>
+    </template>
+</view>

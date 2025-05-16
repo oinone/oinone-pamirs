@@ -1,0 +1,29 @@
+pamirs:
+  configure:
+    converter:
+      annotation:
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.module.ModuleConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelDefinitionConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldBooleanConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldDateConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldEnumConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldFloatConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldStringConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldTextConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldHtmlConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldIntegerConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldMoneyConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldRelatedConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldRelationConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldRelationM2MConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldRelationM2OConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldRelationO2MConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ModelFieldRelationO2OConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.ConstraintConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.model.DictionaryConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.fun.FunctionConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.fun.FunctionOfExtPointInstanceConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.fun.ExtPointConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.fun.ExtPointFunctionRelationConverter
+        - pro.shushi.pamirs.framework.configure.annotation.core.converter.fun.ExtPointInstanceConverter

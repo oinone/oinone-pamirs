@@ -1,0 +1,16 @@
+<view type="FORM" model="auth.AuthRole" name="AuthRoleForm" title="角色表单">
+    <template slot="actions">
+        <action name="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" goBack="true" validateForm="true"/>
+        <action name="update" goBack="true" validateForm="true"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <pack widget="group" title="角色信息" cols="2">
+            <field data="code" label="角色编码" hint="未填时将自动生成" readonly="activeRecord.id"/>
+            <field data="name" label="角色名称" required="true"/>
+            <field data="roleType" label="角色类型"/>
+            <field data="description" label="角色描述" span="2"/>
+        </pack>
+    </template>
+</view>

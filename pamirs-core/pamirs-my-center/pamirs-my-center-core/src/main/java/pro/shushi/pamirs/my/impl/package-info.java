@@ -1,0 +1,1 @@
+package pro.shushi.pamirs.my.impl;

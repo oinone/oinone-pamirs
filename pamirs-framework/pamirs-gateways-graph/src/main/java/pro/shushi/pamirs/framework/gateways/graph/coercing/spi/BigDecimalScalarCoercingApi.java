@@ -1,0 +1,28 @@
+package pro.shushi.pamirs.framework.gateways.graph.coercing.spi;
+
+import pro.shushi.pamirs.meta.common.spi.SPI;
+import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
+
+import java.math.BigDecimal;
+
+/**
+ * BigDecimal输入输出转换处理API
+ *
+ * @author wx@shushi.pro
+ * @version 1.0.0
+ * date 2024/03/22
+ */
+@SPI(factory = SpringServiceLoaderFactory.class)
+public interface BigDecimalScalarCoercingApi {
+
+    // output
+     String serialize(Object o);
+
+    // input
+    BigDecimal parseValue(Object o);
+
+    // input
+    BigDecimal parseLiteral(Object o);
+
+}
+

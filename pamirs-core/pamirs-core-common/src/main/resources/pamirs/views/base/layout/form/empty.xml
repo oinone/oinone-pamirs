@@ -1,0 +1,3 @@
+<view type="form" name="uiLayout_sys_FORM#DEFAULT#EMPTY" priority="999">
+    <element slot="form" widget="form"/>
+</view>

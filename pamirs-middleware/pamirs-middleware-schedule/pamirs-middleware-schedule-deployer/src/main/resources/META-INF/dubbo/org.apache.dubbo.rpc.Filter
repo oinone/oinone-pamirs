@@ -1,0 +1,2 @@
+psession=pro.shushi.pamirs.middleware.schedule.deployer.filter.ServiceProviderContextFilter
+csession=pro.shushi.pamirs.middleware.schedule.deployer.filter.ServiceConsumerContextFilter

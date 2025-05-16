@@ -1,0 +1,21 @@
+<view type="TABLE" widget="table" model="eip.CircuitBreakerRecordProxy" name="熔断记录代理table">
+    <template slot="search">
+        <field data="circuitBreakerRuleCode" label="规则编码" operator="EQUAL" required="false"/>
+        <field data="integrationInterface" label="集成接口" searchFields="name,interfaceName"
+               optionFields="name,interfaceName" required="false"/>
+        <field data="circuitBreakerRuleName" label="规则名称" required="false"/>
+        <field data="startTime" label="熔断开始时间" startPlaceholder="开始时间" endPlaceholder="结束时间"
+               widget="DateTimePicker"/>
+    </template>
+    <template slot="table" checkbox="false"/>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+
+        <field data="interfaceName" label="接口技术名称"/>
+        <field data="integrationInterface" label="集成接口"/>
+        <field data="startTime" label="熔断开始时间"/>
+        <field data="endTime" label="熔断结束时间"/>
+        <field data="circuitBreakerRuleCode" label="规则编码"/>
+        <field data="circuitBreakerRuleName" label="规则名称"/>
+    </template>
+</view>

@@ -1,0 +1,25 @@
+<view type="TABLE" widget="table" model="pamirs.eip.EipRouteDefinition" name="组合接口table" excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="pamirs.eip.EipRouteDefinition" text="创建"/>
+        <action name="delete" label="删除" model="pamirs.eip.EipRouteDefinition" text="删除"/>
+    </template>
+    <template slot="rowActions">
+        <action name="redirectUpdatePage" label="编辑" model="pamirs.eip.EipRouteDefinition" text="编辑"/>
+        <action name="redirectDetailPage" label="详情" model="pamirs.eip.EipRouteDefinition" text="详情"/>
+        <action name="dataStatusEnable" label="启用" model="pamirs.eip.EipRouteDefinition" text="启用"/>
+        <action name="dataStatusDisable" label="禁用" model="pamirs.eip.EipRouteDefinition" text="禁用"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="pamirs.eip.EipRouteDefinition" data="id"/>
+        <field name="isDBManaged" invisible="true" model="pamirs.eip.EipRouteDefinition" data="isDBManaged"/>
+        <field name="name" widget="Input" model="pamirs.eip.EipRouteDefinition" data="name" label="名称"/>
+        <field name="interfaceName" widget="Input" model="pamirs.eip.EipRouteDefinition" data="interfaceName" label="技术名称"/>
+        <field name="isEnabledLog" widget="Select" model="pamirs.eip.EipRouteDefinition" data="isEnabledLog" label="是否启用日志"/>
+        <field name="tenant" widget="Input" model="pamirs.eip.EipRouteDefinition" data="tenant" label="租户"/>
+        <field name="dataStatus" widget="Select" model="pamirs.eip.EipRouteDefinition" data="dataStatus" label="状态"/>
+        <field name="createUid" widget="UserInput" model="pamirs.eip.EipRouteDefinition" data="createUid" label="创建人" required="false"/>
+        <field name="writeUid" widget="UserInput" model="pamirs.eip.EipRouteDefinition" data="writeUid" label="修改人" required="false"/>
+        <field name="createDate" widget="DateTimePicker" model="pamirs.eip.EipRouteDefinition" data="createDate" label="创建时间" required="false"/>
+        <field name="writeDate" widget="DateTimePicker" model="pamirs.eip.EipRouteDefinition" data="writeDate" label="修改时间" required="false"/>
+    </template>
+</view>

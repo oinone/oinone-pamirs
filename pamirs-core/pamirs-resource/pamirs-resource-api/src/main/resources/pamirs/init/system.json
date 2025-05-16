@@ -1,0 +1,76 @@
+{
+  "pro.shushi.pamirs.base.model.paas.ModuleGroup": [
+    {
+      "groupName": "baseAppGroup"
+    }
+  ],
+  "pro.shushi.pamirs.base.model.paas.DataSources": [
+    {
+      "type": 1,
+      "ip": "127.0.0.1",
+      "port": 3306,
+      "username": "root",
+      "password": "shushi@2019",
+      "database": "pamirs",
+      "autoCommitOnClose": null,
+      "continueOnError": null,
+      "driver": "com.mysql.cj.jdbc.Driver",
+      "initialPoolSize": null,
+      "maxPoolSize": 10,
+      "minPoolSize": null,
+      "protocol": "jdbc:mysql:\/\/",
+      "url": "?useSSL=false&allowPublicKeyRetrieval=true&useServerPrepStmts=true&cachePrepStmts=true&useUnicode=true&characterEncoding=utf8"
+    },
+    {
+      "type": 2,
+      "driver": "",
+      "ip": "127.0.0.1",
+      "maxPoolSize": 1000,
+      "minPoolSize": null,
+      "password": null,
+      "port": 6379,
+      "protocol": "redis",
+      "url": null,
+      "username": "root"
+    }
+  ],
+  "pro.shushi.pamirs.base.model.meta.Module": [
+    {
+      "name": "pro.shushi.pamirs.resource",
+      "displayName": "资源",
+      "publishedVersion": "0.1.6-SNAPSHOT",
+      "author": "数式",
+      "description": "丰富的多类型资源集中管理，如任务管理、国际化资源、用户权限、组织架构等，为您的业务创新提供基础资源支撑",
+      "sequence": 100,
+      "web": true,
+      "demo": true,
+      "selfBuilt": true,
+      "application": true,
+      "autoInstall": true,
+      "moduleDependencies": [
+        {
+          "moduleName": "pro.shushi.pamirs.resource",
+          "dependencyModuleName": "pro.shushi.pamirs.base"
+        },
+        {
+          "moduleName": "pro.shushi.pamirs.resource",
+          "dependencyModuleName": "pro.shushi.pamirs.trigger"
+        },
+        {
+          "moduleName": "pro.shushi.pamirs.resource",
+          "dependencyModuleName": "pro.shushi.pamirs.idgen"
+        },
+        {
+          "moduleName": "pro.shushi.pamirs.resource",
+          "dependencyModuleName": "pro.shushi.pamirs.mail"
+        }
+      ]
+    }
+  ],
+  "pro.shushi.pamirs.base.model.saas.Tenancy": [
+    {
+      "code": "pamirs",
+      "dbStrategy": 0
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+<view widget="form" model="pamirs.message.EmailTemplate" type="FORM" name="邮件模板form" title="邮件模板" >
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" invisible="activeRecord.id &gt; 0" model="pamirs.message.EmailTemplate" goBack="true" validateForm="true" tag="contextFreeAction"/>
+        <action name="update" invisible="!(activeRecord.id &gt; 0)" model="pamirs.message.EmailTemplate" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="pamirs.message.EmailTemplate" data="id"/>
+            <field span="1" name="name" widget="Input" model="pamirs.message.EmailTemplate" data="name" label="名称"
+                   required="true"/>
+            <field span="1" name="description" widget="Input" model="pamirs.message.EmailTemplate" data="description"
+                   label="简介"/>
+            <field span="1" name="title" widget="Input" model="pamirs.message.EmailTemplate" data="title" label="邮件标题"
+                   required="false"/>
+            <field span="1" name="modelDefinition" widget="Select" model="pamirs.message.EmailTemplate"
+                   data="modelDefinition" label="模型" required="false"/>
+            <field span="1" name="emailUserSign" widget="Select" model="pamirs.message.EmailTemplate"
+                   data="emailUserSign" label="邮件签名" required="false"/>
+            <field span="1" name="emailSenderSource" widget="Select" model="pamirs.message.EmailTemplate"
+                   data="emailSenderSource" label="指定邮件服务器" required="true"/>
+        </pack>
+        <pack widget="group" title="模板" cols="1">
+            <field span="1" name="body" model="pamirs.message.EmailTemplate" data="body" label="邮件内容" required="true"/>
+        </pack>
+    </template>
+</view>

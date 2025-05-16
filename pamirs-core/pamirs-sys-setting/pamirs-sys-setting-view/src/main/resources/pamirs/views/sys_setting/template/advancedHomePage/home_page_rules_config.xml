@@ -1,0 +1,52 @@
+<view type="FORM" widget="form" model="base.HomePageConfigRules" name="homePageRulesConfig" title="全局首页规则配置">
+    <pack widget="row" cols="24" gutter="16">
+        <pack widget="col" cols="24" gutter="16" class="single-form-item">
+            <field data="ruleName" required="true" widget="AdvancedHomepageSettingRuleNameWidget"/>
+            <field data="bindHomePageModule" label="应用" placeholder="应用" domain="application=='true'"
+                   clearFields="bindHomePageMenu,code"
+                   required="true"
+                   optionFields="displayName,module"/>
+        </pack>
+    </pack>
+
+    <pack widget="row" cols="24" gutter="16">
+        <pack widget="col" cols="24" gutter="16" span="24">
+            <field data="expressionJson" widget="RoleUserConfigWidget" required="true" label="匹配规则"
+                   maxLength="65535"/>
+        </pack>
+    </pack>
+
+    <pack widget="row" cols="24" gutter="16">
+        <pack widget="col" cols="24" gutter="16" class="single-form-item">
+            <field data="expression" invisible="true" maxLength="65535"/>
+            <field data="bindingType" defaultValue="true" label="绑定类型" required="true" widget="Radio"/>
+            <field data="code" invisible="true"/>
+            <field data="bindHomePageModel" invisible="activeRecord.bindingType == MENU" queryData-rootModuleModule="activeRecord.bindHomePageModule.module" placeholder="模型" label="模型"
+                   clearFields="bindHomePageView"
+                   required="activeRecord.bindingType == VIEW"
+                   optionLabel="activeRecord.displayName + ' - ' + activeRecord.model"
+                   searchFields="displayName,model"
+                   optionFields="model,displayName,rootModuleModule"/>
+            <field data="bindHomePageMenu" label="菜单"
+                   required="activeRecord.bindingType == MENU"
+                   invisible="activeRecord.bindingType == VIEW" placeholder="菜单"
+                   widget="TreeSelect"
+                   fetchAll="true"
+                   optionFields="displayName,name,module"
+                   onlySelectedLeaf="true">
+                <nodes>
+                    <node filter="module=='${activeRecord.bindHomePageModule.module}'" label="activeRecord.displayName"
+                          labelFields="displayName" model="base.AdvancedHomePageMenuProxy"
+                          selfReferences="base.AdvancedHomePageMenuProxy#parentProxy"/>
+                </nodes>
+            </field>
+            <field data="bindHomePageView" domain="model=='${activeRecord.bindHomePageModel.model}'" label="页面"
+                   required="activeRecord.bindingType == VIEW"
+                   invisible="activeRecord.bindingType == MENU" placeholder="页面"
+                   optionLabel="activeRecord.title ? activeRecord.title + ' - ' + activeRecord.name : activeRecord.name"
+                   searchFields="title,name"
+                   optionFields="title,name,model"/>
+            <field data="enabled"/>
+        </pack>
+    </pack>
+</view>

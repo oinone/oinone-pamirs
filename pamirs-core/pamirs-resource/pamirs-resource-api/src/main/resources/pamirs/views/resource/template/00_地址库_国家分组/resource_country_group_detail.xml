@@ -1,0 +1,25 @@
+<view widget="detail" type="DETAIL" model="resource.ResourceCountryGroup" title="国家分组" name="国家分组detail">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="resource.ResourceCountryGroup" data="id"/>
+            <field span="1" name="code" widget="Input" model="resource.ResourceCountryGroup" data="code" label="编码"/>
+            <field span="1" name="name" widget="Input" model="resource.ResourceCountryGroup" data="name" label="名称"/>
+        </pack>
+        <pack widget="group" title="国家列表" cols="1">
+            <field name="countryList" widget="Table" model="resource.ResourceCountryGroup" data="countryList" label="false">
+                <view widget="table" model="resource.ResourceCountry">
+                    <template slot="fields">
+                        <field name="id" invisible="true" model="resource.ResourceCountry" data="id"/>
+                        <field name="name" widget="Input" model="resource.ResourceCountry" data="name" label="国家/地区名称"/>
+                        <field name="code" widget="Input" model="resource.ResourceCountry" data="code" label="国家/地区编码"/>
+                        <field name="phoneCode" widget="Input" model="resource.ResourceCountry" data="phoneCode" label="长途区号"/>
+                        <field name="countryGroup" widget="Select" model="resource.ResourceCountry" data="countryGroup" label="所在分组"/>
+                    </template>
+                </view>
+            </field>
+        </pack>
+    </template>
+</view>

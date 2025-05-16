@@ -1,0 +1,21 @@
+<view type="TABLE" title="导入/导出模板" name="Excel工作簿table"  widget="table" model="file.ExcelWorkbookDefinition">
+    <template slot="action">
+<!--        <action name="redirectCreatePage" label="创建" model="file.ExcelWorkbookDefinition" text="创建"/>-->
+<!--        <action name="delete" label="删除" model="file.ExcelWorkbookDefinition" text="删除"/>-->
+<!--        <action name="dataStatusEnable" label="启用" model="file.ExcelWorkbookDefinition" text="启用"/>-->
+<!--        <action name="dataStatusDisable" label="禁用" model="file.ExcelWorkbookDefinition" text="禁用"/>-->
+    </template>
+    <template slot="rowActions">
+<!--        <action name="redirectUpdatePage" label="编辑" model="file.ExcelWorkbookDefinition" text="编辑"/>-->
+<!--        <action name="redirectDetailPage" label="详情" model="file.ExcelWorkbookDefinition" text="详情"/>-->
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <field data="name" label="名称"/>
+        <field data="displayName" label="名称"/>
+        <field data="filename" label="文件名"/>
+        <field data="version" label="Office版本"/>
+        <field data="type" label="模板类型"/>
+        <field data="dataStatus" label="状态"/>
+    </template>
+</view>

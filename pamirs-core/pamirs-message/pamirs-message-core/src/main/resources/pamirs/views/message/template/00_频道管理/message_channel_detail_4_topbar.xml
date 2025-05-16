@@ -1,0 +1,31 @@
+<view widget="detail" type="DETAIL" model="pamirs.message.MessageChannel" title="顶部栏频道详情" name="message_channel_detail_4_topbar">
+<template slot="actions">
+    <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+</template>
+<template slot="fields">
+    <pack widget="group" title="基础信息" cols="2">
+        <field name="id" invisible="true" model="pamirs.message.MessageChannel" data="id"/>
+        <field span="1" name="name" widget="Input" model="pamirs.message.MessageChannel" data="name" label="名称"/>
+        <field span="1" name="channelType" widget="Select" model="pamirs.message.MessageChannel" data="channelType" label="类型"/>
+        <field span="1" name="iconUrl" widget="UploadImg" model="pamirs.message.MessageChannel" data="iconUrl" label="图标"/>
+        <field span="1" name="openType" widget="Select" model="pamirs.message.MessageChannel" data="openType" label="开放类型"/>
+    </pack>
+    <pack widget="tabs">
+        <pack title="">
+            <field name="messages" widget="Table" model="pamirs.message.MessageChannel" data="messages" label="false">
+                <view widget="table" model="pamirs.message.PamirsMessage">
+                    <template slot="fields">
+                        <field name="id" invisible="true" model="pamirs.message.PamirsMessage" data="id"/>
+                        <field name="name" model="pamirs.message.PamirsMessage" data="name"/>
+                        <field name="subject" model="pamirs.message.PamirsMessage" data="subject"/>
+                        <field name="body" model="pamirs.message.PamirsMessage" data="body"/>
+                        <field name="messageType" model="pamirs.message.PamirsMessage" data="messageType"/>
+                        <field name="createDate" model="pamirs.message.PamirsMessage" data="createDate"/>
+                        <field name="writeDate" model="pamirs.message.PamirsMessage" data="writeDate"/>
+                    </template>
+                </view>
+            </field>
+        </pack>
+    </pack>
+</template>
+</view>

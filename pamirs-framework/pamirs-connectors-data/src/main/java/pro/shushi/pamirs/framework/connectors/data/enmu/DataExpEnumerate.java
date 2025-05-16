@@ -1,0 +1,64 @@
+package pro.shushi.pamirs.framework.connectors.data.enmu;
+
+import pro.shushi.pamirs.meta.annotation.Errors;
+import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
+
+@Errors(displayName = "系统连接器错误枚举")
+public enum DataExpEnumerate implements ExpBaseEnum {
+
+    SYSTEM_ERROR(ExpBaseEnum.ERROR_TYPE.SYSTEM_ERROR, 10010000, "系统异常"),
+    BASE_CLASS_DRIVER_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010001, "数据源驱动类错误"),
+    BASE_CLASS_DRUID_DRIVER_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010002, "数据源驱动类错误"),
+    BASE_SHARDING_CONFIG_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010003, "分表配置错误"),
+    BASE_CONNECTION_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010004, "连接设置错误"),
+    BASE_CONNECTION2_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010005, "连接设置错误"),
+    BASE_DATASOURCE_CONFIG_IS_NOT_EXISTS_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010006, "请配置数据源"),
+    BASE_CREATE_DATABASE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010007, "创建数据库错误"),
+    BASE_EXIST_TABLE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010008, "判断表是否存在错误"),
+    BASE_DRIVER_NOT_FOUND_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010009, "获取驱动失败"),
+    BASE_DS_CONFIG_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010010, "找不到对应的数据源，请检查数据源配置"),
+    BASE_NO_OPTIMISTIC_LOCKER_VALUE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010011, "未设置乐观锁字段值"),
+    BASE_NO_OPTIMISTIC_LOCKER_VALUE2_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010012, "未设置乐观锁字段值"),
+    BASE_NO_PK_CONFIG_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010013, "未设置主键配置"),
+    BASE_NO_PK_CONFIG2_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010014, "未设置主键配置"),
+    BASE_NO_UNIQUE_KEY_FIELD_CONFIG_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010015, "未设置唯一索引配置"),
+    BASE_NO_PK_CONFIG3_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010016, "未设置主键配置"),
+    BASE_DATA_SOURCE_ROUTE_SERVICE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010017, "路由服务初始化失败"),
+    BASE_LOGIC_COLUMN_FETCHER_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010018, "逻辑字段处理服务初始化失败"),
+    BASE_ISQL_INJECTOR_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010019, "SQL注入服务初始化失败"),
+    BASE_TABLE_NAME_COMPUTER_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010020, "表名处理服务初始化失败"),
+    BASE_CREATE_OR_UPDATE_DATA_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010021, "新增数据错误，唯一索引包含空值"),
+    BASE_BATCH_EXECUTE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010022, "批量执行错误"),
+    BASE_BATCH_EXECUTE_WITH_SIZE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010023, "批量更新失败"),
+    BASE_MODEL_INHERIT_DEPENDENT_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010024, "模型继承关系错误，请检查模块依赖"),
+    BASE_NO_DATA_SOURCE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010025, "未找到数据源"),
+    BASE_CREATE_CONN_BY_DS_KEY_RETURN_NULL_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010026, "根据dsKey创建数据库链接返回null"),
+    BASE_CREATE_SCHEMA_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010027, "创建Schema错误");
+
+    private ERROR_TYPE type;
+
+    private int code;
+
+    private String msg;
+
+    DataExpEnumerate(ERROR_TYPE type, int code, String msg) {
+        this.type = type;
+        this.code = code;
+        this.msg = msg;
+    }
+
+    @Override
+    public ERROR_TYPE type() {
+        return type;
+    }
+
+    @Override
+    public int code() {
+        return code;
+    }
+
+    @Override
+    public String msg() {
+        return msg;
+    }
+}
