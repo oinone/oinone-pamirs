@@ -18,7 +18,7 @@ import pro.shushi.pamirs.user.api.UserModule;
 @Boot
 @Module(
         name = EipModule.MODULE_NAME,
-        displayName = "集成接口",
+        displayName = "集成应用",
         version = "5.0.0",
         dependencies = {
                 ModuleConstants.MODULE_BASE,

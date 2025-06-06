@@ -2,12 +2,14 @@ package pro.shushi.pamirs.eip.api.pmodel;
 
 import pro.shushi.pamirs.core.common.enmu.EncryptTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipApplication;
+import pro.shushi.pamirs.eip.api.model.EipOpenRateLimitPolicy;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 
+import java.util.List;
 
 @Base
 @Model.model(EipApplicationProxy.MODEL_MODEL)
@@ -33,12 +35,17 @@ public class EipApplicationProxy extends EipApplication {
     @Field(displayName = "RSA公钥")
     private String publicKey;
 
-    @Field(displayName = "请求解密函数")
+    @Field.one2many
+    @Field.Relation(relationFields = {"code"}, referenceFields = {"applicationCode"})
+    @Field(displayName = "API流控策略")
+    private List<EipOpenRateLimitPolicy> rateLimitPolicyList;
+
+    @Field(displayName = "请求预处理函数")
     @Field.many2one
     @Field.Relation(relationFields = {"requestDecryptNamespace", "requestDecryptFun"}, referenceFields = {"namespace", "fun"})
     private FunctionDefinition requestDecryptFunc;
 
-    @Field(displayName = "响应加密函数")
+    @Field(displayName = "响应预处理函数")
     @Field.many2one
     @Field.Relation(relationFields = {"responseEncryptionNamespace", "responseEncryptionFun"}, referenceFields = {"namespace", "fun"})
     private FunctionDefinition responseEncryptionFunc;

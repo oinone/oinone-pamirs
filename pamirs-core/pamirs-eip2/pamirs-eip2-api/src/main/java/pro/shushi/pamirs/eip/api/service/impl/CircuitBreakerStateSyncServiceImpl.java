@@ -26,7 +26,7 @@ public class CircuitBreakerStateSyncServiceImpl implements CircuitBreakerStateSy
     private ZookeeperService zookeeperService;
 
     @Autowired
-    private CircuitBreakerStatusChangeListener nodeListener;
+    private EipCircuitBreakerStatusChangeListener nodeListener;
 
     private static final AtomicBoolean IS_REGISTERED = new AtomicBoolean(false);
 

@@ -4,23 +4,21 @@ import pro.shushi.pamirs.meta.annotation.Dict;
 import pro.shushi.pamirs.meta.common.enmu.IEnum;
 
 /**
- * @author yeshenyue on 2025/4/15 10:19.
+ * @author yeshenyue on 2025/4/21 10:02.
  */
-@Dict(dictionary = CircuitBreakerStatusEnum.DICTIONARY, displayName = "熔断状态")
-public enum CircuitBreakerStatusEnum implements IEnum<String> {
+@Dict(dictionary = FlowControlEffectTypeEnum.DICTIONARY, displayName = "流控效果")
+public enum FlowControlEffectTypeEnum implements IEnum<String> {
 
-    OPEN("OPEN", "熔断", "熔断"),
-    CLOSED("CLOSED", "正常", "正常"),
-    HALF_OPEN("HALF_OPEN", "尝试恢复", "尝试恢复"),
-    ;
+    RAPID_FAILURE("RAPID_FAILURE", "快速失败", "快速失败"),
+    QUEUEING_WAIT("QUEUEING_WAIT", "排队等待", "排队等待");
 
-    public static final String DICTIONARY = "eip.CircuitBreakerStatusEnum";
+    public static final String DICTIONARY = "eip.FlowControlEffectTypeEnum";
 
     private final String value;
     private final String displayName;
     private final String help;
 
-    CircuitBreakerStatusEnum(String value, String displayName, String help) {
+    FlowControlEffectTypeEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;

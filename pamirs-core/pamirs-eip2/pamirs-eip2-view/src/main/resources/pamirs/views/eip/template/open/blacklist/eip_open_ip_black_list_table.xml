@@ -1,0 +1,31 @@
+<view widget="table" type="TABLE" title="黑名单" model="pamirs.eip.EipOpenIpBlacklistProxy" name="开放应用黑名单table">
+    <template slot="search">
+        <field data="ip" label="IP/IP网段"/>
+        <field data="application" label="应用名称" searchFields="code,name"/>
+        <field data="httpCode" label="状态码"/>
+    </template>
+
+    <template slot="actions">
+        <action name="EipOpenIpBlacklistCreate" />
+        <action name="internalGotoListImportDialog" label="导入" displayName="导入"/>
+    </template>
+
+    <template slot="rowActions">
+        <action name="EipOpenIpBlacklistEdit"/>
+        <action name="delete" label="删除" confirm="确定要删除此黑名单吗？"/>
+    </template>
+
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+
+        <field data="applicationCode" label="应用编码"/>
+        <field data="application" label="应用名称"/>
+        <field data="ip" label="IP/IP网段"/>
+        <field data="httpCode" label="状态码"/>
+        <field data="httpResult" label="响应信息"/>
+
+        <field data="createUser" label="创建人"/>
+        <field data="createDate" label="创建时间"/>
+        <field data="writeDate" label="更新时间"/>
+    </template>
+</view>

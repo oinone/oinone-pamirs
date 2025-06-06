@@ -1,0 +1,14 @@
+<view type="FORM" widget="form" title="创建" model="pamirs.eip.EipOpenIpBlacklistProxy" name="开放应用ip黑名单create">
+    <template slot="actions">
+        <action fun="$$internal_GotoListTableRouter" label="关闭" actionType="CLIENT" type="default"/>
+        <action name="create" label="确定" goBack="true" validateForm="true"/>
+    </template>
+    <template slot="fields">
+        <field colSpan="HALF" data="application" label="应用" required="true" searchFields="code,name"/>
+        <field colSpan="HALF" data="ip" label="IP" required="true"
+               help="根据请求头 X-Real-IP 判断是否在拒绝列表中"
+               pattern="/^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?:25[0-5]|2[0-4]\d|1?\d?\d)){3})(?:/(?:[0-9]|[1-2]\d|3[0-2]))?$/"/>
+        <field colSpan="HALF" data="httpCode" label="状态码" hint="被IP黑名单规则限制时的响应状态码" max="599" min="100"/>
+        <field colSpan="HALF" data="httpResult" label="响应信息" hint="被IP黑名单规则限制时的响应结果"/>
+    </template>
+</view>

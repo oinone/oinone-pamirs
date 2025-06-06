@@ -1,12 +1,15 @@
 package pro.shushi.pamirs.eip.view.action;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.enmu.ActionTargetEnum;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxAction;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxRoute;
 import pro.shushi.pamirs.boot.base.ux.annotation.button.UxRouteButton;
+import pro.shushi.pamirs.eip.api.model.EipOpenRateLimitPolicy;
 import pro.shushi.pamirs.eip.api.pmodel.EipApplicationProxy;
+import pro.shushi.pamirs.eip.api.service.EipOpenRateLimitPolicyService;
 import pro.shushi.pamirs.eip.api.service.model.EipApplicationProxyService;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -20,6 +23,8 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
+import java.util.List;
+
 @Component
 @Model.model(EipApplicationProxy.MODEL_MODEL)
 @UxRouteButton(
@@ -31,10 +36,15 @@ import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 @UxRouteButton(
         action = @UxAction(name = "EipApplicationPrivateDetail", displayName = "查看集成应用密钥", label = "查看密钥", contextType = ActionContextTypeEnum.SINGLE),
         value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "集成应用密钥detail", openType = ActionTargetEnum.DIALOG))
+@UxRouteButton(
+        action = @UxAction(name = "EipApplicationOperationRateLimit", displayName = "流控配置", label = "流控配置", contextType = ActionContextTypeEnum.SINGLE),
+        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "应用流控配置from", openType= ActionTargetEnum.ROUTER))
 public class EipApplicationProxyAction {
 
     @Autowired
     private EipApplicationProxyService eipApplicationProxyService;
+    @Autowired
+    private EipOpenRateLimitPolicyService eipOpenRateLimitPolicyService;
 
     @Function.Advanced(type = FunctionTypeEnum.CREATE)
     @Function.fun(FunctionConstants.create)
@@ -65,6 +75,7 @@ public class EipApplicationProxyAction {
         if (result != null) {
             Models.data().fieldQuery(result, EipApplicationProxy::getRequestDecryptFunc);
             Models.data().fieldQuery(result, EipApplicationProxy::getResponseEncryptionFunc);
+            result.setRateLimitPolicyList(eipOpenRateLimitPolicyService.queryListByApplicationCode(result));
         }
         return result;
     }
@@ -83,5 +94,16 @@ public class EipApplicationProxyAction {
     @Action(displayName = "禁用", contextType = ActionContextTypeEnum.SINGLE)
     public EipApplicationProxy dataStatusDisable(EipApplicationProxy data) {
         return eipApplicationProxyService.dataStatusDisable(data);
+    }
+
+    @Action(displayName = "更新流控配置", contextType = ActionContextTypeEnum.SINGLE)
+    public EipApplicationProxy updateRateLimitPolicyList(EipApplicationProxy data) {
+        List<EipOpenRateLimitPolicy> rateLimitPolicyList = data.getRateLimitPolicyList();
+        if (CollectionUtils.isEmpty(rateLimitPolicyList)) {
+            eipOpenRateLimitPolicyService.removeAll(data);
+        } else {
+            eipOpenRateLimitPolicyService.batchModifyFlowControlPolicies(rateLimitPolicyList);
+        }
+        return data;
     }
 }

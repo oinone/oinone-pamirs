@@ -83,21 +83,25 @@ public class EipApplication extends BizCodeModel implements IDataStatus {
     private String ipWhiteHttpResult;
 
     @Field.String
-    @Field(displayName = "请求解密函数命名空间")
+    @Field(displayName = "请求预处理函数命名空间")
     private String requestDecryptNamespace;
 
     @Field.String
-    @Field(displayName = "请求解密函数名称")
+    @Field(displayName = "请求预处理函数名称")
     private String requestDecryptFun;
 
     @Field.String
-    @Field(displayName = "响应加密函数命名空间")
+    @Field(displayName = "响应预处理函数命名空间")
     private String responseEncryptionNamespace;
 
     @Field.String
-    @Field(displayName = "响应加密函数名称")
+    @Field(displayName = "响应预处理函数名称")
     private String responseEncryptionFun;
 
+    @Field.one2many
+    @Field.Relation(relationFields = "code", referenceFields = "applicationCode")
+    @Field(displayName = "ip黑名单")
+    private List<EipOpenIpBlacklist> ipBlackList;
 
     @JSONField(serialize = false)
     public IEipDecryptProcessor getRequestDecryptProcessor() {

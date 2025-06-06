@@ -13,15 +13,19 @@ import pro.shushi.pamirs.core.common.enmu.EncryptTypeEnum;
 import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
 import pro.shushi.pamirs.eip.api.auth.PamirsTenantAuthenticationProcessor;
+import pro.shushi.pamirs.eip.api.auth.api.OpenApiIpBlackCheckApi;
 import pro.shushi.pamirs.eip.api.auth.api.OpenApiIpWhiteCheckApi;
 import pro.shushi.pamirs.eip.api.config.PamirsEipOpenApiProperties;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
+import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
+import pro.shushi.pamirs.eip.api.limiter.api.OpenRateLimitApi;
 import pro.shushi.pamirs.eip.api.model.EipApplication;
 import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.eip.api.util.EipHelper;
 import pro.shushi.pamirs.eip.api.util.EipLogUtil;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
@@ -50,7 +54,7 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
 
         EipApplication eipApplication = fetchEipApplication(exchange);
 
-        // 请求解密处理器
+        // 请求预处理处理器
         requestDecryptProcessor(openInterface, eipApplication, exchange);
 
         Message message = exchange.getMessage();
@@ -103,9 +107,25 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
         context = EipInterfaceContext.getExecutorContext(exchange);
 
         // 白名单校验
-        Boolean check = Spider.getDefaultExtension(OpenApiIpWhiteCheckApi.class).check(context, exchange);
-        if (Boolean.FALSE.equals(check)) {
+        Boolean whiteCheck = Spider.getDefaultExtension(OpenApiIpWhiteCheckApi.class).check(context, exchange);
+        if (Boolean.FALSE.equals(whiteCheck)) {
             return;
+        }
+
+        // 黑名单校验
+        Boolean blackCheck = Spider.getDefaultExtension(OpenApiIpBlackCheckApi.class).check(context, exchange);
+        if (Boolean.FALSE.equals(blackCheck)) {
+            return;
+        }
+
+        // 限流判断
+        String interfaceName = openInterface.getInterfaceName();
+        String appKey = (String) context.getExecutorContextValue(OpenApiConstant.OPEN_API_APP_KEY_KEY);
+        if (StringUtils.isNotBlank(appKey)) {
+            boolean checkRateLimit = Spider.getDefaultExtension(OpenRateLimitApi.class).tryAcquire(appKey, interfaceName);
+            if (!checkRateLimit) {
+                throw PamirsException.construct(EipExpEnumerate.EIP_RATE_LIMIT_TIP).errThrow();
+            }
         }
 
         if (eipLog != null) {
@@ -166,7 +186,7 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
         // 最终出参转换
         body = openInterface.getInOutConverter().exchangeObject(exchange, body);
 
-        // 响应加密处理器
+        // 响应预处理处理器
         body = responseEncryptionProcessor(exchange, openInterface, body, context);
 
         // 设置出参
@@ -179,7 +199,7 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
     }
 
     /**
-     * 响应加密处理器,优先使用接口的解密处理器
+     * 响应预处理处理器,优先使用接口的响应处理器
      */
     private Object responseEncryptionProcessor(ExtendedExchange exchange, IEipOpenInterface<SuperMap> openInterface,
                                                Object body, IEipContext<SuperMap> context) {
@@ -194,7 +214,7 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
     }
 
     /**
-     * 请求解密处理,优先使用接口的解密处理器
+     * 请求预处理处理,优先使用接口的解密处理器
      */
     private void requestDecryptProcessor(IEipOpenInterface<SuperMap> openInterface,
                                          EipApplication eipApplication, ExtendedExchange exchange) {
@@ -271,6 +291,7 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
             String appKey = decryptToken.substring(0, 32);
             EipApplication eipApplication = new EipApplication().setAppKey(appKey).queryOne();
             if (eipApplication != null) {
+                eipApplication.fieldQuery(EipApplication::getIpBlackList);
                 exchange.setProperty(OpenApiConstant.EIP_APPLICATION_KEY, eipApplication);
             }
             return eipApplication;

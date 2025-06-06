@@ -15,6 +15,7 @@
 
     <properties>
         <camel.version>3.4.0</camel.version>
+        <resilience4j.version>1.7.1</resilience4j.version>
     </properties>
 
     <modules>
@@ -59,6 +60,12 @@
                 <version>${camel.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-ratelimiter</artifactId>
+                <version>${resilience4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
