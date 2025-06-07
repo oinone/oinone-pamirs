@@ -2,9 +2,8 @@ package pro.shushi.pamirs.framework.session.tenant.component;
 
 import pro.shushi.pamirs.framework.session.tenant.api.SessionTenantApi;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.common.spi.HoldKeeper;
 import pro.shushi.pamirs.meta.common.spi.Spider;
-
-import java.util.Optional;
 
 /**
  * pamirs session
@@ -17,11 +16,17 @@ public class PamirsTenantSession extends PamirsSession {
 
     public static final String SESSION_TENANT = "TENANT";
 
+    private static final HoldKeeper<SessionTenantApi> holder = new HoldKeeper<>();
+
+    private static SessionTenantApi getApi() {
+        return holder.supply(() -> Spider.getDefaultExtension(SessionTenantApi.class));
+    }
+
     public static String getTenant() {
-        return Optional.ofNullable(Spider.getDefaultExtension(SessionTenantApi.class).getTenant()).orElse(null);
+        return getApi().getTenant();
     }
 
     public static void setTenant(String tenant) {
-        Spider.getDefaultExtension(SessionTenantApi.class).setTenant(tenant);
+        getApi().setTenant(tenant);
     }
 }
