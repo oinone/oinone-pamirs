@@ -4,8 +4,8 @@
 | |  | | | '_ \ / _ \| '_ \ / _ \
 | |__| | | | | | (_) | | | |  __/
  \____/|_|_| |_|\___/|_| |_|\___|
-企业级产品化引擎：用低代码驱动标准化研发与敏捷交付的一体化平台
-Low-Code Platform for Complex Scenarios
+企业级产品化引擎
+Enterprise-grade Productization Engine
 
 Author              :   shushi.
-Version             :   v6.0.x
+Version             :   v6.2.x

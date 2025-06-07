@@ -2,6 +2,8 @@ package pro.shushi.pamirs.meta.base;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import pro.shushi.pamirs.meta.base.bit.DataMetaBit;
+import pro.shushi.pamirs.meta.common.lambda.Getter;
+import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -31,4 +33,13 @@ public abstract class D implements DataMetaBit, Serializable {
      */
     protected static final String NO_FIELDS = "";
 
+    @SuppressWarnings("unchecked")
+    public <T, R> R getFieldValue(Getter<T, R> getter) {
+        return (R) _d.get(LambdaUtil.fetchFieldName(getter));
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T, R> R setFieldValue(Getter<T, R> getter, R value) {
+        return (R) _d.put(LambdaUtil.fetchFieldName(getter), value);
+    }
 }

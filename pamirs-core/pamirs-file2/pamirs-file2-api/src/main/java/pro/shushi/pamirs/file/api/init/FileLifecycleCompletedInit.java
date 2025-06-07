@@ -457,6 +457,11 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                 format = DateFormatEnum.DATETIME.value();
             }
             valueType = ExcelValueTypeEnum.DATETIME;
+        } else if (TtypeEnum.YEAR.value().equals(ttype)) {
+            if (StringUtils.isBlank(format)) {
+                format = DateFormatEnum.YEAR.value();
+            }
+            valueType = ExcelValueTypeEnum.DATETIME;
         } else if (TtypeEnum.INTEGER.value().equals(ttype)) {
             if (isMulti) {
                 format = ExcelHelper.generatorMultiValueFormatExpression();

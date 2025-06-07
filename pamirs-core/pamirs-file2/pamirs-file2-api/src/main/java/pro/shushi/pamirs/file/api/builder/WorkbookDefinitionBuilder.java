@@ -29,9 +29,9 @@ public class WorkbookDefinitionBuilder implements IBuilder<ExcelWorkbookDefiniti
 
     private OfficeVersionEnum version = OfficeVersionEnum.AUTO;
 
-    private ExcelImportStrategyEnum importStrategy;
+    private String importStrategy;
 
-    private ExcelExportStrategyEnum exportStrategy;
+    private String exportStrategy;
 
     private Boolean hasErrorRollback;
 
@@ -93,13 +93,31 @@ public class WorkbookDefinitionBuilder implements IBuilder<ExcelWorkbookDefiniti
         return this;
     }
 
-    public WorkbookDefinitionBuilder setImportStrategy(ExcelImportStrategyEnum importStrategy) {
+    public WorkbookDefinitionBuilder setImportStrategy(String importStrategy) {
         this.importStrategy = importStrategy;
         return this;
     }
 
-    public WorkbookDefinitionBuilder setExportStrategy(ExcelExportStrategyEnum exportStrategy) {
+    public WorkbookDefinitionBuilder setImportStrategy(ExcelImportStrategyEnum importStrategy) {
+        if (importStrategy == null) {
+            this.importStrategy = null;
+        } else {
+            this.importStrategy = importStrategy.value();
+        }
+        return this;
+    }
+
+    public WorkbookDefinitionBuilder setExportStrategy(String exportStrategy) {
         this.exportStrategy = exportStrategy;
+        return this;
+    }
+
+    public WorkbookDefinitionBuilder setExportStrategy(ExcelExportStrategyEnum exportStrategy) {
+        if (exportStrategy == null) {
+            this.exportStrategy = null;
+        } else {
+            this.exportStrategy = exportStrategy.value();
+        }
         return this;
     }
 

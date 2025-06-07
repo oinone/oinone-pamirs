@@ -1,11 +1,15 @@
 package pro.shushi.pamirs.auth.api.debug;
 
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.auth.api.constants.AuthConstants;
+import pro.shushi.pamirs.auth.api.enumeration.authorized.FieldAuthorizedValueEnum;
 import pro.shushi.pamirs.core.common.entry.HoldSupplier;
 import pro.shushi.pamirs.framework.common.api.SceneAnalysisDebugTraceApi;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -44,6 +48,32 @@ public class AuthVerificationDebugTrace implements SceneAnalysisDebugTraceApi {
 
     public static void debugAccessFunction(Result<Void> result, String namespace, String fun) {
         debug(() -> String.format("验证函数[%s#%s]: %s", namespace, fun, result.getSuccess()));
+    }
+
+    public static void debugFieldPermissions(Map<String, Long> result, String model) {
+        if (result == null || result.isEmpty()) {
+            return;
+        }
+        boolean isAllFields = Optional.ofNullable(result.get(AuthConstants.ALL_FLAG_STRING))
+                .map(FieldAuthorizedValueEnum::readable)
+                .orElse(false);
+        if (isAllFields) {
+            return;
+        }
+        Set<String> readableFields = new LinkedHashSet<>();
+        Set<String> writableFields = new LinkedHashSet<>();
+        for (Map.Entry<String, Long> entry : result.entrySet()) {
+            String field = entry.getKey();
+            Long authorizedValue = entry.getValue();
+            if (FieldAuthorizedValueEnum.readable(authorizedValue)) {
+                readableFields.add(field);
+            }
+            if (FieldAuthorizedValueEnum.writable(authorizedValue)) {
+                writableFields.add(field);
+            }
+        }
+        debugReadableFields(readableFields, model);
+        debugWritableFields(writableFields, model);
     }
 
     public static void debugReadableData(Result<String> result, String model) {
