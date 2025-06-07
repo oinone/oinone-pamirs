@@ -1,0 +1,37 @@
+<view widget="table" name="街道table" operationWidth="200" title="街道" model="resource.ResourceStreet" type="TABLE">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="resource.ResourceStreet"/>
+        <action name="delete" label="删除" model="resource.ResourceStreet"/>
+        <!--
+        <action name="internalGotoListImportDialog" label="导入" model="resource.ResourceStreet"/>
+        <action name="internalGotoListExportDialog" label="导出" model="resource.ResourceStreet"/>
+        -->
+    </template>
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情" model="resource.ResourceStreet"/>
+        <action name="redirectUpdatePage" label="编辑" model="resource.ResourceStreet"/>
+        <action name="街道关键字设置dialog" label="街道关键字设置" model="resource.ResourceStreet"/>
+    </template>
+    <template slot="search" widget="search">
+        <pack gutter="24,24" widget="row">
+            <field name="code" widget="Input" model="resource.ResourceStreet" data="code" label="街道代码"/>
+            <field name="name" widget="Input" model="resource.ResourceStreet" data="name" label="街道名称"/>
+            <field name="country" widget="Select" model="resource.ResourceStreet" data="country" label="国家/地区"/>
+            <field name="province" widget="Select" model="resource.ResourceStreet" data="province" label="省/州"/>
+            <field name="city" widget="Select" model="resource.ResourceStreet" data="city" label="市"/>
+            <field name="district" widget="Select" model="resource.ResourceStreet" data="district" label="区/县"/>
+            <field name="mappingList" widget="Select" model="resource.ResourceStreet" data="mappingList" label="关键字"/>
+        </pack>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="resource.ResourceStreet" data="id"/>
+        <field name="sourceType" invisible="true" model="resource.ResourceStreet" data="sourceType"/>
+        <field name="code" widget="Input" model="resource.ResourceStreet" data="code" label="街道代码"/>
+        <field name="name" widget="Input" model="resource.ResourceStreet" data="name" label="街道名称"/>
+        <field name="country" widget="Select" model="resource.ResourceStreet" data="country" label="国家/地区"/>
+        <field name="province" widget="Select" model="resource.ResourceStreet" data="province" label="省/州"/>
+        <field name="city" widget="Select" model="resource.ResourceStreet" data="city" label="市"/>
+        <field name="district" widget="Select" model="resource.ResourceStreet" data="district" label="区/县"/>
+        <field name="mappingList" widget="Select" model="resource.ResourceStreet" data="mappingList" label="关键字"/>
+    </template>
+</view>

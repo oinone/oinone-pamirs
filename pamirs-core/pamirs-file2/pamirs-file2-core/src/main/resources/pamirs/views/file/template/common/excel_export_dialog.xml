@@ -1,0 +1,26 @@
+<view type="FORM" title="导出" name="export_dialog" model="file.ExcelExportTask" width="small">
+    <template slot="form" cols="1">
+        <field data="model" invisible="true"/>
+        <field data="exportMethod" widget="Radio">
+            <options>
+                <option name="TEMPLATE"/>
+                <option name="SELECT_FIELD"/>
+            </options>
+        </field>
+        <field data="workbookDefinition" widget="Select" label="导出模板"
+               required="activeRecord.exportMethod != 'SELECT_FIELD'"
+               invisible="activeRecord.exportMethod == 'SELECT_FIELD'"
+               domain="model == ${activeRecord.model} and dataStatus == 'ENABLED' and type =in= ('IMPORT_EXPORT','EXPORT')"/>
+        <field data="selectedFields" widget="ExportFieldTransfer"
+               required="activeRecord.exportMethod != 'TEMPLATE'"
+               invisible="activeRecord.exportMethod == 'TEMPLATE'"
+               submitType="ALL"
+               optionLabel="activeRecord.displayName + ' - ' + activeRecord.field"
+               optionFields="field,priority"
+               domain="model == '${activeRecord.model}'"/>
+    </template>
+    <template slot="footer">
+        <action name="$$internal_ExportWorkbook" label="导出" type="PRIMARY" validateForm="true" closeDialog="true" refreshData="false"/>
+        <action name="$$internal_DialogCancel" label="取消" type="DEFAULT"/>
+    </template>
+</view>

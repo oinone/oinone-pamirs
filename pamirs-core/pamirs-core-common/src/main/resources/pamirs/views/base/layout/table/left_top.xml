@@ -1,0 +1,14 @@
+<view type="table" name="uiLayout_sys_TABLE#DEFAULT#LEFT_TOP" priority="999">
+    <pack title="" widget="group">
+        <view type="search">
+            <element slot="search" widget="search"/>
+        </view>
+    </pack>
+    <pack slot="tableGroup" title="" widget="group">
+        <element justify="START" slot="actionBar" widget="actionBar"/>
+        <element slot="table" widget="table">
+            <element slot="expandRow" widget="expandColumn"/>
+            <element slot="rowActions" widget="rowActions"/>
+        </element>
+    </pack>
+</view>

@@ -1,0 +1,20 @@
+<view type="FORM" title="重置密码" name="modify_pwd_dialog_view" model="user.PamirsUserModifyPwdTran">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" invisible="activeRecord.resetPassword" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="resetPwd" model="user.PamirsUserModifyPwdTran" closeDialog="false" validateForm="true" updateData="true" refreshData="false"/>
+    </template>
+    <template allowClear="true" colSpan="FULL" disabled="false" invisible="false" layout="HORIZONTAL" model="user.PamirsUserModifyPwdTran" readonly="false" required="false" slot="form" widget="form">
+        <pack gutter="24,24" widget="row">
+            <field name="login" model="user.PamirsUserModifyPwdTran" data="login" invisible="true"/>
+        </pack>
+        <pack gutter="24,24" widget="row">
+            <field name="id" model="user.PamirsUserModifyPwdTran" data="id" invisible="true"/>
+        </pack>
+        <pack gutter="24,24" widget="row">
+            <field name="confirmLogin" label="账号确认" model="user.PamirsUserModifyPwdTran" data="confirmLogin" placeholder="activeRecord.login" hint="'请填写当前需要重置密码的用户账号,账号为'+activeRecord.login" required="true" colSpan="FULL"/>
+        </pack>
+        <pack gutter="24,24" widget="row">
+            <field name="resetPassword" label="重置后新密码" model="user.PamirsUserModifyPwdTran" data="resetPassword" hint="点击「重置密码」按钮后展示新密码" readonly="true" colSpan="FULL"/>
+        </pack>
+    </template>
+</view>

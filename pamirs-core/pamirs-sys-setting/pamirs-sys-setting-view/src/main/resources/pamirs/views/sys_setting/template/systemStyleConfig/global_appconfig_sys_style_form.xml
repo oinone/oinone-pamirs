@@ -1,0 +1,25 @@
+<view type="FORM" widget="form" name="GlobalAppConfigProxy_SysStyle_Form" title="系统风格配置"
+      model="sysSetting.GlobalAppConfigProxy">
+    <template slot="actions">
+        <action name="saveSysStyleSetting" label="发布"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <pack title="主题模式">
+            <field data="mode" invisible="true"/>
+        </pack>
+        <pack title="尺寸">
+            <field data="size" invisible="true"/>
+        </pack>
+        <pack title="侧边栏颜色">
+
+        </pack>
+        <pack title="侧边栏样式">
+            <field data="sideBarTheme" invisible="true"/>
+        </pack>
+        <pack title="多tab栏样式">
+            <field data="multiTabTheme"/>
+        </pack>
+
+    </template>
+</view>

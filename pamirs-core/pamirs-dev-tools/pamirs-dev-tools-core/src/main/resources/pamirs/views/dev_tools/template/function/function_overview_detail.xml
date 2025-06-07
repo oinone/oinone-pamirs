@@ -1,0 +1,22 @@
+<view model="tools.FuncationOverview" type="detail">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="detail">
+        <pack colSpan="FULL" cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="函数" widget="group">
+            <field allowClear="true" colSpan="HALF" data="namespace" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="false" justifyContent="START" label="命令空间" labelInvisible="false" maxLength="1024" orientation="TRANSVERSE" patternType="NONE" placeholder="命令空间" prefixStore="false" prefixType="TEXT" readonly="false" required="false" showCount="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" type="TEXT" widget="Input"/>
+            <field allowClear="true" colSpan="HALF" data="fun" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="false" justifyContent="START" label="FUN" labelInvisible="false" maxLength="1024" orientation="TRANSVERSE" patternType="NONE" placeholder="FUN" prefixStore="false" prefixType="TEXT" readonly="false" required="false" showCount="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" type="TEXT" widget="Input"/>
+        </pack>
+        <pack colSpan="FULL" cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" tabPosition="TOP" title="选项卡" widget="tabs">
+            <pack cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="差异" widget="tab">
+                <field allowClear="true" colSpan="FULL" data="diff" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="false" justifyContent="START" label="差异内容" labelInvisible="true" maxLength="16383" orientation="TRANSVERSE" placeholder="差异内容" prefixStore="false" prefixType="TEXT" readonly="false" required="false" showCount="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" widget="TextArea"/>
+            </pack>
+            <pack cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="DB" widget="tab">
+                <field allowClear="true" colSpan="FULL" data="dbContext" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="false" justifyContent="START" label="db模型信息" labelInvisible="true" maxLength="1024" orientation="TRANSVERSE" placeholder="db模型信息" prefixStore="false" prefixType="TEXT" readonly="false" required="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" widget="RichText"/>
+            </pack>
+            <pack cols="24" disabled="false" invisible="false" labelInvisible="false" readonly="false" required="false" title="缓存" widget="tab">
+                <field allowClear="true" colSpan="FULL" data="redisContext" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="false" justifyContent="START" label="Redis模型信息" labelInvisible="true" maxLength="1024" orientation="TRANSVERSE" placeholder="Redis模型信息" prefixStore="false" prefixType="TEXT" readonly="false" required="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" widget="RichText"/>
+            </pack>
+        </pack>
+    </template>
+</view>

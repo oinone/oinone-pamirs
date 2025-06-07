@@ -1,0 +1,53 @@
+<view type="TABLE" title="用户表列表" name="用户表table" widget="table" model="user.PamirsUser" priority="10">
+    <template slot="actions">
+        <action name="create_user_view_action" label="创建" model="user.PamirsUser" displayName="创建"/>
+        <action name="delete" label="删除" model="user.PamirsUser" displayName="删除"/>
+        <action name="modify_user_role_action" label="绑定角色"/>
+        <action name="internalGotoListImportDialog" label="导入"/>
+        <action name="internalGotoListExportDialog" label="导出"/>
+    </template>
+    <template slot="search" widget="search">
+        <pack gutter="24,24" widget="row">
+            <field data="name" label="名称" required="false"/>
+            <field allowClear="true" name="login" widget="Input" model="user.PamirsUser" data="login" label="登录账号" required="false"/>
+            <field allowClear="true" name="email" widget="Input" model="user.PamirsUser" data="email" label="邮箱" required="false"/>
+            <field allowClear="true" name="phone" widget="Input" model="user.PamirsUser" data="phone" label="手机" required="false"/>
+            <field allowClear="true" name="active" widget="Select" model="user.PamirsUser" data="active" label="是否有效" required="false" defaultValue=""/>
+            <field data="realname" label="姓名" required="false"/>
+            <field allowClear="true" name="idCard" widget="Input" model="user.PamirsUser" data="idCard" label="身份证号码" required="false"/>
+            <field allowClear="true" name="gender" widget="Select" model="user.PamirsUser" data="gender" label="性别" required="false"/>
+        </pack>
+    </template>
+    <template slot="rowActions">
+        <action name="active" invisible="activeRecord.active" label="激活" model="user.PamirsUser" displayName="激活"/>
+        <action name="unActive" invisible="!activeRecord.active" label="冻结" model="user.PamirsUser" displayName="冻结"/>
+        <action name="modify_user_info_action" label="修改" model="user.PamirsUser" displayName="修改"/>
+        <action name="reset_password_view_action" label="重置密码" model="user.PamirsUser" displayName="重置密码"/>
+        <!--        <action name="resetInitialPassword" invisible="activeRecord.initialPassword" label="重置密码" model="user.PamirsUser" displayName="重置密码"/>-->
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="user.PamirsUser" data="id"/>
+        <field name="userType" invisible="true" model="user.PamirsUser" data="userType"/>
+        <field data="name" label="名称"/>
+        <field name="login" model="user.PamirsUser" data="login" label="登录账号"/>
+        <field name="email" model="user.PamirsUser" data="email" label="登录邮箱"/>
+        <field name="phone" model="user.PamirsUser" data="phone" label="登录手机"/>
+        <field name="nickname" model="user.PamirsUser" data="nickname" label="昵称"/>
+        <field name="active" model="user.PamirsUser" data="active" label="是否有效"/>
+        <field name="roles" model="user.PamirsUser" data="roles" label="角色"/>
+        <field name="contactPhone" model="user.PamirsUser" data="contactPhone" label="联系电话"/>
+        <field name="contactEmail" model="user.PamirsUser" data="contactEmail" label="联系邮箱"/>
+        <field name="birthday" model="user.PamirsUser" data="birthday" label="生日" endDate="NOW()" widget="DatePicker" endDateOffsetUnit="day" dateFormat="HYPHEN" startDateOffsetUnit="day"/>
+        <field name="gender" model="user.PamirsUser" data="gender" label="性别"/>
+        <field data="realname" label="姓名"/>
+        <field name="idCard" model="user.PamirsUser" data="idCard" label="身份证号码"/>
+        <field name="regDate" model="user.PamirsUser" data="regDate" label="注册日期"/>
+        <field name="initialPassword" invisible="true" model="user.PamirsUser" data="initialPassword" label="初始密码"/>
+        <field name="isInitialPassword" model="user.PamirsUser" data="isInitialPassword" compute="!IS_BLANK(activeRecord.initialPassword)" label="是否为初始密码"/>
+        <field name="password" invisible="true" model="user.PamirsUser" data="password" label="密码"/>
+        <field name="createUserName" model="user.PamirsUser" data="createUserName" label="创建人"/>
+        <field name="writeUserName" model="user.PamirsUser" data="writeUserName" label="更新人"/>
+        <field name="createDate" model="user.PamirsUser" data="createDate" label="创建时间"/>
+        <field name="writeDate" model="user.PamirsUser" data="writeDate" label="修改时间"/>
+    </template>
+</view>

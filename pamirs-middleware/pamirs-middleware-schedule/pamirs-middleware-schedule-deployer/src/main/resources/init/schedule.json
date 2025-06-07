@@ -1,0 +1,312 @@
+[
+  {
+    "taskType": "BASE_SCHEDULE_TASK",
+    "beanNames": "baseScheduleTask",
+    "values": {
+      "heartBeatRate": 1000,
+      "judgeDeadInterval": 10000,
+      "sleepTimeNoData": 500,
+      "sleepTimeInterval": 500,
+      "fetchDataNumber": 100,
+      "executeNumber": 1,
+      "threadNumber": 1,
+      "processorType": "SLEEP",
+      "expireOwnSignInterval": 1.0,
+      "taskParameter": "",
+      "taskKind": "static",
+      "taskItems": [
+        0
+      ],
+      "maxTaskItemsOfOneThreadGroup": 0,
+      "version": 0,
+      "sts": "resume",
+      "fetchDataCountEachSchedule": -1
+    },
+    "strategy": {
+      "IPList": [
+        "127.0.0.1"
+      ],
+      "numOfSingleServer": 1,
+      "assignNum": 1,
+      "kind": "Schedule",
+      "taskParameter": "",
+      "sts": "resume"
+    }
+  },
+  {
+    "taskType": "BASE_SCHEDULE_NO_TRANSACTION_TASK",
+    "beanNames": "baseScheduleNoTransactionTask",
+    "values": {
+      "heartBeatRate": 1000,
+      "judgeDeadInterval": 10000,
+      "sleepTimeNoData": 500,
+      "sleepTimeInterval": 500,
+      "fetchDataNumber": 100,
+      "executeNumber": 1,
+      "threadNumber": 1,
+      "processorType": "SLEEP",
+      "expireOwnSignInterval": 1.0,
+      "taskParameter": "",
+      "taskKind": "static",
+      "taskItems": [
+        0
+      ],
+      "maxTaskItemsOfOneThreadGroup": 0,
+      "version": 0,
+      "sts": "resume",
+      "fetchDataCountEachSchedule": -1
+    },
+    "strategy": {
+      "IPList": [
+        "127.0.0.1"
+      ],
+      "numOfSingleServer": 1,
+      "assignNum": 1,
+      "kind": "Schedule",
+      "taskParameter": "",
+      "sts": "resume"
+    }
+  },
+  {
+    "taskType": "CYCLE_SCHEDULE_NO_TRANSACTION_TASK",
+    "beanNames": "cycleScheduleNoTransactionTask",
+    "values": {
+      "heartBeatRate": 1000,
+      "judgeDeadInterval": 10000,
+      "sleepTimeNoData": 500,
+      "sleepTimeInterval": 500,
+      "fetchDataNumber": 100,
+      "executeNumber": 1,
+      "threadNumber": 1,
+      "processorType": "SLEEP",
+      "expireOwnSignInterval": 1.0,
+      "taskParameter": "",
+      "taskKind": "static",
+      "taskItems": [
+        0
+      ],
+      "maxTaskItemsOfOneThreadGroup": 0,
+      "version": 0,
+      "sts": "resume",
+      "fetchDataCountEachSchedule": -1
+    },
+    "strategy": {
+      "IPList": [
+        "127.0.0.1"
+      ],
+      "numOfSingleServer": 1,
+      "assignNum": 1,
+      "kind": "Schedule",
+      "taskParameter": "",
+      "sts": "resume"
+    }
+  },
+  {
+    "taskType": "REMOTE_SCHEDULE_TASK",
+    "beanNames": "remoteScheduleTask",
+    "values": {
+      "heartBeatRate": 1000,
+      "judgeDeadInterval": 10000,
+      "sleepTimeNoData": 500,
+      "sleepTimeInterval": 500,
+      "fetchDataNumber": 100,
+      "executeNumber": 3,
+      "threadNumber": 3,
+      "processorType": "SLEEP",
+      "expireOwnSignInterval": 1.0,
+      "taskParameter": "",
+      "taskKind": "static",
+      "taskItems": [
+        0
+      ],
+      "maxTaskItemsOfOneThreadGroup": 0,
+      "version": 0,
+      "sts": "resume",
+      "fetchDataCountEachSchedule": -1
+    },
+    "strategy": {
+      "IPList": [
+        "127.0.0.1"
+      ],
+      "numOfSingleServer": 1,
+      "assignNum": 1,
+      "kind": "Schedule",
+      "taskParameter": "",
+      "sts": "resume"
+    }
+  },
+  {
+    "taskType": "DELAY_MSG_TRANSFER_SCHEDULE_TASK",
+    "beanNames": "delayMsgTransferScheduleTask",
+    "values": {
+      "heartBeatRate": 1000,
+      "judgeDeadInterval": 10000,
+      "sleepTimeNoData": 500,
+      "sleepTimeInterval": 500,
+      "fetchDataNumber": 100,
+      "executeNumber": 1,
+      "threadNumber": 1,
+      "processorType": "SLEEP",
+      "permitRunStartTime": "0 3 */1 * * ?",
+      "permitRunEndTime": "",
+      "expireOwnSignInterval": 1.0,
+      "taskParameter": "",
+      "taskKind": "static",
+      "taskItems": [
+        0
+      ],
+      "maxTaskItemsOfOneThreadGroup": 0,
+      "version": 0,
+      "sts": "resume",
+      "fetchDataCountEachSchedule": -1
+    },
+    "strategy": {
+      "IPList": [
+        "127.0.0.1"
+      ],
+      "numOfSingleServer": 1,
+      "assignNum": 1,
+      "kind": "Schedule",
+      "taskParameter": "",
+      "sts": "resume"
+    }
+  },
+  {
+    "taskType": "DELETE_TRANSFER_SCHEDULE_TASK",
+    "beanNames": "deleteTransferScheduleTask",
+    "values": {
+      "heartBeatRate": 1000,
+      "judgeDeadInterval": 10000,
+      "sleepTimeNoData": 500,
+      "sleepTimeInterval": 500,
+      "fetchDataNumber": 100,
+      "executeNumber": 1,
+      "threadNumber": 1,
+      "processorType": "SLEEP",
+      "permitRunStartTime": "0 50 */1 * * ?",
+      "permitRunEndTime": "",
+      "expireOwnSignInterval": 1.0,
+      "taskParameter": "",
+      "taskKind": "static",
+      "taskItems": [
+        0
+      ],
+      "maxTaskItemsOfOneThreadGroup": 0,
+      "version": 0,
+      "sts": "resume",
+      "fetchDataCountEachSchedule": -1
+    },
+    "strategy": {
+      "IPList": [
+        "127.0.0.1"
+      ],
+      "numOfSingleServer": 1,
+      "assignNum": 1,
+      "kind": "Schedule",
+      "taskParameter": "",
+      "sts": "resume"
+    }
+  },
+  {
+    "taskType": "SERIAL_BASE_SCHEDULE_TASK",
+    "beanNames": "serialBaseScheduleTask",
+    "values": {
+      "heartBeatRate": 1000,
+      "judgeDeadInterval": 10000,
+      "sleepTimeNoData": 500,
+      "sleepTimeInterval": 500,
+      "fetchDataNumber": 100,
+      "executeNumber": 1,
+      "threadNumber": 1,
+      "processorType": "SLEEP",
+      "expireOwnSignInterval": 1.0,
+      "taskParameter": "",
+      "taskKind": "static",
+      "taskItems": [
+        0
+      ],
+      "maxTaskItemsOfOneThreadGroup": 0,
+      "version": 0,
+      "sts": "resume",
+      "fetchDataCountEachSchedule": -1
+    },
+    "strategy": {
+      "IPList": [
+        "127.0.0.1"
+      ],
+      "numOfSingleServer": 0,
+      "assignNum": 1,
+      "kind": "Schedule",
+      "taskParameter": "",
+      "sts": "resume"
+    }
+  },
+  {
+    "taskType": "SERIAL_BASE_SCHEDULE_NO_TRANSACTION_TASK",
+    "beanNames": "serialBaseScheduleNoTransactionTask",
+    "values": {
+      "heartBeatRate": 1000,
+      "judgeDeadInterval": 10000,
+      "sleepTimeNoData": 500,
+      "sleepTimeInterval": 500,
+      "fetchDataNumber": 100,
+      "executeNumber": 1,
+      "threadNumber": 1,
+      "processorType": "SLEEP",
+      "expireOwnSignInterval": 1.0,
+      "taskParameter": "",
+      "taskKind": "static",
+      "taskItems": [
+        0
+      ],
+      "maxTaskItemsOfOneThreadGroup": 0,
+      "version": 0,
+      "sts": "resume",
+      "fetchDataCountEachSchedule": -1
+    },
+    "strategy": {
+      "IPList": [
+        "127.0.0.1"
+      ],
+      "numOfSingleServer": 0,
+      "assignNum": 1,
+      "kind": "Schedule",
+      "taskParameter": "",
+      "sts": "resume"
+    }
+  },
+  {
+    "taskType": "SERIAL_REMOTE_SCHEDULE_TASK",
+    "beanNames": "serialRemoteScheduleTask",
+    "values": {
+      "heartBeatRate": 1000,
+      "judgeDeadInterval": 10000,
+      "sleepTimeNoData": 500,
+      "sleepTimeInterval": 500,
+      "fetchDataNumber": 100,
+      "executeNumber": 1,
+      "threadNumber": 1,
+      "processorType": "SLEEP",
+      "expireOwnSignInterval": 1.0,
+      "taskParameter": "",
+      "taskKind": "static",
+      "taskItems": [
+        0
+      ],
+      "maxTaskItemsOfOneThreadGroup": 0,
+      "version": 0,
+      "sts": "resume",
+      "fetchDataCountEachSchedule": -1
+    },
+    "strategy": {
+      "IPList": [
+        "127.0.0.1"
+      ],
+      "numOfSingleServer": 0,
+      "assignNum": 1,
+      "kind": "Schedule",
+      "taskParameter": "",
+      "sts": "resume"
+    }
+  }
+]

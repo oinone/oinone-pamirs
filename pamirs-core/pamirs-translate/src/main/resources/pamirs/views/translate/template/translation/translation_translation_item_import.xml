@@ -1,0 +1,13 @@
+<view model="translation.TranslationItemImport" type="form" name="translationImport">
+
+    <template slot="actionBar">
+        <action name="importTranslation" label="批量导入翻译文件"/>
+        <action name="$$internal_DownloadImportWorkbook" label="下载模板" type="PRIMARY" workbookId="activeRecord.workbookId"/>
+    </template>
+
+    <template slot="form" widget="translationImport">
+        <!--    <template slot="fields">-->
+        <field data="workbookId" label="模版ID" invisible="true"/>
+        <field data="file" label="上传的文件URL" required="true"/>
+    </template>
+</view>

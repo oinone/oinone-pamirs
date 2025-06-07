@@ -1,0 +1,9 @@
+<view widget="form">
+    <group title="基础信息" widget="fieldset" cols="2">
+        <field name="model" widget="CustomM2OSelect" label="模型" required="true" span="1"/>
+        <field name="templateType" widget="Select" label="模板类型" required="true" span="1"/>
+        <field name="modelFields" widget="Select" label="模板字段" required="true" domain="model == ${model.model}" invisible="!context.activeRecord.model.id" span="2"/>
+    </group>
+    <action refs="$$internal_GotoListTableRouter" text="返回"/>
+    <action refs="$$internal_ListInsertOneAndBackToList" text="确定" hint="新增的确定"/>
+</view>

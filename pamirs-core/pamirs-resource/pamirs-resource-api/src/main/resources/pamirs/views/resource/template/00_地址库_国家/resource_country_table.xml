@@ -1,0 +1,43 @@
+<view widget="table" name="国家table" operationWidth="200" title="国家" model="resource.ResourceCountry" type="TABLE">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="resource.ResourceCountry"/>
+        <action name="delete" label="删除" model="resource.ResourceCountry"/>
+        <!--
+        <action name="internalGotoListImportDialog" label="导入" model="resource.ResourceCountry"/>
+        <action name="internalGotoListExportDialog" label="导出" model="resource.ResourceCountry"/>
+        -->
+    </template>
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情" model="resource.ResourceCountry"/>
+        <action name="redirectUpdatePage" label="编辑" model="resource.ResourceCountry"/>
+        <action name="国家关键字设置dialog" label="国家关键字设置" model="resource.ResourceCountry"/>
+    </template>
+    <template slot="search" widget="search">
+        <pack gutter="24,24" widget="row">
+            <field name="code" widget="Input" model="resource.ResourceCountry" data="code" label="国家/地区代码"/>
+            <field name="name" widget="Input" model="resource.ResourceCountry" data="name" label="国家/地区名称"/>
+            <field name="completeName" widget="Input" model="resource.ResourceCountry" data="completeName"
+                   label="国家/地区详细名称"/>
+            <field name="vatLabel" widget="Select" model="resource.ResourceCountry" data="vatLabel" label="消费税显示名称"/>
+            <field name="phoneCode" widget="Input" model="resource.ResourceCountry" data="phoneCode" label="长途区号"/>
+            <field name="currency" widget="Select" model="resource.ResourceCountry" data="currency" label="使用币种"/>
+            <field name="lang" widget="Select" model="resource.ResourceCountry" data="lang" label="官方语言"/>
+            <field name="mappingList" widget="Select" model="resource.ResourceCountry" data="mappingList" label="关键字"/>
+            <field name="countryGroup" widget="Select" model="resource.ResourceCountry" data="countryGroup" label="所在洲"/>
+        </pack>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="resource.ResourceCountry" data="id"/>
+        <field name="flag" widget="UploadImg" model="resource.ResourceCountry" data="flag" optionFields="url" label="国旗"/>
+        <field name="code" widget="Input" model="resource.ResourceCountry" data="code" label="国家/地区代码"/>
+        <field name="name" widget="Input" model="resource.ResourceCountry" data="name" label="国家/地区名称"/>
+        <field name="completeName" widget="Input" model="resource.ResourceCountry" data="completeName"
+               label="国家/地区详细名称"/>
+        <field name="vatLabel" widget="Select" model="resource.ResourceCountry" data="vatLabel" label="消费税显示名称"/>
+        <field name="phoneCode" widget="Input" model="resource.ResourceCountry" data="phoneCode" label="长途区号"/>
+        <field name="currency" widget="Select" model="resource.ResourceCountry" data="currency" label="使用币种"/>
+        <field name="lang" widget="Select" model="resource.ResourceCountry" data="lang" label="官方语言"/>
+        <field name="mappingList" widget="Select" model="resource.ResourceCountry" data="mappingList" label="关键字"/>
+        <field name="countryGroup" widget="Select" model="resource.ResourceCountry" data="countryGroup" label="所在洲"/>
+    </template>
+</view>

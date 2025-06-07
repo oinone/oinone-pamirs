@@ -1,0 +1,24 @@
+<view type="FORM" title="修改角色" name="modify_user_role" widget="form" model="user.PamirsUserRoleTransient">
+    <template slot="actions">
+        <action fun="$$internal_GotoListTableRouter" label="关闭"/>
+        <action name="modifyUserRole" label="确认"
+                validateForm="true" closeDialog="true" refreshData="true"/>
+    </template>
+    <template slot="fields" cols="2">
+        <field data="roleList" widget="Select" required="true" label="添加角色" span="2"/>
+        <field data="userList" widget="Table" required="true" label="操作用户列表" span="2">
+            <view widget="table">
+                <template slot="table" checkbox="false"/>
+                <template slot="actions">
+                </template>
+                <template slot="fields">
+                    <field data="id" invisible="true"/>
+                    <field data="name" label="名称"/>
+                    <field data="login" label="登录账号"/>
+                    <field data="active" label="是否有效"/>
+                    <field data="roles" label="当前角色"/>
+                </template>
+            </view>
+        </field>
+    </template>
+</view>

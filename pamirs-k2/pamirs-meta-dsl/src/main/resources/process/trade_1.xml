@@ -1,0 +1,18 @@
+<process name="trade" version="1">
+    <start name="start">
+        <transition to="decision" exp="oil &gt; 5"/>
+    </start>
+    <service name="service">
+        <transitions>
+            <transition to="end" exp="oil &gt;5"/>
+        </transitions>
+        <pojo-object method="shot" args="a, b" result="r" classPath="pro.shushi.pamirs.kernel.statemachine.machine.process.MockClazz"/>
+    </service>
+    <decision name="decision">
+        <transitions>
+            <transition to="service" exp="oil &gt; 5"/>
+            <transition to="end" exp="oil &lt;=3"/>
+        </transitions>
+    </decision>
+    <end name="end"/>
+</process>

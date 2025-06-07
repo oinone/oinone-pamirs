@@ -1,0 +1,61 @@
+server:
+  address: 0.0.0.0
+  port: 8088
+  sessionTimeout: 3600
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: pamirs-engine
+
+---
+spring:
+  profiles: dev
+  cloud:
+    config:
+      enabled: false
+      uri: http://127.0.0.1:7001
+      label: master
+      profile: dev
+    nacos:
+      config:
+        enabled: true
+        server-addr: http://127.0.0.1:8848
+        file-extension: yml
+  dubbo:
+    application:
+      name: ${spring.application.name}
+      version: 1.0.0
+    registry:
+      address: zookeeper://127.0.0.1:2181
+    protocol:
+      name: dubbo
+      port: 20888
+    scan: pro.shushi.pamirs
+
+---
+spring:
+  profiles: test
+  cloud:
+    config:
+      enabled: false
+      uri: http://127.0.0.1:7001
+      label: master
+      profile: test
+    nacos:
+      config:
+        enabled: true
+        server-addr: http://127.0.0.1:8848
+        file-extension: yml
+  dubbo:
+    application:
+      name: ${spring.application.name}
+      version: 1.0.0
+    registry:
+      address: zookeeper://127.0.0.1:2181
+    protocol:
+      name: dubbo
+      port: 20888
+    scan: pro.shushi.pamirs
+

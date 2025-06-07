@@ -1,0 +1,19 @@
+<view type="FORM" widget="form" name="MyPamirsUserProxy_Setting_Form" title="个人设置" model="my.MyPamirsUserProxy">
+    <template slot="actions">
+        <action name="modifyUserInfo" label="保存"/>
+    </template>
+    <template slot="fields">
+        <pack title="个人设置">
+            <field data="id" invisible="true"/>
+            <field data="avatarUrl" label="头像" invisible="true"/>
+            <field data="realname" label="姓名" invisible="true"/>
+            <field data="name" label="名称" invisible="true"/>
+            <field data="nickname" label="昵称" invisible="true"/>
+            <field data="contactPhone" label="联系电话" invisible="true"/>
+            <field data="contactEmail" label="联系邮箱" invisible="true"/>
+            <field data="gender" label="性别" invisible="true"/>
+            <field data="birthday" label="生日" invisible="true"/>
+            <field data="idCard" label="身份证号码" invisible="true"/>
+        </pack>
+    </template>
+</view>

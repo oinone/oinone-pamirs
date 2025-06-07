@@ -1,0 +1,23 @@
+<view type="form" model="resource.ResourceIcon" name="图标form">
+    <template slot="actions">
+        <action name="update" goBack="true" label="确定" widget="iconEditConfirmAction"/>
+    </template>
+    <template slot="fields">
+        <field name="id" data="id" invisible="true"/>
+        <field name="displayName" data="displayName" label="图标显示名称" required="true" maxLength="100"/>
+        <field name="group" data="group" label="分组" widget="Select" isSearch="true"/>
+        <field name="remark" data="remark" label="备注" maxLength="500" showCount="true"/>
+
+        <field name="outId" data="outId" label="图标id" invisible="true"/>
+        <field name="type" data="type" label="图标类型" invisible="true"/>
+        <field name="name" data="name" label="图标名称" invisible="true"/>
+        <field name="libId" data="libId" label="图标库id" invisible="true"/>
+        <field name="lib" data="lib" label="图标库" invisible="true"/>
+        <field name="groupId" data="groupId" label="分组id" invisible="true"/>
+        <field name="show" data="show" label="显隐" invisible="true"/>
+        <field name="unicode" data="unicode" label="unicode" invisible="true"/>
+        <field name="fontClass" data="fontClass" label="字体图标类名" invisible="true"/>
+        <field name="fullFontClass" data="fullFontClass" label="字体图标全类名" invisible="true"/>
+        <field name="sys" data="sys" label="是否系统图标" invisible="true"/>
+    </template>
+</view>

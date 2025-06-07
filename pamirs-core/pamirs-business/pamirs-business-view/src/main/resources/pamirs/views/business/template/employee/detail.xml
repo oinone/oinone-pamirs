@@ -1,0 +1,46 @@
+<view type="DETAIL" title="员工" name="员工detail" widget="detail" model="business.PamirsEmployee">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="business.PamirsEmployee" data="id"/>
+        <pack widget="group" title="基础信息" cols="2">
+            <field span="1" name="code" model="business.PamirsEmployee" data="code" label="员工编码" hint="未填时将自动生成"/>
+            <field span="1" name="name" model="business.PamirsEmployee" data="name" label="员工名称"/>
+            <field span="1" name="phone" model="business.PamirsEmployee" data="phone" label="员工手机号"/>
+            <field name="company" model="business.PamirsEmployee" data="company" label="所属公司"/>
+            <field name="department" model="business.PamirsEmployee" data="department" label="所属主部门"/>
+            <field span="1" name="dataStatus" model="business.PamirsEmployee" data="dataStatus" label="数据状态"/>
+        </pack>
+        <pack widget="group" title="用户信息" cols="2">
+            <field span="1" name="defaultBindingUser" data="defaultBindingUser" label="绑定用户" optionFields="name,login,code,id" placeholder="绑定用户" required="true" widget="Select"/>
+            <field span="1" name="login" model="business.PamirsEmployee" data="login" label="登录账号" required="true" readonly="activeRecord.id"/>
+        </pack>
+        <pack widget="group" title="所属部门列表">
+            <field name="departmentList" widget="Table" model="business.PamirsEmployee" data="departmentList" label="false">
+                <view widget="table" model="business.PamirsDepartment" excluded-actions="$$internal_GotoO2MCreateDialog,$$internal_GotoO2MEditDialog,$$internal_DeleteOne">
+                    <template slot="fields">
+                        <field name="id" invisible="true" model="business.PamirsDepartment" data="id"/>
+                        <field name="code" model="business.PamirsDepartment" data="code" label="部门编码"/>
+                        <field name="name" model="business.PamirsDepartment" data="name" label="部门名称"/>
+                        <field name="parent" model="business.PamirsDepartment" data="parent" label="上级部门"/>
+                        <field name="parentCode" model="business.PamirsDepartment" data="parentCode" label="上级部门编码"/>
+                    </template>
+                </view>
+            </field>
+        </pack>
+        <pack widget="group" title="所属岗位列表">
+            <field name="positions" widget="Table" model="business.PamirsEmployee" data="positions" label="false">
+                <view widget="table" model="business.PamirsPosition" excluded-actions="$$internal_GotoO2MCreateDialog,$$internal_GotoO2MEditDialog,$$internal_DeleteOne">
+                    <template slot="fields">
+                        <field name="id" invisible="true" model="business.PamirsPosition" data="id"/>
+                        <field name="code" model="business.PamirsPosition" data="code" label="岗位编码"/>
+                        <field name="name" model="business.PamirsPosition" data="name" label="岗位名称"/>
+                        <field name="parent" model="business.PamirsPosition" data="parent" label="所属岗位"/>
+                        <field name="parentCode" model="business.PamirsPosition" data="parentCode" label="所属岗位编码"/>
+                    </template>
+                </view>
+            </field>
+        </pack>
+    </template>
+</view>

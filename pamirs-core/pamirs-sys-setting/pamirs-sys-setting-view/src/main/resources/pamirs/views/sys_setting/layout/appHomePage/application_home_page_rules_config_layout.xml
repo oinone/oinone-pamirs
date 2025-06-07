@@ -1,0 +1,17 @@
+<view type="FORM" name="applicationHomePageRulesConfigLayout">
+    <pack widget="row" style="height:100%">
+        <pack widget="col" width="257">
+            <pack widget="group" style="height:100%">
+                <element widget="tree" slot="tree" class="application-form-tree">
+                </element>
+            </pack>
+        </pack>
+        <pack widget="col" mode="full">
+            <pack widget="group" style="height:100%">
+                <element widget="form" slot="form">
+                    <xslot name="fields" slotSupport="pack,fields"/>
+                </element>
+            </pack>
+        </pack>
+    </pack>
+</view>

@@ -1,0 +1,18 @@
+<view type="FORM" title="岗位" name="岗位form" widget="form" model="business.PamirsPosition">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" invisible="activeRecord.id &gt; 0" goBack="true" validateForm="true" tag="contextFreeAction"/>
+        <action name="update" invisible="!(activeRecord.id &gt; 0)" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" data="id"/>
+        <pack widget="group" title="基础信息" cols="2">
+            <field span="1" name="code" data="code" label="岗位编码" hint="未填时将自动生成" required="false" readonly="activeRecord.id"/>
+            <field span="1" name="name" data="name" label="岗位名称"/>
+            <field name="company" data="company" label="所属公司" required="true"/>
+            <field name="department" data="department" label="所属部门" domain="companyCode == ${activeRecord.company.code}"/>
+            <field name="parent" data="parent" label="直属岗位" domain="companyCode == ${activeRecord.company.code} and code != ${activeRecord.code}"/>
+            <field span="1" invisible="!activeRecord.id" name="dataStatus" data="dataStatus" label="数据状态"/>
+        </pack>
+    </template>
+</view>

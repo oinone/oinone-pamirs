@@ -1,0 +1,23 @@
+<view widget="detail" type="DETAIL" name="邮件模板detail" title="邮件模板" model="pamirs.message.EmailTemplate">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
+                type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="pamirs.message.EmailTemplate" data="id"/>
+            <field span="1" name="name" widget="Input" model="pamirs.message.EmailTemplate" data="name" label="名称"/>
+            <field span="1" name="description" widget="Input" model="pamirs.message.EmailTemplate" data="description"
+                   label="简介"/>
+            <field span="1" name="title" widget="Input" model="pamirs.message.EmailTemplate" data="title" label="邮件标题"/>
+            <field span="1" name="model" model="pamirs.message.EmailTemplate" data="model" label="模型"/>
+            <field span="1" name="emailUserSign" model="pamirs.message.EmailTemplate" data="emailUserSign"
+                   label="邮件签名"/>
+            <field span="1" name="emailSenderSource" widget="Select" model="pamirs.message.EmailTemplate"
+                   data="emailSenderSource" label="邮件服务器"/>
+        </pack>
+        <pack widget="group" title="模板" cols="1">
+            <field span="1" name="body" model="pamirs.message.EmailTemplate" data="body" label="邮件内容"/>
+        </pack>
+    </template>
+</view>

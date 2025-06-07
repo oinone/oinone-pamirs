@@ -1,0 +1,29 @@
+<view type="TABLE" name="translationItemTableLayout">
+    <pack widget="row" style="height:100%;">
+        <pack mode="full" widget="col" class="default-col-flex-auto">
+            <pack title="" width="257" widget="group" style="height:100%;">
+                <element slot="tree" widget="tree"/>
+            </pack>
+        </pack>
+        <pack mode="full" widget="col">
+            <pack widget="row" style="height:100%;" flexDirection="column">
+                <pack widget="col">
+                    <pack title="" widget="group">
+                        <view type="search">
+                            <element slot="search" widget="search"/>
+                        </view>
+                    </pack>
+                </pack>
+                <pack mode="full" widget="col">
+                    <pack widget="group" style="height:100%;" flexDirection="column">
+                        <element justify="START" slot="actionBar" widget="actionBar"/>
+                        <element slot="table" widget="table" mode="full" height="100%">
+                            <element slot="expandRow" widget="expandColumn"/>
+                            <element slot="rowActions" widget="rowActions"/>
+                        </element>
+                    </pack>
+                </pack>
+            </pack>
+        </pack>
+    </pack>
+</view>

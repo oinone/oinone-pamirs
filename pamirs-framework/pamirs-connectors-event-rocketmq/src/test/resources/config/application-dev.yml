@@ -1,0 +1,8 @@
+server:
+  address: 0.0.0.0
+  port: 8088
+  sessionTimeout: 3600
+spring:
+  rocket-mq:
+    enabled: true
+    namesrv-addr: 127.0.0.1:9876

@@ -1,0 +1,40 @@
+<view type="TABLE" title="员工列表" name="员工列表table" widget="table" model="business.PamirsEmployee">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建"/>
+        <action name="delete" label="删除"/>
+        <action name="batchBindingRole" label="绑定角色"/>
+        <action name="internalGotoListImportDialog" label="导入" displayName="导入"/>
+        <action name="internalGotoListExportDialog" label="导出" displayName="导出"/>
+    </template>
+    <template slot="rowActions">
+        <action name="redirectUpdatePage" label="编辑"/>
+        <action name="redirectDetailPage" label="详情"/>
+        <!--        <action name="dataStatusEnable"   label="审核通过" text="审核通过"/>-->
+        <!--        <action name="dataStatusDisable"  label="审核不通过" text="审核不通过"/>-->
+    </template>
+    <template slot="search">
+        <field data="code" label="员工编码" allowClear="true"/>
+        <field data="name" label="员工名称" allowClear="true"/>
+        <field data="dataStatus" label="数据状态" allowClear="true" defaultValue=""/>
+        <field data="company" label="所属公司" allowClear="true"/>
+        <field data="department" label="所属主部门"/>
+        <field data="companyCode" label="所属公司编码" allowClear="true"/>
+        <field data="createDate" label="创建时间" allowClear="true"/>
+        <field data="writeDate" label="修改时间" allowClear="true"/>
+    </template>
+    <template slot="fields">
+        <field invisible="true" data="id"/>
+        <field data="code" label="员工编码"/>
+        <field data="name" label="员工名称"/>
+        <field data="dataStatus" label="数据状态"/>
+        <field data="company" label="所属公司"/>
+        <!--        <field data="roles" label="角色"/>-->
+        <field data="department" label="所属主部门"/>
+        <field data="companyCode" label="所属公司编码"/>
+        <field data="defaultBindingUser" label="绑定用户"/>
+        <field data="createUserName" label="创建人"/>
+        <field data="writeUserName" label="更新人"/>
+        <field data="createDate" label="创建时间"/>
+        <field data="writeDate" label="修改时间"/>
+    </template>
+</view>

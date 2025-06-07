@@ -1,0 +1,47 @@
+<view widget="form" type="FORM" title="公司信息" name="公司form" model="business.PamirsCompany">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" invisible="activeRecord.id &gt; 0" model="business.PamirsCompany" goBack="true" validateForm="true" tag="contextFreeAction"/>
+        <action name="update" invisible="!(activeRecord.id &gt; 0)" model="business.PamirsCompany" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="business.PamirsCompany" data="id"/>
+        <pack widget="group" title="基础信息" cols="2">
+            <field span="1" name="code" model="business.PamirsCompany" data="code" label="公司编码" hint="未填时将自动生成" required="false" readonly="activeRecord.id"/>
+            <field span="1" name="name" model="business.PamirsCompany" data="name" label="公司名称" required="true"/>
+            <field span="1" name="dataStatus" model="business.PamirsCompany" data="dataStatus" label="数据状态" readonly="activeRecord.id"/>
+            <field span="1" name="parent" model="business.PamirsCompany" data="parent" label="上级公司" domain="code!='${activeRecord.code}'"/>
+            <field span="2" name="remark" model="business.PamirsCompany" data="remark" label="备注"/>
+        </pack>
+        <pack widget="group" title="公司信息" cols="2">
+            <field span="1" name="staffSize" model="business.PamirsCompany" data="staffSize" label="公司规模"/>
+            <field span="1" name="licenseRegisterTime" model="business.PamirsCompany" data="licenseRegisterTime" label="成立日期"/>
+            <field span="1" name="companyNature" model="business.PamirsCompany" data="companyNature" label="公司性质"/>
+            <field span="1" name="registerAddress" model="business.PamirsCompany" data="registerAddress" label="注册地址"/>
+            <field span="1" name="dataStatus" invisible="!activeRecord.id" model="business.PamirsCompany" data="dataStatus" label="数据状态"/>
+            <field span="1" name="creditCode" model="business.PamirsCompany" data="creditCode" label="统一社会信用代码"/>
+            <field span="1" name="logoUrl" widget="UploadImg" model="business.PamirsCompany" data="logoUrl" label="Logo"/>
+
+        </pack>
+        <!--
+
+                <pack widget="group" title="部门列表">
+                    <field name="departmentList" widget="Table" model="business.PamirsCompany" data="departmentList" label="false">
+                        <view widget="table" model="business.PamirsDepartment">
+                            <template slot="actions">
+                                <action name="$$internal_GotoM2MListDialog" label="添加" actionType="VIEW" model="business.PamirsDepartment" viewType="TABLE" resViewName="dialogTableView" tag="contextFreeAction"/>
+                                <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" model="business.PamirsDepartment" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
+                            </template>
+                            <template slot="fields">
+                                <field name="id" invisible="true" model="business.PamirsDepartment" data="id"/>
+                                <field name="code" model="business.PamirsDepartment" data="code" label="部门编码"/>
+                                <field name="name" model="business.PamirsDepartment" data="name" label="部门名称"/>
+                                <field name="parent" model="business.PamirsDepartment" data="parent" label="上级部门"/>
+                                <field name="parentCode" model="business.PamirsDepartment" data="parentCode" label="上级部门编码"/>
+                            </template>
+                        </view>
+                    </field>
+                </pack>
+        -->
+    </template>
+</view>

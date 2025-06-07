@@ -1,0 +1,20 @@
+<view type="FORM" model="auth.AuthCustomGroup" name="AuthCustomGroupForm" title="创建/编辑自定义权限组">
+    <template slot="actions">
+        <action name="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" goBack="true" validateForm="true"/>
+        <action name="update" goBack="true" validateForm="true"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <pack widget="group" title="权限组信息" cols="2">
+            <field data="code" label="编码" hint="未填时将自动生成" readonly="activeRecord.id" span="1"/>
+            <field data="name" label="名称" required="true" span="1"/>
+            <field data="parent" label="上级分组" widget="TreeSelect" span="1">
+                <nodes>
+                    <node model="auth.AuthCustomGroup" selfReferences="parent" label="activeRecord.name"/>
+                </nodes>
+            </field>
+            <field data="comment" label="描述" span="2"/>
+        </pack>
+    </template>
+</view>

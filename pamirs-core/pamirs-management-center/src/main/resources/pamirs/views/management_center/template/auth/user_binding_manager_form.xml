@@ -1,0 +1,24 @@
+<view model="managementCenter.UserBindingManager" type="form" name="userBindingManagerFrom">
+    <template slot="form">
+        <field data="bindingUsers" label="添加用户" colSpan="FULL"/>
+        <field data="roles" label="角色列表" required="true" widget="Table">
+            <view model="auth.AuthRole" type="table">
+                <template colSpan="FULL" invisibleSearch="true" slot="search"/>
+                <template slot="actionBar"/>
+                <template checkbox="false" slot="table">
+                    <field data="id" invisible="true"/>
+                    <field data="code"/>
+                    <field data="name"/>
+                    <field data="roleType"/>
+                    <field data="description"/>
+                    <field data="active"/>
+                </template>
+            </view>
+        </field>
+    </template>
+
+    <template slot="footer">
+        <action name="$$internal_DialogCancel" type="default" label="取消"/>
+        <action name="bindingUser" label="确定"/>
+    </template>
+</view>

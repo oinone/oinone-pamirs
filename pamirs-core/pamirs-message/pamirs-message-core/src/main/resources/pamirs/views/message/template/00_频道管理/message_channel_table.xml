@@ -1,0 +1,38 @@
+<view widget="table" title="频道管理" name="频道管理table" type="TABLE" model="pamirs.message.MessageChannel" excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog,redirectDetailPage">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="pamirs.message.MessageChannel" text="创建"/>
+        <action name="delete" label="删除" model="pamirs.message.MessageChannel" text="删除"/>
+    </template>
+    <template slot="rowActions">
+        <action name="redirectUpdatePage" label="编辑" model="pamirs.message.MessageChannel" text="编辑"/>
+        <action name="频道管理detail" label="详情" model="pamirs.message.MessageChannel" text="详情"/>
+    </template>
+
+    <template slot="search" widget="search">
+        <pack gutter="24,24" widget="row">
+            <field allowClear="true" name="name" widget="Input" model="pamirs.message.MessageChannel" data="name" label="名称" required="false"/>
+            <field allowClear="true" name="channelType" widget="Select" model="pamirs.message.MessageChannel" data="channelType" label="类型" required="false"/>
+            <field allowClear="true" name="openType" widget="Select" model="pamirs.message.MessageChannel" data="openType" label="开放类型" required="false"/>
+        </pack>
+    </template>
+
+    <template slot="fields">
+        <field name="id" invisible="true" model="pamirs.message.MessageChannel" data="id"/>
+        <field name="name" widget="Input" model="pamirs.message.MessageChannel" data="name" label="名称"
+               required="false"/>
+        <field name="channelType" widget="Select" model="pamirs.message.MessageChannel" data="channelType" label="类型"
+               required="false"/>
+        <field name="iconUrl" widget="UploadImg" model="pamirs.message.MessageChannel" data="iconUrl" label="图标"
+               required="false"/>
+        <field name="openType" widget="Select" model="pamirs.message.MessageChannel" data="openType" label="开放类型"
+               required="false"/>
+        <field name="createUid" widget="UserInput" model="pamirs.message.MessageChannel" data="createUid" label="创建人"
+               required="false"/>
+        <field name="writeUid" widget="UserInput" model="pamirs.message.MessageChannel" data="writeUid" label="修改人"
+               required="false"/>
+        <field name="createDate" widget="DateTimePicker" model="pamirs.message.MessageChannel" data="createDate"
+               label="创建时间" required="false"/>
+        <field name="writeDate" widget="DateTimePicker" model="pamirs.message.MessageChannel" data="writeDate"
+               label="修改时间" required="false"/>
+    </template>
+</view>

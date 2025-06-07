@@ -1,0 +1,24 @@
+<view type="FORM" widget="form" model="pamirs.eip.EipSceneInstanceProxy" name="实例更新增量日志form" submit="all" excluded-actions="create,update,updateTask,testCall">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action label="确定" actionType="COMPOSITION" model="pamirs.eip.EipSceneInstanceProxy" displayName="确定">
+            <action name="$$internal_ValidateForm" model="pamirs.eip.EipSceneInstanceProxy"/>
+            <action name="updateIncUpdateLog" model="pamirs.eip.EipSceneInstanceProxy"/>
+            <action name="$$internal_ReloadData" model="pamirs.eip.EipSceneInstanceProxy" reload-target="parent-of-opener"/>
+            <action name="$$internal_DialogCancel" model="pamirs.eip.EipSceneInstanceProxy"/>
+        </action>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="pamirs.eip.EipSceneInstanceProxy" data="id" required="false"/>
+        <pack widget="group" title="基础配置" cols="2">
+            <field span="2" name="useIncUpdateLog" widget="Switch" model="pamirs.eip.EipSceneInstanceProxy" data="useIncUpdateLog" label="启用增量日志"/>
+            <field span="2" name="defaultStartTime" widget="DateTimePicker" model="pamirs.eip.EipSceneInstanceProxy" data="defaultStartTime" label="默认增量开始时间" required="activeRecord.useIncUpdateLog"/>
+        </pack>
+        <pack widget="group" title="执行状态" cols="2">
+            <field span="1" name="incUpdateLogStartTime" widget="DateTimePicker" model="pamirs.eip.EipSceneInstanceProxy" data="incUpdateLogStartTime" label="增量开始时间" readonly="true"/>
+            <field span="1" name="incUpdateLogEndTime" widget="DateTimePicker" model="pamirs.eip.EipSceneInstanceProxy" data="incUpdateLogEndTime" label="增量结束时间" readonly="true"/>
+            <field span="2" name="incUpdateLogParams" widget="TextArea" model="pamirs.eip.EipSceneInstanceProxy" data="incUpdateLogParams" label="增量参数" readonly="true"/>
+            <field span="1" name="incUpdateLogLastUpdateTime" widget="DateTimePicker" model="pamirs.eip.EipSceneInstanceProxy" data="incUpdateLogLastUpdateTime" label="上次增量完成时间" readonly="true"/>
+        </pack>
+    </template>
+</view>

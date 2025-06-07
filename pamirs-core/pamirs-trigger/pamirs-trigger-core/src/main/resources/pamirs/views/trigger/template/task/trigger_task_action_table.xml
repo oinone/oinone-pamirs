@@ -1,0 +1,39 @@
+<view type="TABLE" title="触发任务" name="触发任务table" widget="table" model="trigger.TriggerTaskAction">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="trigger.TriggerTaskAction"/>
+        <action name="delete" label="删除" model="trigger.TriggerTaskAction"/>
+        <!--<action name="internalGotoListImportDialog" label="导入" model="trigger.TriggerTaskAction"/>
+        <action name="internalGotoListExportDialog" label="导出" model="trigger.TriggerTaskAction"/>-->
+    </template>
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情" model="trigger.TriggerTaskAction"/>
+        <action name="redirectUpdatePage" label="编辑" model="trigger.TriggerTaskAction"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="trigger.TriggerTaskAction" data="id"/>
+        <field name="displayName" model="trigger.TriggerTaskAction" data="displayName" label="显示名称"/>
+        <field name="description" model="trigger.TriggerTaskAction" data="description" label="描述"/>
+        <field name="technicalName" model="trigger.TriggerTaskAction" data="technicalName" label="技术名称"/>
+        <field name="model" model="trigger.TriggerTaskAction" data="model" label="触发模型"/>
+        <field name="condition" model="trigger.TriggerTaskAction" data="condition" label="触发场景"/>
+        <field name="taskType" model="trigger.TriggerTaskAction" data="taskType" label="任务类型"/>
+        <field name="delayTimeValue" model="trigger.TriggerTaskAction" data="delayTimeValue" label="延时执行时间"/>
+        <field name="delayTimeUnit" model="trigger.TriggerTaskAction" data="delayTimeUnit" label="延时执行时间单位"/>
+        <field name="limitRetryNumber" model="trigger.TriggerTaskAction" data="limitRetryNumber" label="最大重试次数"/>
+        <field name="nextRetryTimeValue" model="trigger.TriggerTaskAction" data="nextRetryTimeValue" label="下次重试执行时间"/>
+        <field name="nextRetryTimeUnit" model="trigger.TriggerTaskAction" data="nextRetryTimeUnit" label="下次重试时间单位"/>
+        <field name="bizId" model="trigger.TriggerTaskAction" data="bizId" label="业务id"/>
+        <field name="bizCode" model="trigger.TriggerTaskAction" data="bizCode" label="业务code"/>
+        <field name="tenant" model="trigger.TriggerTaskAction" data="tenant" label="租户"/>
+        <field name="env" model="trigger.TriggerTaskAction" data="env" label="环境"/>
+        <field name="ownSign" model="trigger.TriggerTaskAction" data="ownSign" label="所有者标记"/>
+        <field name="application" model="trigger.TriggerTaskAction" data="application" label="应用名称"/>
+        <field name="executeNamespace" model="trigger.TriggerTaskAction" data="executeNamespace" label="执行函数命名空间"/>
+        <field name="executeFun" model="trigger.TriggerTaskAction" data="executeFun" label="执行函数编码"/>
+        <field name="context" model="trigger.TriggerTaskAction" data="context" label="上下文"/>
+        <field name="firstExecuteTime" model="trigger.TriggerTaskAction" data="firstExecuteTime" label="首次执行时间"/>
+        <field name="active" model="trigger.TriggerTaskAction" data="active" label="是否启用"/>
+        <field name="createDate" model="trigger.TriggerTaskAction" data="createDate" label="创建时间"/>
+        <field name="writeDate" model="trigger.TriggerTaskAction" data="writeDate" label="修改时间"/>
+    </template>
+</view>

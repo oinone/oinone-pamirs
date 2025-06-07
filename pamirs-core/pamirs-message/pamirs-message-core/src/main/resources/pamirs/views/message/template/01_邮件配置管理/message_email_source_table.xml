@@ -1,0 +1,34 @@
+<view widget="table" title="邮件服务器" name="邮件服务器table" type="TABLE" model="pamirs.message.EmailSenderSource"
+      excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog" domain="type=='EMAIL_SEND'">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="pamirs.message.EmailSenderSource" text="创建"/>
+        <action name="delete" label="删除" model="pamirs.message.EmailSenderSource" text="删除"/>
+    </template>
+    <template slot="rowActions">
+        <action name="redirectUpdatePage" label="编辑" model="pamirs.message.EmailSenderSource" text="编辑"/>
+        <action name="redirectDetailPage" label="详情" model="pamirs.message.EmailSenderSource" text="详情"/>
+    </template>
+
+    <template slot="search" widget="search">
+        <pack gutter="24,24" widget="row">
+            <field allowClear="true" name="name" widget="Input" model="pamirs.message.EmailSenderSource" data="name" label="名称" required="false"/>
+            <field allowClear="true" name="active" widget="Select" model="pamirs.message.EmailSenderSource" data="active" label="是否启用" required="false" defaultValue=""/>
+            <field allowClear="true" name="createDate" widget="DateTimePicker" model="pamirs.message.EmailSenderSource" data="createDate" label="创建时间" required="false"/>
+            <field allowClear="true" name="writeDate" widget="DateTimePicker" model="pamirs.message.EmailSenderSource" data="writeDate" label="修改时间" required="false"/>
+        </pack>
+    </template>
+
+    <template slot="fields">
+        <field name="id" invisible="true" model="pamirs.message.EmailSenderSource" data="id"/>
+        <field name="name" widget="Input" model="pamirs.message.EmailSenderSource" data="name" label="名称" required="false"/>
+        <field name="smtpUser" widget="Input" model="pamirs.message.EmailSenderSource" data="smtpUser" label="SMTP用户名" required="false"/>
+        <field name="smtpSecurity" widget="Select" model="pamirs.message.EmailSenderSource" data="smtpSecurity" label="加密类型" required="false"/>
+        <field name="smtpHost" widget="Input" model="pamirs.message.EmailSenderSource" data="smtpHost" label="SMTP服务器地址" required="false"/>
+        <field name="smtpPort" widget="Integer" model="pamirs.message.EmailSenderSource" data="smtpPort" label="SMTP服务器端口" required="false"/>
+        <field name="active" widget="Select" model="pamirs.message.EmailSenderSource" data="active" label="是否启用" required="false"/>
+        <field name="createUid" widget="UserInput" model="pamirs.message.EmailSenderSource" data="createUid" label="创建人" required="false"/>
+        <field name="writeUid" widget="UserInput" model="pamirs.message.EmailSenderSource" data="writeUid" label="修改人" required="false"/>
+        <field name="createDate" widget="DateTimePicker" model="pamirs.message.EmailSenderSource" data="createDate" label="创建时间" required="false"/>
+        <field name="writeDate" widget="DateTimePicker" model="pamirs.message.EmailSenderSource" data="writeDate" label="修改时间" required="false"/>
+    </template>
+</view>

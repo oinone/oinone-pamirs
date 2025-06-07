@@ -1,0 +1,14 @@
+<view type="FORM" model="user.PamirsUserTransient" name="modify_pwd_view" title="修改密码">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="modifyCurrentUserPassword" label="确定" model="user.PamirsUserTransient" goBack="true" validateForm="true" text="确定"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group">
+            <field name="rawPassword" model="user.PamirsUserTransient" data="rawPassword" required="true" type="PASSWORD" crypto="true"/>
+            <field name="password" model="user.PamirsUserTransient" data="password" required="true" type="PASSWORD" crypto="true"/>
+            <field name="confirmPassword" model="user.PamirsUserTransient" data="confirmPassword" required="true" value-same-as="password" type="PASSWORD" crypto="true"/>
+            <field name="picCode" widget="VerificationCode" model="user.PamirsUserTransient" data="picCode" label="图片验证码" required="true" picCodeScene="modify_pwd_pic_code"/>
+        </pack>
+    </template>
+</view>

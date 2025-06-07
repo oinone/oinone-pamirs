@@ -1,0 +1,45 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: schedule-deployer
+
+logger:
+  org:
+    springframework: warn
+  root: trace
+
+---
+spring:
+  profiles: dev
+  cloud:
+    config:
+      enabled: false
+      uri: http://127.0.0.1:7001
+      label: master
+      profile: dev
+    nacos:
+      server-addr: http://127.0.0.1:8848
+      discovery:
+        enabled: false
+        namespace:
+        prefix: application
+        file-extension: yml
+      config:
+        enabled: false
+        namespace:
+        prefix: application
+        file-extension: yml
+
+dubbo:
+  registry:
+    protocol: zookeeper
+    address: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: pamirs
+  scan:
+    base-packages: pro.shushi.pamirs.middleware.schedule.core.service
+  cloud:
+    subscribed-services:

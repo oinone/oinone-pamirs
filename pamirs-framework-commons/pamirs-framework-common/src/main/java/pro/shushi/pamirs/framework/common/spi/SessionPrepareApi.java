@@ -1,0 +1,25 @@
+package pro.shushi.pamirs.framework.common.spi;
+
+import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestParam;
+import pro.shushi.pamirs.meta.common.spi.SPI;
+import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * 会话预处理API
+ *
+ * @author Adamancy Zhang on 2021-04-20 17:54
+ */
+@SPI(factory = SpringServiceLoaderFactory.class)
+public interface SessionPrepareApi {
+
+    /**
+     * 预处理请求参数上下文
+     *
+     * @param request      {@link HttpServletRequest}
+     * @param moduleName   模块名称
+     * @param requestParam 请求参数
+     */
+    void prepare(HttpServletRequest request, String moduleName, PamirsRequestParam requestParam);
+}

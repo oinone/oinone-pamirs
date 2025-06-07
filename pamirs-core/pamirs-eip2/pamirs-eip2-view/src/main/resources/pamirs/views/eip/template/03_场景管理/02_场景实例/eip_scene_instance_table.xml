@@ -1,0 +1,19 @@
+<view type="TABLE" widget="table" model="pamirs.eip.EipSceneInstance" name="场景实例table" excluded-actions="redirectDetailPage,redirectCreatePage,redirectUpdatePage,delete,$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
+    <template slot="rowActions">
+        <action name="dataStatusEnable" label="启用" model="pamirs.eip.EipSceneInstance" text="启用"/>
+        <action name="dataStatusDisable" label="禁用" model="pamirs.eip.EipSceneInstance" confirm="禁用后将无法调用，请谨慎操作" text="禁用"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="pamirs.eip.EipSceneInstance" data="id"/>
+        <field name="code" widget="Input" model="pamirs.eip.EipSceneInstance" data="code" label="实例编码"/>
+        <field name="name" widget="Input" model="pamirs.eip.EipSceneInstance" data="name" label="实例名称"/>
+        <field name="dataSourceNodeDefinition" widget="Select" model="pamirs.eip.EipSceneInstance" data="dataSourceNodeDefinition" label="数据来源"/>
+        <field name="dataTargetNodeDefinition" widget="Select" model="pamirs.eip.EipSceneInstance" data="dataTargetNodeDefinition" label="数据接收"/>
+        <field name="initTask" widget="Select" model="pamirs.eip.EipSceneInstance" data="initTask" label="定时执行"/>
+        <field name="dataStatus" widget="Select" model="pamirs.eip.EipSceneInstance" data="dataStatus" label="状态"/>
+        <field name="createUid" widget="UserInput" model="pamirs.eip.EipSceneInstance" data="createUid" label="创建人" required="false"/>
+        <field name="writeUid" widget="UserInput" model="pamirs.eip.EipSceneInstance" data="writeUid" label="修改人" required="false"/>
+        <field name="createDate" widget="DateTimePicker" model="pamirs.eip.EipSceneInstance" data="createDate" label="创建时间" required="false"/>
+        <field name="writeDate" widget="DateTimePicker" model="pamirs.eip.EipSceneInstance" data="writeDate" label="修改时间" required="false"/>
+    </template>
+</view>

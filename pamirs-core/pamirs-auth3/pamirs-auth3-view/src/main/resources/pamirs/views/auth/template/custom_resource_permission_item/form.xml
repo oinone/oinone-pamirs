@@ -1,0 +1,22 @@
+<view type="FORM" model="auth.AuthCustomResourcePermissionItem" name="AuthCustomResourcePermissionItemForm" title="创建/编辑自定义资源权限项">
+    <template slot="actions">
+        <action name="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" goBack="true" validateForm="true"/>
+        <action name="update" goBack="true" validateForm="true"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <field data="module" invisible="true"/>
+        <field data="model" invisible="true"/>
+        <field data="name" invisible="true"/>
+        <field data="source" invisible="true"/>
+        <pack widget="group" title="权限项信息" cols="2">
+            <field data="code" hint="未填时将自动生成" label="资源编码" readonly="activeRecord.id"/>
+            <field data="type" label="资源类型"/>
+            <field data="subtype" label="资源子类型"/>
+            <field data="moduleDefinition" label="资源模块"/>
+            <field data="modelDefinition" label="资源模型" domain="module == ${activeRecord.module}"/>
+            <field data="path" label="资源路径"/>
+        </pack>
+    </template>
+</view>

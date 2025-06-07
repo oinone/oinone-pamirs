@@ -1,0 +1,14 @@
+server:
+  port: 10012
+
+spring:
+  profiles: dev
+  shardingsphere:
+    datasource:
+      names: schedulepamirs
+      schedulepamirs:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbc-url: jdbc:mysql://localhost:3306/schedule_pamirs?useUnicode=true&characterEncoding=utf-8&verifyServerCertificate=false&useSSL=false&requireSSL=false
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: shushi@2019

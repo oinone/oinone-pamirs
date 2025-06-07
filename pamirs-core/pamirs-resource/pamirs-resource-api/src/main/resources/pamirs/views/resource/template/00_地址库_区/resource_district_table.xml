@@ -1,0 +1,35 @@
+<view widget="table" operationWidth="200" type="TABLE" model="resource.ResourceDistrict" name="区table" title="区">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="resource.ResourceDistrict"/>
+        <action name="delete" label="删除" model="resource.ResourceDistrict"/>
+        <!--
+        <action name="internalGotoListImportDialog" label="导入" model="resource.ResourceDistrict"/>
+        <action name="internalGotoListExportDialog" label="导出" model="resource.ResourceDistrict"/>
+        -->
+    </template>
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情" model="resource.ResourceDistrict"/>
+        <action name="redirectUpdatePage" label="编辑" model="resource.ResourceDistrict"/>
+        <action name="区关键字设置dialog" label="区关键字设置" model="resource.ResourceDistrict"/>
+    </template>
+    <template slot="search" widget="search">
+        <pack gutter="24,24" widget="row">
+            <field name="code" widget="Input" model="resource.ResourceDistrict" data="code" label="区/县代码"/>
+            <field name="name" widget="Input" model="resource.ResourceDistrict" data="name" label="区/县名称"/>
+            <field name="country" widget="Select" model="resource.ResourceDistrict" data="country" label="国家/地区"/>
+            <field name="province" widget="Select" model="resource.ResourceDistrict" data="province" label="省/州"/>
+            <field name="city" widget="Select" model="resource.ResourceDistrict" data="city" label="市"/>
+            <field name="mappingList" widget="Select" model="resource.ResourceDistrict" data="mappingList" label="关键字"/>
+        </pack>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="resource.ResourceDistrict" data="id"/>
+        <field name="sourceType" invisible="true" model="resource.ResourceDistrict" data="sourceType"/>
+        <field name="code" widget="Input" model="resource.ResourceDistrict" data="code" label="区/县代码"/>
+        <field name="name" widget="Input" model="resource.ResourceDistrict" data="name" label="区/县名称"/>
+        <field name="country" widget="Select" model="resource.ResourceDistrict" data="country" label="国家/地区"/>
+        <field name="province" widget="Select" model="resource.ResourceDistrict" data="province" label="省/州"/>
+        <field name="city" widget="Select" model="resource.ResourceDistrict" data="city" label="市"/>
+        <field name="mappingList" widget="Select" model="resource.ResourceDistrict" data="mappingList" label="关键字"/>
+    </template>
+</view>

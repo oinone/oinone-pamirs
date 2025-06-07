@@ -1,0 +1,18 @@
+<view type="FORM" widget="form" title="新增业务域" model="eip.EipConnGroup" name="EipConnGroupForm">
+    <template slot="actions">
+        <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
+        <action name="create" label="保存" goBack="true" validateForm="true"/>
+    </template>
+    <template slot="fields">
+        <field data="code" label="编码" required="false" readonly="true"
+               hint="自动生成"/>
+        <field data="name" label="名称" required="true"
+               maxLength="10"
+               placeholder="请输入业务域名称" hint="全局唯一"
+               pattern="/^[\u4E00-\u9FA5A-Za-z0-9_-]*$/" tips="支持录入中文、英文、数字、-、_"/>
+        <field data="description" label="描述" required="true"
+               placeholder="请输入业务域的描述信息"
+               maxLength="256" widget="EipOpenText"
+               hint="精准明确的业务域描述同样有助于后续管理 ^_^"/>
+    </template>
+</view>

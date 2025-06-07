@@ -1,0 +1,33 @@
+{
+  "namespace.TestExtPointInterface.test": {
+    "argumentList": [
+      {
+        "ltype": "java.lang.String",
+        "ltypeT": "java.lang.String",
+        "multi": false,
+        "name": "name",
+        "ttype": {
+          "e": "STRING"
+        }
+      }
+    ],
+    "clazz": "pro.shushi.pamirs.framework.configure.printer.mock.data.dependency1.extpoint.TestExtPoint",
+    "disableCheck": false,
+    "disableExtPoint": false,
+    "displayName": "TestExtPoint",
+    "method": "test",
+    "name": "test",
+    "namespace": "namespace.TestExtPointInterface",
+    "optimisticLocker": true,
+    "returnType": {
+      "ltype": "java.lang.String",
+      "ltypeT": "java.lang.String",
+      "multi": false,
+      "ttype": {
+        "e": "STRING"
+      }
+    },
+    "sign": "namespace.TestExtPointInterface.test",
+    "sudo": false
+  }
+}

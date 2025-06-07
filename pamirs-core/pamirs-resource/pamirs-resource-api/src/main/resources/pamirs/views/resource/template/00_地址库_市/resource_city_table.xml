@@ -1,0 +1,34 @@
+<view widget="table" model="resource.ResourceCity" name="市table" title="市" type="TABLE">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="resource.ResourceCity"/>
+        <action name="delete" label="删除" model="resource.ResourceCity"/>
+        <!--
+        <action name="internalGotoListImportDialog" label="导入" model="resource.ResourceCity"/>
+        <action name="internalGotoListExportDialog" label="导出" model="resource.ResourceCity"/>
+        -->
+    </template>
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情" model="resource.ResourceCity"/>
+        <action name="redirectUpdatePage" label="编辑" model="resource.ResourceCity"/>
+        <action name="市关键字设置dialog" label="市关键字设置" model="resource.ResourceCity"/>
+    </template>
+    <template slot="search" widget="search">
+        <pack gutter="24,24" widget="row">
+            <field name="code" widget="Input" model="resource.ResourceCity" data="code" label="市代码"/>
+            <field name="name" widget="Input" model="resource.ResourceCity" data="name" label="市名称"/>
+            <field name="country" widget="Select" model="resource.ResourceCity" data="country" label="国家/地区"/>
+            <field name="province" widget="Select" model="resource.ResourceCity" data="province" label="省/州"/>
+            <field name="mappingList" widget="Select" model="resource.ResourceCity" data="mappingList" label="关键字"/>
+        </pack>
+    </template>
+
+    <template slot="fields">
+        <field name="id" invisible="true" model="resource.ResourceCity" data="id"/>
+        <field name="sourceType" invisible="true" model="resource.ResourceCity" data="sourceType"/>
+        <field name="code" widget="Input" model="resource.ResourceCity" data="code" label="市代码"/>
+        <field name="name" widget="Input" model="resource.ResourceCity" data="name" label="市名称"/>
+        <field name="country" widget="Select" model="resource.ResourceCity" data="country" label="国家/地区"/>
+        <field name="province" widget="Select" model="resource.ResourceCity" data="province" label="省/州"/>
+        <field name="mappingList" widget="Select" model="resource.ResourceCity" data="mappingList" label="关键字"/>
+    </template>
+</view>

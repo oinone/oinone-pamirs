@@ -1,0 +1,17 @@
+<view widget="table" name="税种table" operationWidth="200" title="税种" model="resource.ResourceTaxKind" type="TABLE">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="resource.ResourceTaxKind"/>
+        <action name="delete" label="删除" model="resource.ResourceTaxKind"/>
+    </template>
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情" model="resource.ResourceTaxKind"/>
+        <action name="redirectUpdatePage" label="编辑" model="resource.ResourceTaxKind"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="resource.ResourceTaxKind" data="id"/>
+        <field name="name" widget="Input" model="resource.ResourceTaxKind" data="name" label="名称"/>
+        <field name="code" widget="Input" model="resource.ResourceTaxKind" data="code"/>
+        <field name="createDate" data="createDate" model="resource.ResourceTaxKind"/>
+        <field name="writeDate" data="writeDate" model="resource.ResourceTaxKind"/>
+    </template>
+</view>

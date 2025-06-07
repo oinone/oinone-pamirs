@@ -1,0 +1,11 @@
+<view model="tools.FuncationOverview" type="form">
+    <template slot="actionBar">
+        <action bizStyle="DEFAULT" cancelText="取消" confirm="确认要执行动作吗？" confirmPosition="BM" confirmType="POPPER" context-fun="rootRecord.fun" context-namespace="rootRecord.namespace" disabled="false" enableConfirm="false" enterText="确定" invisible="false" label="查询" labelInvisible="false" name="searchByFun" readonly="false" required="false" type="PRIMARY" widget="ViewAction"/>
+    </template>
+    <template slot="form">
+        <pack colSpan="FULL" cols="24" disabled="false" invisible="false" labelInvisible="false" layout="HORIZONTAL" readonly="false" required="false" title="查询" widget="group">
+            <field allowClear="true" colSpan="HALF" constructSubmitType="CURRENT" data="namespace" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="false" justifyContent="START" label="命令空间" labelInvisible="false" maxLength="1024" orientation="TRANSVERSE" patternType="NONE" placeholder="请输入" prefixStore="false" prefixType="TEXT" readonly="false" required="true" showCount="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" type="TEXT" widget="Input"/>
+            <field allowClear="true" colSpan="HALF" constructSubmitType="CURRENT" data="fun" disabled="false" editorCancelText="取消" editorConfirm="确认要执行动作吗？" editorConfirmPosition="BM" editorConfirmType="POPPER" editorEnableConfirm="false" editorEnterText="确定" independentlyEditable="false" invisible="false" justifyContent="START" label="FUN" labelInvisible="false" maxLength="1024" orientation="TRANSVERSE" patternType="NONE" placeholder="请输入" prefixStore="false" prefixType="TEXT" readonly="false" required="true" showCount="false" showPrefix="false" showSuffix="false" suffixStore="false" suffixType="TEXT" type="TEXT" widget="Input"/>
+        </pack>
+    </template>
+</view>

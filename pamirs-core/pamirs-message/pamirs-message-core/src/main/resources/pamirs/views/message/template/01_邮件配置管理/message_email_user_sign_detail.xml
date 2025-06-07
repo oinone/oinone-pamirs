@@ -1,0 +1,16 @@
+<view widget="detail" model="pamirs.message.EmailUserSign" type="DETAIL" name="邮件签名detail" title="邮件签名">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="pamirs.message.EmailUserSign" data="id"/>
+            <field span="1" name="name" widget="Input" model="pamirs.message.EmailUserSign" data="name" label="邮件签名名称"
+                   required="true"/>
+            <field span="1" name="partner" widget="Select" model="pamirs.message.EmailUserSign"
+                   data="partner" label="用户" required="false"/>
+            <field span="2" name="emailSignature" widget="Html" model="pamirs.message.EmailUserSign"
+                   data="emailSignature" label="邮件签名" required="true"/>
+        </pack>
+    </template>
+</view>

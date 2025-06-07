@@ -1,0 +1,16 @@
+<view type="TABLE" title="导出任务" name="导出任务table" widget="table" model="file.ExcelExportTask">
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情"/>
+    </template>
+    <template slot="fields">
+        <field data="id" label="任务编号"/>
+        <field data="moduleDefinition" label="所属应用"/>
+        <field data="name" label="任务名称"/>
+        <field data="workbookName" label="关联业务单据类型"/>
+        <field data="state" label="状态"/>
+        <field data="rsql" label="过滤条件"/>
+        <field data="file" label="关联文件" widget="Upload" optionFields="name,url,id"/>
+        <field data="createUserName" label="发起人"/>
+        <field data="createDate" label="发起时间"/>
+    </template>
+</view>

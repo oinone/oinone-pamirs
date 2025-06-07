@@ -1,0 +1,36 @@
+<view type="TABLE" model="auth.AuthCustomResourcePermissionItem" name="AuthCustomResourcePermissionItemTable" title='自定义资源权限项'>
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建"/>
+        <action name="delete" label="删除" disabled="activeRecord.source == 'SYSTEM'" confirm="删除将导致所有相关角色的权限失效，确定要删除吗？"/>
+    </template>
+    <template slot="search">
+        <field data="code" label="资源编码"/>
+        <field data="type" label="资源类型"/>
+        <field data="subtype" label="资源子类型"/>
+        <field data="module" label="资源模块"/>
+        <field data="modelDefinition" label="资源模型"/>
+        <field data="name" label="资源名称"/>
+        <field data="path" label="资源路径"/>
+        <field data="createDate"/>
+        <field data="writeDate"/>
+    </template>
+    <template slot="table" activeCount="4">
+        <field data="id" invisible="true"/>
+        <field data="source" invisible="true"/>
+
+        <field data="code" label="资源编码"/>
+        <field data="type" label="资源类型"/>
+        <field data="subtype" label="资源子类型"/>
+        <field data="module" label="资源模块"/>
+        <field data="modelDefinition" label="资源模型"/>
+        <field data="name" label="资源名称"/>
+        <field data="path" label="资源路径"/>
+        <field data="createDate"/>
+        <field data="writeDate"/>
+        <template slot="rowActions">
+            <action name="redirectUpdatePage" label="编辑"/>
+            <action name="redirectDetailPage" label="详情"/>
+            <action name="delete" label="删除" invisible="activeRecord.source == 'SYSTEM'" confirm="删除将导致所有相关角色的权限失效，确定要删除吗？"/>
+        </template>
+    </template>
+</view>

@@ -1,0 +1,24 @@
+<view type="FORM" title="修改角色" name="modify_employee_role" widget="form" model="auth.business.PamirsEmployeeRoleTransient" priority="1">
+    <template slot="actions">
+        <action fun="$$internal_GotoListTableRouter" label="关闭"/>
+        <action name="modifyEmployeeRole" label="确认"
+                validateForm="true" closeDialog="true" refreshData="true"/>
+    </template>
+    <template slot="fields" cols="2">
+        <field data="roleList" widget="Select" required="true" label="添加角色" span="2"/>
+        <field data="employeeList" widget="Table" required="true" label="操作员工列表" span="2">
+            <view widget="table">
+                <template slot="table" checkbox="false"/>
+                <template slot="actions">
+                </template>
+                <template slot="fields">
+                    <field data="id" invisible="true"/>
+                    <field data="name" label="名称"/>
+                    <field data="defaultBindingUser" label="绑定用户"/>
+                    <field data="dataStatus" label="是否启用"/>
+                    <field data="roles" label="当前角色"/>
+                </template>
+            </view>
+        </field>
+    </template>
+</view>

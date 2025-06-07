@@ -1,0 +1,21 @@
+<view widget="table" name="税率table" operationWidth="200" title="税率" model="resource.ResourceTax" type="TABLE">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建" model="resource.ResourceTax"/>
+        <action name="delete" label="删除" model="resource.ResourceTax"/>
+        <!--
+        <action name="internalGotoListImportDialog" label="导入" model="resource.ResourceTax"/>
+        <action name="internalGotoListExportDialog" label="导出" model="resource.ResourceTax"/>
+        -->
+    </template>
+    <template slot="rowActions">
+        <action name="redirectDetailPage" label="详情" model="resource.ResourceTax"/>
+        <action name="redirectUpdatePage" label="编辑" model="resource.ResourceTax"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="resource.ResourceTax" data="id"/>
+        <field name="code" widget="Input" model="resource.ResourceTax" data="code" label="税率编码"/>
+        <field name="name" widget="Input" model="resource.ResourceTax" data="name" label="税率名称"/>
+        <field name="tax" widget="Float" model="resource.ResourceTax" data="tax" label="税率"/>
+        <field name="taxKind" widget="Select" model="resource.ResourceTax" data="taxKind" label="税种"/>
+    </template>
+</view>

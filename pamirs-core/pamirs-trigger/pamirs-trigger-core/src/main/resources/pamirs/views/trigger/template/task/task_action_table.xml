@@ -1,0 +1,60 @@
+<view type="TABLE" title="任务" name="任务table" widget="table" model="trigger.TaskActionTransientModel">
+    <template slot="actions">
+        <action name="delete" label="删除" model="trigger.TaskActionTransientModel" confirm="你真的要删除这些任务吗？删除操作不可恢复！" text="删除"/>
+        <action name="cancel" label="取消" model="trigger.TaskActionTransientModel" text="取消"/>
+        <action name="recovery" label="恢复" model="trigger.TaskActionTransientModel" text="恢复"/>
+        <action name="internalGotoListExportDialog" label="导出" model="trigger.TriggerTaskAction"/>
+    </template>
+    <template slot="rowActions">
+        <action name="redirectUpdatePage" label="编辑" model="trigger.TaskActionTransientModel" text="编辑"/>
+        <action name="redirectDetailPage" label="详情" model="trigger.TaskActionTransientModel" text="详情"/>
+    </template>
+    <template slot="search">
+        <field name="id" model="trigger.TaskActionTransientModel" data="id" label="任务ID"/>
+        <field name="technicalName" model="trigger.TaskActionTransientModel" data="technicalName" label="技术名称"/>
+        <field name="taskType" model="trigger.TaskActionTransientModel" data="taskType" label="任务类型"/>
+        <field name="ownSign" model="trigger.TaskActionTransientModel" data="ownSign" label="隔离环境域"/>
+        <field name="application" model="trigger.TaskActionTransientModel" data="application" label="应用名"/>
+        <field name="bizId" model="trigger.TaskActionTransientModel" data="bizId" label="业务ID"/>
+        <field name="bizCode" model="trigger.TaskActionTransientModel" data="bizCode" label="业务CODE"/>
+        <field name="isCycle" model="trigger.TaskActionTransientModel" data="isCycle" label="是否循环任务"/>
+    </template>
+    <template slot="fields">
+        <field name="id" widget="Integer" model="trigger.TaskActionTransientModel" data="id" label="任务id" required="false"/>
+        <field name="technicalName" widget="Input" model="trigger.TaskActionTransientModel" data="technicalName" label="技术名称" required="false"/>
+        <field name="tableNum" widget="Integer" model="trigger.TaskActionTransientModel" data="tableNum" label="数据表编号" required="false"/>
+        <field name="taskType" widget="Input" model="trigger.TaskActionTransientModel" data="taskType" label="任务类型" required="false"/>
+        <field name="remark" widget="Text" model="trigger.TaskActionTransientModel" data="remark" label="备注" required="false"/>
+        <field name="interfaceName" widget="Input" model="trigger.TaskActionTransientModel" data="interfaceName" label="执行函数命名空间" required="false"/>
+        <field name="methodName" widget="Input" model="trigger.TaskActionTransientModel" data="methodName" label="执行函数名称" required="false"/>
+        <field name="version" widget="Input" model="trigger.TaskActionTransientModel" data="version" label="函数版本" required="false"/>
+        <field name="group" widget="Input" model="trigger.TaskActionTransientModel" data="group" label="函数组" required="false"/>
+        <field name="timeout" widget="Integer" model="trigger.TaskActionTransientModel" data="timeout" label="函数超时时间" required="false"/>
+        <field name="tenant" widget="Input" model="trigger.TaskActionTransientModel" data="tenant" label="租户" required="false"/>
+        <field name="env" widget="Input" model="trigger.TaskActionTransientModel" data="env" label="环境" required="false"/>
+        <field name="ownSign" widget="Input" model="trigger.TaskActionTransientModel" data="ownSign" label="所有者标记" required="false"/>
+        <field name="application" widget="Input" model="trigger.TaskActionTransientModel" data="application" label="应用名" required="false"/>
+        <field name="bizId" widget="Integer" model="trigger.TaskActionTransientModel" data="bizId" label="业务id" required="false"/>
+        <field name="bizCode" widget="Input" model="trigger.TaskActionTransientModel" data="bizCode" label="业务code" required="false"/>
+        <field name="context" widget="Text" model="trigger.TaskActionTransientModel" data="context" label="任务上下文" required="false"/>
+        <field name="limitExecuteNumber" widget="Integer" model="trigger.TaskActionTransientModel" data="limitExecuteNumber" label="最大执行次数" required="false"/>
+        <field name="isCycle" widget="Select" model="trigger.TaskActionTransientModel" data="isCycle" label="是否循环任务" required="false"/>
+        <field name="periodTimeValue" widget="Integer" model="trigger.TaskActionTransientModel" data="periodTimeValue" label="执行周期时间" required="false"/>
+        <field name="periodTimeUnit" widget="Integer" model="trigger.TaskActionTransientModel" data="periodTimeUnit" label="执行周期时间单位" required="false"/>
+        <field name="periodTimeAnchor" widget="Integer" model="trigger.TaskActionTransientModel" data="periodTimeAnchor" label="执行周期时间锚点" required="false"/>
+        <field name="limitRetryNumber" widget="Integer" model="trigger.TaskActionTransientModel" data="limitRetryNumber" label="最大重试次数" required="false"/>
+        <field name="nextRetryTimeValue" widget="Integer" model="trigger.TaskActionTransientModel" data="nextRetryTimeValue" label="下次重试间隔时间" required="false"/>
+        <field name="nextRetryTimeUnit" widget="Integer" model="trigger.TaskActionTransientModel" data="nextRetryTimeUnit" label="下次重试间隔时间单位" required="false"/>
+        <field name="executeNumber" widget="Integer" model="trigger.TaskActionTransientModel" data="executeNumber" label="执行次数" required="false"/>
+        <field name="nextExecuteTime" widget="DateTimePicker" model="trigger.TaskActionTransientModel" data="nextExecuteTime" label="下次执行时间" required="false"/>
+        <field name="lastExecuteTime" widget="DateTimePicker" model="trigger.TaskActionTransientModel" data="lastExecuteTime" label="最新执行时间" required="false"/>
+        <field name="anchorExecuteTime" widget="DateTimePicker" model="trigger.TaskActionTransientModel" data="anchorExecuteTime" label="锚定执行时间" required="false"/>
+        <field name="retryNumber" widget="Integer" model="trigger.TaskActionTransientModel" data="retryNumber" label="重试次数" required="false"/>
+        <field name="taskStatus" widget="Integer" model="trigger.TaskActionTransientModel" data="taskStatus" label="任务状态" required="false"/>
+        <field name="isTransfer" widget="Select" model="trigger.TaskActionTransientModel" data="isTransfer" label="是否已迁移" required="false"/>
+        <field name="isCanceled" widget="Select" model="trigger.TaskActionTransientModel" data="isCanceled" label="是否已取消" required="false"/>
+        <field name="errorLog" widget="Text" model="trigger.TaskActionTransientModel" data="errorLog" label="异常日志" required="false"/>
+        <field name="createDate" widget="DateTimePicker" model="trigger.TaskActionTransientModel" data="createDate" label="创建时间" required="false"/>
+        <field name="writeDate" widget="DateTimePicker" model="trigger.TaskActionTransientModel" data="writeDate" label="修改时间" required="false"/>
+    </template>
+</view>

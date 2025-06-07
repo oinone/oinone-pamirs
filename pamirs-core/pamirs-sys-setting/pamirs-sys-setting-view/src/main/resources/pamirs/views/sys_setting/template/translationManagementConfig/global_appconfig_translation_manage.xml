@@ -1,0 +1,12 @@
+<view type="FORM" widget="form" model="sysSetting.GlobalAppConfigProxy" name="SysSettingMenus_GlobalMenu_TranslateMenu"
+      title="翻译管理配置">
+    <template slot="actions">
+        <action name="saveTranslationManageSetting" label="发布"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <pack title="页面工具箱/添加翻译项、更改翻译项">
+            <field data="extend"/>
+        </pack>
+    </template>
+</view>

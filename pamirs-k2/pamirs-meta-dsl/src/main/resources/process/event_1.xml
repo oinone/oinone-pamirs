@@ -1,0 +1,11 @@
+<process name="event" version="1">
+    <event name="park">
+        <pojo-object method="shot" args="a, b" result="r" classPath="pro.shushi.pamirs.kernel.statemachine.machine.process.MockClazz"/>
+    </event>
+    <event name="repair" triggers="park" rules="don't to that">
+        <pojo-object method="shot" args="a, b" result="r" classPath="pro.shushi.pamirs.kernel.statemachine.machine.process.MockClazz"/>
+    </event>
+    <event name="shopping" triggers="park:repair">
+        <pojo-object method="shot" args="a, b" result="r" classPath="pro.shushi.pamirs.kernel.statemachine.machine.process.MockClazz"/>
+    </event>
+</process>

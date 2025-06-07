@@ -1,0 +1,14 @@
+package pro.shushi.pamirs.eip.jdbc.check.exception;
+
+/**
+ * SQL Delete检查异常
+ *
+ * @author Adamancy Zhang at 14:19 on 2024-06-06
+ */
+public class SQLDeleteCheckException {
+
+    public static SQLCheckException createWhereIsNullException() {
+        return SQLCheckException.createException("D000001", "更新语句必须使用Where条件");
+    }
+
+}

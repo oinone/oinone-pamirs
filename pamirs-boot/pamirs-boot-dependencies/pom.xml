@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>pro.shushi.pamirs</groupId>
+        <artifactId>pamirs-boot</artifactId>
+        <version>6.2.0</version>
+    </parent>
+    <groupId>pro.shushi.pamirs.boot</groupId>
+    <artifactId>pamirs-boot-dependencies</artifactId>
+    <packaging>pom</packaging>
+    <name>pamirs-boot-dependencies</name>
+    <description>Pamirs Platform Boot Dependencies</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>pamirs-meta-ui-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>pamirs-meta-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>pamirs-boot-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>pamirs-boot-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>pamirs-boot-modules</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>pamirs-boot-standard</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>pamirs-base-orm</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>pamirs-base-open</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>pamirs-base-standard</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>pamirs-sequence-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.boot</groupId>
+                <artifactId>ppamirs-distribution-id</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

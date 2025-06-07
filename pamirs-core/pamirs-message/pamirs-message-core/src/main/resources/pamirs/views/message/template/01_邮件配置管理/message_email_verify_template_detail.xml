@@ -1,0 +1,17 @@
+<view widget="detail" model="pamirs.message.EmailVerifyTemplate" type="DETAIL" ame="邮箱验证模板detail" title="邮箱验证模板">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
+                type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="pamirs.message.EmailVerifyTemplate" data="id"/>
+            <field span="1" name="title" widget="Input" model="pamirs.message.EmailVerifyTemplate" data="title" label="邮件标题" required="false"/>
+            <field span="1" name="templateType" widget="Select" model="pamirs.message.EmailVerifyTemplate" data="templateType" label="邮件验证模板类型" required="true"/>
+            <field span="1" name="timeInterval" widget="Integer" model="pamirs.message.EmailVerifyTemplate" data="timeInterval" label="验证码有效时间"/>
+        </pack>
+        <pack widget="group" title="模板" cols="1">
+            <field span="1" name="body" widget="Html" model="pamirs.message.EmailVerifyTemplate" data="body" label="邮件内容" required="true"/>
+        </pack>
+    </template>
+</view>

@@ -1,0 +1,58 @@
+<view type="DETAIL" widget="detail" model="pamirs.eip.proxy.EipLogProxy" title="日志详情" name="EIP日志detail">
+    <template slot="actions">
+        <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
+    </template>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <pack widget="group" title="基础信息" cols="2">
+            <field span="1" data="interfaceDisplayName" label="API名称"/>
+            <field span="1" data="interfaceName" label="技术名称"/>
+
+            <field span="2" data="interfaceModuleDefinition" label="所属应用"/>
+            <field span="1" data="interfaceType" label="API类型"/>
+            <field span="1" data="interfaceConnGroup" label="业务域"/>
+
+            <field span="2" data="interfaceUri" label="API URL"/>
+            <field span="2" data="interfaceDescription" label="API描述"/>
+        </pack>
+
+        <pack widget="group" title="执行信息" cols="2">
+            <pack widget="row">
+                <field span="1" data="isSuccess" widget="Select" label="响应结果">
+                    <options>
+                        <option label="成功" name="true"/>
+                        <option label="失败" name="false"/>
+                    </options>
+                </field>
+            </pack>
+
+            <field span="1" data="invokeDate" label="调用时间"/>
+            <field span="1" data="invokeEndDate" label="调用完成时间"/>
+            <field span="1" data="invokeMillisecond" label="执行时长" hint="单位毫秒"/>
+        </pack>
+
+        <pack widget="group" title="参数信息">
+            <pack widget="tabs">
+                <pack title="请求头报文">
+                    <field data="requestHeaderData" labelInvisible="true"/>
+                </pack>
+                <pack title="原始请求报文">
+                    <field invisible="STARTS_WITH(activeRecord.requestOriginData, 'http://') || STARTS_WITH(activeRecord.requestOriginData, 'https://')" data="requestOriginData" labelInvisible="true"/>
+                    <field invisible="!(STARTS_WITH(activeRecord.requestOriginData, 'http://') || STARTS_WITH(activeRecord.requestOriginData, 'https://'))" data="requestOriginData" labelInvisible="true" widget="Upload"/>
+                </pack>
+                <pack title="真实请求报文">
+                    <field invisible="STARTS_WITH(activeRecord.requestTargetData, 'http://') || STARTS_WITH(activeRecord.requestTargetData, 'https://')" data="requestTargetData" labelInvisible="true"/>
+                    <field invisible="!(STARTS_WITH(activeRecord.requestTargetData, 'http://') || STARTS_WITH(activeRecord.requestTargetData, 'https://'))" data="requestTargetData" labelInvisible="true" widget="Upload"/>
+                </pack>
+                <pack title="返回报文">
+                    <field invisible="STARTS_WITH(activeRecord.responseData, 'http://') || STARTS_WITH(activeRecord.responseData, 'https://')" data="responseData" labelInvisible="true"/>
+                    <field invisible="!(STARTS_WITH(activeRecord.responseData, 'http://') || STARTS_WITH(activeRecord.responseData, 'https://'))" data="responseData" labelInvisible="true" widget="Upload"/>
+                </pack>
+                <pack title="异常报文">
+                    <field invisible="STARTS_WITH(activeRecord.errorMsg, 'http://') || STARTS_WITH(activeRecord.errorMsg, 'https://')" data="errorMsg" labelInvisible="true"/>
+                    <field invisible="!(STARTS_WITH(activeRecord.errorMsg, 'http://') || STARTS_WITH(activeRecord.errorMsg, 'https://'))" data="errorMsg" labelInvisible="true" widget="Upload"/>
+                </pack>
+            </pack>
+        </pack>
+    </template>
+</view>

@@ -1,0 +1,47 @@
+{
+  "test.Model2": {
+    "checks": [],
+    "dataManager": true,
+    "displayName": "测试模型2",
+    "dsKey": "ds",
+    "lname": "pro.shushi.pamirs.framework.test.data.dependency2.model.TestModel2",
+    "model": "test.Model2",
+    "modelFields": [
+      {
+        "checks": [],
+        "displayName": "",
+        "field": "field",
+        "immutable": false,
+        "index": false,
+        "invisible": false,
+        "lname": "field",
+        "ltype": "java.lang.Integer",
+        "model": "test.Model2",
+        "multi": false,
+        "name": "field",
+        "optimisticLocker": false,
+        "pk": false,
+        "required": false,
+        "rules": [],
+        "serialize": "NON",
+        "sign": "test.Model2.field",
+        "summary": "",
+        "track": "NON",
+        "translate": false,
+        "ttype": {
+          "e": "BOOLEAN"
+        },
+        "unique": false,
+        "watch": []
+      }
+    ],
+    "module": "test2",
+    "rules": [],
+    "sign": "test.Model2",
+    "staticConfig": false,
+    "summary": "测试模型2",
+    "superModels": [
+      "test.Model"
+    ]
+  }
+}

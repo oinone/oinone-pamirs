@@ -1,0 +1,71 @@
+<view type="FORM" title="创建翻译资源" name="translationForm" widget="form" model="resource.ResourceTranslation">
+    <template slot="actions">
+        <!--        <action name="createOrUpdateAndRefresh"/>-->
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" label="确定" invisible="activeRecord.id" model="resource.ResourceTranslation" goBack="true" validateForm="true" tag="contextFreeAction"/>
+        <action name="update" label="更新" invisible="!activeRecord.id" model="resource.ResourceTranslation" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="resource.ResourceTranslation" data="id"/>
+            <field name="module" invisible="true" model="resource.ResourceTranslation" data="module"/>
+            <field name="langCode" invisible="true" model="resource.ResourceTranslation" data="langCode"/>
+            <field name="resLangCode" invisible="true" model="resource.ResourceTranslation" data="resLangCode"/>
+            <field span="1" name="moduleDefinition" placeholder="请选择翻译所在应用" widget="Select" model="resource.ResourceTranslation" data="moduleDefinition" label="翻译所在应用" domain="application == 1" required="true"/>
+            <field invisible="true" span="1" name="isDict" widget="Switch" model="resource.ResourceTranslation" data="isDict" label="是否是字典" constructFun="constructMirror" constructSubmitType="CUSTOM" submitFields="isDict,modelDefinition,dataDictionary,model"/>
+            <!-- 没想好这个激活状态什么场景使用,先注掉-->
+            <field span="1" name="state" invisible="true" widget="Switch" model="resource.ResourceTranslation" data="state" label="激活状态"/>
+            <!--invisible="context.activeRecord.isDict"-->
+            <field invisible="true" span="1" name="modelDefinition" submitType="none" model="resource.ResourceTranslation" data="modelDefinition" label="模型" searchField="displayName,model" domain="module=='${activeRecord.moduleDefinition.module}'" constructSubmitType="CUSTOM" constructFun="constructMirror" submitFields="isDict,modelDefinition,dataDictionary"/>
+            <!--invisible="!context.activeRecord.isDict"-->
+            <field invisible="true" span="1" name="dataDictionary" widget="SSConstructSelect" submitType="none" model="resource.ResourceTranslation" data="dataDictionary" label="字典" searchField="displayName,dictionary" constructFun="constructMirror" constructSubmitType="CUSTOM" submitFields="isDict,modelDefinition,dataDictionary"/>
+            <field invisible="true" span="1" name="model" widget="Input" model="resource.ResourceTranslation" data="model" label="模型/字典编码" required="true" readonly="true"/>
+            <field span="1" name="resLang" readonly="true" model="resource.ResourceTranslation" data="resLang" label="源语言" searchField="name,code" required="true"/>
+            <field span="1" name="lang" widget="Select" model="resource.ResourceTranslation" data="lang" label="目标语言" searchField="name,code" required="true"/>
+            <field span="2" name="comments" widget="TextArea" model="resource.ResourceTranslation" data="comments" label="备注"/>
+        </pack>
+
+        <pack widget="tabs">
+            <pack title="翻译项">
+                <!--                relationUpdateType="DIFF"-->
+                <field name="translationItems" widget="Table" model="resource.ResourceTranslation" data="translationItems" label="false">
+                    <view widget="table" model="resource.ResourceTranslationItem">
+                        <template slot="actionBar" widget="actionBar">
+                            <action allowClear="true" cancelText="取消" confirm="确认要执行动作吗？" confirmPosition="BM" confirmType="POPPER" disabled="false" enableConfirm="false" enterText="确定" invisible="false" label="创建" model="resource.ResourceTranslationItem" name="createResourceTranslationItem" readonly="false" required="false" type="PRIMARY" widget="ViewAction">
+                                <template slot="default" widget="modal">
+                                    <view model="resource.ResourceTranslationItem" type="form">
+                                        <template slot="form" widget="form">
+                                            <field name="id" invisible="true" model="resource.ResourceTranslationItem" data="id"/>
+                                            <field name="module" invisible="true" model="resource.ResourceTranslationItem" data="module"/>
+                                            <field name="model" invisible="true" model="resource.ResourceTranslationItem" data="model"/>
+                                            <field name="langCode" invisible="true" model="resource.ResourceTranslationItem" data="langCode"/>
+                                            <field name="origin" widget="Input" model="resource.ResourceTranslationItem" data="origin" label="源术语" required="true"/>
+                                            <field name="target" widget="Input" model="resource.ResourceTranslationItem" data="target" label="翻译值" required="true"/>
+                                            <field name="scope" widget="Select" model="resource.ResourceTranslationItem" data="scope" label="翻译应用范围" required="true"/>
+                                            <field name="state" widget="Switch" model="resource.ResourceTranslationItem" data="state" label="激活状态"/>
+                                            <field name="dataSource" invisible="true" defaultValue="BATCH_TRANSLATION" widget="Select" model="resource.ResourceTranslationItem" data="dataSource" label="翻译方式"/>
+                                        </template>
+                                    </view>
+                                </template>
+                            </action>
+                            <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
+                        </template>
+
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="resource.ResourceTranslationItem" data="id"/>
+                            <field name="module" invisible="true" model="resource.ResourceTranslationItem" data="module"/>
+                            <field name="model" invisible="true" model="resource.ResourceTranslationItem" data="model"/>
+                            <field name="langCode" invisible="true" model="resource.ResourceTranslationItem" data="langCode"/>
+                            <field name="origin" widget="Input" model="resource.ResourceTranslationItem" data="origin" label="源术语"/>
+                            <field name="target" widget="Input" model="resource.ResourceTranslationItem" data="target" label="翻译值"/>
+                            <field name="state" widget="Switch" model="resource.ResourceTranslationItem" data="state" label="激活状态"/>
+                            <field name="translateFor" invisible="true" widget="Select" model="resource.ResourceTranslationItem" data="translateFor" label="翻译方式"/>
+                            <field name="dataSource" widget="Select" model="resource.ResourceTranslationItem" data="dataSource" label="翻译方式"/>
+                            <field name="scope" widget="Select" model="resource.ResourceTranslationItem" data="scope" label="翻译应用范围"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+        </pack>
+    </template>
+</view>

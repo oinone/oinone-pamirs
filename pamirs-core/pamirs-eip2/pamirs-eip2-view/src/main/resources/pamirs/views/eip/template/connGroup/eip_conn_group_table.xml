@@ -1,0 +1,28 @@
+<view widget="table" type="TABLE" title="业务域" model="eip.EipConnGroup" name="EipConnGroupTable">
+    <template slot="search">
+        <field data="name" label="名称"/>
+        <field data="code" label="编码" required="false"/>
+        <field data="description" label="描述"/>
+    </template>
+
+    <template slot="actions">
+        <action name="EipConnGroupCreate">
+            <template slot="default" width="MEDIUM"/>
+        </action>
+    </template>
+
+    <template slot="rowActions">
+        <action name="deleteOne" enableConfirm="true" confirm="确认删除?"/>
+    </template>
+
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+
+        <field data="code" label="编码"/>
+        <field data="name" label="名称"/>
+        <field data="description" label="描述"/>
+
+        <field data="createDate" label="创建时间"/>
+        <field data="writeDate" label="更新时间"/>
+    </template>
+</view>

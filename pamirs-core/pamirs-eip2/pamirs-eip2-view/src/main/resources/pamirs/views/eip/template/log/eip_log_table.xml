@@ -1,0 +1,37 @@
+<view type="TABLE" widget="table" model="pamirs.eip.proxy.EipLogProxy" title="日志列表" name="EIP日志table">
+
+    <template slot="search">
+        <field data="interfaceDisplayName" label="API名称" required="false"/>
+        <field data="interfaceDescription" label="API描述" required="false" invisible="true"/>
+        <field data="invokeDate" label="调用时间" required="false"/>
+        <field data="interfaceType" label="API类型" required="false"/>
+    </template>
+    <template slot="rowActions">
+        <action name="EipLogDetail">
+            <template slot="default" width="MEDIUM"/>
+        </action>
+    </template>
+    <template slot="fields">
+        <field data="id" widget="Input" invisible="true"/>
+
+        <field data="interfaceDisplayName" label="API名称"/>
+        <field data="interfaceName" label="技术名称"/>
+
+        <field data="interfaceModuleDefinition" label="所属模块"/>
+        <field data="interfaceConnGroup" label="业务域"/>
+
+        <field data="interfaceType" label="API类型"/>
+        <field data="interfaceDescription" label="API描述" invisible="true"/>
+
+        <field data="invokeDate" label="调用时间"/>
+        <field data="invokeEndDate" label="调用完成时间"/>
+        <field data="invokeMillisecond" label="执行时长(ms)"/>
+        <field data="isSuccess" widget="Select" label="响应结果">
+            <options>
+                <option label="成功" name="true"/>
+                <option label="失败" name="false"/>
+            </options>
+        </field>
+
+    </template>
+</view>

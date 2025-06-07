@@ -1,0 +1,11 @@
+<view model="managementCenter.RoleUserManager" type="form" name="roleUserManagerForm">
+    <template slot="form">
+        <field data="roleId" invisible="true"/>
+        <field data="roleName" colSpan="FULL" readonly="true"/>
+        <field data="users" colSpan="FULL" widget="Transfer"/>
+    </template>
+    <template slot="footer">
+        <action name="$$internal_DialogCancel" type="default" label="取消"/>
+        <action name="updateRoleForUser" goBack="true" label="确定"/>
+    </template>
+</view>

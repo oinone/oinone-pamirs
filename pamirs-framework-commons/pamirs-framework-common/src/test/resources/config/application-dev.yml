@@ -1,0 +1,95 @@
+pamirs:
+  datasource:
+    ds0:
+      driverClassName: com.mysql.jdbc.Driver
+      beanid: ds0
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://127.0.0.1:3306/master?useSSL=false&allowPublicKeyRetrieval=true&useServerPrepStmts=true&cachePrepStmts=true&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&autoReconnect=true&ttt=tenant1
+      username: root
+      password: shushi@2019
+      initialSize: 5
+      maxActive: 200
+      minIdle: 5
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      asyncInit: true
+    ds1:
+      driverClassName: com.mysql.jdbc.Driver
+      beanid: ds1
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://127.0.0.1:3306/master?useSSL=false&allowPublicKeyRetrieval=true&useServerPrepStmts=true&cachePrepStmts=true&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&autoReconnect=true&ttt=tenant2
+      username: root
+      password: shushi@2019
+      initialSize: 5
+      maxActive: 200
+      minIdle: 5
+  dsroute:
+    dsmap:
+      pro_shushi_pamirs_engine: ds0
+      pro_shushi_pamirs_engine#model: ds1
+    previewmap:
+      pro_shushi_pamirs_engine: ds0
+      pro_shushi_pamirs_engine#model: ds0
+  sharding:
+    master:
+      names: ds0, ds1
+      shardingRule:
+        tables:
+          action:
+            actualDataNodes: ds${0..1}.action${0..1}
+            databaseStrategy:
+              inline:
+                shardingColumn: id
+                algorithmExpression: master
+            tableStrategy:
+              inline:
+                shardingColumn: id
+                algorithmExpression: action
+            keyGenerator:
+              type: SNOWFLAKE
+              column: id
+        bindingTables:
+          - action
+        broadcastTables:
+          - t_config
+
+        defaultDataSourceName: ds0
+        defaultKeyGenerator:
+          type: SNOWFLAKE
+          column: id
+
+      props:
+        sql.show: true
+
+  mybatis:
+    plus:
+      master:
+        global-config:
+          #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+          id-type: 2
+          #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+          field-strategy: 0
+          #驼峰下划线转换
+          db-column-underline: true
+          #刷新mapper 调试神器
+          refresh-mapper: true
+          #数据库大写下划线转换
+          #capital-mode: true
+          #序列接口实现类配置
+          #key-generator: com.baomidou.springboot.xxx
+          #逻辑删除配置（下面3个配置）
+          logic-delete-value: 0
+          logic-not-delete-value: 1
+          #自定义SQL注入器
+          #sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+          #自定义填充策略接口实现
+          #meta-object-handler: com.baomidou.springboot.xxx
+        configuration:
+          map-underscore-to-camel-case: true
+          cache-enabled: false
+        mapper-locations: classpath*:/mapper/common.xml
+

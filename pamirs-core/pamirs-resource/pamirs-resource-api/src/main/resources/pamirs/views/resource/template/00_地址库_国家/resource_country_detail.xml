@@ -1,0 +1,49 @@
+<view widget="detail" model="resource.ResourceCountry" title="国家" name="国家detail" type="DETAIL">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field name="id" invisible="true" model="resource.ResourceCountry" data="id"/>
+            <field span="1" name="name" widget="Input" model="resource.ResourceCountry" data="name" label="国家/地区名称"/>
+            <field span="1" name="phoneCode" widget="Input" model="resource.ResourceCountry" data="phoneCode" label="长途区号"/>
+            <field span="1" name="completeName" widget="Input" model="resource.ResourceCountry" data="completeName" label="国家/地区详细名称"/>
+            <field span="1" name="currency" widget="Input" model="resource.ResourceCountry" data="currency" label="币种"/>
+            <field span="1" name="code" widget="Input" model="resource.ResourceCountry" data="code" label="国家/地区编码"/>
+            <field span="1" name="lang" widget="Input" model="resource.ResourceCountry" data="lang" label="官方语言"/>
+            <field span="1" name="vatLabel" widget="Select" model="resource.ResourceCountry" data="vatLabel" label="消费税显示名称"/>
+            <field span="1" name="countryGroup" widget="Input" model="resource.ResourceCountry" data="countryGroup" label="所在洲"/>
+            <field span="1" name="flag" widget="UploadImg" model="resource.ResourceCountry" data="flag" label="国旗" size="1024"/>
+        </pack>
+        <pack widget="group" title="高级属性" cols="1" size="2048">
+            <field span="1" name="addrFormat" widget="TextArea" model="resource.ResourceCountry" data="addrFormat" label="地址显示格式"/>
+        </pack>
+        <pack widget="tabs">
+            <pack widget="group" title="省/州列表" cols="1">
+                <field name="provinceList" widget="Table" model="resource.ResourceCountry" data="provinceList" label="false">
+                    <view widget="table" model="resource.ResourceProvince">
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="resource.ResourceProvince" data="id"/>
+                            <field name="code" widget="Input" model="resource.ResourceProvince" data="code" label="省/州编码"/>
+                            <field name="name" widget="Input" model="resource.ResourceProvince" data="name" label="省/州名称"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack widget="group" title="外部编码" cols="1">
+                <field name="outResourceRelationList" widget="Table" model="resource.ResourceCountry" data="outResourceRelationList" label="false">
+                    <view widget="table" model="resource.OutResourceRelation" showInlineActions="false" excluded-actions="$$internal_GotoO2MEditDialog,redirectUpdatePage,redirectCreatePage">
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="resource.OutResourceRelation" data="id"/>
+                            <field name="sourceType" widget="Input" model="resource.OutResourceRelation" data="sourceType" label="来源类型"/>
+                            <field name="outCode" widget="Input" model="resource.OutResourceRelation" data="outCode" label="外部编码"/>
+                            <field name="extra" widget="Text" model="resource.OutResourceRelation" data="extra" label="拓展字段"/>
+                            <field name="relationCode" invisible="true" model="resource.OutResourceRelation" data="relationCode"/>
+                            <field name="model" invisible="true" model="resource.OutResourceRelation" data="model"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+        </pack>
+    </template>
+</view>

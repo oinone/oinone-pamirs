@@ -1,0 +1,19 @@
+<view widget="table" name="语言table" operationWidth="200" title="语言" model="resource.ResourceLang" type="TABLE">
+    <template slot="actions">
+        <action name="resourceLangCreate" label="创建" model="resource.ResourceLang"/>
+        <action name="delete" label="删除" model="resource.ResourceLang"/>
+    </template>
+    <template slot="rowActions">
+        <action name="resourceLangDetail" label="详情" model="resource.ResourceLang"/>
+        <action name="resourceLangEdit" label="编辑" model="resource.ResourceLang"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="resource.ResourceLang" data="id"/>
+        <field name="code" widget="Input" model="resource.ResourceLang" data="code" label="语言编码"/>
+        <field name="name" widget="Input" model="resource.ResourceLang" data="name" label="语言名称"/>
+        <field name="weekStart" widget="Select" model="resource.ResourceLang" data="weekStart" label="一周开始日"/>
+        <field name="direction" widget="Select" model="resource.ResourceLang" data="direction" label="书写习惯"/>
+        <field name="active" widget="Select" model="resource.ResourceLang" data="active" label="激活状态"/>
+        <field name="installState" invisible="true" widget="Select" model="resource.ResourceLang" data="installState" label="语言包安装状态"/>
+    </template>
+</view>

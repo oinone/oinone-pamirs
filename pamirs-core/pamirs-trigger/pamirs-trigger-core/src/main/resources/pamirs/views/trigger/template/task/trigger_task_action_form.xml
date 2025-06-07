@@ -1,0 +1,38 @@
+<view type="FORM" title="触发任务" name="触发任务form" widget="form" model="trigger.TriggerTaskAction">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" invisible="activeRecord.id" model="trigger.TriggerTaskAction" goBack="true" validateForm="true" label="确定" tag="contextFreeAction"/>
+        <action name="update" invisible="!activeRecord.id" model="trigger.TriggerTaskAction" goBack="true" validateForm="true" label="确定" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" model="trigger.TriggerTaskAction" data="id"/>
+        <pack widget="group" title="基础信息" cols="2">
+            <field span="1" name="displayName" model="trigger.TriggerTaskAction" data="displayName" label="显示名称"/>
+            <field span="1" name="description" model="trigger.TriggerTaskAction" data="description" label="描述"/>
+            <field span="1" name="technicalName" model="trigger.TriggerTaskAction" data="technicalName" label="技术名称"/>
+            <field span="1" name="model" model="trigger.TriggerTaskAction" data="model" label="触发模型"/>
+            <field span="1" name="condition" model="trigger.TriggerTaskAction" data="condition" label="触发场景"/>
+            <field span="1" name="taskType" model="trigger.TriggerTaskAction" data="taskType" label="任务类型"/>
+            <field span="1" name="delayTimeValue" model="trigger.TriggerTaskAction" data="delayTimeValue" label="延时执行时间"/>
+            <field span="1" name="delayTimeUnit" model="trigger.TriggerTaskAction" data="delayTimeUnit" label="延时执行时间单位"/>
+            <field span="1" name="limitRetryNumber" model="trigger.TriggerTaskAction" data="limitRetryNumber" label="最大重试次数"/>
+            <field span="1" name="nextRetryTimeValue" model="trigger.TriggerTaskAction" data="nextRetryTimeValue" label="下次重试执行时间"/>
+            <field span="1" name="nextRetryTimeUnit" model="trigger.TriggerTaskAction" data="nextRetryTimeUnit" label="下次重试时间单位"/>
+            <field span="1" name="bizId" model="trigger.TriggerTaskAction" data="bizId" label="业务id"/>
+            <field span="1" name="bizCode" model="trigger.TriggerTaskAction" data="bizCode" label="业务code"/>
+            <field span="1" name="tenant" model="trigger.TriggerTaskAction" data="tenant" label="租户"/>
+            <field span="1" name="env" model="trigger.TriggerTaskAction" data="env" label="环境"/>
+            <field span="1" name="ownSign" model="trigger.TriggerTaskAction" data="ownSign" label="所有者标记"/>
+            <field span="1" name="application" model="trigger.TriggerTaskAction" data="application" label="应用名称"/>
+            <field span="1" name="executeNamespace" model="trigger.TriggerTaskAction" data="executeNamespace" label="执行函数命名空间"/>
+            <field span="1" name="executeFun" model="trigger.TriggerTaskAction" data="executeFun" label="执行函数编码"/>
+            <field span="1" name="context" model="trigger.TriggerTaskAction" data="context" label="上下文"/>
+            <field span="1" name="firstExecuteTime" model="trigger.TriggerTaskAction" data="firstExecuteTime" label="首次执行时间"/>
+            <field span="1" name="active" model="trigger.TriggerTaskAction" data="active" label="是否启用"/>
+        </pack>
+        <pack widget="group" invisible="!activeRecord.id" title="其他信息" cols="4">
+            <field span="1" name="createDate" model="trigger.TriggerTaskAction" data="createDate" label="创建时间"/>
+            <field span="1" name="writeDate" model="trigger.TriggerTaskAction" data="writeDate" label="修改时间"/>
+        </pack>
+    </template>
+</view>

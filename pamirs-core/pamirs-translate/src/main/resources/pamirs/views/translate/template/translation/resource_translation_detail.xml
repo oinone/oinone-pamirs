@@ -1,0 +1,36 @@
+<view type="DETAIL" title="翻译详情" name="translationDetail" widget="detail" model="translation.TranslationItemProxy">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="detail">
+        <pack colSpan="FULL" cols="24" title="基础信息" widget="group">
+            <field colSpan="HALF" name="id" invisible="true" data="id"/>
+            <field colSpan="HALF" name="module" invisible="true" data="module"/>
+            <field colSpan="HALF" name="langCode" invisible="true" data="langCode"/>
+            <field colSpan="HALF" name="resLangCode" invisible="true" data="resLangCode"/>
+            <field colSpan="HALF" span="1" name="moduleDefinition" widget="Select" data="moduleDefinition" label="翻译所在应用"/>
+
+            <field colSpan="HALF" span="1" name="model" widget="Input" invisible="true" data="model" label="模型/字典编码" readonly="true"/>
+            <field colSpan="HALF" span="1" name="resLang" widget="Select" data="resLang" label="源语言"/>
+            <field colSpan="HALF" span="1" name="lang" widget="Select" data="lang" label="目标语言"/>
+            <field colSpan="HALF" span="1" name="resLangCode" widget="Input" data="resLangCode" label="源语言编码"/>
+            <field colSpan="HALF" span="1" name="langCode" widget="Input" data="langCode" label="目标语言编码"/>
+            <field colSpan="HALF" span="1" name="writeDate" widget="Input" data="writeDate" label="更新时间"/>
+            <field colSpan="HALF" span="1" name="createDate" widget="Input" data="createDate" label="创建时间"/>
+            <field colSpan="HALF" span="2" name="comments" widget="TextArea" data="comments" label="备注"/>
+        </pack>
+        <pack colSpan="FULL" cols="24" title="翻译信息" widget="group">
+            <field colSpan="HALF" name="id" invisible="true" data="id"/>
+            <field colSpan="HALF" name="module" invisible="true" data="module"/>
+            <field colSpan="HALF" name="model" invisible="true" data="model"/>
+            <field colSpan="HALF" name="langCode" invisible="true" data="langCode"/>
+            <field colSpan="HALF" name="origin" widget="Input" data="origin" label="源术语"/>
+            <field colSpan="HALF" name="target" widget="Input" data="target" label="翻译值"/>
+            <field colSpan="HALF" name="state" widget="Switch" data="state" label="激活状态"/>
+            <field colSpan="HALF" name="translateFor" invisible="true" widget="Select" data="translateFor" label="翻译方式"/>
+            <field colSpan="HALF" name="dataSource" widget="Select" data="dataSource" label="翻译方式"/>
+            <field colSpan="HALF" name="scope" widget="Select" data="scope" label="翻译应用范围"/>
+        </pack>
+        <field data="id" invisible="true"/>
+    </template>
+</view>

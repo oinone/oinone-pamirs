@@ -1,0 +1,25 @@
+<view type="TABLE" model="auth.AuthCustomGroup" name="AuthCustomGroupTable" title='自定义权限组'>
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建"/>
+        <action name="delete" label="删除" confirm="删除分组将导致该分组下的所有权限项自动转移到未分组中，确定要删除吗？"/>
+    </template>
+    <template slot="search">
+        <field data="code" label="编码"/>
+        <field data="name" label="名称"/>
+    </template>
+    <template slot="table">
+        <field data="id" invisible="true"/>
+
+        <field data="code" label="编码"/>
+        <field data="name" label="名称"/>
+        <field data="comment" label="描述"/>
+        <field data="parent" label="上级分组"/>
+        <field data="createDate"/>
+        <field data="writeDate"/>
+        <template slot="rowActions">
+            <action name="redirectUpdatePage" label="编辑"/>
+            <action name="redirectDetailPage" label="详情"/>
+            <action name="delete" label="删除" invisible="activeRecord.source == 'SYSTEM'" confirm="删除分组将导致该分组下的所有权限项自动转移到未分组中，确定要删除吗？"/>
+        </template>
+    </template>
+</view>

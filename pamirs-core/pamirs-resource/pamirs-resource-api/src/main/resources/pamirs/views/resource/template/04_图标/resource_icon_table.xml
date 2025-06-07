@@ -1,0 +1,44 @@
+<view name="iconManagement" type="gallery" model="resource.ResourceIcon">
+    <template slot="search" autoFill="true" widget="iconSearch">
+        <field name="displayName" data="displayName" label="图标名称、fontclass关键字" placeholder='图标名称、fontclass匹配查找' prefixType="ICON" prefix="oinone-sousuo"/>
+        <field name="group" data="group" label="分组" widget="IconGroupSelectWidget" isSearch="true"/>
+        <field name="show" data="show" label="显隐" widget="Select">
+            <options>
+                <option displayName="是" invisible="false" label="显示" name="true"/>
+                <option displayName="否" invisible="false" label="隐藏" name="false"/>
+            </options>
+        </field>
+        <field name="createDate" data="createDate" label="创建时间" readonly="true" startPlaceholder="导入开始时间" endPlaceholder="导入结束时间"/>
+        <template slot="actions">
+            <action name="iconUploadAction" label="上传图标" actionType="VIEW"/>
+        </template>
+    </template>
+
+    <template slot="gallery" widget="IconManageGallery" emptyText="无匹配条件图标" defaultPageSize="48" pageSizeOptions='10,15,30,48,50,100,200'>
+        <template slot="rowActions">
+            <element widget="iconActionBar" inline="true">
+                <action name="iconEditAction" label="编辑"/>
+                <action name="deleteOne" label="删除" confirm="确定要删除图标吗？" widget="iconDeleteAction"/>
+                <action name="active" label="显示" invisible="activeRecord.show == false" widget="iconVisibilityAction"/>
+                <action name="disabled" label="隐藏" invisible="activeRecord.show == true" widget="iconVisibilityAction"/>
+            </element>
+        </template>
+        <template slot="field">
+            <field name="id" data="id" label="id" invisible="true"/>
+            <field name="outId" data="outId" label="图标id" invisible="true"/>
+            <field name="type" data="type" label="图标类型" invisible="true"/>
+            <field name="name" data="name" label="图标名称" invisible="true"/>
+            <field name="displayName" data="displayName" label="图标显示名称"/>
+            <field name="libId" data="libId" label="图标库id" invisible="true"/>
+            <field name="lib" data="lib" label="图标库" invisible="true"/>
+            <field name="groupId" data="groupId" label="分组id" invisible="true"/>
+            <field name="group" data="group" label="分组" invisible="true"/>
+            <field name="show" data="show" label="显隐"/>
+            <field name="unicode" data="unicode" label="unicode" invisible="true"/>
+            <field name="remark" data="remark" label="备注" invisible="true"/>
+            <field name="fontClass" data="fontClass" label="字体图标类名" invisible="true"/>
+            <field name="fullFontClass" data="fullFontClass" label="字体图标全类名" invisible="true"/>
+            <field name="sys" data="sys" label="是否系统图标"/>
+        </template>
+    </template>
+</view>

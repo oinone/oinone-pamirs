@@ -1,0 +1,41 @@
+<view model="auth.AuthRole" name="AuthRoleTable" type="TABLE" title="角色列表">
+    <template slot="search">
+        <field data="name" label="角色名称"/>
+        <field data="roleType" label="角色类型"/>
+        <field data="active" label="是否有效"/>
+        <field data="code" label="角色编码"/>
+    </template>
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建"/>
+        <action name="delete" label="删除" confirm="删除角色将清空关联用户的对应权限，确认删除吗?"/>
+        <action name="bingingUser" label="绑定用户"/>
+        <action name="refreshCache" label="权限生效" confirm="若角色过多可能导致部分用户登录状态异常，确认执行吗?"/>
+        <action name="refreshAllCache" label="全部权限生效" confirm="若角色过多可能导致部分用户登录状态异常，确认执行吗?"/>
+        <!--        <action name="internalGotoListImportDialog" label="导入"/>-->
+        <!--        <action name="internalGotoListExportDialog" label="导出"/>-->
+        <action name="migrate" label="一键迁移旧版权限"/>
+        <action name="repair" label="数据修复"/>
+    </template>
+    <template slot="table" inlineActiveCount="5" operatorColumnWidth="230">
+        <field data="id" invisible="true"/>
+        <field data="source" invisible="true"/>
+
+        <field data="code" label="角色编码"/>
+        <field data="name" label="角色名称"/>
+        <field data="roleType" label="角色类型"/>
+        <field data="description" label="角色描述"/>
+        <field data="active" label="是否有效"/>
+        <field data="createUserName" label="创建人"/>
+        <field data="createDate" label="创建时间"/>
+        <field data="writeUserName" label="更新人"/>
+        <field data="writeDate" label="更新时间"/>
+
+        <template slot="rowActions">
+            <action name="redirectUpdatePage" label="编辑"/>
+            <action name="active" label="启用"/>
+            <action name="disable" label="禁用"/>
+            <action name="authRolePermissionEdit" label="权限配置"/>
+            <action name="userManager" label="用户管理"/>
+        </template>
+    </template>
+</view>

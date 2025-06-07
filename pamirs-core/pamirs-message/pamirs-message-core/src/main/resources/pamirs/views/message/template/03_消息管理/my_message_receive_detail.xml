@@ -1,0 +1,11 @@
+<view widget="detail" type="DETAIL" name="消息列表detail" title="消息详情" model="pamirs.message.UnreadMessage">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" cols="1">
+            <field name="id" invisible="true" model="pamirs.message.UnreadMessage" data="id"/>
+            <field span="1" name="body" model="pamirs.message.UnreadMessage" data="body" label="消息内容" required="true"/>
+        </pack>
+    </template>
+</view>

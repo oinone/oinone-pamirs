@@ -1,0 +1,1178 @@
+{
+  "pro.shushi.pamirs.resource": {
+    "pro.shushi.pamirs.base.model.meta.View": [
+      [
+        {
+          "active": true,
+          "name": "导出模板表格",
+          "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.file.model.ResourceExcelExportTemplate\");",
+          "type": "table",
+          "sequence": 1,
+          "arch": "export_template_table.xml"
+        },
+        {
+          "active": true,
+          "name": "导出模板表单",
+          "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.file.model.ResourceExcelExportTemplate\");",
+          "type": "form",
+          "sequence": 1,
+          "arch": "export_template_form.xml"
+        },
+        {
+          "active": true,
+          "name": "行记录权限",
+          "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.ModelRecordRule\");",
+          "type": "form",
+          "sequence": 1,
+          "arch": "model_record_rule.xml"
+        },
+        {
+          "active": true,
+          "name": "通用自定义view",
+          "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.resource.model.ResourceCommonTransientModel\");",
+          "type": "form",
+          "sequence": 1,
+          "arch": "resource_common_form.xml"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.meta.Menu": [
+      [
+        {
+          "sequence": 1,
+          "name": "常规",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")"
+        }
+      ],
+      [
+        {
+          "sequence": 1,
+          "name": "参数配置",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")"
+        },
+        {
+          "sequence": 2,
+          "name": "任务管理",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")"
+        },
+        {
+          "sequence": 3,
+          "name": "安全管理",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")"
+        },
+        {
+          "sequence": 4,
+          "name": "翻译",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceTranslation\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceTranslation\");",
+            "name": "翻译",
+            "displayName": "翻译",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart",
+            "actionType": "view"
+          }
+        },
+        {
+          "sequence": 5,
+          "name": "资源",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")"
+        },
+        {
+          "sequence": 6,
+          "name": "首选项",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")"
+        },
+        {
+          "sequence": 7,
+          "name": "用户/公司",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")"
+        },
+        {
+          "sequence": 8,
+          "name": "Mail",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")"
+        },
+        {
+          "sequence": 9,
+          "name": "导入管理",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.file.model.ResourceExcelImportTask\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.file.model.ResourceExcelImportTask\");",
+            "name": "导入管理_resource",
+            "displayName": "导入管理",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart",
+            "actionType": "view"
+          }
+        },
+        {
+          "sequence": 10,
+          "name": "导出管理",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.file.model.ResourceExcelExportTask\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.file.model.ResourceExcelExportTask\");",
+            "name": "导出管理_resource",
+            "displayName": "导出管理",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart",
+            "actionType": "view"
+          }
+        },
+        {
+          "sequence": 11,
+          "name": "导出模板",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource--常规\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.file.model.ResourceExcelExportTemplate\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.file.model.ResourceExcelExportTemplate\");",
+            "displayName": "导出模板",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart",
+            "actionType": "view"
+          }
+        }
+      ],
+      [
+        {
+          "sequence": 1,
+          "name": "系统参数",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-参数配置\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceConfig\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceConfig\");",
+            "name": "系统参数",
+            "displayName": "系统参数",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 2,
+          "name": "序列",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-参数配置\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.idgen.model.LeafAlloc\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.idgen.model.LeafAlloc\");",
+            "name": "序列",
+            "displayName": "序列",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 3,
+          "name": "数据字典",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-参数配置\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.DataDictionary\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.DataDictionary\");",
+            "name": "数据字典",
+            "displayName": "数据字典",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 1,
+          "name": "触发任务",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-任务管理\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.trigger.model.TriggerAutoAction\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.trigger.model.TriggerAutoAction\");",
+            "name": "触发任务",
+            "displayName": "触发任务",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 2,
+          "name": "触发任务记录",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-任务管理\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.trigger.model.TriggerAutoTask\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.trigger.model.TriggerAutoTask\");",
+            "name": "触发任务记录",
+            "displayName": "触发任务记录",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 3,
+          "name": "定时任务",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-任务管理\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.trigger.model.TriggerCronAction\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.trigger.model.TriggerCronAction\");",
+            "name": "定时任务",
+            "displayName": "定时任务",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 4,
+          "name": "定时任务记录",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-任务管理\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.trigger.model.TriggerCronTask\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.trigger.model.TriggerCronTask\");",
+            "name": "定时任务记录",
+            "displayName": "定时任务记录",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 1,
+          "name": "访问控制",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-安全管理\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.ModelAccess\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.ModelAccess\");",
+            "name": "访问控制",
+            "displayName": "访问控制",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 2,
+          "name": "菜单权限",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-安全管理\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.Menu\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.Menu\");",
+            "name": "菜单权限",
+            "displayName": "菜单权限",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 3,
+          "name": "字段权限",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-安全管理\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.ModelField\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.ModelField\");",
+            "name": "字段权限",
+            "displayName": "字段权限",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 4,
+          "name": "行记录权限",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-安全管理\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.ModelRecordRule\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.ModelRecordRule\");",
+            "name": "行记录权限",
+            "displayName": "行记录权限",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 5,
+          "name": "逻辑权限",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-安全管理\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.Action\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.Action\");",
+            "name": "逻辑权限",
+            "displayName": "逻辑权限",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 6,
+          "name": "安全策略",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-安全管理\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.ModelActionRule\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.meta.ModelActionRule\");",
+            "name": "安全策略",
+            "displayName": "安全策略",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 1,
+          "name": "文件",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-资源\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceFile\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceFile\");",
+            "name": "文件",
+            "displayName": "文件",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 2,
+          "name": "语言",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-资源\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceLang\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceLang\");",
+            "name": "语言",
+            "displayName": "语言",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 3,
+          "name": "国家",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-资源\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceCountry\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceCountry\");",
+            "name": "国家",
+            "displayName": "国家",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 4,
+          "name": "行业",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-资源\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceIndustry\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceIndustry\");",
+            "name": "行业",
+            "displayName": "行业",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 5,
+          "name": "货币",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-资源\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceCurrency\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceCurrency\");",
+            "name": "货币",
+            "displayName": "货币",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 6,
+          "name": "汇率",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-资源\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceCurrencyRate\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceCurrencyRate\");",
+            "name": "汇率",
+            "displayName": "汇率",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 7,
+          "name": "银行",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-资源\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceBank\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceBank\");",
+            "name": "银行",
+            "displayName": "银行",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 8,
+          "name": "地址数据导入",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-资源\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.resource.model.MapServiceConfig\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.resource.model.MapServiceConfig\");",
+            "name": "地址数据导入",
+            "displayName": "地址数据导入",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart",
+            "actionType": "view"
+          }
+        },
+        {
+          "sequence": 1,
+          "name": "主题",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-首选项\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceTheme\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceTheme\");",
+            "name": "主题",
+            "displayName": "主题",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 2,
+          "name": "通用",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-首选项\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.resource.model.ResourceCommonTransientModel\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.resource.model.ResourceCommonTransientModel\");",
+            "name": "通用",
+            "displayName": "通用",
+            "actionType": "view",
+            "viewMode": "form",
+            "viewType": "form",
+            "viewCategory": "object"
+          }
+        },
+        {
+          "sequence": 1,
+          "name": "用户",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-用户/公司\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceUser\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceUser\");",
+            "name": "用户",
+            "displayName": "用户",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 2,
+          "name": "公司列表",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-用户/公司\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceCompany\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceCompany\");",
+            "name": "公司列表",
+            "displayName": "公司列表",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 3,
+          "name": "公司开户行",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-用户/公司\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourcePartnerBank\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourcePartnerBank\");",
+            "name": "公司开户行",
+            "displayName": "公司开户行",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 4,
+          "name": "群组",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-用户/公司\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceGroup\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceGroup\");",
+            "name": "群组",
+            "displayName": "群组",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 5,
+          "name": "合作伙伴",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-用户/公司\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourcePartner\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourcePartner\");",
+            "name": "合作伙伴",
+            "displayName": "合作伙伴",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 6,
+          "name": "个人",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-用户/公司\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourcePersonal\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourcePersonal\");",
+            "name": "个人",
+            "displayName": "个人",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 7,
+          "name": "部门",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-用户/公司\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceDepartment\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceDepartment\");",
+            "name": "部门",
+            "displayName": "部门",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 1,
+          "name": "频道",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-Mail\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.mail.model.MailChannel\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.mail.model.MailChannel\");",
+            "name": "频道",
+            "displayName": "频道",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 2,
+          "name": "消息类型",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-常规-Mail\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.mail.model.MailSubtype\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.mail.model.MailSubtype\");",
+            "name": "消息类型",
+            "displayName": "消息类型",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        }
+      ],
+      [
+        {
+          "sequence": 1,
+          "name": "地区",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-资源-国家\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceRegion\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceRegion\");",
+            "name": "地区",
+            "displayName": "地区",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 2,
+          "name": "州/省",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-资源-国家\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceProvince\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceProvince\");",
+            "name": "州/省",
+            "displayName": "州/省",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 3,
+          "name": "城市",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-资源-国家\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceCity\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceCity\");",
+            "name": "城市",
+            "displayName": "城市",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 4,
+          "name": "区县",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-资源-国家\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceDistrict\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceDistrict\");",
+            "name": "区县",
+            "displayName": "区县",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        },
+        {
+          "sequence": 5,
+          "name": "街道",
+          "parent": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-资源-国家\")",
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.resource\")",
+          "viewAction": {
+            "target": "router",
+            "model": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceStreet\");",
+            "resModel": "FUN:PAMIRS.MODEL(\"pro.shushi.pamirs.base.model.resource.ResourceStreet\");",
+            "name": "街道",
+            "displayName": "街道",
+            "actionType": "view",
+            "viewCategory": "list",
+            "viewType": "table",
+            "viewMode": "table,chart"
+          }
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceLang": [
+      [
+        {
+          "code": "zh-CN",
+          "dateFormat": "yyyy年MM月dd日",
+          "decimalPoint": ".",
+          "direction": "ltr",
+          "groupingRule": "3",
+          "isoCode": "zh-CN",
+          "name": "简体中文",
+          "thousandsSep": ",",
+          "timeFormat": "HH时mm分ss秒",
+          "weekStart": "7",
+          "timezoneType": "Asia/Shanghai",
+          "calendarType": "Solar",
+          "installState": 1,
+          "active": 1
+        },
+        {
+          "code": "en-US",
+          "dateFormat": "MM/dd/yyyy",
+          "decimalPoint": ".",
+          "direction": "ltr",
+          "groupingRule": "3",
+          "isoCode": "en",
+          "name": "English",
+          "thousandsSep": ",",
+          "timeFormat": "HH:mm:ss",
+          "timezoneType": "America/Anchorage",
+          "calendarType": "Solar",
+          "weekStart": "7",
+          "installState": 1,
+          "active": 1
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceCurrency": [
+      [
+        {
+          "symbol": "￥",
+          "name": "人民币",
+          "code": "CNY",
+          "rounding": "ROUND_HALF_UP",
+          "position": "BEFORE",
+          "decimalPlaces": 2,
+          "currencyUnitLabel": "元",
+          "currencySubunitLabel": "分",
+          "active": 1
+        },
+        {
+          "symbol": "$",
+          "name": "美元",
+          "code": "USD",
+          "rounding": "ROUND_HALF_UP",
+          "position": "BEFORE",
+          "decimalPlaces": 2,
+          "currencyUnitLabel": "美元",
+          "currencySubunitLabel": "美分",
+          "active": 1
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceConfig": [
+      [
+        {
+          "key": "defaultCurrency",
+          "value": "CNY",
+          "type": "string"
+        },
+        {
+          "key": "defaultCountry",
+          "value": "CHN",
+          "type": "string"
+        },
+        {
+          "key": "defaultLang",
+          "value": "zh-CN",
+          "type": "string"
+        },
+        {
+          "key": "defaultTimeZone",
+          "value": "Asia/Shanghai",
+          "type": "string"
+        },
+        {
+          "key": "defaultBaseTimeZone",
+          "value": "Asia/Shanghai",
+          "type": "string"
+        },
+        {
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.mail\")",
+          "key": "chatUrl",
+          "type": "text",
+          "value": "https://pamirs.oss-cn-hangzhou.aliyuncs.com/upload/2019/09/03/1567523380682-聊天消息.png"
+        },
+        {
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.mail\")",
+          "key": "channelUrl",
+          "type": "text",
+          "value": "https://pamirs.oss-cn-hangzhou.aliyuncs.com/upload/2019/09/03/1567523489690-频道消息.png"
+        },
+        {
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.mail\")",
+          "key": "modelMailUrl",
+          "type": "text",
+          "value": "https://pamirs.oss-cn-hangzhou.aliyuncs.com/upload/2019/09/03/1567523460690-模型消息.png"
+        },
+        {
+          "module": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Module\", \"pro.shushi.pamirs.mail\")",
+          "key": "systemMailUrl",
+          "type": "text",
+          "value": "https://pamirs.oss-cn-hangzhou.aliyuncs.com/upload/2019/09/03/1567523507231-系统消息.png"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.meta.Module": [
+      [
+        {
+          "name": "pro.shushi.pamirs.resource",
+          "displayName": "资源",
+          "publishedVersion": "1.0.0.0-SNAPSHOT",
+          "category": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.ModuleCategory\",\"基础应用\")",
+          "author": "数式",
+          "description": "丰富的多类型资源集中管理，如任务管理、国际化资源、用户权限、组织架构等，为您的业务创新提供基础资源支撑",
+          "sequence": 100,
+          "web": true,
+          "demo": true,
+          "selfBuilt": true,
+          "application": true,
+          "autoInstall": true,
+          "homePage": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.meta.Menu\", \"pro.shushi.pamirs.resource-参数配置-系统参数\")",
+          "moduleDependencies": [
+            {
+              "moduleName": "pro.shushi.pamirs.resource",
+              "dependencyModuleName": "pro.shushi.pamirs.idgen"
+            },
+            {
+              "moduleName": "pro.shushi.pamirs.resource",
+              "dependencyModuleName": "pro.shushi.pamirs.mail"
+            },
+            {
+              "moduleName": "pro.shushi.pamirs.resource",
+              "dependencyModuleName": "pro.shushi.pamirs.file"
+            },
+            {
+              "moduleName": "pro.shushi.pamirs.resource",
+              "dependencyModuleName": "pro.shushi.pamirs.translate"
+            }
+          ]
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceFile": [
+      [
+        {
+          "url": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564231533932&di=5362d3df1e54769e1e818bb413cc732e&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201505%2F16%2F20150516124830_fBndK.jpeg",
+          "type": "jpeg",
+          "size": 1000,
+          "mime": "text/css"
+        },
+        {
+          "url": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564231533862&di=e5e0abb92ecad94e3032e3e4593f9326&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F14%2F20161214140624_vtUwF.jpeg",
+          "type": "jpeg",
+          "size": 1000,
+          "mime": "text/css"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceAutoCurrencyRateConfig": [
+      [
+        {
+          "enable": true,
+          "currencyService": "聚合数据",
+          "intervalTime": 6
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceCurrencyRate": [
+      [
+        {
+          "currency": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCurrency\", \"CNY\")",
+          "toCurrency": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCurrency\", \"USD\")",
+          "rate": 14
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceCompany": [
+      [
+        {
+          "displayName": "课程演示合作伙伴",
+          "name": "课程演示合作伙伴",
+          "partnerType": "CORP",
+          "lang": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceLang\", \"zh-CN\")",
+          "currency": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCurrency\", \"CNY\")",
+          "position": "BEFORE",
+          "decimalPlaces": 2,
+          "currencyUnitLabel": "元",
+          "currencySubunitLabel": "分",
+          "timeZoneType": "Asia/Shanghai"
+        },
+        {
+          "displayName": "b2c演示合作伙伴",
+          "name": "b2c演示合作伙伴",
+          "partnerType": "CORP",
+          "lang": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceLang\", \"zh-CN\")",
+          "currency": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCurrency\", \"CNY\")",
+          "position": "BEFORE",
+          "decimalPlaces": 2,
+          "currencyUnitLabel": "元",
+          "currencySubunitLabel": "分",
+          "timeZoneType": "Asia/Shanghai"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceDepartment": [
+      [
+        {
+          "displayName": "演示部门",
+          "name": "演示部门",
+          "partnerType": "DEPARTMENT",
+          "lang": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceLang\", \"zh-CN\")",
+          "currency": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCurrency\", \"CNY\")",
+          "position": "BEFORE",
+          "decimalPlaces": 2,
+          "currencyUnitLabel": "元",
+          "currencySubunitLabel": "分",
+          "timeZoneType": "Asia/Shanghai"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceBank": [
+      [
+        {
+          "name": "中国银行",
+          "bic": "BIC",
+          "bicCode": "BKCHCNBJ"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.resource.model.MapServiceConfig": [
+      [
+        {
+          "type": "gaode",
+          "key": "e439dda234467b07709f28b57f0a9bd5",
+          "connectString": "https://restapi.amap.com/v3/config/district",
+          "active": true
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceCountryGroup": [
+      [
+        {
+          "name": "亚洲",
+          "code": "Asia"
+        },
+        {
+          "name": "北美洲",
+          "code": "North America"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceCountry": [
+      [
+        {
+          "name": "中国",
+          "completeName": "中华人民共和国(People's Republic of China)",
+          "code": "CHN",
+          "vatLabel": "VAT",
+          "lang": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceLang\", \"zh-CN\")",
+          "currency": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCurrency\", \"CNY\")",
+          "phoneCode": "+86",
+          "timeZoneType": "Asia/Shanghai",
+          "addrFormat": "<view widget=\"form\">\n        <config label-width=\"200\" layout=\"vertical\"/>\n        <group title=\"\" widget=\"fieldset\" cols=\"4\">\n          <field name=\"id\" widget=\"Input\" invisible=\"true\" span=\"1\" />\n          <field name=\"country\" widget=\"SelectAddr\" span=\"1\" />\n          <field name=\"province\" widget=\"SelectAddr\" span=\"1\" />\n          <field name=\"city\" widget=\"SelectAddr\" span=\"1\" />\n          <field name=\"district\" widget=\"SelectAddr\" span=\"1\" />\n          <field name=\"street\" widget=\"SelectAddr\" span=\"1\" />\n          <field name=\"street2\" widget=\"TextArea\" span=\"1\" />\n          <field name=\"fullAddress\" readonly=\"true\" widget=\"TextArea\" span=\"1\" />\n        </group>\n      </view>",
+          "namePosition": "<view widget=\"form\">\n        <config label-width=\"200\" layout=\"vertical\"/>\n        <group title=\"\" widget=\"fieldset\" cols=\"4\">\n <field name=\"id\" widget=\"Input\" invisible=\"true\" span=\"1\" />\n          <field name=\"firstName\" widget=\"Input\" span=\"1\" />\n          <field name=\"midName\" widget=\"Input\" span=\"1\" />\n          <field name=\"lastName\" widget=\"Input\" span=\"1\" />          \n        </group>\n      </view>",
+          "countryGroup": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCountryGroup\", \"Asia\")"
+        },
+        {
+          "name": "America",
+          "completeName": "The United States of America",
+          "code": "USA",
+          "vatLabel": "VAT",
+          "lang": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceLang\", \"en-US\")",
+          "currency": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCurrency\", \"USD\")",
+          "phoneCode": "+1",
+          "timeZoneType": "America/Chicago",
+          "countryGroup": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCountryGroup\", \"North America\")"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceProvince": [
+      [
+        {
+          "name": "浙江省",
+          "country": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCountry\", \"CHN\")",
+          "code": "P-ZJS"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceCity": [
+      [
+        {
+          "name": "杭州市",
+          "province": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceProvince\", \"P-ZJS\")",
+          "code": "C-HZ"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceDistrict": [
+      [
+        {
+          "name": "余杭区",
+          "resourceCity": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceCity\", \"C-HZ\")",
+          "code": "D-YU-HANG"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceStreet": [
+      [
+        {
+          "name": "仓前街道",
+          "district": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceDistrict\", \"D-YU-HANG\")",
+          "code": "S-CANG-QIAN"
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceRegion": [
+      [
+        {
+          "name": "中国",
+          "code": "CHN",
+          "type": "country",
+          "level": 1
+        }
+      ],
+      [
+        {
+          "name": "浙江省",
+          "code": "P-ZJS",
+          "pid": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceRegion\", \"CHN-country\").id",
+          "type": "province",
+          "level": 2
+        }
+      ],
+      [
+        {
+          "name": "杭州市",
+          "code": "C-HZ",
+          "pid": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceRegion\", \"P-ZJS-province\").id",
+          "type": "city",
+          "level": 3
+        }
+      ],
+      [
+        {
+          "name": "余杭区",
+          "code": "D-YU-HANG",
+          "pid": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceRegion\", \"C-HZ-city\").id",
+          "type": "district",
+          "level": 4
+        }
+      ],
+      [
+        {
+          "name": "仓前街道",
+          "code": "S-CANG-QIAN",
+          "pid": "FUN:PAMIRS.ONE(\"pro.shushi.pamirs.base.model.resource.ResourceRegion\", \"D-YU-HANG-district\").id",
+          "type": "street",
+          "level": 5
+        }
+      ]
+    ],
+    "pro.shushi.pamirs.base.model.resource.ResourceTheme": [
+      [
+        {
+          "name": "holylight",
+          "isDefault": true,
+          "themeOptions": "{\"template\":\"\\n<host>\\n  <container>\\n    <header>\\n      <block widget=\\\"app-switcher\\\" />\\n      <block widget=\\\"nav-menu\\\" />\\n      <placeholder refs=\\\"right\\\">\\n        <block widget=\\\"goto-studio\\\" />\\n        <block widget=\\\"notification\\\" />\\n        <block widget=\\\"language\\\" />\\n        <block widget=\\\"divider\\\" />\\n        <block widget=\\\"user\\\" />\\n      </placeholder>\\n    </header>\\n    <content>\\n      <placeholder refs=\\\"page-header\\\">\\n        <block widget=\\\"breadcrumb\\\" />\\n      </placeholder>\\n      <placeholder refs=\\\"page-header-extra\\\">\\n        <block widget=\\\"search\\\" />\\n      </placeholder>\\n      <placeholder refs=\\\"content-header\\\">\\n        <block widget=\\\"view-action\\\" />\\n      </placeholder>\\n      <placeholder refs=\\\"content-header-extra\\\">\\n        <block widget=\\\"view-scene\\\" />\\n      </placeholder>\\n    </content>\\n  </container>\\n</host>\",\"style\":{\"primary\":\"#3882f5\",\"success\":\"#67c23a\",\"warning\":\"#e6a23c\",\"danger\":\"#f56c6c\",\"info\":\"#909399\",\"pageHeaderPaddingX\":\"12px\",\"buttonMinWidth\":\"88px\",\"buttonMaxWidth\":\"200px\",\"buttonBetweenGap\":\"8px\",\"buttonPaddingY\":\"10px\",\"buttonPaddingX\":\"20px\",\"buttonPaddingYLg\":\"12px\",\"buttonPaddingXLg\":\"20px\",\"buttonPaddingYSm\":\"9px\",\"buttonPaddingXSm\":\"15px\",\"buttonBorderRadius\":\"4px\",\"buttonBorderRadiusLg\":\"4px\",\"buttonBorderRadiusSm\":\"2px\",\"buttonDefaultColor\":\"#696c71\",\"buttonDefaultBorderColor\":\"#d9d9d9\",\"buttonDefaultBg\":\"#fff\",\"buttonDefaultHoverColor\":\"#3882f5\",\"buttonDefaultHoverBorderColor\":\"#3882f5\",\"buttonDefaultHoverBg\":\"#fff\",\"buttonDefaultFocusColor\":\"#2560cf\",\"buttonDefaultFocusBorderColor\":\"#2560cf\",\"buttonDefaultFocusBg\":\"#fff\",\"buttonDisabledColor\":\"#999\",\"buttonDisabledBorderColor\":\"#d9d9d9\",\"buttonDisabledBg\":\"#f5f5f5\",\"buttonDisabledOpacity\":\"1\",\"buttonPrimaryColor\":\"#fff\",\"buttonPrimaryBorderColor\":\"#3882f5\",\"buttonPrimaryBg\":\"#3882f5\",\"buttonPrimaryBoxShadow\":\"0 1px 4px 0 rgba(56, 130, 245, 0.2)\",\"buttonPrimaryLight\":\"#63a4ff\",\"buttonPrimaryDark\":\"#2560cf\",\"buttonPrimaryHoverColor\":\"#fff\",\"buttonPrimaryHoverBorderColor\":\"#2560cf\",\"buttonPrimaryHoverBg\":\"#63a4ff\",\"buttonPrimaryFocusColor\":\"#fff\",\"buttonPrimaryFocusBorderColor\":\"#2560cf\",\"buttonPrimaryFocusBg\":\"#2560cf\",\"buttonPrimaryDisabledColor\":\"rgba(255, 255, 255, 0.6)\",\"buttonPrimaryDisabledBorderColor\":\"#589aff\",\"buttonPrimaryDisabledBg\":\"rgba(56, 130, 245, 0.6)\",\"buttonDangerLight\":\"#ff4d4f\",\"buttonDangerDark\":\"#cf1322\",\"buttonDangerColor\":\"#f5222d\",\"buttonDangerBorderColor\":\"#d9d9d9\",\"buttonDangerBg\":\"#fff\",\"buttonDangerHoverColor\":\"#fff\",\"buttonDangerHoverBorderColor\":\"#ff4d4f\",\"buttonDangerHoverBg\":\"#ff4d4f\",\"buttonDangerFocusColor\":\"#fff\",\"buttonDangerFocusBorderColor\":\"#cf1322\",\"buttonDangerFocusBg\":\"#cf1322\",\"buttonDangerDisabledColor\":\"rgba(245, 34, 45, 0.6)\",\"buttonDangerDisabledBorderColor\":\"#d9d9d9\",\"buttonDangerDisabledBg\":\"#f5f5f5\",\"panelBorderWidth\":\"0\",\"panelBorderColor\":\"transparent\",\"panelBorderRadius\":\"4px\",\"panelBoxShadow\":\"0 2px 6px 0 rgba(0, 0, 0, 0.1)\",\"panelHeaderLetterSpacing\":\"0.64px\",\"tabsBoxShadow\":\"0 2px 6px 0 rgba(0, 0, 0, 0.1)\",\"tabsNavActiveColor\":\"#3882f5\",\"tabsNavActiveBoxShadow\":\"0 2px 6px 0 rgba(0, 0, 0, 0.1)\",\"tabsContentBorderWidth\":\"0\",\"tabsContentBorderColor\":\"transparent\",\"dialogBackdropBg\":\"#000b20\",\"dialogBackdropOpacity\":\"0.7\",\"widgetFieldSetBorderRadius\":\"4px\",\"widgetFieldSetBoxShadow\":\"0 2px 6px 0 rgba(0, 0, 0, 0.1)\",\"widgetPageContentHeaderPaddingX\":\"24px\",\"widgetPageContentHeaderPaddingY\":\"18px\",\"widgetPageContentMainHeaderHeight\":\"58px\",\"widgetPageContentMainHeaderPaddingX\":\"24px\",\"widgetPageContentMainBodyPadding\":\"0 24px 24px\",\"widgetViewScenePaddingX\":\"24px\",\"widgetViewSceneBoxShadow\":\"0 1px 4px 0 rgba(0, 0, 0, 0.1)\",\"widgetViewSceneBgImage\":\"none\",\"widgetViewSceneBorderWidth\":\"0\",\"widgetViewSceneBorderColor\":\"transparent\",\"widgetViewSceneBorderRadius\":\"4px\"},\"behavior\":{\"page\":{\"content\":{\"pageHeaderExtraWidth\":\"45.833333333333336%\"}},\"appSwitcher\":{\"search\":{\"enabled\":false}},\"search\":{\"condition\":{\"integratedWithInput\":false}}}}"
+        },
+        {
+          "name": "moonlight",
+          "isDefault": false,
+          "themeOptions": "{\"template\":\"<host>\\n  <container>\\n    <header>\\n      <block widget=\\\"app-switcher\\\" />\\n      <placeholder refs=\\\"right\\\">\\n        <block widget=\\\"goto-studio\\\" />\\n        <block widget=\\\"notification\\\" />\\n        <block widget=\\\"language\\\" />\\n        <block widget=\\\"divider\\\" />\\n        <block widget=\\\"user\\\" />\\n      </placeholder>\\n    </header>\\n    <container widget=\\\"page-main\\\">\\n      <sidebar>\\n        <block widget=\\\"nav-menu\\\" />\\n      </sidebar>\\n      <content>\\n        <placeholder refs=\\\"page-header\\\">\\n          <block widget=\\\"breadcrumb\\\" />\\n        </placeholder>\\n        <placeholder refs=\\\"page-header-extra\\\">\\n          <block widget=\\\"search\\\" />\\n        </placeholder>\\n        <placeholder refs=\\\"content-header\\\">\\n          <block widget=\\\"view-action\\\" />\\n        </placeholder>\\n        <placeholder refs=\\\"content-header-extra\\\">\\n          <block widget=\\\"view-scene\\\" />\\n        </placeholder>\\n      </content>\\n    </container>\\n  </container>\\n</host>\",\"style\":{\"primary\":\"#5c6ac4\",\"scrollbarBg\":\"rgba(28, 34, 96, 0.15)\",\"scrollbarThumbBg\":\"rgba(28, 34, 96, 0.45)\",\"pageHeaderPaddingX\":\"12px\",\"pageSidebarWidth\":\"244px\",\"pageSidebarBorderWidth\":\"1px\",\"pageSidebarBorderColor\":\"#dfe3e8\",\"buttonBetweenGap\":\"8px\",\"buttonBorderRadius\":\"100px\",\"buttonBorderRadiusLg\":\"100px\",\"buttonBorderRadiusSm\":\"100px\",\"buttonDisabledOpacity\":\"0.5\",\"buttonPrimaryBorderColor\":\"#3f4eae\",\"buttonPrimaryBg\":\"#5c6ac4\",\"buttonPrimaryHoverColor\":\"#fff\",\"buttonPrimaryHoverBorderColor\":\"#3f4eae\",\"buttonPrimaryHoverBg\":\"#6a7deb\",\"buttonPrimaryFocusColor\":\"#fff\",\"buttonPrimaryFocusBorderColor\":\"#3f4eae\",\"buttonPrimaryFocusBg\":\"#2c38b8\",\"buttonPrimaryDisabledColor\":\"#fff\",\"buttonPrimaryDisabledBorderColor\":\"#3f4eae\",\"buttonPrimaryDisabledBg\":\"#4154de\",\"buttonDangerColor\":\"#fff\",\"buttonDangerBorderColor\":\"#b02b13\",\"buttonDangerBg\":\"#e5391a\",\"paginationBgImage\":\"linear-gradient(0deg, #f6f6f6 0%, #fff 51%)\",\"paginationBorderRadius\":\"100px\",\"paginationChangerInputBgImage\":\"linear-gradient(0deg, #f6f6f6 0%, #fff 51%)\",\"paginationJumperInputWidth\":\"40px\",\"paginationActiveBg\":\"#5c6ac4\",\"paginationActiveBorderColor\":\"#5c6ac4\",\"tableHeadBg\":\"#f4f6f8\",\"tableHeadBorderWidth\":\"0\",\"tableHeadBorderColor\":\"transparent\",\"tableHeadBorderRadius\":\"100px\",\"tableHoverBg\":\"#eef0f9\",\"panelHeaderHeight\":\"57px\",\"panelBorderWidth\":\"0\",\"panelBorderColor\":\"transparent\",\"panelBorderRadius\":\"0\",\"panelBoxShadow\":\"none\",\"panelHeaderLetterSpacing\":\"0.64px\",\"panelHeaderColor\":\"#1c2260\",\"tabsBoxShadow\":\"0 0 6px 0 rgba(0, 0, 0, 0.05)\",\"tabsNavBorderRadius\":\"10px\",\"tabsNavBorderWidth\":\"1px\",\"tabsNavHoverColor\":\"#5c6ac4\",\"tabsNavActiveColor\":\"#5c6ac4\",\"tabsNavActiveBorderWidth\":\"1px\",\"tabsNavActiveBorderColor\":\"#dadcde\",\"tabsNavActiveBoxShadow\":\"0 0 6px 0 rgba(0, 0, 0, 0.05)\",\"tabsContentBorderWidth\":\"1px\",\"tabsContentBorderColor\":\"#dadcde\",\"tabsContentBorderRadius\":\"10px\",\"dialogBackdropBg\":\"#1c2260\",\"dialogBackdropOpacity\":\"0.7\",\"tagBorderRadius\":\"15px\",\"widgetFieldSetBorderWidth\":\"1px\",\"widgetFieldSetBorderColor\":\"#dadcde\",\"widgetFieldSetBorderRadius\":\"10px\",\"widgetFieldSetBoxShadow\":\"0 0 6px 0 rgba(0, 0, 0, 0.05)\",\"widgetPageContentHeaderPaddingX\":\"16px\",\"widgetPageContentHeaderPaddingY\":\"10px\",\"widgetListViewTypePageContentBodyPadding\":\"0 16px 16px\",\"widgetListViewTypePageContentMainBorderWidth\":\"1px\",\"widgetListViewTypePageContentMainBorderColor\":\"#dadcde\",\"widgetListViewTypePageContentMainBorderRadius\":\"10px\",\"widgetListViewTypePageContentMainBg\":\"#fff\",\"widgetListViewTypePageContentMainBoxShadow\":\"0 0 6px 0 rgba(0, 0, 0, 0.05)\",\"widgetListViewTypePageContentMainHeaderHeight\":\"56px\",\"widgetListViewTypePageContentMainHeaderPaddingX\":\"16px\",\"widgetListViewTypePageContentMainHeaderPaddingY\":\"16px\",\"widgetObjectViewTypePageContentMainHeaderHeight\":\"50px\",\"widgetObjectViewTypePageContentMainHeaderPaddingX\":\"16px\",\"widgetObjectViewTypePageContentMainBodyPadding\":\"0 16px 16px\",\"widgetViewScenePaddingX\":\"16px\",\"widgetViewSceneBoxShadow\":\"none\",\"widgetViewSceneBgImage\":\"linear-gradient(0deg, #f6f6f6 0%, #fff 51%)\",\"widgetViewSceneBorderWidth\":\"1px\",\"widgetViewSceneBorderColor\":\"#c4cdd5\",\"widgetViewSceneBorderRadius\":\"100px\"},\"behavior\":{\"page\":{\"content\":{\"specificToView\":true,\"pageHeaderExtraWidth\":\"71.21026894865525%\"}},\"appSwitcher\":{\"search\":{\"enabled\":true}},\"navMenu\":{\"icon\":{\"show\":true,\"showAtMenuLevel\":1}},\"search\":{\"condition\":{\"integratedWithInput\":true}}}}"
+        }
+      ]
+    ]
+  }
+}

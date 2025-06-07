@@ -1,0 +1,39 @@
+server:
+  address: 0.0.0.0
+  port: 8088
+  sessionTimeout: 3600
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: pamirs-faas
+
+---
+spring:
+  profiles: dev
+  cloud:
+    config:
+      enabled: false
+      uri: http://127.0.0.1:7001
+      label: master
+      profile: dev
+    nacos:
+      config:
+        enabled: false
+        server-addr: http://127.0.0.1:8848
+        file-extension: yml
+dubbo:
+  application:
+    name: pamirs-faas
+    version: 1.0.0
+  scan:
+    base-packages: pro.shushi.pamirs
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  #  metadata-report:
+  #    address: zookeeper://127.0.0.1:2181
+  protocol:
+    name: dubbo
+    port: 20888
+

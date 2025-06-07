@@ -1,0 +1,26 @@
+<view type="TABLE" model="pamirs.message.SmsTemplate" name="短信模板table" title="短信模板">
+    <template slot="actions">
+        <action name="redirectCreatePage" label="创建"/>
+        <action name="delete" label="删除"/>
+    </template>
+    <template slot="rowActions">
+        <action name="redirectUpdatePage" label="编辑"/>
+        <action name="redirectDetailPage" label="详情"/>
+    </template>
+    <template slot="search" widget="search" cols="4">
+        <field data="name" label="模板名称" span="1"/>
+        <field data="templateCode" label="模板编码" span="1"/>
+        <field data="templateType" label="模板类型" span="1"/>
+        <field data="channel" label="短信通道" span="1"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" data="id"/>
+        <field data="name" label="模板名称"/>
+        <field data="templateCode" label="模板编码"/>
+        <field data="templateContent" label="模板内容"/>
+        <field data="templateType" label="模板类型"/>
+        <field data="channel" label="短信通道"/>
+        <field data="status" label="审核状态"/>
+        <field data="timeInterval" label="验证码有效时间（秒/s）"/>
+    </template>
+</view>

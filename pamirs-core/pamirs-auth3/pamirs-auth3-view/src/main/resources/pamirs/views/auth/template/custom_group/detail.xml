@@ -1,0 +1,20 @@
+<view type="DETAIL" model="auth.AuthCustomGroup" name="AuthCustomGroupDetail" title="自定义权限组详情">
+    <template slot="actions">
+        <action name="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields" cols="2">
+        <field data="id" invisible="true"/>
+        <pack widget="group" title="权限组信息" cols="2">
+            <field data="code" label="编码" span="1"/>
+            <field data="name" label="名称" span="1"/>
+            <field data="parent" label="上级分组" span="1"/>
+            <field data="comment" label="描述" span="2"/>
+        </pack>
+        <pack widget="group" title="其他信息" cols="2">
+            <field data="createUserName" label="创建人" span="1"/>
+            <field data="createDate" label="创建时间" span="1"/>
+            <field data="writeUserName" label="更新人" span="1"/>
+            <field data="writeDate" label="更新时间" span="1"/>
+        </pack>
+    </template>
+</view>

@@ -1,0 +1,4 @@
+<view type="form" name="uiLayout_sys_FORM#DEFAULT#CENTER_BOTTOM" priority="999">
+    <element slot="form" widget="form"/>
+    <element justify="CENTER" slot="actionBar" widget="actionBar"/>
+</view>

@@ -1,0 +1,15 @@
+cdn:
+  oss:
+    name: 本地文件NG系统
+    type: LOCAL
+    bucket:
+    # uploadUrl 这个是Oinone后端服务地址和端口
+    uploadUrl: http://127.0.0.1:8091
+    # downloadUrl前端地址，即直接映射在nginx的静态资源的路径和端口
+    downloadUrl: http://127.0.0.1:8081
+    validTime: 3600000
+    timeout: 600000
+    active: true
+    referer:
+    # 本地Nginx静态资源目录
+    localFolderUrl: /Users/wangxian/java-tools/nginx/html/designer/static

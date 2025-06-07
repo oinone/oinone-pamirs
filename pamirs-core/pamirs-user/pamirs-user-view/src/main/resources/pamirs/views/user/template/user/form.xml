@@ -1,0 +1,48 @@
+<view type="FORM" model="user.PamirsUser" name="用户表form" title="用户表表单">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+        <action name="create" invisible="activeRecord.id" goBack="true" validateForm="true" tag="contextFreeAction"/>
+        <action name="update" invisible="!activeRecord.id" goBack="true" validateForm="true" tag="contextFreeAction"/>
+    </template>
+    <template slot="fields">
+        <field name="id" invisible="true" data="id"/>
+        <pack widget="group" title="基础信息" cols="2">
+            <field data="code" label="编码" hint="未填时将自动生成" required="false" readonly="activeRecord.id" span="1"/>
+            <field data="name" label="名称" required="true" span="1"/>
+            <field data="nickname" label="昵称" span="1"/>
+            <field data="login" label="登录账号" required="true" readonly="activeRecord.id" span="1"/>
+            <field data="email" label="登录邮箱" span="1"/>
+            <field data="phoneCode" label="登录手机区号" help="例如: +86" span="1"/>
+            <field data="phone" label="登录手机" span="1"/>
+            <field data="initialPassword" label="初始密码" span="1"/>
+            <field data="active" label="是否激活账号" span="1"/>
+        </pack>
+        <pack widget="group" title="个人信息" cols="2">
+            <field span="1" name="contactPhone" data="contactPhone" label="联系电话"/>
+            <field span="1" name="contactEmail" data="contactEmail" label="联系邮箱"/>
+            <field span="1" name="birthday" data="birthday" label="生日" endDate="NOW()" widget="DatePicker" endDateOffsetUnit="day" dateFormat="HYPHEN" startDateOffsetUnit="day"/>
+            <field span="1" name="gender" data="gender" label="性别"/>
+            <field span="1" data="realname" label="姓名"/>
+            <field span="1" name="idCard" data="idCard" label="身份证号码"/>
+            <field span="1" name="regDate" data="regDate" label="注册日期" endDate="NOW()"/>
+        </pack>
+        <pack widget="group" title="角色">
+            <field name="roles" widget="Table" data="roles" labelInvisible="true" label="角色" required="true">
+                <view widget="table" model="auth.AuthRole">
+                    <template slot="actions">
+                        <action name="internalGotoM2MListDialogFromPamirsUserFromUser" label="添加" actionType="VIEW" model="auth.AuthRole" viewType="TABLE" resViewName="dialogTableView" tag="contextFreeAction"/>
+                        <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" model="auth.AuthRole" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
+                    </template>
+                    <template slot="fields">
+                        <field name="id" invisible="true" model="auth.AuthRole" data="id"/>
+                        <field name="code" model="auth.AuthRole" data="code"/>
+                        <field name="name" model="auth.AuthRole" data="name"/>
+                        <field name="roleType" model="auth.AuthRole" data="roleType"/>
+                        <field name="active" invisible="true" model="auth.AuthRole" data="active"/>
+                        <field name="description" model="auth.AuthRole" data="description"/>
+                    </template>
+                </view>
+            </field>
+        </pack>
+    </template>
+</view>

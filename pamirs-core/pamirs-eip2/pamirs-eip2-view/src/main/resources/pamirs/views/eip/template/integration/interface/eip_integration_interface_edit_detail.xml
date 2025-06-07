@@ -1,0 +1,206 @@
+<view type="DETAIL" widget="detail" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" name="集成接口详情detail" title="详情">
+    <template slot="actions">
+        <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基本信息" cols="2">
+            <field name="id" invisible="true" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="id" required="false"/>
+            <field name="dataStatus" invisible="true" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="dataStatus" required="false"/>
+            <field name="tenant" invisible="true" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="tenant" required="false"/>
+            <field span="1" name="name" widget="Input" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="name" label="名称" required="true"/>
+            <field span="1" name="lib" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="lib" label="集成库" required="true"/>
+            <field span="1" name="uri" widget="Input" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="uri" label="接口路由" required="true"/>
+            <field span="1" name="interfaceName" widget="Input" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="interfaceName" label="技术名称" required="true"/>
+            <field span="1" name="dataStatus" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="dataStatus" label="状态" readonly="true"/>
+            <field span="1" name="exchangePattern" widget="Select" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="exchangePattern" label="交换模式" required="true"/>
+            <field span="1" name="moduleDefinition" widget="Select" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="moduleDefinition" label="所在模块" required="true"/>
+            <field span="1" name="isEnabledLog" widget="Switch" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="isEnabledLog" label="是否启用日志" required="true"/>
+            <field span="1" name="protocolTypeEnum" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="protocolTypeEnum" label="接口协议" readonly="true"/>
+            <field span="1" name="httpMethodEnum" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="httpMethodEnum" label="请求方法类型" readonly="false"/>
+        </pack>
+        <pack widget="tabs" title="请求处理器信息" cols="2">
+            <pack title="请求头参数转换列表">
+                <field name="headerConvertParamList" widget="Table" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="headerConvertParamList" label="false">
+                    <view widget="table" model="pamirs.eip.EipConvertParam" excluded-actions="redirectUpdatePage,redirectDetailPage" fixedLeftColumns="true">
+                        <template slot="fields">
+                            <field name="inParamType" model="pamirs.eip.EipConvertParam" data="inParamType" label="入参类型" required="true"/>
+                            <field name="inParam" model="pamirs.eip.EipConvertParam" data="inParam" label="入参键" required="true"/>
+                            <field name="outParamType" model="pamirs.eip.EipConvertParam" data="outParamType" label="出参类型" required="true"/>
+                            <field name="outParam" model="pamirs.eip.EipConvertParam" data="outParam" label="出参键" required="true"/>
+                            <field name="required" model="pamirs.eip.EipConvertParam" data="required" label="是否必填" required="true"/>
+                            <field name="defaultValue" model="pamirs.eip.EipConvertParam" data="defaultValue" label="默认值"/>
+                            <field name="mappingParameterList" widget="Table" model="pamirs.eip.EipConvertParam" data="mappingParameterList" label="值映射列表"/>
+                        </template>
+                    </view>
+                    <view widget="dialog-form" model="pamirs.eip.EipConvertParam">
+                        <template slot="fields">
+                            <pack widget="group">
+                                <field name="inParamType" model="pamirs.eip.EipConvertParam" data="inParamType" label="入参类型" required="true"/>
+                                <field name="inParam" model="pamirs.eip.EipConvertParam" data="inParam" label="入参键" required="true"/>
+                                <field name="outParamType" model="pamirs.eip.EipConvertParam" data="outParamType" label="出参类型" required="true"/>
+                                <field name="outParam" model="pamirs.eip.EipConvertParam" data="outParam" label="出参键" required="true"/>
+                                <field name="required" model="pamirs.eip.EipConvertParam" data="required" label="是否必填" required="true"/>
+                                <field name="defaultValue" model="pamirs.eip.EipConvertParam" data="defaultValue" label="默认值"/>
+                                <field span="2" name="mappingParameterList" widget="Table" model="pamirs.eip.EipConvertParam" data="mappingParameterList" label="值映射列表"/>
+                            </pack>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+        </pack>
+        <pack widget="tabs" title="请求处理器信息" cols="2">
+            <pack title="请求路径参数转换列表">
+                <field name="uriConvertParamList" widget="Table" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="uriConvertParamList" label="false">
+                    <view widget="table" model="pamirs.eip.EipConvertParam" excluded-actions="redirectUpdatePage,redirectDetailPage" fixedLeftColumns="true">
+                        <template slot="fields">
+                            <field name="inParamType" model="pamirs.eip.EipConvertParam" data="inParamType" label="入参类型" required="true"/>
+                            <field name="inParam" model="pamirs.eip.EipConvertParam" data="inParam" label="入参键" required="true"/>
+                            <field name="outParamType" model="pamirs.eip.EipConvertParam" data="outParamType" label="出参类型" required="true"/>
+                            <field name="outParam" model="pamirs.eip.EipConvertParam" data="outParam" label="出参键" required="true"/>
+                            <field name="required" model="pamirs.eip.EipConvertParam" data="required" label="是否必填" required="true"/>
+                            <field name="defaultValue" model="pamirs.eip.EipConvertParam" data="defaultValue" label="默认值"/>
+                        </template>
+                    </view>
+                    <view widget="dialog-form" model="pamirs.eip.EipConvertParam">
+                        <template slot="fields">
+                            <pack widget="group">
+                                <field name="inParamType" model="pamirs.eip.EipConvertParam" data="inParamType" label="入参类型" required="true"/>
+                                <field name="inParam" model="pamirs.eip.EipConvertParam" data="inParam" label="入参键" required="true"/>
+                                <field name="outParamType" model="pamirs.eip.EipConvertParam" data="outParamType" label="出参类型" required="true"/>
+                                <field name="outParam" model="pamirs.eip.EipConvertParam" data="outParam" label="出参键" required="true"/>
+                                <field name="required" model="pamirs.eip.EipConvertParam" data="required" label="是否必填" required="true"/>
+                                <field name="defaultValue" model="pamirs.eip.EipConvertParam" data="defaultValue" label="默认值"/>
+                            </pack>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack title="内置转换"/>
+        </pack>
+        <pack widget="tabs" title="请求处理器信息" cols="2">
+            <pack title="请求体转换列表">
+                <field name="reqConvertParamList" widget="Table" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="reqConvertParamList" label="false">
+                    <view widget="table" model="pamirs.eip.EipConvertParam" excluded-actions="redirectUpdatePage,redirectDetailPage" fixedLeftColumns="true">
+                        <template slot="fields">
+                            <field name="inParamType" model="pamirs.eip.EipConvertParam" data="inParamType" label="入参类型" required="true"/>
+                            <field name="inParam" model="pamirs.eip.EipConvertParam" data="inParam" label="入参键" required="true"/>
+                            <field name="outParamType" model="pamirs.eip.EipConvertParam" data="outParamType" label="出参类型" required="true"/>
+                            <field name="outParam" model="pamirs.eip.EipConvertParam" data="outParam" label="出参键" required="true"/>
+                            <field name="required" model="pamirs.eip.EipConvertParam" data="required" label="是否必填" required="true"/>
+                            <field name="defaultValue" model="pamirs.eip.EipConvertParam" data="defaultValue" label="默认值"/>
+                            <field name="mappingParameterList" widget="Table" model="pamirs.eip.EipConvertParam" data="mappingParameterList" label="值映射列表"/>
+                        </template>
+                    </view>
+                    <view widget="dialog-form" model="pamirs.eip.EipConvertParam">
+                        <template slot="fields">
+                            <pack widget="group">
+                                <field name="inParamType" model="pamirs.eip.EipConvertParam" data="inParamType" label="入参类型" required="true"/>
+                                <field name="inParam" model="pamirs.eip.EipConvertParam" data="inParam" label="入参键" required="true"/>
+                                <field name="outParamType" model="pamirs.eip.EipConvertParam" data="outParamType" label="出参类型" required="true"/>
+                                <field name="outParam" model="pamirs.eip.EipConvertParam" data="outParam" label="出参键" required="true"/>
+                                <field name="required" model="pamirs.eip.EipConvertParam" data="required" label="是否必填" required="true"/>
+                                <field name="defaultValue" model="pamirs.eip.EipConvertParam" data="defaultValue" label="默认值"/>
+                            </pack>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack title="内置转换">
+                <field span="1" name="reqAuthenticationProcessorFunction" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="reqAuthenticationProcessorFunction" label="请求认证处理器函数"/>
+                <field span="1" name="reqInOutConverterFunction" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="reqInOutConverterFunction" label="请求输入输出转换器函数"/>
+            </pack>
+            <pack title="最终结果键">
+                <field span="1" name="reqFinalResultKey" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="reqFinalResultKey" label="最终结果键"/>
+            </pack>
+        </pack>
+        <pack widget="tabs" title="上下文" cols="2">
+            <pack title="上下文列表">
+                <field name="contextVariableList" widget="Table" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="contextVariableList" label="false">
+                    <view widget="table" model="pamirs.eip.tmodel.EipContextVariable" excluded-actions="redirectUpdatePage,redirectDetailPage" fixedLeftColumns="true">
+                        <template slot="fields">
+                            <field name="key" model="pamirs.eip.tmodel.EipContextVariable" data="key" label="键" required="true"/>
+                            <field name="value" model="pamirs.eip.tmodel.EipContextVariable" data="value" label="值" required="true"/>
+                        </template>
+                    </view>
+                    <view widget="dialog-form" model="pamirs.eip.tmodel.EipContextVariable">
+                        <template slot="fields">
+                            <pack widget="group">
+                                <field name="key" model="pamirs.eip.tmodel.EipContextVariable" data="key" label="键" required="true"/>
+                                <field name="value" model="pamirs.eip.tmodel.EipContextVariable" data="value" label="值" required="true"/>
+                            </pack>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack title="提供函数">
+                <field span="1" name="contextSupplierFunction" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="contextSupplierFunction" label="上下文提供函数选择"/>
+            </pack>
+        </pack>
+        <pack widget="tabs" title="响应处理器信息" cols="2">
+            <pack title="响应数据转换列表">
+                <field name="respConvertParamList" widget="Table" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="respConvertParamList" label="false">
+                    <view widget="table" model="pamirs.eip.EipConvertParam" excluded-actions="redirectUpdatePage,redirectDetailPage" fixedLeftColumns="true">
+                        <template slot="fields">
+                            <field name="inParamType" model="pamirs.eip.EipConvertParam" data="inParamType" label="入参类型" required="true"/>
+                            <field name="inParam" model="pamirs.eip.EipConvertParam" data="inParam" label="入参键" required="true"/>
+                            <field name="outParamType" model="pamirs.eip.EipConvertParam" data="outParamType" label="出参类型" required="true"/>
+                            <field name="outParam" model="pamirs.eip.EipConvertParam" data="outParam" label="出参键" required="true"/>
+                            <field name="required" model="pamirs.eip.EipConvertParam" data="required" label="是否必填" required="true"/>
+                            <field name="defaultValue" model="pamirs.eip.EipConvertParam" data="defaultValue" label="默认值"/>
+                            <field name="mappingParameterList" widget="Table" model="pamirs.eip.EipConvertParam" data="mappingParameterList" label="值映射列表"/>
+                        </template>
+                    </view>
+                    <view widget="dialog-form" model="pamirs.eip.EipConvertParam">
+                        <template slot="fields">
+                            <pack widget="group">
+                                <field name="inParamType" model="pamirs.eip.EipConvertParam" data="inParamType" label="入参类型" required="true"/>
+                                <field name="inParam" model="pamirs.eip.EipConvertParam" data="inParam" label="入参键" required="true"/>
+                                <field name="outParamType" model="pamirs.eip.EipConvertParam" data="outParamType" label="出参类型" required="true"/>
+                                <field name="outParam" model="pamirs.eip.EipConvertParam" data="outParam" label="出参键" required="true"/>
+                                <field name="required" model="pamirs.eip.EipConvertParam" data="required" label="是否必填" required="true"/>
+                                <field name="defaultValue" model="pamirs.eip.EipConvertParam" data="defaultValue" label="默认值"/>
+                            </pack>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack title="内置转换">
+                <field span="1" name="reqInOutConverterFunction" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="reqInOutConverterFunction" label="请求输入输出转换器函数"/>
+            </pack>
+            <pack title="最终结果键">
+                <field span="1" name="respFinalResultKey" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="respFinalResultKey" label="最终结果键"/>
+            </pack>
+        </pack>
+        <pack widget="tabs" title="异常处理器信息" cols="2">
+            <pack title="异常信息转换列表">
+                <field name="expConvertParamList" widget="Table" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="expConvertParamList" label="false">
+                    <view widget="table" model="pamirs.eip.EipConvertParam" excluded-actions="redirectUpdatePage,redirectDetailPage" fixedLeftColumns="true">
+                        <template slot="fields">
+                            <field name="inParamType" model="pamirs.eip.EipConvertParam" data="inParamType" label="入参类型" required="true"/>
+                            <field name="inParam" model="pamirs.eip.EipConvertParam" data="inParam" label="入参键" required="true"/>
+                            <field name="outParamType" model="pamirs.eip.EipConvertParam" data="outParamType" label="出参类型" required="true"/>
+                            <field name="outParam" model="pamirs.eip.EipConvertParam" data="outParam" label="出参键" required="true"/>
+                            <field name="required" model="pamirs.eip.EipConvertParam" data="required" label="是否必填" required="true"/>
+                            <field name="defaultValue" model="pamirs.eip.EipConvertParam" data="defaultValue" label="默认值"/>
+                        </template>
+                    </view>
+                    <view widget="dialog-form" model="pamirs.eip.EipConvertParam">
+                        <template slot="fields">
+                            <pack widget="group">
+                                <field name="inParamType" model="pamirs.eip.EipConvertParam" data="inParamType" label="入参类型" required="true"/>
+                                <field name="inParam" model="pamirs.eip.EipConvertParam" data="inParam" label="入参键" required="true"/>
+                                <field name="outParamType" model="pamirs.eip.EipConvertParam" data="outParamType" label="出参类型" required="true"/>
+                                <field name="outParam" model="pamirs.eip.EipConvertParam" data="outParam" label="出参键" required="true"/>
+                                <field name="required" model="pamirs.eip.EipConvertParam" data="required" label="是否必填" required="true"/>
+                                <field name="defaultValue" model="pamirs.eip.EipConvertParam" data="defaultValue" label="默认值"/>
+                            </pack>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack title="异常判定">
+                <field span="1" name="exceptionPredictFunction" widget="Select" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" data="exceptionPredictFunction" label="异常判定函数"/>
+            </pack>
+        </pack>
+    </template>
+</view>

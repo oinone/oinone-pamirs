@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pro.shushi.pamirs.middleware.schedule.core.dao.mapper.ScheduleItemMapper">
+    <resultMap id="BaseResultMap" type="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        <id column="id" property="id"/>
+        <id column="technical_name" property="technicalName"/>
+        <id column="table_num" property="tableNum"/>
+        <id column="task_type" property="taskType"/>
+        <id column="remark" property="remark"/>
+        <id column="interface_name" property="interfaceName"/>
+        <id column="method_name" property="methodName"/>
+        <id column="version" property="version"/>
+        <id column="group" property="group"/>
+        <id column="timeout" property="timeout"/>
+        <id column="tenant" property="tenant"/>
+        <id column="env" property="env"/>
+        <id column="user_id" property="userId"/>
+        <id column="username" property="username"/>
+        <id column="own_sign" property="ownSign"/>
+        <id column="application" property="application"/>
+        <id column="biz_id" property="bizId"/>
+        <id column="parent_biz_id" property="parentBizId"/>
+        <id column="biz_code" property="bizCode"/>
+        <id column="context" property="context"/>
+        <id column="limit_execute_number" property="limitExecuteNumber"/>
+        <id column="is_cycle" property="isCycle"/>
+        <id column="cron" property="cron"/>
+        <id column="period_time_value" property="periodTimeValue"/>
+        <id column="period_time_unit" property="periodTimeUnit"/>
+        <id column="period_time_anchor" property="periodTimeAnchor"/>
+        <id column="limit_retry_number" property="limitRetryNumber"/>
+        <id column="next_retry_time_value" property="nextRetryTimeValue"/>
+        <id column="next_retry_time_unit" property="nextRetryTimeUnit"/>
+        <id column="execute_number" property="executeNumber"/>
+        <id column="anchor_execute_time" property="anchorExecuteTime"/>
+        <id column="next_execute_time" property="nextExecuteTime"/>
+        <id column="last_execute_time" property="lastExecuteTime"/>
+        <id column="retry_number" property="retryNumber"/>
+        <id column="task_status" property="taskStatus"/>
+        <id column="is_transfer" property="isTransfer"/>
+        <id column="is_canceled" property="isCanceled"/>
+        <id column="error_log" property="errorLog"/>
+        <id column="create_date" property="createDate"/>
+        <id column="write_date" property="writeDate"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`,
+        `technical_name`,
+        `table_num`,
+        `task_type`,
+        `remark`,
+        `interface_name`,
+        `method_name`,
+        `version`,
+        `group`,
+        `timeout`,
+        `tenant`,
+        `env`,
+        `user_id`,
+        `username`,
+        `own_sign`,
+        `application`,
+        `biz_id`,
+        `parent_biz_id`,
+        `biz_code`,
+        `context`,
+        `limit_execute_number`,
+        `is_cycle`,
+        `cron`,
+        `period_time_value`,
+        `period_time_unit`,
+        `period_time_anchor`,
+        `limit_retry_number`,
+        `next_retry_time_value`,
+        `next_retry_time_unit`,
+        `execute_number`,
+        `anchor_execute_time`,
+        `next_execute_time`,
+        `last_execute_time`,
+        `retry_number`,
+        `task_status`,
+        `is_transfer`,
+        `is_canceled`,
+        `error_log`,
+        `create_date`,
+        `write_date`
+    </sql>
+
+    <insert id="insert" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        insert into pamirs_schedule
+        (`technical_name`, `task_type`, `remark`, `interface_name`, `method_name`, `version`, `group`, `timeout`, `tenant`, `env`, `user_id`, `username`, `own_sign`, `application`, `biz_id`, `parent_biz_id`, `biz_code`, `context`, `is_cycle`, `limit_execute_number`, `cron`, `period_time_value`, `period_time_unit`, `period_time_anchor`, `limit_retry_number`, `next_retry_time_value`, `next_retry_time_unit`, `next_execute_time`, `anchor_execute_time`, `table_num`)
+        values
+        (#{technicalName}, #{taskType}, #{remark}, #{interfaceName}, #{methodName}, #{version}, #{group}, #{timeout}, #{tenant}, #{env}, #{userId}, #{username}, #{ownSign}, #{application}, #{bizId}, #{parentBizId}, #{bizCode}, #{context}, #{isCycle}, #{limitExecuteNumber}, #{cron}, #{periodTimeValue}, #{periodTimeUnit}, #{periodTimeAnchor}, #{limitRetryNumber}, #{nextRetryTimeValue}, #{nextRetryTimeUnit}, #{nextExecuteTime}, #{nextExecuteTime}, #{tableNum})
+    </insert>
+
+    <insert id="insertRecord" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        insert into pamirs_schedule
+        (`technical_name`, `task_status`, `task_type`, `remark`, `interface_name`, `method_name`, `version`, `group`, `timeout`, `tenant`, `env`, `user_id`, `username`, `own_sign`, `application`, `biz_id`, `parent_biz_id`, `biz_code`, `context`, `is_cycle`, `limit_execute_number`, `cron`, `period_time_value`, `period_time_unit`, `period_time_anchor`, `limit_retry_number`, `next_retry_time_value`, `next_retry_time_unit`, `next_execute_time`, `last_execute_time`, `anchor_execute_time`, `table_num`)
+        values
+        (#{technicalName}, #{taskStatus}, #{taskType}, #{remark}, #{interfaceName}, #{methodName}, #{version}, #{group}, #{timeout}, #{tenant}, #{env}, #{userId}, #{username}, #{ownSign}, #{application}, #{bizId}, #{parentBizId}, #{bizCode}, #{context}, #{isCycle}, #{limitExecuteNumber}, #{cron}, #{periodTimeValue}, #{periodTimeUnit}, #{periodTimeAnchor}, #{limitRetryNumber}, #{nextRetryTimeValue}, #{nextRetryTimeUnit}, #{nextExecuteTime}, #{lastExecuteTime}, #{anchorExecuteTime}, #{tableNum})
+    </insert>
+
+    <update id="updateTaskStatusById" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set `task_status` = #{taskStatus}
+        <if test="anchorExecuteTime != null">
+            ,`anchor_execute_time` = #{anchorExecuteTime}
+        </if>
+        <if test="nextExecuteTime != null">
+            ,`next_execute_time` = #{nextExecuteTime}
+        </if>
+        <if test="lastExecuteTime != null">
+            ,`last_execute_time` = #{lastExecuteTime}
+        </if>
+        <if test="executeNumber != null">
+            ,`execute_number` = #{executeNumber}
+        </if>
+        <if test="retryNumber != null">
+            ,`retry_number` = #{retryNumber}
+        </if>
+        <if test="errorLog != null">
+            ,`error_log` = #{errorLog}
+        </if>
+        where `is_deleted` = 0 and `id` = #{id} and `table_num` = #{tableNum}
+    </update>
+
+    <update id="updateTaskStatusByBizId" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set `task_status` = #{taskStatus}
+        <if test="anchorExecuteTime != null">
+            ,`anchor_execute_time` = #{anchorExecuteTime}
+        </if>
+        <if test="nextExecuteTime != null">
+            ,`next_execute_time` = #{nextExecuteTime}
+        </if>
+        <if test="lastExecuteTime != null">
+            ,`last_execute_time` = #{lastExecuteTime}
+        </if>
+        <if test="executeNumber != null">
+            ,`execute_number` = #{executeNumber}
+        </if>
+        <if test="retryNumber != null">
+            ,`retry_number` = #{retryNumber}
+        </if>
+        <if test="errorLog != null">
+            ,`error_log` = #{errorLog}
+        </if>
+        where `is_deleted` = 0 and `biz_id` = #{bizId} and `table_num` = #{tableNum} and `task_status` != #{taskStatus}
+    </update>
+
+    <update id="updateTaskStatusByBizCode" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set `task_status` = #{taskStatus}
+        <if test="anchorExecuteTime != null">
+            ,`anchor_execute_time` = #{anchorExecuteTime}
+        </if>
+        <if test="nextExecuteTime != null">
+            ,`next_execute_time` = #{nextExecuteTime}
+        </if>
+        <if test="lastExecuteTime != null">
+            ,`last_execute_time` = #{lastExecuteTime}
+        </if>
+        <if test="executeNumber != null">
+            ,`execute_number` = #{executeNumber}
+        </if>
+        <if test="retryNumber != null">
+            ,`retry_number` = #{retryNumber}
+        </if>
+        <if test="errorLog != null">
+            ,`error_log` = #{errorLog}
+        </if>
+        where `is_deleted` = 0 and `biz_code` = #{bizCode} and `table_num` = #{tableNum} and `task_status` != #{taskStatus}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        select
+        <include refid="Base_Column_List"/>
+        from pamirs_schedule
+        where `is_deleted` = 0 and `id` = #{id} and `table_num` = #{tableNum} and `is_transfer` = 0
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery">
+        select
+        <include refid="Base_Column_List"/>
+        from `pamirs_schedule` <!--FORCE INDEX(pamirs_schedule_task_type_task_status_next_execute_time)-->
+        where `is_deleted` = 0 and `task_status` = 0 and `is_transfer` = 0 and `is_canceled` = 0 and `table_num` = #{tableNum}
+        and <![CDATA[ `next_execute_time` < #{nextExecuteTime} ]]>
+        and mod(id,#{taskItemNum}) in
+        <foreach collection="data" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="taskType != null">
+            and task_type = #{taskType}
+        </if>
+        <if test="bizId != null">
+            and biz_id = #{bizId}
+        </if>
+        <if test="tenant != null">
+            and `tenant` = #{tenant}
+        </if>
+        <if test="env != null">
+            and `env` = #{env}
+        </if>
+        <if test="ownSign != null">
+            and `own_sign` = #{ownSign}
+        </if>
+        <if test="application != null">
+            and `application` = #{application}
+        </if>
+        <include refid="Data_Where_Plus"/>
+    </select>
+
+    <select id="countByEntity" resultMap="BaseResultMap" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        select count(1) from `pamirs_schedule`
+        where `is_deleted` = 0 and `task_status` = 0 and `is_transfer` = 0
+        <if test="id != null">
+            and `id` = #{id}
+        </if>
+        <if test="technicalName != null">
+            and `technical_name` = #{technicalName}
+        </if>
+        <if test="taskType != null">
+            and `task_type` = #{taskType}
+        </if>
+        <if test="interfaceName != null">
+            and `interface_name` = #{interfaceName}
+        </if>
+        <if test="methodName != null">
+            and `method_name` = #{methodName}
+        </if>
+        <if test="version != null">
+            and `version` = #{version}
+        </if>
+        <if test="group != null">
+            and `group` = #{group}
+        </if>
+        <if test="timeout != null">
+            and `timeout` = #{timeout}
+        </if>
+        <if test="tenant != null">
+            and `tenant` = #{tenant}
+        </if>
+        <if test="env != null">
+            and `env` = #{env}
+        </if>
+        <if test="userId != null">
+            and `user_id` = #{userId}
+        </if>
+        <if test="username != null">
+            and `username` = #{username}
+        </if>
+        <if test="ownSign != null">
+            and `own_sign` = #{ownSign}
+        </if>
+        <if test="application != null">
+            and `application` = #{application}
+        </if>
+        <if test="bizId != null">
+            and `biz_id` = #{bizId}
+        </if>
+        <if test="parentBizId != null">
+            and `parent_biz_id` = #{parentBizId}
+        </if>
+        <if test="bizCode != null">
+            and `biz_code` = #{bizCode}
+        </if>
+        <if test="isCycle != null">
+            and `is_cycle` = #{isCycle}
+        </if>
+        <if test="ids != null">
+            and `id` in
+            <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="selectListByEntity" resultMap="BaseResultMap" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        select
+        <include refid="Base_Column_List"/>
+        from `pamirs_schedule`
+        where `is_deleted` = 0 and `task_status` = 0 and `is_transfer` = 0
+        <if test="id != null">
+            and `id` = #{id}
+        </if>
+        <if test="technicalName != null">
+            and `technical_name` = #{technicalName}
+        </if>
+        <if test="taskType != null">
+            and `task_type` = #{taskType}
+        </if>
+        <if test="interfaceName != null">
+            and `interface_name` = #{interfaceName}
+        </if>
+        <if test="methodName != null">
+            and `method_name` = #{methodName}
+        </if>
+        <if test="version != null">
+            and `version` = #{version}
+        </if>
+        <if test="group != null">
+            and `group` = #{group}
+        </if>
+        <if test="timeout != null">
+            and `timeout` = #{timeout}
+        </if>
+        <if test="tenant != null">
+            and `tenant` = #{tenant}
+        </if>
+        <if test="env != null">
+            and `env` = #{env}
+        </if>
+        <if test="userId != null">
+            and `user_id` = #{userId}
+        </if>
+        <if test="username != null">
+            and `username` = #{username}
+        </if>
+        <if test="ownSign != null">
+            and `own_sign` = #{ownSign}
+        </if>
+        <if test="application != null">
+            and `application` = #{application}
+        </if>
+        <if test="bizId != null">
+            and `biz_id` = #{bizId}
+        </if>
+        <if test="parentBizId != null">
+            and `parent_biz_id` = #{parentBizId}
+        </if>
+        <if test="bizCode != null">
+            and `biz_code` = #{bizCode}
+        </if>
+        <if test="isCycle != null">
+            and `is_cycle` = #{isCycle}
+        </if>
+        <if test="ids != null">
+            and `id` in
+            <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <insert id="createScheduleItem" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        insert into pamirs_schedule
+        (`technical_name`, `task_type`, `remark`,
+        `interface_name`, `method_name`, `version`, `group`, `timeout`,
+        `tenant`, `env`, `user_id`, `username`, `own_sign`, `application`, `biz_id`, `parent_biz_id`, `biz_code`, `context`,
+        `is_cycle`, `limit_execute_number`, `cron`, `period_time_value`, `period_time_unit`, `period_time_anchor`,
+        `limit_retry_number`, `next_retry_time_value`, `next_retry_time_unit`, `next_execute_time`, `anchor_execute_time`,
+        `task_status`, `table_num`)
+        values
+        (#{technicalName}, #{taskType}, #{remark},
+        #{interfaceName}, #{methodName}, #{version}, #{group}, #{timeout},
+        #{tenant}, #{env}, #{userId}, #{username}, #{ownSign}, #{application}, #{bizId}, #{parentBizId}, #{bizCode}, #{context},
+        #{isCycle}, #{limitExecuteNumber}, #{cron}, #{periodTimeValue}, #{periodTimeUnit}, #{periodTimeAnchor},
+        #{limitRetryNumber}, #{nextRetryTimeValue}, #{nextRetryTimeUnit}, #{nextExecuteTime}, #{nextExecuteTime},
+        #{taskStatus}, #{tableNum})
+    </insert>
+
+    <update id="updateByTechnicalName" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule set
+        `task_type`=#{taskType},
+        `remark`=#{remark},
+        `interface_name`=#{interfaceName},
+        `method_name`=#{methodName},
+        `version`=#{version},
+        `group`=#{group},
+        `timeout`=#{timeout},
+        `tenant`=#{tenant},
+        `env`=#{env},
+        `own_sign`=#{ownSign},
+        `application`=#{application},
+        `biz_id`=#{bizId},
+        `parent_biz_id`=#{parentBizId},
+        `biz_code`=#{bizCode},
+        `context`=#{context},
+        `is_cycle`=#{isCycle},
+        `limit_execute_number`=#{limitExecuteNumber},
+        `cron`=#{cron},
+        `period_time_value`=#{periodTimeValue},
+        `period_time_unit`=#{periodTimeUnit},
+        `period_time_anchor`=#{periodTimeAnchor},
+        `limit_retry_number`=#{limitRetryNumber},
+        `next_retry_time_value`=#{nextRetryTimeValue},
+        `next_retry_time_unit`=#{nextRetryTimeUnit},
+        `task_status`=#{taskStatus}
+        where `technical_name` = #{technicalName} and `table_num` = #{tableNum}
+    </update>
+
+    <select id="selectDelayList" resultMap="BaseResultMap"
+            parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery">
+        select
+        <include refid="Base_Column_List"/>
+        from `pamirs_schedule`
+        where `task_status` in (0,-2) and `is_transfer` = 0 and `is_canceled` = 0 and `is_deleted` = 0
+        and
+        <foreach collection="data" index="index" item="item" open="(" separator=" or " close=")">
+            #{item,jdbcType=BIGINT} = mod(id,#{taskItemNum,jdbcType=INTEGER})
+        </foreach>
+        <if test="tableNum != null">
+            and table_num = #{tableNum}
+        </if>
+        <include refid="Data_Where_Plus"/>
+    </select>
+
+    <update id="deleteTaskByTechnicalNameList" parameterType="java.util.Collection">
+        update pamirs_schedule
+        set
+        `is_deleted` = ${now}
+        WHERE `technical_name` IN
+        <foreach collection="collection" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <include refid="EnvironmentParams"/>
+        and `is_deleted` = 0
+        and `task_status` = 0
+    </update>
+
+    <update id="activeTaskByTechnicalNameList" parameterType="java.util.Collection">
+        update pamirs_schedule
+        set
+        `is_canceled` = 0
+        WHERE `technical_name` IN
+        <foreach collection="collection" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <include refid="EnvironmentParams"/>
+        and `is_deleted` = 0
+        and `task_status` = 0
+        and `is_canceled` = 1
+    </update>
+
+    <update id="cancelTaskByTechnicalNameList" parameterType="java.util.Collection">
+        update pamirs_schedule
+        set
+        `is_canceled` = 1
+        WHERE `technical_name` IN
+        <foreach collection="collection" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <include refid="EnvironmentParams"/>
+        and `is_deleted` = 0
+        and `task_status` = 0
+        and `is_canceled` = 0
+    </update>
+
+    <select id="countByWhere" resultType="java.lang.Integer">
+        select count(1) from pamirs_schedule
+        where `is_deleted` = 0
+        <include refid="EnvironmentParams"/>
+        and ${where}
+    </select>
+
+    <select id="selectListByWhere" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pamirs_schedule
+        where `is_deleted` = 0
+        <include refid="EnvironmentParams"/>
+        and ${where}
+        order by ${order}
+        limit ${offset},${count}
+    </select>
+
+    <insert id="insertSelective" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        insert into pamirs_schedule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            `task_type`,
+            `interface_name`,
+            `method_name`,
+            `tenant`,
+            `env`,
+            `own_sign`,
+            `application`,
+            `next_execute_time`,
+            `table_num`,
+            <if test="remark != null">
+                `remark`,
+            </if>
+            <if test="version != null">
+                `version`,
+            </if>
+            <if test="group != null">
+                `group`,
+            </if>
+            <if test="timeout != null">
+                `timeout`,
+            </if>
+            <if test="bizId != null">
+                `biz_id`,
+            </if>
+            <if test="parentBizId != null">
+                `parent_biz_id`,
+            </if>
+            <if test="bizCode != null">
+                `biz_code`,
+            </if>
+            <if test="context != null">
+                `context`,
+            </if>
+            <if test="isCycle != null">
+                `is_cycle`,
+            </if>
+            <if test="cron != null">
+                `cron`,
+            </if>
+            <if test="periodTimeValue != null">
+                `period_time_value`,
+            </if>
+            <if test="periodTimeUnit != null">
+                `period_time_unit`,
+            </if>
+            <if test="periodTimeAnchor != null">
+                `period_time_anchor`,
+            </if>
+            <if test="limitRetryNumber != null">
+                `limit_retry_number`,
+            </if>
+            <if test="nextRetryTimeValue != null">
+                `next_retry_time_value`,
+            </if>
+            <if test="nextRetryTimeUnit != null">
+                `next_retry_time_unit`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{taskType},
+            #{interfaceName},
+            #{methodName},
+            #{tenant},
+            #{env},
+            #{ownSign},
+            #{application},
+            #{nextExecuteTime},
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="group != null">
+                #{group},
+            </if>
+            <if test="timeout != null">
+                #{timeout},
+            </if>
+            <if test="bizId != null">
+                #{bizId},
+            </if>
+            <if test="parentBizId != null">
+                #{parentBizId},
+            </if>
+            <if test="bizCode != null">
+                #{bizCode},
+            </if>
+            <if test="context != null">
+                #{context},
+            </if>
+            <if test="isCycle != null">
+                #{isCycle},
+            </if>
+            <if test="cron != null">
+                #{cron},
+            </if>
+            <if test="periodTimeValue != null">
+                #{periodTimeValue},
+            </if>
+            <if test="periodTimeUnit != null">
+                #{periodTimeUnit},
+            </if>
+            <if test="periodTimeAnchor != null">
+                #{periodTimeAnchor},
+            </if>
+            <if test="limitRetryNumber != null">
+                #{limitRetryNumber},
+            </if>
+            <if test="nextRetryTimeValue != null">
+                #{nextRetryTimeValue},
+            </if>
+            <if test="nextRetryTimeUnit != null">
+                #{nextRetryTimeUnit},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set
+        `task_type` = #{taskType},
+        `remark` = #{remark},
+        `interface_name` = #{interfaceName},
+        `method_name` = #{methodName},
+        `version` = #{version},
+        `group` = #{group},
+        `timeout` = #{timeout},
+        `biz_id` = #{bizId},
+        `parent_biz_id` = #{parentBizId},
+        `biz_code` = #{bizCode},
+        `context` = #{context},
+        `limit_execute_number` = #{limitExecuteNumber},
+        `is_cycle` = #{isCycle},
+        `cron` = #{cron},
+        `period_time_value` = #{periodTimeValue},
+        `period_time_unit` = #{periodTimeUnit},
+        `period_time_anchor` = #{periodTimeAnchor},
+        `limit_retry_number` = #{limitRetryNumber},
+        `next_retry_time_value` = #{nextRetryTimeValue},
+        `next_retry_time_unit` = #{nextRetryTimeUnit},
+        `execute_number` = #{executeNumber},
+        `next_execute_time` = #{nextExecuteTime},
+        `last_execute_time` = #{lastExecuteTime},
+        `retry_number` = #{retryNumber},
+        `task_status` = #{taskStatus},
+        `error_log` = #{errorLog}
+        where `id` = #{id} and `table_num` = #{tableNum}
+    </update>
+
+    <update id="deleteByIds" parameterType="java.util.Collection">
+        update pamirs_schedule
+        set
+        `is_deleted` = ${now}
+        WHERE `id` IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <include refid="EnvironmentParams"/>
+        and `is_deleted` = 0
+        and `task_status` = 0
+    </update>
+
+    <update id="cancelByIds" parameterType="java.util.Collection">
+        update pamirs_schedule
+        set
+        `is_canceled` = 1
+        WHERE `id` IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <include refid="EnvironmentParams"/>
+        and `is_deleted` = 0
+        and `is_canceled` = 0
+    </update>
+
+    <update id="recoveryByIds" parameterType="java.util.Collection">
+        update pamirs_schedule
+        set
+        `is_canceled` = 0
+        WHERE `id` IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <include refid="EnvironmentParams"/>
+        and `is_deleted` = 0
+        and `is_canceled` = 1
+    </update>
+
+    <update id="updateNextRetryTimeByIds" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set retry_number = #{retryNumber}
+        <if test="nextExecuteTime != null">
+            , `next_execute_time` = #{nextExecuteTime}
+        </if>
+        WHERE id IN
+        <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and table_num = #{tableNum}
+    </update>
+
+    <select id="selectListForSerial" resultMap="BaseResultMap"
+            parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery">
+        select
+        <include refid="Base_Column_List"/>
+        from pamirs_schedule <!--FORCE INDEX(pamirs_schedule_task_type_task_status_next_execute_time)-->
+        where `is_deleted` = 0 and `task_status` = 0 and `is_transfer` = 0 and `is_canceled` = 0
+        and <![CDATA[ `next_execute_time` < #{nextExecuteTime} ]]>
+        <if test="taskType != null">
+            and task_type = #{taskType}
+        </if>
+        <if test="tenant != null">
+            and `tenant` = #{tenant}
+        </if>
+        <if test="env != null">
+            and `env` = #{env}
+        </if>
+        <if test="ownSign != null">
+            and `own_sign` = #{ownSign}
+        </if>
+        <if test="application != null">
+            and `application` = #{application}
+        </if>
+        <if test="tableNum != null">
+            and table_num = #{tableNum}
+        </if>
+        <if test="bizId != null">
+            and biz_id = #{bizId}
+        </if>
+        and mod(biz_id % 10000, #{taskItemNum}) in
+        <foreach collection="data" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <include refid="Data_Where_Plus"/>
+    </select>
+
+    <select id="selectTypesListForSerial" resultMap="BaseResultMap"
+            parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery">
+        select
+        <include refid="Base_Column_List"/>
+        from pamirs_schedule <!--FORCE INDEX(idx_bizstatus_tasktype_nextretrytime)-->
+        where `is_deleted` = 0 and `task_status` = 0
+        and <![CDATA[ `retry_number` < `limit_retry_number` ]]>
+        and <![CDATA[ `next_execute_time` < #{nextExecuteTime} ]]>
+        <if test="taskTypes != null">
+            and task_type in
+            <foreach collection="taskTypes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="tenant != null">
+            and `tenant` = #{tenant}
+        </if>
+        <if test="env != null">
+            and `env` = #{env}
+        </if>
+        <if test="ownSign != null">
+            and `own_sign` = #{ownSign}
+        </if>
+        <if test="application != null">
+            and `application` = #{application}
+        </if>
+        <if test="tableNum != null">
+            and table_num = #{tableNum}
+        </if>
+        <if test="bizId != null">
+            and biz_id = #{bizId}
+        </if>
+        and mod(biz_id % 10000, #{taskItemNum}) in
+        <foreach collection="data" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <include refid="Data_Where_Plus"/>
+    </select>
+
+    <!-- 以下sql内容未更新 -->
+
+    <update id="updateByPrimaryKeySelective" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        <set>
+            <if test="taskType != null">
+                `task_type` = #{taskType},
+            </if>
+            <if test="remark != null">
+                `remark` = #{remark},
+            </if>
+            <if test="interfaceName != null">
+                `interface_name` = #{interfaceName},
+            </if>
+            <if test="methodName != null">
+                `method_name` = #{methodName},
+            </if>
+            <if test="version != null">
+                `version` = #{version},
+            </if>
+            <if test="group != null">
+                `group` = #{group},
+            </if>
+            <if test="timeout != null">
+                `timeout` = #{timeout},
+            </if>
+            <if test="bizId != null">
+                `biz_id` = #{bizId},
+            </if>
+            <if test="parentBizId != null">
+                `parent_biz_id` = #{parentBizId},
+            </if>
+            <if test="bizCode != null">
+                `biz_code` = #{bizCode},
+            </if>
+            <if test="context != null">
+                `context` = #{context},
+            </if>
+            <if test="limitExecuteNumber != null">
+                `limit_execute_number` = #{limitExecuteNumber},
+            </if>
+            <if test="isCycle != null">
+                `is_cycle` = #{isCycle},
+            </if>
+            <if test="cron != null">
+                `cron` = #{cron},
+            </if>
+            <if test="periodTimeValue != null">
+                `period_time_value` = #{periodTimeValue},
+            </if>
+            <if test="periodTimeUnit != null">
+                `period_time_unit` = #{periodTimeUnit},
+            </if>
+            <if test="periodTimeAnchor != null">
+                `period_time_anchor` = #{periodTimeAnchor},
+            </if>
+            <if test="limitRetryNumber != null">
+                `limit_retry_number` = #{limitRetryNumber},
+            </if>
+            <if test="nextRetryTimeValue != null">
+                `next_retry_time_value` = #{nextRetryTimeValue},
+            </if>
+            <if test="nextRetryTimeUnit != null">
+                `next_retry_time_unit` = #{nextRetryTimeUnit},
+            </if>
+            <if test="executeNumber != null">
+                `execute_number` = #{executeNumber},
+            </if>
+            <if test="anchorExecuteTime != null">
+                `anchor_execute_time` = #{anchorExecuteTime}
+            </if>
+            <if test="nextExecuteTime != null">
+                `next_execute_time` = #{nextExecuteTime},
+            </if>
+            <if test="lastExecuteTime != null">
+                `last_execute_time` = #{lastExecuteTime},
+            </if>
+            <if test="retryNumber != null">
+                `retry_number` = #{retryNumber},
+            </if>
+            <if test="taskStatus != null">
+                `task_status` = #{taskStatus},
+            </if>
+            <if test="errorLog != null">
+                `error_log` = #{errorLog}
+            </if>
+        </set>
+        where `id` = #{id} and `is_deleted` = 0
+    </update>
+
+    <select id="mSelectList" resultMap="BaseResultMap"
+            parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery">
+        select
+        <include refid="Base_Column_List"/>
+        from pamirs_schedule
+        where `is_deleted` = 0 and `task_status` = 0
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="taskType != null">
+            and task_type = #{taskType}
+        </if>
+        <if test="actionName != null">
+            and action_name = #{actionName}
+        </if>
+        <if test="bizStatus != null">
+            and biz_status = #{bizStatus}
+        </if>
+        <if test="ownSign != null">
+            and own_sign = #{ownSign}
+        </if>
+        <if test="bizId != null">
+            and biz_id = #{bizId}
+        </if>
+        <if test="application != null">
+            and application = #{application}
+        </if>
+        <if test="tableNum != null">
+            and table_num = #{tableNum}
+        </if>
+        <if test="queryDateStart != null">
+            and create_date &gt; #{queryDateStart}
+        </if>
+        <if test="queryDateEnd != null">
+            and create_date &lt; #{queryDateEnd}
+        </if>
+        <include refid="Data_Where_Plus"/>
+    </select>
+
+    <select id="mCountList" resultType="java.lang.Integer"
+            parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery">
+        select count(*) from pamirs_schedule
+        where status = 1
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="taskType != null">
+            and task_type = #{taskType}
+        </if>
+        <if test="actionName != null">
+            and action_name = #{actionName}
+        </if>
+        <if test="bizStatus != null">
+            and biz_status = #{bizStatus}
+        </if>
+        <if test="ownSign != null">
+            and own_sign = #{ownSign}
+        </if>
+        <if test="bizId != null">
+            and biz_id = #{bizId}
+        </if>
+        <if test="application != null">
+            and application = #{application}
+        </if>
+        <if test="tableNum != null">
+            and table_num = #{tableNum}
+        </if>
+        <if test="queryDateStart != null">
+            and create_date &gt; #{queryDateStart}
+        </if>
+        <if test="queryDateEnd != null">
+            and create_date &lt; #{queryDateEnd}
+        </if>
+    </select>
+
+    <select id="selectScheduleList" resultMap="BaseResultMap"
+            parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery">
+        select
+        <include refid="Base_Column_List"/>
+        from pamirs_schedule
+        where status = 1 and biz_status in (0,2) and <![CDATA[ retry_nums < 6 ]]>
+        <if test="taskType != null">
+            and task_type = #{taskType}
+        </if>
+        <if test="actionName != null">
+            and action_name = #{actionName}
+        </if>
+        <if test="ownSign != null">
+            and own_sign = #{ownSign}
+        </if>
+        <if test="bizId != null">
+            and biz_id = #{bizId}
+        </if>
+        <if test="application != null">
+            and application = #{application}
+        </if>
+        <if test="tableNum != null">
+            and table_num = #{tableNum}
+        </if>
+        <include refid="Data_Where_Plus"/>
+    </select>
+
+    <select id="mselectDelayList" resultMap="BaseResultMap"
+            parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery">
+        select
+        <include refid="Base_Column_List"/>
+        from pamirs_schedule
+        where `task_status` in (0,-2)
+        <if test="ids != null">
+            and id IN
+            <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        <if test="tableNum != null">
+            and table_num = #{tableNum}
+        </if>
+        <include refid="Data_Where_Plus"/>
+    </select>
+
+    <sql id="EnvironmentParams">
+        <if test="environment != null">
+            <if test="environment.tenant != null">
+                and `tenant` = #{environment.tenant}
+            </if>
+            <if test="environment.env != null">
+                and `env` = #{environment.env}
+            </if>
+            <if test="environment.ownSign != null">
+                and `own_sign` = #{environment.ownSign}
+            </if>
+            <if test="environment.tableNum != null">
+                and `table_num` = #{environment.tableNum}
+            </if>
+        </if>
+    </sql>
+
+    <sql id="Data_Where_Plus">
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        <if test="pageSize != null and start != null">
+            limit #{pageSize} offset #{start}
+        </if>
+        <if test="pageSize != null and start == null">
+            limit #{pageSize}
+        </if>
+    </sql>
+
+    <update id="update2SucessByPrimaryKey" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set
+        retry_nums = retry_nums + 1,
+        task_status = 1,
+        write_date = #{writeDate}
+        where id = #{id} and task_status = #{taskStatus}
+        and table_num = #{tableNum}
+    </update>
+
+    <update id="updateSuccCycleByPrimaryKey" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set
+        retry_nums = 0,
+        next_execute_time = #{nextExecuteTime},
+        biz_status = 0,
+        status = 1,
+        param = #{param},
+        remark = #{remark}
+        where id = #{id} and biz_status = #{bizStatus}
+        and table_num = #{tableNum}
+    </update>
+
+    <update id="updateRetryCycleByPrimaryKey" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set
+        retry_nums = retry_nums + 1,
+        next_execute_time = #{nextExecuteTime},
+        biz_status = 2,
+        status = 1
+        where id = #{id} and biz_status = #{bizStatus}
+        and table_num = #{tableNum}
+    </update>
+
+    <update id="update2TransferByPrimaryKey" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set
+        `is_transfer` = 1
+        where `id` = #{id} and `is_transfer` = 0
+        and table_num = #{tableNum}
+    </update>
+
+    <update id="update2TransferByIds" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set
+        `is_transfer` = 1
+        where
+        id IN
+        <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and table_num = #{tableNum}
+    </update>
+
+    <update id="update2RetryByPrimaryKey" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set
+        retry_nums = retry_nums + 1,
+        biz_status = 2,
+        next_execute_time = #{nextExecuteTime},
+        error_log = #{errorLog}
+        where id = #{id} and table_num = #{tableNum}
+    </update>
+
+    <select id="selectByBizId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pamirs_schedule
+        where biz_id = #{bizId}
+        <include refid="EnvironmentParams"/>
+    </select>
+
+    <update id="updateParamById" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set param = #{param},
+        next_execute_time = #{nextExecuteTime},
+        where biz_id = #{bizId} and table_num = #{tableNum}
+    </update>
+
+
+    <select id="getChildTaskCount" resultType="java.lang.Integer"
+            parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        select count(*) from pamirs_schedule
+        where parent_task_id = #{parentTaskId} and biz_status = #{bizStatus} and table_num = #{tableNum}
+    </select>
+
+
+    <update id="updateSuccTask" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set
+        biz_status = 1,
+        status = 1,
+        remark = #{remark},
+        next_execute_time = #{nextExecuteTime},
+        where biz_id = #{bizId}
+        and table_num = #{tableNum}
+    </update>
+
+    <select id="selectListForParam" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from pamirs_schedule <!--FORCE INDEX(idx_bizstatus_tasktype_nextretrytime)-->
+        where status = 1 and biz_status =2
+        and task_type = #{taskType}
+        and param like CONCAT('%',#{param,jdbcType=VARCHAR},'%')
+        and table_num = #{tableNum}
+    </select>
+
+    <update id="update2CancelByParam" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+        update pamirs_schedule
+        set
+        biz_status = #{bizStatus} , retry_nums = #{retryNums}, remark = #{remark}
+        where id = #{id} and table_num = #{tableNum}
+    </update>
+
+    <select id="selectListForError" resultMap="BaseResultMap"
+            parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleAllQuery">
+        select
+        <include refid="Base_Column_List"/>
+        from pamirs_schedule <!--FORCE INDEX(idx_bizstatus_tasktype_nextretrytime)-->
+        where status = 1
+        and task_type = #{taskType}
+        <if test="bizId != null">
+            and biz_id = #{bizId}
+        </if>
+        and biz_status = #{bizStatus}
+        and table_num = #{tableNum}
+        <include refid="Data_Where_Plus"/>
+    </select>
+
+    <select id="selectCountForError" resultType="java.lang.Integer"
+            parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleAllQuery">
+        select count(*) from pamirs_schedule
+        where status = 1
+        and task_type = #{taskType}
+        <if test="bizId != null">
+            and biz_id = #{bizId}
+        </if>
+        and biz_status = #{bizStatus}
+        and table_num = #{tableNum}
+    </select>
+
+</mapper>

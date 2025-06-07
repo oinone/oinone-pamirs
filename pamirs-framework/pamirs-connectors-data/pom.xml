@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>pro.shushi.pamirs</groupId>
+        <artifactId>pamirs-framework</artifactId>
+        <version>6.2.0</version>
+    </parent>
+
+    <groupId>pro.shushi.pamirs.framework</groupId>
+    <artifactId>pamirs-connectors-data</artifactId>
+    <name>pamirs-connectors-data</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>pro.shushi.pamirs.framework</groupId>
+            <artifactId>pamirs-framework-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>pro.shushi.pamirs.framework</groupId>
+            <artifactId>pamirs-framework-compute</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>pro.shushi.pamirs.framework</groupId>
+            <artifactId>pamirs-connectors-data-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>pro.shushi.pamirs.framework</groupId>
+            <artifactId>pamirs-connectors-data-tx</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>pro.shushi.pamirs.framework</groupId>
+            <artifactId>pamirs-connectors-data-sql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>pro.shushi.pamirs.framework</groupId>
+            <artifactId>pamirs-connectors-data-autoconfigure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>pro.shushi.pamirs.framework</groupId>
+            <artifactId>pamirs-framework-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+        </dependency>
+
+        <!--MySQL Support-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+        </dependency>
+
+        <!-- sharding-jdbc -->
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-sharding-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-jdbc-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.antlr</groupId>
+                    <artifactId>antlr4-runtime</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-sharding-spring-namespace</artifactId>
+        </dependency>
+
+        <!-- cache -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
+

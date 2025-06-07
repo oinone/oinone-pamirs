@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>pro.shushi.pamirs.middleware</groupId>
+        <artifactId>pamirs-middleware</artifactId>
+        <version>6.2.0</version>
+    </parent>
+    <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
+    <artifactId>pamirs-middleware-schedule</artifactId>
+    <name>pamirs-middleware-schedule</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>pamirs-middleware-tbschedule</module>
+        <module>pamirs-middleware-schedule-api</module>
+        <module>pamirs-middleware-schedule-core</module>
+        <module>pamirs-middleware-schedule-deployer</module>
+        <module>pamirs-middleware-schedule-console</module>
+        <module>pamirs-middleware-elasticjob</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware</groupId>
+                <artifactId>pamirs-middleware-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.zookeeper</groupId>
+                <artifactId>pamirs-middleware-zookeeper</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
+                <artifactId>pamirs-middleware-tbschedule</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
+                <artifactId>pamirs-middleware-schedule-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
+                <artifactId>pamirs-middleware-schedule-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--
+            <dependency>
+                <groupId>com.taobao.pamirs.schedule</groupId>
+                <artifactId>tbschedule</artifactId>
+                <version>3.4.1</version>
+            </dependency>
+            -->
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>5.0.3</version>
+            </dependency>
+            <dependency>
+                <groupId>de.javakaffee</groupId>
+                <artifactId>kryo-serializers</artifactId>
+                <version>0.45</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

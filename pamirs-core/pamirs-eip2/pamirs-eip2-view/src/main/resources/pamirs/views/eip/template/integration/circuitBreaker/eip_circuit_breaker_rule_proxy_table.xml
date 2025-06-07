@@ -1,0 +1,35 @@
+<view type="TABLE" widget="table" model="eip.EipCircuitBreakerRuleProxy" name="熔断配置代理table">
+    <template slot="search">
+        <field data="code" label="规则编码" required="false"/>
+        <field data="ruleName" label="规则名称" required="false"/>
+        <field data="circuitBreakerType" label="熔断类型" required="false">
+            <options>
+                <option label="慢调用熔断" name="SLOW_CALL"/>
+                <option label="异常熔断" name="EXCEPTION"/>
+            </options>
+        </field>
+        <field data="integrationInterface" label="集成接口" required="false"/>
+    </template>
+    <template slot="actions">
+        <action name="熔断配置create" label="创建" model="eip.EipCircuitBreakerRuleProxy"/>
+    </template>
+    <template slot="rowActions">
+        <action name="熔断配置edit" label="编辑" model="eip.EipCircuitBreakerRuleProxy"/>
+        <action name="deleteOne" label="删除" enableConfirm="true" confirm="确认删除?"/>
+    </template>
+    <template slot="table" checkbox="false"/>
+    <template slot="fields">
+        <field data="id" invisible="true"/>
+        <field data="code" label="规则编码"/>
+
+        <field data="ruleName" label="规则名称"/>
+        <field data="circuitBreakerType" label="熔断类型"/>
+        <field data="integrationInterfaceList" label="集成接口"/>
+        <field data="statisticalDuration" label="统计时长(s)"/>
+        <field data="minRequestCount" label="最小请求数目"/>
+        <field data="circuitBreakerDuration" label="熔断时长(s)"/>
+        <field data="threshold" label="熔断比例阈值(%)"/>
+        <field data="slowCallResponseTime" label="慢调用判定阈值(ms)"/>
+        <field data="recoveryStrategy" label="熔断恢复策略"/>
+    </template>
+</view>
