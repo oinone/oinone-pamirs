@@ -144,22 +144,22 @@ public class EipOpenInterface extends AbstractSingleInterface implements IEipOpe
 
     @Base
     @Field.String
-    @Field(displayName = "请求解密函数命名空间")
+    @Field(displayName = "请求预处理函数命名空间")
     private String requestDecryptNamespace;
 
     @Base
     @Field.String
-    @Field(displayName = "请求解密函数名称")
+    @Field(displayName = "请求预处理函数名称")
     private String requestDecryptFun;
 
     @Base
     @Field.String
-    @Field(displayName = "响应加密函数命名空间")
+    @Field(displayName = "响应预处理函数命名空间")
     private String responseEncryptionNamespace;
 
     @Base
     @Field.String
-    @Field(displayName = "响应加密函数名称")
+    @Field(displayName = "响应预处理函数名称")
     private String responseEncryptionFun;
 
     @JSONField(serialize = false)

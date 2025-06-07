@@ -11,6 +11,7 @@ import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.model.EipApplication;
 import pro.shushi.pamirs.eip.api.model.EipAuthentication;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
+import pro.shushi.pamirs.eip.api.service.EipOpenRateLimitPolicyService;
 import pro.shushi.pamirs.eip.api.service.model.EipApplicationService;
 import pro.shushi.pamirs.eip.api.util.EipIpUtil;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -21,6 +22,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.resource.api.enmu.ExpEnumerate;
 
+import javax.annotation.Resource;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -29,15 +31,16 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 @Fun(EipApplicationService.FUN_NAMESPACE)
 public class EipApplicationServiceImpl implements EipApplicationService {
+
+    @Resource
+    private EipOpenRateLimitPolicyService eipOpenRateLimitPolicyService;
 
     @Override
     @Transactional
@@ -66,6 +69,8 @@ public class EipApplicationServiceImpl implements EipApplicationService {
             if (CollectionUtils.isNotEmpty(delete)) {
                 exist.setOpenInterfaceList(delete.stream().map(i -> (EipOpenInterface) new EipOpenInterface().setInterfaceName(i)).collect(Collectors.toList()))
                         .relationDelete(EipApplication::getOpenInterfaceList);
+                // 删除流控配置
+                eipOpenRateLimitPolicyService.deleteByInterfaceName(data, new ArrayList<>(delete));
             }
             if (CollectionUtils.isNotEmpty(create)) {
                 exist.setOpenInterfaceList(create.stream().map(i -> (EipOpenInterface) new EipOpenInterface().setInterfaceName(i)).collect(Collectors.toList()))
@@ -184,5 +189,15 @@ public class EipApplicationServiceImpl implements EipApplicationService {
                 .from(EipApplication.MODEL_MODEL)
                 .eq(EipApplication::getAppKey, appKey)
         );
+    }
+
+    @Override
+    public List<EipApplication> queryByCodes(List<String> codes) {
+        if (CollectionUtils.isEmpty(codes)) {
+            return Collections.emptyList();
+        }
+        return Models.data().queryListByWrapper(Pops.<EipApplication>lambdaQuery()
+                .from(EipApplication.MODEL_MODEL)
+                .in(EipApplication::getCode, codes));
     }
 }

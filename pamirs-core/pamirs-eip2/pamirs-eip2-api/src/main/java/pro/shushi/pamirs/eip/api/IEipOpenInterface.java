@@ -13,7 +13,7 @@ public interface IEipOpenInterface<T> extends IEipApi, IEipAfterProperty<IEipOpe
     IEipContextSupplier<T> getContextSupplier();
 
     /**
-     * 请求解密处理器
+     * 请求预处理处理器
      */
     IEipDecryptProcessor getRequestDecryptProcessor();
 
@@ -58,7 +58,7 @@ public interface IEipOpenInterface<T> extends IEipApi, IEipAfterProperty<IEipOpe
     IEipInOutConverter getInOutConverter();
 
     /**
-     * 响应加密处理器
+     * 响应预处理处理器
      */
     IEipEncryptionProcessor getResponseEncryptionProcessor();
 }

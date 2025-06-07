@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.model.CircuitBreakerRecord;
 import pro.shushi.pamirs.eip.api.pmodel.CircuitBreakerRecordProxy;
-import pro.shushi.pamirs.eip.api.service.CircuitBreakerRecordService;
+import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerRecordService;
 import pro.shushi.pamirs.framework.faas.utils.ArgUtils;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -22,7 +22,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 public class CircuitBreakerRecordProxyAction {
 
     @Autowired
-    private CircuitBreakerRecordService circuitBreakerRecordService;
+    private EipCircuitBreakerRecordService eipCircuitBreakerRecordService;
 
     @Function.Advanced(type = FunctionTypeEnum.QUERY)
     @Function.fun(FunctionConstants.queryPage)
@@ -42,7 +42,7 @@ public class CircuitBreakerRecordProxyAction {
                 queryWrapper
         );
 
-        Pagination<CircuitBreakerRecord> recordResult = circuitBreakerRecordService.queryPage(recordPage, recordWrapper);
+        Pagination<CircuitBreakerRecord> recordResult = eipCircuitBreakerRecordService.queryPage(recordPage, recordWrapper);
         Pagination<CircuitBreakerRecordProxy> result = ArgUtils.convert(
                 CircuitBreakerRecordProxy.MODEL_MODEL,
                 CircuitBreakerRecord.MODEL_MODEL,

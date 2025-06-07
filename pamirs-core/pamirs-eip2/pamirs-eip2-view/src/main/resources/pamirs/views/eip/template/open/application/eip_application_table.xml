@@ -17,16 +17,7 @@
         </action>
     </template>
 
-    <template slot="rowActions">
-        <action name="EipApplicationPrivateDetail"/>
-        <action name="EipApplicationAuth">
-            <template slot="default" width="MEDIUM"/>
-        </action>
-        <action name="dataStatusEnable" invisible="true"/>
-        <action name="dataStatusDisable" invisible="true"/>
-    </template>
-
-    <template slot="fields">
+    <template slot="table" operatorColumnWidth="220">
         <field data="id" invisible="true"/>
 
         <field data="code" label="应用编码"/>
@@ -44,5 +35,17 @@
 
         <field data="createDate" label="创建时间"/>
         <field data="createUserName" label="创建人"/>
+
+        <template slot="rowActions">
+            <action name="EipApplicationPrivateDetail"/>
+            <action name="EipApplicationAuth">
+                <template slot="default" width="MEDIUM"/>
+            </action>
+            <action name="EipApplicationOperationRateLimit">
+                <template slot="default" width="MEDIUM"/>
+            </action>
+            <action name="dataStatusEnable" invisible="true"/>
+            <action name="dataStatusDisable" invisible="true"/>
+        </template>
     </template>
 </view>

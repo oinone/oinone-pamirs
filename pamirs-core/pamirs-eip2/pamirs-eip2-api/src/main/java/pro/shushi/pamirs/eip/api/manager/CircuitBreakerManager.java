@@ -13,8 +13,8 @@ import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.exception.CircuitBreakerOpenException;
 import pro.shushi.pamirs.eip.api.model.CircuitBreakerRecord;
 import pro.shushi.pamirs.eip.api.model.EipCircuitBreakerRule;
-import pro.shushi.pamirs.eip.api.service.CircuitBreakerRecordService;
-import pro.shushi.pamirs.eip.api.service.CircuitBreakerStateSyncService;
+import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerStateSyncService;
+import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerRecordService;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
@@ -83,9 +83,9 @@ public class CircuitBreakerManager {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
-    private CircuitBreakerStateSyncService circuitBreakerStateSyncService;
+    private EipCircuitBreakerStateSyncService eipCircuitBreakerStateSyncService;
     @Autowired
-    private CircuitBreakerRecordService circuitBreakerRecordService;
+    private EipCircuitBreakerRecordService eipCircuitBreakerRecordService;
 
     public CircuitBreakerConfig getConfig(String interfaceName) {
         CircuitBreakerEntry circuitBreakerEntry = circuitMap.get(interfaceName);
@@ -190,7 +190,7 @@ public class CircuitBreakerManager {
             // 通知其他节点状态变更
             if (entry.config.getStatisticalDuration() > STATISTICAL_DURATION_LOCAL) {
                 CircuitBreakerStatusEnum newState = isClose ? CircuitBreakerStatusEnum.CLOSED : CircuitBreakerStatusEnum.OPEN;
-                circuitBreakerStateSyncService.syncState(interfaceName, newState);
+                eipCircuitBreakerStateSyncService.handleUpdate(interfaceName, newState);
             }
         }
 
@@ -297,7 +297,7 @@ public class CircuitBreakerManager {
 
         if (Boolean.TRUE.equals(set)) {
             updateState(interfaceName, CircuitBreakerStatusEnum.HALF_OPEN);
-            circuitBreakerStateSyncService.syncState(interfaceName, entry.state);
+            eipCircuitBreakerStateSyncService.handleUpdate(interfaceName, entry.state);
             return true;
         }
         return false;
@@ -364,7 +364,7 @@ public class CircuitBreakerManager {
         // 打开熔断，并通知zk
         if ((exceedFail || exceedSlow) && entry.state == CircuitBreakerStatusEnum.CLOSED) {
             openCircuit(interfaceName, entry);
-            circuitBreakerStateSyncService.syncState(interfaceName, CircuitBreakerStatusEnum.OPEN);
+            eipCircuitBreakerStateSyncService.handleUpdate(interfaceName, CircuitBreakerStatusEnum.OPEN);
         }
     }
 
@@ -400,6 +400,6 @@ public class CircuitBreakerManager {
         record.setEndTime(endTime);
         record.setCircuitBreakerRule(entry.rule);
         record.setCircuitBreakerRuleName(entry.rule.getRuleName());
-        circuitBreakerRecordService.pushRecord(record);
+        eipCircuitBreakerRecordService.pushRecord(record);
     }
 }

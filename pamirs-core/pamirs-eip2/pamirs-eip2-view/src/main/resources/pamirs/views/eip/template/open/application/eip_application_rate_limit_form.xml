@@ -1,0 +1,59 @@
+<view type="FORM" widget="form" title="流控配置" model="pamirs.eip.proxy.EipApplicationProxy" name="应用流控配置from">
+    <template slot="actions">
+        <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
+        <action name="updateRateLimitPolicyList" label="保存" goBack="true" validateForm="true"/>
+    </template>
+    <template slot="fields">
+        <pack widget="group" title="基础信息" cols="2">
+            <field data="id" invisible="true"/>
+            <field data="code" label="应用编码" disabled="true" span="1"/>
+            <field data="name" label="应用名称" disabled="true" span="1"/>
+            <field data="appKey" label="API key" disabled="true" span="1"/>
+            <field data="dataStatus" label="启用状态" disabled="true" span="1">
+                <options>
+                    <option name="ENABLED" displayName="已启用" value="ENABLED" state="ACTIVE"/>
+                    <option name="DISABLED" displayName="已禁用" value="DISABLED" state="ACTIVE"/>
+                </options>
+            </field>
+            <field data="description" label="应用描述" disabled="true" span="1"/>
+        </pack>
+
+        <pack widget="group" title="流控配置" cols="1">
+            <field widget="Table" data="rateLimitPolicyList" label="false">
+                <view cols="1" type="TABLE">
+                    <template slot="table">
+                        <field data="id" invisible="true"/>
+                        <field data="applicationCode" label="应用编码" invisible="true"/>
+                        <field data="interfaceName" label="技术名称" invisible="true"/>
+                        <field data="openInterface" label="开放接口"/>
+                        <field data="qps" label="单机QPS阈值"/>
+                        <field data="flowControlEffect" label="流控效果"/>
+                        <field data="timeout" label="超时时长(ms)"/>
+                        <template slot="rowActions">
+                            <action label="编辑" name="EditOpenRateLimitPolicy">
+                                <template slot="default">
+                                    <view model="pamirs.eip.EipOpenRateLimitPolicy" type="form">
+                                        <template colSpan="FULL" slot="form">
+                                            <field data="id" invisible="true"/>
+                                            <field data="applicationCode" label="应用编码" invisible="true"/>
+                                            <field data="interfaceName" label="技术名称" invisible="true"/>
+                                            <field data="openInterface" label="开放接口" invisible="true"/>
+                                            <field colSpan="HALF" data="flowControlEffect" invisible="false"
+                                                   clearFields="qps,timeout" label="流控效果"
+                                                   required="!IS_BLANK(activeRecord.qps)"/>
+                                            <field colSpan="HALF" data="qps" label="单机QPS阈值"
+                                                   required="!IS_BLANK(activeRecord.flowControlEffect)"/>
+                                            <field colSpan="HALF" data="timeout" label="超时时长(ms)"
+                                                   invisible="activeRecord.flowControlEffect == 'RAPID_FAILURE'"
+                                                   required="activeRecord.flowControlEffect == 'QUEUEING_WAIT'"/>
+                                        </template>
+                                    </view>
+                                </template>
+                            </action>
+                        </template>
+                    </template>
+                </view>
+            </field>
+        </pack>
+    </template>
+</view>

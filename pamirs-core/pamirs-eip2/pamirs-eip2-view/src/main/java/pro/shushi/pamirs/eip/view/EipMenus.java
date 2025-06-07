@@ -7,10 +7,7 @@ import pro.shushi.pamirs.eip.api.EipModule;
 import pro.shushi.pamirs.eip.api.model.EipConnGroup;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
-import pro.shushi.pamirs.eip.api.pmodel.CircuitBreakerRecordProxy;
-import pro.shushi.pamirs.eip.api.pmodel.EipApplicationProxy;
-import pro.shushi.pamirs.eip.api.pmodel.EipCircuitBreakerRuleProxy;
-import pro.shushi.pamirs.eip.api.pmodel.EipLogProxy;
+import pro.shushi.pamirs.eip.api.pmodel.*;
 
 /**
  * 可以注解到该模块的任意类上，建议同一个模块中只配置一处
@@ -46,6 +43,11 @@ class EipMenus {
         @UxMenu("应用")
         @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "集成应用table")
         class EipApplicationProxyMenu {
+        }
+
+        @UxMenu("黑名单")
+        @UxRoute(model = EipOpenIpBlacklistProxy.MODEL_MODEL, viewName = "开放应用黑名单table")
+        class EipOpenIpBlacklistProxyMenu {
         }
     }
 

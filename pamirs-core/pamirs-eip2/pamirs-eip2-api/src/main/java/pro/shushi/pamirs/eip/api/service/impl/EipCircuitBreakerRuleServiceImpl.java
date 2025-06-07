@@ -12,8 +12,8 @@ import pro.shushi.pamirs.eip.api.model.CircuitBreakerRecord;
 import pro.shushi.pamirs.eip.api.model.EipCircuitBreakerRule;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.pmodel.EipCircuitBreakerRuleProxy;
-import pro.shushi.pamirs.eip.api.service.CircuitBreakerRecordService;
-import pro.shushi.pamirs.eip.api.service.CircuitBreakerStateSyncService;
+import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerStateSyncService;
+import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerRecordService;
 import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerRuleService;
 import pro.shushi.pamirs.eip.api.service.model.EipIntegrationInterfaceService;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
@@ -40,9 +40,9 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
     @Autowired
     private EipIntegrationInterfaceService eipIntegrationInterfaceService;
     @Autowired
-    private CircuitBreakerStateSyncService circuitBreakerStateSyncService;
+    private EipCircuitBreakerStateSyncService eipCircuitBreakerStateSyncService;
     @Autowired
-    private CircuitBreakerRecordService circuitBreakerRecordService;
+    private EipCircuitBreakerRecordService eipCircuitBreakerRecordService;
 
     @Override
     @Function
@@ -61,7 +61,7 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
             EipCircuitBreakerRule circuitBreakerRule = integrationInterface.getCircuitBreakerRule();
             circuitBreakerManager.registerCircuitBreaker(interfaceName, circuitBreakerRule);
 
-            Boolean isOpen = circuitBreakerRecordService.findActiveRecordByInterfaceName(interfaceName);
+            Boolean isOpen = eipCircuitBreakerRecordService.findActiveRecordByInterfaceName(interfaceName);
             if (isOpen) {
                 circuitBreakerManager.updateState(interfaceName, CircuitBreakerStatusEnum.OPEN);
             }
@@ -112,10 +112,10 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
                 log.error("熔断器注销失败，接口技术名称为空");
             } else {
                 circuitBreakerManager.unregister(interfaceName);
-                circuitBreakerStateSyncService.removeStateNode(interfaceName);
+                eipCircuitBreakerStateSyncService.handleRemove(interfaceName);
             }
         }
-        circuitBreakerRecordService.updateEndTime(interfaceNameList);
+        eipCircuitBreakerRecordService.updateEndTime(interfaceNameList);
     }
 
     @Override
@@ -125,10 +125,10 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
         if (CollectionUtils.isNotEmpty(ruleList)) {
             Models.data().listFieldQuery(ruleList, EipCircuitBreakerRule::getIntegrationInterfaceList);
 
-            circuitBreakerRecordService.saveRecord();
+            eipCircuitBreakerRecordService.saveRecord();
 
             // 查询仍处于熔断期间的记录
-            List<CircuitBreakerRecord> activeRecords = circuitBreakerRecordService.findActiveRecords();
+            List<CircuitBreakerRecord> activeRecords = eipCircuitBreakerRecordService.findActiveRecords();
             Map<String, CircuitBreakerRecord> activeMap = Optional.ofNullable(activeRecords)
                     .orElse(Collections.emptyList())
                     .stream()
@@ -157,13 +157,10 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
                     if (record != null) {
                         circuitBreakerManager.updateState(interfaceName, statusEnum);
                     }
-
-                    // 刷新zk
-                    circuitBreakerStateSyncService.syncState(interfaceName, statusEnum);
                 }
             }
         }
-        circuitBreakerStateSyncService.startListener();
+        eipCircuitBreakerStateSyncService.startListener();
     }
 
     private List<String> reconcileCircuitBreakerInterfaces(EipCircuitBreakerRule data) {
@@ -203,7 +200,7 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
         }
         for (String interfaceName : interfaceNames) {
             circuitBreakerManager.unregister(interfaceName);
-            circuitBreakerStateSyncService.removeStateNode(interfaceName);
+            eipCircuitBreakerStateSyncService.handleRemove(interfaceName);
         }
     }
 
@@ -221,7 +218,7 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
         List<String> interfaceNames = interfaces.stream()
                 .map(EipIntegrationInterface::getInterfaceName)
                 .collect(Collectors.toList());
-        circuitBreakerRecordService.updateEndTime(interfaceNames);
+        eipCircuitBreakerRecordService.updateEndTime(interfaceNames);
     }
 
     private void refreshAndRegisterInterfaces(EipCircuitBreakerRule data) {
@@ -230,7 +227,7 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
             if (StringUtils.isNotBlank(interfaceName)) {
                 circuitBreakerManager.unregister(interfaceName);
                 circuitBreakerManager.registerCircuitBreaker(interfaceName, data);
-                circuitBreakerStateSyncService.syncState(interfaceName, CircuitBreakerStatusEnum.CLOSED);
+                eipCircuitBreakerStateSyncService.handleUpdateConfig(interfaceName);
             } else {
                 log.error("熔断器注册失败，interfaceName为空");
             }

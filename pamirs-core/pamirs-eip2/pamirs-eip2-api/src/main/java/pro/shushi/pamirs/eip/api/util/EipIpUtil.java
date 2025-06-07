@@ -44,7 +44,7 @@ public class EipIpUtil {
         return false;
     }
 
-    private static boolean isInRange(byte[] address, String cidr) {
+    public static boolean isInRange(byte[] address, String cidr) {
         String[] parts = cidr.split("/");
         if (parts.length != 2) {
             throw PamirsException.construct(EipExpEnumerate.EIP_IP_CIDR_ILLEGAL).errThrow();
@@ -87,12 +87,20 @@ public class EipIpUtil {
             return;
         }
         for (String ipOrCidr : ipWhiteList) {
-            if (!isValidIP(ipOrCidr) && !isValidCIDR(ipOrCidr)) {
+            if (isIllegalIp(ipOrCidr)) {
                 throw PamirsException.construct(EipExpEnumerate.EIP_IP_CIDR_ILLEGAL)
                         .appendMsg(ipOrCidr)
                         .errThrow();
             }
         }
+    }
+
+    /**
+     * 是否为非法IP地址
+     * 仅支持IPV4和CIDR
+     */
+    public static boolean isIllegalIp(String ipWhite) {
+        return !(isValidIP(ipWhite) || isValidCIDR(ipWhite));
     }
 
     private static boolean isValidIP(String ip) {

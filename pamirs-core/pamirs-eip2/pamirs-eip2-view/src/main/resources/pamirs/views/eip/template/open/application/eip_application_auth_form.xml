@@ -11,8 +11,10 @@
             <field data="code" label="应用编码" readonly="true"/>
             <field data="name" label="应用名称" readonly="true"/>
             <field data="appKey" label="API Key" readonly="true"/>
-            <field data="requestDecryptFunc" label="请求解密处理函数" readonly="true"/>
-            <field data="responseEncryptionFunc" label="响应加密处理函数" readonly="true"/>
+            <field data="requestDecryptFunc" label="请求预处理函数" readonly="true"
+                   hint="可根据实际需要，设置您所需要的请求预处理函数"/>
+            <field data="responseEncryptionFunc" label="响应预处理函数" readonly="true"
+                   hint="可根据实际需要，设置您所需要的响应预处理函数"/>
             <field data="description" label="应用描述" readonly="true"/>
         </pack>
 
@@ -21,10 +23,11 @@
         </pack>
 
         <pack widget="group" title="IP白名单配置" cols="1">
-            <field data="ipWhiteRespHttpCode" label="状态码" readonly="false" placeholder="被IP白名单规则限制时的响应状态码，默认403"/>
+            <field data="ipWhiteRespHttpCode" label="状态码" max="599" min="100" readonly="false" placeholder="被IP白名单规则限制时的响应状态码，默认403"/>
             <field data="ipWhiteHttpResult" label="响应结果" readonly="false" placeholder="被IP白名单规则限制时的响应结果"/>
             <field data="ipWhiteList" label="IP白名单" readonly="false" placeholder="请输入IP 或 IP网段"
                    patternType="CUSTOM" rows="10"
+                   help="根据请求头 X-Forwarded-For 判断是否在允许列表中"
                    pattern="/^(?:(?:\d{1,3}\.){3}\d{1,3}(?:\/(?:[1-2][0-9]|3[0-2]|[0-9]))?)(?:,(?:\d{1,3}\.){3}\d{1,3}(?:\/(?:[1-2][0-9]|3[0-2]|[0-9]))?){0,499}$/"/>
             <element borderMode="NONE" disabled="false" invisible="false" readonly="false"
                      required="false" widget="paragraph"

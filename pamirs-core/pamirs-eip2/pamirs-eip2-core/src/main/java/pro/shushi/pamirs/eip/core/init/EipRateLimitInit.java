@@ -5,30 +5,32 @@ import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.InstallDataInit;
 import pro.shushi.pamirs.boot.common.api.init.UpgradeDataInit;
 import pro.shushi.pamirs.eip.api.EipModule;
-import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerRuleService;
+import pro.shushi.pamirs.eip.api.service.EipOpenRateLimitPolicyService;
 
 import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * @author yeshenyue on 2025/4/10 19:10.
+ * 开放接口流控初始化
+ *
+ * @author yeshenyue on 2025/4/22 16:42.
  */
 @Component
-public class EipCircuitBreakerRecordInit implements InstallDataInit, UpgradeDataInit {
+public class EipRateLimitInit implements InstallDataInit, UpgradeDataInit {
 
     @Resource
-    private EipCircuitBreakerRuleService eipCircuitBreakerRuleService;
+    private EipOpenRateLimitPolicyService rateLimitPolicyService;
 
     @Override
-    public boolean upgrade(AppLifecycleCommand command, String version, String existVersion) {
-        eipCircuitBreakerRuleService.init();
+    public boolean init(AppLifecycleCommand command, String version) {
+        rateLimitPolicyService.init();
         return true;
     }
 
     @Override
-    public boolean init(AppLifecycleCommand command, String version) {
-        eipCircuitBreakerRuleService.init();
+    public boolean upgrade(AppLifecycleCommand command, String version, String existVersion) {
+        rateLimitPolicyService.init();
         return true;
     }
 
