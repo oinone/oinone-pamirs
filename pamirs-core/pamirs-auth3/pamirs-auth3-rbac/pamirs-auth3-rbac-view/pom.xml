@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-auth3-rbac</artifactId>
-        <version>6.2.0</version>
+        <version>6.2.1</version>
     </parent>
     <artifactId>pamirs-auth3-rbac-view</artifactId>
     <name>pamirs-auth3-rbac-view</name>

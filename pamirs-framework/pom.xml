@@ -6,20 +6,20 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.0.1</version>
+        <version>6.2.1</version>
     </parent>
 
     <artifactId>pamirs-framework</artifactId>
     <name>pamirs-framework</name>
     <packaging>pom</packaging>
-    <version>6.2.0</version>
+    <version>6.2.1</version>
 
     <properties>
-        <pamirs.framework.a.version>6.2.0</pamirs.framework.a.version>
-        <pamirs.k2.version>6.2.0</pamirs.k2.version>
+        <pamirs.framework.a.version>6.2.1</pamirs.framework.a.version>
+        <pamirs.k2.version>6.2.1</pamirs.k2.version>
 
-        <pamirs.framework.adaptor.version>6.2.0</pamirs.framework.adaptor.version>
-        <pamirs.framework.commons.version>6.2.0</pamirs.framework.commons.version>
+        <pamirs.framework.adaptor.version>6.2.1</pamirs.framework.adaptor.version>
+        <pamirs.framework.commons.version>6.2.1</pamirs.framework.commons.version>
     </properties>
 
     <modules>
