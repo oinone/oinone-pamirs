@@ -742,6 +742,21 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>oinone</id>
+            <distributionManagement>
+                <repository>
+                    <id>oinone-develop-release</id>
+                    <name>shushi release repository</name>
+                    <url>http://nexus.shushi.pro/repository/pamirs-releases/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>oinone-develop-snapshot</id>
+                    <name>shushi snapshot repository</name>
+                    <url>http://nexus.shushi.pro/repository/pamirs-snapshots/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
     </profiles>
 
     <build>
