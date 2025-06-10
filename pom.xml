@@ -358,21 +358,6 @@
 
             <!-- graphql -->
             <dependency>
-                <groupId>com.graphql-java-kickstart</groupId>
-                <artifactId>graphql-spring-boot-starter</artifactId>
-                <version>${graphql.java.spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.graphql-java-kickstart</groupId>
-                <artifactId>graphiql-spring-boot-starter</artifactId>
-                <version>${graphql.java.spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.graphql-java-kickstart</groupId>
-                <artifactId>graphql-java-tools</artifactId>
-                <version>${graphql.java.tools.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.graphql-java</groupId>
                 <artifactId>graphql-java</artifactId>
                 <version>${graphql.java.version}</version>
