@@ -234,6 +234,10 @@ public class ClassUtils {
         for (File file : dirfiles) {
             // 如果是目录 则继续扫描
             if (file.isDirectory()) {
+                // 忽略jdk依赖类所在包
+                if (packageName.startsWith(EXCLUDE_FUN_PACK_PREFIX)) {
+                    continue;
+                }
                 findAndAddClassesInPackageByFile(packageName + "." + file.getName(), file.getAbsolutePath(), recursive, classes);
             } else {
                 // 如果是java类文件 去掉后面的.class 只留下类名

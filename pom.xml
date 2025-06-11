@@ -45,10 +45,8 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <sharding-sphere.version>5.0.0-alpha</sharding-sphere.version>
         <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
-        <graphql.java.spring.version>8.0.0</graphql.java.spring.version>
         <graphql.java.version>15.0</graphql.java.version>
         <graphql.java.extended.version>15.0.0</graphql.java.extended.version>
-        <graphql.java.tools.version>6.2.1</graphql.java.tools.version>
         <rsql.parser.version>2.1.0</rsql.parser.version>
         <aspectj.version>1.9.4</aspectj.version>
         <aspectjweaver.version>1.9.4</aspectjweaver.version>
