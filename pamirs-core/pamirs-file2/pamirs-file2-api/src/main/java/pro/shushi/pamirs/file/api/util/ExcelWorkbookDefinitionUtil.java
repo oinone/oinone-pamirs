@@ -21,10 +21,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
+import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
 import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.ObjectHelper;
 import pro.shushi.pamirs.core.common.TreeHelper;
 import pro.shushi.pamirs.core.common.function.lambda.PamirsSupplier;
+import pro.shushi.pamirs.file.api.config.ExcelConstant;
 import pro.shushi.pamirs.file.api.config.FileConstant;
 import pro.shushi.pamirs.file.api.config.FileProperties;
 import pro.shushi.pamirs.file.api.context.ExcelDefinitionContext;
@@ -129,10 +131,65 @@ public class ExcelWorkbookDefinitionUtil {
         return initialization(workbookDefinition, hashCode, scope);
     }
 
-    public static void initImportTask(ExcelWorkbookDefinition workbookDefinition, ExcelImportTask importTask) {
-        initImportTask(workbookDefinition, importTask, Boolean.TRUE);
+    public static void initImportTask(ExcelDefinitionContext context, ExcelWorkbookDefinition workbookDefinition, ExcelImportTask importTask) {
+        initImportTask(context, workbookDefinition, importTask, true);
     }
 
+    public static void initImportTask(ExcelDefinitionContext context, ExcelWorkbookDefinition workbookDefinition, ExcelImportTask importTask, boolean autoCreate) {
+        FileProperties.FileImportProperties importProperty = BeanDefinitionUtils.getBean(FileProperties.class).getImportProperty();
+        Boolean eachImport = importTask.getEachImport();
+        if (eachImport == null) {
+            eachImport = workbookDefinition.getEachImport();
+            if (eachImport == null) {
+                eachImport = importProperty.getDefaultEachImport();
+            }
+        }
+        Boolean hasErrorRollback = importTask.getHasErrorRollback();
+        if (hasErrorRollback == null) {
+            hasErrorRollback = workbookDefinition.getHasErrorRollback();
+            if (hasErrorRollback == null) {
+                hasErrorRollback = false;
+            }
+        }
+        Integer maxErrorLength = importTask.getMaxErrorLength();
+        if (maxErrorLength == null) {
+            maxErrorLength = workbookDefinition.getMaxErrorLength();
+            if (maxErrorLength == null) {
+                maxErrorLength = importProperty.getMaxErrorLength();
+            }
+        }
+        String module = importTask.getModule();
+        if (StringUtils.isBlank(module)) {
+            module = Optional.ofNullable(getCurrentModule(workbookDefinition.getModel())).map(ModuleDefinition::getModule).orElse(null);
+        }
+        String workbookName = workbookDefinition.getName();
+        String taskName = Optional.ofNullable(workbookDefinition.getDisplayName()).filter(StringUtils::isNotBlank).orElse(workbookName);
+        if (TranslateServiceHolder.get().needTranslate()) {
+            taskName = ExcelConstant.IMPORT_TASK_NAME_TRANSLATE + context.translate(taskName);
+        } else {
+            taskName = ExcelConstant.IMPORT_TASK_NAME + taskName;
+        }
+        importTask.setEachImport(eachImport)
+                .setHasErrorRollback(hasErrorRollback)
+                .setMaxErrorLength(maxErrorLength)
+                .setName(taskName)
+                .setWorkbookDefinition(workbookDefinition)
+                .setWorkbookName(workbookName)
+                .setState(ExcelTaskStateEnum.PROCESSING)
+                .setModule(module)
+                .setCreateUid(PamirsSession.getUserId())
+                .setWriteUid(PamirsSession.getUserId());
+        if (autoCreate) {
+            importTask.create();
+        }
+    }
+
+    @Deprecated
+    public static void initImportTask(ExcelWorkbookDefinition workbookDefinition, ExcelImportTask importTask) {
+        initImportTask(workbookDefinition, importTask, true);
+    }
+
+    @Deprecated
     public static void initImportTask(ExcelWorkbookDefinition workbookDefinition, ExcelImportTask importTask, boolean autoCreate) {
         FileProperties.FileImportProperties importProperty = BeanDefinitionUtils.getBean(FileProperties.class).getImportProperty();
         Boolean eachImport = importTask.getEachImport();
@@ -164,7 +221,7 @@ public class ExcelWorkbookDefinitionUtil {
         importTask.setEachImport(eachImport)
                 .setHasErrorRollback(hasErrorRollback)
                 .setMaxErrorLength(maxErrorLength)
-                .setName("【导入】" + workbookName)
+                .setName(ExcelConstant.IMPORT_TASK_NAME + workbookName)
                 .setWorkbookDefinition(workbookDefinition)
                 .setWorkbookName(workbookDefinition.getName())
                 .setState(ExcelTaskStateEnum.PROCESSING)

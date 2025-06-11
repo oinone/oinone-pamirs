@@ -9,6 +9,7 @@ import pro.shushi.pamirs.file.api.enmu.ExcelImportStrategyEnum;
 import pro.shushi.pamirs.file.api.enmu.OfficeVersionEnum;
 import pro.shushi.pamirs.file.api.entity.EasyExcelSheetDefinition;
 import pro.shushi.pamirs.file.api.model.ExcelSheetDefinition;
+import pro.shushi.pamirs.file.api.util.ExcelHelper;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -101,7 +102,7 @@ public class ExcelDefinitionContext implements Serializable {
     private transient String currentLang;
 
     @JSONField(serialize = false)
-    private transient Map<String, String> currentLocation;
+    private transient volatile Map<String, String> currentLocation;
 
     /**
      * 导入模式
@@ -251,6 +252,10 @@ public class ExcelDefinitionContext implements Serializable {
     public ExcelDefinitionContext setLocations(Map<String, Map<String, String>> locations) {
         this.locations = locations;
         return this;
+    }
+
+    public String getCurrentLang() {
+        return this.currentLang;
     }
 
     public ExcelDefinitionContext setCurrentLang(String currentLang) {
