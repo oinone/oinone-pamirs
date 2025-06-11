@@ -48,7 +48,7 @@ To learn more about Oinone，please visit【[Website](https://www.oinone.top) | 
 - pamirs-spi                   : SPI Package
 - pamirs-boot                  : Startup Package
 - pamirs-core                  : Common Features Package
-- pamirs-metadata-manager      : Metadata Installation Package
+- pamirs-middleware            : Middleware-Core Package
 
 ### 7、Development Notes
 
