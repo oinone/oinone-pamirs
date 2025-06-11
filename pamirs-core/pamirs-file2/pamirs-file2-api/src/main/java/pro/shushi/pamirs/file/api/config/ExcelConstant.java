@@ -1,5 +1,7 @@
 package pro.shushi.pamirs.file.api.config;
 
+import pro.shushi.pamirs.core.common.constant.CommonConstants;
+
 /**
  * Excel常量
  *
@@ -17,9 +19,13 @@ public interface ExcelConstant {
 
     String IMPORT_TASK_NAME = "【导入】";
 
+    String IMPORT_TASK_NAME_TRANSLATE = "【" + CommonConstants.TRANSLATE_PREFIX + "导入" + CommonConstants.TRANSLATE_SUFFIX + "】";
+
     String EXPORT_NAME = "导出";
 
     String EXPORT_TASK_NAME = "【导出】";
+
+    String EXPORT_TASK_NAME_TRANSLATE = "【" + CommonConstants.TRANSLATE_PREFIX + "导出" + CommonConstants.TRANSLATE_SUFFIX + "】";
 
     /**
      * 【选择字段导出】使用的模版名称

@@ -1,10 +1,12 @@
 package pro.shushi.pamirs.file.api.util;
 
+import com.alibaba.excel.support.ExcelTypeEnum;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.constant.ExpressionConstant;
 import pro.shushi.pamirs.file.api.builder.StyleDefinitionBuilder;
 import pro.shushi.pamirs.file.api.builder.TypefaceDefinitionBuilder;
 import pro.shushi.pamirs.file.api.config.FileConstant;
+import pro.shushi.pamirs.file.api.context.ExcelDefinitionContext;
 import pro.shushi.pamirs.file.api.enmu.ExcelBorderStyleEnum;
 import pro.shushi.pamirs.file.api.enmu.ExcelHorizontalAlignmentEnum;
 import pro.shushi.pamirs.file.api.enmu.ExcelValueTypeEnum;
@@ -43,6 +45,16 @@ public class ExcelHelper {
             typefaceConsumer.accept(typefaceBuilder);
         }
         return styleBuilder;
+    }
+
+    public static String translateFilename(ExcelDefinitionContext context, String filename) {
+        for (ExcelTypeEnum excelType : ExcelTypeEnum.values()) {
+            String suffix = excelType.getValue();
+            if (filename.endsWith(suffix)) {
+                return context.translate(filename.substring(0, filename.length() - suffix.length())) + suffix;
+            }
+        }
+        return filename;
     }
 
     public static String generatorFilename(ExcelWorkbookDefinition workbookDefinition) {

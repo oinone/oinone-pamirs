@@ -148,9 +148,11 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
         List<View> distinctViewList = allViewList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(View::getModel))), ArrayList::new));
         TreeNodeXStream xs = new TreeNodeXStream();
         Set<String> repeatSet = new HashSet<>();
-        Map<ExcelTemplateSourceEnum, List<ExcelWorkbookDefinition>> resultMap = new HashMap<>(existWorkbookDefinitionList.size());
+        Map<ExcelTemplateSourceEnum, List<ExcelWorkbookDefinition>> resultMap = new HashMap<>(4);
+        Map<String, ExcelWorkbookDefinition> existWorkbookDefinitionMap = new LinkedHashMap<>(existWorkbookDefinitionList.size());
         for (ExcelWorkbookDefinition item : existWorkbookDefinitionList) {
             resultMap.computeIfAbsent(item.getTemplateSource(), k -> new ArrayList<>()).add(item);
+            existWorkbookDefinitionMap.put(keyGenerator(item), item);
             if (!ExcelTemplateSourceEnum.SYSTEM.equals(item.getTemplateSource())) {
                 repeatSet.add(item.getModel());
             }
@@ -181,27 +183,16 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
             Models.data().deleteByPks(deleteList);
             for (ExcelWorkbookDefinition item : deleteList) {
                 String originKey = keyGenerator(item);
-                for (int i = 0; i < existWorkbookDefinitionList.size(); i++) {
-                    String targetKey = keyGenerator(existWorkbookDefinitionList.get(i));
-                    if (originKey.equals(targetKey)) {
-                        existWorkbookDefinitionList.remove(i);
-                        break;
-                    }
-                }
+                existWorkbookDefinitionMap.remove(originKey);
             }
         }
         if (!createOrUpdateList.isEmpty()) {
             Models.data().createOrUpdateBatch(createOrUpdateList);
-            List<ExcelWorkbookDefinition> needAddList = new ArrayList<>();
-            MemoryIterableSearchCache<String, ExcelWorkbookDefinition> existWorkbookDefinitionCache = new MemoryIterableSearchCache<>(existWorkbookDefinitionList, this::keyGenerator);
             for (ExcelWorkbookDefinition item : createOrUpdateList) {
-                if (existWorkbookDefinitionCache.get(keyGenerator(item)) == null) {
-                    needAddList.add(item);
-                }
+                existWorkbookDefinitionMap.put(keyGenerator(item), item);
             }
-            existWorkbookDefinitionList.addAll(needAddList);
         }
-        return existWorkbookDefinitionList;
+        return new ArrayList<>(existWorkbookDefinitionMap.values());
     }
 
     private void refreshWorkbookDefinition(List<ExcelWorkbookDefinition> workbookDefinitionList) {
