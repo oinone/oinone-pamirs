@@ -220,10 +220,11 @@ public class ExcelFileServiceImpl implements ExcelFileService {
             return importTask;
         }
         ExcelDefinitionContext definitionContext = ExcelWorkbookDefinitionUtil.getDefinitionContext(workbookDefinition);
+        definitionContext.setCurrentLang(TranslateServiceHolder.get().getCurrentLang());
 
         importTask.setFile(new PamirsFile().setUrl(fileUrl).setName(templateName).create());
 
-        ExcelWorkbookDefinitionUtil.initImportTask(workbookDefinition, importTask);
+        ExcelWorkbookDefinitionUtil.initImportTask(definitionContext, workbookDefinition, importTask);
 
         doImport0(importTask, definitionContext, callbackSupplier);
         return importTask;
@@ -244,10 +245,11 @@ public class ExcelFileServiceImpl implements ExcelFileService {
             return importTask;
         }
         ExcelDefinitionContext definitionContext = ExcelWorkbookDefinitionUtil.getDefinitionContext(workbookDefinition);
+        definitionContext.setCurrentLang(TranslateServiceHolder.get().getCurrentLang());
 
         importTask.setFile(new PamirsFile().setUrl(fileUrl));
 
-        ExcelWorkbookDefinitionUtil.initImportTask(workbookDefinition, importTask, Boolean.FALSE);
+        ExcelWorkbookDefinitionUtil.initImportTask(definitionContext, workbookDefinition, importTask, Boolean.FALSE);
 
         doImport0(importTask, definitionContext, callbackSupplier);
         return importTask;
