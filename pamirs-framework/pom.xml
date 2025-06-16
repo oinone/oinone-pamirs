@@ -6,20 +6,15 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.1</version>
+        <version>6.2.2</version>
     </parent>
 
     <artifactId>pamirs-framework</artifactId>
     <name>pamirs-framework</name>
     <packaging>pom</packaging>
-    <version>6.2.1</version>
 
     <properties>
         <pamirs.framework.a.version>6.2.1</pamirs.framework.a.version>
-        <pamirs.k2.version>6.2.1</pamirs.k2.version>
-
-        <pamirs.framework.adaptor.version>6.2.1</pamirs.framework.adaptor.version>
-        <pamirs.framework.commons.version>6.2.1</pamirs.framework.commons.version>
     </properties>
 
     <modules>
@@ -69,7 +64,7 @@
             <dependency>
                 <groupId>pro.shushi.pamirs</groupId>
                 <artifactId>pamirs-k2</artifactId>
-                <version>${pamirs.k2.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -77,22 +72,22 @@
             <dependency>
                 <groupId>pro.shushi.pamirs.framework</groupId>
                 <artifactId>pamirs-framework-common</artifactId>
-                <version>${pamirs.framework.commons.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.framework</groupId>
                 <artifactId>pamirs-framework-configure</artifactId>
-                <version>${pamirs.framework.commons.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.framework</groupId>
                 <artifactId>pamirs-framework-test</artifactId>
-                <version>${pamirs.framework.commons.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.framework</groupId>
                 <artifactId>pamirs-connectors-data-sql</artifactId>
-                <version>${pamirs.framework.adaptor.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.framework</groupId>

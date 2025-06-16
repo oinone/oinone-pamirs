@@ -11,6 +11,7 @@ import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.manager.CircuitBreakerManager;
 import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerStateSyncService;
 import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerRuleService;
+import pro.shushi.pamirs.eip.api.util.EipZkHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
@@ -42,9 +43,13 @@ public class EipCircuitBreakerStatusChangeListener implements TreeCacheListener 
             return;
         }
 
-        String dataPath = path.substring(rootPath.length() + 1);
-        String[] pathList = dataPath.split(CharacterConstants.SEPARATOR_SLASH);
+        String dataPath = EipZkHelper.processorListenerPath(rootPath, path);
+        if (StringUtils.isBlank(dataPath)) {
+            log.info("熔断检测到顶层或非预期节点变更，已忽略处理，path：{}", path);
+            return;
+        }
 
+        String[] pathList = dataPath.split(CharacterConstants.SEPARATOR_SLASH);
         if (pathList.length != 1) {
             log.info("熔断检测到顶层或非预期节点变更，已忽略处理，path：{}", path);
             return;

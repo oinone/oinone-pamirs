@@ -6,12 +6,11 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.1</version>
+        <version>6.2.2</version>
     </parent>
 
     <artifactId>pamirs-spi</artifactId>
     <name>pamirs-spi</name>
-    <version>6.2.1</version>
 
     <dependencies>
         <dependency>

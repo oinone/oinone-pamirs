@@ -104,18 +104,19 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
         eipCircuitBreakerRule.relationDelete(EipCircuitBreakerRuleProxy::getIntegrationInterfaceList);
         eipCircuitBreakerRule.deleteById();
 
-        List<String> interfaceNameList = new ArrayList<>();
-        for (EipIntegrationInterface eipInterface : Optional.ofNullable(integrationInterfaceList).orElse(Collections.emptyList())) {
-            String interfaceName = eipInterface.getInterfaceName();
-            interfaceNameList.add(interfaceName);
-            if (StringUtils.isBlank(interfaceName)) {
-                log.error("熔断器注销失败，接口技术名称为空");
-            } else {
-                circuitBreakerManager.unregister(interfaceName);
-                eipCircuitBreakerStateSyncService.handleRemove(interfaceName);
-            }
+        if (CollectionUtils.isEmpty(integrationInterfaceList)) {
+            return;
         }
+        List<String> interfaceNameList = integrationInterfaceList.stream()
+                .map(EipIntegrationInterface::getInterfaceName)
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.toList());
         eipCircuitBreakerRecordService.updateEndTime(interfaceNameList);
+
+        for (String interfaceName : interfaceNameList) {
+            circuitBreakerManager.unregister(interfaceName);
+            eipCircuitBreakerStateSyncService.handleRemove(interfaceName);
+        }
     }
 
     @Override
