@@ -6,36 +6,31 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.1</version>
+        <version>6.2.2</version>
     </parent>
 
     <artifactId>pamirs-framework-adaptor</artifactId>
     <name>pamirs-framework-adaptor</name>
     <packaging>pom</packaging>
-    <version>6.2.1</version>
+    <version>6.2.2</version>
 
     <modules>
         <module>pamirs-connectors-data-sql</module>
     </modules>
-
-    <properties>
-        <pamirs.k2.version>6.2.1</pamirs.k2.version>
-        <pamirs.framework.commons.version>6.2.1</pamirs.framework.commons.version>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>pro.shushi.pamirs</groupId>
                 <artifactId>pamirs-k2</artifactId>
-                <version>${pamirs.k2.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs</groupId>
                 <artifactId>pamirs-framework-commons</artifactId>
-                <version>${pamirs.framework.commons.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

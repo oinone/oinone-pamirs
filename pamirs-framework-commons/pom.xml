@@ -6,12 +6,12 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.1</version>
+        <version>6.2.2</version>
     </parent>
     <artifactId>pamirs-framework-commons</artifactId>
     <name>pamirs-framework-commons</name>
     <packaging>pom</packaging>
-    <version>6.2.1</version>
+    <version>6.2.2</version>
 
     <modules>
         <module>pamirs-framework-common</module>
@@ -21,7 +21,6 @@
 
     <properties>
         <pamirs.framework.a.version>6.2.1</pamirs.framework.a.version>
-        <pamirs.k2.version>6.2.1</pamirs.k2.version>
     </properties>
 
     <dependencyManagement>
@@ -34,7 +33,7 @@
             <dependency>
                 <groupId>pro.shushi.pamirs</groupId>
                 <artifactId>pamirs-k2</artifactId>
-                <version>${pamirs.k2.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

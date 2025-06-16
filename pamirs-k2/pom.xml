@@ -6,13 +6,13 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.1</version>
+        <version>6.2.2</version>
     </parent>
 
     <artifactId>pamirs-k2</artifactId>
     <name>pamirs-k2</name>
     <packaging>pom</packaging>
-    <version>6.2.1</version>
+    <version>6.2.2</version>
 
     <modules>
         <module>pamirs-meta-common</module>
@@ -24,7 +24,6 @@
 
     <properties>
         <xpp3.version>1.1.4c</xpp3.version>
-        <pamirs.spi.version>6.2.1</pamirs.spi.version>
     </properties>
 
     <dependencyManagement>
@@ -32,7 +31,7 @@
             <dependency>
                 <groupId>pro.shushi.pamirs</groupId>
                 <artifactId>pamirs-spi</artifactId>
-                <version>${pamirs.spi.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <!-- pamirs k2 -->
             <dependency>
