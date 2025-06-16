@@ -11,7 +11,6 @@
 
     <artifactId>pamirs-core</artifactId>
     <name>pamirs-core</name>
-    <version>6.2.2</version>
     <packaging>pom</packaging>
 
     <properties>

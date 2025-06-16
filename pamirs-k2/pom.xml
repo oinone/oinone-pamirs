@@ -12,7 +12,6 @@
     <artifactId>pamirs-k2</artifactId>
     <name>pamirs-k2</name>
     <packaging>pom</packaging>
-    <version>6.2.2</version>
 
     <modules>
         <module>pamirs-meta-common</module>

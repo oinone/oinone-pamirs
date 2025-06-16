@@ -12,7 +12,6 @@
     <artifactId>pamirs-framework-adaptor</artifactId>
     <name>pamirs-framework-adaptor</name>
     <packaging>pom</packaging>
-    <version>6.2.2</version>
 
     <modules>
         <module>pamirs-connectors-data-sql</module>

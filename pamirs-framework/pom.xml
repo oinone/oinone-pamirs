@@ -12,7 +12,6 @@
     <artifactId>pamirs-framework</artifactId>
     <name>pamirs-framework</name>
     <packaging>pom</packaging>
-    <version>6.2.2</version>
 
     <properties>
         <pamirs.framework.a.version>6.2.1</pamirs.framework.a.version>
