@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.jdbc.helper;
 
-import pro.shushi.pamirs.eip.api.enmu.connector.ConnDBType;
 import pro.shushi.pamirs.eip.api.enmu.connector.ConnType;
 import pro.shushi.pamirs.eip.api.model.connector.EipConnector;
 import pro.shushi.pamirs.eip.jdbc.camel.EipSqlPrepareStatementStrategy;
@@ -40,11 +39,11 @@ public class EipConnectorHelper {
     }
 
     public static String initEipPrepareStatement(EipConnector connector) {
-        ConnDBType connDBType = connector.getConnDBType();
+        String connDBType = connector.getConnDBType();
         switch (connDBType) {
-            case SQLServer:
-                EipPrepareStatementManager.register(connDBType.name(), EipSqlPrepareStatementStrategy.DEFAULT_SEPARATOR, "[DEFAULT]");
-                return EipPrepareStatementManager.generatorId(connDBType.name());
+            case "SQLServer":
+                EipPrepareStatementManager.register(connDBType, EipSqlPrepareStatementStrategy.DEFAULT_SEPARATOR, "[DEFAULT]");
+                return EipPrepareStatementManager.generatorId(connDBType);
             default:
                 return EipSqlPrepareStatementStrategy.NAME;
         }
