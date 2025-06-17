@@ -76,11 +76,11 @@ Oinone is an enterprise-grade productization engine that focuses on business sof
 - [Chapter 14 - Customized Features](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter14-customized-features.html)
 
 ### 8. Training
-- [How to work with Back-end and No-code](https://www.bilibili.com/video/BV1eDMizYEts/?vd_source=ee004011d0afa992f50d15c8738450b3)
-- [Customization with Back-end](https://www.bilibili.com/video/BV1RDMizYELg/?vd_source=ee004011d0afa992f50d15c8738450b3)
-- [How to work with Front-end](https://www.bilibili.com/video/BV1DoMizbECt/?vd_source=ee004011d0afa992f50d15c8738450b3)
-- [Customization with Front-end](https://www.bilibili.com/video/BV1eDMizYED1/?vd_source=ee004011d0afa992f50d15c8738450b3)
-- [Customization with No-code](https://www.bilibili.com/video/BV1eDMizYEdF/?vd_source=ee004011d0afa992f50d15c8738450b3)
+- [[Oinone] #Productization Demonstration# Work with Back-end And No-code](https://www.bilibili.com/video/BV1eDMizYEts/?vd_source=ee004011d0afa992f50d15c8738450b3)
+- [[Oinone] #Customization# Work with Back-end Framework](https://www.bilibili.com/video/BV1RDMizYELg/?vd_source=ee004011d0afa992f50d15c8738450b3)
+- [[Oinone] #Productization Demonstration# Work with Front-end Framework](https://www.bilibili.com/video/BV1DoMizbECt/?vd_source=ee004011d0afa992f50d15c8738450b3)
+- [[Oinone] #Customization# Front-end Interaction](https://www.bilibili.com/video/BV1eDMizYED1/?vd_source=ee004011d0afa992f50d15c8738450b3)
+- [[Oinone] #Customization# No-code mode](https://www.bilibili.com/video/BV1eDMizYEdF/?vd_source=ee004011d0afa992f50d15c8738450b3)
 
 ### 9. DEMO
 - [Direct to DEMO](https://demo.oinone.top)
