@@ -68,7 +68,8 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 
 ### 7、开发注意事项
 Idea 导入工程后确保激活 Profile：打开 `Maven` 工具栏并且激活 `tools` Profile。
-![Tools Profile](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/tools-profile.png)
+
+<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/tools-profile.png" alt="Tools Profile" width="500">
 
 ### 8、产品体系
 全方位覆盖产品研发及实施所需。

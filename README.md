@@ -68,7 +68,8 @@ The "O" symbolizes open source while phonetically resonating with "All in one," 
 
 ### 7. Development Notice
 After importing the project into IntelliJ IDEA, make sure to activate the profile. Open the `Maven` toolbar and activate the `tools` profile.
-![Tools Profile](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/tools-profile.png)
+
+<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/tools-profile.png" alt="Tools Profile" width="500">
 
 ### 8. Product Ecosystem
 Comprehensive coverage of product development and implementation needs.
