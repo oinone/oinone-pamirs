@@ -49,28 +49,28 @@ Oinone 是一个企业级产品化引擎，专注于业务软件产品构建及�
 - pamirs-middleware            ：后端中间件功能包
 
 ### 7、快速入门
-- [安装与升级](https://guide.oinone.top/zh-cn/InstallOrUpgrade/)
-- - [环境准备](https://guide.oinone.top/zh-cn/InstallOrUpgrade/Dev-ENV/)
-- - [社区版：源码安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/CommunityEdition/source-code-installation.html)
-- - [企业版：快速体验：docker-full方式安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/EnterpriseEdition/docker-full-installation.html)
-- - [企业版：docker-mini方式安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/EnterpriseEdition/docker-mini-installation.html)
-- - [企业版：运行程序包方式安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/EnterpriseEdition/docker-full-installation.html)
-- [教程](https://guide.oinone.top/zh-cn/DevManual/Tutorials/)
-- - [设置指南](https://guide.oinone.top/zh-cn/DevManual/Tutorials/setup-guide.html)
-- - [章节 1：整体介绍（Architecture Overview）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter1-architecture-overview.html)
-- - [章节 2：新建一个应用（A New Application）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter2-a-new-application.html)
-- - [章节 3：模型与基础字段（Models And Basic Fields）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter3-models-and-basic-fields.html)
-- - [章节 4：安全简介（A Brief Introduction To Security）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter4-a-brief-introduction-to-security.html)
-- - [章节 5：界面实操（Finally, Some UI To Play With）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter5-Finally_%20some-UI-to-play-with.html)
-- - [章节 6：基础视图（Basic Views）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter6-basic-views.html)
-- - [章节 7：模型间关系（Relations Between Models）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter7-relations-between-models.html)
-- - [章节 8：字段间联动（Field Interlinkage）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter8-field-interlinkage.html)
-- - [章节 9：准备学习行为（Ready For Some Action）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter9-ready-for-some-action.html)
-- - [章节 10：约束（Constraints）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter10-constraints.html)
-- - [章节 11：追加细节（Add The Sprinkles）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter11-add-the-sprinkles.html)
-- - [章节 12：继承（Inheritance）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter12-inheritance.html)
-- - [章节 13：模块间相互作用（Interact With Other Modules）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter13-interact-with-other-modules.html)
-- - [章节 14：产品的个性化开发（Customized Features）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter14-customized-features.html)
+#### [安装与升级](https://guide.oinone.top/zh-cn/InstallOrUpgrade/)
+- [环境准备](https://guide.oinone.top/zh-cn/InstallOrUpgrade/Dev-ENV/)
+- [社区版：源码安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/CommunityEdition/source-code-installation.html)
+- [企业版：快速体验：docker-full方式安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/EnterpriseEdition/docker-full-installation.html)
+- [企业版：docker-mini方式安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/EnterpriseEdition/docker-mini-installation.html)
+- [企业版：运行程序包方式安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/EnterpriseEdition/docker-full-installation.html)
+#### [教程](https://guide.oinone.top/zh-cn/DevManual/Tutorials/)
+- [设置指南](https://guide.oinone.top/zh-cn/DevManual/Tutorials/setup-guide.html)
+- [章节 1：整体介绍（Architecture Overview）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter1-architecture-overview.html)
+- [章节 2：新建一个应用（A New Application）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter2-a-new-application.html)
+- [章节 3：模型与基础字段（Models And Basic Fields）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter3-models-and-basic-fields.html)
+- [章节 4：安全简介（A Brief Introduction To Security）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter4-a-brief-introduction-to-security.html)
+- [章节 5：界面实操（Finally, Some UI To Play With）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter5-Finally_%20some-UI-to-play-with.html)
+- [章节 6：基础视图（Basic Views）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter6-basic-views.html)
+- [章节 7：模型间关系（Relations Between Models）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter7-relations-between-models.html)
+- [章节 8：字段间联动（Field Interlinkage）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter8-field-interlinkage.html)
+- [章节 9：准备学习行为（Ready For Some Action）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter9-ready-for-some-action.html)
+- [章节 10：约束（Constraints）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter10-constraints.html)
+- [章节 11：追加细节（Add The Sprinkles）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter11-add-the-sprinkles.html)
+- [章节 12：继承（Inheritance）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter12-inheritance.html)
+- [章节 13：模块间相互作用（Interact With Other Modules）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter13-interact-with-other-modules.html)
+- [章节 14：产品的个性化开发（Customized Features）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter14-customized-features.html)
 
 ### 8、视频教程
 - [数式Oinone-后端和无代码怎么使用](https://www.bilibili.com/video/BV1eDMizYEts/?vd_source=ee004011d0afa992f50d15c8738450b3)
@@ -84,25 +84,26 @@ Oinone 是一个企业级产品化引擎，专注于业务软件产品构建及�
 - 账号：admin
 - 密码：admin
 
-### 10、开发注意事项
+### 10. 文档链接
+- [安装与升级](https://guide.oinone.top/zh-cn/InstallOrUpgrade)
+- [用户手册](https://guide.oinone.top/zh-cn/UserHandbook)
+- [研发手册](https://guide.oinone.top/zh-cn/Development)
+- [产品白皮书](https://www.oinone.top/whitePaper)
+- [最佳范式](https://guide.oinone.top/zh-cn/DevManual/R_DParadigm)
+- [常见解决方案](https://guide.oinone.top/zh-cn/DevManual/CommonSolutions)
+- [常见问题](https://guide.oinone.top/zh-cn/DevManual/FAQ)
 
-IDEA导入工程之后需激活`tools`profile
+### 11、开发注意事项
+Idea 导入工程后确保激活 Profile：打开 `Maven` 工具栏并且激活 `tools` Profile。
+![Tools Profile](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/tools-profile.png)
 
-打开Maven工具栏:
-
-![Maven toolbar](https://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/maven-bar.png)
-
-在Profile中激活`tools`profile:
-
-![Maven Profile](https://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/maven-profile.png)
-
-### 11、许可协议
+### 12、许可协议
 - Oinone Pamirs 遵循 AGPL-3.0 协议。
 
-### 12、如何参与
+### 13、如何参与
 - 参与社区：您可以前往[[Oinone 社区](https://doc.oinone.top/)]与大家互动哦❤️
 - [参与贡献](https://guide.oinone.top/zh-cn/Contribute)
 
-### 13、联系我们
+### 14、联系我们
 - 官网：https://www.oinone.top
 - 邮箱：oinone@shushi.pro
