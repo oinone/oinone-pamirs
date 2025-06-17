@@ -8,7 +8,6 @@ import pro.shushi.pamirs.boot.modules.enmu.AppLikeEnum;
 import pro.shushi.pamirs.boot.modules.enmu.AppStatusEnum;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
-import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 
@@ -18,7 +17,7 @@ import java.util.List;
  * @author shier
  * date  2021/5/26 10:59 上午
  */
-@Base
+//@Base
 @Model.model(AppsManagementModule.MODEL_MODEL)
 @Model.Advanced(type = ModelTypeEnum.PROXY)
 @Model(displayName = "Apps管理module", labelFields = "displayName")

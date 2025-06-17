@@ -6,21 +6,17 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-framework</artifactId>
-        <version>6.2.0</version>
+        <version>6.2.2</version>
     </parent>
     <groupId>pro.shushi.pamirs.framework</groupId>
     <artifactId>pamirs-connectors-zookeeper</artifactId>
     <name>pamirs-connectors-zookeeper</name>
 
-    <properties>
-        <pamirs.middleware.version>6.2.0</pamirs.middleware.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>pro.shushi.pamirs.middleware.zookeeper</groupId>
             <artifactId>pamirs-middleware-zookeeper-client</artifactId>
-            <version>${pamirs.middleware.version}</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

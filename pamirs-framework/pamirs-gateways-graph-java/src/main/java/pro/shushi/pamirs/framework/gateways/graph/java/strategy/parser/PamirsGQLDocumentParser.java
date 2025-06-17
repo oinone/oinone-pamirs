@@ -5,9 +5,9 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import graphql.ExecutionInput;
 import graphql.ParseAndValidate;
 import graphql.ParseAndValidateResult;
-import pro.shushi.pamirs.framework.common.utils.PropertyHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spi.Holder;
+import pro.shushi.pamirs.meta.util.PropertyHelper;
 
 import java.util.concurrent.TimeUnit;
 

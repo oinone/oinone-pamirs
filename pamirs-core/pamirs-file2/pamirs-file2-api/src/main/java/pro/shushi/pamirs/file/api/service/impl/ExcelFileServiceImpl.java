@@ -48,6 +48,7 @@ import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
+import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
@@ -142,6 +143,11 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     }
 
     protected Workbook doExport0(ExcelExportTask exportTask, ExcelDefinitionContext context, FileClient fileClient) {
+        if (context.getCurrentLang() == null) {
+            TranslateService translateService = TranslateServiceHolder.get();
+            String currentLang = translateService.getCurrentLang();
+            context.setCurrentLang(currentLang);
+        }
         try {
             return excelExportService.doExport(exportTask, context, (outputStream) -> writeExportTaskFile(exportTask, context, fileClient, outputStream));
         } catch (Throwable e) {
@@ -214,10 +220,11 @@ public class ExcelFileServiceImpl implements ExcelFileService {
             return importTask;
         }
         ExcelDefinitionContext definitionContext = ExcelWorkbookDefinitionUtil.getDefinitionContext(workbookDefinition);
+        definitionContext.setCurrentLang(TranslateServiceHolder.get().getCurrentLang());
 
         importTask.setFile(new PamirsFile().setUrl(fileUrl).setName(templateName).create());
 
-        ExcelWorkbookDefinitionUtil.initImportTask(workbookDefinition, importTask);
+        ExcelWorkbookDefinitionUtil.initImportTask(definitionContext, workbookDefinition, importTask);
 
         doImport0(importTask, definitionContext, callbackSupplier);
         return importTask;
@@ -238,10 +245,11 @@ public class ExcelFileServiceImpl implements ExcelFileService {
             return importTask;
         }
         ExcelDefinitionContext definitionContext = ExcelWorkbookDefinitionUtil.getDefinitionContext(workbookDefinition);
+        definitionContext.setCurrentLang(TranslateServiceHolder.get().getCurrentLang());
 
         importTask.setFile(new PamirsFile().setUrl(fileUrl));
 
-        ExcelWorkbookDefinitionUtil.initImportTask(workbookDefinition, importTask, Boolean.FALSE);
+        ExcelWorkbookDefinitionUtil.initImportTask(definitionContext, workbookDefinition, importTask, Boolean.FALSE);
 
         doImport0(importTask, definitionContext, callbackSupplier);
         return importTask;
@@ -249,6 +257,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
     @Override
     public ExcelDefinitionContext refreshDefinitionContext(ExcelWorkbookDefinition data) {
+        Models.origin().fieldQuery(data, ExcelWorkbookDefinition::getLocations);
         RefreshWorkbookDefinitionResult result = refreshDefinitionContext0(data);
         if (result.readyRefreshObject != null) {
             excelWorkbookDefinitionService.update(result.readyRefreshObject);
@@ -261,6 +270,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         if (CollectionUtils.isEmpty(workbookDefinitions)) {
             return Boolean.FALSE;
         }
+        Models.origin().listFieldQuery(workbookDefinitions, ExcelWorkbookDefinition::getLocations);
         boolean isAllSuccess = true;
         List<ExcelWorkbookDefinition> readyRefreshObjects = new ArrayList<>();
         for (ExcelWorkbookDefinition workbookDefinition : workbookDefinitions) {
@@ -295,7 +305,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         // 设置响应头参数
         response.setContentType(MediaType.MULTIPART_FORM_DATA_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        String filename = definitionContext.getFilename();
+        String filename = ExcelHelper.translateFilename(definitionContext, definitionContext.getFilename());
         int dotIndex = filename.lastIndexOf(CharacterConstants.SEPARATOR_DOT);
         if (dotIndex != -1) {
             String suffix = filename.substring(dotIndex);
@@ -349,6 +359,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     private boolean doImport0(ExcelImportTask importTask, ExcelDefinitionContext context, PamirsSupplier<ExcelReadCallback> callbackSupplier) {
         ExcelImportContext importContext = null;
         String url = importTask.getFile().getUrl();
+        url = URLHelper.decode(url);
         url = URLHelper.encodeFileName(url);
         try (BufferedInputStream inputStream = FileUtil.getRemoteBufferedInputStream(url)) {
             importContext = new ExcelImportContext(EasyExcelHelper.generatorReadBuilder(inputStream).build(), context, importTask);

@@ -1,4 +1,4 @@
-<view widget="table" type="TABLE" model="resource.ResourceCountryGroup" title="国家分组" name="国家分组table">
+<view type="TABLE" model="resource.ResourceCountryGroup" title="国家分组" name="国家分组table">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建"/>
         <action name="delete" label="删除"/>

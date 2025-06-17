@@ -4,6 +4,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.boot.base.enmu.FileTypeEnum;
 import pro.shushi.pamirs.boot.base.resource.PamirsFile;
+import pro.shushi.pamirs.boot.web.spi.api.TranslateService;
+import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
 import pro.shushi.pamirs.core.common.cache.MemoryListSearchCache;
 import pro.shushi.pamirs.file.api.config.ExcelConstant;
 import pro.shushi.pamirs.file.api.config.FileProperties;
@@ -171,7 +173,11 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
             throw PamirsException.construct(FileExpEnumerate.FILE_SERVER_NOT_FOUND_ERROR).errThrow();
         }
 
-        CdnFileForm result = fileClient.getFormData(context.getFilename());
+        // 设置当前语言
+        TranslateService translateService = TranslateServiceHolder.get();
+        context.setCurrentLang(translateService.getCurrentLang());
+
+        CdnFileForm result = fileClient.getFormData(ExcelHelper.translateFilename(context, context.getFilename()));
         data.setFile(new PamirsFile().setName(result.getFileName())
                 .setUrl(result.getDownloadUrl())
                 .setType(FileTypeEnum.URL));
@@ -197,9 +203,15 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
 
         ExcelWorkbookDefinition workbookDefinition = data.getWorkbookDefinition();
         String workbookName = workbookDefinition.getName();
-        data.setName(ExcelConstant.EXPORT_TASK_NAME + Optional.ofNullable(workbookDefinition.getDisplayName())
-                        .filter(StringUtils::isNotBlank)
-                        .orElse(workbookName))
+        String taskName = Optional.ofNullable(workbookDefinition.getDisplayName())
+                .filter(StringUtils::isNotBlank)
+                .orElse(workbookName);
+        if (translateService.needTranslate()) {
+            taskName = ExcelConstant.EXPORT_TASK_NAME_TRANSLATE + context.translate(taskName);
+        } else {
+            taskName = ExcelConstant.EXPORT_TASK_NAME + taskName;
+        }
+        data.setName(taskName)
                 .setWorkbookDefinition(workbookDefinition)
                 .setWorkbookName(workbookName)
                 .setState(ExcelTaskStateEnum.PROCESSING)

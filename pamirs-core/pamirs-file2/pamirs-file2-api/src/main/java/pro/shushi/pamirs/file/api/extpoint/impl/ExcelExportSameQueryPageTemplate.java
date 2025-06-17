@@ -26,7 +26,6 @@ import java.util.List;
 /**
  * 所有逻辑迁移到DefaultExcelExportFetchDataExtPoint
  */
-@Deprecated
 @Ext(ExcelExportTask.class)
 @Component
 public class ExcelExportSameQueryPageTemplate<T> extends AbstractExcelExportFetchDataExtPointImpl {

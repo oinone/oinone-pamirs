@@ -6,7 +6,10 @@ import pro.shushi.pamirs.boot.web.spi.api.TranslateService;
 import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
 import pro.shushi.pamirs.core.common.behavior.IDataStatus;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
-import pro.shushi.pamirs.file.api.enmu.*;
+import pro.shushi.pamirs.file.api.enmu.ExcelImportModeEnum;
+import pro.shushi.pamirs.file.api.enmu.ExcelTemplateSourceEnum;
+import pro.shushi.pamirs.file.api.enmu.ExcelTemplateTypeEnum;
+import pro.shushi.pamirs.file.api.enmu.OfficeVersionEnum;
 import pro.shushi.pamirs.file.api.service.ExcelLocationService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.Field;
@@ -85,13 +88,13 @@ public class ExcelWorkbookDefinition extends IdModel implements IDataStatus {
     @Field(displayName = "数据状态", defaultValue = "ENABLED", required = true)
     private DataStatusEnum dataStatus;
 
-    @Field.Enum
-    @Field(displayName = "导入策略", defaultValue = "STANDARD")
-    private ExcelImportStrategyEnum importStrategy;
+    @Field.String
+    @Field(displayName = "导入策略")
+    private String importStrategy;
 
-    @Field.Enum
-    @Field(displayName = "导出策略", defaultValue = "EXT_POINT")
-    private ExcelExportStrategyEnum exportStrategy;
+    @Field.String
+    @Field(displayName = "导出策略")
+    private String exportStrategy;
 
     @Field.Boolean
     @Field(displayName = "出现错误进行回滚", defaultValue = "false", required = true)

@@ -30,7 +30,7 @@ public class ExcelSheetDefinition extends TransientModel {
     @Field(displayName = "一次性拿取工作表数据", summary = "该属性仅在包含【固定格式】块时生效，并且所有块的绑定模型必须一致")
     private Boolean onceFetchData;
 
-    @Field(displayName = "区块定义")
+    @Field(displayName = "区块定义", required = true)
     private List<ExcelBlockDefinition> blockDefinitionList;
 
     @Field(displayName = "单元格合并范围")

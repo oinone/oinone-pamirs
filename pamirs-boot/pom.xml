@@ -6,12 +6,11 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.0.1</version>
+        <version>6.2.2</version>
     </parent>
 
     <artifactId>pamirs-boot</artifactId>
     <name>pamirs-boot</name>
-    <version>6.2.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -34,24 +33,19 @@
         <module>pamirs-sequence-generator</module>
     </modules>
 
-    <properties>
-        <pamirs.k2.version>6.2.0</pamirs.k2.version>
-        <pamirs.framework.version>6.2.0</pamirs.framework.version>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>pro.shushi.pamirs</groupId>
                 <artifactId>pamirs-k2</artifactId>
-                <version>${pamirs.k2.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs</groupId>
                 <artifactId>pamirs-framework</artifactId>
-                <version>${pamirs.framework.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -40,7 +40,7 @@ public class ExcelExportServiceImpl implements ExcelExportService {
         if (!doExportPrepare(exportTask, context)) {
             return null;
         }
-        return Spider.getExtension(ExcelExportExecutor.class, Optional.ofNullable(context.getExportStrategy()).orElse(ExcelExportStrategyEnum.STANDARD).value())
+        return Spider.getExtension(ExcelExportExecutor.class, Optional.ofNullable(context.getExportStrategy()).orElse(ExcelExportStrategyEnum.standard))
                 .doExport(exportTask, context, consumer);
     }
 

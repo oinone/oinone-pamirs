@@ -9,6 +9,7 @@ import pro.shushi.pamirs.file.api.enmu.ExcelImportStrategyEnum;
 import pro.shushi.pamirs.file.api.enmu.OfficeVersionEnum;
 import pro.shushi.pamirs.file.api.entity.EasyExcelSheetDefinition;
 import pro.shushi.pamirs.file.api.model.ExcelSheetDefinition;
+import pro.shushi.pamirs.file.api.util.ExcelHelper;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -82,12 +83,12 @@ public class ExcelDefinitionContext implements Serializable {
     /**
      * 导入策略
      */
-    private ExcelImportStrategyEnum importStrategy;
+    private String importStrategy;
 
     /**
      * 导出策略
      */
-    private ExcelExportStrategyEnum exportStrategy;
+    private String exportStrategy;
 
     /**
      * 国际化配置
@@ -101,7 +102,7 @@ public class ExcelDefinitionContext implements Serializable {
     private transient String currentLang;
 
     @JSONField(serialize = false)
-    private transient Map<String, String> currentLocation;
+    private transient volatile Map<String, String> currentLocation;
 
     /**
      * 导入模式
@@ -199,20 +200,38 @@ public class ExcelDefinitionContext implements Serializable {
         return this;
     }
 
-    public ExcelImportStrategyEnum getImportStrategy() {
+    public String getImportStrategy() {
         return importStrategy;
     }
 
     public ExcelDefinitionContext setImportStrategy(ExcelImportStrategyEnum importStrategy) {
+        if (importStrategy == null) {
+            this.importStrategy = null;
+        } else {
+            this.importStrategy = importStrategy.value();
+        }
+        return this;
+    }
+
+    public ExcelDefinitionContext setImportStrategy(String importStrategy) {
         this.importStrategy = importStrategy;
         return this;
     }
 
-    public ExcelExportStrategyEnum getExportStrategy() {
+    public String getExportStrategy() {
         return exportStrategy;
     }
 
     public ExcelDefinitionContext setExportStrategy(ExcelExportStrategyEnum exportStrategy) {
+        if (exportStrategy == null) {
+            this.exportStrategy = null;
+        } else {
+            this.exportStrategy = exportStrategy.value();
+        }
+        return this;
+    }
+
+    public ExcelDefinitionContext setExportStrategy(String exportStrategy) {
         this.exportStrategy = exportStrategy;
         return this;
     }
@@ -233,6 +252,10 @@ public class ExcelDefinitionContext implements Serializable {
     public ExcelDefinitionContext setLocations(Map<String, Map<String, String>> locations) {
         this.locations = locations;
         return this;
+    }
+
+    public String getCurrentLang() {
+        return this.currentLang;
     }
 
     public ExcelDefinitionContext setCurrentLang(String currentLang) {

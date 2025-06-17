@@ -58,7 +58,7 @@ public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
             ExcelDefinitionContext definitionContext = excelFileService.refreshDefinitionContext(workbookDefinition);
             definitionContext.setCurrentLang(TranslateServiceHolder.get().getCurrentLang());
 
-            ExcelWorkbookDefinitionUtil.initImportTask(workbookDefinition, data);
+            ExcelWorkbookDefinitionUtil.initImportTask(definitionContext, workbookDefinition, data);
 
             try {
                 doImport(data, definitionContext);

@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.framework.common.config;
 
-import pro.shushi.pamirs.framework.common.utils.PropertyHelper;
+import pro.shushi.pamirs.meta.util.PropertyHelper;
 
 /**
  * Pamirs全局线程配置

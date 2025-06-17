@@ -8,7 +8,7 @@
     <artifactId>pamirs</artifactId>
     <name>oinone-pamirs</name>
     <packaging>pom</packaging>
-    <version>6.2.0.2</version>
+    <version>6.2.2</version>
     <description>oinone pamirs</description>
     <url>https://github.com/oinone</url>
 
@@ -45,10 +45,8 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <sharding-sphere.version>5.0.0-alpha</sharding-sphere.version>
         <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
-        <graphql.java.spring.version>8.0.0</graphql.java.spring.version>
         <graphql.java.version>15.0</graphql.java.version>
         <graphql.java.extended.version>15.0.0</graphql.java.extended.version>
-        <graphql.java.tools.version>6.2.0</graphql.java.tools.version>
         <rsql.parser.version>2.1.0</rsql.parser.version>
         <aspectj.version>1.9.4</aspectj.version>
         <aspectjweaver.version>1.9.4</aspectjweaver.version>
@@ -357,21 +355,6 @@
             </dependency>
 
             <!-- graphql -->
-            <dependency>
-                <groupId>com.graphql-java-kickstart</groupId>
-                <artifactId>graphql-spring-boot-starter</artifactId>
-                <version>${graphql.java.spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.graphql-java-kickstart</groupId>
-                <artifactId>graphiql-spring-boot-starter</artifactId>
-                <version>${graphql.java.spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.graphql-java-kickstart</groupId>
-                <artifactId>graphql-java-tools</artifactId>
-                <version>${graphql.java.tools.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.graphql-java</groupId>
                 <artifactId>graphql-java</artifactId>
@@ -741,6 +724,21 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>oinone</id>
+            <distributionManagement>
+                <repository>
+                    <id>oinone-develop-release</id>
+                    <name>shushi release repository</name>
+                    <url>http://nexus.shushi.pro/repository/pamirs-releases/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>oinone-develop-snapshot</id>
+                    <name>shushi snapshot repository</name>
+                    <url>http://nexus.shushi.pro/repository/pamirs-snapshots/</url>
+                </snapshotRepository>
+            </distributionManagement>
         </profile>
     </profiles>
 

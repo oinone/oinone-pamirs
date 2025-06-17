@@ -6,12 +6,11 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.0.1</version>
+        <version>6.2.2</version>
     </parent>
 
     <artifactId>pamirs-core</artifactId>
     <name>pamirs-core</name>
-    <version>6.2.0</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -20,12 +19,6 @@
         <ojdbc.version>23.2.0.0</ojdbc.version>
         <mssql.version>12.2.0.jre8</mssql.version>
         <postgresql.version>42.7.3</postgresql.version>
-
-        <pamirs.k2.version>6.2.0</pamirs.k2.version>
-        <pamirs.framework.version>6.2.0</pamirs.framework.version>
-        <pamirs.boot.version>6.2.0</pamirs.boot.version>
-        <pamirs.middleware.version>6.2.0</pamirs.middleware.version>
-        <pamirs.tenant.version>6.2.0</pamirs.tenant.version>
     </properties>
 
     <modules>
@@ -68,33 +61,33 @@
             <dependency>
                 <groupId>pro.shushi.pamirs</groupId>
                 <artifactId>pamirs-k2</artifactId>
-                <version>${pamirs.k2.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs</groupId>
                 <artifactId>pamirs-framework</artifactId>
-                <version>${pamirs.framework.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.boot</groupId>
                 <artifactId>pamirs-boot-dependencies</artifactId>
-                <version>${pamirs.boot.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.framework</groupId>
                 <artifactId>pamirs-framework-session-tenant</artifactId>
-                <version>${pamirs.tenant.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.middleware</groupId>
                 <artifactId>pamirs-middleware-dependencies</artifactId>
-                <version>${pamirs.middleware.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.service.EipOpenRateLimitPolicyService;
 import pro.shushi.pamirs.eip.api.service.EipOpenRateLimitStateSyncService;
+import pro.shushi.pamirs.eip.api.util.EipZkHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.middleware.zookeeper.service.ZookeeperService;
@@ -37,9 +38,13 @@ public class EipOpenRateLimitStatusChangeListener implements TreeCacheListener {
             return;
         }
 
-        String dataPath = path.substring(rootPath.length() + 1);
-        String[] pathList = dataPath.split(CharacterConstants.SEPARATOR_SLASH);
+        String dataPath = EipZkHelper.processorListenerPath(rootPath, path);
+        if (StringUtils.isBlank(dataPath)) {
+            log.info("流控检测到顶层或非预期节点变更，已忽略处理，path：{}", path);
+            return;
+        }
 
+        String[] pathList = dataPath.split(CharacterConstants.SEPARATOR_SLASH);
         if (pathList.length != 2) {
             log.info("流控检测到顶层或非预期节点变更，已忽略处理，path：{}", path);
             return;

@@ -47,8 +47,9 @@ public class DefaultDataPermission implements DataPermissionApi {
 
     @Override
     public AuthResult<Map<String, Long>> fetchFieldPermissions(String model) {
-        return AuthFilterHelper.executeFilter((api) -> api.fetchFieldPermissions(model),
-                () -> AuthApiHolder.getFetchPermissionApi().fetch((accessInfo, roleIds) -> AuthApiHolder.getDataPermissionCacheApi().fetchFieldPermissions(roleIds, model)));
+        return debug(() -> AuthFilterHelper.executeFilter((api) -> api.fetchFieldPermissions(model),
+                () -> AuthApiHolder.getFetchPermissionApi().fetch((accessInfo, roleIds) -> AuthApiHolder.getDataPermissionCacheApi().fetchFieldPermissions(roleIds, model))),
+                result -> AuthVerificationDebugTrace.debugFieldPermissions(result.getData(), model));
     }
 
     @Override
