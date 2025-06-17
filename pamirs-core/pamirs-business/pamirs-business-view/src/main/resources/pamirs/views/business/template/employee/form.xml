@@ -9,8 +9,9 @@
         <pack widget="group" title="基础信息" cols="2">
             <field span="1" name="code" data="code" label="员工编码" hint="未填时将自动生成" required="false" readonly="activeRecord.id"/>
             <field span="1" name="name" data="name" label="员工名称"/>
+            <field span="1" name="employeeType" data="employeeType" label="员工类型" invisible="true"/>
             <field span="1" name="phone" data="phone" label="员工手机号"/>
-            <field name="company" data="company" label="所属公司" required="true"/>
+            <field name="company" data="company" label="所属公司" required="true" clearFields="departmentRelList" optionFields="code"/>
             <field name="department" data="department" label="所属主部门" domain="companyCode == ${activeRecord.company.code}" disabled="!activeRecord.company.code"/>
             <field name="dataStatus" data="dataStatus" label="数据状态" readonly="true" span="1" invisible="!activeRecord.id"/>
         </pack>
@@ -27,19 +28,50 @@
             <field span="1" name="defaultBindingUser" data="defaultBindingUser" invisible="rootRecord.bindingMode == 'CREATE_BINDING'" label="绑定用户" optionFields="name,login,code,id" optionLabel="activeRecord.name" placeholder="绑定用户" required="true" searchFields="name,login" widget="Select"/>
         </pack>
         <pack widget="group" title="所属部门列表">
-            <field name="departmentList" widget="Table" data="departmentList" label="false" submitType="all">
-                <view widget="table" model="business.PamirsDepartment">
-                    <template slot="actions">
-                        <action name="internalGotoM2MListDialogFromPamirsEmployeeFromBusiness" label="添加" actionType="VIEW" model="business.PamirsDepartment" domain="companyCode == ${rootRecord.company.code}" disabled="!rootRecord.company.code" viewType="TABLE" resViewName="dialogTableView" tag="contextFreeAction"/>
-                        <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" model="business.PamirsDepartment" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
+            <field data="departmentRelList" widget="Table" name="departmentRelList" model="business.PamirsEmployee" labelInvisible="true">
+                <view model="business.DepartmentRelEmployeeProxy" type="table">
+                    <template slot="actionBar">
+                        <action invisible="false" label="添加" name="LoadAddDeptListByEmployee" disabled="!rootRecord.company.code" >
+                            <template slot="default">
+                                <view model="business.DepartmentRelEmployeeProxy" type="table">
+                                    <template slot="search">
+                                        <field data="departmentCode" label="部门编码"/>
+                                        <field data="departmentName" label="部门名称"/>
+                                    </template>
+                                    <template slot="actionBar"/>
+                                    <template slot="table" filter="companyCode==${rootRecord.company.code} and departmentId=out=(${LIST_FIELD_VALUES(rootRecord.departmentRelList, business.DepartmentRelEmployeeProxy, departmentId)})">
+                                        <field data="departmentId" label="部门id" invisible="true"/>
+                                        <field data="departmentCode" label="部门编码"/>
+                                        <field data="departmentName" label="部门名称"/>
+                                        <field data="parentDepartment" label="上级部门"/>
+                                        <field data="employeeType" invisible="true"/>
+                                        <field data="departmentCode" invisible="true"/>
+                                        <field data="departmentType" invisible="true"/>
+                                        <template slot="rowActions"/>
+                                    </template>
+                                    <template slot="header"/>
+                                    <template slot="footer">
+                                        <action name="$$internal_DialogSubmit" label="确定"/>
+                                        <action name="$$internal_GotoListTableRouter" label="取消"/>
+                                    </template>
+                                </view>
+                            </template>
+                        </action>
+                        <action name="$$internal_DeleteOne"/>
                     </template>
-                    <template slot="fields">
-                        <field name="id" invisible="true" model="business.PamirsDepartment" data="id"/>
-                        <field name="code" model="business.PamirsDepartment" data="code" label="部门编码"/>
-                        <field name="name" model="business.PamirsDepartment" data="name" label="部门名称"/>
-                        <field name="departmentType" invisible="true" model="business.PamirsDepartment" data="departmentType" label="部门类型"/>
-                        <field name="parent" model="business.PamirsDepartment" data="parent" label="上级部门"/>
-                        <field name="parentCode" model="business.PamirsDepartment" data="parentCode" label="上级部门编码"/>
+                    <template slot="table">
+                        <field data="employeeCode" invisible="true"/>
+                        <field data="departmentId" label="部门id" invisible="true"/>
+                        <field data="departmentCode" label="部门编码"/>
+                        <field data="departmentName" label="部门名称"/>
+                        <field data="parentDepartment" label="上级部门"/>
+                        <field data="supervisor" label="是否为部门主管" widget="Switch" editable="true"/>
+                        <field data="immediateSupervisor" label="直属主管" editable="true"
+                               domain="departmentCode==${activeRecord.departmentCode} and code!=${rootRecord.code}"
+                               load="queryPageImmediateSupervisor"/>
+                        <field data="employeeType" invisible="true"/>
+                        <field data="departmentType" invisible="true"/>
+                        <template slot="rowActions"/>
                     </template>
                 </view>
             </field>

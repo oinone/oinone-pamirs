@@ -1,6 +1,8 @@
 package pro.shushi.pamirs.business.api.service;
 
 import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
+import pro.shushi.pamirs.business.api.model.PamirsDepartment;
+import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.core.common.standard.service.StandardModelService;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.update.LambdaUpdateWrapper;
@@ -65,4 +67,10 @@ public interface DepartmentRelEmployeeService extends StandardModelService<Depar
     @Function
     @Override
     Long count(LambdaQueryWrapper<DepartmentRelEmployee> queryWrapper);
+
+    @Function
+    PamirsEmployee queryDepartmentSupervisor(PamirsDepartment department);
+
+    @Function
+    List<String> queryDeptCodeByEmpCode(String employeeCode);
 }

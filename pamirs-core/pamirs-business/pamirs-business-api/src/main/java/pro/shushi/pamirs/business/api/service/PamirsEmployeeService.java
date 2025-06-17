@@ -62,4 +62,7 @@ public interface PamirsEmployeeService {
 
     @Function
     PamirsEmployee queryById(Long employeeId);
+
+    @Function
+    Pagination<PamirsEmployee> queryPageImmediateSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper);
 }

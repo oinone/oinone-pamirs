@@ -2,13 +2,19 @@ package pro.shushi.pamirs.business.core.service;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.business.api.BusinessModule;
 import pro.shushi.pamirs.business.api.enumeration.BusinessExpEnumerate;
+import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsPosition;
+import pro.shushi.pamirs.business.api.pmodel.DepartmentRelEmployeeProxy;
+import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeProxyService;
 import pro.shushi.pamirs.business.api.service.PamirsDepartmentService;
 import pro.shushi.pamirs.core.common.behavior.impl.TreeCodeBehavior;
+import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
@@ -19,7 +25,10 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.enmu.SequenceEnum;
 
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * {@link PamirsDepartmentService}实现
@@ -29,6 +38,9 @@ import java.util.List;
 @Service
 @Fun(PamirsDepartmentService.FUN_NAMESPACE)
 public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
+
+    @Autowired
+    private DepartmentRelEmployeeProxyService departmentRelEmployeeProxyService;
 
     @Function
     @Override
@@ -62,6 +74,9 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
             data.getPositionList().forEach(K2::construct);
         }
         data.fieldSave(PamirsDepartment::getPositionList);
+        if (CollectionUtils.isNotEmpty(data.getEmployeeRelList())) {
+            data.fieldSave(PamirsDepartment::getEmployeeRelList);
+        }
         return data.create();
     }
 
@@ -75,6 +90,13 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         department = department.fieldQuery(PamirsDepartment::getCompany);
         department = department.fieldQuery(PamirsDepartment::getPositionList);
         department = department.fieldQuery(PamirsDepartment::getEmployeeList);
+        department = department.fieldQuery(PamirsDepartment::getEmployeeRelList);
+        if (CollectionUtils.isNotEmpty(department.getEmployeeList())) {
+            department.setEmployeeRelList(department.getEmployeeRelList().stream().sorted(Comparator.comparing(
+                    DepartmentRelEmployeeProxy::getSupervisor,
+                    Comparator.nullsLast(Comparator.comparing(Boolean::booleanValue).reversed())
+            )).collect(Collectors.toList()));
+        }
         return department;
     }
 
@@ -92,6 +114,9 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
             data.setTreeCode(data.getCode());
         }
 
+        if (data.getEmployeeRelList() != null) {
+            departmentRelEmployeeProxyService.updateRelationDepartment(data);
+        }
         data.updateById();
 
         if (CollectionUtils.isNotEmpty(data.getPositionList())) {
@@ -117,7 +142,14 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
     @Function
     @Override
     public void deleteByPks(List<PamirsDepartment> list) {
-        new PamirsDepartment().deleteByPks(list);
+        Set<String> deptCodes = list.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet());
+        Tx.build().executeWithoutResult(status -> {
+            new PamirsDepartment().deleteByPks(list);
+            new DepartmentRelEmployee().deleteByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
+                    .from(DepartmentRelEmployee.MODEL_MODEL)
+                    .in(DepartmentRelEmployee::getDepartmentCode, deptCodes)
+            );
+        });
     }
 
     @Function

@@ -175,6 +175,12 @@ public class PamirsEmployeeAction {
         return pamirsEmployee;
     }
 
+    @Function.Advanced(type = FunctionTypeEnum.QUERY)
+    @Function(openLevel = {FunctionOpenEnum.API})
+    public Pagination<PamirsEmployee> queryPageImmediateSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
+        return pamirsEmployeeService.queryPageImmediateSupervisor(page, queryWrapper);
+    }
+
     @Action(displayName = "pc端查询用户公司", summary = "临时用")
     @Action.Advanced(type = FunctionTypeEnum.QUERY)
     @Deprecated

@@ -1,8 +1,10 @@
 package pro.shushi.pamirs.business.view.action;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
+import pro.shushi.pamirs.business.api.pmodel.DepartmentRelEmployeeProxy;
 import pro.shushi.pamirs.business.api.service.PamirsDepartmentService;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.meta.annotation.Action;
@@ -18,6 +20,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -97,5 +100,26 @@ public class PamirsDepartmentAction {
         return department;
     }
 
-
+    @Function(openLevel = FunctionOpenEnum.API, summary = "计算部门主管")
+    @Function.Advanced(type = FunctionTypeEnum.QUERY)
+    public PamirsDepartment constructEmployeeRel(PamirsDepartment data) {
+        List<DepartmentRelEmployeeProxy> relList = data.getEmployeeRelList();
+        if (CollectionUtils.isEmpty(relList)) {
+            return data;
+        }
+        boolean supervisorFoundAfterFirst = false;
+        for (int i = 1; i < relList.size(); i++) {
+            DepartmentRelEmployeeProxy rel = relList.get(i);
+            if (Boolean.TRUE.equals(rel.getSupervisor())) {
+                if (!supervisorFoundAfterFirst) {
+                    supervisorFoundAfterFirst = true;
+                    relList.get(0).setSupervisor(false);
+                }
+            } else {
+                rel.setSupervisor(false);
+            }
+        }
+        relList.sort(Comparator.comparing((DepartmentRelEmployeeProxy r) -> Boolean.TRUE.equals(r.getSupervisor())).reversed());
+        return data;
+    }
 }

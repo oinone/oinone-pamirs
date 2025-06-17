@@ -162,4 +162,12 @@ public class PamirsCompany extends PamirsPartner implements IDataStatus {
     @Field(displayName = "所属员工列表")
     private List<PamirsEmployee> employeeList;
 
+    @Field.many2one
+    @Field.Relation(relationFields = {"responsiblePersonCode"}, referenceFields = {"code"})
+    @Field(displayName = "负责人", summary = "公司负责人")
+    private PamirsEmployee responsiblePerson;
+
+    @Field.String
+    @Field(displayName = "负责人编码")
+    private String responsiblePersonCode;
 }

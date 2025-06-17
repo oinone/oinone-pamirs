@@ -4,6 +4,7 @@ import pro.shushi.pamirs.auth.api.model.AuthRole;
 import pro.shushi.pamirs.business.api.entity.PamirsCompany;
 import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
 import pro.shushi.pamirs.business.api.model.relation.EmployeeRelRole;
+import pro.shushi.pamirs.business.api.pmodel.DepartmentRelEmployeeProxy;
 import pro.shushi.pamirs.core.common.behavior.IDataStatus;
 import pro.shushi.pamirs.core.common.cache.UniqueKeyGenerator;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
@@ -86,6 +87,11 @@ public class PamirsEmployee extends BizCodeModel implements IDataStatus {
     @Field.Relation(relationFields = {"id"}, referenceFields = {"id"})
     @Field(displayName = "岗位列表")
     private List<PamirsPosition> positions;
+
+    @Field.one2many
+    @Field.Relation(relationFields = {"employeeType", "code"}, referenceFields = {"employeeType", "employeeCode"})
+    @Field(displayName = "员工部门关系")
+    private List<DepartmentRelEmployeeProxy> departmentRelList;
 
     @Field.Integer
     @Field(summary = "绑定用户ID", invisible = true)

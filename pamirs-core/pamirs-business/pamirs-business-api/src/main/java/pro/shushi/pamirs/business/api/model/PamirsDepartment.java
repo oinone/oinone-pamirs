@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.business.api.model;
 
 import pro.shushi.pamirs.business.api.entity.PamirsCompany;
+import pro.shushi.pamirs.business.api.pmodel.DepartmentRelEmployeeProxy;
 import pro.shushi.pamirs.core.common.behavior.IDataStatus;
 import pro.shushi.pamirs.core.common.behavior.ITreeCodeModel;
 import pro.shushi.pamirs.core.common.cache.UniqueKeyGenerator;
@@ -75,6 +76,11 @@ public class PamirsDepartment extends BizCodeModel implements IDataStatus, ITree
     @Field.Relation(relationFields = {"departmentType", "code"}, referenceFields = {"employeeType", "code"})
     @Field(displayName = "员工列表")
     private List<PamirsEmployee> employeeList;
+
+    @Field.one2many
+    @Field.Relation(relationFields = {"departmentType", "code"}, referenceFields = {"departmentType", "departmentCode"})
+    @Field(displayName = "部门员工关系")
+    private List<DepartmentRelEmployeeProxy> employeeRelList;
 
     @Field.Integer
     @Field(displayName = "优先级", defaultValue = MetaDefaultConstants.PRIORITY_VALUE_STRING)

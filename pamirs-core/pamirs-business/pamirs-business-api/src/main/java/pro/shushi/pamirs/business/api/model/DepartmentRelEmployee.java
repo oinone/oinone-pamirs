@@ -41,6 +41,19 @@ public class DepartmentRelEmployee extends BaseRelation {
     @Field(displayName = "员工类型")
     private String employeeType;
 
+    @Field.Boolean
+    @Field(displayName = "是否为部门主管")
+    private Boolean supervisor;
+
+    @Field.String
+    @Field(displayName = "直属主管编码")
+    private String immediateSupervisorCode;
+
+    @Field.many2one
+    @Field.Relation(relationFields = {"immediateSupervisorCode"}, referenceFields = {"code"})
+    @Field(displayName = "直属主管")
+    private PamirsEmployee immediateSupervisor;
+
     public static DepartmentRelEmployee newInstance(PamirsEmployee employee, PamirsDepartment department) {
         return new DepartmentRelEmployee()
                 .setDepartmentType(department.getDepartmentType())
