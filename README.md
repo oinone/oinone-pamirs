@@ -13,7 +13,7 @@ The "O" symbolizes open source while phonetically resonating with "All in one," 
 ### 3. Demo
 | Demo                                                                                   | Related Videos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 |----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [⚡ Direct to the Demo](https://demo.oinone.top)<br>☕ Account：admin<br>☕ Password：admin | [🎬 1. [Oinone] #Productization Demonstration# Work with Back-end And No-code](https://www.bilibili.com/video/BV1eDMizYEts/?vd_source=ee004011d0afa992f50d15c8738450b3) <br>[🎬 2. [Oinone] #Customization# Work with Back-end Framework](https://www.bilibili.com/video/BV1RDMizYELg/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 3. [Oinone] #Productization Demonstration# Work with Front-end Framework](https://www.bilibili.com/video/BV1DoMizbECt/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 4. [Oinone] #Customization# Front-end Interaction](https://www.bilibili.com/video/BV1eDMizYED1/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 5. [Oinone] #Customization# No-code mode](https://www.bilibili.com/video/BV1eDMizYEdF/?vd_source=ee004011d0afa992f50d15c8738450b3) |
+| [⚡ Direct to the Demo](https://demo.oinone.top)<br>☕ Account：admin<br>☕ Password：admin | [🎬 1. [Oinone] #Productization Demonstration# Work with Back-end And No-code](https://www.bilibili.com/video/BV1eDMizYEts/?vd_source=ee004011d0afa992f50d15c8738450b3) <br>[🎬 2. [Oinone] #Productization Demonstration# Work with Front-end Framework](https://www.bilibili.com/video/BV1DoMizbECt/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 3. [Oinone] #Customization# Work with Back-end Framework](https://www.bilibili.com/video/BV1RDMizYELg/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 4. [Oinone] #Customization# Front-end Interaction](https://www.bilibili.com/video/BV1eDMizYED1/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 5. [Oinone] #Customization# No-code mode](https://www.bilibili.com/video/BV1eDMizYEdF/?vd_source=ee004011d0afa992f50d15c8738450b3) |
 
 [//]: # (### 8. Training)
 [//]: # (- [[Oinone] #Productization Demonstration# Work with Back-end And No-code]&#40;https://www.bilibili.com/video/BV1eDMizYEts/?vd_source=ee004011d0afa992f50d15c8738450b3&#41;)
@@ -74,24 +74,12 @@ Comprehensive coverage of product development and implementation needs.
 ![Product Ecosystem](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/en/1.Product%20Ecosystem-1.png "Product Ecosystem")
 ![Product Ecosystem](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/en/2.Product%20Ecosystem-2.png "Product Ecosystem")
 
-### 9. Platform Overview
-Our software engineering-driven architecture:
-![Platform Overview](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/en/3.Platform%20Overview.png "Platform Overview")
-- Core Capability Layer: Preserves your existing technology stack while integrating your legacy technical capabilities, Oinone's foundational platform strengths and Third-party open-source components.Delivering standardized rapid development frameworks for internet-scale architectures.
-  - 100% metadata-driven architecture enabling flexible business configuration.
-  - High-performance internet architecture for distributed systems & high concurrency.
-  - Comprehensive software R&D toolset: user management, permissions, messaging, workflows, etc.
-  - Advanced integration for heterogeneous systems/data sources.
-  - Full lifecycle management for applications/modules.
-- Standard Business Product Layer: Industry-standard products built on unified data models.
-- Customization Layer: Rapid extension and personalization of standard products.
-- No-Code Development: Enables rapid innovation throughout product development and project implementation processes.
-  - Inherit/expand beyond standard product capabilities.
-  - Customize standard products.
-  - Continuous adaptation to evolving requirements.
+### 9. Key Features
+![Key Features](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/en/Key%20Features.png)
 
 ### 10. License
 - Oinone Pamirs repository is licensed under AGPL-3.0.
+- [Third Party Open Source Software and License Notice](https://guide.oinone.top/en/Third-Party-Open-Source-Software-And-License-Notice.html).
 
 ### 11. Community Participation
 - Join the community: Go to [[Oinone Community](https://doc.oinone.top)] ❤️
