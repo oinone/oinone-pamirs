@@ -45,6 +45,7 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
   - [章节 12：继承（Inheritance）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter12-inheritance.html)
   - [章节 13：模块间相互作用（Interact With Other Modules）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter13-interact-with-other-modules.html)
   - [章节 14：产品的个性化开发（Customized Features）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter14-customized-features.html)
+- [调试工具](https://guide.oinone.top/zh-cn/DevManual/Tutorials/debug-tools.html)
 
 ### 5、工程概览
 - pamirs-k2                    ：后端元数据核心功能
