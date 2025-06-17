@@ -107,3 +107,4 @@ Idea 导入工程后确保激活 Profile：打开 `Maven` 工具栏并且激活 
 ### 14、联系我们
 - 官网：https://www.oinone.top
 - 邮箱：oinone@shushi.pro
+- 小助手：![assistant](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/Oinone%E5%B0%8F%E5%8A%A9%E6%89%8B.png)

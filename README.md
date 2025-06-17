@@ -110,3 +110,4 @@ After importing the project into IntelliJ IDEA, make sure to activate the profil
 ### 14. Contact Us
 - Website：https://www.oinone.top
 - Email：oinone@shushi.pro
+- Assistant：![assistant](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/Oinone%E5%B0%8F%E5%8A%A9%E6%89%8B.png)
