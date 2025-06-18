@@ -40,7 +40,7 @@ public class DefaultConstructApi implements ConstructApi {
             for (ModelFieldConfig modelFieldConfig : modelConfig.getModelFieldConfigList()) {
                 String defaultValue = modelFieldConfig.getDefaultValue();
                 if (StringUtils.isNotBlank(defaultValue)) {
-                    if (defaultValue.startsWith("${") && defaultValue.endsWith("}")) {
+                    if (ValueComputer.isUsingExpressionComputer(defaultValue)) {
                         lazyComputeFields.add(modelFieldConfig);
                     } else {
                         defaultValueComputer.compute(modelFieldConfig, data);

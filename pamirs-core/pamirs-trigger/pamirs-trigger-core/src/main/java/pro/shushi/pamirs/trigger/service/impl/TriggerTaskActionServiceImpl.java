@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.ObjectHelper;
 import pro.shushi.pamirs.framework.connectors.data.constant.DbConstants;
+import pro.shushi.pamirs.framework.connectors.data.datasource.DataSourceFetcher;
 import pro.shushi.pamirs.framework.connectors.data.datasource.ddl.DdlManager;
 import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.DsDialectComponent;
@@ -53,10 +54,12 @@ public class TriggerTaskActionServiceImpl extends AbstractTaskActionService<Trig
 
     @Autowired(required = false)
     private CanalService canalService;
-    @Autowired
-    private DdlManager ddlManager;
+
     @Autowired(required = false)
     private PamirsTriggerConfiguration configuration;
+
+    @Autowired
+    private DataSourceFetcher dataSourceFetcher;
 
     @Function
     @Override
@@ -329,7 +332,7 @@ public class TriggerTaskActionServiceImpl extends AbstractTaskActionService<Trig
     }
 
     private RefreshFilterEntity buildFilterEntity(ModelConfig modelConfig) {
-        String database = Dialects.component(DsDialectComponent.class, modelConfig.getDsKey()).getDatabase(modelConfig.getDsKey());
+        String database = dataSourceFetcher.getDatabaseByModel(modelConfig);
         String table = modelConfig.getTable();
 
         //FILTERS
@@ -362,16 +365,6 @@ public class TriggerTaskActionServiceImpl extends AbstractTaskActionService<Trig
         topic = Spider.getDefaultExtension(SystemTopicEditorApi.class).handlerTopic(topic);
         filterEntity.setMqTopic(topic);
         log.info("===buildFilterEntity====topic:{}", topic);
-
-        //DBInfo
-        Map<String, String> dsConfig = ddlManager.getDsConfig(modelConfig.getDsKey());
-        URI url = ddlManager.getUri(modelConfig.getDsKey());
-        DBInfo dbInfo = new DBInfo();
-        dbInfo.setAddress(url.getHost());
-        dbInfo.setPort(url.getPort());
-        dbInfo.setUserName(dsConfig.get(DbConstants.FIELD_USERNAME));
-        dbInfo.setPassword(dsConfig.get(DbConstants.FIELD_PASSWORD));
-//        filterEntity.setDbInfo(dbInfo);
         return filterEntity;
     }
 

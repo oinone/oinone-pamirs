@@ -7,11 +7,13 @@ import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.spi.Spider;
-import pro.shushi.pamirs.meta.constant.ModuleFunctionConstants;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static pro.shushi.pamirs.meta.constant.ModuleFunctionConstants.BEAN_MODEL_FUNCTION_PUBLISH;
+import static pro.shushi.pamirs.meta.constant.ModuleFunctionConstants.FUN_PUBLISH_SERVICE;
 
 /**
  * 模型函数动态发布成远程服务
@@ -20,16 +22,16 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  * date 2024/1/18
  */
-@Component
+@Component(BEAN_MODEL_FUNCTION_PUBLISH)
 public class ModelFunctionPublish {
 
     public Boolean publishServiceWrap(List<ModelDefinition> modelDefinitions) {
         if (CollectionUtils.isEmpty(modelDefinitions)) {
             return Boolean.TRUE;
         }
-        Function function = PamirsSession.getContext().getFunctionAllowNull(modelDefinitions.get(0).getModule(), ModuleFunctionConstants.FUN_PUBLISH_SERVICE);
+        Function function = PamirsSession.getContext().getFunctionAllowNull(modelDefinitions.get(0).getModule(), FUN_PUBLISH_SERVICE);
         if (function != null) {
-            Fun.run(modelDefinitions.get(0).getModule(), ModuleFunctionConstants.FUN_PUBLISH_SERVICE, modelDefinitions);
+            Fun.run(modelDefinitions.get(0).getModule(), FUN_PUBLISH_SERVICE, modelDefinitions);
         } else {
             publishService(modelDefinitions);
         }
