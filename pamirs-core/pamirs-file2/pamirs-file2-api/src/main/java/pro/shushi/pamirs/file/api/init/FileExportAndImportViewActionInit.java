@@ -13,7 +13,6 @@ import pro.shushi.pamirs.file.api.FileModule;
 import pro.shushi.pamirs.file.api.model.ExcelExportTask;
 import pro.shushi.pamirs.file.api.model.ExcelImportTask;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
-import pro.shushi.pamirs.meta.constant.MetaDefaultConstants;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
@@ -68,7 +67,7 @@ public class FileExportAndImportViewActionInit implements MetaDataEditor {
                 ViewActionConstants.Import.displayName,
                 null,
                 ActionContextTypeEnum.CONTEXT_FREE,
-                ViewTypeEnum.FORM, MetaDefaultConstants.PRIORITY_VALUE_INT,
+                ViewTypeEnum.FORM, ViewActionConstants.Import.priority,
                 ExcelImportTask.MODEL_MODEL, DEFAULT_IMPORT_VIEW_NAME, ActionTargetEnum.DIALOG,
                 context);
 
@@ -78,7 +77,7 @@ public class FileExportAndImportViewActionInit implements MetaDataEditor {
                 ViewActionConstants.Export.displayName,
                 null,
                 ActionContextTypeEnum.CONTEXT_FREE,
-                ViewTypeEnum.FORM, MetaDefaultConstants.PRIORITY_VALUE_INT,
+                ViewTypeEnum.FORM, ViewActionConstants.Export.priority,
                 ExcelExportTask.MODEL_MODEL, DEFAULT_EXPORT_VIEW_NAME, ActionTargetEnum.DIALOG,
                 context);
     }

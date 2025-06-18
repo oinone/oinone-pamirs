@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.boot.web.spi.domain;
+package pro.shushi.pamirs.boot.base.ux.entity;
 
 import pro.shushi.pamirs.boot.base.enmu.QueryModeEnum;
 import pro.shushi.pamirs.boot.base.ux.annotation.field.UxWidget;

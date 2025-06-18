@@ -27,7 +27,7 @@ public class ExpressionDefaultValueComputer implements ValueComputer {
         if (null == fieldValue) {
             String lname = modelField.getLname();
             String defaultValue = modelField.getDefaultValue();
-            if (defaultValue.startsWith("${") && defaultValue.endsWith("}")) {
+            if (ValueComputer.isUsingExpressionComputer(defaultValue)) {
                 FieldUtils.setFieldValue(data, lname, Exp.fastRun(defaultValue.substring(2, defaultValue.length() - 1), generatorComputeContext(data)));
             }
         }

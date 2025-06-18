@@ -127,10 +127,22 @@ public class UIField extends UIWidget {
 
     /**
      * 禁用
+     *
+     * @deprecated 6.2.3 please using disabled
      */
+    @Deprecated
     @XStreamAsAttribute
     @Field(displayName = "禁用")
     private String disable;
+
+    /**
+     * 禁用
+     *
+     * @since 6.2.3
+     */
+    @XStreamAsAttribute
+    @Field(displayName = "禁用")
+    private String disabled;
 
     /**
      * 计算属性

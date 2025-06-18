@@ -1,7 +1,10 @@
-package pro.shushi.pamirs.boot.web.spi.api;
+package pro.shushi.pamirs.boot.base.ux.spi;
 
-import pro.shushi.pamirs.boot.web.spi.domain.RegisterSearchWidget;
+import pro.shushi.pamirs.boot.base.ux.entity.RegisterSearchWidget;
+import pro.shushi.pamirs.meta.common.spi.HoldKeeper;
+import pro.shushi.pamirs.meta.common.spi.Holder;
 import pro.shushi.pamirs.meta.common.spi.SPI;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
@@ -21,4 +24,9 @@ public interface ViewTemplateStrategyApi {
      */
     RegisterSearchWidget computeSearchWidget(ModelDefinition modelDefinition, ModelField modelField);
 
+    HoldKeeper<ViewTemplateStrategyApi> holder = new HoldKeeper<>();
+
+    static ViewTemplateStrategyApi getApi() {
+        return holder.supply(() -> Spider.getDefaultExtension(ViewTemplateStrategyApi.class));
+    }
 }
