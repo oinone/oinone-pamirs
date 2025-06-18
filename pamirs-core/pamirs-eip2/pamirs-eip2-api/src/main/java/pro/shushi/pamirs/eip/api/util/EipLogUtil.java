@@ -12,10 +12,12 @@ import pro.shushi.pamirs.eip.api.IEipApi;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.IEipOpenInterface;
+import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
 import pro.shushi.pamirs.eip.api.cache.EipLogCountCacheApi;
 import pro.shushi.pamirs.eip.api.config.PamirsEipLogProperties;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipLog;
+import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.cdn.pojo.CdnFile;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
@@ -117,6 +119,29 @@ public class EipLogUtil {
                     .create();
             CommonApiFactory.getApi(EipLogCountCacheApi.class).addLogCount(eipLog);
         });
+    }
+
+    /**
+     * 开放接口失败日志，用于记录预处理函数发生错误
+     */
+    public static void openApiFailure(Exchange exchange, String errorMsg, String resultString) {
+        EipOpenInterface openInterface = (EipOpenInterface) exchange.getProperties().get(OpenApiConstant.EIP_OPEN_INTERFACE);
+        EipLog eipLog = new EipLog();
+        eipLog.setInterfaceType(InterfaceTypeEnum.OPEN);
+        if (openInterface != null) {
+            eipLog.setInterfaceName(openInterface.getInterfaceName());
+        }
+        String header = EipHelper.getStringJSONString(exchange.getMessage().getHeaders());
+        String body = StringUtils.replaceChars(exchange.getMessage().getBody(String.class), "\r\n", null);
+        eipLog.setRequestHeaderData(header);
+        eipLog.setRequestOriginData(body);
+        eipLog.setRequestTargetData(body);
+        eipLog.setResponseData(resultString);
+        eipLog.setIsSuccess(false);
+        eipLog.setErrorMsg(errorMsg);
+        eipLog.setInvokeDate(new Date());
+        eipLog.setInvokeEndDate(new Date());
+        eipLog.create();
     }
 
     private static <V> void putInvokeMillisecond(IEipContext<V> context, EipLog eipLog) {
