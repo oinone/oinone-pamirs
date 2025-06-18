@@ -54,24 +54,26 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 </ul>
 
 ### 5、工程概览
-- pamirs-k2                    ：后端元数据核心功能
-- pamirs-framework             ：后端核心功能包
-- pamirs-framework-commons     ：后端核心功能公共包
-- pamirs-framework-adaptor     ：后端核心功能扩展包
-- pamirs-spi                   ：后端SPI基础功能包
-- pamirs-boot                  ：后端应用启动包
-- pamirs-core                  ：后端基础功能包
-- pamirs-middleware            ：后端中间件功能包
+| Package                     | 内容            |
+|-----------------------------|---------------|
+| 📦 pamirs-k2                | 🌟 后端元数据核心功能  |
+| 📦 pamirs-framework         | 🌟 后端核心功能包    |
+| 📦 pamirs-framework-commons | 🌟 后端核心功能公共包  |
+| 📦 pamirs-framework-adaptor | 🌟 后端核心功能扩展包  |
+| 📦 pamirs-spi               | 🌟 后端SPI基础功能包 |
+| 📦 pamirs-boot              | 🌟 后端应用启动包    |
+| 📦 pamirs-core              | 🌟 后端基础功能包    |
+| 📦 pamirs-middleware        | 🌟 后端中间件功能包   |
 
 ### 6. 文档链接
 <ul>
-  <li><a href="https://guide.oinone.top/zh-cn/InstallOrUpgrade" target="_blank" rel="noopener noreferrer">安装与升级</a></li>
-  <li><a href="https://guide.oinone.top/zh-cn/UserHandbook" target="_blank" rel="noopener noreferrer">用户手册</a></li>
-  <li><a href="https://guide.oinone.top/zh-cn/Development" target="_blank" rel="noopener noreferrer">研发手册</a></li>
-  <li><a href="https://www.oinone.top/whitePaper" target="_blank" rel="noopener noreferrer">产品白皮书</a></li>
-  <li><a href="https://guide.oinone.top/zh-cn/DevManual/R_DParadigm" target="_blank" rel="noopener noreferrer">最佳范式</a></li>
-  <li><a href="https://guide.oinone.top/zh-cn/DevManual/CommonSolutions" target="_blank" rel="noopener noreferrer">常见解决方案</a></li>
-  <li><a href="https://guide.oinone.top/zh-cn/DevManual/FAQ" target="_blank" rel="noopener noreferrer">常见问题</a></li>
+  <li><a href="https://guide.oinone.top/zh-cn/InstallOrUpgrade" target="_blank" rel="noopener noreferrer">📗 安装与升级</a></li>
+  <li><a href="https://guide.oinone.top/zh-cn/UserHandbook" target="_blank" rel="noopener noreferrer">📗 用户手册</a></li>
+  <li><a href="https://guide.oinone.top/zh-cn/Development" target="_blank" rel="noopener noreferrer">📗 研发手册</a></li>
+  <li><a href="https://www.oinone.top/whitePaper" target="_blank" rel="noopener noreferrer">📗 产品白皮书</a></li>
+  <li><a href="https://guide.oinone.top/zh-cn/DevManual/R_DParadigm" target="_blank" rel="noopener noreferrer">📗 最佳范式</a></li>
+  <li><a href="https://guide.oinone.top/zh-cn/DevManual/CommonSolutions" target="_blank" rel="noopener noreferrer">📗 常见解决方案</a></li>
+  <li><a href="https://guide.oinone.top/zh-cn/DevManual/FAQ" target="_blank" rel="noopener noreferrer">📗 常见问题</a></li>
 </ul>
 
 ### 7、开发注意事项

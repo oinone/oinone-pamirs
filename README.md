@@ -15,13 +15,6 @@ The "O" symbolizes open source while phonetically resonating with "All in one," 
 |----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [⚡ Direct to the Demo](https://demo.oinone.top)<br>☕ Account：admin<br>☕ Password：admin | [🎬 1. [Oinone] #Productization Demonstration# Work with Back-end And No-code](https://www.bilibili.com/video/BV1eDMizYEts/?vd_source=ee004011d0afa992f50d15c8738450b3) <br>[🎬 2. [Oinone] #Productization Demonstration# Work with Front-end Framework](https://www.bilibili.com/video/BV1DoMizbECt/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 3. [Oinone] #Customization# Work with Back-end Framework](https://www.bilibili.com/video/BV1RDMizYELg/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 4. [Oinone] #Customization# Front-end Interaction](https://www.bilibili.com/video/BV1eDMizYED1/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 5. [Oinone] #Customization# No-code mode](https://www.bilibili.com/video/BV1eDMizYEdF/?vd_source=ee004011d0afa992f50d15c8738450b3) |
 
-[//]: # (### 8. Training)
-[//]: # (- [[Oinone] #Productization Demonstration# Work with Back-end And No-code]&#40;https://www.bilibili.com/video/BV1eDMizYEts/?vd_source=ee004011d0afa992f50d15c8738450b3&#41;)
-[//]: # (- [[Oinone] #Customization# Work with Back-end Framework]&#40;https://www.bilibili.com/video/BV1RDMizYELg/?vd_source=ee004011d0afa992f50d15c8738450b3&#41;)
-[//]: # (- [[Oinone] #Productization Demonstration# Work with Front-end Framework]&#40;https://www.bilibili.com/video/BV1DoMizbECt/?vd_source=ee004011d0afa992f50d15c8738450b3&#41;)
-[//]: # (- [[Oinone] #Customization# Front-end Interaction]&#40;https://www.bilibili.com/video/BV1eDMizYED1/?vd_source=ee004011d0afa992f50d15c8738450b3&#41;)
-[//]: # (- [[Oinone] #Customization# No-code mode]&#40;https://www.bilibili.com/video/BV1eDMizYEdF/?vd_source=ee004011d0afa992f50d15c8738450b3&#41;)
-
 ### 4. Quickstart
 - [Installation or Upgrade](https://guide.oinone.top/zh-cn/InstallOrUpgrade/)
   - [Development Environments](https://guide.oinone.top/zh-cn/InstallOrUpgrade/Dev-ENV/)
@@ -48,27 +41,28 @@ The "O" symbolizes open source while phonetically resonating with "All in one," 
 - [Debug Tools](https://guide.oinone.top/zh-cn/DevManual/Tutorials/debug-tools.html)
 
 ### 5. Project Overview
-- pamirs-k2                    : Metadata Core
-- pamirs-framework             : Framework-Core Package
-- pamirs-framework-commons     : Framework-Commons Package
-- pamirs-framework-adaptor     : Framework-Extension Package
-- pamirs-spi                   : SPI Package
-- pamirs-boot                  : Startup Package
-- pamirs-core                  : Common Features Package
-- pamirs-middleware            : Middleware-Core Package
+  | Package                     | Content                        |
+  |-----------------------------|--------------------------------|
+  | 📦 pamirs-k2                | 🌟 Metadata Core               |
+  | 📦 pamirs-framework         | 🌟 Framework-Core Package      |
+  | 📦 pamirs-framework-commons | 🌟 Framework-Commons Package   |
+  | 📦 pamirs-framework-adaptor | 🌟 Framework-Extension Package |
+  | 📦 pamirs-spi               | 🌟 SPI Package                 |
+  | 📦 pamirs-boot              | 🌟 Startup Package             |
+  | 📦 pamirs-core              | 🌟 Common Features Package     |
+  | 📦 pamirs-middleware        | 🌟 Middleware-Core Package     |
 
 ### 6. Documentation
-- [Installation Or Upgrade](https://guide.oinone.top/zh-cn/InstallOrUpgrade)
-- [User Manual](https://guide.oinone.top/zh-cn/UserManual)
-- [DEV Manual](https://guide.oinone.top/zh-cn/DevManual)
-- [White Paper](https://www.oinone.top/whitePaper)
-- [R&D Paradigm](https://guide.oinone.top/zh-cn/DevManual/R_DParadigm)
-- [Common Solutions](https://guide.oinone.top/zh-cn/DevManual/CommonSolutions)
-- [FAQ](https://guide.oinone.top/zh-cn/DevManual/FAQ)
+- [📗 Installation Or Upgrade](https://guide.oinone.top/zh-cn/InstallOrUpgrade)
+- [📗 User Manual](https://guide.oinone.top/zh-cn/UserManual)
+- [📗 DEV Manual](https://guide.oinone.top/zh-cn/DevManual)
+- [📗 White Paper](https://www.oinone.top/whitePaper)
+- [📗 R&D Paradigm](https://guide.oinone.top/zh-cn/DevManual/R_DParadigm)
+- [📗 Common Solutions](https://guide.oinone.top/zh-cn/DevManual/CommonSolutions)
+- [📗 FAQ](https://guide.oinone.top/zh-cn/DevManual/FAQ)
 
 ### 7. Development Notice
-After importing the project into IntelliJ IDEA, make sure to activate the profile. Open the `Maven` toolbar and activate the `tools` profile.
-
+After importing the project into IntelliJ IDEA, make sure to activate the profile. Open the `Maven` toolbar and activate the `tools` profile.<br>
 <img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/tools-profile.png" alt="Tools Profile" width="500">
 
 ### 8. Product Ecosystem
@@ -84,7 +78,7 @@ Comprehensive coverage of product development and implementation needs.
 - [Third Party Open Source Software and License Notice](https://guide.oinone.top/en/Third-Party-Open-Source-Software-And-License-Notice.html).
 
 ### 11. Community Participation
-- Join the community: Go to [[Oinone Community](https://doc.oinone.top)] ❤️
+- Join the community: Go to [⚡Oinone Community](https://doc.oinone.top)❤️
 - [How to contribute](https://guide.oinone.top/zh-cn/Contribute)
 
 ### 12. Contact Us
