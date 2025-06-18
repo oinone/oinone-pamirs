@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.meta.api.core.compute.definition;
 
-import com.sun.istack.internal.NotNull;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.common.constants.NamespaceConstants;
 import pro.shushi.pamirs.meta.common.spi.HoldKeeper;
@@ -32,7 +31,7 @@ public interface ValueComputer {
         return expressionHolder.supply(() -> Spider.getExtension(ValueComputer.class, NamespaceConstants.expression));
     }
 
-    static boolean isUsingExpressionComputer(@NotNull String defaultValue) {
+    static boolean isUsingExpressionComputer(String defaultValue) {
         return defaultValue.startsWith("${") && defaultValue.endsWith("}");
     }
 }
