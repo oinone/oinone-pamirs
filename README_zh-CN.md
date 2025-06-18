@@ -9,7 +9,7 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 ### 2、了解更多
 - 了解更多关于 Oinone 的信息，您可以访问【<a href="https://www.oinone.top" target="_blank" rel="noopener noreferrer">🍀 官网 </a> 
 | <a href="https://gitee.com/oinone" target="_blank" rel="noopener noreferrer"> 🍀 Gitee-中文</a>
-| <a href="https://github.com/Oinone" target="_blank" rel="noopener noreferrer"> 🍀 Github-EN</a>】】。
+| <a href="https://github.com/Oinone" target="_blank" rel="noopener noreferrer"> 🍀 Github-EN</a>】。
 - 【<a href="https://gitee.com/oinone/oinone-pamirs" target="_blank" rel="noopener noreferrer">⚡ 后端框架-中文</a> 
       | <a href="https://gitee.com/oinone/oinone-kunlun" target="_blank" rel="noopener noreferrer">⚡ 前端框架-中文</a> 
       | <a href="https://github.com/oinone/oinone-pamirs" target="_blank" rel="noopener noreferrer">⚡ Back-end Framework</a> 
