@@ -114,23 +114,24 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
             data.setTreeCode(data.getCode());
         }
 
-        if (data.getEmployeeRelList() != null) {
-            departmentRelEmployeeProxyService.updateRelationDepartment(data);
-        }
-        data.updateById();
-
         if (CollectionUtils.isNotEmpty(data.getPositionList())) {
-//            data.getPositionList().stream().filter(i -> i.getId() == null).forEach(K2::construct);
             exist = exist.fieldQuery(PamirsDepartment::getPositionList);
-            if (CollectionUtils.isNotEmpty(data.getPositionList())) {
-                exist.relationDelete(PamirsDepartment::getPositionList);
-            }
-            List<PamirsPosition> positionList = data.getPositionList();
-            String code = exist.getCode();
-            positionList.forEach(t -> t.setDepartmentCode(code));
-            new PamirsPosition().createOrUpdateBatch(positionList);
-//            data.fieldSave(PamirsDepartment::getPositionList);
         }
+        final PamirsDepartment finalExit = exist;
+        Tx.build().executeWithoutResult(status -> {
+            if (data.getEmployeeRelList() != null) {
+                departmentRelEmployeeProxyService.updateRelationDepartment(data);
+            }
+            data.updateById();
+            if (CollectionUtils.isNotEmpty(data.getPositionList())) {
+                if (CollectionUtils.isNotEmpty(data.getPositionList())) {
+                    finalExit.relationDelete(PamirsDepartment::getPositionList);
+                }
+                List<PamirsPosition> positionList = data.getPositionList();
+                positionList.forEach(t -> t.setDepartmentCode(data.getCode()));
+                new PamirsPosition().createOrUpdateBatch(positionList);
+            }
+        });
     }
 
     @Function

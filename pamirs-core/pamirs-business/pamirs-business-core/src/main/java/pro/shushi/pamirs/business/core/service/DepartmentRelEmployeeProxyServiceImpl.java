@@ -168,11 +168,44 @@ public class DepartmentRelEmployeeProxyServiceImpl implements DepartmentRelEmplo
         if (relList == null) {
             return;
         }
+
+        // 查询DB存在的员工
+        Map<String, String> emptyImmMap = Models.data().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
+                .from(DepartmentRelEmployee.MODEL_MODEL)
+                .eq(DepartmentRelEmployee::getDepartmentCode, department.getCode())
+                .eq(DepartmentRelEmployee::getDepartmentType, department.getDepartmentType())
+                .select(DepartmentRelEmployee::getEmployeeCode, DepartmentRelEmployee::getEmployeeType)
+        ).stream().collect(Collectors.toMap(DepartmentRelEmployee::getEmployeeCode, DepartmentRelEmployee::getEmployeeType));
+
         for (DepartmentRelEmployee rel : relList) {
             rel.setDepartmentCode(department.getCode());
             rel.setDepartmentType(department.getDepartmentType());
+            emptyImmMap.remove(rel.getEmployeeCode());
         }
-        department.fieldSaveOnCascade(PamirsDepartment::getEmployeeRelList);
+
+        if (!emptyImmMap.isEmpty()) {
+            DepartmentRelEmployee updateImmediate = new DepartmentRelEmployee();
+            updateImmediate.setImmediateSupervisorCode(null);
+
+            // 删除直属主管
+            Models.data().updateByWrapper(updateImmediate, Pops.<DepartmentRelEmployee>lambdaUpdate()
+                    .from(DepartmentRelEmployee.MODEL_MODEL)
+                    .eq(DepartmentRelEmployee::getDepartmentCode, department.getCode())
+                    .eq(DepartmentRelEmployee::getDepartmentType, department.getDepartmentType())
+                    .in(DepartmentRelEmployee::getImmediateSupervisorCode, emptyImmMap.keySet())
+            );
+
+            // 删除部门下的员工关联关系
+            Models.data().deleteByWrapper(Pops.<DepartmentRelEmployee>lambdaUpdate()
+                    .from(DepartmentRelEmployee.MODEL_MODEL)
+                    .eq(DepartmentRelEmployee::getDepartmentCode, department.getCode())
+                    .eq(DepartmentRelEmployee::getDepartmentType, department.getDepartmentType())
+                    .and(inner -> emptyImmMap.forEach((code, type) -> inner
+                            .or(sub -> sub.eq(DepartmentRelEmployee::getEmployeeCode, code)
+                                    .eq(DepartmentRelEmployee::getEmployeeType, type)))));
+        }
+
+        Models.data().createOrUpdateBatch(relList);
     }
 
     @Override
