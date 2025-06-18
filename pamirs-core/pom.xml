@@ -80,11 +80,6 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>pro.shushi.pamirs.framework</groupId>
-                <artifactId>pamirs-framework-session-tenant</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>pro.shushi.pamirs.middleware</groupId>
                 <artifactId>pamirs-middleware-dependencies</artifactId>
                 <version>${project.version}</version>

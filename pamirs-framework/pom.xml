@@ -242,6 +242,12 @@
                 <artifactId>pamirs-gateways-rsql</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.framework</groupId>
+                <artifactId>pamirs-framework-session-tenant</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
