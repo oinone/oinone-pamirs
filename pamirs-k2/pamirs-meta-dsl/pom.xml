@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-k2</artifactId>
-        <version>6.2.2</version>
+        <version>6.2.3</version>
     </parent>
 
     <groupId>pro.shushi.pamirs.k2</groupId>
