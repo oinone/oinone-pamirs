@@ -30,4 +30,8 @@ public interface ValueComputer {
     static ValueComputer getExpressionComputer() {
         return expressionHolder.supply(() -> Spider.getExtension(ValueComputer.class, NamespaceConstants.expression));
     }
+
+    static boolean isUsingExpressionComputer(String defaultValue) {
+        return defaultValue.startsWith("${") && defaultValue.endsWith("}");
+    }
 }

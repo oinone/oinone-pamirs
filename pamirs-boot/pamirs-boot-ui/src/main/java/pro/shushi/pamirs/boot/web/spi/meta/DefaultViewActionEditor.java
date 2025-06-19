@@ -47,7 +47,7 @@ public class DefaultViewActionEditor implements MetaDataEditor {
                 ViewActionConstants.redirectCreatePage.displayName,
                 null,
                 ActionContextTypeEnum.CONTEXT_FREE,
-                ViewTypeEnum.FORM, 55);
+                ViewTypeEnum.FORM, ViewActionConstants.redirectCreatePage.priority);
 
         // 创建 跳转更新页 viewAction
         ViewActionUtils.makeDefaultViewAction(meta, data,
@@ -55,7 +55,7 @@ public class DefaultViewActionEditor implements MetaDataEditor {
                 ViewActionConstants.redirectUpdatePage.displayName,
                 null,
                 ActionContextTypeEnum.SINGLE,
-                ViewTypeEnum.FORM, 77);
+                ViewTypeEnum.FORM, ViewActionConstants.redirectUpdatePage.priority);
 
         // 创建 跳转详情页 viewAction
         ViewActionUtils.makeDefaultViewAction(meta, data,
@@ -63,7 +63,7 @@ public class DefaultViewActionEditor implements MetaDataEditor {
                 ViewActionConstants.redirectDetailPage.displayName,
                 null,
                 ActionContextTypeEnum.SINGLE,
-                ViewTypeEnum.DETAIL, 66);
+                ViewTypeEnum.DETAIL, ViewActionConstants.redirectDetailPage.priority);
 
     }
 
