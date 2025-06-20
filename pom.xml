@@ -740,6 +740,16 @@
                 </snapshotRepository>
             </distributionManagement>
         </profile>
+        <profile>
+            <id>pre</id>
+            <distributionManagement>
+                <repository>
+                    <id>shushi</id>
+                    <name>shushi pre release repository</name>
+                    <url>http://ss.nexus.ixtx.fun/repository/pre-releases</url>
+                </repository>
+            </distributionManagement>
+        </profile>
     </profiles>
 
     <build>
