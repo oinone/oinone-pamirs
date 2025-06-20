@@ -14,6 +14,7 @@ import pro.shushi.pamirs.meta.common.util.AppClassLoader;
 import pro.shushi.pamirs.meta.enmu.MetaExpEnumerate;
 import pro.shushi.pamirs.meta.util.ClassUtils;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 import static pro.shushi.pamirs.meta.constant.ModuleFunctionConstants.ClassMetadataFunction.BEAN_NAME;
@@ -34,11 +35,11 @@ public class UxClassMetadataFetcher {
     }
 
     public UxModelEntity getClassMetadataByModel(ModelConfig modelConfig) {
-        String className = Optional.ofNullable(modelConfig)
+        String className = Optional.of(modelConfig)
                 .map(ModelConfig::getLname)
                 .orElse(null);
-        if (StringUtils.isBlank(className)) {
-            return null;
+        if (StringUtils.isBlank(className) || HashMap.class.getName().equals(className)) {
+            return UxModelEntity.wrap(modelConfig);
         }
         String module = Optional.of(modelConfig)
                 .map(ModelConfig::getModule)

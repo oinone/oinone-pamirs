@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * UxModel 实体类
@@ -106,6 +107,20 @@ public class UxModelEntity implements Serializable {
         Optional.ofNullable(AnnotationUtils.findAnnotation(clazz, UxForm.class)).map(UxFormWrapper::wrap).ifPresent(uxModel::setUxForm);
         Optional.ofNullable(AnnotationUtils.findAnnotation(clazz, UxDetail.class)).map(UxDetailWrapper::wrap).ifPresent(uxModel::setUxDetail);
         uxModel.fields = getDeclaredFields(clazz, uxModel.model);
+        return uxModel;
+    }
+
+    public static UxModelEntity wrap(ModelConfig modelConfig) {
+        UxModelEntity uxModel = new UxModelEntity();
+        uxModel.setModel(modelConfig.getModel());
+        uxModel.setFields(Optional.ofNullable(modelConfig.getModelFieldConfigList())
+                .map(v -> v.stream().map(vv -> {
+                    UxModelFieldEntity uxModelField = new UxModelFieldEntity();
+                    uxModelField.setField(vv.getField());
+                    uxModelField.setModelFieldConfig(vv);
+                    return uxModelField;
+                }).collect(Collectors.toList()))
+                .orElse(new ArrayList<>()));
         return uxModel;
     }
 
