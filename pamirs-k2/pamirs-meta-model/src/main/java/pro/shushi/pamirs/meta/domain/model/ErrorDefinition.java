@@ -49,7 +49,7 @@ public class ErrorDefinition extends MetaBaseModel {
     private String code;
 
     @Base
-    @Field.String
+    @Field.String(size = 256)
     @Field(displayName = "描述", required = true, translate = true)
     private String msg;
 
