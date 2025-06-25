@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.business.core.service;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
@@ -98,6 +99,10 @@ public class DepartmentRelEmployeeServiceImpl extends AbstractStandardModelServi
     @Function
     @Override
     public PamirsEmployee queryDepartmentSupervisor(PamirsDepartment department) {
+        if (department == null || StringUtils.isBlank(department.getCode())) {
+            log.error("部门或部门编码为空");
+            return null;
+        }
         List<DepartmentRelEmployee> rels = queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
                 .from(DepartmentRelEmployee.MODEL_MODEL)
                 .eq(DepartmentRelEmployee::getDepartmentCode, department.getCode())
