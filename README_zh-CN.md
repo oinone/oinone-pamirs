@@ -15,7 +15,12 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 |-----------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [⚡ 直达演示环境](https://demo.oinone.top)<br>☕ 账号：admin<br>☕ 密码：admin |[🎬 1. [数式Oinone] #产品化演示# 后端研发与无代码辅助](https://www.bilibili.com/video/BV1eDMizYEts/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 2. [数式Oinone] #产品化演示# 前端开发](https://www.bilibili.com/video/BV1DoMizbECt/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 3. [数式Oinone] #个性化二开# 后端逻辑](https://www.bilibili.com/video/BV1RDMizYELg/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 4. [数式Oinone] #个性化二开# 前端交互](https://www.bilibili.com/video/BV1eDMizYED1/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 5. [数式Oinone] #个性化二开# 无代码模式](https://www.bilibili.com/video/BV1eDMizYEdF/?vd_source=ee004011d0afa992f50d15c8738450b3)|
 
-### 4、快速入门
+### 4、专属福利 🎁
+| 二维码 | 领取步骤                                                                                                   |
+|-----|--------------------------------------------------------------------------------------------------------|
+|<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/Oinone%E5%B0%8F%E5%8A%A9%E6%89%8B.png" alt="Assistant" width="150"><br>| 1. ⭐ Star 本项目<br>2. 扫码左侧二维码添加小助手<br>3. 截图（已 Star 凭证）发给小助手<br>4. 小助手邀请 Star 用户进入专属交流群<br>5. 限时申请企业版试用授权 |
+
+### 5、快速入门
 - [安装与升级](https://guide.oinone.top/zh-cn/InstallOrUpgrade/)
   - [环境准备](https://guide.oinone.top/zh-cn/InstallOrUpgrade/Dev-ENV/)
   - [社区版：源码安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/CommunityEdition/source-code-installation.html)
@@ -40,7 +45,7 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
   - [章节 14：产品的个性化开发（Customized Features）](https://guide.oinone.top/zh-cn/DevManual/Tutorials/Back-endFramework/chapter14-customized-features.html)
 - [调试工具](https://guide.oinone.top/zh-cn/DevManual/Tutorials/debug-tools.html)
 
-### 5、工程概览
+### 6、工程概览
 | Package                     | 内容            |
 |-----------------------------|---------------|
 | 📦 pamirs-k2                | 🌟 后端元数据核心功能  |
@@ -52,7 +57,7 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 | 📦 pamirs-core              | 🌟 后端基础功能包    |
 | 📦 pamirs-middleware        | 🌟 后端中间件功能包   |
 
-### 6. 文档链接
+### 7. 文档链接
 - [📗 安装与升级](https://guide.oinone.top/zh-cn/InstallOrUpgrade)
 - [📗 用户手册](https://guide.oinone.top/zh-cn/UserManual/)
 - [📗 研发手册](https://guide.oinone.top/zh-cn/DevManual/)
@@ -61,27 +66,26 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 - [📗 常见解决方案](https://guide.oinone.top/zh-cn/DevManual/CommonSolutions)
 - [📗 常见问题](https://guide.oinone.top/zh-cn/DevManual/FAQ)
 
-### 7、开发注意事项
+### 8、开发注意事项
 Idea 导入工程后确保激活 Profile：打开 `Maven` 工具栏并且激活 `tools` Profile。<br>
 <img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/tools-profile.png" alt="Tools Profile" width="500">
 
-### 8、产品体系
+### 9、产品体系
 全方位覆盖产品研发及实施所需。
 ![产品体系](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/%E4%BA%A7%E5%93%81%E4%BD%93%E7%B3%BB1.png "产品体系")
 ![产品体系](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/%E4%BA%A7%E5%93%81%E4%BD%93%E7%B3%BB2.png "产品体系")
 
-### 9、核心特性
+### 10、核心特性
 ![核心特性](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7.png)
 
-### 10、许可协议
+### 11、许可协议
 - Oinone Pamirs 遵循 AGPL-3.0 协议。
 - [第三方开源软件及许可说明](https://guide.oinone.top/en/Third-Party-Open-Source-Software-And-License-Notice.html)
 
-### 11、如何参与
+### 12、如何参与
 - 参与社区：您可以前往 <a href="https://doc.oinone.top/" target="_blank" rel="noopener noreferrer">⚡Oinone 社区</a> 与大家互动哦❤️
 - <a href="https://guide.oinone.top/zh-cn/Contribute" target="_blank" rel="noopener noreferrer">参与贡献</a>
 
-### 12、联系我们
+### 13、联系我们
 - 官网：https://www.oinone.top
 - 邮箱：oinone@shushi.pro
-- 小助手：![assistant](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/Oinone%E5%B0%8F%E5%8A%A9%E6%89%8B.png)
