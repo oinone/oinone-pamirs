@@ -57,7 +57,7 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 | 📦 pamirs-core              | 🌟 后端基础功能包    |
 | 📦 pamirs-middleware        | 🌟 后端中间件功能包   |
 
-### 7. 文档链接
+### 7、文档链接
 - [📗 安装与升级](https://guide.oinone.top/zh-cn/InstallOrUpgrade)
 - [📗 用户手册](https://guide.oinone.top/zh-cn/UserManual/)
 - [📗 研发手册](https://guide.oinone.top/zh-cn/DevManual/)
