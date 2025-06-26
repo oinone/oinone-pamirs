@@ -1,13 +1,19 @@
 package pro.shushi.pamirs.message.enmu;
 
+import pro.shushi.pamirs.boot.base.enmu.BaseExpEnumerate;
 import pro.shushi.pamirs.meta.annotation.Errors;
 import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
 
 @Errors(displayName = "消息模块错误枚举")
 public enum MessageExpEnumerate implements ExpBaseEnum {
 
-    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10060000, "系统异常"),
+    /**
+     * @deprecated 6.3.0 please using {@link BaseExpEnumerate#BASE_USER_NOT_LOGIN_ERROR}
+     */
+    @Deprecated
     MAIL_USER_NOT_LOGIN(ERROR_TYPE.BIZ_ERROR, 20080002, "用户未登录"),
+
+    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10060000, "系统异常"),
     MAIL_SQL_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10060001, "数据库查询异常"),
     MAIL_CLIENT_ARG_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10060002, "前端传参异常"),
     MAIL_SMS_TEMPLATE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10060003, "短信发送失败: 没有找到短信模板"),
