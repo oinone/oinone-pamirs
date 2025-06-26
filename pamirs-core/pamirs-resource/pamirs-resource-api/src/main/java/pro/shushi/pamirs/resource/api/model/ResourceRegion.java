@@ -52,6 +52,11 @@ public class ResourceRegion extends BaseResourceModel {
     @Field(displayName = "所属国家编码")
     private String countryCode;
 
+    @Field.many2one
+    @Field.Relation(relationFields = "pCode", referenceFields = {"code"})
+    @Field(displayName = "父节点")
+    private ResourceRegion parent;
+
     @Field.one2many
     @Field.Relation(relationFields = "id", referenceFields = "pid")
     @Field(displayName = "子节点")
