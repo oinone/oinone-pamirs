@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
         <artifactId>pamirs-middleware-schedule</artifactId>
-        <version>6.2.4</version>
+        <version>6.2.5</version>
     </parent>
     <artifactId>pamirs-middleware-schedule-core</artifactId>
     <name>pamirs-middleware-schedule-core</name>
@@ -37,10 +37,6 @@
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
         <dependency>
