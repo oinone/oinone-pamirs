@@ -13,18 +13,37 @@
             <field span="2" name="description" model="business.PamirsDepartment" data="description" label="备注"/>
             <field span="1" name="dataStatus" model="business.PamirsDepartment" data="dataStatus" label="数据状态"/>
         </pack>
-        <pack widget="group" title="岗位列表">
-            <field name="positionList" widget="Table" model="business.PamirsDepartment" data="positionList" label="false">
-                <view widget="table" model="business.PamirsPosition" excluded-actions="$$internal_GotoO2MCreateDialog,$$internal_GotoO2MEditDialog,$$internal_DeleteOne">
-                    <template slot="fields">
-                        <field name="id" invisible="true" model="business.PamirsPosition" data="id"/>
-                        <field name="code" model="business.PamirsPosition" data="code" label="岗位编码"/>
-                        <field name="name" model="business.PamirsPosition" data="name" label="岗位名称"/>
-                        <field name="parent" model="business.PamirsPosition" data="parent" label="直属岗位"/>
-                        <field name="parentCode" model="business.PamirsPosition" data="parentCode" label="直属岗位编码"/>
-                    </template>
-                </view>
-            </field>
+        <pack widget="tabs">
+            <pack widget="table" title="岗位列表">
+                <field name="positionList" widget="Table" model="business.PamirsDepartment" data="positionList" label="false">
+                    <view widget="table" model="business.PamirsPosition" excluded-actions="$$internal_GotoO2MCreateDialog,$$internal_GotoO2MEditDialog,$$internal_DeleteOne">
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="business.PamirsPosition" data="id"/>
+                            <field name="code" model="business.PamirsPosition" data="code" label="岗位编码"/>
+                            <field name="name" model="business.PamirsPosition" data="name" label="岗位名称"/>
+                            <field name="parent" model="business.PamirsPosition" data="parent" label="直属岗位"/>
+                            <field name="parentCode" model="business.PamirsPosition" data="parentCode" label="直属岗位编码"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack title="员工列表" widget="tab">
+                <field data="employeeRelList" widget="Table" name="employeeRelList" model="business.PamirsDepartment" labelInvisible="true" load="false">
+                    <view model="business.DepartmentRelEmployeeProxy" type="table">
+                        <template slot="table">
+                            <field data="employeeId" label="员工id" invisible="true"/>
+                            <field data="employeeCode" label="员工编码"/>
+                            <field data="employeeName" label="员工名称"/>
+                            <field data="employeeDepartment" label="所属主部门"/>
+                            <field data="employeeDefaultBindingUser" label="绑定用户"/>
+                            <field data="supervisor" label="是否为部门主管"/>
+                            <field data="departmentCode" invisible="true"/>
+                            <field data="departmentType" invisible="true"/>
+                            <field data="employeeType" invisible="true"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
         </pack>
     </template>
 </view>

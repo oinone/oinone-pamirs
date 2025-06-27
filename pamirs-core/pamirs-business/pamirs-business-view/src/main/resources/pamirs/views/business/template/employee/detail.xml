@@ -17,14 +17,16 @@
             <field span="1" name="login" model="business.PamirsEmployee" data="login" label="登录账号" required="true" readonly="activeRecord.id"/>
         </pack>
         <pack widget="group" title="所属部门列表">
-            <field name="departmentList" widget="Table" model="business.PamirsEmployee" data="departmentList" label="false">
-                <view widget="table" model="business.PamirsDepartment" excluded-actions="$$internal_GotoO2MCreateDialog,$$internal_GotoO2MEditDialog,$$internal_DeleteOne">
+            <field name="departmentRelList" widget="Table" model="business.PamirsEmployee" data="departmentRelList" label="false">
+                <view widget="table" model="business.DepartmentRelEmployeeProxy" excluded-actions="$$internal_GotoO2MCreateDialog,$$internal_GotoO2MEditDialog,$$internal_DeleteOne">
                     <template slot="fields">
-                        <field name="id" invisible="true" model="business.PamirsDepartment" data="id"/>
-                        <field name="code" model="business.PamirsDepartment" data="code" label="部门编码"/>
-                        <field name="name" model="business.PamirsDepartment" data="name" label="部门名称"/>
-                        <field name="parent" model="business.PamirsDepartment" data="parent" label="上级部门"/>
-                        <field name="parentCode" model="business.PamirsDepartment" data="parentCode" label="上级部门编码"/>
+                        <field data="employeeCode" invisible="true"/>
+                        <field data="departmentId" label="部门id" invisible="true"/>
+                        <field data="departmentCode" label="部门编码"/>
+                        <field data="departmentName" label="部门名称"/>
+                        <field data="parentDepartment" label="上级部门"/>
+                        <field data="supervisor" label="是否为部门主管"/>
+                        <field data="immediateSupervisor" label="直属主管"/>
                     </template>
                 </view>
             </field>

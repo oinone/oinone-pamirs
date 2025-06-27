@@ -10,7 +10,7 @@ import pro.shushi.pamirs.meta.base.BaseRelation;
  */
 @Model.model(DepartmentRelEmployee.MODEL_MODEL)
 @Model(displayName = "部门员工关系表")
-@Model.Advanced(index = {"departmentCode,departmentType", "employeeCode,employeeType"})
+@Model.Advanced(index = {"departmentCode,departmentType", "employeeCode,employeeType"}, ordering = "supervisor DESC")
 public class DepartmentRelEmployee extends BaseRelation {
 
     private static final long serialVersionUID = 5716595089649781301L;

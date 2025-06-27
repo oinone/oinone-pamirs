@@ -9,7 +9,6 @@ import pro.shushi.pamirs.business.api.enumeration.BusinessExpEnumerate;
 import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsPosition;
-import pro.shushi.pamirs.business.api.pmodel.DepartmentRelEmployeeProxy;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeProxyService;
 import pro.shushi.pamirs.business.api.service.PamirsDepartmentService;
 import pro.shushi.pamirs.core.common.behavior.impl.TreeCodeBehavior;
@@ -25,7 +24,6 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.enmu.SequenceEnum;
 
 import java.time.Instant;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -91,12 +89,6 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         department = department.fieldQuery(PamirsDepartment::getPositionList);
         department = department.fieldQuery(PamirsDepartment::getEmployeeList);
         department = department.fieldQuery(PamirsDepartment::getEmployeeRelList);
-        if (CollectionUtils.isNotEmpty(department.getEmployeeList())) {
-            department.setEmployeeRelList(department.getEmployeeRelList().stream().sorted(Comparator.comparing(
-                    DepartmentRelEmployeeProxy::getSupervisor,
-                    Comparator.nullsLast(Comparator.comparing(Boolean::booleanValue).reversed())
-            )).collect(Collectors.toList()));
-        }
         return department;
     }
 
