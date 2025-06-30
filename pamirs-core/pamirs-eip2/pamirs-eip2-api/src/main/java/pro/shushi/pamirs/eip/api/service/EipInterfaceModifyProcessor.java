@@ -6,5 +6,5 @@ import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 @FunctionalInterface
 public interface EipInterfaceModifyProcessor {
 
-    void accept(InterfaceTypeEnum interfaceType, IEipApi eipApi, Boolean isEnable);
+    void accept(InterfaceTypeEnum interfaceType, IEipApi eipApi, Boolean isEnable, Boolean isIgnoreLogConfig);
 }

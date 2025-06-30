@@ -52,7 +52,7 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.registerConsumer = (interfaceType, eipApi, isEnable) -> {
+        this.registerConsumer = (interfaceType, eipApi, isEnable, isIgnoreLogConfig) -> {
             switch (interfaceType) {
                 case INTEGRATION:
                     interfaceService.registerInterface((EipIntegrationInterface) eipApi);
@@ -65,7 +65,7 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
                     break;
             }
         };
-        this.cancellationConsumer = (interfaceType, eipApi, isEnable) -> {
+        this.cancellationConsumer = (interfaceType, eipApi, isEnable, isIgnoreLogConfig) -> {
             switch (interfaceType) {
                 case INTEGRATION:
                     interfaceService.cancellationInterface((EipIntegrationInterface) eipApi);
@@ -85,11 +85,11 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
     }
 
     private void updateInterface(ChildData childData) {
-        processInterfaceModify(childData, (interfaceType, eipApi, isEnable) -> {
+        processInterfaceModify(childData, (interfaceType, eipApi, isEnable, isIgnoreLogConfig) -> {
             if (isEnable) {
-                registerConsumer.accept(interfaceType, eipApi, Boolean.TRUE);
+                registerConsumer.accept(interfaceType, eipApi, Boolean.TRUE, isIgnoreLogConfig);
             } else {
-                cancellationConsumer.accept(interfaceType, eipApi, Boolean.FALSE);
+                cancellationConsumer.accept(interfaceType, eipApi, Boolean.FALSE, isIgnoreLogConfig);
             }
         });
     }
@@ -134,7 +134,9 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
         }
         byte[] data = childData.getData();
         Boolean isEnable = null;
-        if (data != null && data.length == 1) {
+        // 忽略日志频率配置
+        Boolean isIgnoreLogConfig = null;
+        if (data != null && data.length == 2) {
             //此处仅处理有效数据变更
             byte data0 = data[0];
             if (data0 == EipDistributionSupport.ENABLED[0]) {
@@ -142,10 +144,16 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
             } else if (data0 == EipDistributionSupport.DISABLED[0]) {
                 isEnable = Boolean.FALSE;
             }
+            byte data1 = data[1];
+            if (data1 == EipDistributionSupport.ENABLED[0]) {
+                isIgnoreLogConfig = Boolean.TRUE;
+            } else if (data1 == EipDistributionSupport.DISABLED[0]) {
+                isIgnoreLogConfig = Boolean.FALSE;
+            }
         }
-        if (isEnable != null) {
+        if (isEnable != null && isIgnoreLogConfig != null) {
             //当有效数据变更时调用指定处理逻辑
-            consumer.accept(interfaceType, eipApi, isEnable);
+            consumer.accept(interfaceType, eipApi, isEnable, isIgnoreLogConfig);
         }
     }
 
