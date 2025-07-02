@@ -3,6 +3,7 @@ package pro.shushi.pamirs.framework.orm.api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.compute.definition.ValueComputer;
 import pro.shushi.pamirs.meta.api.core.orm.convert.DataConverter;
@@ -22,6 +23,7 @@ import java.util.List;
  * @version 1.0.0
  * date 2020/1/18 2:11 下午
  */
+@Slf4j
 @Component
 public class DefaultConstructApi implements ConstructApi {
 
@@ -32,6 +34,10 @@ public class DefaultConstructApi implements ConstructApi {
     public <T> T construct(T data) {
         String model = Models.api().getModel(data);
         ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
+        if (modelConfig == null) {
+            log.error("Invalid model config. model: {}", model);
+            return data;
+        }
         // 计算字段默认值
         if (!CollectionUtils.isEmpty(modelConfig.getModelFieldConfigList())) {
             ValueComputer defaultValueComputer = ValueComputer.get();

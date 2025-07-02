@@ -130,6 +130,12 @@
                 <artifactId>pamirs-sequence-generator</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.zookeeper</groupId>
+                <artifactId>pamirs-middleware-zookeeper-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

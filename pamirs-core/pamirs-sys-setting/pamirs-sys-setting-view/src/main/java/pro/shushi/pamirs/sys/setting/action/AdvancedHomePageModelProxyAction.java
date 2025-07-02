@@ -1,7 +1,7 @@
 package pro.shushi.pamirs.sys.setting.action;
 
-import com.alibaba.nacos.common.utils.StringUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.proxy.AdvancedHomePageModelProxy;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;

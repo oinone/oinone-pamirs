@@ -3,8 +3,11 @@ package pro.shushi.pamirs.sequence.manager;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.domain.model.SequenceConfig;
 import pro.shushi.pamirs.meta.enmu.SequenceEnum;
+import pro.shushi.pamirs.sequence.enmu.ExpEnumBid;
 import pro.shushi.pamirs.sequence.model.LeafAlloc;
 import pro.shushi.pamirs.sequence.utils.ZeroingPeriodUtils;
 
@@ -14,6 +17,7 @@ import java.util.Map;
  * @author drome
  * @date 2021/8/129:02 下午
  */
+@Slf4j
 @Component
 public class LeafAllocInitManager {
 
@@ -58,6 +62,10 @@ public class LeafAllocInitManager {
                 }
                 break;
             }
+        }
+        if (leafAlloc.getMaxId() == null) {
+            log.error("max id is null. please check sequence is valid. code: {}", code);
+            throw PamirsException.construct(ExpEnumBid.SEQUENCE_TYPE_ERROR).errThrow();
         }
         //如果配置了起始值,则累加
         Long initial = sequenceConfig.getInitial();

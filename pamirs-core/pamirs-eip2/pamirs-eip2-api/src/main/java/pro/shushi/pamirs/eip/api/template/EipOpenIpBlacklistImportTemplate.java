@@ -1,7 +1,7 @@
 package pro.shushi.pamirs.eip.api.template;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.nacos.common.utils.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

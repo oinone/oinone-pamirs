@@ -41,11 +41,6 @@ public class RemoteFunctionServiceImpl implements FunctionService {
 
     private Object execute0(FunctionDefinition<?> functionDefinition, Object... args) {
         return getRemoteInvokeApi().invoke(functionDefinition, args);
-//        ScheduleRemoteRegistryApi remoteRegistryApi = getRemoteRegistryApi();
-//        ScheduleRemoteArgumentHandleApi remoteArgumentHandleApi = getRemoteArgumentHandleApi();
-//        GenericService genericService = remoteRegistryApi.registryConsumer(functionDefinition);
-//        Object res = genericService.$invoke(remoteRegistryApi.getGenericServiceMethodName(functionDefinition), remoteRegistryApi.getParameterTypes(functionDefinition), args);
-//        return remoteArgumentHandleApi.responseHandle(functionDefinition, res);
     }
 
 }

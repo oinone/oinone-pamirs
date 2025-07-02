@@ -154,6 +154,9 @@ public class MetadataUpgradeChecker {
     private static boolean lock() {
         return lockHolder.supply(() -> {
             ZookeeperService zookeeperService = getZookeeperService();
+            if (zookeeperService == null) {
+                return true;
+            }
             try {
                 String path = getUpgradeCheckerLockPath();
                 byte[] data = zookeeperService.getData(path);
@@ -171,9 +174,13 @@ public class MetadataUpgradeChecker {
     }
 
     private static void unlock() {
+        ZookeeperService zookeeperService = getZookeeperService();
+        if (zookeeperService == null) {
+            return;
+        }
         if (lock()) {
             try {
-                getZookeeperService().delete(getUpgradeCheckerLockPath());
+                zookeeperService.delete(getUpgradeCheckerLockPath());
             } catch (Exception e) {
                 log.warn("upgrade checker release lock error.", e);
             }

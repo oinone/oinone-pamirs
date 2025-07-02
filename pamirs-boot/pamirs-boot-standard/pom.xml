@@ -40,8 +40,8 @@
         </dependency>
 
         <dependency>
-            <groupId>pro.shushi.pamirs.framework</groupId>
-            <artifactId>pamirs-connectors-zookeeper</artifactId>
+            <groupId>pro.shushi.pamirs.middleware.zookeeper</groupId>
+            <artifactId>pamirs-middleware-zookeeper-api</artifactId>
         </dependency>
 
         <dependency>

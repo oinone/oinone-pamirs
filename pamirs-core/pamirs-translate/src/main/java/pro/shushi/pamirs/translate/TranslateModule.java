@@ -22,8 +22,11 @@ import pro.shushi.pamirs.resource.api.model.ResourceTranslation;
         name = TranslateModule.MODULE_NAME,
         displayName = "翻译",
         version = "5.0.0",
-        dependencies = {ModuleConstants.MODULE_BASE, ResourceModule.MODULE_MODULE,
-                FileModule.MODULE_MODULE}
+        dependencies = {
+                ModuleConstants.MODULE_BASE,
+                ResourceModule.MODULE_MODULE,
+                FileModule.MODULE_MODULE
+        }
 )
 @Module.module(TranslateModule.MODULE_MODULE)
 @Module.Advanced(

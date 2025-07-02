@@ -3,7 +3,6 @@ package pro.shushi.pamirs.trigger.annotation;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.middleware.schedule.eunmeration.TaskType;
 import pro.shushi.pamirs.trigger.enmu.TriggerConditionEnum;
-import pro.shushi.pamirs.trigger.model.TriggerTaskAction;
 
 import java.lang.annotation.*;
 
