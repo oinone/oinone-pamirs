@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.eip.jdbc.service.impl;
+package pro.shushi.pamirs.eip.jdbc.service.checker;
 
 import com.alibaba.druid.sql.ast.SQLStatement;
 import pro.shushi.pamirs.eip.jdbc.entity.SQLPrepareEntity;

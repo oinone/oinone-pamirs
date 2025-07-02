@@ -10,6 +10,7 @@ import pro.shushi.pamirs.eip.api.excel.EipExcel;
 import pro.shushi.pamirs.eip.api.excel.EipExcelHead;
 import pro.shushi.pamirs.eip.api.excel.EipExcelSheet;
 import pro.shushi.pamirs.eip.api.model.EipCallParam;
+import pro.shushi.pamirs.eip.api.model.connector.ConnDbType;
 import pro.shushi.pamirs.eip.api.model.connector.EipConnector;
 import pro.shushi.pamirs.eip.api.model.connector.EipConnectorResource;
 import pro.shushi.pamirs.eip.api.service.model.EipConnectorResourceService;
@@ -135,8 +136,21 @@ public class EipConnectorResourceServiceImpl implements EipConnectorResourceServ
 
         List<ModelField> mockFields = new ArrayList<>();
         try {
+            connector.fieldQuery(EipConnector::getDbType);
             String jdbcUrl = DbConnectionUtils.buildUrl(connector);
-            Class.forName(connector.getConnDBType().getDriver());
+            ConnDbType dbType = connector.getDbType();
+            if (null == dbType) {
+                log.error("未获取数据库类型");
+                return new ArrayList<>();
+            }
+
+            String driver = dbType.getDriver();
+            if (StringUtils.isBlank(driver)) {
+                log.error("未获取数据库驱动");
+                return new ArrayList<>();
+            }
+
+            Class.forName(driver);
             DriverManager.setLoginTimeout(50);
             Map<String, String> colMap = new HashMap<>();
             try (Connection conn = DriverManager.getConnection(jdbcUrl, connector.getUser(), connector.getPassword());
