@@ -6,15 +6,15 @@ import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipLogStrategy;
 import pro.shushi.pamirs.eip.api.service.EipLogStrategyService;
 import pro.shushi.pamirs.eip.api.service.EipRemoteExecuteService;
+import pro.shushi.pamirs.eip.api.util.EipInitializationUtil;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
+import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -66,6 +66,29 @@ public class EipLogStrategyServiceImpl implements EipLogStrategyService {
         strategy.setIsIgnoreFrequency(true);
         strategy = strategy.queryOne();
         return strategy != null;
+    }
+
+    @Override
+    @Function
+    public Set<String> queryEnableIgnoreLogConfig(List<String> interfaceNameList) {
+        if (CollectionUtils.isEmpty(interfaceNameList)) {
+            return Collections.emptySet();
+        }
+        IWrapper<EipLogStrategy> queryWrapper = Pops.<EipLogStrategy>lambdaQuery().from(EipLogStrategy.MODEL_MODEL)
+                .eq(EipLogStrategy::getIsIgnoreFrequency, true)
+                .isNotNull(EipLogStrategy::getInterfaceType)
+                .in(EipLogStrategy::getInterfaceName, interfaceNameList);
+        List<EipLogStrategy> eipLogStrategyList = Models.data().queryListByWrapper(queryWrapper);
+
+        Set<String> result = new HashSet<>();
+        for (EipLogStrategy eipLogStrategy : eipLogStrategyList) {
+            if (InterfaceTypeEnum.OPEN.equals(eipLogStrategy.getInterfaceType())) {
+                result.add(EipInitializationUtil.generatorOpenApiRouteId(eipLogStrategy.getInterfaceName()));
+            } else {
+                result.add(EipInitializationUtil.generatorIntegrationInterfaceRouteId(eipLogStrategy.getInterfaceName()));
+            }
+        }
+        return result;
     }
 
     private EipLogStrategy build(String interfaceName, InterfaceTypeEnum interfaceType) {

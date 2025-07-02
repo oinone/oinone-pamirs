@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.IEipApi;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
+import pro.shushi.pamirs.eip.api.model.AbstractEipApi;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.model.EipRouteDefinition;
@@ -52,7 +53,7 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.registerConsumer = (interfaceType, eipApi, isEnable, isIgnoreLogConfig) -> {
+        this.registerConsumer = (interfaceType, eipApi, isEnable) -> {
             switch (interfaceType) {
                 case INTEGRATION:
                     interfaceService.registerInterface((EipIntegrationInterface) eipApi);
@@ -65,7 +66,7 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
                     break;
             }
         };
-        this.cancellationConsumer = (interfaceType, eipApi, isEnable, isIgnoreLogConfig) -> {
+        this.cancellationConsumer = (interfaceType, eipApi, isEnable) -> {
             switch (interfaceType) {
                 case INTEGRATION:
                     interfaceService.cancellationInterface((EipIntegrationInterface) eipApi);
@@ -85,11 +86,11 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
     }
 
     private void updateInterface(ChildData childData) {
-        processInterfaceModify(childData, (interfaceType, eipApi, isEnable, isIgnoreLogConfig) -> {
+        processInterfaceModify(childData, (interfaceType, eipApi, isEnable) -> {
             if (isEnable) {
-                registerConsumer.accept(interfaceType, eipApi, Boolean.TRUE, isIgnoreLogConfig);
+                registerConsumer.accept(interfaceType, eipApi, Boolean.TRUE);
             } else {
-                cancellationConsumer.accept(interfaceType, eipApi, Boolean.FALSE, isIgnoreLogConfig);
+                cancellationConsumer.accept(interfaceType, eipApi, Boolean.FALSE);
             }
         });
     }
@@ -152,8 +153,9 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
             }
         }
         if (isEnable != null && isIgnoreLogConfig != null) {
+            ((AbstractEipApi)eipApi).setIsIgnoreLogFrequency(isIgnoreLogConfig);
             //当有效数据变更时调用指定处理逻辑
-            consumer.accept(interfaceType, eipApi, isEnable, isIgnoreLogConfig);
+            consumer.accept(interfaceType, eipApi, isEnable);
         }
     }
 
