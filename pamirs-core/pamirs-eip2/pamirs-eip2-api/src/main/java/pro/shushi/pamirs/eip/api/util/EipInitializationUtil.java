@@ -18,9 +18,9 @@ public class EipInitializationUtil {
 
     private final EipCamelContext context;
 
-    private static final String INTEGRATION_API_ID_PREFIX = "integration-api-";
+    public static final String INTEGRATION_API_ID_PREFIX = "integration-api-";
 
-    private static final String OPEN_API_ID_PREFIX = "openapi-";
+    public static final String OPEN_API_ID_PREFIX = "openapi-";
 
     private EipInitializationUtil(EipCamelContext context) {
         this.context = context;
