@@ -153,13 +153,14 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
             try {
                 String routePath;
                 for (RouteDefinition routeDefinition : routeDefinitionList) {
-                    String interfaceName = routeDefinition.getId();
-                    InterfaceTypeEnum interfaceType = EipHelper.getInterfaceType(interfaceName);
+                    String routeDefinitionId = routeDefinition.getId();
+                    InterfaceTypeEnum interfaceType = EipHelper.getInterfaceType(routeDefinitionId);
+                    String interfaceName = EipInitializationUtil.parseInterfaceNameByRouteId(routeDefinitionId);
                     routePath = rootPath + CharacterConstants.SEPARATOR_SLASH + interfaceType.getValue() + CharacterConstants.SEPARATOR_SLASH + interfaceName;
 
                     byte[] initialData = new byte[2];
                     initialData[0] = ENABLED[0];
-                    initialData[1] = enableIgnoreLogConfigs.contains(interfaceName) ? ENABLED[0] : DISABLED[0];
+                    initialData[1] = enableIgnoreLogConfigs.contains(routeDefinitionId) ? ENABLED[0] : DISABLED[0];
 
                     this.zookeeperService.createOrUpdateData(routePath, initialData, EipDistributionSupport.DEFAULT_COMPARATOR);
                 }
