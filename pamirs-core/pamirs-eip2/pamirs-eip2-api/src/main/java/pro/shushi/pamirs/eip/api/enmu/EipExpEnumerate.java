@@ -110,11 +110,11 @@ public enum EipExpEnumerate implements ExpBaseEnum {
     EIP_RATE_LIMIT_TIP(ERROR_TYPE.BIZ_ERROR, 10051101, "Too Many Requests - 请求频率超限，请稍后重试"),
     EIP_X_READ_IP_NULL(ERROR_TYPE.BIZ_ERROR, 10051102, "未获取到真实IP地址");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     EipExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;
