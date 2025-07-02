@@ -3,6 +3,12 @@ package pro.shushi.pamirs.boot.base.constants;
 /**
  * 视图动作常量
  * <p>
+ *     <ul>
+ *         <li>表格表头动作：创建(55) | 删除(66) | 导入(77) | 导出(78) | 打印(88)</li>
+ *         <li>表格行内动作：详情(66) | 编辑(77)</li>
+ *         <li>表单/详情表头动作：返回(99) | 创建(100) | 更新(100)</li>
+ *     </ul>
+ * <p>
  * 2020/11/16 7:48 下午
  *
  * @author d@shushi.pro
@@ -62,6 +68,10 @@ public interface ViewActionConstants {
          * 标题
          */
         String title = "创建";
+        /**
+         * 优先级
+         */
+        int priority = 55;
     }
 
     /**
@@ -80,6 +90,10 @@ public interface ViewActionConstants {
          * 标题
          */
         String title = "编辑";
+        /**
+         * 优先级
+         */
+        int priority = 77;
     }
 
     /**
@@ -98,6 +112,10 @@ public interface ViewActionConstants {
          * 标题
          */
         String title = "详情";
+        /**
+         * 优先级
+         */
+        int priority = 66;
     }
 
     /**
@@ -175,6 +193,10 @@ public interface ViewActionConstants {
         String displayName = "导入";
         String title = "导入";
         String type = "default";
+        /**
+         * 优先级
+         */
+        int priority = 77;
     }
 
     /**
@@ -185,6 +207,10 @@ public interface ViewActionConstants {
         String displayName = "导出";
         String title = "导出";
         String type = "default";
+        /**
+         * 优先级
+         */
+        int priority = 78;
     }
 
     /**
@@ -195,5 +221,9 @@ public interface ViewActionConstants {
         String displayName = "打印";
         String title = "打印";
         String type = "default";
+        /**
+         * 优先级
+         */
+        int priority = 88;
     }
 }

@@ -8,7 +8,7 @@
     <artifactId>pamirs</artifactId>
     <name>oinone-pamirs</name>
     <packaging>pom</packaging>
-    <version>6.2.2</version>
+    <version>6.2.5</version>
     <description>oinone pamirs</description>
     <url>https://github.com/oinone</url>
 
@@ -40,7 +40,6 @@
         <commons.beanutils.version>1.9.3</commons.beanutils.version>
         <gson.version>2.8.9</gson.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <mysql.connector.version>8.0.16</mysql.connector.version>
         <druid.version>1.1.21</druid.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <sharding-sphere.version>5.0.0-alpha</sharding-sphere.version>
@@ -59,6 +58,9 @@
         <xpp3.version>1.1.4c</xpp3.version>
 
         <dubbo.version>2.7.22</dubbo.version>
+        <groovy.version>2.5.8</groovy.version>
+        <kryo.version>5.0.3</kryo.version>
+        <kryo-serializers.version>0.45</kryo-serializers.version>
         <spring.boot.version>2.3.8.RELEASE</spring.boot.version>
         <spring.cloud.version>Hoxton.SR10</spring.cloud.version>
         <spring-cloud-alibaba.version>2.2.7.RELEASE</spring-cloud-alibaba.version>
@@ -205,13 +207,6 @@
                 <version>${spring.boot.version}</version>
             </dependency>
 
-            <!--MySQL Support-->
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.connector.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
@@ -265,6 +260,11 @@
             </dependency>
 
             <!-- config -->
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-api</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
@@ -418,13 +418,13 @@
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
-                <version>2.5.8</version>
+                <version>${groovy.version}</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy</artifactId>
-                <version>2.5.8</version>
+                <version>${groovy.version}</version>
             </dependency>
 
             <!-- mvel -->
@@ -438,12 +438,12 @@
             <dependency>
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>kryo</artifactId>
-                <version>5.0.3</version>
+                <version>${kryo.version}</version>
             </dependency>
             <dependency>
                 <groupId>de.javakaffee</groupId>
                 <artifactId>kryo-serializers</artifactId>
-                <version>0.45</version>
+                <version>${kryo-serializers.version}</version>
             </dependency>
 
             <!-- apache -->
@@ -738,6 +738,16 @@
                     <name>shushi snapshot repository</name>
                     <url>http://nexus.shushi.pro/repository/pamirs-snapshots/</url>
                 </snapshotRepository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>pre</id>
+            <distributionManagement>
+                <repository>
+                    <id>shushi</id>
+                    <name>shushi pre release repository</name>
+                    <url>http://ss.nexus.ixtx.fun/repository/pre-releases</url>
+                </repository>
             </distributionManagement>
         </profile>
     </profiles>

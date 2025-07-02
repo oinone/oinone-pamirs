@@ -11,7 +11,6 @@ import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
  * @version 1.0.0
  * date 2020/1/15 2:41 下午
  */
-@SPI(factory = SpringServiceLoaderFactory.class)
 public interface MainThreadSessionClearApi extends CommonApi {
 
     /**

@@ -7,7 +7,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-sys-setting</artifactId>
-        <version>6.2.2</version>
+        <version>6.2.5</version>
     </parent>
 
     <artifactId>pamirs-sys-setting-core</artifactId>
@@ -17,10 +17,6 @@
         <dependency>
             <groupId>pro.shushi.pamirs.core</groupId>
             <artifactId>pamirs-sys-setting-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>pro.shushi.pamirs.boot</groupId>
-            <artifactId>pamirs-boot-api</artifactId>
         </dependency>
     </dependencies>
 </project>

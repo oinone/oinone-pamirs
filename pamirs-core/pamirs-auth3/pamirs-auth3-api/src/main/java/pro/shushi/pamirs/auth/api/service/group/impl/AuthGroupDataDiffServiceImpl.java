@@ -373,13 +373,15 @@ public class AuthGroupDataDiffServiceImpl implements AuthGroupDataDiffService {
 
         if (!createFieldPermissions.isEmpty()) {
             createFieldPermissions = authFieldPermissionService.createBatch(createFieldPermissions);
-            MemoryListSearchCache<String, AuthFieldPermission> createFieldPermissionCache = new MemoryListSearchCache<>(createFieldPermissions, AuthFieldPermission::getCode);
-            for (AuthGroupFieldPermission lazyGroupFieldPermission : lazyGroupFieldPermissions) {
-                String code = lazyGroupFieldPermission.getPermissionCode();
-                AuthFieldPermission fieldPermission = createFieldPermissionCache.get(code);
-                lazyGroupFieldPermission.setPermissionId(fieldPermission.getId());
-                lazyGroupFieldPermission.setPermission(fieldPermission);
-                groupFieldPermissions.add(lazyGroupFieldPermission);
+            if (CollectionUtils.isNotEmpty(createFieldPermissions)) {
+                MemoryListSearchCache<String, AuthFieldPermission> createFieldPermissionCache = new MemoryListSearchCache<>(createFieldPermissions, AuthFieldPermission::getCode);
+                for (AuthGroupFieldPermission lazyGroupFieldPermission : lazyGroupFieldPermissions) {
+                    String code = lazyGroupFieldPermission.getPermissionCode();
+                    AuthFieldPermission fieldPermission = createFieldPermissionCache.get(code);
+                    lazyGroupFieldPermission.setPermissionId(fieldPermission.getId());
+                    lazyGroupFieldPermission.setPermission(fieldPermission);
+                    groupFieldPermissions.add(lazyGroupFieldPermission);
+                }
             }
         }
         return groupFieldPermissions;

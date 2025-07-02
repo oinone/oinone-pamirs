@@ -15,6 +15,7 @@ import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.api.dto.meta.ExecuteContext;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaNames;
+import pro.shushi.pamirs.meta.enmu.ActiveEnum;
 import pro.shushi.pamirs.meta.enmu.ClientTypeEnum;
 
 import java.util.*;
@@ -108,6 +109,7 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
         menu.setDefaultPriority(priority);
         menu.setDefaultIcon(Optional.of(uxMenu.icon()).filter(StringUtils::isNotBlank).orElse(null));
         menu.setDefaultParentName(Optional.ofNullable(parent).map(Menu::getName).orElse(null));
+        menu.setDefaultShow(ActiveEnum.ACTIVE);
         menu.setSign(sign);
         menu.setModel(null);
         menu.setActionName(null);

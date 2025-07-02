@@ -107,7 +107,7 @@ public class ClientActionUtils {
         uiAction.setFun(ClientActionConstants.GoBack.fun);
         uiAction.addProp(new Prop().setName(ClientActionConstants.GoBack.propNameType)
                 .setValue(ClientActionConstants.GoBack.propValueType));
-        uiAction.setPriority(MetaDefaultConstants.PRIORITY_VALUE_INT);
+        uiAction.setPriority(MetaDefaultConstants.PRIORITY_VALUE_INT - 1);
         return uiAction;
     }
 
@@ -129,43 +129,4 @@ public class ClientActionUtils {
         uiAction.setPriority(MetaDefaultConstants.PRIORITY_VALUE_INT);
         return uiAction;
     }
-
-    /**
-     * 导入动作
-     *
-     * @return 动作
-     */
-    public static UIAction makeImportAction() {
-        UIAction uiAction;
-        uiAction = new UIAction();
-        uiAction.setName(ClientActionConstants.Import.name);
-        uiAction.setLabel(ClientActionConstants.Import.label);
-        uiAction.setActionType(ActionTypeEnum.CLIENT);
-        uiAction.setContextType(ActionContextTypeEnum.CONTEXT_FREE);
-        uiAction.setFun(ClientActionConstants.Import.fun);
-        uiAction.addProp(new Prop().setName(ClientActionConstants.Import.propNameType)
-                .setValue(ClientActionConstants.Import.propValueType));
-        uiAction.setPriority(MetaDefaultConstants.PRIORITY_VALUE_INT);
-        return uiAction;
-    }
-
-    /**
-     * 导出动作
-     *
-     * @return 动作
-     */
-    public static UIAction makeExportAction() {
-        UIAction uiAction;
-        uiAction = new UIAction();
-        uiAction.setName(ClientActionConstants.Export.name);
-        uiAction.setLabel(ClientActionConstants.Export.label);
-        uiAction.setActionType(ActionTypeEnum.CLIENT);
-        uiAction.setContextType(ActionContextTypeEnum.CONTEXT_FREE);
-        uiAction.setFun(ClientActionConstants.Export.fun);
-        uiAction.addProp(new Prop().setName(ClientActionConstants.Export.propNameType)
-                .setValue(ClientActionConstants.Export.propValueType));
-        uiAction.setPriority(MetaDefaultConstants.PRIORITY_VALUE_INT + 1);
-        return uiAction;
-    }
-
 }

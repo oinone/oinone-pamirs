@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-framework</artifactId>
-        <version>6.2.2</version>
+        <version>6.2.5</version>
     </parent>
 
     <groupId>pro.shushi.pamirs.framework</groupId>
@@ -59,11 +59,6 @@
             <artifactId>httpcore</artifactId>
         </dependency>
 
-        <!--MySQL Support-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>

@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public class ScheduleTaskInit implements SystemBootAfterInit {
 
-    @Autowired
+    @Autowired(required = false)
     private ScheduleTaskActionService scheduleTaskService;
 
     private static List<ScheduleTaskAction> initActions = new ArrayList<>();
@@ -27,7 +27,7 @@ public class ScheduleTaskInit implements SystemBootAfterInit {
 
     @Override
     public boolean init(AppLifecycleCommand command) {
-        if (initActions.isEmpty()) {
+        if (scheduleTaskService == null || initActions.isEmpty()) {
             return true;
         }
         for (ScheduleTaskAction action : initActions) {

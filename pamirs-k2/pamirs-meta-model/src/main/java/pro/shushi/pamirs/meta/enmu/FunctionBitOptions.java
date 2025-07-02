@@ -13,6 +13,7 @@ public enum FunctionBitOptions {
     DEFAULT_VALUE(0, "初始值"),
     UN_SUPPORT_CLIENT(1L, "不支持客户端"),
     ENABLE_CHECK(1L << 1, "生效请求校验"),
+    FORCE_REMOTE(1L << 2, "强制远程调用"),
 
     ;
 

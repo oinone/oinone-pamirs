@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Adamancy Zhang at 20:21 on 2025-04-01
  */
-@SPI(factory = SpringServiceLoaderFactory.class)
 public interface SessionInitApi {
 
     void init(HttpServletRequest request, String moduleName, PamirsRequestParam requestParam);

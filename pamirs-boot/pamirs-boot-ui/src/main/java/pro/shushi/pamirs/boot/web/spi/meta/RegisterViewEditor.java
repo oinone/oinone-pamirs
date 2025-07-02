@@ -34,8 +34,8 @@ import pro.shushi.pamirs.boot.base.ux.model.view.UITemplate;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
 import pro.shushi.pamirs.boot.web.constants.GroupConstants;
-import pro.shushi.pamirs.boot.web.spi.api.ViewTemplateStrategyApi;
-import pro.shushi.pamirs.boot.web.spi.domain.RegisterSearchWidget;
+import pro.shushi.pamirs.boot.base.ux.spi.ViewTemplateStrategyApi;
+import pro.shushi.pamirs.boot.base.ux.entity.RegisterSearchWidget;
 import pro.shushi.pamirs.boot.web.spi.domain.RegisterViewContext;
 import pro.shushi.pamirs.boot.web.utils.*;
 import pro.shushi.pamirs.framework.common.config.TtlAsyncTaskExecutor;
@@ -854,7 +854,7 @@ public class RegisterViewEditor implements MetaDataEditor {
         return fields;
     }
 
-    private UIField makeUiField(ViewTypeEnum viewType, ModelField modelField, UxWidget uxWidget) {
+    public static UIField makeUiField(ViewTypeEnum viewType, ModelField modelField, UxWidget uxWidget) {
         UIField uiField = new UIField();
         uiField.setData(modelField.getField())
                 .setLabel(Optional.ofNullable(uxWidget).map(UxWidget::label).filter(StringUtils::isNotBlank).orElse(modelField.getDisplayName()))
@@ -865,7 +865,7 @@ public class RegisterViewEditor implements MetaDataEditor {
                 .setHint(Optional.ofNullable(uxWidget).map(UxWidget::hint).filter(StringUtils::isNotBlank).orElse(null))
                 .setPlaceholder(Optional.ofNullable(uxWidget).map(UxWidget::placeholder).filter(StringUtils::isNotBlank).orElse(null))
                 .setReadonly(Optional.ofNullable(uxWidget).map(UxWidget::readonly).filter(StringUtils::isNotBlank).orElse(null))
-                .setDisable(Optional.ofNullable(uxWidget).map(UxWidget::disable).filter(StringUtils::isNotBlank).orElse(null))
+                .setDisabled(Optional.ofNullable(uxWidget).map(UxWidget::disable).filter(StringUtils::isNotBlank).orElse(null))
                 .setRequired(Optional.ofNullable(uxWidget).map(UxWidget::required).filter(StringUtils::isNotBlank).orElse(null))
                 .setInvisible(Optional.ofNullable(uxWidget).map(UxWidget::invisible).filter(StringUtils::isNotBlank).orElse(null))
 
@@ -905,7 +905,7 @@ public class RegisterViewEditor implements MetaDataEditor {
      * @param viewType 视图类型
      * @param uiField  视图字段
      */
-    private void compileAbstractFields(ViewTypeEnum viewType, UIField uiField) {
+    private static void compileAbstractFields(ViewTypeEnum viewType, UIField uiField) {
         String readonly = null;
         String invisible = null;
         if (FieldConstants.CREATE_DATE.equals(uiField.getData()) || FieldConstants.WRITE_DATE.equals(uiField.getData())) {

@@ -2,6 +2,7 @@ package pro.shushi.pamirs.framework.faas.expression.service;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import pro.shushi.pamirs.framework.common.emnu.FwExpEnumerate;
 import pro.shushi.pamirs.framework.faas.enmu.FaasExpEnumerate;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -149,6 +150,7 @@ public class ExpressionService {
 
     private boolean error(ExpressionDefinition rule) {
         return PamirsSession.getMessageHub().msg(() -> Message.init()
+                .setCode(FwExpEnumerate.BASE_CHECK_DATA_ERROR.getCode() + "")
                 .setMessage(rule.getError())
                 .setErrorType(rule.getErrorType())
                 .setLevel(null != rule.getLevel() ? rule.getLevel() : InformationLevelEnum.ERROR)

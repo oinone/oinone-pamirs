@@ -25,6 +25,6 @@ public class DebugLoggerTraceTurboFilter extends TurboFilter {
                 return FilterReply.ACCEPT;
             }
         }
-        return null;
+        return FilterReply.NEUTRAL;
     }
 }
