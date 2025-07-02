@@ -1,10 +1,13 @@
 package pro.shushi.pamirs.framework.faas.fun.builtin;
 
+import com.google.common.base.Splitter;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.common.constants.NamespaceConstants;
 import pro.shushi.pamirs.meta.util.JsonUtils;
+
+import java.util.List;
 
 import static pro.shushi.pamirs.meta.enmu.FunctionCategoryEnum.TEXT;
 import static pro.shushi.pamirs.meta.enmu.FunctionLanguageEnum.JAVA;
@@ -86,6 +89,24 @@ public class TextFunctions {
             return Boolean.FALSE;
         }
         return text.contains(subtext);
+    }
+
+    @Function.Advanced(
+            displayName = "不包含", language = JAVA,
+            builtin = true, category = TEXT
+    )
+    @Function.fun("NOT_CONTAINS")
+    @Function(name = "NOT_CONTAINS", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: NOT_CONTAINS(text,subtext)\n函数说明: 判断文本字符串text是否不包含文本字符串subtext，文本text为空时，按照空字符串处理"
+    )
+    public static Boolean notContains(String text, String subtext) {
+        if (null == text) {
+            text = "";
+        }
+        if (null == subtext) {
+            return Boolean.TRUE;
+        }
+        return !text.contains(subtext);
     }
 
     @Function.Advanced(
@@ -218,4 +239,77 @@ public class TextFunctions {
         return JsonUtils.toJSONString(obj);
     }
 
+    @Function.Advanced(
+            displayName = "截取从指定位置到末尾子字符串", language = JAVA,
+            builtin = true, category = TEXT
+    )
+    @Function.fun("SUBSTRING_END")
+    @Function(name = "SUBSTRING_END", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: SUBSTRING_END(\"Hello\", 1) 返回 \"ello\" 函数说明: 截取从指定位置到末尾子字符串"
+    )
+    public static String substring(String text, Integer start) {
+        if (null == text || null == start) {
+            return null;
+        }
+
+        return StringUtils.substring(text, start);
+    }
+
+    @Function.Advanced(
+            displayName = "从指定位置截取子字符串", language = JAVA,
+            builtin = true, category = TEXT
+    )
+    @Function.fun("SUBSTRING")
+    @Function(name = "SUBSTRING", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: SUBSTRING(\"Hello\", 1, 3) 返回 \"ell\", 函数说明: 从指定位置截取子字符串"
+    )
+    public static String substring(String text, Integer start, Integer end) {
+        if (null == text || null == start || null == end) {
+            return null;
+        }
+
+        int[] codePoints = text.codePoints().toArray();
+
+        if (start < 0) {
+            start = 0;
+        }
+        if (end > codePoints.length) {
+            end = codePoints.length;
+        }
+
+        return new String(codePoints, start, end - start);
+    }
+
+    @Function.Advanced(
+            displayName = "按分隔符分割字符串为集合", language = JAVA,
+            builtin = true, category = TEXT
+    )
+    @Function.fun("SPLIT")
+    @Function(name = "SPLIT", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: SPLIT(\"a,b,c\", \",\") 返回数组 [\"a\", \"b\", \"c\"] 函数说明: 按分隔符分割字符串为集合"
+    )
+    public static List<String> split(String text, String separator) {
+        if (null == text || null == separator) {
+            return null;
+        }
+        return Splitter.on(separator)
+                .trimResults()
+                .omitEmptyStrings()
+                .splitToList(text);
+    }
+
+    @Function.Advanced(
+            displayName = "返回子串首次出现的位置", language = JAVA,
+            builtin = true, category = TEXT
+    )
+    @Function.fun("INDEXOF")
+    @Function(name = "INDEXOF", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: INDEXOF(\"a,b,c\", \"b\") 返回 1 函数说明: 返回子串首次出现的位置"
+    )
+    public static Integer indexOf(String text, String search) {
+        if (null == text || null == search) {
+            return null;
+        }
+        return StringUtils.indexOf(text, search);
+    }
 }

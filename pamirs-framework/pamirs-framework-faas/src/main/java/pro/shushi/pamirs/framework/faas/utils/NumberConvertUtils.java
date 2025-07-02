@@ -127,4 +127,43 @@ public class NumberConvertUtils {
             }
         }
     }
+
+    public static boolean isInteger(Number n) {
+        return n instanceof Byte
+                || n instanceof Short
+                || n instanceof Integer
+                || n instanceof Long
+                || n instanceof BigInteger;
+    }
+
+    public static boolean isZero(Number n) {
+        if (null == n) {
+            return false;
+        }
+
+        if (n instanceof BigDecimal) {
+            return 0 == ((BigDecimal) n).compareTo(BigDecimal.ZERO);
+        } else if (n instanceof BigInteger) {
+            return 0 == ((BigInteger) n).compareTo(BigInteger.ZERO);
+        } else {
+            return 0 == new BigDecimal(String.valueOf(n)).compareTo(BigDecimal.ZERO);
+        }
+    }
+
+    public static BigInteger toBigInteger(Number n) {
+        if (n instanceof BigInteger) {
+            return (BigInteger) n;
+        }
+        return BigInteger.valueOf(n.longValue());
+    }
+
+    public static BigDecimal toBigDecimal(Number n) {
+        if (n instanceof BigDecimal) {
+            return (BigDecimal) n;
+        }
+        if (n instanceof BigInteger) {
+            return new BigDecimal((BigInteger) n);
+        }
+        return BigDecimal.valueOf(n.doubleValue());
+    }
 }

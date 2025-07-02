@@ -7,6 +7,9 @@ import pro.shushi.pamirs.meta.common.constants.NamespaceConstants;
 import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
 import pro.shushi.pamirs.meta.util.DateUtils;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -740,6 +743,120 @@ public class DateFunctions {
             default:
                 return null;
         }
+    }
+
+    @Function.Advanced(
+            displayName = "提取年", language = JAVA,
+            builtin = true, category = TIME
+    )
+    @Function.fun("YEAR")
+    @Function(name = "YEAR", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: YEAR(date)\n函数说明: 提取年"
+    )
+    public static Integer year(Object date) {
+        if (null == date) {
+            return null;
+        }
+
+        Instant instant = null;
+
+        if (date instanceof java.sql.Date) {
+            instant = ((java.sql.Date) date).toInstant();
+        } else if (date instanceof Timestamp) {
+            instant = ((Timestamp) date).toInstant();
+        } else if (date instanceof Date) {
+            instant = ((Date) date).toInstant();
+        } else if (date instanceof String) {
+            Date dataObj = DateUtils.convertFormatDate((String) date, DateFormatEnum.DATETIME.value());
+            if (null == dataObj) {
+                return null;
+            }
+            instant = dataObj.toInstant();
+        }
+
+        if (null == instant) {
+            return null;
+        }
+
+        return instant
+                .atZone(ZoneId.systemDefault())
+                .getYear();
+    }
+
+    @Function.Advanced(
+            displayName = "提取月", language = JAVA,
+            builtin = true, category = TIME
+    )
+    @Function.fun("MONTH")
+    @Function(name = "MONTH", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: MONTH(date)\n函数说明: 提取月"
+    )
+    public static Integer month(Object date) {
+        if (null == date) {
+            return null;
+        }
+
+        Instant instant = null;
+
+        if (date instanceof java.sql.Date) {
+            instant = ((java.sql.Date) date).toInstant();
+        } else if (date instanceof Timestamp) {
+            instant = ((Timestamp) date).toInstant();
+        } else if (date instanceof Date) {
+            instant = ((Date) date).toInstant();
+        } else if (date instanceof String) {
+            Date dataObj = DateUtils.convertFormatDate((String) date, DateFormatEnum.DATETIME.value());
+            if (null == dataObj) {
+                return null;
+            }
+            instant = dataObj.toInstant();
+        }
+
+        if (null == instant) {
+            return null;
+        }
+
+        return instant
+                .atZone(ZoneId.systemDefault())
+                .getMonthValue();
+    }
+
+    @Function.Advanced(
+            displayName = "提取日", language = JAVA,
+            builtin = true, category = TIME
+    )
+    @Function.fun("DAY")
+    @Function(name = "DAY", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: DAY(date)\n函数说明: 提取日"
+    )
+    public static Integer day(Object date) {
+        if (null == date) {
+            return null;
+        }
+
+        Instant instant = null;
+
+        if (date instanceof java.sql.Date) {
+            instant = ((java.sql.Date) date).toInstant();
+        } else if (date instanceof Timestamp) {
+            instant = ((Timestamp) date).toInstant();
+        } else if (date instanceof Date) {
+            instant = ((Date) date).toInstant();
+        } else if (date instanceof String) {
+            Date dataObj = DateUtils.convertFormatDate((String) date, DateFormatEnum.DATETIME.value());
+            if (null == dataObj) {
+                return null;
+            }
+            instant = dataObj.toInstant();
+        }
+
+        if (null == instant) {
+            return null;
+        }
+
+        return instant
+                .atZone(ZoneId.systemDefault())
+                .getDayOfMonth();
     }
 
 }
