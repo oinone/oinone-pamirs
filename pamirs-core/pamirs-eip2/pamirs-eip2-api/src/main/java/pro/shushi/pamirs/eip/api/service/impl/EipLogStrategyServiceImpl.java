@@ -2,6 +2,7 @@ package pro.shushi.pamirs.eip.api.service.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipLogStrategy;
 import pro.shushi.pamirs.eip.api.service.EipLogStrategyService;
@@ -13,6 +14,7 @@ import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -80,12 +82,22 @@ public class EipLogStrategyServiceImpl implements EipLogStrategyService {
                 .in(EipLogStrategy::getInterfaceName, interfaceNameList);
         List<EipLogStrategy> eipLogStrategyList = Models.data().queryListByWrapper(queryWrapper);
 
+        return fetchInterfaceNames(eipLogStrategyList);
+    }
+
+    private static Set<String> fetchInterfaceNames(List<EipLogStrategy> eipLogStrategyList) {
         Set<String> result = new HashSet<>();
         for (EipLogStrategy eipLogStrategy : eipLogStrategyList) {
-            if (InterfaceTypeEnum.OPEN.equals(eipLogStrategy.getInterfaceType())) {
-                result.add(EipInitializationUtil.generatorOpenApiRouteId(eipLogStrategy.getInterfaceName()));
-            } else {
-                result.add(EipInitializationUtil.generatorIntegrationInterfaceRouteId(eipLogStrategy.getInterfaceName()));
+            switch (eipLogStrategy.getInterfaceType()) {
+                case OPEN:
+                    result.add(EipInitializationUtil.generatorOpenApiRouteId(eipLogStrategy.getInterfaceName()));
+                    break;
+                case ROUTE:
+                case INTEGRATION:
+                    result.add(EipInitializationUtil.generatorIntegrationInterfaceRouteId(eipLogStrategy.getInterfaceName()));
+                    break;
+                default:
+                    throw PamirsException.construct(EipExpEnumerate.EIP_UNSUPPORTED_INTERFACE_TYPE).errThrow();
             }
         }
         return result;

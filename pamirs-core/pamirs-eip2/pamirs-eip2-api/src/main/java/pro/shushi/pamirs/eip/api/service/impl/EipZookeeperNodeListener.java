@@ -153,7 +153,7 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
             }
         }
         if (isEnable != null && isIgnoreLogConfig != null) {
-            ((AbstractEipApi)eipApi).setIsIgnoreLogFrequency(isIgnoreLogConfig);
+            ((AbstractEipApi) eipApi).setIsIgnoreLogFrequency(isIgnoreLogConfig);
             //当有效数据变更时调用指定处理逻辑
             consumer.accept(interfaceType, eipApi, isEnable);
         }
