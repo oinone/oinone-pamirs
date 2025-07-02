@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.trigger.annotation;
 
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
-import pro.shushi.pamirs.trigger.model.ExecuteTaskAction;
 
 import java.lang.annotation.*;
 

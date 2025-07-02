@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>pro.shushi.pamirs.core</groupId>
-            <artifactId>pamirs-trigger-api</artifactId>
+            <artifactId>pamirs-trigger-annotation</artifactId>
         </dependency>
 
         <dependency>

@@ -6,7 +6,6 @@ import com.esotericsoftware.kryo.serializers.ClosureSerializer;
 import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
 import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 import de.javakaffee.kryoserializers.*;
-import org.apache.dubbo.common.serialize.kryo.CompatibleKryo;
 import org.apache.dubbo.common.serialize.support.SerializableClassRegistry;
 import pro.shushi.pamirs.framework.common.spi.KryoRegisterApi;
 import pro.shushi.pamirs.meta.common.spi.Spider;
@@ -58,7 +57,7 @@ public abstract class AbstractKryoFactory {
             kryoCreated = true;
         }
 
-        Kryo kryo = new CompatibleKryo();
+        Kryo kryo = new PamirsKryo();
 
         // TODO
         // kryo.setReferences(false);
@@ -123,13 +122,15 @@ public abstract class AbstractKryoFactory {
             kryo.register(clazz);
         }
 
-        SerializableClassRegistry.getRegisteredClasses().forEach((clazz, ser) -> {
+        for (Map.Entry<Class<?>, Object> entry : SerializableClassRegistry.getRegisteredClasses().entrySet()) {
+            Class<?> clazz = entry.getKey();
+            Object ser = entry.getValue();
             if (ser == null) {
                 kryo.register(clazz);
             } else {
                 kryo.register(clazz, (Serializer) ser);
             }
-        });
+        }
 
         return kryo;
     }

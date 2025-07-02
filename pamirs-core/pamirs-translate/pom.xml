@@ -22,6 +22,10 @@
             <artifactId>pamirs-file2-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>pro.shushi.pamirs.core</groupId>
+            <artifactId>pamirs-trigger-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
