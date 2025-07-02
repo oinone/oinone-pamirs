@@ -39,4 +39,10 @@ public interface EipLogStrategyService {
      */
     @Function
     Boolean queryIgnoreFrequency(String interfaceName, InterfaceTypeEnum interfaceType);
+
+    /**
+     * 查询启用的忽略日志频率接口
+     */
+    @Function
+    Set<String> queryEnableIgnoreLogConfig(List<String> interfaceNameList);
 }

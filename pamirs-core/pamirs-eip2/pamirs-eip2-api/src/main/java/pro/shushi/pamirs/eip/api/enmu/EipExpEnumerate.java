@@ -109,13 +109,8 @@ public enum EipExpEnumerate implements ExpBaseEnum {
     PARAM_OPEN_INTERFACE_NULL(ERROR_TYPE.BIZ_ERROR, 10051100, "开放接口不存在"),
     EIP_RATE_LIMIT_TIP(ERROR_TYPE.BIZ_ERROR, 10051101, "Too Many Requests - 请求频率超限，请稍后重试"),
     EIP_X_READ_IP_NULL(ERROR_TYPE.BIZ_ERROR, 10051102, "未获取到真实IP地址"),
-    EIP_DB_DRIVER_IS_NULL(ERROR_TYPE.BIZ_ERROR, 10051103, "未获取数据库驱动"),
-
-
-
-
-
-
+    EIP_UNSUPPORTED_INTERFACE_TYPE(ERROR_TYPE.BIZ_ERROR, 10051103, "不支持的接口类型"),
+    EIP_DB_DRIVER_IS_NULL(ERROR_TYPE.BIZ_ERROR, 10051104, "未获取数据库驱动"),
     ;
 
     private ERROR_TYPE type;

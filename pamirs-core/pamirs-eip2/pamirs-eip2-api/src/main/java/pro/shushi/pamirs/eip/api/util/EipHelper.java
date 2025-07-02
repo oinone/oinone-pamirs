@@ -86,6 +86,12 @@ public class EipHelper {
      * @return 接口类型
      */
     public static InterfaceTypeEnum getInterfaceType(String routeDefinitionId) {
+        if (routeDefinitionId.startsWith(EipInitializationUtil.INTEGRATION_API_ID_PREFIX)) {
+            return InterfaceTypeEnum.INTEGRATION;
+        }
+        if (routeDefinitionId.startsWith(EipInitializationUtil.OPEN_API_ID_PREFIX)) {
+            return InterfaceTypeEnum.OPEN;
+        }
         if (EipInterfaceContext.getInterface(routeDefinitionId) == null) {
             if (EipInterfaceContext.getTemporaryInterface(routeDefinitionId) == null) {
                 //当该接口不在上下文中定义时，则说明是开放接口。

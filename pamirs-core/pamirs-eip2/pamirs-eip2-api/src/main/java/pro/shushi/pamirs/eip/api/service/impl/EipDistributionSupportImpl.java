@@ -15,18 +15,18 @@ import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.model.EipRouteDefinition;
 import pro.shushi.pamirs.eip.api.service.EipDistributionSupport;
+import pro.shushi.pamirs.eip.api.service.EipLogStrategyService;
 import pro.shushi.pamirs.eip.api.util.EipHelper;
+import pro.shushi.pamirs.eip.api.util.EipInitializationUtil;
 import pro.shushi.pamirs.framework.session.tenant.component.PamirsTenantSession;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.middleware.zookeeper.service.ZookeeperService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -37,6 +37,9 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
 
     @Autowired
     private EipZookeeperNodeListener nodeListener;
+
+    @Autowired
+    private EipLogStrategyService eipLogStrategyService;
 
     private final Map<String /* tenantRootPath */, TreeCache> treeCacheMap = new ConcurrentHashMap<>();
 
@@ -105,11 +108,16 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
         if (dataStatus == null) {
             return new Result<String>().error().setData(String.format("无法获取%s状态，刷新失败 [interfaceName %s]", interfaceTypeName, interfaceName));
         }
-        byte[] finalData;
+        byte[] finalData = new byte[2];
         if (DataStatusEnum.ENABLED.equals(dataStatus)) {
-            finalData = ENABLED;
+            finalData[0] = ENABLED[0];
         } else {
-            finalData = DISABLED;
+            finalData[0] = DISABLED[0];
+        }
+        if (Boolean.TRUE.equals(eipInterface.getIsIgnoreLogFrequency())) {
+            finalData[1] = ENABLED[0];
+        } else {
+            finalData[1] = DISABLED[0];
         }
         final String routePath;
         String tenant = PamirsTenantSession.getTenant();
@@ -139,14 +147,22 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
             rootPath = EipDistributionSupport.ZOOKEEPER_PARENT_NODE_PATH_PREFIX + CharacterConstants.SEPARATOR_SLASH + tenant;
         }
         List<RouteDefinition> routeDefinitionList = Optional.ofNullable(context).map(EipCamelContext::getCamelContext).map(ModelCamelContext::getRouteDefinitions).orElse(null);
+        // 查询忽略日志频率配置
+        Set<String> enableIgnoreLogConfigs = queryEnableIgnoreFrequency(routeDefinitionList);
         if (CollectionUtils.isNotEmpty(routeDefinitionList)) {
             try {
                 String routePath;
                 for (RouteDefinition routeDefinition : routeDefinitionList) {
-                    String interfaceName = routeDefinition.getId();
-                    InterfaceTypeEnum interfaceType = EipHelper.getInterfaceType(interfaceName);
+                    String routeDefinitionId = routeDefinition.getId();
+                    InterfaceTypeEnum interfaceType = EipHelper.getInterfaceType(routeDefinitionId);
+                    String interfaceName = EipInitializationUtil.parseInterfaceNameByRouteId(routeDefinitionId);
                     routePath = rootPath + CharacterConstants.SEPARATOR_SLASH + interfaceType.getValue() + CharacterConstants.SEPARATOR_SLASH + interfaceName;
-                    this.zookeeperService.createOrUpdateData(routePath, EipDistributionSupport.ENABLED, EipDistributionSupport.DEFAULT_COMPARATOR);
+
+                    byte[] initialData = new byte[2];
+                    initialData[0] = ENABLED[0];
+                    initialData[1] = enableIgnoreLogConfigs.contains(routeDefinitionId) ? ENABLED[0] : DISABLED[0];
+
+                    this.zookeeperService.createOrUpdateData(routePath, initialData, EipDistributionSupport.DEFAULT_COMPARATOR);
                 }
                 tenantRootPathList.add(rootPath);
             } catch (Exception e) {
@@ -157,5 +173,16 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
         if (CollectionUtils.isNotEmpty(tenantRootPathList)) {
             registerListener(tenantRootPathList);
         }
+    }
+
+    private Set<String> queryEnableIgnoreFrequency(List<RouteDefinition> routeDefinitionList) {
+        if (CollectionUtils.isEmpty(routeDefinitionList)) {
+            return Collections.emptySet();
+        }
+        List<String> interfaceNames = routeDefinitionList.stream()
+                .map(RouteDefinition::getId)
+                .map(EipInitializationUtil::parseInterfaceNameByRouteId)
+                .collect(Collectors.toList());
+        return eipLogStrategyService.queryEnableIgnoreLogConfig(interfaceNames);
     }
 }

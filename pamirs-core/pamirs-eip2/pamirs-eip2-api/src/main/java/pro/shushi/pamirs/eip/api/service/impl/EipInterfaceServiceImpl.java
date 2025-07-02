@@ -63,17 +63,17 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
     public Result<String> registerInterface(IEipIntegrationInterface eipInterface) {
         try {
             EipCamelContext context = EipCamelContext.getContext();
+            String interfaceName = eipInterface.getInterfaceName();
             if (eipInterface instanceof EipIntegrationInterface) {
                 EipIntegrationInterface integrationInterface = (EipIntegrationInterface) eipInterface;
                 if (eipInterface.getIsIgnoreLogFrequency() == null) {
-                    integrationInterface.setIsIgnoreLogFrequency(eipLogStrategyService
-                            .queryIgnoreFrequency(integrationInterface.getInterfaceName(), InterfaceTypeEnum.INTEGRATION));
+                    Boolean isIgnoreLogFrequency = queryIgnoreFrequency(interfaceName, InterfaceTypeEnum.INTEGRATION);
+                    integrationInterface.setIsIgnoreLogFrequency(isIgnoreLogFrequency);
                 }
                 EipHelper.fillEipIntegrationInterface(integrationInterface);
                 integrationInterface.setContext(context);
             }
             EipInterfaceContext.putInterface(eipInterface);
-            String interfaceName = eipInterface.getInterfaceName();
             EipInitializationUtil.newInstance(context)
                     .from(EipFunctionConstant.EMPTY.apply(context, interfaceName))
                     .<EipCamelRouteUtil>to(eipInterface)
@@ -110,8 +110,9 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
             return new Result<String>().error().setData(String.format("路由定义中无组件定义，已自动忽略 [interfaceName %s]", eipInterface.getInterfaceName()));
         }
         if (eipInterface.getIsIgnoreLogFrequency() == null) {
-            eipInterface.setIsIgnoreLogFrequency(eipLogStrategyService
-                    .queryIgnoreFrequency(eipInterface.getInterfaceName(), InterfaceTypeEnum.ROUTE));
+            String interfaceName = eipInterface.getInterfaceName();
+            Boolean isIgnoreLogFrequency = queryIgnoreFrequency(interfaceName, InterfaceTypeEnum.ROUTE);
+            eipInterface.setIsIgnoreLogFrequency(isIgnoreLogFrequency);
         }
         EipCamelContext context = EipCamelContext.getContext();
         EipInitializationUtil util = EipInitializationUtil.newInstance(context);
@@ -209,8 +210,9 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
             if (eipInterface instanceof EipOpenInterface) {
                 EipOpenInterface openInterface = (EipOpenInterface) eipInterface;
                 if (eipInterface.getIsIgnoreLogFrequency() == null) {
-                    openInterface.setIsIgnoreLogFrequency(eipLogStrategyService
-                            .queryIgnoreFrequency(openInterface.getInterfaceName(), InterfaceTypeEnum.OPEN));
+                    String interfaceName = openInterface.getInterfaceName();
+                    Boolean isIgnoreLogFrequency = queryIgnoreFrequency(interfaceName, InterfaceTypeEnum.OPEN);
+                    openInterface.setIsIgnoreLogFrequency(isIgnoreLogFrequency);
                 }
                 EipHelper.fillEipOpenInterface(openInterface);
                 openInterface.setContext(context);
@@ -234,5 +236,14 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
             return new Result<String>().error().setData(e.getMessage());
         }
         return new Result<>();
+    }
+
+    /**
+     * 从DB获取忽略日志频率配置
+     */
+    private Boolean queryIgnoreFrequency(String interfaceName, InterfaceTypeEnum interfaceTypeEnum) {
+        Boolean isIgnoreLogFrequency = eipLogStrategyService.queryIgnoreFrequency(interfaceName, InterfaceTypeEnum.INTEGRATION);
+        log.warn("缺少属性isIgnoreLogFrequency,interfaceName:{},isIgnoreLogFrequency:{}", interfaceName, isIgnoreLogFrequency);
+        return isIgnoreLogFrequency;
     }
 }
