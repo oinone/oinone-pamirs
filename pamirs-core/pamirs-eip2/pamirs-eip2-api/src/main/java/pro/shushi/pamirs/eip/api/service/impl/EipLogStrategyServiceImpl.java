@@ -92,10 +92,11 @@ public class EipLogStrategyServiceImpl implements EipLogStrategyService {
                 case OPEN:
                     result.add(EipInitializationUtil.generatorOpenApiRouteId(eipLogStrategy.getInterfaceName()));
                     break;
-                case ROUTE:
                 case INTEGRATION:
                     result.add(EipInitializationUtil.generatorIntegrationInterfaceRouteId(eipLogStrategy.getInterfaceName()));
                     break;
+                case ROUTE:
+                    result.add(eipLogStrategy.getInterfaceName());
                 default:
                     throw PamirsException.construct(EipExpEnumerate.EIP_UNSUPPORTED_INTERFACE_TYPE).errThrow();
             }
