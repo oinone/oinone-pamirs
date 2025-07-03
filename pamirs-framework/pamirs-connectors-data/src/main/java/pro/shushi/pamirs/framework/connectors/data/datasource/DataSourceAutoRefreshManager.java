@@ -26,6 +26,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -59,9 +60,9 @@ public class DataSourceAutoRefreshManager {
 
     private final static List<RefreshEventHandler> handlers = new ArrayList<>();
 
-    @EventListener
-    @Order(0)
-    public void dsInit(ApplicationStartedEvent event) {
+    @SuppressWarnings("unused")
+    @PostConstruct
+    void dsInit() {
         // 注册数据源处理器
         Map<String, RefreshEventHandler> refreshEventHandlerMap = BeanDefinitionUtils.getBeansOfType(RefreshEventHandler.class);
         handlers.addAll(Objects.requireNonNull(refreshEventHandlerMap).values());

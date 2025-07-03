@@ -6,10 +6,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class VerifyCodeUtil {
 
-    private static final Random random = new Random();
     private static final String[] fontNames = {"宋体", "华文楷体", "黑体", "Georgia", "微软雅黑", "楷体_GB2312"};
 
 
@@ -42,6 +42,7 @@ public class VerifyCodeUtil {
 
         //定义干扰线
         //定义干扰线的数量（3-5条）int num = random.nextInt(max)%(max-min+1) + min;
+        Random random = ThreadLocalRandom.current();
         int num = random.nextInt(5) % 3 + 3;
         Graphics2D graphics = (Graphics2D) bi.getGraphics();
         for (int i = 0; i < num; i++) {
@@ -64,6 +65,7 @@ public class VerifyCodeUtil {
 
     //随机字体
     private static Font randomFont() {
+        Random random = ThreadLocalRandom.current();
         int index = random.nextInt(fontNames.length);
         String fontName = fontNames[index];
         int style = random.nextInt(4);         //随机获取4种字体的样式
@@ -73,6 +75,7 @@ public class VerifyCodeUtil {
 
     //随机颜色
     private static Color randomColor() {
+        Random random = ThreadLocalRandom.current();
         int r = random.nextInt(225);
         int g = random.nextInt(225);
         int b = random.nextInt(225);
@@ -84,7 +87,7 @@ public class VerifyCodeUtil {
     public static char randomChar() {
         //A-Z,a-z,0-9,可剔除一些难辨认的字母与数字
         String str = "0123456789ABCdefghiDEFGHIJopPQRVWXYZabcjklSTUmnqrstKLMNOvuwxyz";
-        return str.charAt(random.nextInt(str.length()));
+        return str.charAt(ThreadLocalRandom.current().nextInt(str.length()));
     }
 
     public static String randomStr(int length) {

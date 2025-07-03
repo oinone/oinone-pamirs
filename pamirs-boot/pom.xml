@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.5</version>
+        <version>6.2.6</version>
     </parent>
 
     <artifactId>pamirs-boot</artifactId>
@@ -128,6 +128,12 @@
             <dependency>
                 <groupId>pro.shushi.pamirs.boot</groupId>
                 <artifactId>pamirs-sequence-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>pro.shushi.pamirs.middleware.zookeeper</groupId>
+                <artifactId>pamirs-middleware-zookeeper-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

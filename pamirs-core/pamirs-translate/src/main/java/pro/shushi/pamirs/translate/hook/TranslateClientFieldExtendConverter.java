@@ -6,6 +6,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.web.spi.api.TranslateService;
 import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
+import pro.shushi.pamirs.framework.common.entry.NullValue;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.orm.spi.ClientFieldExtendConverter;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.FieldComputeContext;
@@ -97,7 +98,11 @@ public class TranslateClientFieldExtendConverter implements ClientFieldExtendCon
 //                    DataDictionary dataDict = PamirsSession.getContext().getDictionary(dict);
 //                    target = TranslateMetaBaseService.calcTarget(dataDict.getModule(), dict, RES_LANG_CODE, lang, origin);
                     } else {
-                        origin = (String) data.get(key);
+                        Object value = data.get(key);
+                        if (NullValue.INSTANCE.equals(value)) {
+                            value = null;
+                        }
+                        origin = (String) value;
                         target = placeholder(origin);
                     }
                     if (StringUtils.isNotBlank(target)) {

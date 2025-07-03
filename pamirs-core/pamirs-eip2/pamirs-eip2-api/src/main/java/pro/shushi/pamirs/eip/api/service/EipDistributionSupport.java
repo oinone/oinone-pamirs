@@ -17,8 +17,8 @@ public interface EipDistributionSupport {
         if (data == null) {
             return Boolean.FALSE;
         }
-        if (originData.length == 1) {
-            if (originData[0] == data[0]) {
+        if (originData.length == 2) {
+            if (originData[0] == data[0] && originData[1] == data[1]) {
                 return Boolean.FALSE;
             } else {
                 return Boolean.TRUE;

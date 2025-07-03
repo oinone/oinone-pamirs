@@ -16,6 +16,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.List;
 
+import static pro.shushi.pamirs.framework.faas.utils.NumberConvertUtils.*;
 import static pro.shushi.pamirs.meta.enmu.FunctionCategoryEnum.MATH;
 import static pro.shushi.pamirs.meta.enmu.FunctionLanguageEnum.JAVA;
 import static pro.shushi.pamirs.meta.enmu.FunctionOpenEnum.LOCAL;
@@ -652,23 +653,102 @@ public class MathFunctions {
             summary = "函数示例: NNZ_SUBTRACT(A,B)\n函数说明: A与B相减，差大于等于0就直接用这个差，差小于0就把差的值设置为0"
     )
     public static Number nnzSubtract(Number a, Number b) {
-        if (null != a && null != b) {
-            if (a instanceof Integer) {
-                return Math.max((Integer) a - (Integer) b, 0);
-            } else if (a instanceof Long) {
-                return Math.max((Long) a - (Long) b, 0);
-            } else if (a instanceof Float) {
-                return Math.max((Float) a - (Float) b, 0);
-            } else if (a instanceof Double) {
-                return Math.max((Double) a - (Double) b, 0);
-            } else if (a instanceof BigInteger) {
-                return ((BigInteger) a).subtract((BigInteger) b).compareTo(BigInteger.ZERO) > 0 ? ((BigInteger) a).subtract((BigInteger) b) : 0;
-            } else {
-                return a instanceof BigDecimal ? ((BigDecimal) a).subtract((BigDecimal) b).compareTo(BigDecimal.ZERO) > 0 ? ((BigDecimal) a).subtract((BigDecimal) b) : BigDecimal.ZERO : null;
-            }
-        } else {
+        if (null == a || null == b) {
             return null;
         }
+        if (a instanceof Integer) {
+            return Math.max((Integer) a - (Integer) b, 0);
+        } else if (a instanceof Long) {
+            return Math.max((Long) a - (Long) b, 0);
+        } else if (a instanceof Float) {
+            return Math.max((Float) a - (Float) b, 0);
+        } else if (a instanceof Double) {
+            return Math.max((Double) a - (Double) b, 0);
+        } else if (a instanceof BigInteger) {
+            return ((BigInteger) a).subtract((BigInteger) b).compareTo(BigInteger.ZERO) > 0 ? ((BigInteger) a).subtract((BigInteger) b) : 0;
+        } else {
+            return a instanceof BigDecimal ? ((BigDecimal) a).subtract((BigDecimal) b).compareTo(BigDecimal.ZERO) > 0 ? ((BigDecimal) a).subtract((BigDecimal) b) : BigDecimal.ZERO : null;
+        }
+    }
+
+    @Function.Advanced(
+            displayName = "幂运算", language = JAVA,
+            builtin = true, category = MATH
+    )
+    @Function.fun("POW")
+    @Function(name = "POW", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: POW(a, b)\n函数说明: 计算a的b次方"
+    )
+    public static Number pow(Number a, Number b) {
+
+        if (a == null || b == null) {
+            return null;
+        }
+
+        if (isZero(b)) {
+            return 1;
+        }
+
+        // 负底数 + 非整数幂
+        // Math.pow(-2, 0.5) 为 NaN
+        if (a.doubleValue() < 0 && !isInteger(b)) {
+            return null;
+        }
+
+        // 两个参数都是整型
+        if (isInteger(a) && isInteger(b)) {
+            BigInteger _a = toBigInteger(a);
+            int _b = b.intValue();
+            if (_b < 0) {
+                // BigInteger 不支持负指数，转为 BigDecimal 处理
+                return BigDecimal.ONE.divide(new BigDecimal(_a.pow(-_b)), 20, RoundingMode.HALF_UP);
+            }
+            return _a.pow(_b);
+        }
+
+        // 转换为toBigDecimal进行运算
+        BigDecimal _a = toBigDecimal(a);
+        BigDecimal _b = toBigDecimal(b);
+
+        // 如果 b 是整数，直接用 BigDecimal.pow
+        if (isInteger(b)) {
+            int exp = _b.intValue();
+            if (exp >= 0) {
+                return _a.pow(exp);
+            } else {
+                return BigDecimal.ONE.divide(_a.pow(-exp), 20, RoundingMode.HALF_UP);
+            }
+        }
+
+        // 否则，转为 double 精度进行运算（含小数次幂）
+        return Math.pow(_a.doubleValue(), _b.doubleValue());
+    }
+
+    @Function.Advanced(
+            displayName = "对数运算", language = JAVA,
+            builtin = true, category = MATH
+    )
+    @Function.fun("LOG")
+    @Function(name = "LOG", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: LOG(a, b)\n函数说明: 计算以 b 为底的对数: log b(a)"
+    )
+    public static Number log(Number a, Number b) {
+        if (a == null || b == null) {
+            return null;
+        }
+
+        double _a = a.doubleValue();
+        double _b = b.doubleValue();
+
+        if (_a <= 0.0) {
+            return null;
+        }
+        if (_b <= 0.0 || _b == 1.0) {
+            return null;
+        }
+
+        // 换底公式：log_a(b) = ln(b) / ln(a)
+        return Math.log(_b) / Math.log(_a);
     }
 
 }

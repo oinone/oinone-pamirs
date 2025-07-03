@@ -18,9 +18,9 @@ public class EipInitializationUtil {
 
     private final EipCamelContext context;
 
-    private static final String INTEGRATION_API_ID_PREFIX = "integration-api-";
+    public static final String INTEGRATION_API_ID_PREFIX = "integration-api-";
 
-    private static final String OPEN_API_ID_PREFIX = "openapi-";
+    public static final String OPEN_API_ID_PREFIX = "openapi-";
 
     private EipInitializationUtil(EipCamelContext context) {
         this.context = context;
@@ -55,7 +55,7 @@ public class EipInitializationUtil {
         return removeRouteDefinitionToContext(generatorIntegrationInterfaceRouteId(interfaceName));
     }
 
-    private static String generatorIntegrationInterfaceRouteId(String interfaceName) {
+    public static String generatorIntegrationInterfaceRouteId(String interfaceName) {
         return INTEGRATION_API_ID_PREFIX + interfaceName;
     }
 
@@ -88,7 +88,20 @@ public class EipInitializationUtil {
         return removeRouteDefinitionToContext(generatorOpenApiRouteId(interfaceName));
     }
 
-    private static String generatorOpenApiRouteId(String interfaceName) {
+    public static String parseInterfaceNameByRouteId(String routeId) {
+        if (routeId == null) {
+            return null;
+        }
+        if (routeId.startsWith(INTEGRATION_API_ID_PREFIX)) {
+            return routeId.substring(INTEGRATION_API_ID_PREFIX.length());
+        }
+        if (routeId.startsWith(OPEN_API_ID_PREFIX)) {
+            return routeId.substring(OPEN_API_ID_PREFIX.length());
+        }
+        return routeId;
+    }
+
+    public static String generatorOpenApiRouteId(String interfaceName) {
         return OPEN_API_ID_PREFIX + interfaceName;
     }
 

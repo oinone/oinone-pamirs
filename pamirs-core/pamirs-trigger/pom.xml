@@ -7,7 +7,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-core</artifactId>
-        <version>6.2.5</version>
+        <version>6.2.6</version>
     </parent>
 
     <groupId>pro.shushi.pamirs.core</groupId>
@@ -16,6 +16,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>pamirs-trigger-annotation</module>
         <module>pamirs-trigger-api</module>
         <module>pamirs-trigger-core</module>
         <module>pamirs-trigger-bridge-tbschedule</module>
@@ -23,6 +24,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-trigger-annotation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-trigger-api</artifactId>

@@ -6,15 +6,16 @@ import com.alibaba.druid.sql.parser.ParserException;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.alibaba.druid.util.JdbcUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.eip.jdbc.check.exception.SQLCheckException;
 import pro.shushi.pamirs.eip.jdbc.check.exception.SQLParseCheckException;
 import pro.shushi.pamirs.eip.jdbc.entity.SQLPrepareEntity;
 import pro.shushi.pamirs.eip.jdbc.service.EipSQLChecker;
-import pro.shushi.pamirs.eip.jdbc.service.impl.DefaultMySqlSQLChecker;
-import pro.shushi.pamirs.eip.jdbc.service.impl.DefaultOracleSQLChecker;
-import pro.shushi.pamirs.eip.jdbc.service.impl.DefaultPGSQLChecker;
-import pro.shushi.pamirs.eip.jdbc.service.impl.DefaultSQLServerSQLChecker;
+import pro.shushi.pamirs.eip.jdbc.service.checker.DefaultMySqlSQLChecker;
+import pro.shushi.pamirs.eip.jdbc.service.checker.DefaultOracleSQLChecker;
+import pro.shushi.pamirs.eip.jdbc.service.checker.DefaultPGSQLChecker;
+import pro.shushi.pamirs.eip.jdbc.service.checker.DefaultSQLServerSQLChecker;
 import pro.shushi.pamirs.eip.jdbc.spring.EipJdbcSprintSupport;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
@@ -232,7 +233,7 @@ public class SQLCheckHelper {
 
     private static EipSQLChecker fetchSQLChecker(List<EipSQLChecker> checkers, String dbType) {
         for (EipSQLChecker checker : checkers) {
-            if (checker.dbType().equals(dbType)) {
+            if (StringUtils.equalsIgnoreCase(checker.dbType(), dbType)) {
                 return checker;
             }
         }
