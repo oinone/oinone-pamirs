@@ -8,11 +8,11 @@ public enum MetadExpEnumerate implements ExpBaseEnum {
 
     SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10005000, "系统异常"), BASE_META_MAPPER_CONFIG_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10005001, "元数据配置错误");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     MetadExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

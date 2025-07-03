@@ -143,11 +143,11 @@ public enum UserExpEnumerate implements ExpBaseEnum {
     NAME_CANNOT_BE_EMPTY(ERROR_TYPE.BIZ_ERROR, 10030130, "姓名不能为空"),
     INVALID_ROLE_CODE_EXCEPTION(ERROR_TYPE.BIZ_ERROR, 10030131, "{} 无效的角色编码,请进行修改后重新导入");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     UserExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

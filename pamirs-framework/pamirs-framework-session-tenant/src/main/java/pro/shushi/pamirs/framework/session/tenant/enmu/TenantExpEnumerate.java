@@ -8,11 +8,11 @@ public enum TenantExpEnumerate implements ExpBaseEnum {
 
     SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10075000, "系统异常"), BASE_TENANT_TENANT_NULL_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10075001, "租户不能为空");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     TenantExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

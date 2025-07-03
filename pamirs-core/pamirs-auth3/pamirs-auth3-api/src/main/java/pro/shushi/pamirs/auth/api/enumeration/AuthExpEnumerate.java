@@ -92,11 +92,11 @@ public enum AuthExpEnumerate implements ExpBaseEnum {
     AUTH_ROW_PERMISSION_FILTER_EXIST_ERROR(ERROR_TYPE.DATA_ERROR, 10064083, "行权限项的过滤条件不允许重复"),
     AUTH_ROW_PERMISSION_NAME_IS_NULL_ERROR(ERROR_TYPE.DATA_ERROR, 10064084, "行权限项的名称不允许为空");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     AuthExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

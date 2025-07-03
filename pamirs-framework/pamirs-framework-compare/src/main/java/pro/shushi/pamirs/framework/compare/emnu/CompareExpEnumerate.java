@@ -8,11 +8,11 @@ public enum CompareExpEnumerate implements ExpBaseEnum {
 
     SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10007000, "系统异常"), BASE_FUNCTION_NOT_EXIST_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10007001, "配置错误，函数不存在");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     CompareExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

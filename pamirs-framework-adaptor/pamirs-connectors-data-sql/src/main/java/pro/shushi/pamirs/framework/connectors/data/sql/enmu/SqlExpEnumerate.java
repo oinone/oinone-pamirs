@@ -14,11 +14,11 @@ public enum SqlExpEnumerate implements ExpBaseEnum {
     BASE_LAMBDA_QUERY_WRAPPER_SELECT_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10012005, "请初始化模型配置"),
     BASE_QUERY_WRAPPER_SELECT_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10012006, "请初始化模型配置");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     SqlExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

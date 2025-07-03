@@ -21,11 +21,11 @@ public enum GqlExpEnumerate implements ExpBaseEnum {
     BASE_GRAPHQL_MOCK_FIELD_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10017012, "未能识别的虚拟字段"),
     BASE_GRAPHQL_MOCK_FIELD_MAPPING_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10017013, "虚拟字段映射失败");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     GqlExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

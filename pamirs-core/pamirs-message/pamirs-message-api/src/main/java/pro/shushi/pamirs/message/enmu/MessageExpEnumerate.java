@@ -38,11 +38,11 @@ public enum MessageExpEnumerate implements ExpBaseEnum {
     BIZ_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10060022, ""),
     CHANNEL_ISNOT_EXIST(ERROR_TYPE.SYSTEM_ERROR, 10060023, "无对应频道");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     MessageExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

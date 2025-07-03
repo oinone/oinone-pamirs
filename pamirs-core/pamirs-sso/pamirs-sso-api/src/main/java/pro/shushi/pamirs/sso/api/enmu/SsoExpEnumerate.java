@@ -27,11 +27,11 @@ public enum SsoExpEnumerate implements ExpBaseEnum {
     SSO_PAMIRS_LOGIN_CLIENT_ID_ERROR(ERROR_TYPE.BIZ_ERROR, 10041018, "登录服务端失败"),
     SSO_PAMIRS_CLIENT_NOT_FONT_ERROR(ERROR_TYPE.BIZ_ERROR, 10041019, "客户端不存在");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     SsoExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

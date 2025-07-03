@@ -67,11 +67,11 @@ public enum ComputeExpEnumerate implements ExpBaseEnum {
     BASE_CHECK_FIELD_FIELD_START_WITH_EN(ERROR_TYPE.DATA_ERROR, 10006058, "字段编码必须以字母开头"),
     BASE_CHECK_FIELD_FIELD_ERROR(ERROR_TYPE.DATA_ERROR, 10006059, "字段编码仅支持数字、字母");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     ComputeExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

@@ -70,11 +70,11 @@ public enum AnnotationExpEnumerate implements ExpBaseEnum {
     BASE_OVERRIDE_FIELD_ONLY_SUPPORT_RELATION_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10004061, "只有关联关系字段支持重写配置"),
     BASE_RELATED_CONFIG_IS_EMPTY_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10004062, "业务类型RELATED未配置引用字段");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     AnnotationExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

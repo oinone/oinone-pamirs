@@ -18,11 +18,11 @@ public enum BootStandardExpEnumerate implements ExpBaseEnum {
     BASE_LOAD_MODULE_META_MODULE_DATA_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10020007, "加载模块的模块元数据失败，系统异常"),
     BASE_LOAD_MODULE_META_NO_MODULE_NAME_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10020008, "加载模块失败，没有选择要加载的模块");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     BootStandardExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

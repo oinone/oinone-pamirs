@@ -18,11 +18,11 @@ public enum BootExpEnumerate implements ExpBaseEnum {
     BASE_BOOT_RELOAD_MODULE_NOT_INSTALLED2_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10018007, "重启模块中包含未安装模块"),
     BASE_BOOT_META_ONLINE_OWNSIGN_CHECK_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10018008, "元数据在线模式下（-PmetaOnline=NEVER），必须配置ownSign");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     BootExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

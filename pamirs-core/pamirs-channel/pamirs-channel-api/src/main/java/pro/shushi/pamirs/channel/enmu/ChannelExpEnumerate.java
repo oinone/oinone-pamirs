@@ -34,11 +34,11 @@ public enum ChannelExpEnumerate implements ExpBaseEnum, IEnum<Integer> {
     CHANNEL_CREATE_INDEX_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10032019, "创建索引失败"),
     CHANNEL_CREATE_MAPPING_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10032020, "创建索引Mapping失败");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     ChannelExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

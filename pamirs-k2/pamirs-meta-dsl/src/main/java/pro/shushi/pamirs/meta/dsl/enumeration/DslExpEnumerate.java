@@ -38,11 +38,11 @@ public enum DslExpEnumerate implements ExpBaseEnum, IEnum<Integer> {
     BASE_START_HANDLE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10002028, "开始节点异常"),
     BASE_UNSUPPORTED_ENCODING_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10002029, "不支持的编码格式");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     DslExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;
