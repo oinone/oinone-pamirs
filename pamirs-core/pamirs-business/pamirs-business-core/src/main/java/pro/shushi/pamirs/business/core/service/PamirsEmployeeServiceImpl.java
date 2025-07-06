@@ -147,6 +147,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             if (pamirsUser != null) {
                 bindUserToEmployee(pamirsUser, result);
             }
+            departmentRelEmployeeProxyService.updateRelationEmployee(employee);
             result = result.fieldQuery(PamirsEmployee::getDepartmentList);
             result = result.fieldQuery(PamirsEmployee::getPositions);
             result = result.relationDelete(PamirsEmployee::getDepartmentList);
@@ -156,7 +157,6 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             result.setDepartmentList(finalDepartmentList);
             result.fieldSave(PamirsEmployee::getDepartmentList);
             result.fieldSave(PamirsEmployee::getPositions);
-            departmentRelEmployeeProxyService.updateRelationEmployee(employee);
             return result;
         });
     }

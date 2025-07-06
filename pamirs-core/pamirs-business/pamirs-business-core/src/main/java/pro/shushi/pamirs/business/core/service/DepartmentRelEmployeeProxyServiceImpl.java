@@ -15,7 +15,6 @@ import pro.shushi.pamirs.business.api.service.PamirsDepartmentService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
 import pro.shushi.pamirs.framework.common.entry.TreeNode;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
-import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.update.LambdaUpdateWrapper;
 import pro.shushi.pamirs.framework.faas.utils.ArgUtils;
 import pro.shushi.pamirs.framework.gateways.rsql.RSQLHelper;
@@ -68,7 +67,7 @@ public class DepartmentRelEmployeeProxyServiceImpl implements DepartmentRelEmplo
         Map<String, Object> queryData = queryWrapper.getQueryData();
         String employeeName = (String) queryData.get(FIELD_EMPLOYEE_NAME);
 
-        LambdaQueryWrapper<PamirsEmployee> wrapper = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL)
+        IWrapper<PamirsEmployee> wrapper = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL)
                 .isNotNull(PamirsEmployee::getEmployeeType)
                 .eq(PamirsEmployee::getCompanyCode, rsqlValues.get(FIELD_COMPANY_CODE))
                 .like(StringUtils.isNotBlank(employeeName), PamirsEmployee::getName, employeeName)
@@ -169,14 +168,10 @@ public class DepartmentRelEmployeeProxyServiceImpl implements DepartmentRelEmplo
             return;
         }
 
-        // 查询DB存在的员工
-        Map<String, String> emptyImmMap = Models.data().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
-                .from(DepartmentRelEmployee.MODEL_MODEL)
-                .eq(DepartmentRelEmployee::getDepartmentCode, department.getCode())
-                .eq(DepartmentRelEmployee::getDepartmentType, department.getDepartmentType())
-                .select(DepartmentRelEmployee::getEmployeeCode, DepartmentRelEmployee::getEmployeeType)
-        ).stream().collect(Collectors.toMap(DepartmentRelEmployee::getEmployeeCode, DepartmentRelEmployee::getEmployeeType));
+        // 查询部门下所有员工
+        Map<String/*empCode*/, String/*empType*/> emptyImmMap = queryExistingEmployeeRelations(department);
 
+        // 填充字段并收集部门下被删除的员工
         for (DepartmentRelEmployee rel : relList) {
             rel.setDepartmentCode(department.getCode());
             rel.setDepartmentType(department.getDepartmentType());
@@ -208,6 +203,19 @@ public class DepartmentRelEmployeeProxyServiceImpl implements DepartmentRelEmplo
         Models.data().createOrUpdateBatch(relList);
     }
 
+    private Map<String, String> queryExistingEmployeeRelations(PamirsDepartment department) {
+        IWrapper<DepartmentRelEmployee> query = Pops.<DepartmentRelEmployee>lambdaQuery()
+                .from(DepartmentRelEmployee.MODEL_MODEL)
+                .eq(DepartmentRelEmployee::getDepartmentCode, department.getCode())
+                .eq(DepartmentRelEmployee::getDepartmentType, department.getDepartmentType())
+                .select(DepartmentRelEmployee::getEmployeeCode, DepartmentRelEmployee::getEmployeeType);
+        List<DepartmentRelEmployee> rels = Models.data().queryListByWrapper(query);
+        if (CollectionUtils.isEmpty(rels)) {
+            return Collections.emptyMap();
+        }
+        return rels.stream().collect(Collectors.toMap(DepartmentRelEmployee::getEmployeeCode, DepartmentRelEmployee::getEmployeeType));
+    }
+
     @Override
     @Function
     public void updateRelationEmployee(PamirsEmployee employee) {
@@ -216,6 +224,10 @@ public class DepartmentRelEmployeeProxyServiceImpl implements DepartmentRelEmplo
             return;
         }
 
+        // 1.查询用户下所有部门
+        Set<String> removeDeptCodes = queryOriginalDepartmentCodes(employee);
+
+        // 2.填充字段并收集本次被删除的部门
         List<DepartmentRelEmployeeProxy> supervisorRelList = new ArrayList<>();
         for (DepartmentRelEmployeeProxy rel : relList) {
             rel.setEmployeeCode(employee.getCode());
@@ -226,12 +238,13 @@ public class DepartmentRelEmployeeProxyServiceImpl implements DepartmentRelEmplo
             if (rel.getImmediateSupervisor() == null) {
                 rel.setImmediateSupervisorCode(null);
             }
+            removeDeptCodes.remove(rel.getDepartmentCode());
         }
 
-        // 1.检测直属主管，防止形成闭环
+        // 3.检测直属主管，防止形成闭环
         checkImmediateSupervisor(relList);
 
-        // 2.当前用户为部门主管，取消原部门主管
+        // 4.当前用户为部门主管，取消原部门主管
         if (!supervisorRelList.isEmpty()) {
             Set<String> deptCodes = supervisorRelList.stream().map(DepartmentRelEmployeeProxy::getDepartmentCode).collect(Collectors.toSet());
             Set<String> deptTypes = supervisorRelList.stream().map(DepartmentRelEmployeeProxy::getDepartmentType).collect(Collectors.toSet());
@@ -242,7 +255,17 @@ public class DepartmentRelEmployeeProxyServiceImpl implements DepartmentRelEmplo
                     .in(DepartmentRelEmployee::getDepartmentType, deptTypes));
         }
 
-        // 3.更新/删除关联关系
+        // 5.删除直属主管
+        if (!removeDeptCodes.isEmpty()) {
+            DepartmentRelEmployee removeImmediateSupervisor = new DepartmentRelEmployee();
+            removeImmediateSupervisor.setImmediateSupervisorCode(null);
+            Models.data().updateByWrapper(removeImmediateSupervisor, Pops.<DepartmentRelEmployee>lambdaUpdate()
+                    .from(DepartmentRelEmployee.MODEL_MODEL)
+                    .in(DepartmentRelEmployee::getDepartmentCode, removeDeptCodes)
+                    .eq(DepartmentRelEmployee::getImmediateSupervisorCode, employee.getCode()));
+        }
+
+        // 6.更新/删除关联关系
         Set<String> deptCode = relList.stream().map(DepartmentRelEmployeeProxy::getDepartmentCode).collect(Collectors.toSet());
         LambdaUpdateWrapper<DepartmentRelEmployee> deleteWrapper = Pops.<DepartmentRelEmployee>lambdaUpdate()
                 .from(DepartmentRelEmployee.MODEL_MODEL)
@@ -253,6 +276,19 @@ public class DepartmentRelEmployeeProxyServiceImpl implements DepartmentRelEmplo
         }
         Models.data().createOrUpdateBatch(relList);
         Models.data().deleteByWrapper(deleteWrapper);
+    }
+
+    /**
+     * 查询员工原有的部门编码
+     */
+    private Set<String> queryOriginalDepartmentCodes(PamirsEmployee employee) {
+        IWrapper<DepartmentRelEmployee> query = Pops.<DepartmentRelEmployee>lambdaQuery()
+                .from(DepartmentRelEmployee.MODEL_MODEL)
+                .eq(DepartmentRelEmployee::getEmployeeCode, employee.getCode())
+                .eq(DepartmentRelEmployee::getEmployeeType, employee.getEmployeeType())
+                .select(DepartmentRelEmployee::getDepartmentCode);
+        List<DepartmentRelEmployee> rels = Models.data().queryListByWrapper(query);
+        return rels.stream().map(DepartmentRelEmployee::getDepartmentCode).collect(Collectors.toSet());
     }
 
     /**
