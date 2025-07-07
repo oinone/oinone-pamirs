@@ -9,6 +9,7 @@ import pro.shushi.pamirs.boot.base.ux.cache.util.UiSessionCacheUtil;
 import pro.shushi.pamirs.meta.api.core.session.spi.SessionMetaCollectSpi;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
 import pro.shushi.pamirs.meta.api.session.RequestContext;
+import pro.shushi.pamirs.meta.common.spi.Holder;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
 import java.util.List;
@@ -39,12 +40,15 @@ public class SessionMetaActionCollectSpi implements SessionMetaCollectSpi {
             if (!CollectionUtils.isEmpty(actionList)) {
                 for (Action action : actionList) {
                     // 收集动作缓存
+                    Holder<Action> putResult = new Holder<>();
                     context.putExtendCacheEntity(ActionCacheApi.class,
-                            cacheApi -> cacheApi.put(action.getSign(), action));
+                            cacheApi -> putResult.set(cacheApi.put(action.getSign(), action)));
 
-                    // 收集模型动作缓存
-                    context.putExtendCacheEntity(ModelActionsCacheApi.class,
-                            cacheApi -> UiSessionCacheUtil.putDataToListCache(cacheApi, action.getModel(), action));
+                    if (putResult.get() == null) {
+                        // 收集模型动作缓存
+                        context.putExtendCacheEntity(ModelActionsCacheApi.class,
+                                cacheApi -> UiSessionCacheUtil.putDataToListCache(cacheApi, action.getModel(), action));
+                    }
                 }
             }
         }
