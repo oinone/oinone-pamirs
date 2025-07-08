@@ -7,7 +7,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.middleware</groupId>
         <artifactId>pamirs-middleware</artifactId>
-        <version>6.2.2</version>
+        <version>6.2.6</version>
     </parent>
 
     <artifactId>pamirs-middleware-common</artifactId>
@@ -33,10 +33,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
         <dependency>

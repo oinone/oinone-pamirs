@@ -16,14 +16,14 @@ import javax.validation.constraints.NotNull;
 public class ZookeeperProperties {
 
     @NotBlank
-    private String zkConnectString;
+    private String zkConnectString = "127.0.0.1:2181";
 
     @NotNull
     @Min(15000)
     private Integer zkSessionTimeout = 60000;
 
     @NotBlank
-    private String rootPath;
+    private String rootPath = "/oinone";
 
     @NotNull
     private String username = "";

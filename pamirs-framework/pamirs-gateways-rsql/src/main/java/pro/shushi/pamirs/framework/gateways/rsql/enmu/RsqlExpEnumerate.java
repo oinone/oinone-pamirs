@@ -17,11 +17,11 @@ public enum RsqlExpEnumerate implements ExpBaseEnum {
     BASE_NO_SUPPORT_JSON_SEARCH_INDEX_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10016008, "不支持的JsonSearch索引标记"),
     BASE_NO_MATCH_COLUMN_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10016009, "没有匹配的列名称");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     RsqlExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

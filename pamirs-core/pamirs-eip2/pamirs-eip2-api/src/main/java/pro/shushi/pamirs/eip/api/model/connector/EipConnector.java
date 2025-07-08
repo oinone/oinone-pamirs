@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.api.model.connector;
 
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.eip.api.enmu.MetaOrigin;
 import pro.shushi.pamirs.eip.api.enmu.connector.*;
 import pro.shushi.pamirs.eip.api.model.EipConnGroup;
@@ -7,9 +8,12 @@ import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.base.IdModel;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
 
 import java.util.List;
+
+import static pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate.EIP_DB_DRIVER_IS_NULL;
 
 /**
  * EipConnector
@@ -91,8 +95,13 @@ public class EipConnector extends IdModel {
 
     /* 数据库/文件集连接器 */
     @Field(displayName = "数据库/文件类型")
-    @Field.Enum
-    private ConnDBType connDBType;
+    @Field.many2one
+    @Field.Relation(relationFields = "connDBType", referenceFields = "code")
+    private ConnDbType dbType;
+
+    @Field(displayName = "具体数据库类型关联关系")
+    @Field.String
+    private String connDBType;
 
     @Field(displayName = "端口")
     @Field.Integer
@@ -129,4 +138,25 @@ public class EipConnector extends IdModel {
     @Field(displayName = "测试连接状态")
     @Field.Enum
     private TestConnStatus testConnStatus;
+
+    public String getDriver() {
+        if (null == this.getDbType() && StringUtils.isNotBlank(this.getConnDBType())) {
+            this.fieldQuery(EipConnector::getDbType);
+        }
+
+        if (null != this.getDbType()) {
+            if (null != this.getDbType().getDriver()) {
+                return this.getDbType().getDriver();
+            }
+
+            ConnDbType _dbType = this.getDbType().queryOne();
+            if (null != _dbType) {
+                this.setDbType(_dbType);
+                return _dbType.getDriver();
+            }
+        }
+
+        throw PamirsException.construct(EIP_DB_DRIVER_IS_NULL)
+                .errThrow();
+    }
 }

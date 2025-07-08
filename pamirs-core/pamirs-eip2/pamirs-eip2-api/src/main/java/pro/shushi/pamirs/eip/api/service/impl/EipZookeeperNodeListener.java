@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.IEipApi;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
+import pro.shushi.pamirs.eip.api.model.AbstractEipApi;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.model.EipRouteDefinition;
@@ -134,7 +135,9 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
         }
         byte[] data = childData.getData();
         Boolean isEnable = null;
-        if (data != null && data.length == 1) {
+        // 忽略日志频率配置
+        Boolean isIgnoreLogConfig = null;
+        if (data != null && data.length == 2) {
             //此处仅处理有效数据变更
             byte data0 = data[0];
             if (data0 == EipDistributionSupport.ENABLED[0]) {
@@ -142,8 +145,15 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
             } else if (data0 == EipDistributionSupport.DISABLED[0]) {
                 isEnable = Boolean.FALSE;
             }
+            byte data1 = data[1];
+            if (data1 == EipDistributionSupport.ENABLED[0]) {
+                isIgnoreLogConfig = Boolean.TRUE;
+            } else if (data1 == EipDistributionSupport.DISABLED[0]) {
+                isIgnoreLogConfig = Boolean.FALSE;
+            }
         }
-        if (isEnable != null) {
+        if (isEnable != null && isIgnoreLogConfig != null) {
+            ((AbstractEipApi) eipApi).setIsIgnoreLogFrequency(isIgnoreLogConfig);
             //当有效数据变更时调用指定处理逻辑
             consumer.accept(interfaceType, eipApi, isEnable);
         }

@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-eip2</artifactId>
-        <version>6.2.2</version>
+        <version>6.2.6</version>
     </parent>
     <artifactId>pamirs-eip2-core</artifactId>
     <name>pamirs-eip2-core</name>
@@ -19,18 +19,6 @@
         <dependency>
             <groupId>pro.shushi.pamirs.core</groupId>
             <artifactId>pamirs-eip2-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
         </dependency>
     </dependencies>
 

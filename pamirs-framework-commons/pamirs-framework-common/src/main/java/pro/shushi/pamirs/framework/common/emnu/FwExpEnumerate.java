@@ -16,11 +16,11 @@ public enum FwExpEnumerate implements ExpBaseEnum {
     BASE_SAME_TABLE_NAME_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10003007, "配置错误，非扩展继承表名不能相同"),
     BASE_CHECK_DATA_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10050009, "校验失败，数据错误");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     FwExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

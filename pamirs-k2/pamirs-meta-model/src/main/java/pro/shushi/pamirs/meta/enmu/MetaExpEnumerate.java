@@ -64,11 +64,11 @@ public enum MetaExpEnumerate implements ExpBaseEnum, IEnum<Integer> {
     BASE_LIST_IS_EMPTY_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10001054, "列表操作不允许为空"),
     BASE_CACHE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10001055, "缓存异常");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     MetaExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

@@ -8,11 +8,11 @@ public enum DialectExpEnumerate implements ExpBaseEnum {
 
     SYSTEM_ERROR(ExpBaseEnum.ERROR_TYPE.SYSTEM_ERROR, 10011000, "系统异常"), BASE_DIALECT_VERSION_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10011001, "未配置方言组件注解");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     DialectExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

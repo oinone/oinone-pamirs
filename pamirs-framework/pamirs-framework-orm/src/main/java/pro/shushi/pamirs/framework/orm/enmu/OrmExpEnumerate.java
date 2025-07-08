@@ -41,11 +41,11 @@ public enum OrmExpEnumerate implements ExpBaseEnum {
     BASE_FIELD_CONVERTER_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10009032, "字段转换错误"),
     BASE_RELATION_MODEL_IS_NOT_EXISTS_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10009033, "关联字段模型不存在");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     OrmExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

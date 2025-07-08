@@ -13,11 +13,11 @@ public enum InfExpEnumerate implements ExpBaseEnum {
     BASE_UPDATE_SCHEMA_STRUCTURE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10014004, "更新表结构错误"),
     BASE_DIALECT_SCRIPT_RUN_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10014005, "脚本执行错误");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     InfExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

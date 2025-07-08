@@ -104,4 +104,17 @@ public class Message extends TransientModel {
         return this;
     }
 
+    /**
+     * set field sync set field error code.
+     *
+     * @param field fieldName
+     * @see 10050009 {@link FwExpEnumerate#BASE_CHECK_DATA_ERROR}
+     */
+    public Message setField(String field) {
+        if (!this.get_d().containsKey("code")) {
+            this.get_d().put("code", "10050009");
+        }
+        this.get_d().put("field", field);
+        return this;
+    }
 }

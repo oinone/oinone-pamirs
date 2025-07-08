@@ -8,11 +8,11 @@ public enum TxExpEnumerate implements ExpBaseEnum {
 
     SYSTEM_ERROR(ExpBaseEnum.ERROR_TYPE.SYSTEM_ERROR, 1001500, "系统异常"), BASE_TRANSACTION_MANAGER_ERROR(ERROR_TYPE.SYSTEM_ERROR, 1001501, "事务处理异常");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     TxExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

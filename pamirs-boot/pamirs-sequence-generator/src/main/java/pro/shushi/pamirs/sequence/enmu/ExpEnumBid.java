@@ -22,13 +22,14 @@ public enum ExpEnumBid implements ExpBaseEnum, IEnum<Integer> {
     // -3
     ID_GEN_EXCEPTION_ID_TWO_SEGMENTS_ARE_NULL(ERROR_TYPE.SYSTEM_ERROR, 10047005, "错误: SegmentBuffer中的两个Segment均未从DB中装载时"),
     ID_GEN_LEAF_NOT_INIT_OK_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10047006, "错误: ID生成器未初始化完成"),
-    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10047007, "错误: 系统异常");
+    SEQUENCE_TYPE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10047007, "错误: 序列类型声明错误，请使用 SequenceNameConstants 常量使用序列。"),
+    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10047008, "错误: 系统异常");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     ExpEnumBid(ERROR_TYPE type, int code, String msg) {
         this.type = type;

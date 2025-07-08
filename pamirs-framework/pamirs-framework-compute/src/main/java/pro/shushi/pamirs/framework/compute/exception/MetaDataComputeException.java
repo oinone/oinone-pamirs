@@ -10,6 +10,7 @@ public class MetaDataComputeException extends RuntimeException {
     private static final long serialVersionUID = 6779544264836757431L;
 
     public MetaDataComputeException() {
+        this("Metadata compute exception.");
     }
 
     public MetaDataComputeException(String message) {

@@ -35,11 +35,11 @@ public enum DataExpEnumerate implements ExpBaseEnum {
     BASE_CREATE_CONN_BY_DS_KEY_RETURN_NULL_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010026, "根据dsKey创建数据库链接返回null"),
     BASE_CREATE_SCHEMA_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10010027, "创建Schema错误");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     DataExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

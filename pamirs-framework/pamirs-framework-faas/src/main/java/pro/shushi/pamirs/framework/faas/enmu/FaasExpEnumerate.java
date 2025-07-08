@@ -41,11 +41,11 @@ public enum FaasExpEnumerate implements ExpBaseEnum, IEnum<Integer> {
     BASE_EXPRESSION_EXECUTE_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10008031, "表达式执行失败"),
     BASE_FUNCTION_MANAGEMENT5_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10008032, "构造函数执行错误");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     FaasExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

@@ -5,6 +5,12 @@
         <field data="interfaceDescription" label="API描述" required="false" invisible="true"/>
         <field data="invokeDate" label="调用时间" required="false"/>
         <field data="interfaceType" label="API类型" required="false"/>
+        <field data="isSuccess" widget="Select" label="响应结果">
+            <options>
+                <option label="成功" name="true"/>
+                <option label="失败" name="false"/>
+            </options>
+        </field>
     </template>
     <template slot="rowActions">
         <action name="EipLogDetail">

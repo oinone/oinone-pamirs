@@ -30,11 +30,11 @@ public enum TriggerExpEnumerate implements ExpBaseEnum {
     CRON_FUNCTION_PARAMS_CONFIG_ERROR(ERROR_TYPE.BIZ_ERROR, 10050019, "该执行函数传入参数，必须配置ModelModel和dataJson参数"),
     CRON_EXPRESSION_INVALID(ERROR_TYPE.SYSTEM_ERROR, 10050020, "cron表达式无效");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     TriggerExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

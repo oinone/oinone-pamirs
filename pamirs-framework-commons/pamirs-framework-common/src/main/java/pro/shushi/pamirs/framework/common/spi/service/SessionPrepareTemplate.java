@@ -13,6 +13,7 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.constants.VariableNameConstants;
 import pro.shushi.pamirs.meta.common.spi.HoldKeeper;
 import pro.shushi.pamirs.meta.common.spi.Spider;
+import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,7 +95,7 @@ public class SessionPrepareTemplate implements SessionPrepareApi, SessionPrepare
 
     @Override
     public void after(HttpServletRequest request, String moduleName, PamirsRequestParam requestParam) {
-        for (SessionInitApi api : Spider.getLoader(SessionInitApi.class).getOrderedExtensions()) {
+        for (SessionInitApi api : BeanDefinitionUtils.getBeansOfTypeByOrdered(SessionInitApi.class)) {
             api.init(request, moduleName, requestParam);
         }
     }

@@ -2,11 +2,10 @@ package pro.shushi.pamirs.resource.api.enmu;
 
 import pro.shushi.pamirs.meta.annotation.Errors;
 import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
-import pro.shushi.pamirs.meta.common.enmu.IEnum;
 
 //fixme zbh 20200927 引用过多，特例枚举！！！
 @Errors(displayName = "资源模块错误枚举")
-public enum ExpEnumerate implements ExpBaseEnum, IEnum<Integer> {
+public enum ExpEnumerate implements ExpBaseEnum {
 
     /**
      * 请手动定义业务枚举，禁用该枚举
@@ -73,13 +72,13 @@ public enum ExpEnumerate implements ExpBaseEnum, IEnum<Integer> {
     OUT_OF_SIZE_LIMIT(ERROR_TYPE.SYSTEM_ERROR, 10023046, "文件大小不能超过10MB"),
     FAILED_CREATE_DIRECTORY(ERROR_TYPE.SYSTEM_ERROR, 10023047, "创建临时目录失败"),
     FONT_CLASS_REPEAT(ERROR_TYPE.SYSTEM_ERROR, 10023048, "目前已存在图标库前缀为“{}”的图标库“{}”，图标fontClass名称为“{}”的图标，无法上传，请至第三方图标库修改图标库前缀或图标fontclass后，再次上传"),
-    FONT_CLASS_PREFIX_REPEAT(ERROR_TYPE.SYSTEM_ERROR, 10023049, "目前已存在图标库前缀为“{}”的图标库“{}”，无法上传，请至第三方图标库修改图标库前缀后再次上传");
+    FONT_CLASS_PREFIX_REPEAT(ERROR_TYPE.SYSTEM_ERROR, 10023049, "目前已存在图标库前缀为“{}”的图标库“{}”，无法上传，请至第三方图标库修改图标库前缀后再次上传"),
 
-    private ERROR_TYPE type;
+    ;
 
-    private int code;
-
-    private String msg;
+    private final ERROR_TYPE type;
+    private final int code;
+    private final String msg;
 
     ExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;

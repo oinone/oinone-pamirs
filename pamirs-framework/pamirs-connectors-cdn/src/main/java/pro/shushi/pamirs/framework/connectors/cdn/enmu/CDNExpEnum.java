@@ -28,11 +28,11 @@ public enum CDNExpEnum implements ExpBaseEnum {
     CDN_UPYUN_UPLOAD_FILE_FETCH_INFO_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10059016, "又拍云文件上传获取文件信息失败"),
     MINIO_GET_FORM_DATA_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10059017, "获取上传信息失败");
 
-    private ERROR_TYPE type;
+    private final ERROR_TYPE type;
 
-    private int code;
+    private final int code;
 
-    private String msg;
+    private final String msg;
 
     CDNExpEnum(ERROR_TYPE type, int code, String msg) {
         this.type = type;
