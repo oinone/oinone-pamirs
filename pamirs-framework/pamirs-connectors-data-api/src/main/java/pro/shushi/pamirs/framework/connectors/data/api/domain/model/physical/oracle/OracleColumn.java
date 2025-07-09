@@ -64,4 +64,7 @@ public class OracleColumn extends TransientModel {
     @Field
     private String characterSetName;
 
+    @Field
+    private String aiSequenceName;
+
 }

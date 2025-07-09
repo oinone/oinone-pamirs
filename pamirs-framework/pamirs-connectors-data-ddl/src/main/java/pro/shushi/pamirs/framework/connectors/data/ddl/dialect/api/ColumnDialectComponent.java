@@ -8,6 +8,7 @@ import pro.shushi.pamirs.framework.connectors.data.ddl.enmu.DdlExpEnumerate;
 import pro.shushi.pamirs.framework.connectors.data.ddl.utils.DdlUtils;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.Dialect;
 import pro.shushi.pamirs.meta.api.core.compute.systems.type.TypeProcessor;
+import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.ColumnInfo;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.constants.NamespaceConstants;
@@ -222,12 +223,18 @@ public interface ColumnDialectComponent {
                 summary, addPrimaryKeyString, after, ";\n");
     }
 
+    @Deprecated
     default String modifyColumn(String table, String column, String newName, String columnDefinition,
                                 String summary, String previousColumn) {
         String after = StringUtils.isBlank(previousColumn) ? "'" : "' AFTER `" + previousColumn + "`";
         return DdlUtils.buildString("ALTER TABLE `", table, "` CHANGE `",
                 columnPlaceholder(column), "` `", checkColumnLength(newName), "` ", columnDefinition, " COMMENT '",
                 summary, after, ";\n");
+    }
+
+    default String modifyColumn(String table, String column, String newName, String columnDefinition,
+                                String summary, String previousColumn, Column beforeColumn) {
+        return modifyColumn(table, column, newName, columnDefinition, summary, previousColumn);
     }
 
     default String checkColumnLength(String column) {

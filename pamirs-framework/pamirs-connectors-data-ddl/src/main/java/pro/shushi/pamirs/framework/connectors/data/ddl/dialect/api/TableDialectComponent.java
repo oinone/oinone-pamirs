@@ -147,5 +147,4 @@ public interface TableDialectComponent {
     default void fixDdl(List<String> ddlList) {
 
     }
-
 }
