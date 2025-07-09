@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.business.api.model;
 
 import pro.shushi.pamirs.business.api.entity.PamirsCompany;
-import pro.shushi.pamirs.business.api.pmodel.DepartmentRelEmployeeProxy;
 import pro.shushi.pamirs.core.common.behavior.IDataStatus;
 import pro.shushi.pamirs.core.common.behavior.ITreeCodeModel;
 import pro.shushi.pamirs.core.common.cache.UniqueKeyGenerator;
@@ -10,6 +9,7 @@ import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.constant.MetaDefaultConstants;
+import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 
 import java.util.List;
 
@@ -77,13 +77,16 @@ public class PamirsDepartment extends BizCodeModel implements IDataStatus, ITree
     @Field(displayName = "员工列表")
     private List<PamirsEmployee> employeeList;
 
-    @Field.one2many
-    @Field.Relation(relationFields = {"departmentType", "code"}, referenceFields = {"departmentType", "departmentCode"})
-    @Field(displayName = "部门员工关系")
-    private List<DepartmentRelEmployeeProxy> employeeRelList;
-
     @Field.Integer
     @Field(displayName = "优先级", defaultValue = MetaDefaultConstants.PRIORITY_VALUE_STRING)
     private Long priority;
 
+    @Field.many2one
+    @Field.Relation(store = false)
+    @Field(displayName = "直属主管", store = NullableBoolEnum.FALSE)
+    private PamirsEmployee immediateSupervisor;
+
+    @Field.Boolean
+    @Field(displayName = "是否为部门主管", store = NullableBoolEnum.FALSE)
+    private Boolean supervisor;
 }

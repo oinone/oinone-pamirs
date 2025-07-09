@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.business.api.entity.PamirsCompany;
 import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
+import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
 import pro.shushi.pamirs.core.common.check.UserInfoChecker;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
@@ -49,6 +50,9 @@ public class PamirsEmployeeAction {
 
     @Autowired
     private PamirsEmployeeService pamirsEmployeeService;
+
+    @Autowired
+    private DepartmentRelEmployeeService departmentRelEmployeeService;
 
     @Function(openLevel = FunctionOpenEnum.API, summary = "员工构造")
     @Function.Advanced(type = FunctionTypeEnum.QUERY)
@@ -153,7 +157,7 @@ public class PamirsEmployeeAction {
     @Function.fun(FunctionConstants.queryPage)
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public Pagination<PamirsEmployee> queryPage(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
-        return pamirsEmployeeService.queryPage(page, queryWrapper);
+        return pamirsEmployeeService.queryPageAndFillSupervisor(page, queryWrapper);
     }
 
     @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)
@@ -172,6 +176,7 @@ public class PamirsEmployeeAction {
             pamirsEmployee.setUserEmail(pamirsEmployee.getDefaultBindingUser().getEmail());
             pamirsEmployee.setBindingMode(BindingModeEnum.BINDING_EXISTING);
         }
+        pamirsEmployee = departmentRelEmployeeService.fillDepartmentDataByEmployee(pamirsEmployee);
         return pamirsEmployee;
     }
 

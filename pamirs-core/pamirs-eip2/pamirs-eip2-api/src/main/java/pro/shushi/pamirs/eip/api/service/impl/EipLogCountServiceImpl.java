@@ -10,7 +10,6 @@ import pro.shushi.pamirs.eip.api.service.EipLogCountService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
-import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.Models;
 
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 /**
  * @author yeshenyue on 2025/4/10 10:25.
  */
-@Slf4j
 @Service
 @Fun(EipLogCountService.FUN_NAMESPACE)
 public class EipLogCountServiceImpl implements EipLogCountService {

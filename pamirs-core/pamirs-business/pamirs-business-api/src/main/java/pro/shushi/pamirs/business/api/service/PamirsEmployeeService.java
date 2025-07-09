@@ -43,6 +43,9 @@ public interface PamirsEmployeeService {
     Pagination<PamirsEmployee> queryPage(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper);
 
     @Function
+    Pagination<PamirsEmployee> queryPageAndFillSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper);
+
+    @Function
     PamirsEmployee queryOne(PamirsEmployee query);
 
     /**

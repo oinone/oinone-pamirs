@@ -11,7 +11,7 @@
             <field span="1" name="name" data="name" label="员工名称"/>
             <field span="1" name="employeeType" data="employeeType" label="员工类型" invisible="true"/>
             <field span="1" name="phone" data="phone" label="员工手机号"/>
-            <field name="company" data="company" label="所属公司" required="true" clearFields="departmentRelList" optionFields="code"/>
+            <field name="company" data="company" label="所属公司" required="true" clearFields="departmentList" optionFields="code"/>
             <field name="department" data="department" label="所属主部门" domain="companyCode == ${activeRecord.company.code}" disabled="!activeRecord.company.code"/>
             <field name="dataStatus" data="dataStatus" label="数据状态" readonly="true" span="1" invisible="!activeRecord.id"/>
         </pack>
@@ -28,25 +28,23 @@
             <field span="1" name="defaultBindingUser" data="defaultBindingUser" invisible="rootRecord.bindingMode == 'CREATE_BINDING'" label="绑定用户" optionFields="name,login,code,id" optionLabel="activeRecord.name" placeholder="绑定用户" required="true" searchFields="name,login" widget="Select"/>
         </pack>
         <pack widget="group" title="所属部门列表">
-            <field data="departmentRelList" widget="Table" name="departmentRelList" model="business.PamirsEmployee" labelInvisible="true">
-                <view model="business.DepartmentRelEmployeeProxy" type="table">
+            <field data="departmentList" widget="Table" label="false" submitType="all">
+                <view type="table">
                     <template slot="actionBar">
-                        <action invisible="false" label="添加" name="LoadAddDeptListByEmployee" disabled="!rootRecord.company.code" >
+                        <action label="添加" name="internalGotoM2MListDialogFromPamirsEmployeeFromBusiness" disabled="!rootRecord.company.code">
                             <template slot="default">
-                                <view model="business.DepartmentRelEmployeeProxy" type="table">
+                                <view type="table">
                                     <template slot="search">
-                                        <field data="departmentCode" label="部门编码"/>
-                                        <field data="departmentName" label="部门名称"/>
+                                        <field data="code" label="部门编码"/>
+                                        <field data="name" label="部门名称"/>
                                     </template>
                                     <template slot="actionBar"/>
-                                    <template slot="table" filter="companyCode==${rootRecord.company.code} and departmentId=out=(${LIST_FIELD_VALUES(rootRecord.departmentRelList, business.DepartmentRelEmployeeProxy, departmentId)})">
-                                        <field data="departmentId" label="部门id" invisible="true"/>
-                                        <field data="departmentCode" label="部门编码"/>
-                                        <field data="departmentName" label="部门名称"/>
-                                        <field data="parentDepartment" label="上级部门"/>
-                                        <field data="employeeType" invisible="true"/>
-                                        <field data="departmentCode" invisible="true"/>
+                                    <template slot="table" filter="companyCode==${rootRecord.company.code} and id=out=(${LIST_IDS(rootRecord.departmentList)})">
+                                        <field data="id" invisible="true"/>
                                         <field data="departmentType" invisible="true"/>
+                                        <field data="code" label="部门编码"/>
+                                        <field data="name" label="部门名称"/>
+                                        <field data="parent" label="上级部门"/>
                                         <template slot="rowActions"/>
                                     </template>
                                     <template slot="header"/>
@@ -60,17 +58,18 @@
                         <action name="$$internal_DeleteOne"/>
                     </template>
                     <template slot="table">
-                        <field data="employeeCode" invisible="true"/>
-                        <field data="departmentId" label="部门id" invisible="true"/>
-                        <field data="departmentCode" label="部门编码"/>
-                        <field data="departmentName" label="部门名称"/>
-                        <field data="parentDepartment" label="上级部门"/>
-                        <field data="supervisor" label="是否为部门主管" widget="Switch" editable="true"/>
-                        <field data="immediateSupervisor" label="直属主管" editable="true"
-                               domain="departmentCode==${activeRecord.departmentCode} and code!=${rootRecord.code}"
-                               load="queryPageImmediateSupervisor"/>
-                        <field data="employeeType" invisible="true"/>
+                        <field data="id" invisible="true"/>
                         <field data="departmentType" invisible="true"/>
+                        <field data="code" label="部门编码"/>
+                        <field data="name" label="部门名称"/>
+                        <field data="parent" label="上级部门"/>
+                        <field data="supervisor" label="是否为部门主管" widget="Switch" editable="true"/>
+                        <field data="immediateSupervisor" label="直属主管" editable="true" optionFields="code"
+                               domain="departmentCode==${activeRecord.code} and code!=${rootRecord.code}"
+                               load="queryPageImmediateSupervisor" invisible="IS_BLANK(rootRecord.code)"/>
+                        <field data="immediateSupervisor" label="直属主管" editable="true" optionFields="code"
+                               domain="departmentCode==${activeRecord.code} and code!=${rootRecord.code}"
+                               load="queryPageImmediateSupervisor" invisible="!IS_BLANK(rootRecord.code)"/>
                         <template slot="rowActions"/>
                     </template>
                 </view>
@@ -78,7 +77,7 @@
         </pack>
         <pack widget="group" title="所属岗位列表">
             <field name="positions" widget="Table" data="positions" label="false" submitType="all">
-                <view widget="table" model="business.PamirsPosition">
+                <view widget="Table" model="business.PamirsPosition">
                     <template slot="actions">
                         <action name="internalGotoM2MListDialogFromPamirsEmployeeFromBusiness" label="添加" actionType="VIEW" model="business.PamirsPosition" domain="companyCode == ${rootRecord.company.code}" disabled="!rootRecord.company.code" viewType="TABLE" resViewName="dialogTableView" tag="contextFreeAction"/>
                         <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" model="business.PamirsPosition" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>

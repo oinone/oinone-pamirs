@@ -12,6 +12,7 @@ import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * {@link DepartmentRelEmployee}服务
@@ -72,5 +73,20 @@ public interface DepartmentRelEmployeeService extends StandardModelService<Depar
     PamirsEmployee queryDepartmentSupervisor(PamirsDepartment department);
 
     @Function
+    PamirsEmployee fillDepartmentDataByEmployee(PamirsEmployee employee);
+
+    @Function
     List<String> queryDeptCodeByEmpCode(String employeeCode);
+
+    @Function
+    Integer assignDepartmentSupervisor(String departmentCode, String employeeCode);
+
+    @Function
+    void clearImmediateSupervisorByDept(PamirsDepartment data, List<PamirsEmployee> employeeList, List<PamirsEmployee> originEmployees);
+
+    @Function
+    Integer assignSupervisorOrImmediateSupervisor(PamirsEmployee employee, List<PamirsDepartment> departmentList, List<PamirsDepartment> originDepartmentList);
+
+    @Function
+    void clearImmediateSupervisorCodes(Set<String> employeeCodes);
 }

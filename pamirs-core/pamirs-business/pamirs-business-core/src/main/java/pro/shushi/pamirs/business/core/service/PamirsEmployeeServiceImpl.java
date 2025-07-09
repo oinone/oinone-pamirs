@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.business.core.service;
 
+import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,9 @@ import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsPosition;
-import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeProxyService;
+import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
+import pro.shushi.pamirs.business.util.DepartmentRelEmployeeHelper;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
@@ -45,7 +47,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     @Autowired
     private UserService userService;
     @Autowired
-    private DepartmentRelEmployeeProxyService departmentRelEmployeeProxyService;
+    private DepartmentRelEmployeeService departmentRelEmployeeService;
 
     @Function
     @Override
@@ -54,7 +56,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             data.setEmployeeType(BusinessModule.DEFAULT_TYPE);
         }
         data = data.create();
-        data = data.fieldSave(PamirsEmployee::getDepartmentRelList);
+        departmentRelEmployeeService.assignSupervisorOrImmediateSupervisor(data, data.getDepartmentList(), null);
         return data;
     }
 
@@ -89,9 +91,8 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             createUserBaseRole(pamirsUser.getId());
             PamirsEmployee result = this.create(employee);
             result = bindUserToEmployee(pamirsUser, result);
-            result = result.fieldSave(PamirsEmployee::getDepartmentList);
             result = result.fieldSave(PamirsEmployee::getPositions);
-            result = result.fieldSave(PamirsEmployee::getDepartmentRelList);
+            result = result.fieldSave(PamirsEmployee::getDepartmentList);
             return result;
         });
     }
@@ -123,7 +124,10 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
         if (CollectionUtils.isNotEmpty(departmentList)) {
             for (int i = 0; i < departmentList.size(); i++) {
+                PamirsDepartment originDepartment = departmentList.get(i);
                 PamirsDepartment department = departmentList.get(i).queryOne();
+                department.setSupervisor(originDepartment.getSupervisor());
+                department.setImmediateSupervisor(originDepartment.getImmediateSupervisor());
                 departmentList.set(i, department);
             }
         }
@@ -147,18 +151,16 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             if (pamirsUser != null) {
                 bindUserToEmployee(pamirsUser, result);
             }
-            if (CollectionUtils.isNotEmpty(employee.getDepartmentRelList())) {
-                departmentRelEmployeeProxyService.updateRelationEmployee(employee);
-            } else if (CollectionUtils.isNotEmpty(employee.getDepartmentList())) {
-                result = result.fieldQuery(PamirsEmployee::getDepartmentList);
-                result = result.relationDelete(PamirsEmployee::getDepartmentList);
-                result.setDepartmentList(finalDepartmentList);
-                result.fieldSave(PamirsEmployee::getDepartmentList);
-            }
+            result = result.fieldQuery(PamirsEmployee::getDepartmentList);
+            List<PamirsDepartment> originDepartments = result.getDepartmentList();
             result = result.fieldQuery(PamirsEmployee::getPositions);
+            result = result.relationDelete(PamirsEmployee::getDepartmentList);
             result = result.relationDelete(PamirsEmployee::getPositions);
 
             result.setPositions(positions);
+            result.setDepartmentList(finalDepartmentList);
+            departmentRelEmployeeService.assignSupervisorOrImmediateSupervisor(data, result.getDepartmentList(), originDepartments);
+            result.fieldSave(PamirsEmployee::getDepartmentList);
             result.fieldSave(PamirsEmployee::getPositions);
             return result;
         });
@@ -180,19 +182,47 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
                     .from(DepartmentRelEmployee.MODEL_MODEL)
                     .in(DepartmentRelEmployee::getEmployeeCode, employeeCodes)
             );
+            // 删除直属主管
+            departmentRelEmployeeService.clearImmediateSupervisorCodes(employeeCodes);
         });
     }
 
     @Function
     @Override
     public void deleteById(PamirsEmployee data) {
+        data = data.queryById();
         data.deleteById();
+        // 删除直属主管
+        departmentRelEmployeeService.clearImmediateSupervisorCodes(Sets.newHashSet(data.getCode()));
     }
 
     @Function
     @Override
     public Pagination<PamirsEmployee> queryPage(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
         return new PamirsEmployee().queryPage(page, queryWrapper);
+    }
+
+    @Function
+    @Override
+    public Pagination<PamirsEmployee> queryPageAndFillSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
+        Pagination<PamirsEmployee> pageResult = queryPage(page, queryWrapper);
+        if (CollectionUtils.isEmpty(pageResult.getContent())) {
+            return pageResult;
+        }
+
+        // 从relationQuery结果中提取主管信息
+        Map<String, Object> queryData = queryWrapper.getQueryData();
+        if (queryData != null) {
+            List<PamirsEmployee> employeeList = pageResult.getContent();
+            DepartmentRelEmployeeHelper.fillSupervisorInfo(
+                    employeeList,
+                    queryWrapper.getQueryData(),
+                    LambdaUtil.fetchFieldName(PamirsDepartment::getEmployeeList),
+                    DepartmentRelEmployee::getEmployeeCode,
+                    (employee, rel) -> employee.setSupervisor(Boolean.TRUE.equals(rel.getSupervisor()))
+            );
+        }
+        return pageResult;
     }
 
     @Function
