@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.boot.web.spi.meta;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
@@ -25,24 +26,26 @@ import pro.shushi.pamirs.boot.base.ux.constants.GridConstants;
 import pro.shushi.pamirs.boot.base.ux.constants.LayoutPropNameConstants;
 import pro.shushi.pamirs.boot.base.ux.constants.TablePropConstants;
 import pro.shushi.pamirs.boot.base.ux.enmu.ViewSlotNameEnum;
+import pro.shushi.pamirs.boot.base.ux.entity.RegisterSearchWidget;
 import pro.shushi.pamirs.boot.base.ux.model.UIView;
 import pro.shushi.pamirs.boot.base.ux.model.UIWidget;
 import pro.shushi.pamirs.boot.base.ux.model.view.UIAction;
 import pro.shushi.pamirs.boot.base.ux.model.view.UIField;
 import pro.shushi.pamirs.boot.base.ux.model.view.UIPack;
 import pro.shushi.pamirs.boot.base.ux.model.view.UITemplate;
+import pro.shushi.pamirs.boot.base.ux.spi.ViewTemplateStrategyApi;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
 import pro.shushi.pamirs.boot.web.constants.GroupConstants;
-import pro.shushi.pamirs.boot.base.ux.spi.ViewTemplateStrategyApi;
-import pro.shushi.pamirs.boot.base.ux.entity.RegisterSearchWidget;
 import pro.shushi.pamirs.boot.web.spi.domain.RegisterViewContext;
 import pro.shushi.pamirs.boot.web.utils.*;
 import pro.shushi.pamirs.framework.common.config.TtlAsyncTaskExecutor;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.orm.systems.ModelInheritedApi;
+import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
@@ -654,17 +657,23 @@ public class RegisterViewEditor implements MetaDataEditor {
 
             TtypeEnum ttype = modelField.getTtype();
             if (TtypeEnum.isRelationOne(ttype)) {
-                List<String> relationFields = modelField.getRelationFields();
-                List<String> referenceFields = modelField.getReferenceFields();
-                if (CollectionUtils.isNotEmpty(relationFields) &&
-                        CollectionUtils.isNotEmpty(referenceFields) &&
-                        relationFields.size() == referenceFields.size()) {
-                    String data = uiField.getData();
-                    for (int i = 0; i < relationFields.size(); i++) {
-                        String relationField = relationFields.get(i);
-                        String referenceField = referenceFields.get(i);
-                        computeMapping.put(relationField, String.join(CharacterConstants.SEPARATOR_DOT, ACTIVE_RECORD, data, referenceField));
+                if (TtypeEnum.M2O.equals(ttype)) {
+                    List<String> relationFields = modelField.getRelationFields();
+                    List<String> referenceFields = modelField.getReferenceFields();
+                    if (CollectionUtils.isNotEmpty(relationFields) &&
+                            CollectionUtils.isNotEmpty(referenceFields) &&
+                            relationFields.size() == referenceFields.size()) {
+                        String data = uiField.getData();
+                        for (int i = 0; i < relationFields.size(); i++) {
+                            String relationField = relationFields.get(i);
+                            String referenceField = referenceFields.get(i);
+                            computeMapping.put(relationField, String.join(CharacterConstants.SEPARATOR_DOT, ACTIVE_RECORD, data, referenceField));
+                        }
                     }
+                }
+
+                if (CollectionUtils.isEmpty(uiField.getOptionFields()) && isReferencePamirsFile(modelField.getReferences())) {
+                    uiField.setOptionFields(Lists.newArrayList("url"));
                 }
             }
 
@@ -705,6 +714,27 @@ public class RegisterViewEditor implements MetaDataEditor {
         }).sorted(Comparator.comparing(UIWidget::getPriority)).collect(Collectors.toList());
 
         layoutUiWidgets(context.getMeta(), uiView, viewType, model, uiFieldList, depth);
+    }
+
+    private boolean isReferencePamirsFile(String model) {
+        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
+        if (modelConfig != null) {
+            if ("base.PamirsFile".equals(modelConfig.getModel())) {
+                return true;
+            }
+            if (ModelTypeEnum.ABSTRACT.equals(modelConfig.getType()) || ModelTypeEnum.TRANSIENT.equals(modelConfig.getType())) {
+                return false;
+            }
+            List<String> superModels = modelConfig.getSuperModels();
+            if (CollectionUtils.isNotEmpty(superModels)) {
+                for (String superModel : superModels) {
+                    if (isReferencePamirsFile(superModel)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private boolean isSymmetricMappingRelation(ModelField subViewModelField, ModelField modelField, Function<String, ModelDefinition> modelFetcher) {
