@@ -1005,7 +1005,6 @@ public class InitializationUtil {
      * @param xmlPath xml路径
      * @return 页面
      */
-    @Deprecated
     public MaskDefinition createMask(String name, String xmlPath) {
         MaskDefinition mask = finder(MaskDefinition.MODEL_MODEL, name);
         if (mask == null) {
@@ -1019,7 +1018,6 @@ public class InitializationUtil {
         return mask;
     }
 
-    @Deprecated
     private void pushMask(MaskDefinition mask) {
         mask.setSign(mask.getName());
         push(MaskDefinition.MODEL_MODEL, mask);

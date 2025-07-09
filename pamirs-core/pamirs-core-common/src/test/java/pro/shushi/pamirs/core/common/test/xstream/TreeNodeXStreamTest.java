@@ -28,4 +28,34 @@ public class TreeNodeXStreamTest {
         String s = xStream.toXML(root);
         System.out.println(1);
     }
+
+    @Test
+    public void testMask() {
+        String template = "<mask>\n" +
+                "    <header>\n" +
+                "        <widget widget=\"designer-app-switcher\"/>\n" +
+                "        <block>\n" +
+                "            <widget widget=\"notification\"/>\n" +
+                "            <widget widget=\"divider\"/>\n" +
+                "            <widget widget=\"language\"/>\n" +
+                "            <widget widget=\"divider\"/>\n" +
+                "            <widget widget=\"user\"/>\n" +
+                "        </block>\n" +
+                "    </header>\n" +
+                "    <container>\n" +
+                "        <sidebar>\n" +
+                "            <widget widget=\"designer-nav-menu\" height=\"100%\"/>\n" +
+                "        </sidebar>\n" +
+                "        <content>\n" +
+                "            <block height=\"100%\" width=\"100%\">\n" +
+                "                <widget width=\"100%\" widget=\"main-view\"/>\n" +
+                "            </block>\n" +
+                "        </content>\n" +
+                "    </container>\n" +
+                "</mask>";
+        TreeNodeXStream xStream = new TreeNodeXStream();
+        TreeNode<XMLNodeContent> root = xStream.fromXML(template);
+        String s = xStream.toXML(root);
+        System.out.println(1);
+    }
 }

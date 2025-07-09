@@ -49,8 +49,7 @@ public class LoadViewEditor implements MetaDataEditor {
                 // 加载jar包中的视图
                 viewTemplateInitLoader.init(module, metaData);
                 viewLayoutInitLoader.init(module, metaData);
-                // FIXME: zbh 20240301 mask无法实例化
-//                viewMaskInitLoader.init(module, metaData);
+                viewMaskInitLoader.init(module, metaData);
 
             }
         }

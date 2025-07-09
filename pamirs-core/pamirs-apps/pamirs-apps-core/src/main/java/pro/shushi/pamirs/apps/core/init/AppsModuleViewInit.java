@@ -27,7 +27,6 @@ public class AppsModuleViewInit implements MetaDataEditor {
         if (util == null) {
             return;
         }
-        util.createMask("apps_business_screen_page", "file:pamirs/views/apps/mask/apps_business_screen_page.xml");
         util.createViewAction("apps_business_screen_detail", "了解更多",
                 AppsManagementModule.MODEL_MODEL, Lists.newArrayList(ViewTypeEnum.GALLERY),
                 AppsManagementModule.MODEL_MODEL, ViewTypeEnum.DETAIL,
