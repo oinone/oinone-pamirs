@@ -77,7 +77,7 @@
         </pack>
         <pack widget="group" title="所属岗位列表">
             <field name="positions" widget="Table" data="positions" label="false" submitType="all">
-                <view widget="Table" model="business.PamirsPosition">
+                <view type="table" model="business.PamirsPosition">
                     <template slot="actions">
                         <action name="internalGotoM2MListDialogFromPamirsEmployeeFromBusiness" label="添加" actionType="VIEW" model="business.PamirsPosition" domain="companyCode == ${rootRecord.company.code}" disabled="!rootRecord.company.code" viewType="TABLE" resViewName="dialogTableView" tag="contextFreeAction"/>
                         <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" model="business.PamirsPosition" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>

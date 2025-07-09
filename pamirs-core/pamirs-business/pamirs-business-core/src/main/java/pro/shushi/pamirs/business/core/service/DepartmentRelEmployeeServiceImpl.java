@@ -255,7 +255,7 @@ public class DepartmentRelEmployeeServiceImpl extends AbstractStandardModelServi
         );
     }
 
-    private static void removeImmediateSupervisorRelations(PamirsEmployee employee, List<PamirsDepartment> departmentList, List<PamirsDepartment> originDepartmentList) {
+    private void removeImmediateSupervisorRelations(PamirsEmployee employee, List<PamirsDepartment> departmentList, List<PamirsDepartment> originDepartmentList) {
         // 获取用户更新前的所有部门
         Set<String> removeDeptCodes = originDepartmentList.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet());
 
@@ -275,7 +275,7 @@ public class DepartmentRelEmployeeServiceImpl extends AbstractStandardModelServi
         }
     }
 
-    private static void clearSupervisor(List<String> departmentCodes) {
+    private void clearSupervisor(List<String> departmentCodes) {
         DepartmentRelEmployee rel = new DepartmentRelEmployee();
         rel.setSupervisor(false);
         IWrapper<DepartmentRelEmployee> clearSupervisorWrapper = Pops.<DepartmentRelEmployee>lambdaUpdate()
@@ -329,7 +329,7 @@ public class DepartmentRelEmployeeServiceImpl extends AbstractStandardModelServi
         }
     }
 
-    private static void putRelation(DepartmentRelEmployee r, Map<String, String> deptMap,
+    private void putRelation(DepartmentRelEmployee r, Map<String, String> deptMap,
                                     Map<String, Map<String, String>> deptRelMap) {
         String deptType = deptMap.get(r.getDepartmentCode());
         if (StringUtils.isBlank(deptType) || !deptType.equals(r.getDepartmentType())) {

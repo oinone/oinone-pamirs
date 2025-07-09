@@ -123,12 +123,18 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         }
 
         if (CollectionUtils.isNotEmpty(departmentList)) {
+            List<String> deptCodes = departmentList.stream().map(PamirsDepartment::getCode).collect(Collectors.toList());
+            List<PamirsDepartment> originDepartments = Models.data().queryListByWrapper(Pops.<PamirsDepartment>lambdaQuery()
+                    .from(PamirsDepartment.MODEL_MODEL)
+                    .in(PamirsDepartment::getCode, deptCodes));
+            Map<String, PamirsDepartment> originDepartmentMap = originDepartments.stream()
+                    .collect(Collectors.toMap(PamirsDepartment::getCode, v -> v));
             for (int i = 0; i < departmentList.size(); i++) {
-                PamirsDepartment originDepartment = departmentList.get(i);
-                PamirsDepartment department = departmentList.get(i).queryOne();
-                department.setSupervisor(originDepartment.getSupervisor());
-                department.setImmediateSupervisor(originDepartment.getImmediateSupervisor());
-                departmentList.set(i, department);
+                PamirsDepartment department = departmentList.get(i);
+                PamirsDepartment originDepartment = originDepartmentMap.get(department.getCode());
+                originDepartment.setSupervisor(department.getSupervisor());
+                originDepartment.setImmediateSupervisor(department.getImmediateSupervisor());
+                departmentList.set(i, originDepartment);
             }
         }
 
@@ -177,7 +183,10 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     public void deleteByPks(List<PamirsEmployee> list) {
         Set<String> employeeCodes = list.stream().map(PamirsEmployee::getCode).collect(Collectors.toSet());
         Tx.build().executeWithoutResult(status -> {
-            new PamirsEmployee().deleteByPks(list);
+            new PamirsEmployee().deleteByWrapper(Pops.<PamirsEmployee>lambdaQuery()
+                    .from(PamirsEmployee.MODEL_MODEL)
+                    .in(PamirsEmployee::getCode, employeeCodes)
+            );
             new DepartmentRelEmployee().deleteByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
                     .from(DepartmentRelEmployee.MODEL_MODEL)
                     .in(DepartmentRelEmployee::getEmployeeCode, employeeCodes)
@@ -191,9 +200,14 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     @Override
     public void deleteById(PamirsEmployee data) {
         data = data.queryById();
+        String employeeCode = data.getCode();
         data.deleteById();
+
+        new DepartmentRelEmployee().deleteByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
+                .from(DepartmentRelEmployee.MODEL_MODEL)
+                .eq(DepartmentRelEmployee::getEmployeeCode, employeeCode));
         // 删除直属主管
-        departmentRelEmployeeService.clearImmediateSupervisorCodes(Sets.newHashSet(data.getCode()));
+        departmentRelEmployeeService.clearImmediateSupervisorCodes(Sets.newHashSet(employeeCode));
     }
 
     @Function
@@ -293,7 +307,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         return Models.origin().queryPage(page, query);
     }
 
-    private static Set<String> fetchImmediateSupervisorCode(String departmentCode, String myselfCode) {
+    private Set<String> fetchImmediateSupervisorCode(String departmentCode, String myselfCode) {
         // 1.查询直属关系
         List<DepartmentRelEmployee> relList = Models.data().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
                 .from(DepartmentRelEmployee.MODEL_MODEL)

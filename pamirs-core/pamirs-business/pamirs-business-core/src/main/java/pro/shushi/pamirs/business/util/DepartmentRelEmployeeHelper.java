@@ -5,6 +5,8 @@ import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -17,8 +19,8 @@ public class DepartmentRelEmployeeHelper {
      */
     public static <T extends BizCodeModel> boolean fillSupervisorInfo(List<T> entities, Map<String, Object> queryData,
                                                                    String dataKey,
-                                                                   java.util.function.Function<DepartmentRelEmployee, String> keyExtractor,
-                                                                   java.util.function.BiConsumer<T, DepartmentRelEmployee> supervisorSetter) {
+                                                                   Function<DepartmentRelEmployee, String> keyExtractor,
+                                                                   BiConsumer<T, DepartmentRelEmployee> supervisorSetter) {
         if (queryData == null || !queryData.containsKey(dataKey)) {
             return false;
         }

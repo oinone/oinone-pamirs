@@ -149,11 +149,12 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
     public void deleteByPks(List<PamirsDepartment> list) {
         Set<String> deptCodes = list.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet());
         Tx.build().executeWithoutResult(status -> {
-            new PamirsDepartment().deleteByPks(list);
+            new PamirsDepartment().deleteByWrapper(Pops.<PamirsDepartment>lambdaQuery()
+                    .from(PamirsDepartment.MODEL_MODEL)
+                    .in(PamirsDepartment::getCode, deptCodes));
             new DepartmentRelEmployee().deleteByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
                     .from(DepartmentRelEmployee.MODEL_MODEL)
-                    .in(DepartmentRelEmployee::getDepartmentCode, deptCodes)
-            );
+                    .in(DepartmentRelEmployee::getDepartmentCode, deptCodes));
         });
     }
 

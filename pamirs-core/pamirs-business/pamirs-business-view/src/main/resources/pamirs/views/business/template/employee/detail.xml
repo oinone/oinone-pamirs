@@ -18,7 +18,7 @@
         </pack>
         <pack widget="group" title="所属部门列表">
             <field data="departmentList" widget="Table">
-                <view widget="Table" load="false">
+                <view type="table">
                     <template slot="table">
                         <field data="id" label="部门id" invisible="true"/>
                         <field data="code" label="部门编码"/>
@@ -32,7 +32,7 @@
         </pack>
         <pack widget="group" title="所属岗位列表">
             <field name="positions" widget="Table" model="business.PamirsEmployee" data="positions" label="false">
-                <view widget="Table" model="business.PamirsPosition" excluded-actions="$$internal_GotoO2MCreateDialog,$$internal_GotoO2MEditDialog,$$internal_DeleteOne">
+                <view type="table" model="business.PamirsPosition" excluded-actions="$$internal_GotoO2MCreateDialog,$$internal_GotoO2MEditDialog,$$internal_DeleteOne">
                     <template slot="fields">
                         <field name="id" invisible="true" model="business.PamirsPosition" data="id"/>
                         <field name="code" model="business.PamirsPosition" data="code" label="岗位编码"/>

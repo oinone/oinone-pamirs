@@ -18,7 +18,7 @@
         <pack widget="tabs">
             <pack widget="tab" title="岗位列表">
                 <field name="positionList" widget="Table" model="business.PamirsDepartment" data="positionList" label="false">
-                    <view widget="table" model="business.PamirsPosition">
+                    <view type="table" model="business.PamirsPosition">
                         <template slot="actions">
                             <action name="internalGotoO2MCreateDialogFromPamirsDepartmentFromBusiness" label="添加" disabled="!rootRecord.company.code" context-companyCode="rootRecord.company.code" actionType="VIEW" model="business.PamirsPosition" viewType="FORM" xresViewName="dialogFormView" tag="contextFreeAction">
                                 <template slot="default">
