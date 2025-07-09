@@ -97,6 +97,8 @@ public class PamirsDepartmentAction {
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public PamirsDepartment queryOne(PamirsDepartment query) {
         PamirsDepartment department = pamirsDepartmentService.queryOne(query);
+        // 填充部门主管
+        department = pamirsDepartmentService.fillDeptSupervisor(department);
         return department;
     }
 

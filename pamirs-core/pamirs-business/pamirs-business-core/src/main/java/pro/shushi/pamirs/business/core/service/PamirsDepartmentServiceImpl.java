@@ -94,8 +94,6 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         department = department.fieldQuery(PamirsDepartment::getCompany);
         department = department.fieldQuery(PamirsDepartment::getPositionList);
         department = department.fieldQuery(PamirsDepartment::getEmployeeList);
-        // 填充部门主管
-        fillDeptSupervisor(department);
         return department;
     }
 
@@ -203,14 +201,16 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         }
     }
 
-    private void fillDeptSupervisor(PamirsDepartment department) {
+    @Function
+    @Override
+    public PamirsDepartment fillDeptSupervisor(PamirsDepartment department) {
         List<PamirsEmployee> employees = department.getEmployeeList();
         if (CollectionUtils.isEmpty(employees)) {
-            return;
+            return department;
         }
         PamirsEmployee supervisorEmployee = departmentRelEmployeeService.queryDepartmentSupervisor(department);
         if (supervisorEmployee == null) {
-            return;
+            return department;
         }
 
         // 设置部门主管，并将部门主管移动到数组最前方
@@ -226,5 +226,6 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         if (supervisorIndex > 0) {
             Collections.swap(employees, 0, supervisorIndex);
         }
+        return department;
     }
 }
