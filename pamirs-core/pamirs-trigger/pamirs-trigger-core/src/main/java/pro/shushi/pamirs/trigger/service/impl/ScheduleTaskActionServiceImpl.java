@@ -24,7 +24,6 @@ import java.util.List;
  */
 @Service
 @Fun(ScheduleTaskActionService.FUN_NAMESPACE)
-@Conditional(ScheduleSwitchCondition.class)
 public class ScheduleTaskActionServiceImpl extends AbstractTaskActionService<ScheduleTaskAction> implements ScheduleTaskActionService {
 
     @Function

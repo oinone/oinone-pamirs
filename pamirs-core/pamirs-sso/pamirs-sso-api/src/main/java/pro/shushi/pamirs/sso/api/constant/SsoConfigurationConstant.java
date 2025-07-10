@@ -2,6 +2,7 @@ package pro.shushi.pamirs.sso.api.constant;
 
 
 public class SsoConfigurationConstant {
+
     public static final String PAMIRS_SSO_PREFIX = "pamirs.sso";
 
     public static final String PAMIRS_SSO_PRIVATE_KEY_PREFIX = "pamirs:sso:temporary:";

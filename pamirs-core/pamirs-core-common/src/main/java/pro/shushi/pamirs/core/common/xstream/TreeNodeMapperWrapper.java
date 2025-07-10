@@ -1,23 +1,14 @@
 package pro.shushi.pamirs.core.common.xstream;
 
 import com.thoughtworks.xstream.mapper.Mapper;
-import com.thoughtworks.xstream.mapper.MapperWrapper;
-import pro.shushi.pamirs.framework.common.entry.TreeNode;
 
 /**
- * {@link TreeNode}映射包装类
- *
- * @author Adamancy Zhang at 12:19 on 2021-08-04
+ * @deprecated please using {@link pro.shushi.pamirs.framework.common.utils.xstream.TreeNodeMapperWrapper}
  */
-public class TreeNodeMapperWrapper extends MapperWrapper {
+@Deprecated
+public class TreeNodeMapperWrapper extends pro.shushi.pamirs.framework.common.utils.xstream.TreeNodeMapperWrapper {
 
     public TreeNodeMapperWrapper(Mapper wrapped) {
         super(wrapped);
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public Class realClass(String elementName) {
-        return TreeNode.class;
     }
 }

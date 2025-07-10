@@ -1,13 +1,14 @@
 package pro.shushi.pamirs.core.common.command;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 命令行帮助类
@@ -25,11 +26,15 @@ public final class CommandHelper {
 
     public static final String ZSH = "/bin/zsh";
 
+    public static final String CMD = "cmd";
+
     public static final String POWERSHELL = "powershell";
 
     public static final String SERIAL_SPLIT = "; ";
 
     public static final String AND_SPLIT = " && ";
+
+    private static final List<String> WINDOWS_PROCESS_PATHS = Arrays.asList(CMD, POWERSHELL);
 
     public static final Function<String[], String[]> EXIT_PREPARE = commands -> {
         if (CommandHelper.EXIT.equals(commands[commands.length - 1])) {
@@ -54,6 +59,9 @@ public final class CommandHelper {
      * @throws InterruptedException 线程中断异常
      */
     public static List<String> executeCommands(String processPath, String... commands) throws IOException, InterruptedException {
+        if (WINDOWS_PROCESS_PATHS.contains(processPath)) {
+            return executeWindowsCommands(commands);
+        }
         List<String> results = new ArrayList<>();
         Runtime runtime = Runtime.getRuntime();
         Process process = null;
@@ -104,6 +112,18 @@ public final class CommandHelper {
         return results;
     }
 
+    private static List<String> executeWindowsCommands(String... commands) throws IOException {
+        Process process = Runtime.getRuntime().exec(commands);
+        process.getOutputStream().close();
+        Scanner scanner = new Scanner(process.getInputStream(), StandardCharsets.UTF_8.name());
+        List<String> result = new ArrayList<>();
+        while (scanner.hasNext()) {
+            result.add(scanner.next());
+        }
+        result.add(Integer.toString(process.exitValue()));
+        return result;
+    }
+
     /**
      * 执行命令行命令并自动退出
      *
@@ -114,6 +134,9 @@ public final class CommandHelper {
      * @throws InterruptedException 线程中断异常
      */
     public static List<String> executeCommandsAndAutoExit(String processPath, String... commands) throws IOException, InterruptedException {
+        if (WINDOWS_PROCESS_PATHS.contains(processPath)) {
+            return executeCommands(processPath, commands);
+        }
         return executeCommands(processPath, EXIT_PREPARE.apply(commands));
     }
 

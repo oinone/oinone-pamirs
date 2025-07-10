@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.core.common.xstream;
+package pro.shushi.pamirs.framework.common.utils.xstream;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -6,7 +6,6 @@ import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.core.common.StringHelper;
 import pro.shushi.pamirs.framework.common.entry.TreeNode;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
@@ -15,9 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @deprecated please using {@link pro.shushi.pamirs.framework.common.utils.xstream.XStreamTreeNodeConverter}
+ * TreeNode&lt;XMLNodeContent&gt;
+ *
+ * @author Adamancy Zhang at 12:19 on 2021-08-04
  */
-@Deprecated
 public class XStreamTreeNodeConverter implements Converter {
 
     @Override
@@ -72,7 +72,11 @@ public class XStreamTreeNodeConverter implements Converter {
         XMLNodeContent content = new XMLNodeContent();
         Iterator<?> iterator = hierarchicalStreamReader.getAttributeNames();
         while (iterator.hasNext()) {
-            String key = StringHelper.valueOf(iterator.next());
+            Object keyObject = iterator.next();
+            if (keyObject == null) {
+                continue;
+            }
+            String key = keyObject.toString();
             if (CharacterConstants.SEPARATOR_EMPTY.equals(key)) {
                 continue;
             }

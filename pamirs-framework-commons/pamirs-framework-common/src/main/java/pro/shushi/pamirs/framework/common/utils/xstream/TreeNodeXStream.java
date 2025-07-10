@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.core.common.xstream;
+package pro.shushi.pamirs.framework.common.utils.xstream;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.ConverterLookup;
@@ -15,9 +15,10 @@ import java.io.*;
 import java.net.URL;
 
 /**
- * @deprecated please using {@link pro.shushi.pamirs.framework.common.utils.xstream.TreeNodeXStream}
+ * TreeNode&lt;XMLNodeContent&gt;
+ *
+ * @author Adamancy Zhang at 12:13 on 2021-08-04
  */
-@Deprecated
 public class TreeNodeXStream extends XStream {
 
     private static final int CLASS_TAG_LENGTH = TreeNode.class.getName().length() + 4;
