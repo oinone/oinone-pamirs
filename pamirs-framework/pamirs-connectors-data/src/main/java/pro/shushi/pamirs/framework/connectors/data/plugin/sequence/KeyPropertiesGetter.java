@@ -8,7 +8,6 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 获取主键列表
@@ -25,7 +24,7 @@ public class KeyPropertiesGetter {
         if (ArrayUtils.isNotEmpty(keyProperties)) {
             if (CharacterConstants.SEPARATOR_ASTERISK.equals(keyProperties[0])) {
                 String model = MapperContext.model(parameter);
-                ModelConfig modelConfig = Optional.ofNullable(PamirsSession.getContext()).map(v -> v.getModelConfig(model)).orElse(null);
+                ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
                 if (null == modelConfig || !modelConfig.havePk()) {
                     return null;
                 }
