@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.api.service.impl;
 
-import groovy.util.logging.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.eip.api.cache.EipLogCountCacheApi;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 /**
  * @author yeshenyue on 2025/4/10 10:25.
  */
-@Slf4j
 @Service
 @Fun(EipLogCountService.FUN_NAMESPACE)
 public class EipLogCountServiceImpl implements EipLogCountService {

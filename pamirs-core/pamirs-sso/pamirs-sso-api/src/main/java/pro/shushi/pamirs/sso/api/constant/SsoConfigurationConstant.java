@@ -1,10 +1,8 @@
 package pro.shushi.pamirs.sso.api.constant;
 
 
-import groovy.util.logging.Slf4j;
-
-@Slf4j
 public class SsoConfigurationConstant {
+
     public static final String PAMIRS_SSO_PREFIX = "pamirs.sso";
 
     public static final String PAMIRS_SSO_PRIVATE_KEY_PREFIX = "pamirs:sso:temporary:";

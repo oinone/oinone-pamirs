@@ -123,7 +123,6 @@ public class ViewTemplateInitLoader {
                 }
             } catch (Exception e) {
                 log.error("[View Template Definition Loader] " + resource.getFilename() + " is not valid view template definition file!!!", e);
-                throw PamirsException.construct(BootUxdExpEnumerate.BASE_VIEW_REGISTER_ERROR, e).errThrow();
             }
         }
     }

@@ -9,6 +9,7 @@ import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.constant.MetaDefaultConstants;
+import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 
 import java.util.List;
 
@@ -80,4 +81,12 @@ public class PamirsDepartment extends BizCodeModel implements IDataStatus, ITree
     @Field(displayName = "优先级", defaultValue = MetaDefaultConstants.PRIORITY_VALUE_STRING)
     private Long priority;
 
+    @Field.many2one
+    @Field.Relation(store = false)
+    @Field(displayName = "直属主管", store = NullableBoolEnum.FALSE)
+    private PamirsEmployee immediateSupervisor;
+
+    @Field.Boolean
+    @Field(displayName = "是否为部门主管", store = NullableBoolEnum.FALSE)
+    private Boolean supervisor;
 }

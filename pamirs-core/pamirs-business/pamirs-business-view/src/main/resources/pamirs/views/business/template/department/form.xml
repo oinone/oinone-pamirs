@@ -9,45 +9,91 @@
         <pack widget="group" title="基础信息" cols="2">
             <field span="1" name="code" model="business.PamirsDepartment" data="code" label="部门编码" hint="未填时将自动生成" required="false" readonly="activeRecord.id"/>
             <field span="1" name="name" model="business.PamirsDepartment" data="name" label="部门名称" required="true"/>
-            <field span="1" name="company" model="business.PamirsDepartment" data="company" label="所属公司" required="true"/>
+            <field span="1" name="company" model="business.PamirsDepartment" data="company" label="所属公司" required="true" clearFields="employeeList"/>
             <field span="1" name="parent" model="business.PamirsDepartment" data="parent" label="上级部门" domain="companyCode == '${activeRecord.company.code}' and code != '${activeRecord.code}'"/>
             <field span="1" name="departmentType" model="business.PamirsDepartment" data="departmentType" label="部门类型"/>
             <field span="2" name="description" model="business.PamirsDepartment" data="description" label="备注"/>
             <field span="1" invisible="!activeRecord.id" name="dataStatus" model="business.PamirsDepartment" data="dataStatus" label="数据状态"/>
         </pack>
-        <pack widget="group" title="岗位列表">
-            <field name="positionList" widget="Table" model="business.PamirsDepartment" data="positionList" label="false">
-                <view widget="table" model="business.PamirsPosition">
-                    <template slot="actions">
-                        <action name="internalGotoO2MCreateDialogFromPamirsDepartmentFromBusiness" label="添加" disabled="!rootRecord.company.code" context-companyCode="rootRecord.company.code" actionType="VIEW" model="business.PamirsPosition" viewType="FORM" xresViewName="dialogFormView" tag="contextFreeAction">
-                            <template slot="default">
-                                <view name="dialogFormViewFromPamirsDepartment" type="FORM" cols="2" model="business.PamirsPosition">
-                                    <template slot="fields">
-                                        <pack widget="group" title="基础信息" border="false">
-                                            <field span="1" invisible="true" priority="5" data="id" label="ID" readonly="true"/>
-                                            <field span="1" priority="90" data="code" label="编码" required="false" hint="未填时将自动生成"/>
-                                            <field span="1" priority="103" data="positionType" label="岗位类型"/>
-                                            <field span="1" priority="104" data="name" label="岗位名称"/>
-                                            <field span="1" priority="109" data="companyCode" label="所属公司编码" invisible="true"/>
-                                            <field span="1" widget="Select" priority="110" data="parent" label="直属岗位" domain="companyCode == ${activeRecord.companyCode}"/>
-                                            <field span="1" priority="111" data="dataStatus" label="数据状态"/>
-                                        </pack>
-                                    </template>
-                                </view>
-                            </template>
-                        </action>
-                        <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" model="business.PamirsPosition" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
-                    </template>
-                    <template slot="fields">
-                        <field name="id" invisible="true" model="business.PamirsPosition" data="id"/>
-                        <field name="code" model="business.PamirsPosition" data="code" label="岗位编码"/>
-                        <field name="name" model="business.PamirsPosition" data="name" label="岗位名称"/>
-                        <field data="companyCode" label="所属公司编码" invisible="true"/>
-                        <field name="parent" model="business.PamirsPosition" data="parent" label="直属岗位"/>
-                        <field data="dataStatus" label="数据状态"/>
-                    </template>
-                </view>
-            </field>
+        <pack widget="tabs">
+            <pack widget="tab" title="岗位列表">
+                <field name="positionList" widget="Table" model="business.PamirsDepartment" data="positionList" label="false">
+                    <view type="table" model="business.PamirsPosition">
+                        <template slot="actions">
+                            <action name="internalGotoO2MCreateDialogFromPamirsDepartmentFromBusiness" label="添加" disabled="!rootRecord.company.code" context-companyCode="rootRecord.company.code" actionType="VIEW" model="business.PamirsPosition" viewType="FORM" xresViewName="dialogFormView" tag="contextFreeAction">
+                                <template slot="default">
+                                    <view name="dialogFormViewFromPamirsDepartment" type="FORM" cols="2" model="business.PamirsPosition">
+                                        <template slot="fields">
+                                            <pack widget="group" title="基础信息" border="false">
+                                                <field span="1" invisible="true" priority="5" data="id" label="ID" readonly="true"/>
+                                                <field span="1" priority="90" data="code" label="编码" required="false" hint="未填时将自动生成"/>
+                                                <field span="1" priority="103" data="positionType" label="岗位类型"/>
+                                                <field span="1" priority="104" data="name" label="岗位名称"/>
+                                                <field span="1" priority="109" data="companyCode" label="所属公司编码" invisible="true"/>
+                                                <field span="1" widget="Select" priority="110" data="parent" label="直属岗位" domain="companyCode == ${activeRecord.companyCode}"/>
+                                                <field span="1" priority="111" data="dataStatus" label="数据状态"/>
+                                            </pack>
+                                        </template>
+                                    </view>
+                                </template>
+                            </action>
+                            <action name="$$internal_DeleteOne" label="删除" actionType="CLIENT" model="business.PamirsPosition" contextType="SINGLE_AND_BATCH" fun="$$internal_DeleteOne" tag="contextFreeAction"/>
+                        </template>
+                        <template slot="fields">
+                            <field name="id" invisible="true" model="business.PamirsPosition" data="id"/>
+                            <field name="code" model="business.PamirsPosition" data="code" label="岗位编码"/>
+                            <field name="name" model="business.PamirsPosition" data="name" label="岗位名称"/>
+                            <field data="companyCode" label="所属公司编码" invisible="true"/>
+                            <field name="parent" model="business.PamirsPosition" data="parent" label="直属岗位"/>
+                            <field data="dataStatus" label="数据状态"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
+            <pack title="员工列表" widget="tab">
+                <field name="employeeList" widget="Table" data="employeeList" constructFun="constructEmployeeList" constructSubmitType="CUSTOM" label="false" submitType="ALL">
+                    <view type="table">
+                        <template slot="actionBar">
+                            <action label="添加" disabled="!rootRecord.company.code" name="internalGotoM2MListDialogFromPamirsDepartmentFromBusiness">
+                                <template slot="default">
+                                    <view type="table">
+                                        <template slot="search">
+                                            <field data="code" label="员工编码"/>
+                                            <field data="name" label="员工名称"/>
+                                        </template>
+                                        <template slot="actionBar"/>
+                                        <template slot="table" filter="companyCode==${rootRecord.company.code} and id=out=(${LIST_IDS(rootRecord.employeeList)})">
+                                            <field data="id" invisible="true"/>
+                                            <field data="employeeType" invisible="true"/>
+                                            <field data="code" label="员工编码"/>
+                                            <field data="name" label="员工名称"/>
+                                            <field data="department" label="所属主部门"/>
+                                            <field data="defaultBindingUser" label="绑定用户"/>
+                                            <template slot="rowActions"/>
+                                        </template>
+                                        <template slot="header"/>
+                                        <template slot="footer">
+                                            <action name="$$internal_DialogSubmit" label="确定"/>
+                                            <action name="$$internal_GotoListTableRouter" label="取消"/>
+                                        </template>
+                                    </view>
+                                </template>
+                            </action>
+                            <action name="$$internal_DeleteOne"/>
+                        </template>
+                        <template slot="table">
+                            <field data="id" invisible="true"/>
+                            <field data="employeeType" invisible="true"/>
+                            <field data="code" label="员工编码"/>
+                            <field data="name" label="员工名称"/>
+                            <field data="department" label="所属主部门"/>
+                            <field data="defaultBindingUser" label="绑定用户"/>
+                            <field data="supervisor" label="是否为部门主管" widget="Switch" editable="true"/>
+                            <template slot="rowActions"/>
+                        </template>
+                    </view>
+                </field>
+            </pack>
         </pack>
     </template>
 </view>

@@ -17,6 +17,7 @@
             <field span="1" name="registerAddress" model="business.PamirsCompany" data="registerAddress" label="注册地址"/>
             <field span="1" name="dataStatus" invisible="!activeRecord.id" model="business.PamirsCompany" data="dataStatus" label="数据状态"/>
             <field span="1" name="creditCode" model="business.PamirsCompany" data="creditCode" label="统一社会信用代码"/>
+            <field span="1" name="responsiblePerson" model="business.PamirsCompany" data="responsiblePerson" label="公司负责人"/>
             <field span="1" name="logoUrl" widget="UploadImg" model="business.PamirsCompany" data="logoUrl" label="Logo"/>
         </pack>
         <!--        <pack widget="group" title="部门列表">

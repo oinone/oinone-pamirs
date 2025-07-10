@@ -15,10 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TreeNode&lt;XMLNodeContent&gt;
- *
- * @author Adamancy Zhang at 12:19 on 2021-08-04
+ * @deprecated please using {@link pro.shushi.pamirs.framework.common.utils.xstream.XStreamTreeNodeConverter}
  */
+@Deprecated
 public class XStreamTreeNodeConverter implements Converter {
 
     @Override

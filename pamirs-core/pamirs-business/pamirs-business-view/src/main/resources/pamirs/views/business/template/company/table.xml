@@ -26,6 +26,7 @@
         <field name="companyNature" model="business.PamirsCompany" data="companyNature" label="公司性质"/>
         <field name="creditCode" model="business.PamirsCompany" data="creditCode" label="统一社会信用代码"/>
         <field name="registerAddress" model="business.PamirsCompany" data="registerAddress" label="注册地址"/>
+        <field name="responsiblePerson" model="business.PamirsCompany" data="responsiblePerson" label="公司负责人"/>
         <field span="1" name="logoUrl" widget="UploadImg" model="business.PamirsCompany" data="logoUrl" label="Logo"/>
         <field name="remark" model="business.PamirsCompany" data="remark" label="备注"/>
         <field name="createUserName" model="business.PamirsCompany" data="createUserName" label="创建人"/>

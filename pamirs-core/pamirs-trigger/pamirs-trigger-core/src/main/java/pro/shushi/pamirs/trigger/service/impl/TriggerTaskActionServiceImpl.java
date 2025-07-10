@@ -49,7 +49,6 @@ import java.util.*;
 @Slf4j
 @Service
 @Fun(TriggerTaskActionService.FUN_NAMESPACE)
-@Conditional(ScheduleSwitchCondition.class)
 public class TriggerTaskActionServiceImpl extends AbstractTaskActionService<TriggerTaskAction> implements TriggerTaskActionService {
 
     @Autowired(required = false)

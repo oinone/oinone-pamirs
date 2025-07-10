@@ -10,17 +10,14 @@ import com.thoughtworks.xstream.mapper.Mapper;
 import com.thoughtworks.xstream.mapper.MapperWrapper;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.framework.common.entry.TreeNode;
-import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
 import java.io.*;
 import java.net.URL;
 
 /**
- * TreeNode&lt;XMLNodeContent&gt;
- *
- * @author Adamancy Zhang at 12:13 on 2021-08-04
+ * @deprecated please using {@link pro.shushi.pamirs.framework.common.utils.xstream.TreeNodeXStream}
  */
-@Slf4j
+@Deprecated
 public class TreeNodeXStream extends XStream {
 
     private static final int CLASS_TAG_LENGTH = TreeNode.class.getName().length() + 4;

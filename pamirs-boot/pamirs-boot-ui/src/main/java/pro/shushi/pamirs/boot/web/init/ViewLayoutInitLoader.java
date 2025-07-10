@@ -11,13 +11,11 @@ import pro.shushi.pamirs.boot.base.enmu.TemplateLayoutTypeEnum;
 import pro.shushi.pamirs.boot.base.enmu.ViewBizTypeEnum;
 import pro.shushi.pamirs.boot.base.model.LayoutDefinition;
 import pro.shushi.pamirs.boot.base.ux.model.UIView;
-import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
 import pro.shushi.pamirs.boot.web.utils.ViewXmlUtils;
 import pro.shushi.pamirs.framework.configure.MetaConfiguration;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
-import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.util.AppClassLoader;
 import pro.shushi.pamirs.meta.enmu.ActiveEnum;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
@@ -111,7 +109,6 @@ public class ViewLayoutInitLoader {
                 }
             } catch (Exception e) {
                 log.error("[View Layout Definition Loader] " + resource.getFilename() + " is not valid view layout definition file!!!", e);
-                throw PamirsException.construct(BootUxdExpEnumerate.BASE_VIEW_REGISTER_ERROR, e).errThrow();
             }
         }
     }

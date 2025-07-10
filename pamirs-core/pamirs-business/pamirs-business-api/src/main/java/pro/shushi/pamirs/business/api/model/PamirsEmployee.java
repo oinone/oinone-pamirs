@@ -136,4 +136,8 @@ public class PamirsEmployee extends BizCodeModel implements IDataStatus {
     private BindingModeEnum bindingMode;
 
     // endregion
+
+    @Field.Boolean
+    @Field(displayName = "是否为部门主管", store = NullableBoolEnum.FALSE)
+    private Boolean supervisor;
 }

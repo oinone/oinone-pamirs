@@ -9,7 +9,7 @@
         <pack widget="group" title="基础信息" cols="2">
             <field span="1" name="code" model="business.PamirsCompany" data="code" label="公司编码" hint="未填时将自动生成" required="false" readonly="activeRecord.id"/>
             <field span="1" name="name" model="business.PamirsCompany" data="name" label="公司名称" required="true"/>
-            <field span="1" name="dataStatus" model="business.PamirsCompany" data="dataStatus" label="数据状态" readonly="activeRecord.id"/>
+            <field span="1" name="dataStatus" model="business.PamirsCompany" data="dataStatus" label="数据状态"/>
             <field span="1" name="parent" model="business.PamirsCompany" data="parent" label="上级公司" domain="code!='${activeRecord.code}'"/>
             <field span="2" name="remark" model="business.PamirsCompany" data="remark" label="备注"/>
         </pack>
@@ -18,8 +18,9 @@
             <field span="1" name="licenseRegisterTime" model="business.PamirsCompany" data="licenseRegisterTime" label="成立日期"/>
             <field span="1" name="companyNature" model="business.PamirsCompany" data="companyNature" label="公司性质"/>
             <field span="1" name="registerAddress" model="business.PamirsCompany" data="registerAddress" label="注册地址"/>
-            <field span="1" name="dataStatus" invisible="!activeRecord.id" model="business.PamirsCompany" data="dataStatus" label="数据状态"/>
             <field span="1" name="creditCode" model="business.PamirsCompany" data="creditCode" label="统一社会信用代码"/>
+            <field span="1" name="responsiblePerson" model="business.PamirsCompany" data="responsiblePerson" label="公司负责人"
+                   domain="companyCode == ${activeRecord.code}"/>
             <field span="1" name="logoUrl" widget="UploadImg" model="business.PamirsCompany" data="logoUrl" label="Logo"/>
 
         </pack>

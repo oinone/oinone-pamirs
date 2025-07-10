@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.business.core.service;
 
+import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,25 +10,29 @@ import pro.shushi.pamirs.auth.api.model.AuthRole;
 import pro.shushi.pamirs.auth.api.model.AuthUserRoleRel;
 import pro.shushi.pamirs.business.api.BusinessModule;
 import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
+import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsPosition;
+import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
+import pro.shushi.pamirs.business.util.DepartmentRelEmployeeHelper;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
+import pro.shushi.pamirs.framework.gateways.rsql.RSQLHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
+import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 import pro.shushi.pamirs.resource.api.enmu.UserSignUpType;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.service.UserService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -41,11 +46,18 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private DepartmentRelEmployeeService departmentRelEmployeeService;
 
     @Function
     @Override
     public PamirsEmployee create(PamirsEmployee data) {
-        return data.create();
+        if (StringUtils.isBlank(data.getEmployeeType())) {
+            data.setEmployeeType(BusinessModule.DEFAULT_TYPE);
+        }
+        data = data.create();
+        departmentRelEmployeeService.assignSupervisorOrImmediateSupervisor(data, data.getDepartmentList(), null);
+        return data;
     }
 
     @Function
@@ -79,8 +91,8 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             createUserBaseRole(pamirsUser.getId());
             PamirsEmployee result = this.create(employee);
             result = bindUserToEmployee(pamirsUser, result);
-            result = result.fieldSave(PamirsEmployee::getDepartmentList);
             result = result.fieldSave(PamirsEmployee::getPositions);
+            result = result.fieldSave(PamirsEmployee::getDepartmentList);
             return result;
         });
     }
@@ -111,9 +123,18 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         }
 
         if (CollectionUtils.isNotEmpty(departmentList)) {
+            List<String> deptCodes = departmentList.stream().map(PamirsDepartment::getCode).collect(Collectors.toList());
+            List<PamirsDepartment> originDepartments = Models.data().queryListByWrapper(Pops.<PamirsDepartment>lambdaQuery()
+                    .from(PamirsDepartment.MODEL_MODEL)
+                    .in(PamirsDepartment::getCode, deptCodes));
+            Map<String, PamirsDepartment> originDepartmentMap = originDepartments.stream()
+                    .collect(Collectors.toMap(PamirsDepartment::getCode, v -> v));
             for (int i = 0; i < departmentList.size(); i++) {
-                PamirsDepartment department = departmentList.get(i).queryOne();
-                departmentList.set(i, department);
+                PamirsDepartment department = departmentList.get(i);
+                PamirsDepartment originDepartment = originDepartmentMap.get(department.getCode());
+                originDepartment.setSupervisor(department.getSupervisor());
+                originDepartment.setImmediateSupervisor(department.getImmediateSupervisor());
+                departmentList.set(i, originDepartment);
             }
         }
 
@@ -137,12 +158,14 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
                 bindUserToEmployee(pamirsUser, result);
             }
             result = result.fieldQuery(PamirsEmployee::getDepartmentList);
+            List<PamirsDepartment> originDepartments = result.getDepartmentList();
             result = result.fieldQuery(PamirsEmployee::getPositions);
             result = result.relationDelete(PamirsEmployee::getDepartmentList);
             result = result.relationDelete(PamirsEmployee::getPositions);
 
             result.setPositions(positions);
             result.setDepartmentList(finalDepartmentList);
+            departmentRelEmployeeService.assignSupervisorOrImmediateSupervisor(data, result.getDepartmentList(), originDepartments);
             result.fieldSave(PamirsEmployee::getDepartmentList);
             result.fieldSave(PamirsEmployee::getPositions);
             return result;
@@ -158,19 +181,62 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     @Function
     @Override
     public void deleteByPks(List<PamirsEmployee> list) {
-        new PamirsEmployee().deleteByPks(list);
+        Set<String> employeeCodes = list.stream().map(PamirsEmployee::getCode).collect(Collectors.toSet());
+        Tx.build().executeWithoutResult(status -> {
+            new PamirsEmployee().deleteByWrapper(Pops.<PamirsEmployee>lambdaQuery()
+                    .from(PamirsEmployee.MODEL_MODEL)
+                    .in(PamirsEmployee::getCode, employeeCodes)
+            );
+            new DepartmentRelEmployee().deleteByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
+                    .from(DepartmentRelEmployee.MODEL_MODEL)
+                    .in(DepartmentRelEmployee::getEmployeeCode, employeeCodes)
+            );
+            // 删除直属主管
+            departmentRelEmployeeService.clearImmediateSupervisorCodes(employeeCodes);
+        });
     }
 
     @Function
     @Override
     public void deleteById(PamirsEmployee data) {
+        data = data.queryById();
+        String employeeCode = data.getCode();
         data.deleteById();
+
+        new DepartmentRelEmployee().deleteByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
+                .from(DepartmentRelEmployee.MODEL_MODEL)
+                .eq(DepartmentRelEmployee::getEmployeeCode, employeeCode));
+        // 删除直属主管
+        departmentRelEmployeeService.clearImmediateSupervisorCodes(Sets.newHashSet(employeeCode));
     }
 
     @Function
     @Override
     public Pagination<PamirsEmployee> queryPage(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
         return new PamirsEmployee().queryPage(page, queryWrapper);
+    }
+
+    @Function
+    @Override
+    public Pagination<PamirsEmployee> queryPageAndFillSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
+        Pagination<PamirsEmployee> pageResult = queryPage(page, queryWrapper);
+        if (CollectionUtils.isEmpty(pageResult.getContent())) {
+            return pageResult;
+        }
+
+        // 从relationQuery结果中提取主管信息
+        Map<String, Object> queryData = queryWrapper.getQueryData();
+        if (queryData != null) {
+            List<PamirsEmployee> employeeList = pageResult.getContent();
+            DepartmentRelEmployeeHelper.fillSupervisorInfo(
+                    employeeList,
+                    queryWrapper.getQueryData(),
+                    LambdaUtil.fetchFieldName(PamirsDepartment::getEmployeeList),
+                    DepartmentRelEmployee::getEmployeeCode,
+                    (employee, rel) -> employee.setSupervisor(Boolean.TRUE.equals(rel.getSupervisor()))
+            );
+        }
+        return pageResult;
     }
 
     @Function
@@ -207,6 +273,74 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     @Override
     public PamirsEmployee queryById(Long employeeId) {
         return new PamirsEmployee().queryById(employeeId);
+    }
+
+    @Function
+    @Override
+    public Pagination<PamirsEmployee> queryPageImmediateSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
+        Map<String, Object> rsqlValues = RSQLHelper.getRsqlValues(queryWrapper.getOriginRsql(),
+                PamirsEmployee::getDepartmentCode, PamirsEmployee::getName, PamirsEmployee::getCode);
+
+        String departmentCode = (String) rsqlValues.get(LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentCode));
+        String employeeName = (String) rsqlValues.get(LambdaUtil.fetchFieldName(PamirsEmployee::getName));
+        String myselfCode = (String) rsqlValues.get(LambdaUtil.fetchFieldName(PamirsEmployee::getCode));
+
+        List<String> employeeCode = Models.data().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
+                .from(DepartmentRelEmployee.MODEL_MODEL)
+                .eq(DepartmentRelEmployee::getDepartmentCode, departmentCode)
+                .select(DepartmentRelEmployee::getEmployeeCode)
+        ).stream().map(DepartmentRelEmployee::getEmployeeCode).collect(Collectors.toList());
+        if (employeeCode.isEmpty()) {
+            return page;
+        }
+
+        // 获取直属主管列表
+        Set<String> excludeCodes = fetchImmediateSupervisorCode(departmentCode, myselfCode);
+
+        LambdaQueryWrapper<PamirsEmployee> query = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL)
+                .in(PamirsEmployee::getCode, employeeCode)
+                .notIn(PamirsEmployee::getCode, excludeCodes);
+        if (StringUtils.isNotBlank(employeeName)) {
+            query.and(w -> w.like(StringUtils.isNotBlank(employeeName), PamirsEmployee::getName, employeeName)
+                    .or().eq(StringUtils.isNotBlank(employeeName), PamirsEmployee::getCode, employeeName));
+        }
+        return Models.origin().queryPage(page, query);
+    }
+
+    private Set<String> fetchImmediateSupervisorCode(String departmentCode, String myselfCode) {
+        // 1.查询直属关系
+        List<DepartmentRelEmployee> relList = Models.data().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
+                .from(DepartmentRelEmployee.MODEL_MODEL)
+                .eq(DepartmentRelEmployee::getDepartmentCode, departmentCode)
+                .isNotNull(DepartmentRelEmployee::getImmediateSupervisorCode)
+                .select(DepartmentRelEmployee::getEmployeeCode, DepartmentRelEmployee::getImmediateSupervisorCode)
+        );
+        Map<String, String> empToSupervisor = relList.stream().collect(Collectors.toMap(
+                DepartmentRelEmployee::getEmployeeCode,
+                DepartmentRelEmployee::getImmediateSupervisorCode
+        ));
+
+        // 2.反向构建
+        Map<String/*直属主管*/, List<String>/*下属*/> supervisor2Sub = new HashMap<>(empToSupervisor.size());
+        empToSupervisor.forEach((subordinate, supervisor) -> {
+            supervisor2Sub.computeIfAbsent(supervisor, k -> new ArrayList<>()).add(subordinate);
+        });
+
+        // 3.收集本人及所有下级员工
+        Set<String> excludeCodes = new HashSet<>();
+        Deque<String> queue = new ArrayDeque<>();
+        queue.add(myselfCode);
+        while (!queue.isEmpty()) {
+            String cur = queue.poll();
+            // 第一次加入才继续向下
+            if (excludeCodes.add(cur)) {
+                Collection<String> subs = supervisor2Sub.get(cur);
+                if (subs != null) {
+                    queue.addAll(subs);
+                }
+            }
+        }
+        return excludeCodes;
     }
 
     private void createUserBaseRole(Long userId) {

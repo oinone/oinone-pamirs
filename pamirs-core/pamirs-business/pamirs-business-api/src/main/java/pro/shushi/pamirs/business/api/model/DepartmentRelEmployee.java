@@ -10,7 +10,7 @@ import pro.shushi.pamirs.meta.base.BaseRelation;
  */
 @Model.model(DepartmentRelEmployee.MODEL_MODEL)
 @Model(displayName = "部门员工关系表")
-@Model.Advanced(index = {"departmentCode,departmentType", "employeeCode,employeeType"})
+@Model.Advanced(index = {"departmentCode,departmentType", "employeeCode,employeeType"}, ordering = "supervisor DESC")
 public class DepartmentRelEmployee extends BaseRelation {
 
     private static final long serialVersionUID = 5716595089649781301L;
@@ -40,6 +40,19 @@ public class DepartmentRelEmployee extends BaseRelation {
     @Field.String(size = 32)
     @Field(displayName = "员工类型")
     private String employeeType;
+
+    @Field.Boolean
+    @Field(displayName = "是否为部门主管")
+    private Boolean supervisor;
+
+    @Field.String
+    @Field(displayName = "直属主管编码")
+    private String immediateSupervisorCode;
+
+    @Field.many2one
+    @Field.Relation(relationFields = {"immediateSupervisorCode"}, referenceFields = {"code"})
+    @Field(displayName = "直属主管")
+    private PamirsEmployee immediateSupervisor;
 
     public static DepartmentRelEmployee newInstance(PamirsEmployee employee, PamirsDepartment department) {
         return new DepartmentRelEmployee()

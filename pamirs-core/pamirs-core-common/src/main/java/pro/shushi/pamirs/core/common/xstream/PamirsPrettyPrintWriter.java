@@ -1,16 +1,14 @@
 package pro.shushi.pamirs.core.common.xstream;
 
 import com.thoughtworks.xstream.io.naming.NameCoder;
-import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 
 import java.io.Writer;
 
 /**
- * 重写{@link PrettyPrintWriter}
- *
- * @author Adamancy Zhang at 16:15 on 2021-08-27
+ * @deprecated please using {@link pro.shushi.pamirs.framework.common.utils.xstream.PamirsPrettyPrintWriter}
  */
-public class PamirsPrettyPrintWriter extends PrettyPrintWriter {
+@Deprecated
+public class PamirsPrettyPrintWriter extends pro.shushi.pamirs.framework.common.utils.xstream.PamirsPrettyPrintWriter {
 
     public PamirsPrettyPrintWriter(Writer writer, int mode, char[] lineIndenter, NameCoder nameCoder) {
         super(writer, mode, lineIndenter, nameCoder);
