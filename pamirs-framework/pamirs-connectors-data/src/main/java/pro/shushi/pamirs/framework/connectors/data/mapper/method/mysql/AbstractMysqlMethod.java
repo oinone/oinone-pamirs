@@ -56,6 +56,35 @@ public class AbstractMysqlMethod extends AbstractMethod {
     }
 
     /**
+     * 转换成 choose 标签的脚本片段
+     *
+     * @param whenSqlScript      when 脚本片段
+     * @param otherSqlScript    other 脚本片段
+     * @param prefix           前缀
+     * @param modelFieldConfig 字段配置
+     * @param fieldStrategy    验证策略
+     * @return if 脚本片段
+     */
+    public String convertChoose(final String whenSqlScript, final String otherSqlScript, String prefix, final ModelFieldConfig modelFieldConfig, final String fieldStrategy) {
+        if (FieldStrategyEnum.NEVER.value().equals(fieldStrategy)) {
+            return null;
+        }
+        if (FieldStrategyEnum.IGNORED.value().equals(fieldStrategy) || FieldStrategyEnum.NOT_CHANGE.value().equals(fieldStrategy)) {
+            return whenSqlScript;
+        }
+        if (FieldStrategyEnum.DEFAULT.value().equals(fieldStrategy)) {
+            String judgeCondition = judgeCondition(prefix, modelFieldConfig);
+            return SqlScriptUtils.convertChoose(judgeCondition, whenSqlScript, otherSqlScript);
+        }
+        String property = prefix + fetchNameConflict(modelFieldConfig.getLname());
+        if (FieldStrategyEnum.NOT_EMPTY.value().equals(fieldStrategy) && TypeUtils.isStringType(modelFieldConfig.getLtype())) {
+            //TODO
+            return SqlScriptUtils.convertChoose(String.format("%s != null and %s != ''", property, property), whenSqlScript, otherSqlScript);
+        }
+        return SqlScriptUtils.convertChoose(String.format("%s != null", property), whenSqlScript, otherSqlScript);
+    }
+
+    /**
      * 转换成 if 标签的脚本片段
      *
      * @param sqlScript        sql 脚本片段
