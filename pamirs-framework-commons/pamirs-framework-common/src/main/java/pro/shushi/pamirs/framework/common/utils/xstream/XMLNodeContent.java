@@ -14,7 +14,7 @@ public class XMLNodeContent {
 
     private static final String FALSE_STRING = Boolean.FALSE.toString();
 
-    private Map<String, String> attributes = new HashMap<>();
+    protected Map<String, String> attributes = new HashMap<>();
 
     private String content = null;
 
