@@ -28,4 +28,6 @@ public interface DbConstants {
     String PARAM_ANNOTATION_EXT = "ext";
 
     String USE_DEFAULT_PROPERTIES = "useDefaultProperties";
+
+    String NEXTVAL = "NEXTVAL";
 }
