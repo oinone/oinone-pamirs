@@ -1,8 +1,10 @@
 package pro.shushi.pamirs.business.view.action;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
+import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.PamirsDepartmentService;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.meta.annotation.Action;
@@ -18,6 +20,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -86,7 +89,7 @@ public class PamirsDepartmentAction {
     @Function.fun(FunctionConstants.queryPage)
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public Pagination<PamirsDepartment> queryPage(Pagination<PamirsDepartment> page, IWrapper<PamirsDepartment> queryWrapper) {
-        return pamirsDepartmentService.queryPage(page, queryWrapper);
+        return pamirsDepartmentService.queryPageAndFillSupervisor(page, queryWrapper);
     }
 
     @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)
@@ -94,8 +97,31 @@ public class PamirsDepartmentAction {
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public PamirsDepartment queryOne(PamirsDepartment query) {
         PamirsDepartment department = pamirsDepartmentService.queryOne(query);
+        // 填充部门主管
+        department = pamirsDepartmentService.fillDeptSupervisor(department);
         return department;
     }
 
-
+    @Function(openLevel = FunctionOpenEnum.API, summary = "计算部门主管")
+    @Function.Advanced(type = FunctionTypeEnum.QUERY)
+    public PamirsDepartment constructEmployeeList(PamirsDepartment data) {
+        List<PamirsEmployee> employees = data.getEmployeeList();
+        if (CollectionUtils.isEmpty(employees)) {
+            return data;
+        }
+        boolean supervisorFoundAfterFirst = false;
+        for (int i = 1; i < employees.size(); i++) {
+            PamirsEmployee employeeItem = employees.get(i);
+            if (Boolean.TRUE.equals(employeeItem.getSupervisor())) {
+                if (!supervisorFoundAfterFirst) {
+                    supervisorFoundAfterFirst = true;
+                    employees.get(0).setSupervisor(false);
+                }
+            } else {
+                employeeItem.setSupervisor(false);
+            }
+        }
+        employees.sort(Comparator.comparing((PamirsEmployee r) -> Boolean.TRUE.equals(r.getSupervisor())).reversed());
+        return data;
+    }
 }

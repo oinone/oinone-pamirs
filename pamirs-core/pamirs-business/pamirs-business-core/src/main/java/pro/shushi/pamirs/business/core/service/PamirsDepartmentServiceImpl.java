@@ -2,13 +2,20 @@ package pro.shushi.pamirs.business.core.service;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.business.api.BusinessModule;
 import pro.shushi.pamirs.business.api.enumeration.BusinessExpEnumerate;
+import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
+import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsPosition;
+import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsDepartmentService;
+import pro.shushi.pamirs.business.util.DepartmentRelEmployeeHelper;
 import pro.shushi.pamirs.core.common.behavior.impl.TreeCodeBehavior;
+import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
@@ -16,10 +23,12 @@ import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.base.K2;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 import pro.shushi.pamirs.meta.enmu.SequenceEnum;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * {@link PamirsDepartmentService}实现
@@ -29,6 +38,9 @@ import java.util.List;
 @Service
 @Fun(PamirsDepartmentService.FUN_NAMESPACE)
 public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
+
+    @Autowired
+    private DepartmentRelEmployeeService departmentRelEmployeeService;
 
     @Function
     @Override
@@ -62,9 +74,16 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
             data.getPositionList().forEach(K2::construct);
         }
         data.fieldSave(PamirsDepartment::getPositionList);
+        List<PamirsEmployee> employees = data.getEmployeeList();
+        if (CollectionUtils.isNotEmpty(employees)) {
+            data.fieldSave(PamirsDepartment::getEmployeeList);
+            // 设置部门主管
+            assignDepartmentSupervisor(data, employees);
+        }
         return data.create();
     }
 
+    @Function
     @Override
     public PamirsDepartment queryOne(PamirsDepartment data) {
         PamirsDepartment department = data.queryById(data.getId());
@@ -78,6 +97,7 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         return department;
     }
 
+    @Function
     @Override
     public void update(PamirsDepartment data) {
         PamirsDepartment exist = this.queryOne(data);
@@ -92,20 +112,28 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
             data.setTreeCode(data.getCode());
         }
 
-        data.updateById();
-
         if (CollectionUtils.isNotEmpty(data.getPositionList())) {
-//            data.getPositionList().stream().filter(i -> i.getId() == null).forEach(K2::construct);
             exist = exist.fieldQuery(PamirsDepartment::getPositionList);
-            if (CollectionUtils.isNotEmpty(data.getPositionList())) {
-                exist.relationDelete(PamirsDepartment::getPositionList);
-            }
-            List<PamirsPosition> positionList = data.getPositionList();
-            String code = exist.getCode();
-            positionList.forEach(t -> t.setDepartmentCode(code));
-            new PamirsPosition().createOrUpdateBatch(positionList);
-//            data.fieldSave(PamirsDepartment::getPositionList);
         }
+        exist = exist.fieldQuery(PamirsDepartment::getEmployeeList);
+        List<PamirsEmployee> originEmployees = exist.getEmployeeList();
+        final PamirsDepartment finalExit = exist;
+        Tx.build().executeWithoutResult(status -> {
+            data.updateById();
+            if (CollectionUtils.isNotEmpty(data.getPositionList())) {
+                if (CollectionUtils.isNotEmpty(data.getPositionList())) {
+                    finalExit.relationDelete(PamirsDepartment::getPositionList);
+                }
+                List<PamirsPosition> positionList = data.getPositionList();
+                positionList.forEach(t -> t.setDepartmentCode(data.getCode()));
+                new PamirsPosition().createOrUpdateBatch(positionList);
+            }
+            data.fieldSaveOnCascade(PamirsDepartment::getEmployeeList);
+            if (CollectionUtils.isNotEmpty(data.getEmployeeList())) {
+                assignDepartmentSupervisor(data, data.getEmployeeList());
+                departmentRelEmployeeService.clearImmediateSupervisorByDept(data, data.getEmployeeList(), originEmployees);
+            }
+        });
     }
 
     @Function
@@ -117,7 +145,15 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
     @Function
     @Override
     public void deleteByPks(List<PamirsDepartment> list) {
-        new PamirsDepartment().deleteByPks(list);
+        Set<String> deptCodes = list.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet());
+        Tx.build().executeWithoutResult(status -> {
+            new PamirsDepartment().deleteByWrapper(Pops.<PamirsDepartment>lambdaQuery()
+                    .from(PamirsDepartment.MODEL_MODEL)
+                    .in(PamirsDepartment::getCode, deptCodes));
+            new DepartmentRelEmployee().deleteByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
+                    .from(DepartmentRelEmployee.MODEL_MODEL)
+                    .in(DepartmentRelEmployee::getDepartmentCode, deptCodes));
+        });
     }
 
     @Function
@@ -126,5 +162,70 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         return new PamirsDepartment().queryPage(page, queryWrapper);
     }
 
+    @Function
+    @Override
+    public Pagination<PamirsDepartment> queryPageAndFillSupervisor(Pagination<PamirsDepartment> page, IWrapper<PamirsDepartment> queryWrapper) {
+        Pagination<PamirsDepartment> pageResult = queryPage(page, queryWrapper);
+        if (CollectionUtils.isEmpty(pageResult.getContent())) {
+            return pageResult;
+        }
 
+        // 从relationQuery结果中提取主管信息
+        Map<String, Object> queryData = queryWrapper.getQueryData();
+        if (queryData != null) {
+            List<PamirsDepartment> departmentList = pageResult.getContent();
+            boolean fillResult = DepartmentRelEmployeeHelper.fillSupervisorInfo(
+                    departmentList,
+                    queryWrapper.getQueryData(),
+                    LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentList),
+                    DepartmentRelEmployee::getDepartmentCode,
+                    (department, rel) -> {
+                        department.setSupervisor(Boolean.TRUE.equals(rel.getSupervisor()));
+                        department.setImmediateSupervisor(rel.getImmediateSupervisor());
+                    }
+            );
+            if (fillResult) {
+                departmentList.sort(Comparator.comparing(PamirsDepartment::getSupervisor, Comparator.reverseOrder()));
+            }
+        }
+
+        return pageResult;
+    }
+
+    private void assignDepartmentSupervisor(PamirsDepartment data, List<PamirsEmployee> employees) {
+        for (PamirsEmployee employeeItem : employees) {
+            if (Boolean.TRUE.equals(employeeItem.getSupervisor())) {
+                departmentRelEmployeeService.assignDepartmentSupervisor(data.getCode(), employeeItem.getCode());
+                break;
+            }
+        }
+    }
+
+    @Function
+    @Override
+    public PamirsDepartment fillDeptSupervisor(PamirsDepartment department) {
+        List<PamirsEmployee> employees = department.getEmployeeList();
+        if (CollectionUtils.isEmpty(employees)) {
+            return department;
+        }
+        PamirsEmployee supervisorEmployee = departmentRelEmployeeService.queryDepartmentSupervisor(department);
+        if (supervisorEmployee == null) {
+            return department;
+        }
+
+        // 设置部门主管，并将部门主管移动到数组最前方
+        int supervisorIndex = -1;
+        for (int i = 0; i < employees.size(); i++) {
+            PamirsEmployee employeeItem = employees.get(i);
+            if (employeeItem.getCode().equals(supervisorEmployee.getCode())) {
+                employeeItem.setSupervisor(true);
+                supervisorIndex = i;
+                break;
+            }
+        }
+        if (supervisorIndex > 0) {
+            Collections.swap(employees, 0, supervisorIndex);
+        }
+        return department;
+    }
 }

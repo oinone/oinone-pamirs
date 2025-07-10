@@ -31,4 +31,10 @@ public interface PamirsDepartmentService {
 
     @Function
     Pagination<PamirsDepartment> queryPage(Pagination<PamirsDepartment> page, IWrapper<PamirsDepartment> queryWrapper);
+
+    @Function
+    Pagination<PamirsDepartment> queryPageAndFillSupervisor(Pagination<PamirsDepartment> page, IWrapper<PamirsDepartment> queryWrapper);
+
+    @Function
+    PamirsDepartment fillDeptSupervisor(PamirsDepartment department);
 }
