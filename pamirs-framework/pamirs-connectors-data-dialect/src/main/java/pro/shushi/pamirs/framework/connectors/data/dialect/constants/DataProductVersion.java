@@ -30,9 +30,9 @@ public interface DataProductVersion {
 
     String PRODUCT_ORACLE = "Oracle";
 
-    String DEFAULT_ORACLE_VERSION = "12";
+    String DEFAULT_ORACLE_VERSION = "11";
 
-    String DEFAULT_ORACLE_MAJOR_VERSION = "12c";
+    String DEFAULT_ORACLE_MAJOR_VERSION = "11g";
 
     String PRODUCT_DM = "DM";
 
