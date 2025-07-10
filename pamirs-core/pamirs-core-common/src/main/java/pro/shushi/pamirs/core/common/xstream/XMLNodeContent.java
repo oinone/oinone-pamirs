@@ -13,4 +13,14 @@ public class XMLNodeContent extends pro.shushi.pamirs.framework.common.utils.xst
     public XMLNodeContent(String content) {
         super(content);
     }
+
+    public XMLNodeContent putAttribute(String name, String value) {
+        this.attributes.put(name, value);
+        return this;
+    }
+
+    public XMLNodeContent removeAttribute(String name) {
+        this.attributes.remove(name);
+        return this;
+    }
 }
