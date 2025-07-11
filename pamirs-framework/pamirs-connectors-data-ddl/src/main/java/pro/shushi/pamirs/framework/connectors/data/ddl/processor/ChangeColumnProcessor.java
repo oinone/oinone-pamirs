@@ -55,12 +55,16 @@ public class ChangeColumnProcessor {
         modelDefinition.getModelFields().sort((o1, o2) -> (int) (o1.getPriority() - o2.getPriority()));
         Map<String, String> dealEdMap = new HashMap<>();
         for (FieldWrapper modelField : modelDefinition.getModelFields()) {
-
-            if (dealEdMap.get(modelField.getColumn()) != null) {
+            String fieldColumn = modelField.getColumn();
+            if (fieldColumn != null) {
+                fieldColumn = columnComponent.columnPlaceholder(table.getDsKey(), fieldColumn);
+                modelField.setColumn(fieldColumn);
+            }
+            if (dealEdMap.get(fieldColumn) != null) {
                 //已经处理过的不处理
                 continue;
             }
-            dealEdMap.put(modelField.getColumn(), modelField.getColumn());
+            dealEdMap.put(fieldColumn, fieldColumn);
 
             // 字段校验
             boolean validateResult = columnChecker.change(ddlContext, modelField);
@@ -82,13 +86,13 @@ public class ChangeColumnProcessor {
             Column column = table.getColumnMap().get(fieldField);
             if (null == column) {
                 // 处理字段先生成，但还没有生成对应元数据的情况
-                column = table.getColumnMap().get(modelField.getColumn());
+                column = table.getColumnMap().get(fieldColumn);
                 String s = fieldField;
                 if (null == column) {
                     // 处理字段先生成，但还没有生成对应元数据的情况
                     x:
                     for (Map.Entry<String, Column> columnEntry : table.getColumnMap().entrySet()) {
-                        if (columnEntry.getValue().getColumnName().equals(modelField.getColumn())) {
+                        if (columnEntry.getValue().getColumnName().equals(fieldColumn)) {
                             s = columnEntry.getKey();
                             column = columnEntry.getValue();
                             break x;
@@ -105,12 +109,12 @@ public class ChangeColumnProcessor {
             if (null != column) {
                 boolean changeCharset = columnComponent.isCharsetChange(table.getDsKey(), modelField, column);
                 // alter column
-                if (!modelField.getColumn().equals(column.getColumnName())
+                if (!fieldColumn.equals(column.getColumnName())
                         || !fieldColumnDefinition.trim().equals(columnComponent.columnDefinition(table.getDsKey(), column, changeCharset).trim())
                         || DdlUtils.notEqualsIgnoreNull(column.getColumnComment(), modelField.getSummary())
                         || changeCharset
                 ) {
-                    columnComponent.modifyColumn(ddlList, table.getDsKey(), tableName, column.getColumnName(), modelField.getColumn(),
+                    columnComponent.modifyColumn(ddlList, table.getDsKey(), tableName, column.getColumnName(), fieldColumn,
                             fieldColumnDefinition, modelField.getSummary(), null, column);
                     ddlContext.refreshColumn(modelField, fieldColumnDefinition);
                     ddlContext.changeColumn(modelField.getField());
@@ -120,10 +124,10 @@ public class ChangeColumnProcessor {
                     ddlContext.changeColumn(modelField.getField());
                 }
             } else {
-                newStoreColumns.add(modelField.getColumn());
+                newStoreColumns.add(fieldColumn);
                 // add column
                 columnComponent.addColumn(ddlList, table.getDsKey(), Boolean.FALSE, tableName,
-                        modelField.getColumn(), fieldColumnDefinition, modelField.getSummary(), null);
+                        fieldColumn, fieldColumnDefinition, modelField.getSummary(), null);
                 ddlContext.refreshColumn(modelField, fieldColumnDefinition);
                 ddlContext.changeColumn(modelField.getField());
             }
