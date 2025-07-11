@@ -73,6 +73,27 @@ public class URLHelper {
      * @param absolutePath 绝对路径
      * @return 修复后的路径
      */
+    public static String repairAbsolutePathPrefix(String absolutePath) {
+        if (absolutePath == null) {
+            return SEPARATOR_SLASH;
+        }
+        absolutePath = absolutePath.trim();
+        if (absolutePath.charAt(0) != URL_SEPARATOR_SLASH_CHAR) {
+            absolutePath = SEPARATOR_SLASH + absolutePath;
+        }
+        return absolutePath;
+    }
+
+    /**
+     * <h>修复绝对路径</h>
+     * <p>
+     * 1、当首字符不是"/"时进行追加
+     * 2、当末尾字符是"/"时进行剪裁
+     * </p>
+     *
+     * @param absolutePath 绝对路径
+     * @return 修复后的路径
+     */
     public static String repairAbsolutePath(String absolutePath) {
         if (absolutePath == null) {
             return SEPARATOR_SLASH;
