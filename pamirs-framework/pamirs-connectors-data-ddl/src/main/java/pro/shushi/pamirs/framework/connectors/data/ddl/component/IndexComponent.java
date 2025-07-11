@@ -100,7 +100,7 @@ public class IndexComponent {
         if (!CollectionUtils.isEmpty(pks)) {
             LogicTable logicTable = ddlContext.useLogicTable();
             List<String> pkList = generatePrimaryColumnList(modelDefinition);
-            String completedTableName = tableComponent.tablePlaceholder(logicTable.getDsKey(), modelDefinition);
+            String completedTableName = logicTable.getTableName();
             ddlList.add(indexDialectComponent.createPrimaryKey(completedTableName, pkList));
             String indexName = primaryIndexName(logicTable.getDsKey(), completedTableName);
             LogicIndex logicIndex = new LogicIndex().setTableName(logicTable.getTableName())
