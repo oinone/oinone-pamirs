@@ -34,7 +34,7 @@ public class RabbitMQNotifyProducer extends NotifyAbstractProducer<RabbitMessagi
         final String _topic = TopicAndGroupEditorManager.editTopic(topic);
         Message<T> message = EventUtil.message(_topic, tag, null, msg, null);
         return handle(message, _message -> {
-            getTemplate(topic).send(_topic, topic, _message);
+            getTemplate(topic).send(_topic, _topic, _message);
             return _message;
         });
     }
@@ -44,7 +44,7 @@ public class RabbitMQNotifyProducer extends NotifyAbstractProducer<RabbitMessagi
         final String _topic = TopicAndGroupEditorManager.editTopic(topic);
         Message<T> message = EventUtil.message(_topic, tag, null, msg, headers);
         return handle(message, _message -> {
-            getTemplate(topic).send(_topic, topic, _message);
+            getTemplate(topic).send(_topic, _topic, _message);
             return _message;
         });
     }
@@ -62,7 +62,7 @@ public class RabbitMQNotifyProducer extends NotifyAbstractProducer<RabbitMessagi
                 .orElse("0");
         Message<T> message = EventUtil.message(_topic, tag, hashKey, msg, null);
         return handle(message, _message -> {
-            getTemplate(topic).send(_topic, topic, _message);
+            getTemplate(topic).send(_topic, _topic, _message);
             return _message;
         });
     }
@@ -72,7 +72,7 @@ public class RabbitMQNotifyProducer extends NotifyAbstractProducer<RabbitMessagi
         final String _topic = TopicAndGroupEditorManager.editTopic(topic);
         Message<T> message = EventUtil.message(_topic, tag, hashKey, msg, null);
         return handle(message, _message -> {
-            getTemplate(topic).convertAndSend(_topic, topic, _message);
+            getTemplate(topic).send(_topic, _topic, _message);
             return _message;
         });
     }

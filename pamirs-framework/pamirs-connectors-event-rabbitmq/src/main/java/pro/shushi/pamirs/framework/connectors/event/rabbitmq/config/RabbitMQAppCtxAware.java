@@ -30,6 +30,7 @@ import pro.shushi.pamirs.framework.connectors.event.manager.AbstractNotifyListen
 import pro.shushi.pamirs.framework.connectors.event.manager.NotifyListenerWrapper;
 import pro.shushi.pamirs.framework.connectors.event.rabbitmq.RabbitMQNotifyListener;
 import pro.shushi.pamirs.framework.connectors.event.rabbitmq.RabbitMQNotifyProducer;
+import pro.shushi.pamirs.framework.connectors.event.rabbitmq.marshalling.PamirsMessageJsonConverter;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
 import java.io.Serializable;
@@ -90,10 +91,15 @@ public class RabbitMQAppCtxAware extends AbstractNotifyAppCtxAware {
         registerNotifyListener();
     }
 
+    @Bean
+    public PamirsMessageJsonConverter pamirsRabbitMessageJsonConverter() {
+        return new PamirsMessageJsonConverter();
+    }
+
     @Bean(name = RABBITMQ_NOTIFY_PRODUCER_BEAN_NAME)
     @DependsOn({RABBITMQ_APPCTXAWARE_BEAN_NAME, RABBITMQ_TEMPLATE_BEAN_NAME})
     @ConditionalOnMissingBean
-    public RabbitMQNotifyProducer kafkaNotifyProducer(RabbitMessagingTemplate rabbitMessagingTemplate) {
+    public RabbitMQNotifyProducer rabbitmqNotifyProducer(RabbitMessagingTemplate rabbitMessagingTemplate) {
         return new RabbitMQNotifyProducer(rabbitMessagingTemplate);
     }
 
