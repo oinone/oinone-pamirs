@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.aop.support.AopUtils;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.api.configure.PamirsFrameworkDataConfiguration;
@@ -69,7 +70,9 @@ public class MapperAspect {
         if (null == dsKey) {
             dsKey = pamirsFrameworkDataConfiguration.getDefaultDsKey();
         }
-        log.debug("使用数据源(" + (null == dsKey ? "default" : dsKey) + ")-" + point.getSignature());
+        if (log.isDebugEnabled()) {
+            log.debug("使用数据源(" + (null == dsKey ? "default" : dsKey) + ")-" + point.getSignature());
+        }
         PamirsSession.pushDsKey(dsKey);
     }
 
@@ -90,17 +93,21 @@ public class MapperAspect {
                 MapperContext.setModel(model, retVal);
             }
         }
-        log.debug("恢复数据源-" + point.getSignature());
+        if (log.isDebugEnabled()) {
+            log.debug("恢复数据源-" + point.getSignature());
+        }
         PamirsSession.clearDsKey();
     }
 
     @AfterThrowing(value = "pointcutMapper()")
     public void restoreDataSourceAndSetModel(JoinPoint point) {
-        log.debug("恢复数据源-" + point.getSignature());
+        if (log.isDebugEnabled()) {
+            log.debug("恢复数据源-" + point.getSignature());
+        }
         PamirsSession.clearDsKey();
     }
 
-    private Class<?> getModelClass(JoinPoint point) {
+    protected static Class<?> getModelClass(JoinPoint point) {
         Class<?> mapperClass = Optional.of(AopUtils.getTargetClass(point.getTarget()).getGenericInterfaces())
                 .filter(ArrayUtils::isNotEmpty).map(v -> v[0]).map(Type::getTypeName).map(TypeUtils::getClass)
                 .orElse(null);

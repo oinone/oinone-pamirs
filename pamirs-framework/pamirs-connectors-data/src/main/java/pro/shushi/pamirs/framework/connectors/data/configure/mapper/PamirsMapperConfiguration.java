@@ -10,10 +10,7 @@ import pro.shushi.pamirs.framework.connectors.data.api.service.ModuleDsService;
 import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.TableInfoDialectService;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
-import pro.shushi.pamirs.meta.api.core.configure.yaml.data.DynamicDsKeyComputer;
-import pro.shushi.pamirs.meta.api.core.configure.yaml.data.LogicColumnFetcher;
-import pro.shushi.pamirs.meta.api.core.configure.yaml.data.PamirsMapperConfigurationProxy;
-import pro.shushi.pamirs.meta.api.core.configure.yaml.data.TableNameComputer;
+import pro.shushi.pamirs.meta.api.core.configure.yaml.data.*;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.BatchOperation;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsDataConfiguration;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableConfig;
@@ -60,6 +57,8 @@ public class PamirsMapperConfiguration implements PamirsMapperConfigurationProxy
 
     private TableNameComputer tableNameComputer = Spider.getDefaultExtension(TableNameComputer.class);
 
+    private ColumnNameComputer columnNameComputer = Spider.getDefaultExtension(ColumnNameComputer.class);
+
     private DynamicDsKeyComputer dynamicDsKeyComputer = Spider.getDefaultExtension(DynamicDsKeyComputer.class);
 
     @Override
@@ -81,6 +80,11 @@ public class PamirsMapperConfiguration implements PamirsMapperConfigurationProxy
     @Override
     public TableNameComputer fetchTableNameComputer() {
         return tableNameComputer;
+    }
+
+    @Override
+    public ColumnNameComputer fetchColumnNameComputer() {
+        return columnNameComputer;
     }
 
     @Override

@@ -23,6 +23,8 @@ import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -52,7 +54,7 @@ public class TypeUtils {
 
     /**
      * 预处理字符串（当且仅当确认对象为字符串类型时才可以使用）
-     * <p>支持String、byte[]、Byte[]转换</p>
+     * <p>支持String、byte[]、Byte[]、Clob转换</p>
      *
      * @param obj 可识别的字符串对象
      * @return 转换成功则返回字符串，否则返回null
@@ -65,6 +67,14 @@ public class TypeUtils {
             return new String((byte[]) obj, StandardCharsets.UTF_8);
         } else if (obj instanceof Byte[]) {
             return new String(ArrayUtils.toPrimitive((Byte[]) obj), StandardCharsets.UTF_8);
+        } else if (obj instanceof Clob) {
+            Clob clob = (Clob) obj;
+            try {
+                // @see org.apache.ibatis.type.ClobTypeHandler
+                return clob.getSubString(1, (int) clob.length());
+            } catch (SQLException e) {
+                throw PamirsException.construct(BASE_CLOB_TO_STRING_ERROR, e).errThrow();
+            }
         }
         return null;
     }

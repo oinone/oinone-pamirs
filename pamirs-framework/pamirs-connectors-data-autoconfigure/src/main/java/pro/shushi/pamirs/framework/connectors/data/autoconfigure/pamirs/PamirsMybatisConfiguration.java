@@ -9,19 +9,32 @@ import com.baomidou.mybatisplus.core.executor.MybatisCachingExecutor;
 import com.baomidou.mybatisplus.core.executor.MybatisReuseExecutor;
 import com.baomidou.mybatisplus.core.executor.MybatisSimpleExecutor;
 import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.wrapper.ObjectWrapper;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.Transaction;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsModelBeanWrapper;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsModelMapWrapper;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsMybatisXMLLanguageDriver;
+import pro.shushi.pamirs.meta.api.Models;
+import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
+import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.base.D;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 修改plus逻辑
@@ -45,6 +58,8 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
     }
 
     private List<String> businessEnumPackages;
+
+    private Boolean usingModelAsProperty = false;
 
     private GlobalConfig globalConfig = GlobalConfigUtils.defaults().setIdentifierGenerator(new PamirsIdentifierGenerator());
 
@@ -176,4 +191,51 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
         this.businessEnumPackages = businessEnumPackages;
     }
 
+    public Boolean getUsingModelAsProperty() {
+        return usingModelAsProperty;
+    }
+
+    public void setUsingModelAsProperty(Boolean usingModelAsProperty) {
+        this.usingModelAsProperty = usingModelAsProperty;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public MetaObject newMetaObject(Object object) {
+        if (usingModelAsProperty) {
+            if (object instanceof MapperMethod.ParamMap || object instanceof ObjectWrapper) {
+                return super.newMetaObject(object);
+            }
+            ModelConfig modelConfig;
+            if (object instanceof DataMap) {
+                // process GenericMapper
+                modelConfig = Optional.ofNullable(PamirsSession.getAsProperty())
+                        .filter(StringUtils::isNotBlank)
+                        .map(modelModel -> PamirsSession.getContext().getSimpleModelConfig(modelModel))
+                        .orElse(null);
+            } else {
+                // process PamirsMapper
+                modelConfig = Optional.ofNullable(Models.api().getModel(object))
+                        .filter(StringUtils::isNotBlank)
+                        .map(modelModel -> PamirsSession.getContext().getSimpleModelConfig(modelModel))
+                        .orElse(null);
+            }
+            if (modelConfig == null) {
+                return super.newMetaObject(object);
+            }
+            if (object instanceof D) {
+                PamirsModelBeanWrapper beanWrapper = new PamirsModelBeanWrapper(modelConfig);
+                MetaObject metaObject = MetaObject.forObject(beanWrapper, objectFactory, objectWrapperFactory, reflectorFactory);
+                beanWrapper.apply(metaObject, object);
+                return metaObject;
+            } else if (object instanceof Map) {
+                PamirsModelMapWrapper mapWrapper = new PamirsModelMapWrapper(modelConfig, (Map<String, Object>) object);
+                MetaObject metaObject = MetaObject.forObject(mapWrapper, objectFactory, objectWrapperFactory, reflectorFactory);
+                mapWrapper.apply(metaObject);
+                return metaObject;
+            }
+            return super.newMetaObject(object);
+        }
+        return super.newMetaObject(object);
+    }
 }

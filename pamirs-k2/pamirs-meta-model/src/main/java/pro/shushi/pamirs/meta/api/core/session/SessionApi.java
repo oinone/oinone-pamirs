@@ -260,6 +260,27 @@ public interface SessionApi extends CommonApi {
     void pushDsKey(Object dsKey);
 
     /**
+     * 获取属性映射模型
+     *
+     * @return 属性映射模型
+     */
+    String getAsProperty();
+
+    /**
+     * 清除属性映射模型
+     *
+     * @return 被清除属性映射模型
+     */
+    String popAsProperty();
+
+    /**
+     * 设置属性映射模型
+     *
+     * @param model 属性映射模型
+     */
+    void pushAsProperty(String model);
+
+    /**
      * 获取批量操作
      *
      * @return 批量操作数量

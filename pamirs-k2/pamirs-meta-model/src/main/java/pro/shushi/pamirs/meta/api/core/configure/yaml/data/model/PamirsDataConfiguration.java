@@ -25,6 +25,8 @@ public class PamirsDataConfiguration implements Serializable {
 
     private String tablePattern = ExpressionConstants.S_PLACEHOLDER;
 
+    private String columnPattern = ExpressionConstants.S_PLACEHOLDER;
+
     private PamirsTableInfo tableInfo;
 
     private boolean tableNameCaseSensitive = false;

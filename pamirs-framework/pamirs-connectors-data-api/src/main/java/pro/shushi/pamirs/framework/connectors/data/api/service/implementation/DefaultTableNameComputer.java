@@ -3,6 +3,7 @@ package pro.shushi.pamirs.framework.connectors.data.api.service.implementation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.TableNameComputer;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.constants.VariableNameConstants;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.util.PStringUtils;
@@ -26,6 +27,8 @@ import java.util.Optional;
 @SPI.Service
 public class DefaultTableNameComputer implements TableNameComputer {
 
+    private static final int ORACLE_DB_IDENTIFIER_LENGTH = 30;
+
     @Override
     public Map<String, Object> context(ModelDefinition modelDefinition) {
         Map<String, Object> context = new HashMap<>();
@@ -34,24 +37,30 @@ public class DefaultTableNameComputer implements TableNameComputer {
                 .filter(StringUtils::isNotBlank).orElse(ModelUtils.moduleAbbreviate(module));
         context.put(VariableNameConstants.module, module);
         context.put(VariableNameConstants.moduleAbbr, moduleAbbr);
-        context.put("table_30", generatorTable30(modelDefinition));
+        context.put(VariableNameConstants.table30, generatorTable30(modelDefinition));
         return context;
     }
 
     private String generatorTable30(ModelDefinition modelDefinition) {
-        String name = modelDefinition.getName();
-        String table = PStringUtils.fieldName2Column(name);
-        return substringTable(table);
+        String table = modelDefinition.getTable();
+        if (StringUtils.isBlank(table)) {
+            String name = modelDefinition.getName();
+            table = PStringUtils.fieldName2Column(name);
+        }
+        return format(table);
     }
 
-    private String substringTable(String table) {
-        for (int i = 0; i < 2; i++) {
-            if (table.length() <= 30) {
-                return table;
-            }
-            int underlineIndex = table.indexOf("_");
-            if (underlineIndex != -1) {
-                table = table.substring(underlineIndex + 1);
+    public static String format(String table) {
+        int l = table.length();
+        if (l <= ORACLE_DB_IDENTIFIER_LENGTH) {
+            return table;
+        }
+        String[] columnWords = table.split(CharacterConstants.SEPARATOR_UNDERLINE);
+        for (int i = 0; i < columnWords.length; i++) {
+            l -= columnWords[i].length() - 1;
+            columnWords[i] = columnWords[i].substring(0, 1);
+            if (l <= ORACLE_DB_IDENTIFIER_LENGTH) {
+                return String.join("_", columnWords);
             }
         }
         return table;

@@ -9,20 +9,26 @@ import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.annotation.sys.MetaModel;
 import pro.shushi.pamirs.meta.annotation.sys.MetaSimulator;
 import pro.shushi.pamirs.meta.annotation.validation.Validation;
+import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.core.compute.systems.type.TypeProcessor;
+import pro.shushi.pamirs.meta.api.core.configure.yaml.data.PamirsMapperConfigurationProxy;
+import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsDataConfiguration;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableConfig;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.util.PStringUtils;
+import pro.shushi.pamirs.meta.constant.ExpressionConstants;
 import pro.shushi.pamirs.meta.constant.MetaCheckConstants;
 import pro.shushi.pamirs.meta.constant.MetaDefaultConstants;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
 import pro.shushi.pamirs.meta.enmu.*;
 import pro.shushi.pamirs.meta.util.DiffUtils;
+import pro.shushi.pamirs.meta.util.ParserUtil;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static pro.shushi.pamirs.meta.annotation.Field.serialize.DOT;
@@ -359,8 +365,8 @@ public class ModelField extends Relation implements MetaCheckConstants {
     private Boolean relatedInternalStore = Boolean.TRUE;
 
     public void construct0(ModelField data) {
+        ModelConfig currentModel = PamirsSession.getContext().getSimpleModelConfig(data.getModel());
         if (null == data.getStore() && null != data.getTtype()) {
-            ModelConfig currentModel = PamirsSession.getContext().getModelConfig(data.getModel());
             if (ModelTypeEnum.TRANSIENT.equals(currentModel.getType())) {
                 data.setStore(false);
             } else {
@@ -369,7 +375,7 @@ public class ModelField extends Relation implements MetaCheckConstants {
             }
         }
         if (null != data.getStore() && data.getStore() && StringUtils.isBlank(data.getColumn())) {
-            data.setColumn(Optional.of(data).map(ModelField::getColumn).orElse(ModelField.generateColumn(data.getModel(), data.getName(), null)));
+            data.setColumn(ModelField.generateColumn(currentModel.getModelDefinition(), data));
         }
         if (null == data.getSize() && Integer.class.getName().equals(data.getLtype())) {
             data.setSize(TypeProcessor.DEFAULT_INTEGER);
@@ -387,6 +393,38 @@ public class ModelField extends Relation implements MetaCheckConstants {
         }
     }
 
+    public static String generateColumn(ModelDefinition modelDefinition, ModelField modelField) {
+        String column = modelField.getColumn();
+        if (StringUtils.isNotBlank(column)) {
+            return column;
+        }
+        column = modelField.getField();
+
+        String dsKey = modelDefinition.getDsKey();
+        PamirsMapperConfigurationProxy pamirsMapperConfiguration = CommonApiFactory.getApi(PamirsMapperConfigurationProxy.class);
+        String columnPattern = Optional.ofNullable(pamirsMapperConfiguration.fetchPamirsDataConfiguration(dsKey))
+                .map(PamirsDataConfiguration::getColumnPattern)
+                .filter(StringUtils::isNotBlank)
+                .orElse(ExpressionConstants.S_PLACEHOLDER);
+        Map<String, Object> context = Optional.ofNullable(pamirsMapperConfiguration.fetchColumnNameComputer())
+                .map(v -> v.context(modelDefinition, modelField)).orElse(null);
+        columnPattern = ParserUtil.replaceWithMap(columnPattern, context);
+        column = String.format(columnPattern, column);
+
+        PamirsTableConfig pamirsTableConfig = PamirsTableInfo.fetchPamirsTableConfig(modelDefinition);
+        if (pamirsTableConfig.getUnderCamel()) {
+            /* 开启字段下划线申明 */
+            column = PStringUtils.fieldName2Column(column);
+        }
+        if (!pamirsTableConfig.getTableNameCaseSensitive()) {
+            column = column.toLowerCase();
+        } else if (pamirsTableConfig.getCapitalMode()) {
+            /* 开启字段全大写申明 */
+            column = column.toUpperCase();
+        }
+        return column;
+    }
+
     @SuppressWarnings("unused")
     public static String generateColumn(ModelDefinition modelDefinition, String fieldName, String column) {
         PamirsTableConfig pamirsTableConfig = PamirsTableInfo.fetchPamirsTableConfig(modelDefinition);
@@ -400,8 +438,7 @@ public class ModelField extends Relation implements MetaCheckConstants {
                 pamirsTableConfig.getUnderCamel(), pamirsTableConfig.getCapitalMode());
     }
 
-    public static String generateColumn(String fieldName, String column, boolean tableNameCaseSensitive,
-                                        Boolean underCamel, Boolean capitalMode) {
+    private static String generateColumn(String fieldName, String column, boolean tableNameCaseSensitive, Boolean underCamel, Boolean capitalMode) {
         if (StringUtils.isNotBlank(column)) {
             return column;
         }
