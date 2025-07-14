@@ -206,16 +206,17 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
             if (object instanceof MapperMethod.ParamMap || object instanceof ObjectWrapper) {
                 return super.newMetaObject(object);
             }
-            ModelConfig modelConfig;
-            if (object instanceof DataMap) {
-                // process GenericMapper
-                modelConfig = Optional.ofNullable(PamirsSession.getAsProperty())
+            ModelConfig modelConfig = null;
+            boolean isModelObject = object instanceof D;
+            if (isModelObject) {
+                // process PamirsMapper
+                modelConfig = Optional.ofNullable(Models.api().getModel(object))
                         .filter(StringUtils::isNotBlank)
                         .map(modelModel -> PamirsSession.getContext().getSimpleModelConfig(modelModel))
                         .orElse(null);
-            } else {
-                // process PamirsMapper
-                modelConfig = Optional.ofNullable(Models.api().getModel(object))
+            } else if (object instanceof DataMap) {
+                // process GenericMapper
+                modelConfig = Optional.ofNullable(PamirsSession.getAsProperty())
                         .filter(StringUtils::isNotBlank)
                         .map(modelModel -> PamirsSession.getContext().getSimpleModelConfig(modelModel))
                         .orElse(null);
@@ -223,18 +224,17 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
             if (modelConfig == null) {
                 return super.newMetaObject(object);
             }
-            if (object instanceof D) {
+            if (isModelObject) {
                 PamirsModelBeanWrapper beanWrapper = new PamirsModelBeanWrapper(modelConfig);
                 MetaObject metaObject = MetaObject.forObject(beanWrapper, objectFactory, objectWrapperFactory, reflectorFactory);
                 beanWrapper.apply(metaObject, object);
                 return metaObject;
-            } else if (object instanceof DataMap) {
+            } else {
                 PamirsModelMapWrapper mapWrapper = new PamirsModelMapWrapper(modelConfig, (Map<String, Object>) object);
                 MetaObject metaObject = MetaObject.forObject(mapWrapper, objectFactory, objectWrapperFactory, reflectorFactory);
                 mapWrapper.apply(metaObject);
                 return metaObject;
             }
-            return super.newMetaObject(object);
         }
         return super.newMetaObject(object);
     }
