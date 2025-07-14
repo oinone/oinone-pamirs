@@ -228,7 +228,7 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
                 MetaObject metaObject = MetaObject.forObject(beanWrapper, objectFactory, objectWrapperFactory, reflectorFactory);
                 beanWrapper.apply(metaObject, object);
                 return metaObject;
-            } else if (object instanceof Map) {
+            } else if (object instanceof DataMap) {
                 PamirsModelMapWrapper mapWrapper = new PamirsModelMapWrapper(modelConfig, (Map<String, Object>) object);
                 MetaObject metaObject = MetaObject.forObject(mapWrapper, objectFactory, objectWrapperFactory, reflectorFactory);
                 mapWrapper.apply(metaObject);
