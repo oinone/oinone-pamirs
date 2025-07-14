@@ -109,8 +109,8 @@ public class ChangeColumnProcessor {
             if (null != column) {
                 boolean changeCharset = columnComponent.isCharsetChange(table.getDsKey(), modelField, column);
                 // alter column
-                if (!fieldColumn.equals(column.getColumnName())
-                        || !fieldColumnDefinition.trim().equals(columnComponent.columnDefinition(table.getDsKey(), column, changeCharset).trim())
+                if (!column.getColumnName().equals(fieldColumn)
+                        || !fieldColumnDefinition.equals(columnComponent.columnDefinition(table.getDsKey(), column, changeCharset))
                         || DdlUtils.notEqualsIgnoreNull(column.getColumnComment(), modelField.getSummary())
                         || changeCharset
                 ) {
