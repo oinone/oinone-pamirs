@@ -6,6 +6,7 @@ import pro.shushi.pamirs.framework.connectors.data.dialect.mysql.MysqlTableInfoD
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.cache.DefaultLocalCachePrefixApi;
 import pro.shushi.pamirs.meta.api.cache.LocalCachePrefixApi;
+import pro.shushi.pamirs.meta.api.core.configure.yaml.data.ColumnNameComputer;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.DynamicDsKeyComputer;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.PamirsMapperConfigurationProxy;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.TableNameComputer;
@@ -58,6 +59,11 @@ public abstract class AbstractInitSessionTest {
 
             @Override
             public TableNameComputer fetchTableNameComputer() {
+                return null;
+            }
+
+            @Override
+            public ColumnNameComputer fetchColumnNameComputer() {
                 return null;
             }
 
