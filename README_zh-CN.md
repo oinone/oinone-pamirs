@@ -8,7 +8,7 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 
 ### 2、了解更多
 - 了解更多关于 Oinone 的信息，您可以访问 [🍀 官网](https://www.oinone.top) | [🍀 Gitee-中文](https://gitee.com/oinone) | [🍀 Gitcode-中文](https://gitcode.com/oinone) | [🍀 Github-EN](https://github.com/Oinone)。
-- 【[⚡ 后端框架-中文-Gitee](https://gitee.com/oinone/oinone-pamirs) | [⚡ 前端框架-中文-Gitee](https://gitee.com/oinone/oinone-kunlun) | [⚡ 后端框架-中文-Gitcode](https://gitcode.com/oinone/oinone-pamirs) | [⚡ 前端框架-中文-Gitcode](https://gitcode.com/oinone/oinone-kunlun) | [⚡ Back-end Framework-Github](https://github.com/oinone/oinone-pamirs) | [⚡ Front-end Framework-Github](https://github.com/oinone/oinone-kunlun)】
+- 【[⚡ 后端框架-Gitee](https://gitee.com/oinone/oinone-pamirs) | [⚡ 前端框架-Gitee](https://gitee.com/oinone/oinone-kunlun) | [⚡ 后端框架-Gitcode](https://gitcode.com/oinone/oinone-pamirs) | [⚡ 前端框架-Gitcode](https://gitcode.com/oinone/oinone-kunlun) | [⚡ Back-end Framework-Github](https://github.com/oinone/oinone-pamirs) | [⚡ Front-end Framework-Github](https://github.com/oinone/oinone-kunlun)】
 
 ### 3、演示环境
 | 演示环境                                                            | 相关视频                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
