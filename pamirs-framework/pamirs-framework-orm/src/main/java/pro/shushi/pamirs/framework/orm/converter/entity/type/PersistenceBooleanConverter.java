@@ -23,6 +23,8 @@ public class PersistenceBooleanConverter {
         }
         if (value instanceof Byte) {
             origin.put(fieldConfig.getLname(), ((Byte) value).intValue() != 0);
+        } else if (value instanceof Number) {
+            origin.put(fieldConfig.getLname(), !"0".equals(String.valueOf(value)));
         }
     }
 }
