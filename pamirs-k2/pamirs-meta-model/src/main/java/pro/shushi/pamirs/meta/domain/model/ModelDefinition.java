@@ -459,7 +459,7 @@ public class ModelDefinition extends MetaBaseModel implements MetaCheckConstants
         if (isNullOriginTable) {
             if (null != pamirsMapperConfiguration) {
                 table = Optional.ofNullable(pamirsMapperConfiguration.fetchPamirsDataConfiguration(modelDefinition.getCompletedDsKey()))
-                        .map(PamirsDataConfiguration::getTablePattern).filter(StringUtils::isNotBlank).orElse(ExpressionConstants.S_PLACEHOLDER);
+                        .map(PamirsDataConfiguration::getTablePattern).filter(StringUtils::isNotBlank).orElse(ExpressionConstants.S_PLACEHOLDER_TABLE);
             } else {
                 table = name;
             }

@@ -405,7 +405,7 @@ public class ModelField extends Relation implements MetaCheckConstants {
         String columnPattern = Optional.ofNullable(pamirsMapperConfiguration.fetchPamirsDataConfiguration(dsKey))
                 .map(PamirsDataConfiguration::getColumnPattern)
                 .filter(StringUtils::isNotBlank)
-                .orElse(ExpressionConstants.S_PLACEHOLDER);
+                .orElse(ExpressionConstants.S_PLACEHOLDER_COLUMN);
         Map<String, Object> context = Optional.ofNullable(pamirsMapperConfiguration.fetchColumnNameComputer())
                 .map(v -> v.context(modelDefinition, modelField)).orElse(null);
         columnPattern = ParserUtil.replaceWithMap(columnPattern, context);
