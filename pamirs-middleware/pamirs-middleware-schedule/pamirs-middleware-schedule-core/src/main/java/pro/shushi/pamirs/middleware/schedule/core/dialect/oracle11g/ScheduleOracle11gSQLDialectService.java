@@ -2,13 +2,11 @@ package pro.shushi.pamirs.middleware.schedule.core.dialect.oracle11g;
 
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.ast.statement.SQLSetStatement;
-import com.alibaba.druid.sql.visitor.SQLASTOutputVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
-import com.alibaba.druid.sql.visitor.VisitorFeature;
 import com.alibaba.druid.util.JdbcUtils;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.ResultMap;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -16,7 +14,7 @@ import pro.shushi.pamirs.middleware.schedule.core.dialect.AbstractSQLDialectServ
 import pro.shushi.pamirs.middleware.schedule.core.dialect.ScheduleDialectConstants;
 import pro.shushi.pamirs.middleware.schedule.core.dialect.ScheduleSQLDialectService;
 import pro.shushi.pamirs.middleware.schedule.core.dialect.entity.DialectVersion;
-import pro.shushi.pamirs.middleware.schedule.core.dialect.visitor.OracleSQLVisitor;
+import pro.shushi.pamirs.middleware.schedule.core.dialect.visitor.Oracle11gSQLVisitor;
 
 import java.util.List;
 
@@ -29,10 +27,14 @@ import java.util.List;
 @Component
 public class ScheduleOracle11gSQLDialectService extends AbstractSQLDialectService implements ScheduleSQLDialectService {
 
+    private static final String LIMIT_PROPERTY = "pageSize";
+
+    private static final String OFFSET_PROPERTY = "start";
+
     @Override
     public boolean isSupported(DialectVersion dialectVersion, MappedStatement mappedStatement) {
         return ScheduleDialectConstants.PRODUCT_ORACLE.equals(dialectVersion.getType()) &&
-                ScheduleDialectConstants.ORACLE_11_MAJOR_VERSION.equals(dialectVersion.getVersion());
+                (ScheduleDialectConstants.ORACLE_11_VERSION.equals(dialectVersion.getVersion()) || ScheduleDialectConstants.ORACLE_11_MAJOR_VERSION.equals(dialectVersion.getMajorVersion()));
     }
 
     @Override
@@ -47,18 +49,37 @@ public class ScheduleOracle11gSQLDialectService extends AbstractSQLDialectServic
 
     @Override
     protected SQLASTVisitor getSQLVisitor(List<ResultMap> resultMaps) {
-        return new OracleSQLVisitor();
+        return new Oracle11gSQLVisitor();
     }
 
     @Override
     public String resolve(String sql, BoundSql boundSql, List<ResultMap> resultMaps) {
-//        swapLimitOffset(boundSql);
+        addOffset(boundSql);
         List<SQLStatement> statements = SQLUtils.parseStatements(sql, getOriginType());
         SQLASTVisitor visitor = getSQLVisitor(resultMaps);
         for (SQLStatement statement : statements) {
             statement.accept(visitor);
         }
-        return toSQLString(statements);
+        return SQLUtils.toSQLString(statements, getTargetType(), getFormatOption());
+    }
+
+    protected void addOffset(BoundSql boundSql) {
+        List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
+        int limitIndex = -1, offsetIndex = -1;
+        for (int i = 0; i < parameterMappings.size(); i++) {
+            // ParameterMapping 只读
+            ParameterMapping parameterMapping = parameterMappings.get(i);
+
+            if (LIMIT_PROPERTY.equals(parameterMapping.getProperty())) {
+                limitIndex = i;
+            } else if (OFFSET_PROPERTY.equals(parameterMapping.getProperty())) {
+                offsetIndex = i;
+            }
+        }
+        if (limitIndex != -1 && offsetIndex != -1) {
+            ParameterMapping offsetMapping = parameterMappings.get(offsetIndex);
+            parameterMappings.add(offsetMapping);
+        }
     }
 
     public static void main(String[] args) {
@@ -108,7 +129,7 @@ public class ScheduleOracle11gSQLDialectService extends AbstractSQLDialectServic
                 "        from `pamirs_schedule_2` \n" +
                 "        where `is_deleted` = 0 and `task_status` = 0 and `is_transfer` = 0 and `is_canceled` = 0 and `table_num` = ?\n" +
                 "        and   `next_execute_time` < ?  \n" +
-                "        and mod(id,?) in\n" +
+                "        and mod(biz_id % 10000,?) in\n" +
                 "         (  \n" +
                 "            ?\n" +
                 "         ) \n" +
@@ -129,64 +150,5 @@ public class ScheduleOracle11gSQLDialectService extends AbstractSQLDialectServic
                 "         \n" +
                 "            limit ? offset ?";
         System.out.println(new ScheduleOracle11gSQLDialectService().resolve(sql, null, null));
-    }
-
-    protected String toSQLString(List<SQLStatement> statements) {
-        StringBuilder out = new StringBuilder();
-        SQLASTOutputVisitor visitor;
-        if (statements.size() == 1) {
-            visitor = new Oracle11gToStringVisitor(out, false);
-        } else {
-            visitor = new Oracle11gToStringVisitor(out, true);
-        }
-        visitor.setFeatures(VisitorFeature.OutputUCase.mask);
-
-        for (int i = 0, size = statements.size(); i < size; i++) {
-            SQLStatement stmt = statements.get(i);
-
-            if (i > 0) {
-                SQLStatement preStmt = statements.get(i - 1);
-
-                List<String> comments = preStmt.getAfterCommentsDirect();
-                if (comments != null) {
-                    for (int j = 0; j < comments.size(); ++j) {
-                        String comment = comments.get(j);
-                        if (j != 0) {
-                            visitor.println();
-                        }
-                        visitor.printComment(comment);
-                    }
-                }
-
-                if (!(stmt instanceof SQLSetStatement)) {
-                    visitor.println();
-                }
-            }
-            {
-                List<String> comments = stmt.getBeforeCommentsDirect();
-                if (comments != null) {
-                    for (String comment : comments) {
-                        visitor.printComment(comment);
-                        visitor.println();
-                    }
-                }
-            }
-            stmt.accept(visitor);
-
-            if (i == size - 1) {
-                List<String> comments = stmt.getAfterCommentsDirect();
-                if (comments != null) {
-                    for (int j = 0; j < comments.size(); ++j) {
-                        String comment = comments.get(j);
-                        if (j != 0) {
-                            visitor.println();
-                        }
-                        visitor.printComment(comment);
-                    }
-                }
-            }
-        }
-
-        return out.toString();
     }
 }
