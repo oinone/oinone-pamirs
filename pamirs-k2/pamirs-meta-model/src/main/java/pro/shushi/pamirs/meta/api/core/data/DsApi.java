@@ -26,6 +26,10 @@ public interface DsApi {
         return null;
     }
 
+    default String originSystemDsKey() {
+        return null;
+    }
+
     default String baseDsKey(String model) {
         return null;
     }

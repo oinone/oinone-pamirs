@@ -58,11 +58,17 @@ public class DefaultDsApi implements DsApi {
     }
 
     @Override
+    public String originSystemDsKey() {
+        return pamirsFrameworkSystemConfiguration.getOriginSystemDsKey();
+    }
+
+    @Override
     public String baseDsKey(String model) {
         return Optional.ofNullable(fetchModuleDsMap())
                 .map(v -> v.get(ModuleConstants.MODULE_BASE))
                 .map(v -> DataPrefixManager.dsPrefix(ModuleConstants.MODULE_BASE, model, v))
-                .orElse(defaultDsKey());
+//                .orElse(defaultDsKey());
+                .orElse(pamirsFrameworkSystemConfiguration.getOriginSystemDsKey());
     }
 
     @Override
