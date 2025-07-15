@@ -2,11 +2,9 @@ package pro.shushi.pamirs.middleware.schedule.core.dialect.visitor;
 
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLLimit;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
+import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement;
 
 /**
  * @author Gesi at 14:24 on 2025/7/15
@@ -101,4 +99,14 @@ public class Oracle11gSQLVisitor extends OracleSQLVisitor {
         return true;
     }
 
+    @Override
+    public boolean visit(MySqlInsertStatement x) {
+        String tableName = x.getTableName().getSimpleName().toUpperCase();
+        if (tableName.startsWith("PAMIRS_SCHEDULE")) {
+            String sequenceName = x.getTableName().getSimpleName().toUpperCase() + "_ID";
+            x.getColumns().add(new SQLIdentifierExpr("id"));
+            x.getValues().addValue(new SQLSequenceExpr(new SQLIdentifierExpr(sequenceName), SQLSequenceExpr.Function.NextVal));
+        }
+        return true;
+    }
 }
