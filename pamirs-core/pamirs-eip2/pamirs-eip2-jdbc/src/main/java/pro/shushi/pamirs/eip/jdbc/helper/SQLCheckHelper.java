@@ -113,7 +113,7 @@ public class SQLCheckHelper {
      * @throws SQLCheckException SQL检查异常
      */
     public static String checkSingle(String sql, String dbType) throws SQLCheckException {
-        return check(sql, dbType, (prepareEntity, statements, visitor) -> {
+        return check(sql, dbType, (checker, prepareEntity, statements, visitor) -> {
             if (statements.size() >= 2) {
                 throw SQLParseCheckException.createSingleSQLException();
             }
@@ -143,7 +143,7 @@ public class SQLCheckHelper {
      * @throws SQLCheckException SQL检查异常
      */
     public static String checkMulti(String sql, String dbType) throws SQLCheckException {
-        return check(sql, dbType, (prepareEntity, statements, visitor) -> {
+        return check(sql, dbType, (checker, prepareEntity, statements, visitor) -> {
             try {
                 for (SQLStatement statement : statements) {
                     statement.accept(visitor);
@@ -205,7 +205,7 @@ public class SQLCheckHelper {
         if (CollectionUtils.isEmpty(statements)) {
             throw SQLCheckException.createCommonException();
         }
-        return checkConsumer.check(prepareEntity, statements, visitor);
+        return checkConsumer.check(checker, prepareEntity, statements, visitor);
     }
 
     public static String clearQuote(String name, String quote) {
@@ -243,6 +243,6 @@ public class SQLCheckHelper {
     @FunctionalInterface
     private interface SQLChecker {
 
-        String check(SQLPrepareEntity prepareEntity, List<SQLStatement> statements, SQLASTVisitor visitor);
+        String check(EipSQLChecker checker, SQLPrepareEntity prepareEntity, List<SQLStatement> statements, SQLASTVisitor visitor);
     }
 }

@@ -59,6 +59,15 @@ public class OracleCheckHelperTest {
             assert SQLCommonCheckException.createNotAllowOperationTableException("").getCode().equals(e.getCode()) : e.getCode();
         }
         rawTest("select * from t1 where id > 0 limit {currentPage}, {pageSize}");
+        rawTest("SELECT\n" +
+                "        CONTAINERID,\n" +
+                "        CONTAINERNAME,\n" +
+                "        DEFECTINCLUDED,\n" +
+                "        EMPLOYEEID \n" +
+                "FROM\n" +
+                "        HISTORYMAINLINE \n" +
+                "WHERE\n" +
+                "       CONTAINERID = {CONTAINERID}");
     }
 
     @Test
