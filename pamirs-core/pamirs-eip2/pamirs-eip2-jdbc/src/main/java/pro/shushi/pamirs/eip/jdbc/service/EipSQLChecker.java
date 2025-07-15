@@ -25,4 +25,5 @@ public interface EipSQLChecker {
 
     List<SQLStatement> parser(String sql);
 
+    String toSQLString(List<SQLStatement> statements);
 }
