@@ -27,6 +27,8 @@ public class PamirsModelMapWrapper extends BaseWrapper {
 
     private final Map<String, String> columnToLnameMapping;
 
+    private final Map<String, Class<?>> lnameToLtypeMapping;
+
     private MetaObject metaObject;
 
     public PamirsModelMapWrapper(ModelConfig modelConfig, Map<String, Object> map) {
@@ -36,8 +38,10 @@ public class PamirsModelMapWrapper extends BaseWrapper {
         this.usingAsProperty = this.modelConfig.getModel().equals(PamirsSession.getAsProperty());
         if (this.usingAsProperty) {
             this.columnToLnameMapping = OrmColumnToLnameCache.getMapping(modelConfig);
+            this.lnameToLtypeMapping = OrmLnameToLtypeCache.getMapping(modelConfig);
         } else {
             this.columnToLnameMapping = null;
+            this.lnameToLtypeMapping = null;
         }
     }
 
@@ -97,6 +101,16 @@ public class PamirsModelMapWrapper extends BaseWrapper {
 
     @Override
     public Class<?> getSetterType(String name) {
+        if (this.usingAsProperty) {
+            Class<?> setterType = lnameToLtypeMapping.get(name);
+            if (setterType != null) {
+                return setterType;
+            }
+        }
+        return getSetterType0(name);
+    }
+
+    protected Class<?> getSetterType0(String name) {
         PropertyTokenizer prop = new PropertyTokenizer(name);
         if (prop.hasNext()) {
             MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
@@ -116,6 +130,16 @@ public class PamirsModelMapWrapper extends BaseWrapper {
 
     @Override
     public Class<?> getGetterType(String name) {
+        if (this.usingAsProperty) {
+            Class<?> setterType = lnameToLtypeMapping.get(name);
+            if (setterType != null) {
+                return setterType;
+            }
+        }
+        return getGetterType0(name);
+    }
+
+    public Class<?> getGetterType0(String name) {
         PropertyTokenizer prop = new PropertyTokenizer(name);
         if (prop.hasNext()) {
             MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
