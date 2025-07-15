@@ -47,6 +47,7 @@ public class EipOpenConvert {
 
         String httpMethod = optional(openAdvanced.httpMethod(), "post");
         String path = StringUtils.isNotBlank(open.path()) ? open.path() : function.getFun();
+        path = URLHelper.repairAbsolutePathPrefix(path);
         String finalResultKey = EipContextConstant.RESULT_KEY;
 
         EipOpenInterface eipOpenInterface = new EipOpenInterface();
