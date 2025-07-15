@@ -7,8 +7,8 @@ Oinone is an enterprise-class productization engine that combines standardized R
 The "O" symbolizes open source while phonetically resonating with "All in one," symbolizing: One-stop solutions, agile responsiveness, continuous innovation.
 
 ### 2. Learn More
-- To learn more about Oinone，please visit【[🍀 Website](https://www.oinone.top) | [🍀 Gitee-中文](https://gitee.com/oinone) | [🍀 Github-EN](https://github.com/Oinone)】.
-- 【[⚡ 后端框架-中文](https://gitee.com/oinone/oinone-pamirs) | [⚡ 前端框架-中文](https://gitee.com/oinone/oinone-kunlun) | [⚡ Back-end Framework](https://github.com/oinone/oinone-pamirs) | [⚡ Front-end Framework](https://github.com/oinone/oinone-kunlun)】
+- To learn more about Oinone，please visit【[🍀 Website](https://www.oinone.top) | [🍀 Gitee-中文](https://gitee.com/oinone) | [🍀 Gitcode-中文](https://gitcode.com/oinone) | [🍀 Github-EN](https://github.com/Oinone)】
+- 【[⚡ 后端框架-Gitee](https://gitee.com/oinone/oinone-pamirs) | [⚡ 前端框架-Gitee](https://gitee.com/oinone/oinone-kunlun) | [⚡ 后端框架-Gitcode](https://gitcode.com/oinone/oinone-pamirs) | [⚡ 前端框架-Gitcode](https://gitcode.com/oinone/oinone-kunlun) | [⚡ Back-end Framework-Github](https://github.com/oinone/oinone-pamirs) | [⚡ Front-end Framework-Github](https://github.com/oinone/oinone-kunlun)】
 
 ### 3. Demo
 | Demo                                                                                   | Related Videos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
