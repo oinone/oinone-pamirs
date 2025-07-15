@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.jdbc.helper;
 
-import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.parser.ParserException;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
@@ -31,8 +30,6 @@ import java.util.Set;
  */
 @Slf4j
 public class SQLCheckHelper {
-
-    private static final SQLUtils.FormatOption DEFAULT_FORMAT_OPTION = new SQLUtils.FormatOption(false, false);
 
     public static final Set<String> BLACK_LIST_TABLES = new HashSet<>();
 
@@ -125,7 +122,7 @@ public class SQLCheckHelper {
             } catch (Throwable e) {
                 throw SQLParseCheckException.createSQLVisitError(e);
             }
-            String newSql = SQLUtils.toSQLString(statement, dbType, DEFAULT_FORMAT_OPTION);
+            String newSql = checker.toSQLString(statements);
             newSql = newSql.trim();
             if (newSql.endsWith(SQL_EOF)) {
                 newSql = newSql.substring(0, newSql.length() - 1);
@@ -153,7 +150,7 @@ public class SQLCheckHelper {
             } catch (Throwable e) {
                 throw SQLParseCheckException.createSQLVisitError(e);
             }
-            return SQLUtils.toSQLString(statements, dbType, DEFAULT_FORMAT_OPTION);
+            return checker.toSQLString(statements);
         });
     }
 
