@@ -16,13 +16,6 @@ public interface ScheduleSQLDialectService {
 
     boolean isSupported(DialectVersion dialectVersion, MappedStatement mappedStatement);
 
-    default String resolve(String sql) {
-        return resolve(sql, null, null);
-    }
-
-    default String resolve(String sql, List<ResultMap> resultMaps) {
-        return resolve(sql, null, resultMaps);
-    }
-
     String resolve(String sql, BoundSql boundSql, List<ResultMap> resultMaps);
+
 }

@@ -277,6 +277,24 @@ public class PamirsSessionHolder implements SessionApi, RequestSessionApi, Sessi
     }
 
     @Override
+    public String getAsProperty() {
+        kernelInit();
+        return _k_thread.get().getAsProperty();
+    }
+
+    @Override
+    public String popAsProperty() {
+        kernelInit();
+        return _k_thread.get().popAsProperty();
+    }
+
+    @Override
+    public void pushAsProperty(String model) {
+        kernelInit();
+        _k_thread.get().pushAsProperty(model);
+    }
+
+    @Override
     public Integer getBatchSize() {
         kernelInit();
         return _k_thread.get().getBatchSize();

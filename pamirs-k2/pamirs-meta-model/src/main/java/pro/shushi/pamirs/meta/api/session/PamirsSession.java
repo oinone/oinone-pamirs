@@ -216,19 +216,44 @@ public class PamirsSession extends PamirsRequestSession {
         return sessionApi.getDsKey();
     }
 
-    public static Integer getBatchSize() {
-        SessionApi sessionApi = getSessionApi();
-        return sessionApi.getBatchSize();
-    }
-
     public static void pushDsKey(Object dsKey) {
         SessionApi sessionApi = getSessionApi();
         sessionApi.pushDsKey(dsKey);
     }
 
+    public static void clearDsKey() {
+        SessionApi sessionApi = getSessionApi();
+        sessionApi.popDsKey();
+    }
+
+    public static String getAsProperty() {
+        SessionApi sessionApi = getSessionApi();
+        return sessionApi.getAsProperty();
+    }
+
+    public static void pushAsProperty(String model) {
+        SessionApi sessionApi = getSessionApi();
+        sessionApi.pushAsProperty(model);
+    }
+
+    public static String clearAsProperty() {
+        SessionApi sessionApi = getSessionApi();
+        return sessionApi.popAsProperty();
+    }
+
+    public static Integer getBatchSize() {
+        SessionApi sessionApi = getSessionApi();
+        return sessionApi.getBatchSize();
+    }
+
     public static void pushBatchSize(Integer batchSize) {
         SessionApi sessionApi = getSessionApi();
         sessionApi.pushBatchSize(batchSize);
+    }
+
+    public static void clearBatchSize() {
+        SessionApi sessionApi = getSessionApi();
+        sessionApi.popBatchSize();
     }
 
     public static BatchCommitTypeEnum getBatchOperation() {
@@ -308,16 +333,6 @@ public class PamirsSession extends PamirsRequestSession {
     public static void fillSessionFromMap(Map<String, String> sessionMap) {
         SessionApi sessionApi = getSessionApi();
         sessionApi.fillSessionFromMap(sessionMap);
-    }
-
-    public static void clearDsKey() {
-        SessionApi sessionApi = getSessionApi();
-        sessionApi.popDsKey();
-    }
-
-    public static void clearBatchSize() {
-        SessionApi sessionApi = getSessionApi();
-        sessionApi.popBatchSize();
     }
 
     public static void clearMainSession() {

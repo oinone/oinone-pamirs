@@ -21,6 +21,10 @@ public interface VariableNameConstants {
 
     String moduleAbbr = "moduleAbbr";
 
+    String table30 = "table_30";
+
+    String column30 = "column_30";
+
     String model = "model";
 
     String field = "field";

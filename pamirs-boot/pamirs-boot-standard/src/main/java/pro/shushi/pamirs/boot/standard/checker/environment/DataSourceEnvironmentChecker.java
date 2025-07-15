@@ -89,6 +89,7 @@ public class DataSourceEnvironmentChecker extends AbstractPlatformEnvironmentChe
                 EnvironmentKey.immutable(keyPrefix + "database-format", globalDataConfiguration.getDatabaseFormat()),
                 EnvironmentKey.addOrDelete(keyPrefix + "table-format", globalDataConfiguration.getTableFormat()),
                 EnvironmentKey.immutable(keyPrefix + "table-pattern", globalDataConfiguration.getTablePattern()),
+                EnvironmentKey.immutable(keyPrefix + "column-pattern", globalDataConfiguration.getColumnPattern()),
                 EnvironmentKey.immutable(keyPrefix + "table-info.logic-delete", String.valueOf(globalTableInfo.getLogicDelete())),
                 EnvironmentKey.immutable(keyPrefix + "table-info.logic-delete-column", globalTableInfo.getLogicDeleteColumn()),
                 EnvironmentKey.immutable(keyPrefix + "table-info.logic-delete-value", globalTableInfo.getLogicDeleteValue()),

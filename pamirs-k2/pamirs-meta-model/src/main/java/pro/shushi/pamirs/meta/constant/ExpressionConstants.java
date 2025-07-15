@@ -9,6 +9,14 @@ package pro.shushi.pamirs.meta.constant;
  */
 public interface ExpressionConstants {
 
+    /**
+     * @deprecated please using {@link ExpressionConstants#S_PLACEHOLDER_TABLE}
+     */
+    @Deprecated
     String S_PLACEHOLDER = "${moduleAbbr}_%s";
+
+    String S_PLACEHOLDER_TABLE = "${moduleAbbr}_%s";
+
+    String S_PLACEHOLDER_COLUMN = "%s";
 
 }

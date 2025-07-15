@@ -55,7 +55,6 @@ public class MessageChannel extends IdModel {
 
     @Field.String(size = 4096)
     @Field(displayName = "icon地址")
-    @Field.Advanced(columnDefinition = "varchar(4096)")
     @UxForm.FieldWidget(@UxWidget(widget = "UploadImg"))
     private String iconUrl;
 
