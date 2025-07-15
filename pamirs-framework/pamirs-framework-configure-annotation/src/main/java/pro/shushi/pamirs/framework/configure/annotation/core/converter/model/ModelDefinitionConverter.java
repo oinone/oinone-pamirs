@@ -233,7 +233,7 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
                 dsKey = names.getDsKey();
             }
             if (null == dsKey) {
-                if (ModuleConstants.MODULE_BASE.equals(names.getModule()) || MetaSimulator.simulate().containsKey(modelModel)) {
+                if (ModuleConstants.MODULE_BASE.equals(names.getModule())) {
                     dsKey = dsApi.originSystemDsKey();
                 } else {
                     dsKey = dsApi.originDefaultDsKey();
