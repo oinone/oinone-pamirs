@@ -32,18 +32,13 @@ public abstract class AbstractSQLDialectService implements ScheduleSQLDialectSer
     }
 
     @Override
-    public String resolve(String sql, List<ResultMap> resultMaps) {
+    public String resolve(String sql, BoundSql boundSql, List<ResultMap> resultMaps) {
         List<SQLStatement> statements = SQLUtils.parseStatements(sql, getOriginType());
         SQLASTVisitor visitor = getSQLVisitor(resultMaps);
         for (SQLStatement statement : statements) {
             statement.accept(visitor);
         }
         return SQLUtils.toSQLString(statements, getTargetType(), getFormatOption());
-    }
-
-    @Override
-    public String resolve(String sql, BoundSql boundSql, List<ResultMap> resultMaps) {
-        return resolve(sql, resultMaps);
     }
 
     protected void swapLimitOffset(BoundSql boundSql) {
