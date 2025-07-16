@@ -6,6 +6,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
 import pro.shushi.pamirs.meta.enmu.DateUnitEnum;
 
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -216,11 +217,16 @@ public class DateUtils {
                 } else {
                     return DateUtils.formatDate(DateUtils.convertToDate(paramString), pattern);
                 }
+            } else if (param instanceof BigDecimal) {
+                d = ((BigDecimal) param).longValue();
             } else {
                 throw new UnsupportedOperationException("Invalid param type.");
             }
             if (StringUtils.isBlank(pattern)) {
                 pattern = DateFormatEnum.DATETIME.value();
+            }
+            if (DateFormatEnum.YEAR.value().equals(pattern) && d < 10000) {
+                return d + "";
             }
             return DateUtils.formatDate(d, pattern);
         }
