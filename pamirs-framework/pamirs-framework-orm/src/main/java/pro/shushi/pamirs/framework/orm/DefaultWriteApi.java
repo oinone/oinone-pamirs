@@ -65,12 +65,14 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
                 throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
             }
             throw e;
+        } finally {
+            persistenceDataConverter.out(model, data);
         }
 
         if (1 != count) {
             throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_INSERT_ERROR).errThrow();
         }
-        return persistenceDataConverter.out(model, data);
+        return data;
     }
 
     @Function.Advanced(displayName = "创建或更新记录，返回记录数", managed = true)
@@ -90,33 +92,36 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         Result<T> result = new Result<>();
         String model = getModel(data);
         DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, data)).getDataMap();
-        int count;
-        if (!Models.compute().isPkValueValid(map)) {
-            if (Models.compute().isUniqueKeyValueValid(map)) {
-                DataMap existItem = genericMapper.selectOneByUniqueKey(map);
-                if (null != existItem) {
-                    ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
-                    Models.compute().setPkIfPresent(modelConfig, map, existItem);
-                    Models.compute().setCodeIfPresent(modelConfig, map, existItem);
-                    count = genericMapper.updateByUniqueKey(map);
+        try {
+            int count;
+            if (!Models.compute().isPkValueValid(map)) {
+                if (Models.compute().isUniqueKeyValueValid(map)) {
+                    DataMap existItem = genericMapper.selectOneByUniqueKey(map);
+                    if (null != existItem) {
+                        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
+                        Models.compute().setPkIfPresent(modelConfig, map, existItem);
+                        Models.compute().setCodeIfPresent(modelConfig, map, existItem);
+                        count = genericMapper.updateByUniqueKey(map);
+                    } else {
+                        count = genericMapper.insert(map);
+                    }
                 } else {
                     count = genericMapper.insert(map);
                 }
             } else {
-                count = genericMapper.insert(map);
+                DataMap existItem = genericMapper.selectByPk(map);
+                if (null == existItem) {
+                    count = genericMapper.insert(map);
+                } else {
+                    count = genericMapper.updateByPk(map);
+                }
             }
-        } else {
-            DataMap existItem = genericMapper.selectByPk(map);
-            if (null == existItem) {
-                count = genericMapper.insert(map);
-            } else {
-                count = genericMapper.updateByPk(map);
-            }
+            result.setEffectRows(count);
+            result.setData(data);
+            return result;
+        } finally {
+            persistenceDataConverter.out(model, data);
         }
-        persistenceDataConverter.out(model, data);
-        result.setEffectRows(count);
-        result.setData(data);
-        return result;
     }
 
     @Function.Advanced(displayName = "根据主键更新记录", managed = true)
@@ -136,9 +141,9 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
                 throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
             }
             throw e;
+        } finally {
+            persistenceDataConverter.out(model, data);
         }
-
-        persistenceDataConverter.out(model, data);
         return count;
     }
 
@@ -151,9 +156,11 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return 0;
         }
         String model = getModel(data);
-        int count = genericMapper.updateByUniqueKey(persistenceDataConverter.in(model, data));
-        persistenceDataConverter.out(model, data);
-        return count;
+        try {
+            return genericMapper.updateByUniqueKey(persistenceDataConverter.in(model, data));
+        } finally {
+            persistenceDataConverter.out(model, data);
+        }
     }
 
     @Function.Advanced(displayName = "匹配条件更新记录", managed = true)
@@ -166,11 +173,13 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         }
         String model = getModel(data);
         DataMap updateEntity = MapWrapper.wrap(persistenceDataConverter.in(model, data)).getDataMap();
-        DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, query)).getDataMap();
-        int count = genericMapper.update(updateEntity, Pops.query(queryEntity).setModel(model));
-        persistenceDataConverter.out(model, updateEntity);
-        persistenceDataConverter.out(model, query);
-        return count;
+        try {
+            DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, query)).getDataMap();
+            return genericMapper.update(updateEntity, Pops.query(queryEntity).setModel(model));
+        } finally {
+            persistenceDataConverter.out(model, updateEntity);
+            persistenceDataConverter.out(model, query);
+        }
     }
 
     @Function.Advanced(displayName = "根据条件更新记录", managed = true)
@@ -183,11 +192,13 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         }
         String model = updateWrapper.getModel();
         DataMap updateEntity = MapWrapper.wrap(persistenceDataConverter.in(model, data)).getDataMap();
-        DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, updateWrapper.getEntity())).getDataMap();
-        int count = genericMapper.update(updateEntity, updateWrapper.generic(model, queryEntity));
-        persistenceDataConverter.out(model, updateEntity);
-        persistenceDataConverter.out(model, updateWrapper.getEntity());
-        return count;
+        try {
+            DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, updateWrapper.getEntity())).getDataMap();
+            return genericMapper.update(updateEntity, updateWrapper.generic(model, queryEntity));
+        } finally {
+            persistenceDataConverter.out(model, updateEntity);
+            persistenceDataConverter.out(model, updateWrapper.getEntity());
+        }
     }
 
     @Function.Advanced(displayName = "批量创建记录", managed = true)
@@ -217,9 +228,11 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
                 throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
             }
             throw e;
+        } finally {
+            persistenceDataConverter.out(model, dataList);
         }
 
-        return persistenceDataConverter.out(model, dataList);
+        return dataList;
     }
 
     @Function.Advanced(displayName = "批量创建或更新记录", managed = true)
@@ -300,9 +313,9 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
                 throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
             }
             throw e;
+        } finally {
+            persistenceDataConverter.out(model, dataList);
         }
-
-        persistenceDataConverter.out(model, dataList);
         return count;
     }
 
@@ -315,9 +328,12 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return false;
         }
         String model = getModel(data);
-        int count = genericMapper.deleteByPk(persistenceDataConverter.in(model, data));
-        persistenceDataConverter.out(model, data);
-        return 1 == count;
+        try {
+            int count = genericMapper.deleteByPk(persistenceDataConverter.in(model, data));
+            return 1 == count;
+        } finally {
+            persistenceDataConverter.out(model, data);
+        }
     }
 
     @Function.Advanced(displayName = "根据主键删除多条记录", managed = true)
@@ -329,9 +345,12 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return false;
         }
         String model = getModel(dataList);
-        int count = genericMapper.deleteByPks(persistenceDataConverter.in(model, dataList));
-        persistenceDataConverter.out(model, dataList);
-        return dataList.size() == count;
+        try {
+            int count = genericMapper.deleteByPks(persistenceDataConverter.in(model, dataList));
+            return dataList.size() == count;
+        } finally {
+            persistenceDataConverter.out(model, dataList);
+        }
     }
 
     @Function.Advanced(displayName = "根据唯一索引删除记录", managed = true)
@@ -343,9 +362,12 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return false;
         }
         String model = getModel(data);
-        int count = genericMapper.deleteByUniqueKey(persistenceDataConverter.in(model, data));
-        persistenceDataConverter.out(model, data);
-        return 1 == count;
+        try {
+            int count = genericMapper.deleteByUniqueKey(persistenceDataConverter.in(model, data));
+            return 1 == count;
+        } finally {
+            persistenceDataConverter.out(model, data);
+        }
     }
 
     @Function.Advanced(displayName = "根据唯一索引删除多条记录", managed = true)
@@ -357,9 +379,12 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return false;
         }
         String model = getModel(dataList);
-        int count = genericMapper.deleteByUniqueKeys(persistenceDataConverter.in(model, dataList));
-        persistenceDataConverter.out(model, dataList);
-        return dataList.size() == count;
+        try {
+            int count = genericMapper.deleteByUniqueKeys(persistenceDataConverter.in(model, dataList));
+            return dataList.size() == count;
+        } finally {
+            persistenceDataConverter.out(model, dataList);
+        }
     }
 
     @Function.Advanced(displayName = "匹配条件删除记录", managed = true)
@@ -371,10 +396,12 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return 0;
         }
         String model = getModel(query);
-        Map<String, Object> queryEntity = persistenceDataConverter.in(model, query);
-        int count = genericMapper.delete(Pops.query(MapWrapper.wrap(queryEntity).getDataMap()));
-        persistenceDataConverter.out(model, query);
-        return count;
+        try {
+            Map<String, Object> queryEntity = persistenceDataConverter.in(model, query);
+            return genericMapper.delete(Pops.query(MapWrapper.wrap(queryEntity).getDataMap()));
+        } finally {
+            persistenceDataConverter.out(model, query);
+        }
     }
 
     @Function.Advanced(displayName = "根据条件删除记录", managed = true)
@@ -386,10 +413,12 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return 0;
         }
         String model = queryWrapper.getModel();
-        Map<String, Object> queryEntity = persistenceDataConverter.in(model, queryWrapper.getEntity());
-        int count = genericMapper.delete(queryWrapper.generic(model, MapWrapper.wrap(queryEntity).getDataMap()));
-        persistenceDataConverter.out(model, queryWrapper.getEntity());
-        return count;
+        try {
+            Map<String, Object> queryEntity = persistenceDataConverter.in(model, queryWrapper.getEntity());
+            return genericMapper.delete(queryWrapper.generic(model, MapWrapper.wrap(queryEntity).getDataMap()));
+        } finally {
+            persistenceDataConverter.out(model, queryWrapper.getEntity());
+        }
     }
 
     @Function.Advanced(displayName = "更新自己及其关联数据", managed = true)
