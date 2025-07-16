@@ -259,12 +259,15 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         if (null == batchSize || batchSize == 0) {
             batchSize = fetchWriteBatchSize(model);
         }
-        int count = genericMapper.insertOrUpdateBatchWithSize(persistenceDataConverter.in(model, dataList), batchSize);
-        persistenceDataConverter.out(model, dataList);
-        Result<List<T>> result = new Result<>();
-        result.setEffectRows(count);
-        result.setData(dataList);
-        return result;
+        try {
+            int count = genericMapper.insertOrUpdateBatchWithSize(persistenceDataConverter.in(model, dataList), batchSize);
+            Result<List<T>> result = new Result<>();
+            result.setEffectRows(count);
+            result.setData(dataList);
+            return result;
+        } finally {
+            persistenceDataConverter.out(model, dataList);
+        }
     }
 
     @Function.Advanced(displayName = "批量更新记录", managed = true)

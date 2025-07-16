@@ -60,7 +60,7 @@ public class PersistenceSerializeProcessor {
                 if (stringValue != null) {
                     value = stringValue;
                 }
-            } else if (TtypeEnum.ENUM.value().equals(ttype) && value instanceof Number) {
+            } else if (TtypeEnum.ENUM.value().equals(ttype) && Boolean.TRUE.equals(fieldConfig.getMulti()) && value instanceof Number) {
                 value = String.valueOf(value);
             }
             if (!TypeUtils.isPrimitiveOrString(value.getClass().getName())

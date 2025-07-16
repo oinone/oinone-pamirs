@@ -7,6 +7,7 @@ import org.apache.ibatis.reflection.property.PropertyTokenizer;
 import org.apache.ibatis.reflection.wrapper.BaseWrapper;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.util.TypeUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -104,6 +105,15 @@ public class PamirsModelMapWrapper extends BaseWrapper {
         if (this.usingAsProperty) {
             Class<?> setterType = lnameToLtypeMapping.get(name);
             if (setterType != null) {
+                if (PamirsSession.isStaticConfig()) {
+                    return setterType;
+                }
+                if (TypeUtils.isIEnumClass(setterType)) {
+                    if (map.get(name) != null) {
+                        return map.get(name).getClass();
+                    }
+                    return Object.class;
+                }
                 return setterType;
             }
         }
@@ -131,9 +141,18 @@ public class PamirsModelMapWrapper extends BaseWrapper {
     @Override
     public Class<?> getGetterType(String name) {
         if (this.usingAsProperty) {
-            Class<?> setterType = lnameToLtypeMapping.get(name);
-            if (setterType != null) {
-                return setterType;
+            Class<?> getterType = lnameToLtypeMapping.get(name);
+            if (getterType != null) {
+                if (PamirsSession.isStaticConfig()) {
+                    return getterType;
+                }
+                if (TypeUtils.isIEnumClass(getterType)) {
+                    if (map.get(name) != null) {
+                        return map.get(name).getClass();
+                    }
+                    return Object.class;
+                }
+                return getterType;
             }
         }
         return getGetterType0(name);

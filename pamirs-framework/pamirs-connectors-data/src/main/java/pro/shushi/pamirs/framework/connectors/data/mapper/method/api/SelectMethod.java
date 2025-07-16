@@ -15,6 +15,8 @@ public interface SelectMethod extends SQLMethod {
 
     SelectMethod setUseOptimisticLocker(boolean useOptimisticLocker);
 
+    boolean isUseOptimisticLocker();
+
     SelectMethod setOptimisticLockerPrefix(String optimisticLockerPrefix);
 
     SelectMethod setNonEmptyUniqueKey(String[] nonEmptyUniqueKey);
