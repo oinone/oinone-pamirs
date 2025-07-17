@@ -13,19 +13,25 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.wrapper.ObjectWrapper;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.Transaction;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.dialect.StatementHandlerGeneratorDialect;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsModelBeanWrapper;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsModelMapWrapper;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsMybatisXMLLanguageDriver;
+import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
@@ -237,5 +243,19 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
             }
         }
         return super.newMetaObject(object);
+    }
+
+    @Override
+    public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+        Object dsKeyObject = PamirsSession.getDsKey();
+        if (dsKeyObject != null) {
+            StatementHandlerGeneratorDialect handlerGeneratorDialect = Dialects.component(StatementHandlerGeneratorDialect.class, String.valueOf(dsKeyObject));
+            if (handlerGeneratorDialect != null) {
+                StatementHandler statementHandler = handlerGeneratorDialect.newStatementHandler(this, executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
+                statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
+                return statementHandler;
+            }
+        }
+        return super.newStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
     }
 }
