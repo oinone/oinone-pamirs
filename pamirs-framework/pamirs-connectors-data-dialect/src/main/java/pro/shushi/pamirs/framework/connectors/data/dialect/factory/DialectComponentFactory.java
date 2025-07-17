@@ -6,6 +6,7 @@ import pro.shushi.pamirs.framework.connectors.data.dialect.api.DialectPackageApi
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.DialectSelectorApi;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.ExtensionServiceLoader;
+import pro.shushi.pamirs.meta.common.spi.HoldKeeper;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.util.ClassScanner;
 import pro.shushi.pamirs.meta.common.util.ListUtils;
@@ -30,6 +31,8 @@ import static pro.shushi.pamirs.framework.connectors.data.dialect.enmu.DialectEx
 public class DialectComponentFactory {
 
     private static volatile Map<Class<?>, Map<String, Object>> COMPONENTS_MAP;
+
+    private static final HoldKeeper<DialectSelectorApi> DIALECT_SELECTOR_API_HOLDER = new HoldKeeper<>();
 
     private static Map<Class<?>, Map<String, Object>> init() {
         if (COMPONENTS_MAP == null) {
@@ -58,6 +61,10 @@ public class DialectComponentFactory {
         return COMPONENTS_MAP;
     }
 
+    private static DialectSelectorApi getDialectSelectorApi() {
+        return DIALECT_SELECTOR_API_HOLDER.supply(() -> Spider.getLoader(DialectSelectorApi.class).getDefaultExtension());
+    }
+
     private static DialectVersion getDialectVersion(Object component) {
         Dialect.component annotation = AnnotationUtils.getAnnotation(component.getClass(), Dialect.component.class);
         if (null == annotation) {
@@ -79,9 +86,9 @@ public class DialectComponentFactory {
         if (concurrentMap == null) {
             return null;
         }
-        T component = (T) concurrentMap.get(Spider.getLoader(DialectSelectorApi.class).getDefaultExtension().type(dsKey));
+        T component = (T) concurrentMap.get(getDialectSelectorApi().type(dsKey));
         if (null == component) {
-            return (T) concurrentMap.get(Spider.getLoader(DialectSelectorApi.class).getDefaultExtension().major(dsKey));
+            return (T) concurrentMap.get(getDialectSelectorApi().major(dsKey));
         }
         return component;
     }

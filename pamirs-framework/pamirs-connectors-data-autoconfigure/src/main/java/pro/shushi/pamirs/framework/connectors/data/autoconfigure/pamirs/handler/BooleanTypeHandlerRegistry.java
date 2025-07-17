@@ -6,6 +6,9 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.ConfigurationCustomizer;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.dialect.BooleanTypeHandlerDialect;
+import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -37,13 +40,13 @@ public class BooleanTypeHandlerRegistry implements ConfigurationCustomizer {
         @Override
         public void setNonNullParameter(PreparedStatement ps, int i, Boolean parameter, JdbcType jdbcType)
                 throws SQLException {
-            if (JdbcType.NUMERIC.equals(jdbcType)) {
-                if (Boolean.TRUE.equals(parameter)) {
-                    ps.setInt(i, 1);
-                } else {
-                    ps.setInt(i, 0);
+            Object dsKeyObject = PamirsSession.getDsKey();
+            if (dsKeyObject != null) {
+                BooleanTypeHandlerDialect handler = Dialects.component(BooleanTypeHandlerDialect.class, String.valueOf(dsKeyObject));
+                if (handler != null) {
+                    handler.setNonNullParameter(ps, i, parameter, jdbcType);
+                    return;
                 }
-                return;
             }
             ps.setBoolean(i, parameter);
         }

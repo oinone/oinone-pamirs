@@ -223,7 +223,6 @@ public interface ColumnDialectComponent {
                 summary, addPrimaryKeyString, after, ";\n");
     }
 
-    @Deprecated
     default String modifyColumn(String table, String column, String newName, String columnDefinition,
                                 String summary, String previousColumn) {
         String after = StringUtils.isBlank(previousColumn) ? "'" : "' AFTER `" + previousColumn + "`";
