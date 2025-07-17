@@ -461,12 +461,4 @@ public class URLHelper {
         }
         return null;
     }
-
-    public static void main(String[] args) {
-        String target = "https://yxit-jjxt-tjb.obs.cn-east-2.myhuaweicloud.com/bonus/2022/05/16/奖金调拨 (1)_+1652696148649.xlsx";
-        System.out.println(encodeFileName(target));
-        target = "奖金调拨 (1)_+1652696148649.xlsx";
-        System.out.println(encodeFileName(target));
-    }
-
 }

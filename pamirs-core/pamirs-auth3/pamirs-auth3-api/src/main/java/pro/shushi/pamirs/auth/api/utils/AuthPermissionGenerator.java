@@ -30,11 +30,6 @@ public class AuthPermissionGenerator {
         return authorization;
     }
 
-    public static void main(String[] args) {
-        String code = AuthResourcePermission.generatorCode("microflow_designer", ModuleDefinition.MODEL_MODEL, "microflowDesigner", "/microflow_designer/*");
-        System.out.println(code);
-    }
-
     private static <T extends AuthResourcePermission> T generatorModulePermission(T permission, ModuleDefinition module, String path) {
         String moduleModule = module.getModule();
         String model = ModuleDefinition.MODEL_MODEL;
