@@ -134,7 +134,7 @@ public class IndexProcessor {
                     existAutoIncrementColumn.getColumnName(), existAutoIncrementColumn.getColumnName(),
                     columnComponent.columnDefinition(table.getDsKey(), existAutoIncrementColumn,
                             false, false),
-                    existAutoIncrementColumn.getColumnComment(), null, table.getColumnMap().get(column));
+                    existAutoIncrementColumn.getColumnComment(), null);
             ddlList.add(modifyPkColumnDefinition);
         }
     }

@@ -120,34 +120,4 @@ public class ParserUtil {
         return placeHolderSet;
     }
 
-    /**
-     * 将除占位符以外的所有地方大写；<br/>
-     * 示例： "Name:${name},age:${age},sCHOOL:${school}"， 则返回："NAME:${name},AGE:${age},SCHOOL:${school}"
-     * @param str
-     * @return
-     */
-    public static String toUpperCaseExcludePlaceholder(String str) {
-        if (str == null) {
-            return null;
-        }
-        Matcher matcher = pattern.matcher(str);
-        int lastEnd = 0;
-        StringBuilder result = new StringBuilder();
-
-        while (matcher.find()) {
-            String before = str.substring(lastEnd, matcher.start());
-            result.append(before.toUpperCase());
-
-            result.append(matcher.group());
-
-            lastEnd = matcher.end();
-        }
-
-        if (lastEnd < str.length()) {
-            result.append(str.substring(lastEnd).toUpperCase());
-        }
-
-        return result.toString();
-    }
-
 }

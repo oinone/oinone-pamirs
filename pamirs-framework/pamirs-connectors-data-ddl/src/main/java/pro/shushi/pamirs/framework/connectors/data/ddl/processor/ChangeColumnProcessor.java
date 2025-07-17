@@ -108,14 +108,15 @@ public class ChangeColumnProcessor {
 
             if (null != column) {
                 boolean changeCharset = columnComponent.isCharsetChange(table.getDsKey(), modelField, column);
+                String previousColumn = columnComponent.columnDefinition(table.getDsKey(), column, changeCharset);
                 // alter column
                 if (!column.getColumnName().equals(fieldColumn)
-                        || !fieldColumnDefinition.equals(columnComponent.columnDefinition(table.getDsKey(), column, changeCharset))
+                        || !fieldColumnDefinition.equals(previousColumn)
                         || DdlUtils.notEqualsIgnoreNull(column.getColumnComment(), modelField.getSummary())
                         || changeCharset
                 ) {
                     columnComponent.modifyColumn(ddlList, table.getDsKey(), tableName, column.getColumnName(), fieldColumn,
-                            fieldColumnDefinition, modelField.getSummary(), null, column);
+                            fieldColumnDefinition, modelField.getSummary(), previousColumn);
                     ddlContext.refreshColumn(modelField, fieldColumnDefinition);
                     ddlContext.changeColumn(modelField.getField());
                 } else if (!StringUtils.equals(ddlContext.useLogicTable().getTableSchema(), column.getTableSchema())

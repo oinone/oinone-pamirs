@@ -51,14 +51,12 @@ public class ColumnComponent {
             existColumns.addAll(columns);
         }
         List<ColumnInfo> columnInfoList = pamirsMapperConfiguration.getLogicColumnFetcher().fetchLogicColumnDefinitions(modelDefinition.getModel());
-        ColumnDialectComponent columnDialectComponent = Dialects.component(ColumnDialectComponent.class, dsKey);
         for (ColumnInfo columnInfo : columnInfoList) {
             String column = columnInfo.getColumn();
-            columnInfo.setColumnDefinition(columnDialectComponent.formatColumnDefinition(columnInfo.getColumnDefinition()));
             if (null != columnMap && columnMap.containsKey(column) && !existColumns.contains(column)) {
                 modifyColumn(ddlList, dsKey, table,
                         columnMap.get(column).getColumnName(), column, columnInfo.getColumnDefinition(),
-                        columnInfo.getSummary(), null, columnMap.get(column));
+                        columnInfo.getSummary(), null);
                 ddlContext.refreshLogicColumn(column, columnInfo.getColumnDefinition(), columnInfo.getSummary());
             } else if (!existColumns.contains(column) && !existColumns.contains(column.toUpperCase())) {
                 addColumn(ddlList, dsKey, create, table, column, columnInfo.getColumnDefinition(),
@@ -85,15 +83,15 @@ public class ColumnComponent {
 
     public void modifyColumn(List<String> ddlList, String dsKey, String table,
                              String column, String newName, String columnDefinition,
-                             String summary, String previousColumn, Column beforeColumn) {
-        ddlList.add(fetchModifyColumnDdl(dsKey, table, column, newName, columnDefinition, summary, previousColumn, beforeColumn));
+                             String summary, String previousColumn) {
+        ddlList.add(fetchModifyColumnDdl(dsKey, table, column, newName, columnDefinition, summary, previousColumn));
     }
 
     public String fetchModifyColumnDdl(String dsKey, String table,
                                        String column, String newName, String columnDefinition,
-                                       String summary, String previousColumn, Column beforeColumn) {
+                                       String summary, String previousColumn) {
         return Dialects.component(ColumnDialectComponent.class, dsKey).modifyColumn(table, column, newName, columnDefinition,
-                summary, previousColumn, beforeColumn);
+                summary, previousColumn);
     }
 
     public Column fetchExistAutoIncrementColumn(String dsKey, Map<String/*field | columnName*/, Column> columnMap, String column) {
