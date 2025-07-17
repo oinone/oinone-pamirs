@@ -304,10 +304,9 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             batchSize = fetchWriteBatchSize(model);
         }
 
-        int count;
         try {
             // 根据值非空主键或者唯一索引批量更新列表
-            count = genericMapper.updateBatchWithSize(persistenceDataConverter.in(model, dataList), batchSize);
+            return genericMapper.updateBatchWithSize(persistenceDataConverter.in(model, dataList), batchSize);
         } catch (Throwable e) {
             if (ExceptionHelper.isDuplicateKeyException(e)) {
                 throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
@@ -316,7 +315,6 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         } finally {
             persistenceDataConverter.out(model, dataList);
         }
-        return count;
     }
 
     @Function.Advanced(displayName = "根据主键删除记录", managed = true)

@@ -83,9 +83,12 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
             return null;
         }
         String model = getModel(query);
-        DataMap result = genericMapper.selectOneByEntity(persistenceDataConverter.in(model, query));
-        persistenceDataConverter.out(model, query);
-        return persistenceDataConverter.out(model, result);
+        try {
+            DataMap result = genericMapper.selectOneByEntity(persistenceDataConverter.in(model, query));
+            return persistenceDataConverter.out(model, result);
+        } finally {
+            persistenceDataConverter.out(model, query);
+        }
     }
 
     @Function.Advanced(displayName = "根据条件查询单条记录", type = FunctionTypeEnum.QUERY, managed = true)
