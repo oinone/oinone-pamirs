@@ -36,6 +36,7 @@ public class DateUtils {
     // 创建Time的Pattern对象(基于正则表达式)，匹配：23:07:07 格式的时间
     public final static Pattern timePattern = Pattern.compile("^([01]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$");
     public final static Pattern yyMMddpattern = Pattern.compile("(\\d{1,2})-(\\d{1,2})-(\\d{2})");
+    public final static Pattern yyyyMMddhhmmssPattern = Pattern.compile("^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]) ([01]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$");
 
     /**
      * 时间调整

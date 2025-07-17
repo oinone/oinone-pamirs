@@ -12,6 +12,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -72,6 +73,12 @@ public class OrmLnameToLtypeCache implements SessionInitApi, SessionClearApi {
             if (TypeUtils.isIEnumClass(ltypeClazz)) {
                 return ltypeClazz;
             }
+        }
+        if (TtypeEnum.TIME.value().equals(ttype) && Date.class.getName().equals(ltype)) {
+            return Time.class;
+        }
+        if (TtypeEnum.DATE.value().equals(ttype) && Date.class.getName().equals(ltype)) {
+            return java.sql.Date.class;
         }
         switch (ltype) {
             case "boolean":

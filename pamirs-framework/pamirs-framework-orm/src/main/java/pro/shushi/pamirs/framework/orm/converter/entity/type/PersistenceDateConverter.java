@@ -59,6 +59,11 @@ public class PersistenceDateConverter {
                 }
             }
         }
+        if (TtypeEnum.TIME.value().equals(fieldConfig.getTtype()) || TtypeEnum.DATE.value().equals(fieldConfig.getTtype())) {
+            if (value instanceof String && DateUtils.yyyyMMddhhmmssPattern.matcher(value + "").matches()) {
+                value = DateUtils.formatDate(value + "", DateFormatEnum.DATETIME.value());
+            }
+        }
         origin.put(fieldConfig.getLname(),
                 DateUtils.castDate(value, ltype, FieldFix.fixFormat(fieldConfig.getModelField())));
     }
