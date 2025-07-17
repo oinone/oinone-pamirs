@@ -12,6 +12,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +86,8 @@ public class OrmLnameToLtypeCache implements SessionInitApi, SessionClearApi {
                 return long.class;
             case "java.lang.Long":
                 return Long.class;
+            case "java.util.Date":
+                return Date.class;
             default:
                 return null;
         }
