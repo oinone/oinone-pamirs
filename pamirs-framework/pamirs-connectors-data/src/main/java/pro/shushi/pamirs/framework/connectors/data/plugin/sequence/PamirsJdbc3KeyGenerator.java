@@ -40,15 +40,19 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
 
     @Override
     public void processBefore(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
+        // do nothing
     }
 
     @Override
     public void processAfter(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
-        this.processBatch(ms, stmt, parameter);
+        this.processBatch(executor, ms, stmt, parameter);
     }
 
-    @Override
     public void processBatch(MappedStatement ms, Statement stmt, Object parameter) {
+        this.processBatch(null, ms, stmt, parameter);
+    }
+
+    public void processBatch(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
         final String[] keyProperties = KeyPropertiesGetter.get(ms, parameter);
         if (keyProperties == null || keyProperties.length == 0) {
             return;
@@ -60,7 +64,7 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
             if (rsmd.getColumnCount() < keyProperties.length) {
                 // Error?
             } else {
-                assignKeys(configuration, rs, rsmd, keyProperties, parameter);
+                assignKeys(executor, configuration, rs, rsmd, keyProperties, parameter);
             }
         } catch (Exception e) {
             throw new ExecutorException("Error getting generated key or setting result to parameter object. Cause: " + e, e);
@@ -68,22 +72,22 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
     }
 
     @SuppressWarnings("unchecked")
-    private void assignKeys(Configuration configuration, ResultSet rs, ResultSetMetaData rsmd, String[] keyProperties, Object parameter) throws SQLException {
+    private void assignKeys(Executor executor, Configuration configuration, ResultSet rs, ResultSetMetaData rsmd, String[] keyProperties, Object parameter) throws SQLException {
         //noinspection deprecation
         if (parameter instanceof MapperMethod.ParamMap || parameter instanceof DefaultSqlSession.StrictMap) {
             // Multi-param or single param with @Param
-            assignKeysToParamMap(configuration, rs, rsmd, keyProperties, (Map<String, ?>) parameter);
+            assignKeysToParamMap(executor, configuration, rs, rsmd, keyProperties, (Map<String, ?>) parameter);
         } else if (parameter instanceof ArrayList && !((ArrayList<?>) parameter).isEmpty()
                 && ((ArrayList<?>) parameter).get(0) instanceof MapperMethod.ParamMap) {
             // Multi-param or single param with @Param in batch operation
-            assignKeysToParamMapList(configuration, rs, rsmd, keyProperties, (ArrayList<MapperMethod.ParamMap<?>>) parameter);
+            assignKeysToParamMapList(executor, configuration, rs, rsmd, keyProperties, (ArrayList<MapperMethod.ParamMap<?>>) parameter);
         } else {
             // Single param without @Param
-            assignKeysToParam(configuration, rs, rsmd, keyProperties, parameter);
+            assignKeysToParam(executor, configuration, rs, rsmd, keyProperties, parameter);
         }
     }
 
-    private void assignKeysToParam(Configuration configuration, ResultSet rs, ResultSetMetaData rsmd, String[] keyProperties, Object parameter) throws SQLException {
+    private void assignKeysToParam(Executor executor, Configuration configuration, ResultSet rs, ResultSetMetaData rsmd, String[] keyProperties, Object parameter) throws SQLException {
         Collection<?> params = collectionize(parameter);
         if (params.isEmpty()) {
             return;
@@ -92,7 +96,7 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
         for (int i = 0; i < keyProperties.length; i++) {
             int columnPosition = i + 1;
             String columnName = rsmd.getColumnName(columnPosition);
-            assignerList.add(generatorKeyAssigner(configuration, rsmd, columnPosition, null, keyProperties[i], columnName));
+            assignerList.add(generatorKeyAssigner(executor, configuration, rsmd, columnPosition, null, keyProperties[i], columnName));
         }
         Iterator<?> iterator = params.iterator();
         while (rs.next()) {
@@ -104,7 +108,7 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
         }
     }
 
-    private void assignKeysToParamMapList(Configuration configuration, ResultSet rs, ResultSetMetaData rsmd, String[] keyProperties, ArrayList<MapperMethod.ParamMap<?>> paramMapList) throws SQLException {
+    private void assignKeysToParamMapList(Executor executor, Configuration configuration, ResultSet rs, ResultSetMetaData rsmd, String[] keyProperties, ArrayList<MapperMethod.ParamMap<?>> paramMapList) throws SQLException {
         Iterator<MapperMethod.ParamMap<?>> iterator = paramMapList.iterator();
         List<Jdbc3KeyGeneratorDialectService.KeyAssigner> assignerList = new ArrayList<>();
 
@@ -118,7 +122,7 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
                 for (int i = 0; i < keyProperties.length; ++i) {
                     int columnPosition = i + 1;
                     String columnName = rsmd.getColumnName(columnPosition);
-                    assignerList.add(this.getAssignerForParamMap(configuration, rsmd, columnPosition, paramMap,
+                    assignerList.add(this.getAssignerForParamMap(executor, configuration, rsmd, columnPosition, paramMap,
                             keyProperties[i], columnName, keyProperties, false).getValue());
                 }
             }
@@ -128,7 +132,7 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
 
     }
 
-    private void assignKeysToParamMap(Configuration configuration, ResultSet rs, ResultSetMetaData rsmd, String[] keyProperties, Map<String, ?> paramMap) throws SQLException {
+    private void assignKeysToParamMap(Executor executor, Configuration configuration, ResultSet rs, ResultSetMetaData rsmd, String[] keyProperties, Map<String, ?> paramMap) throws SQLException {
         if (paramMap.isEmpty()) {
             return;
         }
@@ -136,7 +140,7 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
         for (int i = 0; i < keyProperties.length; i++) {
             int columnPosition = i + 1;
             String columnName = rsmd.getColumnName(columnPosition);
-            Map.Entry<String, Jdbc3KeyGeneratorDialectService.KeyAssigner> entry = getAssignerForParamMap(configuration, rsmd, columnPosition, paramMap,
+            Map.Entry<String, Jdbc3KeyGeneratorDialectService.KeyAssigner> entry = getAssignerForParamMap(executor, configuration, rsmd, columnPosition, paramMap,
                     keyProperties[i], columnName, keyProperties, true);
             Map.Entry<Iterator<?>, List<Jdbc3KeyGeneratorDialectService.KeyAssigner>> iteratorPair = assignerMap.computeIfAbsent(entry.getKey(),
                     k -> entry(collectionize(paramMap.get(k)).iterator(), new ArrayList<>()));
@@ -155,13 +159,13 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
         }
     }
 
-    private Map.Entry<String, Jdbc3KeyGeneratorDialectService.KeyAssigner> getAssignerForParamMap(Configuration config, ResultSetMetaData rsmd, int columnPosition, Map<String, ?> paramMap,
+    private Map.Entry<String, Jdbc3KeyGeneratorDialectService.KeyAssigner> getAssignerForParamMap(Executor executor, Configuration config, ResultSetMetaData rsmd, int columnPosition, Map<String, ?> paramMap,
                                                                                                   String keyProperty, String keyColumn, String[] keyProperties, boolean omitParamName) {
         boolean singleParam = paramMap.values().stream().distinct().count() == (paramMap.containsKey(DbConstants.PARAM_ANNOTATION_EXT) ? 3L : 2L);
         int firstDot = keyProperty.indexOf(46);
         if (firstDot == -1) {
             if (singleParam) {
-                return this.getAssignerForSingleParam(config, rsmd, columnPosition, paramMap, keyProperty, keyColumn, omitParamName);
+                return this.getAssignerForSingleParam(executor, config, rsmd, columnPosition, paramMap, keyProperty, keyColumn, omitParamName);
             } else {
                 throw new ExecutorException("Could not determine which parameter to assign generated keys to. Note that when there are multiple parameters, 'keyProperty' must include the parameter name (e.g. 'param.id'). Specified key properties are " + ArrayUtil.toString(keyProperties) + " and available parameters are " + paramMap.keySet());
             }
@@ -170,19 +174,19 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
             if (paramMap.containsKey(paramName)) {
                 String argParamName = omitParamName ? null : paramName;
                 String argKeyProperty = keyProperty.substring(firstDot + 1);
-                return entry(paramName, generatorKeyAssigner(config, rsmd, columnPosition, argParamName, argKeyProperty, keyColumn));
+                return entry(paramName, generatorKeyAssigner(executor, config, rsmd, columnPosition, argParamName, argKeyProperty, keyColumn));
             } else if (singleParam) {
-                return this.getAssignerForSingleParam(config, rsmd, columnPosition, paramMap, keyProperty, keyColumn, omitParamName);
+                return this.getAssignerForSingleParam(executor, config, rsmd, columnPosition, paramMap, keyProperty, keyColumn, omitParamName);
             } else {
                 throw new ExecutorException("Could not find parameter '" + paramName + "'. Note that when there are multiple parameters, 'keyProperty' must include the parameter name (e.g. 'param.id'). Specified key properties are " + ArrayUtil.toString(keyProperties) + " and available parameters are " + paramMap.keySet());
             }
         }
     }
 
-    private Map.Entry<String, Jdbc3KeyGeneratorDialectService.KeyAssigner> getAssignerForSingleParam(Configuration config, ResultSetMetaData rsmd, int columnPosition, Map<String, ?> paramMap, String keyProperty, String keyColumn, boolean omitParamName) {
+    private Map.Entry<String, Jdbc3KeyGeneratorDialectService.KeyAssigner> getAssignerForSingleParam(Executor executor, Configuration config, ResultSetMetaData rsmd, int columnPosition, Map<String, ?> paramMap, String keyProperty, String keyColumn, boolean omitParamName) {
         String singleParamName = nameOfSingleParam(paramMap);
         String argParamName = omitParamName ? null : singleParamName;
-        return entry(singleParamName, generatorKeyAssigner(config, rsmd, columnPosition, argParamName, keyProperty, keyColumn));
+        return entry(singleParamName, generatorKeyAssigner(executor, config, rsmd, columnPosition, argParamName, keyProperty, keyColumn));
     }
 
     private static String nameOfSingleParam(Map<String, ?> paramMap) {
@@ -211,12 +215,12 @@ public class PamirsJdbc3KeyGenerator extends Jdbc3KeyGenerator {
         return new AbstractMap.SimpleImmutableEntry<>(key, value);
     }
 
-    private Jdbc3KeyGeneratorDialectService.KeyAssigner generatorKeyAssigner(Configuration configuration, ResultSetMetaData rsmd, int columnPosition, String paramName,
+    private Jdbc3KeyGeneratorDialectService.KeyAssigner generatorKeyAssigner(Executor executor, Configuration configuration, ResultSetMetaData rsmd, int columnPosition, String paramName,
                                                                              String propertyName, String columnName) {
         Jdbc3KeyGeneratorDialectService service = Dialects.component(Jdbc3KeyGeneratorDialectService.class, DataConfigurationHelper.getDsKey());
         if (service == null) {
             service = DefaultJdbc3KeyGeneratorDialectService.INSTANCE;
         }
-        return service.generatorKeyAssigner(configuration, rsmd, columnPosition, paramName, propertyName, columnName);
+        return service.generatorKeyAssigner(executor, configuration, rsmd, columnPosition, paramName, propertyName, columnName);
     }
 }

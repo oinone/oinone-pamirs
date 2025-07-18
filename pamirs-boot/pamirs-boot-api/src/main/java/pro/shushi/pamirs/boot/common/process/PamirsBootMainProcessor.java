@@ -135,23 +135,35 @@ public class PamirsBootMainProcessor implements PamirsBootMainProcessApi {
             metaDataCompute.compute(_command, _context, metaList, null);
 
             // 编程式编辑元数据
+            long timer = System.currentTimeMillis();
             Spider.getDefaultExtension(MetaDataEditApi.class).edit(_command, metaMap);
+            log.info("metadata editor cost time: {}ms", System.currentTimeMillis() - timer);
 
             // 元数据差量减(包括删除分布式Session)
+            timer = System.currentTimeMillis();
             Spider.getDefaultExtension(MetaDataUpgraderApi.class).diffDelete(_command, metaList, runModuleSet, reloadModules);
+            log.info("metadata upgrade cost time: {}ms", System.currentTimeMillis() - timer);
 
             // 填充session(包括填充分布式Session)
+            timer = System.currentTimeMillis();
             metaDataLoadApi.loadSessionFromMeta(_command, runModuleSet, metaList);
             metaDataLoadApi.loadSessionModules(_command, moduleInfoMap, metaList);
+            log.info("metadata load cost time: {}ms", System.currentTimeMillis() - timer);
 
             // 构建http接口协议
+            timer = System.currentTimeMillis();
             Spider.getDefaultExtension(HttpApiBuilderApi.class).build(_command, runModuleSet, metaList);
+            log.info("http api builder cost time: {}ms", System.currentTimeMillis() - timer);
 
             // 构建表结构
+            timer = System.currentTimeMillis();
             Spider.getDefaultExtension(TableBuilderApi.class).build(_command, runMetaMap, runModuleSet);
+            log.info("table builder cost time: {}ms", System.currentTimeMillis() - timer);
 
             // 扩展构建
+            timer = System.currentTimeMillis();
             Spider.getDefaultExtension(ExtendBuilderApi.class).build(_command, runMetaMap);
+            log.info("extend builder cost time: {}ms", System.currentTimeMillis() - timer);
 
             // 系统初始化数据前置处理
             Map<String, SystemBootDataInit> systemBootDataInitMap = BeanDefinitionUtils.getBeansOfType(SystemBootDataInit.class);

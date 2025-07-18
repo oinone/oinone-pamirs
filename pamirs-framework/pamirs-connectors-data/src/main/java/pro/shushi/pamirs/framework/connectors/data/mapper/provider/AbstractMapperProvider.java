@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.framework.connectors.data.mapper.provider;
 
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.apache.commons.lang3.ArrayUtils;
@@ -55,15 +54,13 @@ public class AbstractMapperProvider {
     protected static String insert(final ModelConfig modelConfig, final boolean duplicateKeyUpdate) {
         InsertMethod insertMethod = getInsertMethod(modelConfig)
                 .setDuplicateKeyUpdate(duplicateKeyUpdate).setValuePrefix(Constants.ENTITY_DOT);
-        return script(String.format(SqlTemplate.INSERT, insertMethod.table(),
-                insertMethod.sqlInsert(), insertMethod.sqlValues(), insertMethod.onDuplicateKeyUpdate()));
+        return insertMethod.insert();
     }
 
     protected static String insertBatch(final ModelConfig modelConfig, final boolean duplicateKeyUpdate) {
         InsertMethod insertMethod = getInsertMethod(modelConfig)
                 .setDuplicateKeyUpdate(duplicateKeyUpdate).setBatch(true).setValuePrefix(StatementConstants.ITEM_DOT);
-        return script(String.format(SqlTemplate.INSERT, insertMethod.table(),
-                insertMethod.sqlInsert(), insertMethod.batchSqlValues(), insertMethod.onDuplicateKeyUpdate()));
+        return insertMethod.insertBatch();
     }
 
     protected static String update(final ModelConfig modelConfig,
@@ -75,7 +72,7 @@ public class AbstractMapperProvider {
                 .setValuePrefix(Constants.ENTITY_DOT);
         updateMethod.setQueryWrapper(queryWrapper).setWithPk(withPk)
                 .setUseOptimisticLocker(useOptimisticLocker).setOptimisticLockerPrefix(Constants.ENTITY_DOT);
-        return script(String.format(SqlTemplate.UPDATE, updateMethod.table(), updateMethod.sqlSet(), updateMethod.sqlSegment()));
+        return updateMethod.update();
     }
 
     protected static String updateByUniqueKey(final ModelConfig modelConfig,
@@ -88,14 +85,7 @@ public class AbstractMapperProvider {
                 .setBatch(batch);
         updateMethod.setUseOptimisticLocker(useOptimisticLocker).setOptimisticLockerPrefix(Constants.ENTITY_DOT)
                 .setNonEmptyUniqueKey(nonEmptyUniqueKey);
-        String singleSql = String.format(SqlTemplate.UPDATE, updateMethod.table(), updateMethod.sqlSet(), updateMethod.sqlUnique());
-        if (batch) {
-            return script(SqlScriptUtils.convertForeach(singleSql,
-                    Constants.COLLECTION, StatementConstants.INDEX,
-                    Constants.ENTITY, CharacterConstants.SEPARATOR_SEMICOLON));
-        } else {
-            return script(singleSql);
-        }
+        return updateMethod.updateByUniqueKey();
     }
 
     protected static String updateByPk(final ModelConfig modelConfig,
@@ -106,7 +96,7 @@ public class AbstractMapperProvider {
                 .setValuePrefix(Constants.ENTITY_DOT);
         updateMethod.setPkPrefix(Constants.ENTITY_DOT)
                 .setUseOptimisticLocker(useOptimisticLocker).setOptimisticLockerPrefix(Constants.ENTITY_DOT);
-        return script(String.format(SqlTemplate.UPDATE, updateMethod.table(), updateMethod.sqlSet(), updateMethod.sqlPk()));
+        return updateMethod.updateByPk();
     }
 
     protected static String updateByPks(final ModelConfig modelConfig,
@@ -117,15 +107,7 @@ public class AbstractMapperProvider {
                 .setJudgeEntityNull(judgeEntityNull).setWrapperSet(wrapperSet).setValuePrefix(Constants.ENTITY_DOT);
         updateMethod.setQueryWrapper(false).setWithPk(withPk).setPkPrefix(StatementConstants.ITEM_DOT)
                 .setUseOptimisticLocker(useOptimisticLocker).setOptimisticLockerPrefix(StatementConstants.ITEM_DOT);
-        if (useOptimisticLocker) {
-            String singleSql = String.format(SqlTemplate.UPDATE, updateMethod.table(), updateMethod.sqlSet(), updateMethod.sqlPk());
-            return script(SqlScriptUtils.convertForeach(singleSql,
-                    StatementConstants.CONDITION_COLLECTION, StatementConstants.INDEX,
-                    StatementConstants.ITEM, CharacterConstants.SEPARATOR_SEMICOLON));
-        } else {
-            updateMethod.setOptimisticLockerPrefix(Constants.ENTITY_DOT);
-            return script(String.format(SqlTemplate.UPDATE, updateMethod.table(), updateMethod.sqlSet(), updateMethod.sqlPks()));
-        }
+        return updateMethod.updateByPks();
     }
 
     protected static String delete(final ModelConfig modelConfig, final boolean queryWrapper) {

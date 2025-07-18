@@ -24,6 +24,8 @@ public interface PamirsMapperConfigurationProxy {
 
     TableNameComputer fetchTableNameComputer();
 
+    ColumnNameComputer fetchColumnNameComputer();
+
     DynamicDsKeyComputer fetchDynamicDsKeyComputer();
 
     BatchCommitTypeEnum batch();

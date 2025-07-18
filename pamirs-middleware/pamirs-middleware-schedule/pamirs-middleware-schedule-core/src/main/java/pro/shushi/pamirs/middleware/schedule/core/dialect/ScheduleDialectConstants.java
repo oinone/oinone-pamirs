@@ -17,9 +17,13 @@ public interface ScheduleDialectConstants {
 
     String PRODUCT_ORACLE = "Oracle";
 
-    String DEFAULT_ORACLE_VERSION = "12";
+    String DEFAULT_ORACLE_VERSION = "12.2";
 
     String DEFAULT_ORACLE_MAJOR_VERSION = "12c";
+
+    String ORACLE_11_VERSION = "11.2";
+
+    String ORACLE_11_MAJOR_VERSION = "11g";
 
     String PRODUCT_DM = "DM";
 

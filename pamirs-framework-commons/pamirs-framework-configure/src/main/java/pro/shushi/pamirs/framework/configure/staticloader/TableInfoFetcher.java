@@ -454,11 +454,12 @@ public class TableInfoFetcher {
                 .setRequired(fieldAnnotation.required())
                 .setInvisible(fieldAnnotation.invisible())
                 .setSource(SystemSourceEnum.BASE.value())
-
                 .setModel(model)
                 .setName(fieldName)
                 .setField(fieldField)
         ;
+        modelField.getModelField().setTtype(TtypeEnum.getEnumByValue(TtypeEnum.class, Models.types()
+                .defaultTtypeFromLtype(modelField.getLtype(), modelField.getLtypeT(), modelField.getRequestSerialize())));
 
         modelField.setColumn(ModelField.generateColumn(model, fieldName, modelField.getColumn()));
 

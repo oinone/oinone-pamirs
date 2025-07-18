@@ -71,7 +71,7 @@ public class PamirsTableInfo implements Serializable {
     }
 
     public static PamirsTableConfig fetchPamirsTableConfig(String model) {
-        ModelConfig modelConfig = Optional.ofNullable(PamirsSession.getContext()).map(v -> v.getModelConfig(model)).orElse(null);
+        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
         String dsKey = Optional.ofNullable(modelConfig).map(ModelConfig::getDsKey).orElse(null);
         PamirsTableConfig yamlPamirsTableConfig = Optional.ofNullable(CommonApiFactory.getApi(PamirsMapperConfigurationProxy.class))
                 .map(v -> v.fetchPamirsTableConfig(dsKey)).orElse(new PamirsTableConfig().defaultValue(dsKey));

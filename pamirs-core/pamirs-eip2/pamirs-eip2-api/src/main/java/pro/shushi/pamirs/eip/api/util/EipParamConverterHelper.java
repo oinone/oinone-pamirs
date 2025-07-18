@@ -14,8 +14,11 @@ import pro.shushi.pamirs.eip.api.IEipParamConverterCallback;
 import pro.shushi.pamirs.eip.api.enmu.ContextTypeEnum;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.enmu.ParamTypeEnum;
+import pro.shushi.pamirs.framework.gateways.util.BooleanHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
+import pro.shushi.pamirs.meta.util.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,13 +67,40 @@ public class EipParamConverterHelper {
         if (value == null) {
             return null;
         }
-        if (ParamTypeEnum.ENUMERATION.equals(convertParam.getInParamType()) && ParamTypeEnum.ENUMERATION.equals(convertParam.getOutParamType())) {
+        ParamTypeEnum paramType = convertParam.getOutParamType();
+        if (paramType == null) {
+            return value;
+        }
+        switch (paramType) {
+            case Boolean:
+                value = BooleanHelper.isTrue(value);
+                break;
+            case Date:
+                if (value instanceof String) {
+                    try {
+                        String dateString = (String) value;
+                        if (dateString.length() == DateFormatEnum.DATETIME.value().length()) {
+                            value = DateUtils.formatDate(dateString, DateFormatEnum.DATETIME.value());
+                        } else if (dateString.length() == DateFormatEnum.DATE.value().length()) {
+                            value = DateUtils.formatDate(dateString, DateFormatEnum.DATE.value());
+                        } else if (dateString.length() == DateFormatEnum.TIME.value().length()) {
+                            value = DateUtils.formatDate(dateString, DateFormatEnum.TIME.value());
+                        } else if (dateString.length() == DateFormatEnum.YEAR.value().length()) {
+                            value = DateUtils.formatDate(dateString, DateFormatEnum.YEAR.value());
+                        }
+                    } catch (Throwable e) {
+                        log.error("date format error. value: {}", value);
+                    }
+                }
+                break;
+        }
+        if (ParamTypeEnum.ENUMERATION.equals(convertParam.getInParamType()) && ParamTypeEnum.ENUMERATION.equals(paramType)) {
             String enumName = value.toString();
             String tempObject = convertParam.getConvertMapValue(enumName);
             if (tempObject != null) {
                 value = tempObject;
             }
-        } else if (ParamTypeEnum.File.equals(convertParam.getInParamType())) {
+        } else if (ParamTypeEnum.File.equals(convertParam.getInParamType())) { // FIXME: zbh 20250717 in param type ?
             if (value instanceof String) {
                 value = convertFileTypeValueByUrl(value);
             }

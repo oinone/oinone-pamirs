@@ -10,7 +10,6 @@ import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.enmu.ParamTypeEnum;
 import pro.shushi.pamirs.eip.api.util.EipParamConverterHelper;
 import pro.shushi.pamirs.framework.common.entry.TreeNode;
-import pro.shushi.pamirs.framework.gateways.util.BooleanHelper;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import java.util.*;
@@ -166,13 +165,10 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
         if (value == null) {
             if (Boolean.TRUE.equals(convertParam.getRequired())) {
                 throw PamirsException.construct(EipExpEnumerate.PARAM_REQUIRED).appendMsg(inParam).errThrow();
-            } else {
-                return;
             }
+            return;
         }
-        if (ParamTypeEnum.Boolean.equals(convertParam.getOutParamType())) {
-            value = BooleanHelper.isTrue(value);
-        } else if (ParamTypeEnum.String.equals(convertParam.getOutParamType())) {
+        if (ParamTypeEnum.String.equals(convertParam.getOutParamType())) {
             if (convertParam.getSize() != null && convertParam.getSize() > 0 && value.toString().length() > convertParam.getSize()) {
                 throw PamirsException.construct(EipExpEnumerate.PARAM_OVER_SIZE).appendMsg(inParam + " > " + convertParam.getSize()).errThrow();
             }
@@ -184,12 +180,8 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
                                 IEipParamConverterCallback<T> callback, Object inValue) {
         Object value = EipParamConverterHelper.convertValue(convertParam, inValue);
         if (value == null) {
-            return value;
+            return null;
         }
-        value = EipParamConverterHelper.callback(callback, context, convertParam, inParamCounterList, value);
-        if (value == null) {
-            return value;
-        }
-        return value;
+        return EipParamConverterHelper.callback(callback, context, convertParam, inParamCounterList, value);
     }
 }

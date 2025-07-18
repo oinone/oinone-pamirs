@@ -1,12 +1,16 @@
 package pro.shushi.pamirs.trigger.tbschedule.dialect.oracle;
 
+import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ResultMap;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.middleware.schedule.core.dialect.ScheduleDialectConstants;
 import pro.shushi.pamirs.middleware.schedule.core.dialect.entity.DialectVersion;
 import pro.shushi.pamirs.middleware.schedule.core.dialect.oracle.ScheduleOracleSQLDialectService;
+
+import java.util.List;
 
 /**
  * ORACLE脚本执行方言服务
@@ -24,7 +28,7 @@ public class PamirsScheduleOracleSQLDialectService extends ScheduleOracleSQLDial
     }
 
     @Override
-    public String resolve(String sql) {
+    public String resolve(String sql, BoundSql boundSql, List<ResultMap> resultMaps) {
         return sql;
     }
 }

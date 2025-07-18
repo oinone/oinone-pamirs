@@ -215,19 +215,16 @@ public interface ColumnDialectComponent {
     }
 
     default String addColumn(String table, String column, String columnDefinition, String summary, String previousColumn) {
-        String addPrimaryKeyString = "'";//columnDefinition.contains(KeyGeneratorEnum.AUTO_INCREMENT.name())?"',ADD PRIMARY KEY (`" + column + "`)":"'";
-        String after = StringUtils.isBlank(previousColumn) ? "" : " AFTER `" + previousColumn + "`";
         return DdlUtils.buildString("ALTER TABLE `", table, "` ADD COLUMN `",
                 checkColumnLength(column), "` ", columnDefinition, " COMMENT '",
-                summary, addPrimaryKeyString, after, ";\n");
+                summary, "';\n");
     }
 
     default String modifyColumn(String table, String column, String newName, String columnDefinition,
                                 String summary, String previousColumn) {
-        String after = StringUtils.isBlank(previousColumn) ? "'" : "' AFTER `" + previousColumn + "`";
         return DdlUtils.buildString("ALTER TABLE `", table, "` CHANGE `",
                 columnPlaceholder(column), "` `", checkColumnLength(newName), "` ", columnDefinition, " COMMENT '",
-                summary, after, ";\n");
+                summary, "';\n");
     }
 
     default String checkColumnLength(String column) {

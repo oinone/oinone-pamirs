@@ -159,6 +159,10 @@ public class ColumnComponent {
         return Dialects.component(ColumnDialectComponent.class, dsKey).columnDefinition(column, changeCharset, autoIncrement);
     }
 
+    public String columnPlaceholder(String dsKey, String column) {
+        return Dialects.component(ColumnDialectComponent.class, dsKey).columnPlaceholder(column);
+    }
+
     public boolean isCharsetChange(String dsKey, FieldWrapper modelField, Column column) {
         return !Dialects.component(ColumnDialectComponent.class, dsKey).equalsCharset(modelField, column);
     }

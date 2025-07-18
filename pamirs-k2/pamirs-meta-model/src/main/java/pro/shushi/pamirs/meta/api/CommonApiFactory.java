@@ -9,6 +9,7 @@ import pro.shushi.pamirs.meta.api.core.compute.systems.type.TypeProcessor;
 import pro.shushi.pamirs.meta.api.core.compute.systems.type.gen.SequenceGenerator;
 import pro.shushi.pamirs.meta.api.core.compute.systems.type.gen.VersionGenerator;
 import pro.shushi.pamirs.meta.common.constants.BeanNameConstants;
+import pro.shushi.pamirs.meta.common.spi.HoldKeeper;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.common.util.PStringUtils;
 
@@ -31,6 +32,12 @@ public class CommonApiFactory {
 
     private static final Map<ApiCacheKey, Object> CACHE = new ConcurrentHashMap<>();
 
+    private static final HoldKeeper<CommonApiConfigure> COMMON_API_CONFIGURE_HOLDER = new HoldKeeper<>();
+
+    private static CommonApiConfigure getCommonApiConfigure() {
+        return COMMON_API_CONFIGURE_HOLDER.supply(() -> BeanDefinitionUtils.getBean(BeanNameConstants.COMMON_API_CONFIGURE, CommonApiConfigure.class));
+    }
+
     public static <API> API getApi(Class<API> interfaceClass, API defaultApi) {
         return Optional.ofNullable(getApi(interfaceClass)).orElse(defaultApi);
     }
@@ -41,7 +48,7 @@ public class CommonApiFactory {
             ApiCacheKey key = new ApiCacheKey(interfaceClass);
             Object beanObject = CACHE.get(key);
             if (beanObject == null) {
-                CommonApiConfigure configure = BeanDefinitionUtils.getBean(BeanNameConstants.COMMON_API_CONFIGURE, CommonApiConfigure.class);
+                CommonApiConfigure configure = getCommonApiConfigure();
                 String beanName;
                 if (null == configure) {
                     beanName = null;
