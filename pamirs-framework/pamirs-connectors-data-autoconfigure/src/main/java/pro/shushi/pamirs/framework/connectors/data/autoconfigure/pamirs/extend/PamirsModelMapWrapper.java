@@ -158,7 +158,7 @@ public class PamirsModelMapWrapper extends BaseWrapper {
         return getGetterType0(name);
     }
 
-    public Class<?> getGetterType0(String name) {
+    protected Class<?> getGetterType0(String name) {
         PropertyTokenizer prop = new PropertyTokenizer(name);
         if (prop.hasNext()) {
             MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
