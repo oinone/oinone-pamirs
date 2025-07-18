@@ -29,5 +29,4 @@ public interface DbConstants {
 
     String USE_DEFAULT_PROPERTIES = "useDefaultProperties";
 
-    String NEXTVAL = "NEXTVAL";
 }

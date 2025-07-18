@@ -272,9 +272,7 @@ public abstract class AbstractDsDialectComponent implements DsDialectComponent {
 
         @Override
         public void close() throws Exception {
-            if (connection != null) {
-                connection.close();
-            }
+            connection.close();
         }
     }
 }

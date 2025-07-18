@@ -58,8 +58,7 @@ public class PersistenceDateConverter {
                     return;
                 }
             }
-        }
-        if (TtypeEnum.TIME.value().equals(fieldConfig.getTtype()) || TtypeEnum.DATE.value().equals(fieldConfig.getTtype())) {
+        } else if (TtypeEnum.TIME.value().equals(fieldConfig.getTtype()) || TtypeEnum.DATE.value().equals(fieldConfig.getTtype())) {
             if (value instanceof String && DateUtils.yyyyMMddhhmmssPattern.matcher(value + "").matches()) {
                 value = DateUtils.formatDate(value + "", DateFormatEnum.DATETIME.value());
             }
