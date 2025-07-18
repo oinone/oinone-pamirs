@@ -67,7 +67,6 @@ public class DefaultDsApi implements DsApi {
         return Optional.ofNullable(fetchModuleDsMap())
                 .map(v -> v.get(ModuleConstants.MODULE_BASE))
                 .map(v -> DataPrefixManager.dsPrefix(ModuleConstants.MODULE_BASE, model, v))
-//                .orElse(defaultDsKey());
                 .orElse(pamirsFrameworkSystemConfiguration.getOriginSystemDsKey());
     }
 
