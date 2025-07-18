@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.framework.connectors.data.mapper.aspect;
+package pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.condition;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;

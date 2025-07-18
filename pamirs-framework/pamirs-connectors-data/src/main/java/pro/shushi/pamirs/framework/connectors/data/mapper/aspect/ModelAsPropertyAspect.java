@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.condition.ModelAsPropertySwitchCondition;
 import pro.shushi.pamirs.framework.connectors.data.mapper.context.MapperContext;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
