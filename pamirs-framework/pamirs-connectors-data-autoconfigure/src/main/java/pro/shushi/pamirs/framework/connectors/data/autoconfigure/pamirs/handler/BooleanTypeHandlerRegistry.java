@@ -4,8 +4,10 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.BooleanTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.ConfigurationCustomizer;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.condition.ModelAsPropertySwitchCondition;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.dialect.BooleanTypeHandlerDialect;
 import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
@@ -19,6 +21,7 @@ import java.sql.SQLException;
  * @author Adamancy Zhang at 14:20 on 2025-07-16
  */
 @Component
+@Conditional(ModelAsPropertySwitchCondition.class)
 public class BooleanTypeHandlerRegistry implements ConfigurationCustomizer {
 
     @Override

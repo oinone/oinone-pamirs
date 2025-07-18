@@ -67,6 +67,8 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
 
     private Boolean usingModelAsProperty = false;
 
+    private Boolean usingStatementHandlerDialect = false;
+
     private GlobalConfig globalConfig = GlobalConfigUtils.defaults().setIdentifierGenerator(new PamirsIdentifierGenerator());
 
     @Override
@@ -205,6 +207,14 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
         this.usingModelAsProperty = usingModelAsProperty;
     }
 
+    public Boolean getUsingStatementHandlerDialect() {
+        return usingStatementHandlerDialect;
+    }
+
+    public void setUsingStatementHandlerDialect(Boolean usingStatementHandlerDialect) {
+        this.usingStatementHandlerDialect = usingStatementHandlerDialect;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public MetaObject newMetaObject(Object object) {
@@ -247,13 +257,15 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
 
     @Override
     public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
-        Object dsKeyObject = PamirsSession.getDsKey();
-        if (dsKeyObject != null) {
-            StatementHandlerGeneratorDialect handlerGeneratorDialect = Dialects.component(StatementHandlerGeneratorDialect.class, String.valueOf(dsKeyObject));
-            if (handlerGeneratorDialect != null) {
-                StatementHandler statementHandler = handlerGeneratorDialect.newStatementHandler(this, executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
-                statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
-                return statementHandler;
+        if (usingStatementHandlerDialect) {
+            Object dsKeyObject = PamirsSession.getDsKey();
+            if (dsKeyObject != null) {
+                StatementHandlerGeneratorDialect handlerGeneratorDialect = Dialects.component(StatementHandlerGeneratorDialect.class, String.valueOf(dsKeyObject));
+                if (handlerGeneratorDialect != null) {
+                    StatementHandler statementHandler = handlerGeneratorDialect.newStatementHandler(this, executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
+                    statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
+                    return statementHandler;
+                }
             }
         }
         return super.newStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
