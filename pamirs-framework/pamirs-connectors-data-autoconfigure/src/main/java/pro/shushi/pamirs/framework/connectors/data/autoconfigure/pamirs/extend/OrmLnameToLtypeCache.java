@@ -77,11 +77,9 @@ public class OrmLnameToLtypeCache implements SessionInitApi, SessionClearApi {
             if (TypeUtils.isIEnumClass(ltypeClazz)) {
                 return ltypeClazz;
             }
-        }
-        if (TtypeEnum.TIME.value().equals(ttype) && Date.class.getName().equals(ltype)) {
+        } else if (TtypeEnum.TIME.value().equals(ttype) && Date.class.getName().equals(ltype)) {
             return Time.class;
-        }
-        if (TtypeEnum.DATE.value().equals(ttype) && Date.class.getName().equals(ltype)) {
+        } else if (TtypeEnum.DATE.value().equals(ttype) && Date.class.getName().equals(ltype)) {
             return java.sql.Date.class;
         }
         switch (ltype) {
