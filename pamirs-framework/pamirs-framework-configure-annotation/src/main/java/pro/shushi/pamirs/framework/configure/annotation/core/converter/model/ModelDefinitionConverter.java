@@ -6,6 +6,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.configure.annotation.core.check.MetaUniqueChecker;
 import pro.shushi.pamirs.framework.configure.contants.NameConstants;
+import pro.shushi.pamirs.framework.configure.simulate.service.MetaSimulator;
 import pro.shushi.pamirs.meta.annotation.Dict;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -24,6 +25,7 @@ import pro.shushi.pamirs.meta.base.BaseRelation;
 import pro.shushi.pamirs.meta.base.IdRelation;
 import pro.shushi.pamirs.meta.base.TransientModel;
 import pro.shushi.pamirs.meta.base.common.CodeRelation;
+import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.util.PStringUtils;
 import pro.shushi.pamirs.meta.configure.PamirsFrameworkSystemConfiguration;
@@ -223,15 +225,19 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
             dsKey = pamirsFrameworkSystemConfiguration.getOriginSystemDsKey();
         } else {
             DsApi dsApi = DsApi.get();
-            dsKey = Optional.ofNullable(dsApi).map(DsApi::fetchModelDsMap).map(v -> v.get(modelModel)).orElse(null);
+            dsKey = Optional.ofNullable(dsApi.fetchModelDsMap()).map(v -> v.get(modelModel)).orElse(null);
             if (null == dsKey) {
                 dsKey = Optional.ofNullable(modelDsAnnotation).map(Model.Ds::value).filter(StringUtils::isNotBlank).orElse(null);
             }
             if (null == dsKey) {
-                dsKey = Optional.ofNullable(dsApi).map(DsApi::fetchModuleDsMap).map(v -> v.get(names.getModule())).orElse(null);
+                dsKey = names.getDsKey();
             }
             if (null == dsKey) {
-                dsKey = Optional.ofNullable(dsApi).map(DsApi::originDefaultDsKey).orElse(names.getDsKey());
+                if (ModuleConstants.MODULE_BASE.equals(names.getModule())) {
+                    dsKey = dsApi.originSystemDsKey();
+                } else {
+                    dsKey = dsApi.originDefaultDsKey();
+                }
             }
         }
         String summary = Optional.ofNullable(modelAnnotation).map(Model::summary).filter(StringUtils::isNotBlank).orElse(null);

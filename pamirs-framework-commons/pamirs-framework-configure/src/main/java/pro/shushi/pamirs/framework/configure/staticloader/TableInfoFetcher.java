@@ -189,16 +189,20 @@ public class TableInfoFetcher {
         } else {
             DsApi dsApi = DsApi.get();
             String finalModelModel = modelModel;
-            dsKey = Optional.ofNullable(dsApi).map(DsApi::fetchModelDsMap).map(v -> v.get(finalModelModel)).orElse(null);
+            dsKey = Optional.ofNullable(dsApi.fetchModelDsMap()).map(v -> v.get(finalModelModel)).orElse(null);
             if (null == dsKey) {
                 dsKey = Optional.ofNullable(modelDsAnnotation).map(Model.Ds::value).filter(StringUtils::isNotBlank).orElse(null);
             }
             if (null == dsKey) {
                 String finalModule = module;
-                dsKey = Optional.ofNullable(dsApi).map(DsApi::fetchModuleDsMap).map(v -> v.get(finalModule)).orElse(null);
+                dsKey = Optional.ofNullable(dsApi.fetchModuleDsMap()).map(v -> v.get(finalModule)).orElse(null);
             }
             if (null == dsKey) {
-                dsKey = Optional.ofNullable(dsApi).map(DsApi::originDefaultDsKey).orElse(null);
+                if (ModuleConstants.MODULE_BASE.equals(module)) {
+                    dsKey = dsApi.originSystemDsKey();
+                } else {
+                    dsKey = dsApi.originDefaultDsKey();
+                }
             }
         }
         String ordering = InheritedUtil.fetchModelConfigItemByClass(modelClazz,
