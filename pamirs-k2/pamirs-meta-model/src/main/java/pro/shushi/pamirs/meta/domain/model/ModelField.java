@@ -438,7 +438,8 @@ public class ModelField extends Relation implements MetaCheckConstants {
                 pamirsTableConfig.getUnderCamel(), pamirsTableConfig.getCapitalMode());
     }
 
-    private static String generateColumn(String fieldName, String column, boolean tableNameCaseSensitive, Boolean underCamel, Boolean capitalMode) {
+    private static String generateColumn(String fieldName, String column, boolean tableNameCaseSensitive,
+                                         Boolean underCamel, Boolean capitalMode) {
         if (StringUtils.isNotBlank(column)) {
             return column;
         }
