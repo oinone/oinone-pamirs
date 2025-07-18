@@ -52,7 +52,11 @@ public class OrmLnameToLtypeCache implements SessionInitApi, SessionClearApi {
                 if (StringUtils.isBlank(lname)) {
                     continue;
                 }
-                Class<?> clazz = convertLtype(modelFieldConfig.getTtype(), modelFieldConfig.getMulti(), modelFieldConfig.getLtype());
+                TtypeEnum exactTtype = modelFieldConfig.getModelField().getExactTtype();
+                if (exactTtype == null) {
+                    continue;
+                }
+                Class<?> clazz = convertLtype(exactTtype.value(), modelFieldConfig.getMulti(), modelFieldConfig.getLtype());
                 if (clazz == null) {
                     continue;
                 }
