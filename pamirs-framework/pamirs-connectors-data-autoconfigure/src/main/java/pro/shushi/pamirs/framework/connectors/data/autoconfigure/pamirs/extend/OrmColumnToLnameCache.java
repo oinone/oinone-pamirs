@@ -38,7 +38,7 @@ public class OrmColumnToLnameCache implements SessionInitApi, SessionClearApi {
         Map<String, Map<String, String>> mappings = storage.get();
         if (mappings == null) {
             // disabled thread local cache
-            mappings = new HashMap<>();
+            mappings = new ConcurrentHashMap<>();
         }
         return mappings.computeIfAbsent(modelConfig.getModel(), model -> {
             Map<String, String> columnToLnameMapping = new HashMap<>();

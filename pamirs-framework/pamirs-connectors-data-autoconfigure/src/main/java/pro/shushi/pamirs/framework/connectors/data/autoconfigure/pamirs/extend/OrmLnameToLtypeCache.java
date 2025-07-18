@@ -42,7 +42,7 @@ public class OrmLnameToLtypeCache implements SessionInitApi, SessionClearApi {
         Map<String, Map<String, Class<?>>> mappings = storage.get();
         if (mappings == null) {
             // disabled thread local cache
-            mappings = new HashMap<>();
+            mappings = new ConcurrentHashMap<>();
         }
         return mappings.computeIfAbsent(modelConfig.getModel(), model -> {
             Map<String, Class<?>> columnToLnameMapping = new HashMap<>();
