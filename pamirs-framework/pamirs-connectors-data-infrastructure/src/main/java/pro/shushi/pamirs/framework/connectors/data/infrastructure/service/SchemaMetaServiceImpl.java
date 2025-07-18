@@ -95,9 +95,6 @@ public class SchemaMetaServiceImpl implements SchemaMetaService {
         List<ModelTable> modelTableList = modelTableMapper.selectList(Pops.<ModelTable>lambdaQuery().in(ModelTable::getTableSchema, schemas));
         List<FieldColumn> fieldColumnList = fieldColumnMapper.selectList(Pops.<FieldColumn>lambdaQuery().in(FieldColumn::getTableSchema, schemas));
         List<ModuleIndex> moduleIndexList = moduleIndexMapper.selectList(Pops.<ModuleIndex>lambdaQuery().in(ModuleIndex::getTableSchema, schemas));
-//        List<ModelTable> modelTableList = modelTableMapper.selectList(Pops.<ModelTable>lambdaQuery().eq(ModelTable::getDsKey, dsKey).in(ModelTable::getTableSchema, schemas));
-//        List<FieldColumn> fieldColumnList = fieldColumnMapper.selectList(Pops.<FieldColumn>lambdaQuery().eq(FieldColumn::getDsKey, dsKey).in(FieldColumn::getTableSchema, schemas));
-//        List<ModuleIndex> moduleIndexList = moduleIndexMapper.selectList(Pops.<ModuleIndex>lambdaQuery().eq(ModuleIndex::getDsKey, dsKey).in(ModuleIndex::getTableSchema, schemas));
         return fetchModelTableMap0(supportDrop, modelTableList, fieldColumnList, moduleIndexList);
     }
 
