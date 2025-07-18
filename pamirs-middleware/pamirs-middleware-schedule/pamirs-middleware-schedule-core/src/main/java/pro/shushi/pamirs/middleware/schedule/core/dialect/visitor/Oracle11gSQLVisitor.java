@@ -40,7 +40,7 @@ public class Oracle11gSQLVisitor extends OracleSQLVisitor {
         SQLSelectQueryBlock midQuery = new SQLSelectQueryBlock();
         midQuery.setFrom(new SQLSubqueryTableSource(new SQLSelect(innerQuery), "INNER_TABLE"));
 
-        SQLSelectItem selectAll = new SQLSelectItem(new SQLIdentifierExpr("INNER_TABLE.*"));
+        SQLSelectItem selectAll = new SQLSelectItem(new SQLPropertyExpr(new SQLIdentifierExpr("INNER_TABLE"), "*"));
         SQLSelectItem rownumItem = new SQLSelectItem(new SQLIdentifierExpr("ROWNUM"), "ROWNUM_");
         midQuery.getSelectList().add(selectAll);
         midQuery.getSelectList().add(rownumItem);

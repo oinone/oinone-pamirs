@@ -50,20 +50,11 @@ public class OracleSQLVisitor extends MySqlASTVisitorAdapter {
     }
 
     protected String quote(String column) {
+        if ("*".equals(column)) {
+            return column;
+        }
         if (column.startsWith(ORACLE_QUOTE) && column.endsWith(ORACLE_QUOTE)) {
             return null;
-        }
-        if ("*".equals(column)) {
-            return null;
-        }
-        if (column.contains(".")) {
-            String[] split = column.split("\\.");
-            for (int i = 0; i < split.length; i++) {
-                if (!"*".equals(split[i]) && !NOCHANGE_IDENTIFIER_SET.contains(split[i])) {
-                    split[i] = quote(split[i]);
-                }
-            }
-            return String.join(".", split);
         }
         if (column.startsWith(MYSQL_QUOTE) && column.endsWith(MYSQL_QUOTE)) {
             return ORACLE_QUOTE + column.substring(1, column.length() - 1) + ORACLE_QUOTE;
