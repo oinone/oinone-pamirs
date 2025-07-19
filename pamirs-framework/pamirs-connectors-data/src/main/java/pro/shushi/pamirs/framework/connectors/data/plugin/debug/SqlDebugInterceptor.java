@@ -55,14 +55,11 @@ public class SqlDebugInterceptor implements Interceptor, SceneAnalysisDebugTrace
             return invocation.proceed();
         }
         long start = System.currentTimeMillis();
-        Object result = null;
-        long end = 0;
         try {
-            result = invocation.proceed();
-            end = System.currentTimeMillis();
+            return invocation.proceed();
         } finally {
             //搜集debug调试信息
-            long time = end - start;
+            long time = System.currentTimeMillis() - start;
             addDebugTrace(() -> {
                 BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");
                 Configuration configuration = ms.getConfiguration();
@@ -70,8 +67,6 @@ public class SqlDebugInterceptor implements Interceptor, SceneAnalysisDebugTrace
                 return ImmutablePair.of(originalSql, time);
             });
         }
-
-        return result;
     }
 
     public String showSql(Configuration configuration, BoundSql boundSql) {
