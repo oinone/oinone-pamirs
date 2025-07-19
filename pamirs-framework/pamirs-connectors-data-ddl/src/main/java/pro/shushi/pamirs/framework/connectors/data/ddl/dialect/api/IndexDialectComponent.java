@@ -40,8 +40,16 @@ public interface IndexDialectComponent {
         return DdlUtils.fixIdentifyLength(indexName, fetchMaxDbIdentifierLength(), true);
     }
 
+    /**
+     * @deprecated please override {@link IndexDialectComponent#primaryIndexName(String, String, List)}
+     */
+    @Deprecated
     default String primaryIndexName(String completedTableName) {
         return "PRIMARY";
+    }
+
+    default String primaryIndexName(String tableName, String completedTableName, List<String> pkList) {
+        return primaryIndexName(completedTableName);
     }
 
     default String generatePrimaryColumn(List<String> pkColumns, boolean addQuote) {
@@ -52,8 +60,17 @@ public interface IndexDialectComponent {
         return generatePrimaryColumn(pkColumns, addQuote);
     }
 
+    /**
+     * @deprecated please override {@link IndexDialectComponent#createPrimaryKey(String, String, List)}
+     */
+    @Deprecated
     default String createPrimaryKey(String completedTableName, List<String> pkList) {
         return DdlUtils.buildString(" PRIMARY KEY (`", generatePrimaryColumn(pkList, Boolean.TRUE), "`)\n");
+    }
+
+    default String createPrimaryKey(String tableName, String completedTableName, List<String> pkList) {
+        // FIXME: zbh 20250719 由于历史原因导致 tableName 和 completedTableName 被混用，原逻辑使用 tableName，暂不做修改
+        return createPrimaryKey(tableName, pkList);
     }
 
     default void fixCreatePrimaryKey(List<String> ddlList) {
@@ -61,9 +78,18 @@ public interface IndexDialectComponent {
         ddlList.add(ddlList.size(), StringUtils.substringBeforeLast(last, CharacterConstants.SEPARATOR_COMMA) + "\n");
     }
 
+    /**
+     * @deprecated please override {@link IndexDialectComponent#addPrimaryKey(String, String, List)}
+     */
+    @Deprecated
     default String addPrimaryKey(String completedTableName, List<String> pkList) {
         return DdlUtils.buildString("ALTER TABLE `", completedTableName,
                 "` ADD PRIMARY KEY (`", generatePrimaryColumn(pkList, Boolean.TRUE), "`);\n");
+    }
+
+    default String addPrimaryKey(String tableName, String completedTableName, List<String> pkList) {
+        // FIXME: zbh 20250719 由于历史原因导致 tableName 和 completedTableName 被混用，原逻辑使用 tableName，暂不做修改
+        return addPrimaryKey(tableName, pkList);
     }
 
     default String autoIncrement(ModelWrapper modelDefinition, FieldWrapper modelField, String columnDefinition, String keyGenerator) {
