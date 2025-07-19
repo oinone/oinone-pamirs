@@ -60,8 +60,8 @@ public class IndexComponent {
         }
     }
 
-    public String primaryIndexName(String dsKey, String completedTableName) {
-        return Dialects.component(IndexDialectComponent.class, dsKey).primaryIndexName(completedTableName);
+    public String primaryIndexName(String dsKey, String tableName, String completedTableName, List<String> pkList) {
+        return Dialects.component(IndexDialectComponent.class, dsKey).primaryIndexName(tableName, completedTableName, pkList);
     }
 
     public String generatePrimaryColumn(String dsKey, ModelWrapper modelDefinition, boolean addQuote, LogicIndex logicIndex) {
@@ -100,9 +100,9 @@ public class IndexComponent {
         if (!CollectionUtils.isEmpty(pks)) {
             LogicTable logicTable = ddlContext.useLogicTable();
             List<String> pkList = generatePrimaryColumnList(modelDefinition);
-            String completedTableName = tableComponent.tablePlaceholder(logicTable.getDsKey(), modelDefinition);
-            ddlList.add(indexDialectComponent.createPrimaryKey(completedTableName, pkList));
-            String indexName = primaryIndexName(logicTable.getDsKey(), completedTableName);
+            String tableName = tableComponent.tablePlaceholder(logicTable.getDsKey(), modelDefinition);
+            ddlList.add(indexDialectComponent.createPrimaryKey(tableName, logicTable.getTableName(), pkList));
+            String indexName = primaryIndexName(logicTable.getDsKey(), tableName, logicTable.getTableName(), pkList);
             LogicIndex logicIndex = new LogicIndex().setTableName(logicTable.getTableName())
                     .setIndexName(indexName).setUnique(true).setColumn(pkList);
             logicTable.getIndexMap().put(indexName, logicIndex);
@@ -115,10 +115,9 @@ public class IndexComponent {
     public void addPrimaryKey(DdlContext ddlContext, ModelWrapper modelDefinition, List<String> ddlList) {
         LogicTable logicTable = ddlContext.useLogicTable();
         List<String> pkList = generatePrimaryColumnList(modelDefinition);
-        String completedTableName = tableComponent.tablePlaceholder(logicTable.getDsKey(), modelDefinition);
-        ddlList.add(Dialects.component(IndexDialectComponent.class, logicTable.getDsKey())
-                .addPrimaryKey(completedTableName, pkList));
-        String indexName = primaryIndexName(logicTable.getDsKey(), completedTableName);
+        String tableName = tableComponent.tablePlaceholder(logicTable.getDsKey(), modelDefinition);
+        ddlList.add(Dialects.component(IndexDialectComponent.class, logicTable.getDsKey()).addPrimaryKey(tableName, logicTable.getTableName(), pkList));
+        String indexName = primaryIndexName(logicTable.getDsKey(), tableName, logicTable.getTableName(), pkList);
         LogicIndex logicIndex = new LogicIndex().setTableName(logicTable.getTableName())
                 .setIndexName(indexName).setUnique(true).setColumn(pkList);
         logicTable.getIndexMap().put(indexName, logicIndex);

@@ -50,7 +50,9 @@ public class IndexProcessor {
         List<LogicIndex> existIndexList = Lists.newArrayList(table.getIndexMap().values());
         boolean existPrimary = Boolean.FALSE;
         if (!CollectionUtils.isEmpty(existIndexList)) {
-            String primaryIndexName = indexComponent.primaryIndexName(table.getDsKey(), table.getTableName());
+            String tableName = tableComponent.tablePlaceholder(table.getDsKey(), modelDefinition);
+            List<String> pkList = indexComponent.generatePrimaryColumnList(modelDefinition);
+            String primaryIndexName = indexComponent.primaryIndexName(table.getDsKey(), tableName, table.getTableName(), pkList);
             for (LogicIndex index : existIndexList) {
                 if (null == index.getColumn()) {
                     continue;
@@ -176,7 +178,9 @@ public class IndexProcessor {
         if (CollectionUtils.isEmpty(existIndexList)) {
             return;
         }
-        String primaryIndexName = indexComponent.primaryIndexName(table.getDsKey(), table.getTableName());
+        String tableName = tableComponent.tablePlaceholder(table.getDsKey(), modelDefinition);
+        List<String> pkList = indexComponent.generatePrimaryColumnList(modelDefinition);
+        String primaryIndexName = indexComponent.primaryIndexName(table.getDsKey(), tableName, table.getTableName(), pkList);
         for (LogicIndex index : existIndexList) {
             if (null == index.getColumn()) {
                 continue;
