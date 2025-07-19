@@ -1,6 +1,10 @@
 package pro.shushi.pamirs.middleware.schedule.core.dialect.visitor;
 
+import com.alibaba.druid.sql.ast.SQLExpr;
+import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
+import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
+import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
 import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitorAdapter;
 import com.google.common.collect.Sets;
@@ -46,6 +50,24 @@ public class OracleSQLVisitor extends MySqlASTVisitorAdapter {
             return true;
         }
         x.setAlias(formatAlias);
+        return true;
+    }
+
+    @Override
+    public boolean visit(SQLMethodInvokeExpr x) {
+        for (int i = 0; i < x.getChildren().size(); i++) {
+            if (x.getChildren().get(i) instanceof SQLBinaryOpExpr) {
+                SQLBinaryOpExpr expr = (SQLBinaryOpExpr) x.getChildren().get(i);
+                if (SQLBinaryOperator.Modulus.equals(expr.getOperator())) {
+                    SQLExpr left = expr.getLeft();
+                    SQLExpr right = expr.getRight();
+                    SQLMethodInvokeExpr mod = new SQLMethodInvokeExpr("MOD");
+                    mod.addArgument(left);
+                    mod.addArgument(right);
+                    x.getChildren().set(i, mod);
+                }
+            }
+        }
         return true;
     }
 
