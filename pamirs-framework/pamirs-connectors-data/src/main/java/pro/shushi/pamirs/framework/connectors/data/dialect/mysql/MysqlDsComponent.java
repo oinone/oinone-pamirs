@@ -9,6 +9,7 @@ import pro.shushi.pamirs.framework.connectors.data.dialect.api.DsDialectComponen
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsDataConfiguration;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.enmu.DataSourceProtocolEnum;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -35,6 +36,11 @@ public class MysqlDsComponent extends AbstractDsDialectComponent implements DsDi
     @Override
     public DbType getDbType(String dsKey, Connection connection) throws SQLException {
         return DbType.MYSQL;
+    }
+
+    @Override
+    public String getProtocol(String dsKey) {
+        return DataSourceProtocolEnum.MYSQL.value();
     }
 
     @Override
