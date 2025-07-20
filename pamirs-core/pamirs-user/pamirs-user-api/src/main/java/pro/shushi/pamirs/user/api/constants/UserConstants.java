@@ -21,4 +21,7 @@ public interface UserConstants {
 
     String SINGLE_USER_CACHE_MODE = "single";
     String MULTIPLE_USER_CACHE_MODE = "multiple";
+
+    String WORKFLOW_HAS_PENDING_HANDOVER_FUN = "hasPendingHandover";
+    String WORKFLOW_HAS_PENDING_HANDOVER_NAMESPACE = "workflow.WorkflowTaskHandoverService";
 }
