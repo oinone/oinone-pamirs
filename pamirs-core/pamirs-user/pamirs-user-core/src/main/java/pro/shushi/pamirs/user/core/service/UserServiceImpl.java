@@ -773,7 +773,7 @@ public class UserServiceImpl implements UserService {
         } else {
             updateUserRole(user.getRoles(), user);
         }
-
+        updateWorkflowUserData(user);
     }
 
     // 创建用户的角色信息
@@ -834,7 +834,7 @@ public class UserServiceImpl implements UserService {
      */
     private void checkWorkflowTaskHandover(PamirsUser user) {
         pro.shushi.pamirs.meta.api.dto.fun.Function function = PamirsSession.getContext().getFunctionAllowNull(
-                UserConstants.WORKFLOW_HAS_PENDING_HANDOVER_NAMESPACE,
+                UserConstants.WORKFLOW_TASK_HANDOVER_NAMESPACE,
                 UserConstants.WORKFLOW_HAS_PENDING_HANDOVER_FUN
         );
         if (null != function) {
@@ -844,6 +844,26 @@ public class UserServiceImpl implements UserService {
                         .appendMsg(user.getLogin())
                         .errThrow();
             }
+        }
+    }
+
+    /**
+     * 更新工作流交接与委托用户名称
+     */
+    private void updateWorkflowUserData(PamirsUser user) {
+        pro.shushi.pamirs.meta.api.dto.fun.Function handoverFunction = PamirsSession.getContext().getFunctionAllowNull(
+                UserConstants.WORKFLOW_TASK_HANDOVER_NAMESPACE,
+                UserConstants.WORKFLOW_UPDATE_HANDOVER_FROM_USER_NAME_FUN
+        );
+        if (null != handoverFunction) {
+            pro.shushi.pamirs.meta.api.Fun.run(handoverFunction, user);
+        }
+        pro.shushi.pamirs.meta.api.dto.fun.Function delegationFunction = PamirsSession.getContext().getFunctionAllowNull(
+                UserConstants.WORKFLOW_TASK_DELEGATION_NAMESPACE,
+                UserConstants.WORKFLOW_UPDATE_DELEGATION_FROM_USER_NAME_FUN
+        );
+        if (null != handoverFunction) {
+            pro.shushi.pamirs.meta.api.Fun.run(delegationFunction, user);
         }
     }
 }

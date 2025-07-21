@@ -27,8 +27,10 @@ import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 import pro.shushi.pamirs.resource.api.enmu.UserSignUpType;
+import pro.shushi.pamirs.user.api.constants.UserConstants;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.service.UserService;
 
@@ -175,6 +177,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     @Override
     public PamirsEmployee updateById(PamirsEmployee data) {
         data.updateById();
+        updateWorkflowUserData(data);
         return data;
     }
 
@@ -379,4 +382,23 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         return pamirsUser;
     }
 
+    /**
+     * 更新工作流交接与委托员工名称
+     */
+    private void updateWorkflowUserData(PamirsEmployee employee) {
+        pro.shushi.pamirs.meta.api.dto.fun.Function handoverFunction = PamirsSession.getContext().getFunctionAllowNull(
+                UserConstants.WORKFLOW_TASK_HANDOVER_NAMESPACE,
+                UserConstants.WORKFLOW_UPDATE_HANDOVER_TO_EMPLOYEE_NAME_FUN
+        );
+        if (null != handoverFunction) {
+            pro.shushi.pamirs.meta.api.Fun.run(handoverFunction, employee);
+        }
+        pro.shushi.pamirs.meta.api.dto.fun.Function delegationFunction = PamirsSession.getContext().getFunctionAllowNull(
+                UserConstants.WORKFLOW_TASK_DELEGATION_NAMESPACE,
+                UserConstants.WORKFLOW_UPDATE_DELEGATION_EMPLOYEE_NAME_FUN
+        );
+        if (null != handoverFunction) {
+            pro.shushi.pamirs.meta.api.Fun.run(delegationFunction, employee);
+        }
+    }
 }
