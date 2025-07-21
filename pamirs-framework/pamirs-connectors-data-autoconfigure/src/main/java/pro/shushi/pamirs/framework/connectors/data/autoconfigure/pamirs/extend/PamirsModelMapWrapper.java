@@ -20,11 +20,7 @@ import java.util.Map;
  */
 public class PamirsModelMapWrapper extends BaseWrapper {
 
-    private final ModelConfig modelConfig;
-
     private final Map<String, Object> map;
-
-    private final boolean usingAsProperty;
 
     private final Map<String, String> columnToLnameMapping;
 
@@ -34,16 +30,9 @@ public class PamirsModelMapWrapper extends BaseWrapper {
 
     public PamirsModelMapWrapper(ModelConfig modelConfig, Map<String, Object> map) {
         super(null);
-        this.modelConfig = modelConfig;
         this.map = map;
-        this.usingAsProperty = this.modelConfig.getModel().equals(PamirsSession.getAsProperty());
-        if (this.usingAsProperty) {
-            this.columnToLnameMapping = OrmColumnToLnameCache.getMapping(modelConfig);
-            this.lnameToLtypeMapping = OrmLnameToLtypeCache.getMapping(modelConfig);
-        } else {
-            this.columnToLnameMapping = null;
-            this.lnameToLtypeMapping = null;
-        }
+        this.columnToLnameMapping = OrmColumnToLnameCache.getMapping(modelConfig);
+        this.lnameToLtypeMapping = OrmLnameToLtypeCache.getMapping(modelConfig);
     }
 
     public void apply(MetaObject metaObject) {
@@ -80,14 +69,11 @@ public class PamirsModelMapWrapper extends BaseWrapper {
 
     @Override
     public String findProperty(String name, boolean useCamelCaseMapping) {
-        if (this.usingAsProperty) {
-            String lname = columnToLnameMapping.get(name);
-            if (lname == null) {
-                return name;
-            }
-            return lname;
+        String lname = columnToLnameMapping.get(name);
+        if (lname == null) {
+            return name;
         }
-        return name;
+        return lname;
     }
 
     @Override
@@ -102,22 +88,20 @@ public class PamirsModelMapWrapper extends BaseWrapper {
 
     @Override
     public Class<?> getSetterType(String name) {
-        if (this.usingAsProperty) {
-            Class<?> setterType = lnameToLtypeMapping.get(name);
-            if (setterType != null) {
-                if (PamirsSession.isStaticConfig()) {
-                    return setterType;
-                }
-                if (TypeUtils.isIEnumClass(setterType)) {
-                    if (map.get(name) != null) {
-                        return map.get(name).getClass();
-                    }
-                    return Object.class;
-                }
-                return setterType;
-            }
+        Class<?> setterType = lnameToLtypeMapping.get(name);
+        if (setterType == null) {
+            return getSetterType0(name);
         }
-        return getSetterType0(name);
+        if (PamirsSession.isStaticConfig()) {
+            return setterType;
+        }
+        if (TypeUtils.isIEnumClass(setterType)) {
+            if (map.get(name) != null) {
+                return map.get(name).getClass();
+            }
+            return Object.class;
+        }
+        return setterType;
     }
 
     protected Class<?> getSetterType0(String name) {
@@ -140,22 +124,20 @@ public class PamirsModelMapWrapper extends BaseWrapper {
 
     @Override
     public Class<?> getGetterType(String name) {
-        if (this.usingAsProperty) {
-            Class<?> getterType = lnameToLtypeMapping.get(name);
-            if (getterType != null) {
-                if (PamirsSession.isStaticConfig()) {
-                    return getterType;
-                }
-                if (TypeUtils.isIEnumClass(getterType)) {
-                    if (map.get(name) != null) {
-                        return map.get(name).getClass();
-                    }
-                    return Object.class;
-                }
-                return getterType;
-            }
+        Class<?> getterType = lnameToLtypeMapping.get(name);
+        if (getterType == null) {
+            return getGetterType0(name);
         }
-        return getGetterType0(name);
+        if (PamirsSession.isStaticConfig()) {
+            return getterType;
+        }
+        if (TypeUtils.isIEnumClass(getterType)) {
+            if (map.get(name) != null) {
+                return map.get(name).getClass();
+            }
+            return Object.class;
+        }
+        return getterType;
     }
 
     protected Class<?> getGetterType0(String name) {

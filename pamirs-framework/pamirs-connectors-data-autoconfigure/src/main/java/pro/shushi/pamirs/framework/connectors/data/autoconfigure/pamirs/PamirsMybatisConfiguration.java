@@ -38,6 +38,7 @@ import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.D;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -230,7 +231,7 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
                         .filter(StringUtils::isNotBlank)
                         .map(modelModel -> PamirsSession.getContext().getSimpleModelConfig(modelModel))
                         .orElse(null);
-            } else if (object instanceof DataMap) {
+            } else if (object instanceof DataMap || (PamirsSession.isStaticConfig() && object instanceof HashMap)) {
                 // process GenericMapper
                 modelConfig = Optional.ofNullable(PamirsSession.getAsProperty())
                         .filter(StringUtils::isNotBlank)
