@@ -50,10 +50,12 @@ public class TypeAndToolInterceptor implements Interceptor {
             }
             if (modelConfig.isStaticConfig()) {
                 PamirsSession.setStaticConfig(true);
+                try {
+                    return invocation.proceed();
+                } finally {
+                    PamirsSession.setStaticConfig(false);
+                }
             }
-            Object result = invocation.proceed();
-            PamirsSession.setStaticConfig(false);
-            return result;
         }
         return invocation.proceed();
     }

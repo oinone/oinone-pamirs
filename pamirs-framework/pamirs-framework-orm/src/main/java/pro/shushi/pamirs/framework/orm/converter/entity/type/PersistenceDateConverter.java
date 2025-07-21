@@ -7,6 +7,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.DateUtils;
 import pro.shushi.pamirs.meta.util.FieldFix;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
@@ -46,15 +47,20 @@ public class PersistenceDateConverter {
             return;
         }
         String ltype = fieldConfig.getLtype();
-        if (TtypeEnum.YEAR.value().equals(fieldConfig.getTtype())
-                && !Integer.class.getName().equals(ltype) && !Long.class.getName().equals(ltype)
-                && (value instanceof Integer || value instanceof Long)) {
-            String format = FieldFix.fixFormat(fieldConfig.getModelField());
-            if (DateFormatEnum.YEAR.value().equals(format)) {
-                value = DateUtils.parseByDayPattern(String.format("%s-01-01", value));
-                origin.put(fieldConfig.getLname(),
-                        DateUtils.castDate(value, ltype, DateFormatEnum.YEAR.value()));
-                return;
+        if (TtypeEnum.YEAR.value().equals(fieldConfig.getTtype())) {
+            if (!Integer.class.getName().equals(ltype) && !Long.class.getName().equals(ltype) && !BigDecimal.class.getName().equals(ltype)
+                    && (value instanceof Integer || value instanceof Long || value instanceof BigDecimal)) {
+                String format = FieldFix.fixFormat(fieldConfig.getModelField());
+                if (DateFormatEnum.YEAR.value().equals(format)) {
+                    value = DateUtils.parseByDayPattern(String.format("%s-01-01", value));
+                    origin.put(fieldConfig.getLname(),
+                            DateUtils.castDate(value, ltype, DateFormatEnum.YEAR.value()));
+                    return;
+                }
+            }
+        } else if (TtypeEnum.TIME.value().equals(fieldConfig.getTtype()) || TtypeEnum.DATE.value().equals(fieldConfig.getTtype())) {
+            if (value instanceof String && DateUtils.yyyyMMddhhmmssPattern.matcher(value + "").matches()) {
+                value = DateUtils.formatDate(value + "", DateFormatEnum.DATETIME.value());
             }
         }
         origin.put(fieldConfig.getLname(),

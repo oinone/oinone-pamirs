@@ -105,6 +105,10 @@ public class PersistenceEnumConverter {
             if (null != enumerationClass) {
                 if (TypeUtils.isIEnumClass(enumerationClass)) {
                     iEnum = Enums.getEnumByValue((Class<IEnum>) enumerationClass, (Serializable) value);
+                    // FIXME: zbh 20250714 oracle 11g Boolean value is BigDecimal
+                    if (iEnum == null && value instanceof Number) {
+                        iEnum = Enums.getEnumByValue((Class<IEnum>) enumerationClass, String.valueOf(!"0".equals(String.valueOf(value))));
+                    }
                 } else {
                     iEnum = value;
                 }

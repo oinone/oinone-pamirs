@@ -70,7 +70,11 @@ public class CommonEnumTypeHandler<E extends IEnum<?>> extends BaseTypeHandler<I
         if (!PamirsSession.isStaticConfig()) {
             return (E) value;
         }
-        return (E) Enums.getEnumByValue((Class) enumClass, (Serializable) value);
+        E iEnum = (E) Enums.getEnumByValue((Class) enumClass, (Serializable) value);
+        if (iEnum == null && value instanceof Number) {
+            iEnum = (E) Enums.getEnumByValue((Class) enumClass, !"0".equals(String.valueOf(value)));
+        }
+        return iEnum;
     }
 
 }

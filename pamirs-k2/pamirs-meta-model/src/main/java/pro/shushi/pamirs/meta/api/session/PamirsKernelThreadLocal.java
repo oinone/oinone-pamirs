@@ -27,6 +27,8 @@ public class PamirsKernelThreadLocal implements SessionMetaBit, Serializable {
 
     private final Deque<DsWrapper> dsKey = new ArrayDeque<>();
 
+    private final Deque<String> asProperty = new ArrayDeque<>();
+
     private final Deque<BatchSizeWrapper> batchSize = new ArrayDeque<>();
 
     private Long META_BIT;
@@ -61,6 +63,24 @@ public class PamirsKernelThreadLocal implements SessionMetaBit, Serializable {
 
     public void pushDsKey(Object dsKey) {
         this.dsKey.push(DsWrapper.wrap(dsKey));
+    }
+
+    public String getAsProperty() {
+        if (this.asProperty.isEmpty()) {
+            return null;
+        }
+        return this.asProperty.peek();
+    }
+
+    public String popAsProperty() {
+        if (this.asProperty.isEmpty()) {
+            return null;
+        }
+        return this.asProperty.pop();
+    }
+
+    public void pushAsProperty(String model) {
+        this.asProperty.push(model);
     }
 
     public Integer getBatchSize() {

@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.jdbc.helper;
 
-import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.parser.ParserException;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
@@ -31,8 +30,6 @@ import java.util.Set;
  */
 @Slf4j
 public class SQLCheckHelper {
-
-    private static final SQLUtils.FormatOption DEFAULT_FORMAT_OPTION = new SQLUtils.FormatOption(false, false);
 
     public static final Set<String> BLACK_LIST_TABLES = new HashSet<>();
 
@@ -113,7 +110,7 @@ public class SQLCheckHelper {
      * @throws SQLCheckException SQL检查异常
      */
     public static String checkSingle(String sql, String dbType) throws SQLCheckException {
-        return check(sql, dbType, (prepareEntity, statements, visitor) -> {
+        return check(sql, dbType, (checker, prepareEntity, statements, visitor) -> {
             if (statements.size() >= 2) {
                 throw SQLParseCheckException.createSingleSQLException();
             }
@@ -125,7 +122,7 @@ public class SQLCheckHelper {
             } catch (Throwable e) {
                 throw SQLParseCheckException.createSQLVisitError(e);
             }
-            String newSql = SQLUtils.toSQLString(statement, dbType, DEFAULT_FORMAT_OPTION);
+            String newSql = checker.toSQLString(statements);
             newSql = newSql.trim();
             if (newSql.endsWith(SQL_EOF)) {
                 newSql = newSql.substring(0, newSql.length() - 1);
@@ -143,7 +140,7 @@ public class SQLCheckHelper {
      * @throws SQLCheckException SQL检查异常
      */
     public static String checkMulti(String sql, String dbType) throws SQLCheckException {
-        return check(sql, dbType, (prepareEntity, statements, visitor) -> {
+        return check(sql, dbType, (checker, prepareEntity, statements, visitor) -> {
             try {
                 for (SQLStatement statement : statements) {
                     statement.accept(visitor);
@@ -153,7 +150,7 @@ public class SQLCheckHelper {
             } catch (Throwable e) {
                 throw SQLParseCheckException.createSQLVisitError(e);
             }
-            return SQLUtils.toSQLString(statements, dbType, DEFAULT_FORMAT_OPTION);
+            return checker.toSQLString(statements);
         });
     }
 
@@ -205,7 +202,7 @@ public class SQLCheckHelper {
         if (CollectionUtils.isEmpty(statements)) {
             throw SQLCheckException.createCommonException();
         }
-        return checkConsumer.check(prepareEntity, statements, visitor);
+        return checkConsumer.check(checker, prepareEntity, statements, visitor);
     }
 
     public static String clearQuote(String name, String quote) {
@@ -243,6 +240,6 @@ public class SQLCheckHelper {
     @FunctionalInterface
     private interface SQLChecker {
 
-        String check(SQLPrepareEntity prepareEntity, List<SQLStatement> statements, SQLASTVisitor visitor);
+        String check(EipSQLChecker checker, SQLPrepareEntity prepareEntity, List<SQLStatement> statements, SQLASTVisitor visitor);
     }
 }

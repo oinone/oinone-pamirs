@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Adamancy Zhang at 21:50 on 2023-06-27
  */
-@Order
+@Order(88)
 @Component
 public class ScheduleOracleSQLDialectService extends AbstractSQLDialectService implements ScheduleSQLDialectService {
 

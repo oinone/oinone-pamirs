@@ -70,7 +70,6 @@ public class EncryptionHandler {
             long from = date.getTime();
             long to = toDate.getTime();
             int second = (int) ((to - from) / 1000);
-            System.out.println(second);
             return second <= codeExpiresIn;
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,43 +125,4 @@ public class EncryptionHandler {
         String base64EncodedString = Base64.getEncoder().encodeToString(originalString.getBytes());
         return base64EncodedString;
     }
-
-
-    public static void main(String[] args) throws Exception {
-////        String clientId = "clientid";
-////        String data = UUIDUtil.getUUIDNumberString() + ":" + System.currentTimeMillis();
-//        String encryptedData = encrypt(clientId, data);
-//        System.out.println("Encrypted Data: " + encryptedData);
-////        String data = "MG0odIAdPjyAJH495394Zx1mBf2dxMTBOsSO60oWjWbZoNy6bkcsLqUgKobNj878";
-////        String decrypt = decrypt(clientId, data);
-//        String s = decrypt.split(":")[1];
-//        System.out.println(s);
-//        boolean code = isCode(s, 600);
-//        System.out.println(code);
-//        System.out.println(generateClientId().length());
-//        Map<String, String> result = generateClientSecret("wwwwwwwwww");
-//        String mess = result.get(SsoConfigurationConstant.PAMIRS_SSO_CLIENT_PUBLIC);
-//        String s = decryptSecret(result.get(SsoConfigurationConstant.PAMIRS_SSO_CLIENT_PRIVATE), mess);
-//        System.out.printf(s);
-
-//        String encrypt = encrypt("wx", "xxxx");
-//        System.out.printf(decrypt("wx", encrypt));
-
-//        String ss = "aTgvNk5tN0hSSThhMG9UV0o1UTJlRStTYmV4eDI2eW1TVGxnSXhDOUpGekppWmFkYkxjR3RIY3B0QmR2RWthUzpZYi8xeGZjWTZ5blFjejI5d2dDK3RCQ0piRUpZNXBTOGE5R3NzU0RTMDJ3PQ==";
-//        System.out.println(decryptBase64(ss));
-        String key = "pamirs_987fa7ca0bae46129246986f2b396890";
-
-        for (int i = 0; i < 1000; i++) {
-            String redisKey = UUIDUtil.getUUIDNumberString() + ":" + System.currentTimeMillis();
-            String code = EncryptionHandler.encrypt(key, redisKey);
-            if (code.contains("/")) {
-                System.out.println("--------------------------------------------" + code);
-                throw new RuntimeException();
-            }
-            System.out.println(code);
-            System.out.println(decrypt(key, code));
-        }
-    }
-
-
 }

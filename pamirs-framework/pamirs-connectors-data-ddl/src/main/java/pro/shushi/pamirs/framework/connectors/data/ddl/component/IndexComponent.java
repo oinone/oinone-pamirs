@@ -9,6 +9,7 @@ import pro.shushi.pamirs.framework.connectors.data.api.domain.wrapper.FieldWrapp
 import pro.shushi.pamirs.framework.connectors.data.api.domain.wrapper.ModelWrapper;
 import pro.shushi.pamirs.framework.connectors.data.ddl.constants.DdlConstants;
 import pro.shushi.pamirs.framework.connectors.data.ddl.dialect.api.IndexDialectComponent;
+import pro.shushi.pamirs.framework.connectors.data.ddl.enmu.DdlExpEnumerate;
 import pro.shushi.pamirs.framework.connectors.data.ddl.model.DdlContext;
 import pro.shushi.pamirs.framework.connectors.data.ddl.processor.FieldProcessor;
 import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
@@ -16,6 +17,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 import pro.shushi.pamirs.meta.api.session.cache.spi.SessionFillOwnSignApi;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.util.ListUtils;
 
@@ -58,8 +60,8 @@ public class IndexComponent {
         }
     }
 
-    public String primaryIndexName(String dsKey, String completedTableName) {
-        return Dialects.component(IndexDialectComponent.class, dsKey).primaryIndexName(completedTableName);
+    public String primaryIndexName(String dsKey, String tableName, String completedTableName, List<String> pkList) {
+        return Dialects.component(IndexDialectComponent.class, dsKey).primaryIndexName(tableName, completedTableName, pkList);
     }
 
     public String generatePrimaryColumn(String dsKey, ModelWrapper modelDefinition, boolean addQuote, LogicIndex logicIndex) {
@@ -75,6 +77,11 @@ public class IndexComponent {
         List<String> pkColumns = new ArrayList<>();
         for (String pk : pks) {
             FieldWrapper pkField = fieldProcessor.fetchModelField(modelDefinition, pk);
+            if (pkField == null) {
+                throw PamirsException.construct(DdlExpEnumerate.PK_FIELD_NOT_FOUND_ERROR)
+                        .appendMsg("model: ").appendMsg(modelDefinition.getModel())
+                        .appendMsg(", pk: ").appendMsg(pk).errThrow();
+            }
             pkColumns.add(pkField.getColumn());
         }
         if (pkColumns.size() > 1) {
@@ -93,9 +100,9 @@ public class IndexComponent {
         if (!CollectionUtils.isEmpty(pks)) {
             LogicTable logicTable = ddlContext.useLogicTable();
             List<String> pkList = generatePrimaryColumnList(modelDefinition);
-            String completedTableName = tableComponent.tablePlaceholder(logicTable.getDsKey(), modelDefinition);
-            ddlList.add(indexDialectComponent.createPrimaryKey(completedTableName, pkList));
-            String indexName = primaryIndexName(logicTable.getDsKey(), completedTableName);
+            String tableName = tableComponent.tablePlaceholder(logicTable.getDsKey(), modelDefinition);
+            ddlList.add(indexDialectComponent.createPrimaryKey(tableName, logicTable.getTableName(), pkList));
+            String indexName = primaryIndexName(logicTable.getDsKey(), tableName, logicTable.getTableName(), pkList);
             LogicIndex logicIndex = new LogicIndex().setTableName(logicTable.getTableName())
                     .setIndexName(indexName).setUnique(true).setColumn(pkList);
             logicTable.getIndexMap().put(indexName, logicIndex);
@@ -108,10 +115,9 @@ public class IndexComponent {
     public void addPrimaryKey(DdlContext ddlContext, ModelWrapper modelDefinition, List<String> ddlList) {
         LogicTable logicTable = ddlContext.useLogicTable();
         List<String> pkList = generatePrimaryColumnList(modelDefinition);
-        String completedTableName = tableComponent.tablePlaceholder(logicTable.getDsKey(), modelDefinition);
-        ddlList.add(Dialects.component(IndexDialectComponent.class, logicTable.getDsKey())
-                .addPrimaryKey(completedTableName, pkList));
-        String indexName = primaryIndexName(logicTable.getDsKey(), completedTableName);
+        String tableName = tableComponent.tablePlaceholder(logicTable.getDsKey(), modelDefinition);
+        ddlList.add(Dialects.component(IndexDialectComponent.class, logicTable.getDsKey()).addPrimaryKey(tableName, logicTable.getTableName(), pkList));
+        String indexName = primaryIndexName(logicTable.getDsKey(), tableName, logicTable.getTableName(), pkList);
         LogicIndex logicIndex = new LogicIndex().setTableName(logicTable.getTableName())
                 .setIndexName(indexName).setUnique(true).setColumn(pkList);
         logicTable.getIndexMap().put(indexName, logicIndex);

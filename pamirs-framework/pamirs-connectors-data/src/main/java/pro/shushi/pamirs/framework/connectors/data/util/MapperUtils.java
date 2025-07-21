@@ -98,8 +98,7 @@ public class MapperUtils {
         }
         int result = 0;
         String model = Models.api().getModel(entityList);
-        ModelConfig modelConfig = Optional.ofNullable(PamirsSession.getContext())
-                .map(v -> v.getModelConfig(model)).orElse(null);
+        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
         List<T> insertList = new ArrayList<>();
         List<T> updateByPkList = null;
         List<T> updateByUniqueList = null;

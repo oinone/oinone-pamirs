@@ -69,9 +69,12 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
             return null;
         }
         String model = getModel(query);
-        DataMap result = genericMapper.selectByPk(persistenceDataConverter.in(model, query));
-        persistenceDataConverter.out(model, query);
-        return persistenceDataConverter.out(model, result);
+        try {
+            DataMap result = genericMapper.selectByPk(persistenceDataConverter.in(model, query));
+            return persistenceDataConverter.out(model, result);
+        } finally {
+            persistenceDataConverter.out(model, query);
+        }
     }
 
     @Function.Advanced(displayName = "查询单条记录", type = FunctionTypeEnum.QUERY, category = FunctionCategoryEnum.QUERY_ONE, managed = true)
@@ -83,9 +86,12 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
             return null;
         }
         String model = getModel(query);
-        DataMap result = genericMapper.selectOneByEntity(persistenceDataConverter.in(model, query));
-        persistenceDataConverter.out(model, query);
-        return persistenceDataConverter.out(model, result);
+        try {
+            DataMap result = genericMapper.selectOneByEntity(persistenceDataConverter.in(model, query));
+            return persistenceDataConverter.out(model, result);
+        } finally {
+            persistenceDataConverter.out(model, query);
+        }
     }
 
     @Function.Advanced(displayName = "根据条件查询单条记录", type = FunctionTypeEnum.QUERY, managed = true)
@@ -98,9 +104,12 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
         }
         String model = queryWrapper.getModel();
         DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, queryWrapper.getEntity())).getDataMap();
-        DataMap result = genericMapper.selectOne(queryWrapper.generic(model, queryEntity));
-        persistenceDataConverter.out(model, queryWrapper.getEntity());
-        return persistenceDataConverter.out(model, result);
+        try {
+            DataMap result = genericMapper.selectOne(queryWrapper.generic(model, queryEntity));
+            return persistenceDataConverter.out(model, result);
+        } finally {
+            persistenceDataConverter.out(model, queryWrapper.getEntity());
+        }
     }
 
     @Function.Advanced(displayName = "查询记录列表", type = FunctionTypeEnum.QUERY, managed = true)
@@ -124,9 +133,12 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
             batchSize = fetchReadBatchSize(model);
         }
         if (batchSize < 0) {
-            List<DataMap> result = genericMapper.selectListByEntity(persistenceDataConverter.in(model, query));
-            persistenceDataConverter.out(model, query);
-            return persistenceDataConverter.out(model, result);
+            try {
+                List<DataMap> result = genericMapper.selectListByEntity(persistenceDataConverter.in(model, query));
+                return persistenceDataConverter.out(model, result);
+            } finally {
+                persistenceDataConverter.out(model, query);
+            }
         } else {
             Pagination<T> pagination = toPage(new Pagination<>(), model);
             pagination.setSize((long) batchSize);
@@ -166,9 +178,12 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
         }
         if (batchSize < 0) {
             DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, queryWrapper.getEntity())).getDataMap();
-            List<DataMap> result = genericMapper.selectList(queryWrapper.generic(model, queryEntity));
-            persistenceDataConverter.out(model, queryWrapper.getEntity());
-            return persistenceDataConverter.out(model, result);
+            try {
+                List<DataMap> result = genericMapper.selectList(queryWrapper.generic(model, queryEntity));
+                return persistenceDataConverter.out(model, result);
+            } finally {
+                persistenceDataConverter.out(model, queryWrapper.getEntity());
+            }
         } else {
             Pagination<T> pagination = toPage(new Pagination<>(queryWrapper.getSortable()), model);
             pagination.setSize((long) batchSize);
@@ -200,10 +215,12 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
         }
         String model = getModel(query);
         Pagination<DataMap> request = toPage(page, model);
-        List<DataMap> result = genericMapper.selectListByPage(request,
-                Pops.query(persistenceDataConverter.in(model, query)));
-        persistenceDataConverter.out(model, query);
-        return persistenceDataConverter.out(model, result);
+        try {
+            List<DataMap> result = genericMapper.selectListByPage(request, Pops.query(persistenceDataConverter.in(model, query)));
+            return persistenceDataConverter.out(model, result);
+        } finally {
+            persistenceDataConverter.out(model, query);
+        }
     }
 
     @Function.Advanced(displayName = "根据条件分页查询记录列表", type = FunctionTypeEnum.QUERY, managed = true)
@@ -217,9 +234,12 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
         String model = queryWrapper.getModel();
         Pagination<DataMap> request = toPage(page, model);
         DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, queryWrapper.getEntity())).getDataMap();
-        List<DataMap> result = genericMapper.selectListByPage(request, queryWrapper.generic(model, queryEntity));
-        persistenceDataConverter.out(model, queryWrapper.getEntity());
-        return persistenceDataConverter.out(model, result);
+        try {
+            List<DataMap> result = genericMapper.selectListByPage(request, queryWrapper.generic(model, queryEntity));
+            return persistenceDataConverter.out(model, result);
+        } finally {
+            persistenceDataConverter.out(model, queryWrapper.getEntity());
+        }
     }
 
     @Function.Advanced(displayName = "根据条件分页查询记录列表和总数", type = FunctionTypeEnum.QUERY, category = FunctionCategoryEnum.QUERY_PAGE, managed = true)
@@ -233,8 +253,11 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
         String model = queryWrapper.getModel();
         Pagination<DataMap> result = toPage(page, model);
         DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, queryWrapper.getEntity())).getDataMap();
-        result = genericMapper.selectPage(result, queryWrapper.generic(model, queryEntity));
-        persistenceDataConverter.out(model, queryWrapper.getEntity());
+        try {
+            result = genericMapper.selectPage(result, queryWrapper.generic(model, queryEntity));
+        } finally {
+            persistenceDataConverter.out(model, queryWrapper.getEntity());
+        }
         page.setContent(persistenceDataConverter.out(model, result.getContent()));
         result.to(page);
         return page;
@@ -249,9 +272,11 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
             return null;
         }
         String model = getModel(query);
-        Long result = genericMapper.selectCountByEntity(persistenceDataConverter.in(model, query));
-        persistenceDataConverter.out(model, query);
-        return result;
+        try {
+            return genericMapper.selectCountByEntity(persistenceDataConverter.in(model, query));
+        } finally {
+            persistenceDataConverter.out(model, query);
+        }
     }
 
     @Function.Advanced(displayName = "根据条件查询记录总数", type = FunctionTypeEnum.QUERY, managed = true)
@@ -264,9 +289,11 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
         }
         String model = queryWrapper.getModel();
         DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, queryWrapper.getEntity())).getDataMap();
-        Long result = genericMapper.selectCount(queryWrapper.generic(model, queryEntity));
-        persistenceDataConverter.out(model, queryWrapper.getEntity());
-        return result;
+        try {
+            return genericMapper.selectCount(queryWrapper.generic(model, queryEntity));
+        } finally {
+            persistenceDataConverter.out(model, queryWrapper.getEntity());
+        }
     }
 
     @Function.Advanced(displayName = "根据关联关系,分页查询记录列表和总数", type = FunctionTypeEnum.QUERY, managed = true)

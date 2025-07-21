@@ -9,6 +9,7 @@ import pro.shushi.pamirs.meta.api.prefix.DataPrefixManager;
 import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
 
 import javax.validation.constraints.NotBlank;
+import java.util.HashMap;
 import java.util.Map;
 
 import static pro.shushi.pamirs.framework.common.utils.DataShardingHelper.DEFAULT_EACH_SHARD_MAX;
@@ -34,9 +35,9 @@ public class PamirsFrameworkDataConfiguration {
     @NotBlank
     private String defaultDsKey = ModuleConstants.MODULE_BASE;
 
-    private Map<String/*module*/, String/*dsKey*/> dsMap;
+    private Map<String/*module*/, String/*dsKey*/> dsMap = new HashMap<>();
 
-    private Map<String/*model*/, String/*dsKey*/> modelDsMap;
+    private Map<String/*model*/, String/*dsKey*/> modelDsMap = new HashMap<>();
 
     public String getDefaultDsKey() {
         return DataPrefixManager.dsPrefix(null, null, this.defaultDsKey);

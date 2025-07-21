@@ -1,9 +1,16 @@
 package pro.shushi.pamirs.middleware.schedule.core.dialect.visitor;
 
+import com.alibaba.druid.sql.ast.SQLExpr;
+import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
+import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
+import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
 import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitorAdapter;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Set;
 
 /**
  * ORACLE SQL Visitor
@@ -16,9 +23,14 @@ public class OracleSQLVisitor extends MySqlASTVisitorAdapter {
 
     private static final String MYSQL_QUOTE = "`";
 
+    protected static final Set<String> NOCHANGE_IDENTIFIER_SET = Sets.newHashSet("SYSTIMESTAMP", "ROWNUM");
+
     @Override
     public boolean visit(SQLIdentifierExpr x) {
         String column = x.getName();
+        if (NOCHANGE_IDENTIFIER_SET.contains(column)) {
+            return true;
+        }
         String formatColumn = quote(column);
         if (formatColumn == null) {
             return true;
@@ -41,7 +53,28 @@ public class OracleSQLVisitor extends MySqlASTVisitorAdapter {
         return true;
     }
 
+    @Override
+    public boolean visit(SQLMethodInvokeExpr x) {
+        for (int i = 0; i < x.getChildren().size(); i++) {
+            if (x.getChildren().get(i) instanceof SQLBinaryOpExpr) {
+                SQLBinaryOpExpr expr = (SQLBinaryOpExpr) x.getChildren().get(i);
+                if (SQLBinaryOperator.Modulus.equals(expr.getOperator())) {
+                    SQLExpr left = expr.getLeft();
+                    SQLExpr right = expr.getRight();
+                    SQLMethodInvokeExpr mod = new SQLMethodInvokeExpr("MOD");
+                    mod.addArgument(left);
+                    mod.addArgument(right);
+                    x.getChildren().set(i, mod);
+                }
+            }
+        }
+        return true;
+    }
+
     protected String quote(String column) {
+        if ("*".equals(column)) {
+            return column;
+        }
         if (column.startsWith(ORACLE_QUOTE) && column.endsWith(ORACLE_QUOTE)) {
             return null;
         }

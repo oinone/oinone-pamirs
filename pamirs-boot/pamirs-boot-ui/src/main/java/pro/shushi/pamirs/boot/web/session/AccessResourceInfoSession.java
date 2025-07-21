@@ -12,7 +12,6 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
  * @author Adamancy Zhang at 17:20 on 2024-01-09
  */
 @Component
-@SPI.Service("AccessResourceInfoSession")
 public class AccessResourceInfoSession implements SessionClearApi {
 
     private static final TransmittableThreadLocal<Boolean> enabled = new TransmittableThreadLocal<>();

@@ -432,7 +432,6 @@ public class DefaultRelationProcessor implements RelationProcessor {
                 .setRelatedTtype(relatedTtypeEnum)
                 .setLtype(referenceField.getLtype())
                 .setLtypeT(referenceField.getLtypeT())
-                .setColumn(ModelField.generateColumn(modelDefinition, relationFieldName, null))
                 //低代码配置了字段displayName、summary，以配置为准
                 .setDisplayName(StringUtils.isNotBlank(relationField.getDisplayName()) ? relationField.getDisplayName() : relationFieldName)
                 .setSummary(StringUtils.isNotBlank(relationField.getSummary()) ? relationField.getSummary() : relationFieldName)
@@ -440,7 +439,6 @@ public class DefaultRelationProcessor implements RelationProcessor {
                 .setStore(Boolean.TRUE)
                 .setRequired(required)
                 .setRelated(related)
-
                 .setRelationStore(Boolean.FALSE)
                 .setName(relationFieldName)
                 .setField(relationFieldName)
@@ -449,6 +447,7 @@ public class DefaultRelationProcessor implements RelationProcessor {
                 .setSystemSource(sourceEnum)
                 .setSign(modelDefinition.getModel() + CharacterConstants.SEPARATOR_DOT + relationFieldName)
         ;
+        relationField.setColumn(ModelField.generateColumn(modelDefinition, relationField));
         CommonApiFactory.getApi(ModelDefinitionComputer.class).computeField(context, meta, Lists.newArrayList(relationField));
         return relationField;
     }
@@ -460,7 +459,6 @@ public class DefaultRelationProcessor implements RelationProcessor {
                 .defaultTtypeFromLtype(referenceField.getLtype(), referenceField.getLtypeT(), referenceField.getRequestSerialize());
         newField.setTtype(TtypeEnum.RELATED)
                 .setRelatedTtype(TtypeEnum.getEnumByValue(TtypeEnum.class, ttype))
-                .setColumn(ModelField.generateColumn(modelDefinition, relationFieldName, null))
                 .setColumnDefinition(referenceField.getColumnDefinition())
                 .setDisplayName(newField.getDisplayName())
                 .setLname(relationFieldName)
@@ -475,6 +473,7 @@ public class DefaultRelationProcessor implements RelationProcessor {
                 .setSystemSource(sourceEnum)
                 .setSign(modelDefinition.getModel() + CharacterConstants.SEPARATOR_DOT + relationFieldName)
         ;
+        newField.setColumn(ModelField.generateColumn(modelDefinition, newField));
         return newField;
     }
 

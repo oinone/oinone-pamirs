@@ -53,16 +53,4 @@ public class SerializeUtils {
     public static ObjectMapper getObjectMapper() {
         return objectMapper;
     }
-
-    public static void main(String[] args) {
-        String[] strings = new String[1];
-        strings[0] = "hh";
-        test(strings);
-    }
-
-    public static void test(String[] strings) {
-
-        System.out.println(strings);
-    }
-
 }

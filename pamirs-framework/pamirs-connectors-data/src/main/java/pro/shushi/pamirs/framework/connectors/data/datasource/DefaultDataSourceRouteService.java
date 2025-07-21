@@ -22,7 +22,7 @@ public class DefaultDataSourceRouteService implements DataSourceRouteService {
 
     @Override
     public Object route(String model) {
-        return Optional.ofNullable(PamirsSession.getContext()).map(v -> v.getModelConfig(model))
+        return Optional.ofNullable(PamirsSession.getContext().getSimpleModelConfig(model))
                 .map(ModelConfig::getDsKey).orElse(null);
     }
 

@@ -98,6 +98,7 @@ public class PersistenceTypeProcessor {
             case "binary":
                 persistenceByteArrayConverter.out(fieldConfig, origin);
                 break;
+            case "string":
             case "text":
             case "html":
                 persistenceStringConverter.out(fieldConfig, origin);
