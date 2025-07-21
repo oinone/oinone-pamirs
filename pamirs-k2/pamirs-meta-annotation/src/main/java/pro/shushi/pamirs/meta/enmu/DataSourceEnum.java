@@ -17,6 +17,7 @@ public enum DataSourceEnum implements IEnum<String> {
 
     MYSQL("MySQL", "MYSQL数据源", "MYSQL数据源"),
     ORACLE("Oracle", "ORACLE数据源", "ORACLE数据源"),
+    OCEAN_BASE("OceanBase", "OceanBase数据源", "OceanBase数据源"),
     SQL_SERVER("MSSQL", "SQL Server数据源", "SQL Server数据源"),
     DM("DM", "DM数据源", "DM数据源"),
     KDB("KDB", "KDB数据源", "KDB数据源"),
