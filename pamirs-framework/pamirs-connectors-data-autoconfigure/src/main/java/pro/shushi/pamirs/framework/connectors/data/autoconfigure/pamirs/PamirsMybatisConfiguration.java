@@ -168,7 +168,7 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
     public void setDefaultScriptingLanguage(Class<? extends LanguageDriver> driver) {
         if (driver == null) {
             //todo 替换动态SQL生成的默认语言为自己的。
-            driver = MybatisXMLLanguageDriver.class;
+            driver = PamirsMybatisXMLLanguageDriver.class;
         }
         getLanguageRegistry().setDefaultDriverClass(driver);
     }
