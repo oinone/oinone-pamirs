@@ -8,6 +8,7 @@ import pro.shushi.pamirs.meta.api.core.session.SessionClearApi;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestParam;
+import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
@@ -27,24 +28,45 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class OrmLnameToLtypeCache implements SessionInitApi, SessionClearApi {
 
-    private static final TransmittableThreadLocal<Map<String, Map<String, Class<?>>>> storage = new TransmittableThreadLocal<>();
+    private static final Map<String, Map<String, Class<?>>> STATIC_STORAGE = new ConcurrentHashMap<>();
+
+    private static final TransmittableThreadLocal<Map<String, Map<String, Class<?>>>> STORAGE = new TransmittableThreadLocal<>();
 
     @Override
     public void init(HttpServletRequest request, String moduleName, PamirsRequestParam requestParam) {
-        Map<String, Map<String, Class<?>>> mappings = storage.get();
+        Map<String, Map<String, Class<?>>> mappings = STORAGE.get();
         if (mappings == null) {
             mappings = new ConcurrentHashMap<>();
-            storage.set(mappings);
+            STORAGE.set(mappings);
         }
     }
 
     public static Map<String, Class<?>> getMapping(ModelConfig modelConfig) {
-        Map<String, Map<String, Class<?>>> mappings = storage.get();
+        if (modelConfig.isStaticConfig() || SystemSourceEnum.isBase(modelConfig.getModelDefinition().getSystemSource())) {
+            return STATIC_STORAGE.computeIfAbsent(modelConfig.getModel(), new Mapping(modelConfig)::accept);
+        }
+        Map<String, Map<String, Class<?>>> mappings = STORAGE.get();
         if (mappings == null) {
             // disabled thread local cache
             mappings = new ConcurrentHashMap<>();
         }
-        return mappings.computeIfAbsent(modelConfig.getModel(), model -> {
+        return mappings.computeIfAbsent(modelConfig.getModel(), new Mapping(modelConfig)::accept);
+    }
+
+    @Override
+    public void clear() {
+        STORAGE.remove();
+    }
+
+    private static class Mapping {
+
+        private final ModelConfig modelConfig;
+
+        public Mapping(ModelConfig modelConfig) {
+            this.modelConfig = modelConfig;
+        }
+
+        public Map<String, Class<?>> accept(String model) {
             Map<String, Class<?>> columnToLnameMapping = new HashMap<>();
             List<ModelFieldConfig> modelFieldConfigList = modelConfig.getModelFieldConfigList();
             for (ModelFieldConfig modelFieldConfig : modelFieldConfigList) {
@@ -63,42 +85,35 @@ public class OrmLnameToLtypeCache implements SessionInitApi, SessionClearApi {
                 columnToLnameMapping.put(lname, clazz);
             }
             return columnToLnameMapping;
-        });
-    }
-
-    @Override
-    public void clear() {
-        storage.remove();
-    }
-
-    private static Class<?> convertLtype(String ttype, Boolean multi, String ltype) {
-        if (TtypeEnum.ENUM.value().equals(ttype) && !Boolean.TRUE.equals(multi)) {
-            Class<?> ltypeClazz = TypeUtils.getClass(ltype);
-            if (TypeUtils.isIEnumClass(ltypeClazz)) {
-                return ltypeClazz;
-            }
-        } else if (TtypeEnum.TIME.value().equals(ttype) && Date.class.getName().equals(ltype)) {
-            return Time.class;
-        } else if (TtypeEnum.DATE.value().equals(ttype) && Date.class.getName().equals(ltype)) {
-            return java.sql.Date.class;
         }
-        switch (ltype) {
-            case "boolean":
-                return boolean.class;
-            case "java.lang.Boolean":
-                return Boolean.class;
-            case "int":
-                return int.class;
-            case "java.lang.Integer":
-                return Integer.class;
-            case "long":
-                return long.class;
-            case "java.lang.Long":
-                return Long.class;
-            case "java.util.Date":
-                return Date.class;
-            default:
-                return null;
+
+        private Class<?> convertLtype(String ttype, Boolean multi, String ltype) {
+            if (TtypeEnum.ENUM.value().equals(ttype) && !Boolean.TRUE.equals(multi)) {
+                Class<?> ltypeClazz = TypeUtils.getClass(ltype);
+                if (TypeUtils.isIEnumClass(ltypeClazz)) {
+                    return ltypeClazz;
+                }
+            } else if (TtypeEnum.TIME.value().equals(ttype) && Date.class.getName().equals(ltype)) {
+                return Time.class;
+            } else if (TtypeEnum.DATE.value().equals(ttype) && Date.class.getName().equals(ltype)) {
+                return java.sql.Date.class;
+            }
+            switch (ltype) {
+                case "boolean":
+                    return boolean.class;
+                case "java.lang.Boolean":
+                    return Boolean.class;
+                case "int":
+                    return int.class;
+                case "java.lang.Integer":
+                    return Integer.class;
+                case "long":
+                    return long.class;
+                case "java.lang.Long":
+                    return Long.class;
+                default:
+                    return null;
+            }
         }
     }
 }

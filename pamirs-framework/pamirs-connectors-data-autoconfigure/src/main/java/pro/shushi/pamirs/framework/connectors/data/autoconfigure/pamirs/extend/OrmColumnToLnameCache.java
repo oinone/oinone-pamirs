@@ -8,6 +8,7 @@ import pro.shushi.pamirs.meta.api.core.session.SessionClearApi;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestParam;
+import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -23,24 +24,40 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class OrmColumnToLnameCache implements SessionInitApi, SessionClearApi {
 
-    private static final TransmittableThreadLocal<Map<String, Map<String, String>>> storage = new TransmittableThreadLocal<>();
+    private static final Map<String, Map<String, String>> STATIC_STORAGE = new ConcurrentHashMap<>();
+
+    private static final TransmittableThreadLocal<Map<String, Map<String, String>>> STORAGE = new TransmittableThreadLocal<>();
 
     @Override
     public void init(HttpServletRequest request, String moduleName, PamirsRequestParam requestParam) {
-        Map<String, Map<String, String>> mappings = storage.get();
+        Map<String, Map<String, String>> mappings = STORAGE.get();
         if (mappings == null) {
             mappings = new ConcurrentHashMap<>();
-            storage.set(mappings);
+            STORAGE.set(mappings);
         }
     }
 
     public static Map<String, String> getMapping(ModelConfig modelConfig) {
-        Map<String, Map<String, String>> mappings = storage.get();
+        if (modelConfig.isStaticConfig() || SystemSourceEnum.isBase(modelConfig.getModelDefinition().getSystemSource())) {
+            return STATIC_STORAGE.computeIfAbsent(modelConfig.getModel(), new Mapping(modelConfig)::accept);
+        }
+        Map<String, Map<String, String>> mappings = STORAGE.get();
         if (mappings == null) {
             // disabled thread local cache
             mappings = new ConcurrentHashMap<>();
         }
-        return mappings.computeIfAbsent(modelConfig.getModel(), model -> {
+        return mappings.computeIfAbsent(modelConfig.getModel(), new Mapping(modelConfig)::accept);
+    }
+
+    private static class Mapping {
+
+        private final ModelConfig modelConfig;
+
+        public Mapping(ModelConfig modelConfig) {
+            this.modelConfig = modelConfig;
+        }
+
+        public Map<String, String> accept(String model) {
             Map<String, String> columnToLnameMapping = new HashMap<>();
             List<ModelFieldConfig> modelFieldConfigList = modelConfig.getModelFieldConfigList();
             for (ModelFieldConfig modelFieldConfig : modelFieldConfigList) {
@@ -51,11 +68,12 @@ public class OrmColumnToLnameCache implements SessionInitApi, SessionClearApi {
                 columnToLnameMapping.put(column, modelFieldConfig.getLname());
             }
             return columnToLnameMapping;
-        });
+        }
     }
+
 
     @Override
     public void clear() {
-        storage.remove();
+        STORAGE.remove();
     }
 }
