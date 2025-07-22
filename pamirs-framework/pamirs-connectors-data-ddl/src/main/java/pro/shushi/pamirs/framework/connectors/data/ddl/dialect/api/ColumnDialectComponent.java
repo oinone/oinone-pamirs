@@ -104,10 +104,12 @@ public interface ColumnDialectComponent {
                 defs.add("'" + column.getDefaultValue() + "'");
             }
         }
-        if (null != column.getExtra()) {
-            if (column.getExtra().contains("on update CURRENT_TIMESTAMP")) {
+        String extra = column.getExtra();
+        if (null != extra) {
+            String extraLowerCase = extra.toLowerCase();
+            if (extraLowerCase.contains("on update current_timestamp")) {
                 defs.add("ON UPDATE CURRENT_TIMESTAMP");
-            } else if (autoIncrement && column.getExtra().contains("auto_increment")) {
+            } else if (autoIncrement && extraLowerCase.contains("auto_increment")) {
                 defs.add("AUTO_INCREMENT");
             }
         }
