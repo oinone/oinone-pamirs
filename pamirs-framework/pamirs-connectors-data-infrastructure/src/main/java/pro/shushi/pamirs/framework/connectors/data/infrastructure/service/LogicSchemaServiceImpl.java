@@ -292,7 +292,8 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
 
         // 计算表结构变更
         for (Meta meta : metaList) {
-            if (null != bootModules && !bootModules.contains(meta.getModule())) {
+            String module = meta.getModule();
+            if (null != bootModules && !bootModules.contains(module)) {
                 continue;
             }
             if (null == meta.getCurrentModuleData().getModelList()) {
@@ -306,14 +307,26 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
             Map<DataSourceProtocolEnum, Map<String/*schema*/, String/*ds*/>> dataSourceMap = dsService.fetchDatabaseMap(dsKeys);
             for (DataSourceProtocolEnum protocolEnum : dataSourceMap.keySet()) {
                 Map<String/*schema*/, String/*ds*/> schemaMap = dataSourceMap.get(protocolEnum);
-                if (!schemaMap.isEmpty()) {
-                    Map<String/*schema#table*/, ModelTable> modelTableMap = schemaMetaService.fetchModelTableMap(schemaMap, diffTable);
-                    Map<String/*schema#table*/, LogicTable> logicTableMap = schemaMetaService.fetchLogicTableMap(schemaMap, modelTableMap, diffTable);
-                    if (null == logicTableMap) {
-                        logicTableMap = new HashMap<>();
-                    }
-                    allLogicTableMap.putAll(logicTableMap);
+                if (schemaMap.isEmpty()) {
+                    continue;
                 }
+                Map<String/*schema#table*/, ModelTable> modelTableMap;
+                Map<String/*schema#table*/, LogicTable> logicTableMap;
+                if (log.isDebugEnabled()) {
+                    long start = System.currentTimeMillis();
+                    modelTableMap = schemaMetaService.fetchModelTableMap(schemaMap, diffTable);
+                    log.debug("{} fetchModelTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
+                    start = System.currentTimeMillis();
+                    logicTableMap = schemaMetaService.fetchLogicTableMap(schemaMap, modelTableMap, diffTable);
+                    log.debug("{} fetchLogicTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
+                } else {
+                    modelTableMap = schemaMetaService.fetchModelTableMap(schemaMap, diffTable);
+                    logicTableMap = schemaMetaService.fetchLogicTableMap(schemaMap, modelTableMap, diffTable);
+                }
+                if (null == logicTableMap) {
+                    logicTableMap = new HashMap<>();
+                }
+                allLogicTableMap.putAll(logicTableMap);
             }
 
             DdlResult ddlResult = tableComputer.compute(meta, bootModules, allLogicTableMap, diffTable);

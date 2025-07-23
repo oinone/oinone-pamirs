@@ -6,7 +6,6 @@ import org.apache.ibatis.reflection.invoker.Invoker;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 import org.apache.ibatis.reflection.wrapper.BaseWrapper;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
-import pro.shushi.pamirs.meta.api.session.PamirsSession;
 
 import java.util.List;
 import java.util.Map;
@@ -18,10 +17,6 @@ import java.util.Map;
  */
 public class PamirsModelBeanWrapper extends BaseWrapper {
 
-    private final ModelConfig modelConfig;
-
-    private final boolean usingAsProperty;
-
     private final Map<String, String> columnToLnameMapping;
 
     private MetaObject metaObject;
@@ -32,13 +27,7 @@ public class PamirsModelBeanWrapper extends BaseWrapper {
 
     public PamirsModelBeanWrapper(ModelConfig modelConfig) {
         super(null);
-        this.modelConfig = modelConfig;
-        this.usingAsProperty = this.modelConfig.getModel().equals(PamirsSession.getAsProperty());
-        if (this.usingAsProperty) {
-            this.columnToLnameMapping = OrmColumnToLnameCache.getMapping(modelConfig);
-        } else {
-            this.columnToLnameMapping = null;
-        }
+        this.columnToLnameMapping = OrmColumnToLnameCache.getMapping(modelConfig);
     }
 
     public void apply(MetaObject metaObject, Object object) {
@@ -77,14 +66,11 @@ public class PamirsModelBeanWrapper extends BaseWrapper {
 
     @Override
     public String findProperty(String name, boolean useCamelCaseMapping) {
-        if (this.usingAsProperty) {
-            String lname = columnToLnameMapping.get(name);
-            if (lname == null) {
-                return metaClass.findProperty(name, useCamelCaseMapping);
-            }
-            return lname;
+        String lname = columnToLnameMapping.get(name);
+        if (lname == null) {
+            return metaClass.findProperty(name, useCamelCaseMapping);
         }
-        return metaClass.findProperty(name, useCamelCaseMapping);
+        return lname;
     }
 
     @Override

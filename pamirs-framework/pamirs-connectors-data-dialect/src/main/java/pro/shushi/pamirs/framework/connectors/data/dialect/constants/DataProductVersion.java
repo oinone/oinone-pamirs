@@ -38,6 +38,12 @@ public interface DataProductVersion {
 
     String ORACLE_11_MAJOR_VERSION = "11g";
 
+    String PRODUCT_OCEAN_BASE = "OceanBase";
+
+    String DEFAULT_OCEAN_BASE_VERSION = "4.2.5.3";
+
+    String DEFAULT_OCEAN_BASE_MAJOR_VERSION = "oracle-4.2";
+
     String PRODUCT_DM = "DM";
 
     String DEFAULT_DM_VERSION = "8";

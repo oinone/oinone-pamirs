@@ -17,6 +17,7 @@ public enum DataSourceProtocolEnum implements IEnum<String> {
 
     MYSQL("jdbc:mysql", "MYSQL数据源", "MYSQL数据源"),
     ORACLE("jdbc:oracle", "ORACLE数据源", "ORACLE数据源"),
+    OCEAN_BASE("jdbc:oceanbase", "OceanBase数据源", "OceanBase数据源"),
     SQL_SERVER("jdbc:sqlserver", "SQL Server数据源", "SQL Server数据源"),
     DM("jdbc:dm", "DM数据源", "DM数据源"),
     POSTGRE_SQL("jdbc:postgresql", "PostgreSQL数据源", "PostgreSQL数据源"),
