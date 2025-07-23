@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
-        <version>6.2.9</version>
+        <version>6.2.10</version>
         <artifactId>pamirs-message</artifactId>
     </parent>
     <artifactId>pamirs-message-core</artifactId>
