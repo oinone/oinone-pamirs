@@ -241,4 +241,7 @@ public interface UserService {
 
     <T extends AbstractModel> T queryOneByWrapper(IWrapper<T> queryWrapper);
 
+    @Function
+    void checkWorkflowTaskHandover(PamirsUser user);
+
 }

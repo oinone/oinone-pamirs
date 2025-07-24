@@ -832,7 +832,11 @@ public class UserServiceImpl implements UserService {
     /**
      * 校验工作流任务交接
      */
-    private void checkWorkflowTaskHandover(PamirsUser user) {
+    @Function
+    public void checkWorkflowTaskHandover(PamirsUser user) {
+        if (user == null) {
+            return;
+        }
         pro.shushi.pamirs.meta.api.dto.fun.Function function = PamirsSession.getContext().getFunctionAllowNull(
                 UserConstants.WORKFLOW_TASK_HANDOVER_NAMESPACE,
                 UserConstants.WORKFLOW_HAS_PENDING_HANDOVER_FUN

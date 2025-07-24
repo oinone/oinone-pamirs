@@ -15,6 +15,7 @@ import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
@@ -142,12 +143,16 @@ public class PamirsEmployeeAction {
     @Function(name = FunctionConstant.delete)
     @Function.fun(FunctionConstant.deleteWithFieldBatch)
     public List<PamirsEmployee> delete(List<PamirsEmployee> list) {
+        Models.data().listFieldQuery(list, PamirsEmployee::getDefaultBindingUser);
+        list.forEach(employee -> userService.checkWorkflowTaskHandover(employee.getDefaultBindingUser()));
         pamirsEmployeeService.deleteByPks(list);
         return list;
     }
 
     @Action(displayName = "删除", contextType = ActionContextTypeEnum.SINGLE)
     public PamirsEmployee deleteOne(PamirsEmployee data) {
+        data.fieldQuery(PamirsEmployee::getDefaultBindingUser);
+        userService.checkWorkflowTaskHandover(data.getDefaultBindingUser());
         pamirsEmployeeService.deleteById(data);
         return data;
     }
