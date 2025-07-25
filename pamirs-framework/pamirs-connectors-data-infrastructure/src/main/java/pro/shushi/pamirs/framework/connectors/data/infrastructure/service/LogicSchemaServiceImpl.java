@@ -291,6 +291,9 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
         TableComputer tableComputer = Spider.getDefaultExtension(TableComputer.class);
 
         // 计算表结构变更
+        Map<String, Map<String, ModelTable>> modelTableCache = new HashMap<>();
+        Map<String, Map<String, LogicTable>> logicTableCache = new HashMap<>();
+
         for (Meta meta : metaList) {
             String module = meta.getModule();
             if (null != bootModules && !bootModules.contains(module)) {
@@ -310,19 +313,57 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
                 if (schemaMap.isEmpty()) {
                     continue;
                 }
-                Map<String/*schema#table*/, ModelTable> modelTableMap;
-                Map<String/*schema#table*/, LogicTable> logicTableMap;
+                Map<String/*schema#table*/, LogicTable> logicTableMap = null;
                 if (log.isDebugEnabled()) {
-                    long start = System.currentTimeMillis();
-                    modelTableMap = schemaMetaService.fetchModelTableMap(schemaMap, diffTable);
-                    log.debug("{} fetchModelTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
-                    start = System.currentTimeMillis();
-                    logicTableMap = schemaMetaService.fetchLogicTableMap(schemaMap, modelTableMap, diffTable);
-                    log.debug("{} fetchLogicTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
+                    for (Map.Entry<String, String> entry : schemaMap.entrySet()) {
+                        String schema = entry.getKey();
+                        String ds = entry.getValue();
+                        Map<String, ModelTable> modelTableMap = modelTableCache.computeIfAbsent(schema, k -> {
+                            Map<String, String> t = new HashMap<>();
+                            t.put(k, ds);
+                            long start = System.currentTimeMillis();
+                            Map<String, ModelTable> values = schemaMetaService.fetchModelTableMap(t, diffTable);
+                            log.debug("{} fetchModelTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
+                            return values;
+                        });
+                        logicTableMap = logicTableCache.computeIfAbsent(schema, k -> {
+                            Map<String, String> t = new HashMap<>();
+                            t.put(k, ds);
+                            long start = System.currentTimeMillis();
+                            Map<String, LogicTable> values = schemaMetaService.fetchLogicTableMap(t, modelTableMap, diffTable);
+                            log.debug("{} fetchLogicTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
+                            return values;
+                        });
+                    }
                 } else {
-                    modelTableMap = schemaMetaService.fetchModelTableMap(schemaMap, diffTable);
-                    logicTableMap = schemaMetaService.fetchLogicTableMap(schemaMap, modelTableMap, diffTable);
+                    for (Map.Entry<String, String> entry : schemaMap.entrySet()) {
+                        String schema = entry.getKey();
+                        String ds = entry.getValue();
+                        Map<String, ModelTable> modelTableMap = modelTableCache.computeIfAbsent(schema, k -> {
+                            Map<String, String> t = new HashMap<>();
+                            t.put(k, ds);
+                            return schemaMetaService.fetchModelTableMap(t, diffTable);
+                        });
+                        logicTableMap = logicTableCache.computeIfAbsent(schema, k -> {
+                            Map<String, String> t = new HashMap<>();
+                            t.put(k, ds);
+                            return schemaMetaService.fetchLogicTableMap(t, modelTableMap, diffTable);
+                        });
+                    }
                 }
+//                Map<String/*schema#table*/, ModelTable> modelTableMap;
+//                Map<String/*schema#table*/, LogicTable> logicTableMap;
+//                if (log.isDebugEnabled()) {
+//                    long start = System.currentTimeMillis();
+//                    modelTableMap = schemaMetaService.fetchModelTableMap(schemaMap, diffTable);
+//                    log.debug("{} fetchModelTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
+//                    start = System.currentTimeMillis();
+//                    logicTableMap = schemaMetaService.fetchLogicTableMap(schemaMap, modelTableMap, diffTable);
+//                    log.debug("{} fetchLogicTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
+//                } else {
+//                    modelTableMap = schemaMetaService.fetchModelTableMap(schemaMap, diffTable);
+//                    logicTableMap = schemaMetaService.fetchLogicTableMap(schemaMap, modelTableMap, diffTable);
+//                }
                 if (null == logicTableMap) {
                     logicTableMap = new HashMap<>();
                 }
@@ -333,7 +374,10 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
             // 合并相同数据源ddl
             mergeDdlPerDs(dsDDLListMap, ddlResult);
             // 执行ddl 与 更新表结构元数据
-            updateSchemaStructure(dsDDLListMap, rebuildTable, printDDL, autoCreate);
+            if (updateSchemaStructure(dsDDLListMap, rebuildTable, printDDL, autoCreate)) {
+                modelTableCache.clear();
+                logicTableCache.clear();
+            }
             if (diffTable && updateMeta) {
                 updateMeta(meta.getModule(), allLogicTableMap.values(), autoCreate);
             }
@@ -441,10 +485,11 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
         });
     }
 
-    protected void updateSchemaStructure(Map<String, List<String>> dsDDLListMap,
-                                         boolean rebuildTable,
-                                         boolean printDDL,
-                                         Function<String, Boolean> autoCreate) {
+    protected boolean updateSchemaStructure(Map<String, List<String>> dsDDLListMap,
+                                            boolean rebuildTable,
+                                            boolean printDDL,
+                                            Function<String, Boolean> autoCreate) {
+        boolean isUpdated = false;
         // 更新表结构
         for (String dsKey : dsDDLListMap.keySet()) {
             if (!autoCreate.apply(dsKey)) {
@@ -457,15 +502,18 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
                     String script = String.join(CharacterConstants.NEWLINE, ddlList);
                     if (rebuildTable) {
                         scriptDialectService.run(dsKey, script);
+                        isUpdated = true;
                     }
                     if (printDDL) {
                         scriptDialectService.ddl(dsKey, script);
+                        isUpdated = true;
                     }
                 } catch (Exception e) {
                     throw PamirsException.construct(BASE_UPDATE_SCHEMA_STRUCTURE_ERROR, e).errThrow();
                 }
             }
         }
+        return isUpdated;
     }
 
     protected void mergeDdlPerDs(Map<String, List<String>> dsDDLListMap, DdlResult ddlResult) {
