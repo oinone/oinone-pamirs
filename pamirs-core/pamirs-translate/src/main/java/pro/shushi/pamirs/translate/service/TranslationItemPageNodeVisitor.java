@@ -224,9 +224,9 @@ public class TranslationItemPageNodeVisitor implements DslNodeVisitor {
             }
         }
 
-        String displayName = Optional.ofNullable(node.getDisplayName()).orElse(action.getDisplayName());
-        if (StringUtils.isBlank(label) && StringUtils.isNotBlank(displayName)) {
-            context.add(displayName);
+        String labelOrDisplayName = Optional.ofNullable(node.getDisplayName()).orElse(Optional.ofNullable(action.getLabel()).orElse(action.getDisplayName()));
+        if (StringUtils.isBlank(label) && StringUtils.isNotBlank(labelOrDisplayName)) {
+            context.add(labelOrDisplayName);
         }
         return false;
     }
