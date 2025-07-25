@@ -461,7 +461,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<PamirsUser> deleteWithFieldBatch(List<PamirsUser> pamirsUsers) {
         paramCheck(pamirsUsers);
-        pamirsUsers.forEach(this::checkWorkflowTaskHandover);
         return Models.origin().deleteWithFieldBatch(pamirsUsers);
     }
 
@@ -827,28 +826,6 @@ public class UserServiceImpl implements UserService {
             }
         }
         return null;
-    }
-
-    /**
-     * 校验工作流任务交接
-     */
-    @Function
-    public void checkWorkflowTaskHandover(PamirsUser user) {
-        if (user == null) {
-            return;
-        }
-        pro.shushi.pamirs.meta.api.dto.fun.Function function = PamirsSession.getContext().getFunctionAllowNull(
-                UserConstants.WORKFLOW_TASK_HANDOVER_NAMESPACE,
-                UserConstants.WORKFLOW_HAS_PENDING_HANDOVER_FUN
-        );
-        if (null != function) {
-            Boolean hasPendingHandover = pro.shushi.pamirs.meta.api.Fun.run(function, user.getId());
-            if (hasPendingHandover) {
-                throw PamirsException.construct(UserExpEnumerate.USER_HAS_UNFINISHED_WORK_CANNOT_DELETE)
-                        .appendMsg(user.getLogin())
-                        .errThrow();
-            }
-        }
     }
 
     /**

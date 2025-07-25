@@ -23,7 +23,6 @@ public interface UserConstants {
     String MULTIPLE_USER_CACHE_MODE = "multiple";
 
     String WORKFLOW_TASK_HANDOVER_NAMESPACE = "workflow.WorkflowTaskHandoverService";
-    String WORKFLOW_HAS_PENDING_HANDOVER_FUN = "hasPendingHandover";
     String WORKFLOW_UPDATE_HANDOVER_FROM_USER_NAME_FUN = "updateFromUserName";
     String WORKFLOW_UPDATE_HANDOVER_TO_EMPLOYEE_NAME_FUN = "updateToEmployeeName";
 
