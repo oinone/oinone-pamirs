@@ -351,19 +351,6 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
                         });
                     }
                 }
-//                Map<String/*schema#table*/, ModelTable> modelTableMap;
-//                Map<String/*schema#table*/, LogicTable> logicTableMap;
-//                if (log.isDebugEnabled()) {
-//                    long start = System.currentTimeMillis();
-//                    modelTableMap = schemaMetaService.fetchModelTableMap(schemaMap, diffTable);
-//                    log.debug("{} fetchModelTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
-//                    start = System.currentTimeMillis();
-//                    logicTableMap = schemaMetaService.fetchLogicTableMap(schemaMap, modelTableMap, diffTable);
-//                    log.debug("{} fetchLogicTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
-//                } else {
-//                    modelTableMap = schemaMetaService.fetchModelTableMap(schemaMap, diffTable);
-//                    logicTableMap = schemaMetaService.fetchLogicTableMap(schemaMap, modelTableMap, diffTable);
-//                }
                 if (null == logicTableMap) {
                     logicTableMap = new HashMap<>();
                 }
