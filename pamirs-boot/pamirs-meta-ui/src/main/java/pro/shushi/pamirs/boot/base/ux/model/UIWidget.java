@@ -100,7 +100,7 @@ public class UIWidget extends UILayoutCell {
      * 优先级
      */
     @Field(displayName = "优先级")
-    @XStreamAsAttribute
+    @XStreamOmitField
     @JSONField(serialize = false)
     private Integer priority;
 

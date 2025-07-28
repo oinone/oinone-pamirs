@@ -272,7 +272,7 @@ public class UiActionUtils {
                 .setMask(Optional.ofNullable(uiAction.getMask()).filter(StringUtils::isNotBlank).orElse(null))
                 .setResViewName(Optional.ofNullable(uiAction.getResViewName()).filter(StringUtils::isNotBlank).orElse(null))
                 .setOptionViewTypes(uiAction.getOptionViewTypes())
-                .setQueryMode(Optional.ofNullable(uiAction.getQueryMode()).orElse(QueryModeEnum.DOMAIN))
+                .setQueryMode(Optional.ofNullable(uiAction.getQueryMode()).filter(v -> !QueryModeEnum.DOMAIN.equals(v)).orElse(null))
                 .setLoad(Optional.ofNullable(uiAction.getLoad()).filter(StringUtils::isNotBlank).orElse(null))
                 .setFilter(Optional.ofNullable(uiAction.getFilter()).filter(StringUtils::isNotBlank).orElse(null))
                 .setDomain(Optional.ofNullable(uiAction.getDomain()).filter(StringUtils::isNotBlank).orElse(null))
