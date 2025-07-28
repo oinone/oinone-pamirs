@@ -6,11 +6,13 @@ import com.alibaba.excel.exception.ExcelRuntimeException;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.eip.api.excel.EipExcel;
-import pro.shushi.pamirs.eip.api.excel.EipExcelReadListener;
+import pro.shushi.pamirs.eip.api.excel.*;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationFile;
 import pro.shushi.pamirs.eip.api.service.EipIntegrationFileService;
+import pro.shushi.pamirs.eip.api.type.ExcelTTypeConversionService;
+import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.Fun;
@@ -33,6 +35,9 @@ import static pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate.EIP_FILE_EXCEL_FMT_
 @Fun(EipIntegrationFileService.FUN_NAMESPACE)
 @Component
 public class EipIntegrationFileServiceImpl implements EipIntegrationFileService {
+
+    @Autowired
+    private ExcelTTypeConversionService conversionService;
 
     @Override
     @Function
@@ -104,7 +109,21 @@ public class EipIntegrationFileServiceImpl implements EipIntegrationFileService 
                 }
                 ExcelReader sheetReader = reader.read(readSheet);
             }
-            return readListener.getExcel();
+
+            EipExcel excel = readListener.getExcel();
+            for (EipExcelSheet excelSheet : excel.getSheets()) {
+                List<EipExcelHead> headers = excelSheet.getHeaders();
+                for (EipExcelEntry data : excelSheet.getData()) {
+                    List<String> dataValueList = data.getData();
+                    for (int i = 0; i < dataValueList.size(); i++) {
+                        EipExcelHead head = headers.get(i);
+                        String dataValue = dataValueList.get(i);
+                        dataValue = conversionService.convert(ExcelTTypeDescriptor.valueOf(dataValue != null ? dataValue : "", head.getType(), head.getType()));
+                        dataValueList.set(i, dataValue);
+                    }
+                }
+            }
+            return excel;
         } catch (ExcelRuntimeException ee) {
             log.error("EasyExcel转换异常", ee);
             throw PamirsException.construct(EIP_FILE_EXCEL_FMT_ERROR)
