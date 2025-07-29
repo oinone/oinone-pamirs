@@ -318,43 +318,47 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
                     for (Map.Entry<String, String> entry : schemaMap.entrySet()) {
                         String schema = entry.getKey();
                         String ds = entry.getValue();
-                        Map<String, ModelTable> modelTableMap = modelTableCache.computeIfAbsent(schema, k -> {
+                        Map<String, ModelTable> modelTableMap = modelTableCache.computeIfAbsent(schema + CharacterConstants.SEPARATOR_UNDERLINE + ds, k -> {
                             Map<String, String> t = new HashMap<>();
-                            t.put(k, ds);
+                            t.put(schema, ds);
                             long start = System.currentTimeMillis();
                             Map<String, ModelTable> values = schemaMetaService.fetchModelTableMap(t, diffTable);
                             log.debug("{} fetchModelTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
                             return values;
                         });
-                        logicTableMap = logicTableCache.computeIfAbsent(schema, k -> {
+                        logicTableMap = logicTableCache.computeIfAbsent(schema + CharacterConstants.SEPARATOR_UNDERLINE + ds, k -> {
                             Map<String, String> t = new HashMap<>();
-                            t.put(k, ds);
+                            t.put(schema, ds);
                             long start = System.currentTimeMillis();
                             Map<String, LogicTable> values = schemaMetaService.fetchLogicTableMap(t, modelTableMap, diffTable);
                             log.debug("{} fetchLogicTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
                             return values;
                         });
+                        if (null == logicTableMap) {
+                            logicTableMap = new HashMap<>();
+                        }
+                        allLogicTableMap.putAll(logicTableMap);
                     }
                 } else {
                     for (Map.Entry<String, String> entry : schemaMap.entrySet()) {
                         String schema = entry.getKey();
                         String ds = entry.getValue();
-                        Map<String, ModelTable> modelTableMap = modelTableCache.computeIfAbsent(schema, k -> {
+                        Map<String, ModelTable> modelTableMap = modelTableCache.computeIfAbsent(schema + CharacterConstants.SEPARATOR_UNDERLINE + ds, k -> {
                             Map<String, String> t = new HashMap<>();
-                            t.put(k, ds);
+                            t.put(schema, ds);
                             return schemaMetaService.fetchModelTableMap(t, diffTable);
                         });
-                        logicTableMap = logicTableCache.computeIfAbsent(schema, k -> {
+                        logicTableMap = logicTableCache.computeIfAbsent(schema + CharacterConstants.SEPARATOR_UNDERLINE + ds, k -> {
                             Map<String, String> t = new HashMap<>();
-                            t.put(k, ds);
+                            t.put(schema, ds);
                             return schemaMetaService.fetchLogicTableMap(t, modelTableMap, diffTable);
                         });
+                        if (null == logicTableMap) {
+                            logicTableMap = new HashMap<>();
+                        }
+                        allLogicTableMap.putAll(logicTableMap);
                     }
                 }
-                if (null == logicTableMap) {
-                    logicTableMap = new HashMap<>();
-                }
-                allLogicTableMap.putAll(logicTableMap);
             }
 
             DdlResult ddlResult = tableComputer.compute(meta, bootModules, allLogicTableMap, diffTable);
