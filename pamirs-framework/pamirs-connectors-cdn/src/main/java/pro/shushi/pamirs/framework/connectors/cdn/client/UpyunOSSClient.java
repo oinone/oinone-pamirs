@@ -4,6 +4,7 @@ import com.upyun.*;
 import okhttp3.Response;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.cdn.configure.CdnConfig;
 import pro.shushi.pamirs.framework.connectors.cdn.constant.FileConstants;
@@ -38,6 +39,7 @@ import static pro.shushi.pamirs.framework.connectors.cdn.enmu.CDNExpEnum.*;
 import static pro.shushi.pamirs.meta.common.constants.CharacterConstants.SEPARATOR_SLASH;
 
 @Slf4j
+@Order
 @Component
 @SPI.Service(UpyunOSSClient.TYPE)
 public class UpyunOSSClient extends AbstractFileClient implements FileConstants {
@@ -181,6 +183,7 @@ public class UpyunOSSClient extends AbstractFileClient implements FileConstants 
 
     @Override
     public InputStream getDownloadStream(String fileKey) {
+        fileKey = prepareDownloadFileKey(fileKey);
         RestManager restManager = getRestManager();
         Response response;
         try {

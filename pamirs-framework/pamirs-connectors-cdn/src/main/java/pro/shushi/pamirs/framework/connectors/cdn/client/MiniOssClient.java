@@ -9,6 +9,7 @@ import io.minio.messages.Item;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ import static pro.shushi.pamirs.framework.connectors.cdn.utils.MinioMultipart.ge
 import static pro.shushi.pamirs.meta.common.constants.CharacterConstants.SEPARATOR_SLASH;
 
 @Slf4j
+@Order
 @Component
 @SPI.Service(MiniOssClient.TYPE)
 public class MiniOssClient extends AbstractFileClient {
@@ -262,6 +265,7 @@ public class MiniOssClient extends AbstractFileClient {
 
     @Override
     public InputStream getDownloadStream(String fileKey) {
+        fileKey = prepareDownloadFileKey(fileKey);
         CdnConfig cdnConfig = getCdnConfig();
         MinioClient minioClient = getMinioClient();
         String bucket = cdnConfig.getBucket();

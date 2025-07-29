@@ -137,7 +137,7 @@ public class ActionUtils {
                 .setMask(Optional.of(routeAnnotation.mask()).filter(StringUtils::isNotBlank).orElse(null))
                 .setResViewName(Optional.of(routeAnnotation.viewName()).filter(StringUtils::isNotBlank).orElse(null))
                 .setOptionViewTypes(ArrayUtils.toList(routeAnnotation.views()))
-                .setQueryMode(Optional.of(routeAnnotation.queryMode()).orElse(QueryModeEnum.DOMAIN))
+                .setQueryMode(Optional.of(routeAnnotation.queryMode()).filter(v -> !QueryModeEnum.DOMAIN.equals(v)).orElse(null))
                 .setLoad(Optional.of(routeAnnotation.load()).filter(StringUtils::isNotBlank).orElse(null))
                 .setFilter(Optional.of(routeAnnotation.filter()).filter(StringUtils::isNotBlank).orElse(null))
                 .setDomain(Optional.of(routeAnnotation.domain()).filter(StringUtils::isNotBlank).orElse(null))

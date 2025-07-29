@@ -18,6 +18,7 @@ import pro.shushi.pamirs.meta.common.util.TypeReferences;
 import pro.shushi.pamirs.meta.util.DateUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.util.*;
@@ -246,6 +247,30 @@ public abstract class AbstractFileClient implements FileClient, FileConstants {
             keyPrefix = SEPARATOR_SLASH + keyPrefix;
         }
         return getFileDir(mainDir) + keyPrefix + filename;
+    }
+
+    protected String prepareDownloadFileKey(String fileKey) {
+        try {
+            String baseDownloadUrl = getBaseDownloadUrl();
+            if (StringUtils.isBlank(baseDownloadUrl)) {
+                return fileKey;
+            }
+            String prefix = new URL(baseDownloadUrl).getPath();
+            if (StringUtils.isBlank(prefix)) {
+                return fileKey;
+            }
+            if (prefix.startsWith(SEPARATOR_SLASH)) {
+                prefix = prefix.substring(1);
+            }
+            if (!prefix.endsWith(SEPARATOR_SLASH)) {
+                prefix = prefix + SEPARATOR_SLASH;
+            }
+            if (StringUtils.isNotBlank(prefix) && fileKey.startsWith(prefix)) {
+                fileKey = fileKey.substring(prefix.length());
+            }
+        } catch (MalformedURLException ignored) {
+        }
+        return fileKey;
     }
 
     protected String getBaseDownloadUrl() {

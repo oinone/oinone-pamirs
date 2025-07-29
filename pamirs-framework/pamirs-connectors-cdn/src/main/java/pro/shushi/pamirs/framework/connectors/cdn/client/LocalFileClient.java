@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,7 @@ import java.util.Optional;
 import static pro.shushi.pamirs.meta.common.constants.CharacterConstants.SEPARATOR_SLASH;
 
 @Slf4j
+@Order
 @Component
 @SPI.Service(LocalFileClient.TYPE)
 @RestController

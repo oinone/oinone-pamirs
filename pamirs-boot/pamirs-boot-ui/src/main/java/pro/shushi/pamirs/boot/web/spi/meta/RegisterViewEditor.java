@@ -13,6 +13,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.constants.ViewConstants;
+import pro.shushi.pamirs.boot.base.enmu.QueryModeEnum;
 import pro.shushi.pamirs.boot.base.enmu.ViewBizTypeEnum;
 import pro.shushi.pamirs.boot.base.enmu.WidgetEnum;
 import pro.shushi.pamirs.boot.base.model.*;
@@ -906,9 +907,9 @@ public class RegisterViewEditor implements MetaDataEditor {
                 .setBreakTab(Optional.ofNullable(uxWidget).map(UxWidget::breakTab).orElse(false))
                 .setPriority(Optional.ofNullable(uxWidget).map(UxWidget::priority).filter(v -> v != MetaDefaultConstants.FAKE_PRIORITY_VALUE_INT)
                         .orElse(Optional.ofNullable(modelField.getPriority()).map(Long::intValue).orElse(MetaDefaultConstants.PRIORITY_VALUE_INT)))
+                .setOffset(Optional.ofNullable(uxWidget).map(UxWidget::offset).filter(v -> v != 0).orElse(null));
 
-                .setOffset(Optional.ofNullable(uxWidget).map(UxWidget::offset).orElse(null));
-        uiField.setQueryMode(Optional.ofNullable(uxWidget).map(UxWidget::queryMode).orElse(null/*QueryModeEnum.DOMAIN*/));
+        uiField.setQueryMode(Optional.ofNullable(uxWidget).map(UxWidget::queryMode).filter(v -> !QueryModeEnum.DOMAIN.equals(v)).orElse(null));
         if (TtypeEnum.isRelationType(modelField.getTtype())) {
             if (TtypeEnum.O2O.equals(modelField.getTtype()) || TtypeEnum.M2O.equals(modelField.getTtype())) {
                 uiField.setSpan(Optional.ofNullable(uxWidget).map(UxWidget::span).orElse(1));

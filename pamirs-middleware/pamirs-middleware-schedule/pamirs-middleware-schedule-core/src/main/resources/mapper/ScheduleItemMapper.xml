@@ -211,7 +211,7 @@
         <include refid="Data_Where_Plus"/>
     </select>
 
-    <select id="countByEntity" resultMap="BaseResultMap" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem">
+    <select id="countByEntity" parameterType="pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem" resultType="java.lang.Long">
         select count(1) from `pamirs_schedule`
         where `is_deleted` = 0 and `task_status` = 0 and `is_transfer` = 0
         <if test="id != null">
