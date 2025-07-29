@@ -15,7 +15,12 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 |-----------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [⚡ 直达演示环境](https://demo.oinone.top)<br>☕ 账号：admin<br>☕ 密码：admin |[🎬 1. [数式Oinone] #产品化演示# 后端研发与无代码辅助](https://www.bilibili.com/video/BV1eDMizYEts/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 2. [数式Oinone] #产品化演示# 前端开发](https://www.bilibili.com/video/BV1DoMizbECt/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 3. [数式Oinone] #个性化二开# 后端逻辑](https://www.bilibili.com/video/BV1RDMizYELg/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 4. [数式Oinone] #个性化二开# 前端交互](https://www.bilibili.com/video/BV1eDMizYED1/?vd_source=ee004011d0afa992f50d15c8738450b3)<br>[🎬 5. [数式Oinone] #个性化二开# 无代码模式](https://www.bilibili.com/video/BV1eDMizYEdF/?vd_source=ee004011d0afa992f50d15c8738450b3)|
 
-### 4、专属福利 🎁
+### 4、近期动态
+#### 4.1 最新活动 🎁
+<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/codelab/iwEcAqNqcGcDAQTRDwAF0QXIBrCbGu5pURVpGQhlp344U80AB9IL_yseCAAJomltCgAL0gAMD28.jpg" alt="Assistant" width=""><br>
+[Oinone Codelab @ 上海浦东，即刻报名](https://3253996746017.huodongxing.com/event/9818925922600)
+
+#### 4.2 专属福利 🎁
 | 二维码 | 领取步骤                                                                                                   |
 |-----|--------------------------------------------------------------------------------------------------------|
 |<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/Oinone%E5%B0%8F%E5%8A%A9%E6%89%8B.png" alt="Assistant" width="150"><br>| 1. ⭐ Star 本项目<br>2. 扫码左侧二维码添加小助手<br>3. 截图（已 Star 凭证）发给小助手<br>4. 小助手邀请 Star 用户进入专属交流群<br>5. 限时申请企业版试用授权 |
