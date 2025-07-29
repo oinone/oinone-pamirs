@@ -313,7 +313,6 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
                 if (schemaMap.isEmpty()) {
                     continue;
                 }
-                Map<String/*schema#table*/, LogicTable> logicTableMap = null;
                 if (log.isDebugEnabled()) {
                     for (Map.Entry<String, String> entry : schemaMap.entrySet()) {
                         String schema = entry.getKey();
@@ -326,7 +325,7 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
                             log.debug("{} fetchModelTableMap cost time: {}ms", module, System.currentTimeMillis() - start);
                             return values;
                         });
-                        logicTableMap = logicTableCache.computeIfAbsent(schema + CharacterConstants.SEPARATOR_UNDERLINE + ds, k -> {
+                        Map<String, LogicTable> logicTableMap = logicTableCache.computeIfAbsent(schema + CharacterConstants.SEPARATOR_UNDERLINE + ds, k -> {
                             Map<String, String> t = new HashMap<>();
                             t.put(schema, ds);
                             long start = System.currentTimeMillis();
@@ -348,7 +347,7 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
                             t.put(schema, ds);
                             return schemaMetaService.fetchModelTableMap(t, diffTable);
                         });
-                        logicTableMap = logicTableCache.computeIfAbsent(schema + CharacterConstants.SEPARATOR_UNDERLINE + ds, k -> {
+                        Map<String, LogicTable> logicTableMap = logicTableCache.computeIfAbsent(schema + CharacterConstants.SEPARATOR_UNDERLINE + ds, k -> {
                             Map<String, String> t = new HashMap<>();
                             t.put(schema, ds);
                             return schemaMetaService.fetchLogicTableMap(t, modelTableMap, diffTable);
