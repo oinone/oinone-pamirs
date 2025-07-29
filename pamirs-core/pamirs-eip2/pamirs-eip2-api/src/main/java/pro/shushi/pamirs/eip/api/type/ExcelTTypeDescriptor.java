@@ -29,12 +29,17 @@ public class ExcelTTypeDescriptor {
         return excelTTypeDescriptor;
     }
 
-    public static ExcelTTypeDescriptor valueOf(String value, String originType, String targetType) {
+    public static ExcelTTypeDescriptor valueOf(String value, String originType, String targetType, String format) {
         ExcelTTypeDescriptor excelTTypeDescriptor = new ExcelTTypeDescriptor();
         excelTTypeDescriptor.setOriginType(originType);
+        excelTTypeDescriptor.setFormat(format);
         excelTTypeDescriptor.setTargetType(targetType);
         excelTTypeDescriptor.setValue(value);
         return excelTTypeDescriptor;
+    }
+
+    public static ExcelTTypeDescriptor valueOf(String value, String originType, String targetType) {
+        return valueOf(value, originType, targetType, null);
     }
 
 }

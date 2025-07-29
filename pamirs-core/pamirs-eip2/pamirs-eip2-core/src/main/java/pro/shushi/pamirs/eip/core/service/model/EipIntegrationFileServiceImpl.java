@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.excel.*;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationFile;
 import pro.shushi.pamirs.eip.api.service.EipIntegrationFileService;
+import pro.shushi.pamirs.eip.api.tmodel.EipIntegrationFileHeader;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeConversionService;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
@@ -22,7 +23,9 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate.EIP_FILE_EXCEL_FMT_ERROR;
 
@@ -111,18 +114,36 @@ public class EipIntegrationFileServiceImpl implements EipIntegrationFileService 
             }
 
             EipExcel excel = readListener.getExcel();
-            for (EipExcelSheet excelSheet : excel.getSheets()) {
-                List<EipExcelHead> headers = excelSheet.getHeaders();
-                for (EipExcelEntry data : excelSheet.getData()) {
-                    List<String> dataValueList = data.getData();
-                    for (int i = 0; i < dataValueList.size(); i++) {
-                        EipExcelHead head = headers.get(i);
-                        String dataValue = dataValueList.get(i);
-                        dataValue = conversionService.convert(ExcelTTypeDescriptor.valueOf(dataValue != null ? dataValue : "", head.getType(), head.getType()));
-                        dataValueList.set(i, dataValue);
+            EipIntegrationFileHeader fileHeader = eipFile.getFileHeader();
+            EipExcel fileHeaderEipExcel;
+            if (fileHeader != null && (fileHeaderEipExcel = fileHeader.fetchEipExcel()) != null) {
+                for (EipExcelSheet excelSheet : excel.getSheets()) {
+                    EipExcelSheet fileHeaderSheet = fileHeaderEipExcel.getSheet(excelSheet.getName());
+                    if (fileHeaderSheet == null) continue;
+                    List<EipExcelHead> headers = excelSheet.getHeaders();
+                    List<EipExcelHead> dbHeaders = fileHeaderSheet.getHeaders();
+                    Set<Integer> canReplaceHeaderIndex = new HashSet<>();
+                    for (EipExcelEntry data : excelSheet.getData()) {
+                        List<String> dataValueList = data.getData();
+                        for (int i = 0; i < dataValueList.size(); i++) {
+                            EipExcelHead head = headers.get(i);
+                            if (i >= dbHeaders.size()) continue;
+                            EipExcelHead dbHead = dbHeaders.get(i);
+                            if (!StringUtils.equals(dbHead.getName(), head.getName())) continue;
+
+                            String dataValue = dataValueList.get(i);
+                            dataValue = conversionService.convert(ExcelTTypeDescriptor.valueOf(dataValue != null ? dataValue : "", head.getType(), dbHead.getType(), head.getFormat()));
+                            dataValueList.set(i, dataValue);
+                            canReplaceHeaderIndex.add(i);
+                        }
+
+                        canReplaceHeaderIndex.forEach(i -> headers.set(i, dbHeaders.get(i)));
                     }
+
+
                 }
             }
+
             return excel;
         } catch (ExcelRuntimeException ee) {
             log.error("EasyExcel转换异常", ee);
