@@ -19,6 +19,7 @@ import com.qcloud.cos.region.Region;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -52,6 +53,7 @@ import static pro.shushi.pamirs.meta.common.constants.CharacterConstants.SEPARAT
  * @author yakir on 2023/08/17 19:50.
  */
 @Slf4j
+@Order
 @Component
 @SPI.Service(TencentCosClient.TYPE)
 public class TencentCosClient extends AbstractFileClient implements FileConstants {
@@ -252,6 +254,18 @@ public class TencentCosClient extends AbstractFileClient implements FileConstant
         String keyPrefix = KeyPrefixManager.generate(SEPARATOR_SLASH, SEPARATOR_SLASH);
         String fileKey = cdnConfig.getMainDir() + keyPrefix + fileName;
         return generatorDownloadUrl(fileKey);
+    }
+
+    @Override
+    public InputStream getDownloadStream(String fileKey) {
+        fileKey = prepareDownloadFileKey(fileKey);
+        CdnConfig cdnConfig = getCdnConfig();
+        COSClient cosClient = getCosClient();
+        COSObject object = cosClient.getObject(cdnConfig.getBucket(), fileKey);
+        if (object != null) {
+            return object.getObjectContent();
+        }
+        return null;
     }
 
     @Override

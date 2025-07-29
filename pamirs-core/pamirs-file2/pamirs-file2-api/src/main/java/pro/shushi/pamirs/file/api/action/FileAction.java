@@ -105,19 +105,27 @@ public class FileAction {
         if (StringUtils.isBlank(downloadUrl)) {
             throw PamirsException.construct(FileExpEnumerate.FILE_NOT_EXIST).errThrow();
         }
-        URL url;
+        URL url = null;
         try {
             url = new URL(downloadUrl);
-        } catch (MalformedURLException e) {
-            throw PamirsException.construct(FileExpEnumerate.FILE_DOWNLOAD_ERROR, e).errThrow();
+        } catch (MalformedURLException ignored) {
         }
-        if (isGeneratorFilename) {
-            fileName = Optional.of(url).map(URL::getPath).map(v -> v.split("/")).map(v -> v[v.length - 1]).orElse(null);
-            if (StringUtils.isBlank(fileName)) {
-                throw PamirsException.construct(FileExpEnumerate.FILE_DOWNLOAD_ERROR).appendMsg("无法获取文件名").errThrow();
+        if (url == null) {
+            if (isGeneratorFilename) {
+                fileName = Optional.of(downloadUrl.split("/")).map(v -> v[v.length - 1]).orElse(null);
+                if (StringUtils.isBlank(fileName)) {
+                    throw PamirsException.construct(FileExpEnumerate.FILE_DOWNLOAD_ERROR).appendMsg("无法获取文件名").errThrow();
+                }
             }
+        } else {
+            if (isGeneratorFilename) {
+                fileName = Optional.of(url).map(URL::getPath).map(v -> v.split("/")).map(v -> v[v.length - 1]).orElse(null);
+                if (StringUtils.isBlank(fileName)) {
+                    throw PamirsException.construct(FileExpEnumerate.FILE_DOWNLOAD_ERROR).appendMsg("无法获取文件名").errThrow();
+                }
+            }
+            downloadUrl = URLHelper.repairRelativePath(url.getPath());
         }
-        downloadUrl = URLHelper.repairRelativePath(url.getPath());
         if (downloadUrl.contains("../") || downloadUrl.contains("..\\")) {
             throw PamirsException.construct(FileExpEnumerate.FILE_NOT_EXIST).errThrow();
         }
