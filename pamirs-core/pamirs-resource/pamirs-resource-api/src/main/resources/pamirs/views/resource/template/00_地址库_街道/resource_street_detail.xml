@@ -10,7 +10,7 @@
             <field span="1" name="code" widget="Input" model="resource.ResourceStreet" data="code" label="街道代码"
                    required="true" readonly="context.activeRecord.id" pattern="/^(?!\s|-|_)[\dA-Za-z_-]{1,30}$/"/>
             <field span="1" name="name" widget="Input" model="resource.ResourceStreet" data="name" label="街道名称"
-                   required="true" pattern="/^(?!\s|-|_|\(|\))[\u4e00-\u9fa5\dA-Za-z-_\s]{1,50}$/"/>
+                   required="true"/>
             <field span="1" name="country" widget="Select" model="resource.ResourceStreet" data="country" label="国家/地区"
                    required="true"/>
             <field span="1" name="province" widget="Select" model="resource.ResourceStreet" data="province" label="省/州"

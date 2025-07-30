@@ -8,8 +8,7 @@
     <template slot="fields">Ï
         <field data="id" invisible="true"/>
         <field data="code" invisible="true"/>
-        <field colSpan="HALF" data="ruleName" label="规则名称" required="true"
-               pattern="/^[\u4e00-\u9fa5_a-zA-Z0-9]{2,50}$/" hint="仅支持中英文、数字、下划线"/>
+        <field colSpan="HALF" data="ruleName" label="规则名称" required="true"/>
         <field colSpan="HALF" data="circuitBreakerType" label="熔断类型" required="true" defaultValue="SLOW_CALL"
                clearFields="slowCallResponseTime,circuitBreakerDuration,failureRateThreshold">
             <options>
