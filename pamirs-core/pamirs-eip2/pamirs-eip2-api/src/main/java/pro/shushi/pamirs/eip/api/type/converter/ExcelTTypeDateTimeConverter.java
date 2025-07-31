@@ -4,6 +4,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.DateUtils;
@@ -19,6 +20,7 @@ import java.util.regex.Pattern;
  * @author Gesi at 16:00 on 2025/7/18
  */
 @Component
+@Slf4j
 public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
 
     private static final String[][] COMMON_DATE_FORMAT_PATTERNS = {
@@ -46,6 +48,7 @@ public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
             Date date = getDateByString(value, format);
             return DateUtils.formatDate(date, DateFormatEnum.DATETIME.value());
         } catch (Exception e) {
+            log.debug("can not convert {} to datetime, use default value", value, e);
             return defaultValue();
         }
     }

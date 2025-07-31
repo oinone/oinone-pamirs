@@ -3,6 +3,7 @@ package pro.shushi.pamirs.eip.api.type.converter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
  * @author Gesi at 16:00 on 2025/7/18
  */
 @Component
+@Slf4j
 public class ExcelTTypeBoolConverter implements ExcelTTypeConverter {
 
     @Override
@@ -45,6 +47,7 @@ public class ExcelTTypeBoolConverter implements ExcelTTypeConverter {
                     throw new IllegalArgumentException(value + "can not convert to boolean");
             }
         } catch (Exception e) {
+            log.debug("can not convert {} to boolean", value, e);
             return defaultValue();
         }
     }

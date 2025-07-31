@@ -3,6 +3,7 @@ package pro.shushi.pamirs.eip.api.type.converter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
  * @author Gesi at 16:00 on 2025/7/18
  */
 @Component
+@Slf4j
 public class ExcelTTypeMoneyConverter implements ExcelTTypeConverter {
 
     public static final Pattern MONEY_PATTERN = Pattern.compile("[-+]?((\\d{1,3}(,\\d{3})+)|\\d+)(\\.\\d+)?");
@@ -38,7 +40,9 @@ public class ExcelTTypeMoneyConverter implements ExcelTTypeConverter {
                             int bits = Integer.parseUnsignedInt(value, 2);
                             return Float.intBitsToFloat(bits) + "";
                         }
-                    } catch (Exception ignored) {}
+                    } catch (Exception e) {
+                        log.debug("error to converter binary to money", e);
+                    }
                     BigDecimal bigDecimal = new BigDecimal(extractAmountString(value));
                     return bigDecimal.toPlainString();
                 }
@@ -61,6 +65,7 @@ public class ExcelTTypeMoneyConverter implements ExcelTTypeConverter {
                     return new BigDecimal(extractAmountString(value)).toPlainString();
             }
         } catch (Exception e) {
+            log.debug("can not convert {} to money", value, e);
             String[] split = value.split("\\.");
             StringBuilder sb = new StringBuilder();
             boolean hasPot = false;
@@ -76,6 +81,7 @@ public class ExcelTTypeMoneyConverter implements ExcelTTypeConverter {
         }
 
         if (StringUtils.isBlank(value)) {
+            log.debug("input a empty string to money, use default value");
             return defaultValue();
         }
         return value;

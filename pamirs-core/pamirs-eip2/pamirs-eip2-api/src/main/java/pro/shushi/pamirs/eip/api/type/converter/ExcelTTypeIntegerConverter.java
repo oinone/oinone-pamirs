@@ -2,6 +2,7 @@ package pro.shushi.pamirs.eip.api.type.converter;
 
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.math.BigDecimal;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
  * @author Gesi at 16:00 on 2025/7/18
  */
 @Component
+@Slf4j
 public class ExcelTTypeIntegerConverter extends ExcelTTypeMoneyConverter {
 
     @Override
@@ -29,7 +31,8 @@ public class ExcelTTypeIntegerConverter extends ExcelTTypeMoneyConverter {
                 return Long.parseLong(value, 2) + "";
             }
             return new BigDecimal(super.convert(excelTTypeDescriptor)).longValue() + "";
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            log.debug("can not convert {} to integer, use default value", value, e);
             return defaultValue();
         }
     }

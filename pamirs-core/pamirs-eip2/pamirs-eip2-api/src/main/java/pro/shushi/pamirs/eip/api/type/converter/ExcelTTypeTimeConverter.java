@@ -2,6 +2,7 @@ package pro.shushi.pamirs.eip.api.type.converter;
 
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.DateUtils;
@@ -12,6 +13,7 @@ import java.util.Date;
  * @author Gesi at 16:00 on 2025/7/18
  */
 @Component
+@Slf4j
 public class ExcelTTypeTimeConverter extends ExcelTTypeDateTimeConverter {
 
     @Override
@@ -26,6 +28,7 @@ public class ExcelTTypeTimeConverter extends ExcelTTypeDateTimeConverter {
             Date date = getDateByString(value, excelTTypeDescriptor.getFormat());
             return DateUtils.formatDate(date, DateFormatEnum.TIME.value());
         } catch (Exception e) {
+            log.debug("can not convert {} to time, use default value", value, e);
             return defaultValue();
         }
     }
