@@ -865,7 +865,12 @@
   "当前不存在待修改翻译项": "There are currently no translation items to be modified",
   "输入包含的翻译值匹配待修改项": "Enter the translation value that matches the item to be modified",
   "暂无首页": "No homepage yet",
-  "请联系管理员": "Please contact the administrator"
+  "请联系管理员": "Please contact the administrator",
+  "应用环境": "Application Environment",
+  "微流设计器": "Microflow Designer",
+  "集成应用": "Eip Application",
+  "打印设计器": "Print Designer",
+  "打印设计器基础模块": "Print Designer Basic Module"
 }
 
 
