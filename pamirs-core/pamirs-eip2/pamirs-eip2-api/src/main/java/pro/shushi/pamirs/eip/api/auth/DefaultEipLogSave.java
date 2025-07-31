@@ -24,7 +24,7 @@ public class DefaultEipLogSave implements EipLogSaveApi {
 
 
     @Override
-    public EipLog saveLog(EipLog eipLog, Object context) {
+    public EipLog saveLog(EipLog eipLog, IEipContext<SuperMap> context) {
         return eipLog.create();
     }
 }

@@ -106,7 +106,7 @@ public class EipLogUtil {
         Tx.build(new TxConfig().setPropagation(Propagation.REQUIRES_NEW.value())).executeWithoutResult(status -> {
             EipLog savedLog = eipLog;
             savedLog.setIsSuccess(true);
-            savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog,context);
+            savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog, (IEipContext<SuperMap>) context);
             CommonApiFactory.getApi(EipLogCountCacheApi.class).addLogCount(savedLog);
         });
     }
@@ -120,7 +120,7 @@ public class EipLogUtil {
             savedLog.setIsSuccess(false)
                     .setErrorMsg(EipHelper.getStringBody(exchange))
                     .setInvokeEndDate(new Date());
-            savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog,context);
+            savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog, (IEipContext<SuperMap>) context);
             CommonApiFactory.getApi(EipLogCountCacheApi.class).addLogCount(savedLog);
         });
     }

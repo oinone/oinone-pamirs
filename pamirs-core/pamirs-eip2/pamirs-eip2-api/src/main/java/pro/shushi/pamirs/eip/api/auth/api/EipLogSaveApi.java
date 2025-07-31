@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.api.auth.api;
 
-import org.apache.camel.ExtendedExchange;
 import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.model.EipLog;
@@ -17,7 +16,7 @@ import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 public interface EipLogSaveApi {
 
     /**
-     * 开放接口IP白名单校验
+     * EIp日志保存扩展
      */
-     EipLog saveLog(EipLog eipLog,Object context);
+     EipLog saveLog(EipLog eipLog,IEipContext<SuperMap> context);
 }
