@@ -42,4 +42,8 @@ public class EipJdbcComponentBeanFactory {
         return new DefaultSqlServerComponent();
     }
 
+    @Bean(initMethod = "init")
+    public DefaultHanaComponent eipHanaComponent() {
+        return new DefaultHanaComponent();
+    }
 }
