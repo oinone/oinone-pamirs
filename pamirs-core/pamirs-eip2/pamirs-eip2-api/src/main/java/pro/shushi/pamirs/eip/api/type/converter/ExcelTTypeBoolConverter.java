@@ -24,30 +24,14 @@ public class ExcelTTypeBoolConverter implements ExcelTTypeConverter {
     @Override
     public String convert(ExcelTTypeDescriptor excelTTypeDescriptor) {
         String value = excelTTypeDescriptor.getValue();
-        try {
-            switch (excelTTypeDescriptor.getOriginType()) {
-                case "bool":
-                case "boolean":
-                    return Boolean.parseBoolean(value) + "";
-                case "binary":
-                case "integer":
-                case "uid":
-                case "float":
-                case "money": {
-                    BigDecimal bigDecimal = new BigDecimal(value);
-                    return (bigDecimal.compareTo(BigDecimal.ZERO) != 0) + "";
-                }
-                case "string":
-                case "text":
-                case "phone":
-                case "email":
-                case "html":
-                    return StringUtils.isNotBlank(value) + "";
-                default:
-                    throw new IllegalArgumentException(value + "can not convert to boolean");
-            }
-        } catch (Exception e) {
-            log.debug("can not convert {} to boolean", value, e);
+        if (StringUtils.isBlank(value)) {
+            return value;
+        } else if ("TRUE".equalsIgnoreCase(value) || "1".equals(value)) {
+            return "true";
+        } else if ("FALSE".equalsIgnoreCase(value) || "0".equals(value)) {
+            return "false";
+        } else {
+            log.debug("can not convert {} to boolean", value);
             return defaultValue();
         }
     }
