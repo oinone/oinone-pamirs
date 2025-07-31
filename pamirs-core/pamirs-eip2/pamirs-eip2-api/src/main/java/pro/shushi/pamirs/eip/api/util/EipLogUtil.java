@@ -13,6 +13,7 @@ import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.IEipOpenInterface;
 import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
+import pro.shushi.pamirs.eip.api.auth.api.EipLogSaveApi;
 import pro.shushi.pamirs.eip.api.cache.EipLogCountCacheApi;
 import pro.shushi.pamirs.eip.api.config.PamirsEipLogProperties;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
@@ -25,6 +26,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.dto.config.TxConfig;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -102,9 +104,10 @@ public class EipLogUtil {
         context.putExecutorContextValue(IEipContext.LOG_STORE_KEY, null);
         putInvokeMillisecond(context, eipLog);
         Tx.build(new TxConfig().setPropagation(Propagation.REQUIRES_NEW.value())).executeWithoutResult(status -> {
-            eipLog.setIsSuccess(true)
-                    .create();
-            CommonApiFactory.getApi(EipLogCountCacheApi.class).addLogCount(eipLog);
+            EipLog savedLog = eipLog;
+            savedLog.setIsSuccess(true);
+            savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog,context);
+            CommonApiFactory.getApi(EipLogCountCacheApi.class).addLogCount(savedLog);
         });
     }
 
@@ -113,11 +116,12 @@ public class EipLogUtil {
         context.putExecutorContextValue(IEipContext.LOG_STORE_KEY, null);
         putInvokeMillisecond(context, eipLog);
         Tx.build(new TxConfig().setPropagation(Propagation.REQUIRES_NEW.value())).executeWithoutResult(status -> {
-            eipLog.setIsSuccess(false)
+            EipLog savedLog = eipLog;
+            savedLog.setIsSuccess(false)
                     .setErrorMsg(EipHelper.getStringBody(exchange))
-                    .setInvokeEndDate(new Date())
-                    .create();
-            CommonApiFactory.getApi(EipLogCountCacheApi.class).addLogCount(eipLog);
+                    .setInvokeEndDate(new Date());
+            savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog,context);
+            CommonApiFactory.getApi(EipLogCountCacheApi.class).addLogCount(savedLog);
         });
     }
 
