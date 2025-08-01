@@ -33,12 +33,7 @@ public class ExcelTTypeIntegerConverter extends ExcelTTypeMoneyConverter {
             return new BigDecimal(super.convert(excelTTypeDescriptor)).longValue() + "";
         } catch (Exception e) {
             log.debug("can not convert {} to integer, use default value", value, e);
-            return defaultValue();
+            return defaultValue(excelTTypeDescriptor);
         }
-    }
-
-    @Override
-    public String defaultValue() {
-        return "0";
     }
 }

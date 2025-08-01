@@ -23,16 +23,19 @@ public class ExcelTTypeFloatConverter extends ExcelTTypeMoneyConverter {
         try {
             if ("float".equals(excelTTypeDescriptor.getOriginType())) {
                 return Double.parseDouble(value) + "";
+            } else if ("binary".equals(excelTTypeDescriptor.getOriginType())) {
+                if (value != null && value.length() == 32) {
+                    int intBits = (int) Long.parseLong(value, 2);
+                    return Float.intBitsToFloat(intBits) + "";
+                } else if (value != null && value.length() == 64) {
+                    long intBits = Long.parseLong(value, 2);
+                    return Double.longBitsToDouble(intBits) + "";
+                }
             }
             return super.convert(excelTTypeDescriptor);
         } catch (Exception e) {
             log.debug("can not convert {} to float, use default value", value, e);
-            return defaultValue();
+            return defaultValue(excelTTypeDescriptor);
         }
-    }
-
-    @Override
-    public String defaultValue() {
-        return "0.0";
     }
 }

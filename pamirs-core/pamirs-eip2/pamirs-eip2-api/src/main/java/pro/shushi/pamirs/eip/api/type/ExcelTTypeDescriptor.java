@@ -3,11 +3,15 @@ package pro.shushi.pamirs.eip.api.type;
 import pro.shushi.pamirs.eip.api.tmodel.EipExcelTypeTransform;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 
+import java.util.List;
+
 /**
  * @author Gesi at 14:48 on 2025/7/18
  */
 @Data
 public class ExcelTTypeDescriptor {
+
+    private List<String> errorMessageHub;
 
     private String name;
 
@@ -18,6 +22,12 @@ public class ExcelTTypeDescriptor {
     private String targetType;
 
     private String value;
+
+    private String sheetName;
+
+    private Integer rowIndex;
+
+    private Integer columnIndex;
 
     public static ExcelTTypeDescriptor valueOf(String value, EipExcelTypeTransform typeTransform) {
         ExcelTTypeDescriptor excelTTypeDescriptor = new ExcelTTypeDescriptor();

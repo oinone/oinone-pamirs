@@ -49,13 +49,8 @@ public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
             return DateUtils.formatDate(date, DateFormatEnum.DATETIME.value());
         } catch (Exception e) {
             log.debug("can not convert {} to datetime, use default value", value, e);
-            return defaultValue();
+            return defaultValue(excelTTypeDescriptor);
         }
-    }
-
-    @Override
-    public String defaultValue() {
-        return "2025-01-01 00:00:00";
     }
 
     public Date getDateByString(String value, String format) {

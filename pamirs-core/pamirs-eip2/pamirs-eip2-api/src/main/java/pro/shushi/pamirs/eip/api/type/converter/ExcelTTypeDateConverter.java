@@ -29,12 +29,7 @@ public class ExcelTTypeDateConverter extends ExcelTTypeDateTimeConverter {
             return DateUtils.formatDate(date, DateFormatEnum.DATE.value());
         } catch (Exception e) {
             log.debug("can not convert {} to date, use default value", value, e);
-            return defaultValue();
+            return defaultValue(excelTTypeDescriptor);
         }
-    }
-
-    @Override
-    public String defaultValue() {
-        return "2025-01-01";
     }
 }

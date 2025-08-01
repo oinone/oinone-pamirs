@@ -11,6 +11,14 @@ public interface ExcelTTypeConverter {
 
     String convert(ExcelTTypeDescriptor excelTTypeDescriptor);
 
-    String defaultValue();
+    default String defaultValue(ExcelTTypeDescriptor excelTTypeDescriptor) {
+        if (excelTTypeDescriptor.getErrorMessageHub() != null && excelTTypeDescriptor.getRowIndex() != null && excelTTypeDescriptor.getColumnIndex() != null) {
+            String sheetName = excelTTypeDescriptor.getSheetName();
+            Integer rowIndex = excelTTypeDescriptor.getRowIndex();
+            Integer columnIndex = excelTTypeDescriptor.getColumnIndex();
+            excelTTypeDescriptor.getErrorMessageHub().add(String.format("sheet：%s第%s行%s列值：%s解析成%s失败", sheetName, rowIndex, columnIndex, excelTTypeDescriptor.getValue(), excelTTypeDescriptor.getTargetType()));
+        }
+        return null;
+    }
 
 }

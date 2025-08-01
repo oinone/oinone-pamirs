@@ -5,9 +5,11 @@ import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.exception.ExcelRuntimeException;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.excel.read.metadata.ReadSheet;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.excel.*;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationFile;
 import pro.shushi.pamirs.eip.api.service.EipIntegrationFileService;
@@ -20,9 +22,11 @@ import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -117,30 +121,41 @@ public class EipIntegrationFileServiceImpl implements EipIntegrationFileService 
             EipIntegrationFileHeader fileHeader = eipFile.getFileHeader();
             EipExcel fileHeaderEipExcel;
             if (fileHeader != null && (fileHeaderEipExcel = fileHeader.fetchEipExcel()) != null) {
+                List<String> convertErrorMessageHub = new ArrayList<>();
+
                 for (EipExcelSheet excelSheet : excel.getSheets()) {
                     EipExcelSheet fileHeaderSheet = fileHeaderEipExcel.getSheet(excelSheet.getName());
                     if (fileHeaderSheet == null) continue;
                     List<EipExcelHead> headers = excelSheet.getHeaders();
                     List<EipExcelHead> dbHeaders = fileHeaderSheet.getHeaders();
                     Set<Integer> canReplaceHeaderIndex = new HashSet<>();
-                    for (EipExcelEntry data : excelSheet.getData()) {
+                    for (int row = 0; row < excelSheet.getData().size(); row++) {
+                        EipExcelEntry data = excelSheet.getData().get(row);
+                        String sheetName = excelSheet.getName();
                         List<String> dataValueList = data.getData();
-                        for (int i = 0; i < dataValueList.size(); i++) {
-                            EipExcelHead head = headers.get(i);
-                            if (i >= dbHeaders.size()) continue;
-                            EipExcelHead dbHead = dbHeaders.get(i);
+                        for (int col = 0; col < dataValueList.size(); col++) {
+                            EipExcelHead head = headers.get(col);
+                            if (col >= dbHeaders.size()) continue;
+                            EipExcelHead dbHead = dbHeaders.get(col);
                             if (!StringUtils.equals(dbHead.getName(), head.getName())) continue;
 
-                            String dataValue = dataValueList.get(i);
-                            dataValue = conversionService.convert(ExcelTTypeDescriptor.valueOf(dataValue != null ? dataValue : "", head.getType(), dbHead.getType(), head.getFormat()));
-                            dataValueList.set(i, dataValue);
-                            canReplaceHeaderIndex.add(i);
+                            String dataValue = dataValueList.get(col);
+                            ExcelTTypeDescriptor descriptor = ExcelTTypeDescriptor.valueOf(dataValue != null ? dataValue : "", head.getType(), dbHead.getType(), head.getFormat());
+                            descriptor.setErrorMessageHub(convertErrorMessageHub);
+                            descriptor.setSheetName(sheetName);
+                            descriptor.setRowIndex(row);
+                            descriptor.setColumnIndex(col);
+                            dataValue = conversionService.convert(descriptor);
+                            dataValueList.set(col, dataValue);
+                            canReplaceHeaderIndex.add(col);
                         }
 
                         canReplaceHeaderIndex.forEach(i -> headers.set(i, dbHeaders.get(i)));
                     }
 
-
+                    if (CollectionUtils.isNotEmpty(convertErrorMessageHub)) {
+                        PamirsSession.getMessageHub().error("excel存在解析失败数据：\n" + String.join("，\n", convertErrorMessageHub));
+                    }
                 }
             }
 

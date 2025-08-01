@@ -29,12 +29,8 @@ public class ExcelTTypeYearConverter extends ExcelTTypeDateTimeConverter {
             return DateUtils.formatDate(date, DateFormatEnum.YEAR.value());
         } catch (Exception e) {
             log.debug("can not convert {} to year, use default value", value, e);
-            return defaultValue();
+            return defaultValue(excelTTypeDescriptor);
         }
     }
 
-    @Override
-    public String defaultValue() {
-        return "2025";
-    }
 }

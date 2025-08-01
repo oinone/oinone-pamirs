@@ -29,12 +29,8 @@ public class ExcelTTypeTimeConverter extends ExcelTTypeDateTimeConverter {
             return DateUtils.formatDate(date, DateFormatEnum.TIME.value());
         } catch (Exception e) {
             log.debug("can not convert {} to time, use default value", value, e);
-            return defaultValue();
+            return defaultValue(excelTTypeDescriptor);
         }
     }
 
-    @Override
-    public String defaultValue() {
-        return "00:00:00";
-    }
 }

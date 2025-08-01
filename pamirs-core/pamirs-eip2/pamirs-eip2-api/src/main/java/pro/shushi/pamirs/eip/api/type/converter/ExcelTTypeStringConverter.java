@@ -28,9 +28,4 @@ public class ExcelTTypeStringConverter implements ExcelTTypeConverter {
         return excelTTypeDescriptor.getValue();
     }
 
-    @Override
-    public String defaultValue() {
-        return "";
-    }
-
 }

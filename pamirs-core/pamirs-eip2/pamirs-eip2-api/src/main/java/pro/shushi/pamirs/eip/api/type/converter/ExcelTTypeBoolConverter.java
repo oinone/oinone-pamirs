@@ -26,18 +26,13 @@ public class ExcelTTypeBoolConverter implements ExcelTTypeConverter {
         String value = excelTTypeDescriptor.getValue();
         if (StringUtils.isBlank(value)) {
             return value;
-        } else if ("TRUE".equalsIgnoreCase(value) || "1".equals(value)) {
+        } else if ("TRUE".equalsIgnoreCase(value) || "1".equals(value) || "是".equals(value) || "Y".equalsIgnoreCase(value)) {
             return "true";
-        } else if ("FALSE".equalsIgnoreCase(value) || "0".equals(value)) {
+        } else if ("FALSE".equalsIgnoreCase(value) || "0".equals(value) || "否".equals(value) || "N".equalsIgnoreCase(value)) {
             return "false";
         } else {
             log.debug("can not convert {} to boolean", value);
-            return defaultValue();
+            return defaultValue(excelTTypeDescriptor);
         }
-    }
-
-    @Override
-    public String defaultValue() {
-        return "false";
     }
 }
