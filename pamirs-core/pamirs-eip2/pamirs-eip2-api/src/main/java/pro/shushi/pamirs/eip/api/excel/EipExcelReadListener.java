@@ -109,6 +109,11 @@ public class EipExcelReadListener extends AnalysisEventListener<Map<Integer, Str
                 }
 
                 String ttype = ttype(rowData.get(cellIndex), cellType, format);
+                if (TtypeEnum.HTML.value().equals(ttype)) {
+                    ttype = TtypeEnum.STRING.value();
+                } else if (TtypeEnum.MONEY.value().equals(ttype)) {
+                    ttype = TtypeEnum.FLOAT.value();
+                }
                 if (excelHead != null) {
                     excelHead.setType(ttype);
                 }
