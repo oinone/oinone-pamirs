@@ -154,7 +154,7 @@ public class EipIntegrationFileServiceImpl implements EipIntegrationFileService 
                     }
 
                     if (CollectionUtils.isNotEmpty(convertErrorMessageHub)) {
-                        PamirsSession.getMessageHub().error("excel存在解析失败数据：\n" + String.join("，\n", convertErrorMessageHub));
+                        PamirsSession.getMessageHub().warn("excel存在解析失败数据：\n" + String.join("，\n", convertErrorMessageHub));
                     }
                 }
             }
