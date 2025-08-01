@@ -83,6 +83,11 @@ public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
                 case "bool":
                 case "boolean":
                 case "uid":
+                    log.debug("can not convert {} to datetime, use default value", value);
+                    return defaultValue(excelTTypeDescriptor);
+            }
+            if (StringUtils.isBlank(value)) {
+                return null;
             }
             Date date = getDateByString(value, format);
             return DateUtils.formatDate(date, DateFormatEnum.DATETIME.value());

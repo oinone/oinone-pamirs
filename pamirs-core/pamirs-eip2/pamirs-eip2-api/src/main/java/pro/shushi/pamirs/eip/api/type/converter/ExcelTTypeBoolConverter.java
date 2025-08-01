@@ -57,7 +57,7 @@ public class ExcelTTypeBoolConverter implements ExcelTTypeConverter {
                     return defaultValue(excelTTypeDescriptor);
                 default:
                     if (StringUtils.isBlank(value)) {
-                        return value;
+                        return null;
                     }
                     String boolValue = caseStringToBoolValue(value);
                     if (boolValue != null) {

@@ -73,6 +73,9 @@ public class ExcelTTypeMoneyConverter implements ExcelTTypeConverter {
                     return defaultValue(excelTTypeDescriptor);
                 }
                 default: {
+                    if (StringUtils.isBlank(value)) {
+                        return null;
+                    }
                     String moneyValue = extractAmountString(value);
                     if (StringUtils.isBlank(moneyValue)) {
                         log.debug("can not convert {} to a number", value);

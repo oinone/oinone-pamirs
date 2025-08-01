@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.api.type.converter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -22,6 +23,9 @@ public class ExcelTTypeFloatConverter extends ExcelTTypeMoneyConverter {
         String value = excelTTypeDescriptor.getValue();
         try {
             if ("float".equals(excelTTypeDescriptor.getOriginType())) {
+                if (StringUtils.isBlank(value)) {
+                    return null;
+                }
                 return Double.parseDouble(value) + "";
             } else if ("binary".equals(excelTTypeDescriptor.getOriginType())) {
                 if (value != null && value.length() == 32) {

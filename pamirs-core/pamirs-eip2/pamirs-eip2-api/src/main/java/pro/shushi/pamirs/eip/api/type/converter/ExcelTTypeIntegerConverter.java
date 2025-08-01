@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.api.type.converter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -26,8 +27,11 @@ public class ExcelTTypeIntegerConverter extends ExcelTTypeMoneyConverter {
         String value = excelTTypeDescriptor.getValue();
         try {
             if ("integer".equals(excelTTypeDescriptor.getOriginType()) || "long".equals(excelTTypeDescriptor.getOriginType()) || "uid".equals(excelTTypeDescriptor.getOriginType())) {
+                if (StringUtils.isBlank(value)) {
+                    return null;
+                }
                 return Long.parseLong(value) + "";
-            } else if ("binary".equals(excelTTypeDescriptor.getOriginType())) {
+            } else if ("binary".equals(excelTTypeDescriptor.getOriginType()) && StringUtils.isNotBlank(value)) {
                 return Long.parseLong(value, 2) + "";
             }
             return new BigDecimal(super.convert(excelTTypeDescriptor)).longValue() + "";
