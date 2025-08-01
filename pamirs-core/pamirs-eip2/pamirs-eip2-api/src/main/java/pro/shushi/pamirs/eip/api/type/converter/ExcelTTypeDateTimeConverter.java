@@ -76,10 +76,6 @@ public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
         try {
             switch (excelTTypeDescriptor.getOriginType()) {
                 case "binary":
-                case "integer":
-                case "long":
-                case "float":
-                case "money":
                 case "bool":
                 case "boolean":
                 case "uid":
