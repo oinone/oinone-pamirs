@@ -8,8 +8,7 @@
                hint="自动生成"/>
         <field data="name" label="名称" required="true"
                maxLength="10"
-               placeholder="请输入业务域名称" hint="全局唯一"
-               pattern="/^[\u4E00-\u9FA5A-Za-z0-9_-]*$/" tips="支持录入中文、英文、数字、-、_"/>
+               placeholder="请输入业务域名称" hint="全局唯一"/>
         <field data="description" label="描述" required="true"
                placeholder="请输入业务域的描述信息"
                maxLength="256" widget="EipOpenText"

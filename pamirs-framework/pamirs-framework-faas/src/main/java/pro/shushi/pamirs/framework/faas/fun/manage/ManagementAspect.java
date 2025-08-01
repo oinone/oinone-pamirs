@@ -81,7 +81,7 @@ public class ManagementAspect {
         }
         String namespace = function.getNamespace();
         String fun = function.getFun();
-        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(namespace);
+        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(namespace);
         if (null != modelConfig && ModelTypeEnum.ABSTRACT.equals(modelConfig.getType())) {
             try {
                 if (BaseModel.MODEL_MODEL.equals(namespace)) {
@@ -91,7 +91,6 @@ public class ManagementAspect {
                         Function actualFunction = funApi.fetchAllowNull(actualModel, fun);
 
                         //数据管理器模型
-                        ModelConfig actualModelConfig = PamirsSession.getContext().getModelConfig(actualModel);
                         Set<String> moduleSet = Spider.getDefaultExtension(ModulesApi.class).modules();
                         if (RemoteFunctionHelperHolder.get().isRemoteFunction(actualFunction)) {
                             return RemoteFunctionHelperHolder.get().run(actualFunction, point.getArgs());

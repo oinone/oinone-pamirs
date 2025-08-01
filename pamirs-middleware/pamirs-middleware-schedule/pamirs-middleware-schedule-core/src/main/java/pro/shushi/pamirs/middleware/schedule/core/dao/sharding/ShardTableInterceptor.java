@@ -86,18 +86,30 @@ public class ShardTableInterceptor implements Interceptor {
 
     protected List<ResultMap> getResultMaps(MappedStatement mappedStatement) {
         List<ResultMap> resultMaps = mappedStatement.getResultMaps();
-        if (CollectionUtils.isEmpty(resultMaps) && mappedStatement.getId().startsWith("pro.shushi.pamirs.middleware.schedule.core.dao.mapper.ScheduleItemMapper")) {
-            if (SCHEDULE_ITEM_RESULT_MAP == null) {
-                SCHEDULE_ITEM_RESULT_MAP = new ResultMap.Builder(mappedStatement.getConfiguration(), String.valueOf(System.currentTimeMillis()), ScheduleItem.class,
-                        Arrays.asList(
-                                new ResultMapping.Builder(mappedStatement.getConfiguration(), "isCycle", "is_cycle", Boolean.class).build(),
-                                new ResultMapping.Builder(mappedStatement.getConfiguration(), "isTransfer", "is_transfer", Boolean.class).build(),
-                                new ResultMapping.Builder(mappedStatement.getConfiguration(), "isCanceled", "is_canceled", Boolean.class).build()
-                        )).build();
+        if (mappedStatement.getId().startsWith("pro.shushi.pamirs.middleware.schedule.core.dao.mapper.ScheduleItemMapper")) {
+            if (resultMaps.isEmpty()) {
+                return getScheduleItemResultMap(mappedStatement);
             }
-            resultMaps = Collections.singletonList(SCHEDULE_ITEM_RESULT_MAP);
+            if (resultMaps.size() == 1) {
+                ResultMap resultMap = resultMaps.get(0);
+                if (CollectionUtils.isEmpty(resultMap.getResultMappings())) {
+                    return getScheduleItemResultMap(mappedStatement);
+                }
+            }
         }
         return resultMaps;
+    }
+
+    protected List<ResultMap> getScheduleItemResultMap(MappedStatement mappedStatement) {
+        if (SCHEDULE_ITEM_RESULT_MAP == null) {
+            SCHEDULE_ITEM_RESULT_MAP = new ResultMap.Builder(mappedStatement.getConfiguration(), String.valueOf(System.currentTimeMillis()), ScheduleItem.class,
+                    Arrays.asList(
+                            new ResultMapping.Builder(mappedStatement.getConfiguration(), "isCycle", "is_cycle", Boolean.class).build(),
+                            new ResultMapping.Builder(mappedStatement.getConfiguration(), "isTransfer", "is_transfer", Boolean.class).build(),
+                            new ResultMapping.Builder(mappedStatement.getConfiguration(), "isCanceled", "is_canceled", Boolean.class).build()
+                    )).build();
+        }
+        return Collections.singletonList(SCHEDULE_ITEM_RESULT_MAP);
     }
 
     @Override
