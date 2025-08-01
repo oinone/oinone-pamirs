@@ -172,6 +172,10 @@ public class EipConnectorResource extends IdModel {
     @Field(displayName = "excel类型转换")
     private EipExcelTypeTransform excelTypeTransform;
 
+    @Field.Integer
+    @Field(displayName = "类型转换列", store = NullableBoolEnum.FALSE)
+    private Integer typeConvertColumn;
+
     @Field.Text
     @Field(displayName = "数据", store = NullableBoolEnum.FALSE)
     private String dataList;
