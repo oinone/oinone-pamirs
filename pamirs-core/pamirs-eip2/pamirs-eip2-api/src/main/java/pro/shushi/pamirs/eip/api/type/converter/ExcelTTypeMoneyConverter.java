@@ -6,8 +6,8 @@ import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
-import javax.annotation.Nullable;
 import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * @author Gesi at 16:00 on 2025/7/18
@@ -15,6 +15,44 @@ import java.math.BigDecimal;
 @Component
 @Slf4j
 public class ExcelTTypeMoneyConverter implements ExcelTTypeConverter {
+
+    public static final Set<String> CURRENCY_SYMBOL_SET = Collections.unmodifiableSet(initCurrencySymbol());
+
+    public static boolean originIsNumber(String value) {
+        if (StringUtils.isBlank(value)) return false;
+        value = extractAmountString(value);
+        return value.matches("^-?(\\d+(\\.\\d+)?|\\.\\d+)$");
+    }
+
+    /**
+     * 初始化所有货币符号
+     */
+    private static Set<String> initCurrencySymbol() {
+        Set<String> symbolSet = new HashSet<>();
+        Set<Currency> currencies = Currency.getAvailableCurrencies();
+        Locale[] locales = Locale.getAvailableLocales();
+
+        for (Currency currency : currencies) {
+            String symbol = null;
+
+            // 找到第一个能提供非货币代码形式的符号的 Locale
+            for (Locale locale : locales) {
+                try {
+                    String s = currency.getSymbol(locale);
+                    if (!s.equals(currency.getCurrencyCode())) {
+                        symbol = s;
+                        break;
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+
+            if (symbol != null) {
+                symbolSet.add(symbol);
+            }
+        }
+        return symbolSet;
+    }
 
     @Override
     public boolean canConvert(ExcelTTypeDescriptor excelTTypeDescriptor) {
@@ -26,47 +64,52 @@ public class ExcelTTypeMoneyConverter implements ExcelTTypeConverter {
         String value = excelTTypeDescriptor.getValue();
         try {
             switch (excelTTypeDescriptor.getOriginType()) {
+                case "bool":
                 case "datetime":
                 case "year":
                 case "date":
                 case "time": {
-                    log.debug("can not convert date type {} to money", value);
+                    log.debug("can not convert {} type {} to a number", excelTTypeDescriptor.getOriginType(), value);
                     return defaultValue(excelTTypeDescriptor);
                 }
                 default: {
                     String moneyValue = extractAmountString(value);
                     if (StringUtils.isBlank(moneyValue)) {
-                        log.debug("can not convert {} to money", value);
+                        log.debug("can not convert {} to a number", value);
                         return defaultValue(excelTTypeDescriptor);
                     }
                     return new BigDecimal(moneyValue).toPlainString();
                 }
             }
         } catch (Exception e) {
-            log.debug("can not convert {} to money", value, e);
+            log.debug("can not convert {} to a number", value, e);
             return defaultValue(excelTTypeDescriptor);
         }
     }
 
     /**
-     * 提取字符串中的金额（去除货币符号和千位分隔符），保留符号、小数点
+     * 提取字符串中的纯数字（去除货币符号和千位分隔符），保留符号、小数点
      */
-    @Nullable
-    public static String extractAmountString(@Nullable String value) {
+    public static String extractAmountString(String value) {
         if (StringUtils.isBlank(value)) return value;
 
-        String[] split = value.split("\\.");
-        StringBuilder sb = new StringBuilder();
-        boolean hasPot = false;
-        for (int i = 0; i < split.length; i++) {
-            String s = split[i].replaceAll("\\D+", "");
-            sb.append(s);
-            if (StringUtils.isNotBlank(s) && !hasPot && i != split.length - 1) {
-                sb.append(".");
-                hasPot = true;
+        value = value
+                .replaceAll(" ", "")
+                .replaceAll("\r", "")
+                .replaceAll("\n", "")
+                .replaceAll(",", "")
+                .replaceAll("，", "")
+        ;
+
+        for (String symbol : CURRENCY_SYMBOL_SET) {
+            if (value.startsWith(symbol)) {
+                value = value.substring(symbol.length());
+            }
+            if (value.endsWith(symbol)) {
+                value = value.substring(0, value.length() - symbol.length());
             }
         }
 
-        return sb.toString();
+        return value;
     }
 }

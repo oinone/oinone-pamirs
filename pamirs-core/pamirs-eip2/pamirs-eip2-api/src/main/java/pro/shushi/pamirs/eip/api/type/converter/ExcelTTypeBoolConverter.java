@@ -15,6 +15,18 @@ import java.math.BigDecimal;
 @Slf4j
 public class ExcelTTypeBoolConverter implements ExcelTTypeConverter {
 
+    public static boolean originIsBool(String value) {
+        if (StringUtils.isBlank(value)) {
+            return false;
+        }
+        if ("TRUE".equalsIgnoreCase(value) || "1".equals(value) || "是".equals(value) || "Y".equalsIgnoreCase(value)) {
+            return true;
+        } else if ("FALSE".equalsIgnoreCase(value) || "0".equals(value) || "否".equals(value) || "N".equalsIgnoreCase(value)) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean canConvert(ExcelTTypeDescriptor excelTTypeDescriptor) {
         return TtypeEnum.BOOLEAN.value().equals(excelTTypeDescriptor.getTargetType())
@@ -24,15 +36,48 @@ public class ExcelTTypeBoolConverter implements ExcelTTypeConverter {
     @Override
     public String convert(ExcelTTypeDescriptor excelTTypeDescriptor) {
         String value = excelTTypeDescriptor.getValue();
-        if (StringUtils.isBlank(value)) {
-            return value;
-        } else if ("TRUE".equalsIgnoreCase(value) || "1".equals(value) || "是".equals(value) || "Y".equalsIgnoreCase(value)) {
-            return "true";
-        } else if ("FALSE".equalsIgnoreCase(value) || "0".equals(value) || "否".equals(value) || "N".equalsIgnoreCase(value)) {
-            return "false";
-        } else {
+        try {
+            switch (excelTTypeDescriptor.getOriginType()) {
+                case "binary":
+                case "integer":
+                case "long":
+                case "float":
+                case "money":
+                case "uid": {
+                    if (StringUtils.isBlank(value)) {
+                        return null;
+                    }
+                    return (new BigDecimal(value).compareTo(BigDecimal.ZERO) != 0) + "";
+                }
+                case "year":
+                case "datetime":
+                case "date":
+                case "time":
+                    log.debug("can not convert {} type {} to a number", excelTTypeDescriptor.getOriginType(), value);
+                    return defaultValue(excelTTypeDescriptor);
+                default:
+                    if (StringUtils.isBlank(value)) {
+                        return value;
+                    }
+                    String boolValue = caseStringToBoolValue(value);
+                    if (boolValue != null) {
+                        return boolValue;
+                    }
+                    log.debug("can not convert {} to boolean", value);
+                    return defaultValue(excelTTypeDescriptor);
+            }
+        } catch (Exception e) {
             log.debug("can not convert {} to boolean", value);
             return defaultValue(excelTTypeDescriptor);
         }
+    }
+
+    private String caseStringToBoolValue(String value) {
+        if ("TRUE".equalsIgnoreCase(value) || "1".equals(value) || "是".equals(value) || "Y".equalsIgnoreCase(value)) {
+            return "true";
+        } else if ("FALSE".equalsIgnoreCase(value) || "0".equals(value) || "否".equals(value) || "N".equalsIgnoreCase(value)) {
+            return "false";
+        }
+        return null;
     }
 }

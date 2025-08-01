@@ -35,6 +35,35 @@ public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
 
     private static final Pattern EXCEL_SERIAL_DATE_TIME = Pattern.compile("^(\\d*)\\.(\\d*)$");
 
+    public static boolean originIsDate(String value) {
+        if (StringUtils.isBlank(value)) {
+            return false;
+        }
+        if (value.matches("^\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
+            return true;
+        } else if (value.matches("^\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}$")) {
+            return true;
+        } else if (value.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
+            return true;
+        } else if (value.matches("^\\d{4}-\\d{1,2}$")) {
+            return true;
+        } else if (value.matches("^\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
+            return true;
+        } else if (value.matches("^\\d{1,2}:\\d{1,2}$")) {
+            return true;
+        } else if (value.matches("^\\d{4}$")) {
+            return true;
+        } else {
+            // 非 yyyy-MM-dd HH:mm:ss 的常见时间格式
+            for (String[] pattern : COMMON_DATE_FORMAT_PATTERNS) {
+                if (value.matches(pattern[0])) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean canConvert(ExcelTTypeDescriptor excelTTypeDescriptor) {
         return TtypeEnum.DATETIME.value().equals(excelTTypeDescriptor.getTargetType());
@@ -45,6 +74,16 @@ public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
         String value = excelTTypeDescriptor.getValue();
         String format = excelTTypeDescriptor.getFormat();
         try {
+            switch (excelTTypeDescriptor.getOriginType()) {
+                case "binary":
+                case "integer":
+                case "long":
+                case "float":
+                case "money":
+                case "bool":
+                case "boolean":
+                case "uid":
+            }
             Date date = getDateByString(value, format);
             return DateUtils.formatDate(date, DateFormatEnum.DATETIME.value());
         } catch (Exception e) {
@@ -123,7 +162,7 @@ public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
                 sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
                 dateStr = sdf.format(calendar.getTime());
             } else {
-                dateStr = "2025-01-01";
+                dateStr = "1970-01-01";
             }
             if (StringUtils.isNotBlank(afterDecimal)) {
                 BigDecimal fraction = new BigDecimal("0." + afterDecimal);

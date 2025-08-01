@@ -10,6 +10,9 @@ import com.alibaba.excel.read.metadata.holder.ReadRowHolder;
 import com.alibaba.excel.read.metadata.holder.ReadSheetHolder;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.eip.api.type.converter.ExcelTTypeBoolConverter;
+import pro.shushi.pamirs.eip.api.type.converter.ExcelTTypeDateTimeConverter;
+import pro.shushi.pamirs.eip.api.type.converter.ExcelTTypeMoneyConverter;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
@@ -93,7 +96,7 @@ public class EipExcelReadListener extends AnalysisEventListener<Map<Integer, Str
                 ReadCellData<?> cellData = (ReadCellData<?>) entry.getValue();
                 int cellIndex = cellData.getColumnIndex();
                 CellDataTypeEnum cellType = cellData.getType();
-                String ttype = ttype(cellType);
+                String ttype = ttype(cellData.getStringValue(), cellType);
                 EipExcelHead excelHead = excel.getSheet(sheetName).getHead(cellIndex);
                 if (null != excelHead) {
                     excelHead.setType(ttype);
@@ -103,15 +106,6 @@ public class EipExcelReadListener extends AnalysisEventListener<Map<Integer, Str
                     }
                     String format = fmtData.getFormat();
                     excelHead.setFormat(format);
-                    if (StringUtils.isBlank(format)) {
-                        continue;
-                    }
-                    for (String st : sets) {
-                        if (format.contains(st)) {
-                            excelHead.setType(TtypeEnum.STRING.value());
-                            break;
-                        }
-                    }
                 }
             }
             excel.getSheet(sheetName).setHeadReady();
@@ -223,6 +217,22 @@ public class EipExcelReadListener extends AnalysisEventListener<Map<Integer, Str
 
         // do nothing ...
 
+    }
+
+    private String ttype(String value, CellDataTypeEnum cellType) {
+        if (StringUtils.isBlank(value)) {
+            return ttype(cellType);
+        }
+        if (ExcelTTypeBoolConverter.originIsBool(value)) {
+            return TtypeEnum.BOOLEAN.value();
+        }
+        if (ExcelTTypeMoneyConverter.originIsNumber(value)) {
+            return TtypeEnum.MONEY.value();
+        }
+        if (ExcelTTypeDateTimeConverter.originIsDate(value)) {
+            return TtypeEnum.DATETIME.value();
+        }
+        return ttype(cellType);
     }
 
     private String ttype(CellDataTypeEnum cellType) {
