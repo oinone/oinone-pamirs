@@ -15,6 +15,9 @@ public class EipExcelTypeTransform extends TransientModel {
 
     public static final String MODEL_MODEL = "pamirs.eip.tmodel.EipTypeTransform";
 
+    @Field(displayName = "sheet名")
+    private String sheetName;
+
     @Field(displayName = "下标")
     private Integer index;
 
