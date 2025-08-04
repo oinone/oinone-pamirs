@@ -27,7 +27,7 @@ The "O" symbolizes open source while phonetically resonating with "All in one," 
 ### 6. Recent Activities
 #### 6.1 Activities 🎁
 <img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/codelab/iwEcAqNqcGcDAQTRDwAF0QXIBrCbGu5pURVpGQhlp344U80AB9IL_yseCAAJomltCgAL0gAMD28.jpg" alt="Assistant" width=""><br>
-[Oinone Codelab @ Pudong, Shanghai. Connect with us in one click](https://3253996746017.huodongxing.com/event/9818925922600)
+[Oinone Codelab @ Putuo, Shanghai. Connect with us in one click](https://3253996746017.huodongxing.com/event/9818925922600)
 
 #### 6.2 Exclusive Benefits 🎁
 | QR Code | Steps                                                                                                                                                                                                                                                                                                        |

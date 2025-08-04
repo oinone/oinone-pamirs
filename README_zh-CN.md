@@ -25,7 +25,7 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 ### 6、近期动态
 #### 6.1 最新活动 🎁
 <img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/codelab/iwEcAqNqcGcDAQTRDwAF0QXIBrCbGu5pURVpGQhlp344U80AB9IL_yseCAAJomltCgAL0gAMD28.jpg" alt="Assistant" width=""><br>
-[Oinone Codelab @ 上海浦东，即刻报名](https://3253996746017.huodongxing.com/event/9818925922600)
+[Oinone Codelab @ 上海普陀，即刻报名](https://3253996746017.huodongxing.com/event/9818925922600)
 
 #### 6.2 专属福利 🎁
 | 二维码 | 领取步骤                                                                                                   |
