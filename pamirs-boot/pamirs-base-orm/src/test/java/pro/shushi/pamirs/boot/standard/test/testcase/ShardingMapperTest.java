@@ -11,7 +11,7 @@ import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.test.data.dependency1.model.TestShardingModel;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

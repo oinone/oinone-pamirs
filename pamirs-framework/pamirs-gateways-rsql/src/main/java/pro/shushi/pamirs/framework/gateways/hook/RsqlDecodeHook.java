@@ -8,9 +8,8 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.core.faas.HookBefore;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
-import sun.misc.BASE64Decoder;
 
-import java.io.IOException;
+import java.util.Base64;
 
 /**
  * 解释Rsql
@@ -39,8 +38,8 @@ public class RsqlDecodeHook implements HookBefore {
                             rsql = rsql.substring(RSQL_ENCODE_PREFIX.length());
                             log.debug("rsql解密,密文:{}", rsql);
                             try {
-                                rsql = new String(new BASE64Decoder().decodeBuffer(rsql));
-                            } catch (IOException e) {
+                                rsql = new String(Base64.getMimeDecoder().decode(rsql));
+                            } catch (Throwable e) {
                                 throw new RuntimeException(e);
                             }
                             log.debug("rsql解密,明文:{}", rsql);

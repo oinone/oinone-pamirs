@@ -3,7 +3,7 @@ package pro.shushi.pamirs.framework.connectors.event.api;
 import pro.shushi.pamirs.framework.connectors.event.engine.NotifySendResult;
 import pro.shushi.pamirs.meta.common.lambda.Getter;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.io.Serializable;
 import java.util.Map;
 

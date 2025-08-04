@@ -15,7 +15,7 @@ import pro.shushi.pamirs.framework.connectors.data.ddl.processor.CreateTableProc
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 /**

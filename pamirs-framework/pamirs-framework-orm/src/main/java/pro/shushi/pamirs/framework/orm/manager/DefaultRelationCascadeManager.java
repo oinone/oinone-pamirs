@@ -16,7 +16,7 @@ import pro.shushi.pamirs.meta.enmu.RtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;

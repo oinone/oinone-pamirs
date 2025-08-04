@@ -15,7 +15,7 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.ExpConstants;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author shier

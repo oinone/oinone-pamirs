@@ -4,7 +4,7 @@ import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestParam;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 会话预处理API

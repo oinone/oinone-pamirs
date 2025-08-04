@@ -2,7 +2,7 @@ package pro.shushi.pamirs.framework.common.config;
 
 import com.alibaba.ttl.threadpool.TtlExecutors;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 

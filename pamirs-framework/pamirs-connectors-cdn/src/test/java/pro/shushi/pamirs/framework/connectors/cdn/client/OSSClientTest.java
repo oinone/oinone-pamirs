@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.framework.connectors.cdn.client;
 
-import org.assertj.core.util.Lists;
+import com.google.common.collect.Lists;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pro.shushi.pamirs.framework.connectors.cdn.AbstractBaseTest;

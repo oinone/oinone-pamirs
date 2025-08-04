@@ -125,7 +125,7 @@ public class PamirsLogbackAppender<E> extends PamirsLogbackAppenderConfig<E> {
 
         final Long timestamp = getTimestamp(e);
 
-        final ProducerRecord record = new ProducerRecord<>(topic, null, timestamp, key, payload);
+        final ProducerRecord<?, ?> record = new ProducerRecord<>(topic, null, timestamp, key, payload);
 
         final Producer producer = kafkaProducerLazyInit.get();
         if (producer != null) {

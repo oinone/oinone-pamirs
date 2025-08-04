@@ -41,7 +41,7 @@ import pro.shushi.pamirs.framework.connectors.event.rocketmq.util.RocketMQUtil;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;

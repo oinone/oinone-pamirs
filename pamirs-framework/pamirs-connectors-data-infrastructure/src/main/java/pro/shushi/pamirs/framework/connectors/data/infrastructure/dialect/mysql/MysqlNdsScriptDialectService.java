@@ -6,7 +6,7 @@ import pro.shushi.pamirs.framework.connectors.data.dialect.api.Dialect;
 import pro.shushi.pamirs.framework.connectors.data.dialect.constants.DataProductVersion;
 import pro.shushi.pamirs.framework.connectors.data.infrastructure.dialect.ScriptDialectService;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * NDS脚本执行方言服务（MYSQL）

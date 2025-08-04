@@ -24,7 +24,7 @@ import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.domain.model.RelationDataModel;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 

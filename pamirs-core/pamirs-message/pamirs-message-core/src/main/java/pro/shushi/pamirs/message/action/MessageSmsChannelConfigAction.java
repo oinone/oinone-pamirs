@@ -12,7 +12,7 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.WriteWithFieldApi;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import static pro.shushi.pamirs.message.enmu.MessageExpEnumerate.BIZ_ERROR;
 

@@ -17,7 +17,7 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.constant.RequestParamConstants;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**

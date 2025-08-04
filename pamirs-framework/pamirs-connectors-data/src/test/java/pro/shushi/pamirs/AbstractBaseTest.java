@@ -14,7 +14,7 @@ import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.common.util.FileUtils;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;

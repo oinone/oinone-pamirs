@@ -15,7 +15,7 @@ import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Date;
 import java.util.Map;
 

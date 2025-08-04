@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.middleware</groupId>
         <artifactId>pamirs-middleware</artifactId>
-        <version>6.2.11</version>
+        <version>6.3.0</version>
     </parent>
     <groupId>pro.shushi.pamirs.middleware.zookeeper</groupId>
     <artifactId>pamirs-middleware-zookeeper</artifactId>
@@ -14,8 +14,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <zookeeper.version>3.4.6</zookeeper.version>
-        <curator.recipes.version>4.2.0</curator.recipes.version>
+        <zookeeper.version>3.5.10</zookeeper.version>
+        <curator.recipes.version>5.1.0</curator.recipes.version>
     </properties>
 
     <modules>
@@ -63,11 +63,6 @@
                         <artifactId>zookeeper</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.101tec</groupId>
-                <artifactId>zkclient</artifactId>
-                <version>0.11</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

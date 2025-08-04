@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.core.common.cache.service;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.function.Supplier;
 
 /**

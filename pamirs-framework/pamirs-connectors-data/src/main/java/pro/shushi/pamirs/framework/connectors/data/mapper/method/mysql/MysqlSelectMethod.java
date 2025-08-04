@@ -1,8 +1,8 @@
 package pro.shushi.pamirs.framework.connectors.data.mapper.method.mysql;
 
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.framework.connectors.data.constant.StatementConstants;
 import pro.shushi.pamirs.framework.connectors.data.mapper.method.api.SelectMethod;
 import pro.shushi.pamirs.framework.connectors.data.mapper.method.mysql.constants.MysqlScriptTemplate;

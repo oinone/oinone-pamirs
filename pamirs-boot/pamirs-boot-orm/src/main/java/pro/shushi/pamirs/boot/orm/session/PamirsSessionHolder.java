@@ -23,7 +23,7 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;

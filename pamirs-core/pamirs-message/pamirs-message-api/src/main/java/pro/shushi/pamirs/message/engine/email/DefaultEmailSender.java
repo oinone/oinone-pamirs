@@ -1,6 +1,13 @@
 package pro.shushi.pamirs.message.engine.email;
 
-import com.sun.mail.util.MailSSLSocketFactory;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.activation.FileDataSource;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ObjectUtils;
@@ -10,20 +17,14 @@ import pro.shushi.pamirs.message.enmu.MessageEngineTypeEnum;
 import pro.shushi.pamirs.message.enmu.MessageExpEnumerate;
 import pro.shushi.pamirs.message.enmu.SMSTemplateTypeEnum;
 import pro.shushi.pamirs.message.model.*;
+import pro.shushi.pamirs.message.ssl.MailSSLSocketFactory;
 import pro.shushi.pamirs.message.tmodel.EmailPoster;
 import pro.shushi.pamirs.message.utils.VerificationCodeUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Exp;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.net.ssl.SSLSocketFactory;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
@@ -171,8 +172,7 @@ public class DefaultEmailSender implements EmailSender {
             }
             properties.put("mail.smtp.auth", "true");
             if (EmailSendSecurityEnum.SSL.getValue().equals(smtpSecurity)) {
-                MailSSLSocketFactory sf = new MailSSLSocketFactory();
-                sf.setTrustAllHosts(true);
+                SSLSocketFactory sf = new MailSSLSocketFactory();
                 properties.put("mail.smtp.ssl.enable", "true");
                 properties.put("mail.smtp.ssl.socketFactory", sf);
             }

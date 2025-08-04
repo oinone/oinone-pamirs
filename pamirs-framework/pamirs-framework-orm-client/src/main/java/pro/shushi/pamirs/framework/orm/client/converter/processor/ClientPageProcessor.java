@@ -7,7 +7,7 @@ import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.constant.FieldConstants;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 前端分页转换服务

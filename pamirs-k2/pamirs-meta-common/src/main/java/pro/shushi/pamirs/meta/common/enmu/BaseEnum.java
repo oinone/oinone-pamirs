@@ -9,7 +9,7 @@ import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.util.AppClassLoader;
 import pro.shushi.pamirs.meta.common.util.BitUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

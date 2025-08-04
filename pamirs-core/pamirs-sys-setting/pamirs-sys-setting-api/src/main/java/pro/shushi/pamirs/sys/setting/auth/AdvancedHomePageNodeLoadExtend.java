@@ -24,7 +24,7 @@ import pro.shushi.pamirs.boot.web.manager.MetaCacheManager;
 import pro.shushi.pamirs.boot.web.service.AppConfigService;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 /**

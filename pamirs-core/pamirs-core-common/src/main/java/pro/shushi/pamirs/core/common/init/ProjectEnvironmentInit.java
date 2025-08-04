@@ -18,7 +18,7 @@ import pro.shushi.pamirs.meta.api.core.compute.Prioritized;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 

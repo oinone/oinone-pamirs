@@ -5,7 +5,7 @@ import pro.shushi.pamirs.meta.api.core.orm.convert.ClientDataConverter;
 import pro.shushi.pamirs.meta.api.core.orm.convert.ClientRelationConverter;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 前后端关系转换服务

@@ -24,8 +24,8 @@ import pro.shushi.pamirs.meta.enmu.ActiveEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 
-import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

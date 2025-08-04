@@ -99,7 +99,7 @@ public class MySqlCheckHelperTest {
     }
 
     private String rawTest(String sql) {
-        String target = SQLCheckHelper.checkSingle(sql, JdbcUtils.MYSQL);
+        String target = SQLCheckHelper.checkSingle(sql, JdbcUtils.MYSQL.name());
         assert !target.contains("#");
         System.out.println(target);
         return target;

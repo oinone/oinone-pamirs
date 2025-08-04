@@ -71,26 +71,22 @@ The "O" symbolizes open source while phonetically resonating with "All in one," 
 - [📗 Common Solutions](https://guide.oinone.top/en/DevManual/CommonSolutions)
 - [📗 FAQ](https://guide.oinone.top/en/DevManual/FAQ)
 
-### 8. Development Notice
-After importing the project into IntelliJ IDEA, make sure to activate the profile. Open the `Maven` toolbar and activate the `tools` profile.<br>
-<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/tools-profile.png" alt="Tools Profile" width="500">
-
-### 9. Product Ecosystem
+### 8. Product Ecosystem
 Comprehensive coverage of product development and implementation needs.
 ![Product Ecosystem](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/en/1.Product%20Ecosystem-1.png "Product Ecosystem")
 ![Product Ecosystem](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/en/2.Product%20Ecosystem-2.png "Product Ecosystem")
 
-### 10. Key Features
+### 9. Key Features
 ![Key Features](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/en/Key%20Features.png)
 
-### 11. License
+### 10. License
 - Oinone Pamirs repository is licensed under AGPL-3.0.
 - [Third Party Open Source Software and License Notice](https://guide.oinone.top/en/Third-Party-Open-Source-Software-And-License-Notice.html).
 
-### 12. Community Participation
+### 11. Community Participation
 - Join the community: Go to [⚡Oinone Community](https://doc.oinone.top)❤️
 - [How to contribute](https://guide.oinone.top/en/Contribute)
 
-### 13. Contact Us
+### 12. Contact Us
 - Website：https://www.oinone.top
 - Email：oinone@shushi.pro

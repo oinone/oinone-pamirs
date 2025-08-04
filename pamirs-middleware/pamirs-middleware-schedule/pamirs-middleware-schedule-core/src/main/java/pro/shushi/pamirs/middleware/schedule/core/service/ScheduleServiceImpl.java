@@ -2,11 +2,9 @@ package pro.shushi.pamirs.middleware.schedule.core.service;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.support.CronSequenceGenerator;
+import org.springframework.scheduling.support.CronExpression;
+import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.middleware.schedule.api.ScheduleService;
 import pro.shushi.pamirs.middleware.schedule.common.Page;
 import pro.shushi.pamirs.middleware.schedule.core.conf.ScheduleSystemInfo;
@@ -25,10 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-@DubboService
+@Service
 public class ScheduleServiceImpl implements ScheduleService {
-
-    private static final Logger log = LoggerFactory.getLogger(ScheduleServiceImpl.class);
 
     @Autowired
     private ScheduleItemMapper scheduleItemMapper;
@@ -349,7 +345,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                     VerificationHelper.required(task.getPeriodTimeUnit(), "循环任务未指定执行周期时间单位");
                     VerificationHelper.required(IntValueEnumerationHelper.intValueOf(TimeUnit.class, task.getPeriodTimeUnit()), "循环任务指定的执行周期时间单位不合法，请参考TimeUnit");
                 } else {
-                    if (!CronSequenceGenerator.isValidExpression(cron)) {
+                    if (!CronExpression.isValidExpression(cron)) {
                         throw new IllegalArgumentException("循环任务指定的cron表达式不合法，请参考CronSequenceGenerator");
                     }
                 }

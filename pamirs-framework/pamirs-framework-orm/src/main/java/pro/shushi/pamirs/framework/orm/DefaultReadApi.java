@@ -30,7 +30,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

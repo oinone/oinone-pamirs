@@ -5,7 +5,7 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 import pro.shushi.pamirs.meta.enmu.ClientTypeEnum;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 获取请求客户端类型API

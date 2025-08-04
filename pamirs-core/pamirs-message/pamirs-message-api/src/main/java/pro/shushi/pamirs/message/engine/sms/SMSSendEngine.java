@@ -6,7 +6,7 @@ import pro.shushi.pamirs.message.engine.IMessageEngine;
 import pro.shushi.pamirs.message.model.MessageSource;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * SMSSendEngine

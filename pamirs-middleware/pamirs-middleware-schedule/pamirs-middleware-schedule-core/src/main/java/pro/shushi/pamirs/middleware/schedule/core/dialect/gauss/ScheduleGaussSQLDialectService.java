@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.middleware.schedule.core.dialect.gauss;
 
+import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.alibaba.druid.util.JdbcUtils;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -30,11 +31,11 @@ public class ScheduleGaussSQLDialectService extends AbstractSQLDialectService im
 
     @Override
     protected String getOriginType() {
-        return JdbcUtils.MYSQL;
+        return JdbcUtils.MYSQL.name();
     }
 
     @Override
-    protected String getTargetType() {
+    protected DbType getTargetType() {
         return JdbcUtils.POSTGRESQL;
     }
 

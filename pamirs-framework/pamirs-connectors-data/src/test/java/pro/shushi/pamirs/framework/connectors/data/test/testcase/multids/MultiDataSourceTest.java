@@ -14,7 +14,7 @@ import pro.shushi.pamirs.framework.connectors.data.test.mock.service.TestMultiDs
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 

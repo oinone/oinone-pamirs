@@ -15,7 +15,7 @@
 //import org.springframework.stereotype.Component;
 //import pro.shushi.pamirs.middleware.zookeeper.config.ZookeeperProperties;
 //
-//import javax.annotation.PreDestroy;
+//import jakarta.annotation.PreDestroy;
 //import java.util.concurrent.TimeUnit;
 //
 //@Component

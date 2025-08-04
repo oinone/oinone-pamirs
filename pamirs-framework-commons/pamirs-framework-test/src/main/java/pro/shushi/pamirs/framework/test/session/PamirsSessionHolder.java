@@ -19,7 +19,7 @@ import pro.shushi.pamirs.meta.base.bit.SessionMetaBit;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.Serializable;
 import java.util.Map;
 

@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.framework.gateways.graph.filter;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

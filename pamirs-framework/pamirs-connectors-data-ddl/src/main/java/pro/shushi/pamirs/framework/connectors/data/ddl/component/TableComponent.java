@@ -15,7 +15,7 @@ import pro.shushi.pamirs.meta.api.session.cache.spi.SessionFillOwnSignApi;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.util.ParserUtil;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

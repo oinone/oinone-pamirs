@@ -1,8 +1,10 @@
 package pro.shushi.pamirs.middleware.schedule.core.util;
 
-import org.springframework.scheduling.support.CronSequenceGenerator;
+import org.springframework.scheduling.support.CronExpression;
 import pro.shushi.pamirs.middleware.schedule.eunmeration.TimeUnit;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,12 +38,12 @@ public class DateHelper {
     }
 
     public static Date computeNextExecuteTime(Date date, String cron) {
-        CronSequenceGenerator cronSequenceGenerator = new CronSequenceGenerator(cron);
-        Date nextDate = cronSequenceGenerator.next(date);
-        Date now = new Date();
-        while (nextDate.before(now)) {
-            nextDate = cronSequenceGenerator.next(nextDate);
+        CronExpression cronExpression = CronExpression.parse(cron);
+        LocalDateTime nextDate = cronExpression.next(LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()));
+        LocalDateTime now = LocalDateTime.now();
+        while (nextDate.isBefore(now)) {
+            nextDate = cronExpression.next(nextDate);
         }
-        return nextDate;
+        return Date.from(nextDate.atZone(ZoneId.systemDefault()).toInstant());
     }
 }

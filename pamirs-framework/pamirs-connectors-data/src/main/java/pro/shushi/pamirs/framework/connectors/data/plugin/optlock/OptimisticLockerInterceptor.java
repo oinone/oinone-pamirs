@@ -26,13 +26,11 @@ import pro.shushi.pamirs.meta.util.FieldUtils;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static pro.shushi.pamirs.framework.connectors.data.enmu.DataExpEnumerate.BASE_NO_OPTIMISTIC_LOCKER_VALUE2_ERROR;
 import static pro.shushi.pamirs.framework.connectors.data.enmu.DataExpEnumerate.BASE_NO_OPTIMISTIC_LOCKER_VALUE_ERROR;
+import static pro.shushi.pamirs.framework.connectors.data.mapper.template.ScriptTemplate.UPDATED_VERSION_VAL_KEY;
 
 /**
  * 乐观锁支持
@@ -68,7 +66,7 @@ public class OptimisticLockerInterceptor implements Interceptor {
     public Object intercept(Invocation invocation) throws Throwable {
         Object[] args = invocation.getArgs();
         MappedStatement ms = (MappedStatement) args[0];
-        boolean optimisticLocker = PamirsSession.directive().isOptimisticLocker();
+        boolean optimisticLocker = Objects.requireNonNull(PamirsSession.directive()).isOptimisticLocker();
         if (SqlCommandType.UPDATE != ms.getSqlCommandType() || !optimisticLocker) {
             return invocation.proceed();
         }
@@ -126,7 +124,7 @@ public class OptimisticLockerInterceptor implements Interceptor {
                 aw.apply(versionColumn + " = {0}", originalVersionVal);
             }
         } else {
-            map.put(Constants.MP_OPTLOCK_VERSION_COLUMN, versionColumn);
+            map.put(UPDATED_VERSION_VAL_KEY, versionColumn);
             map.put(Constants.MP_OPTLOCK_VERSION_ORIGINAL, originalVersionVal);
         }
         versionField.set(et, updatedVersionVal);
@@ -172,7 +170,7 @@ public class OptimisticLockerInterceptor implements Interceptor {
                 aw.apply(optimisticLockerColumn + " = {0}", originalVersionVal);
             }
         }
-        map.put(Constants.MP_OPTLOCK_VERSION_COLUMN, optimisticLockerColumn);
+        map.put(UPDATED_VERSION_VAL_KEY, optimisticLockerColumn);
         etm.put(optimisticLockerProperty, updatedVersionVal);
         etm.put(Constants.MP_OPTLOCK_VERSION_ORIGINAL, originalVersionVal);
     }
@@ -202,7 +200,7 @@ public class OptimisticLockerInterceptor implements Interceptor {
             FieldUtils.setFieldValue(item, optimisticLockerProperty, updatedVersionVal);
             FieldUtils.setFieldValue(item, Constants.MP_OPTLOCK_VERSION_ORIGINAL, originalVersionVal);
         }
-        map.put(Constants.MP_OPTLOCK_VERSION_COLUMN, optimisticLockerColumn);
+        map.put(UPDATED_VERSION_VAL_KEY, optimisticLockerColumn);
     }
 
     /**

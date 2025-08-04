@@ -9,7 +9,7 @@ import pro.shushi.pamirs.boot.common.extend.MetaDataPreEditor;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.configure.PamirsFrameworkMetaConfiguration;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 

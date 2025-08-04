@@ -15,7 +15,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.trigger.model.TriggerTaskAction;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author xzf 2022/06/30 12:08

@@ -1,15 +1,15 @@
 package com.taobao.pamirs.schedule.test;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.apache.curator.test.TestingServer;
 
 import java.io.IOException;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class EmbedTestingServer {
 
     private static final int PORT = 2181;
+
+    private EmbedTestingServer() {
+    }
 
     private static volatile TestingServer testingServer;
 

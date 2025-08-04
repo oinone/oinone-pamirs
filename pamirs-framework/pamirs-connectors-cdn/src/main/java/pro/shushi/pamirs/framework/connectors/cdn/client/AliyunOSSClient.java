@@ -27,7 +27,7 @@ import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.util.DateUtils;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;

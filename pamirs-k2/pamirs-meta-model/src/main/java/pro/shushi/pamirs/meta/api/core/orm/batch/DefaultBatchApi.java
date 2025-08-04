@@ -11,7 +11,7 @@ import pro.shushi.pamirs.meta.api.enmu.BatchOpTypeEnum;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 批量操作接口实现

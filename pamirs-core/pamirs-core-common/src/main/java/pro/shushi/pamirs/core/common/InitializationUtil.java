@@ -35,9 +35,9 @@ import pro.shushi.pamirs.meta.domain.model.SequenceConfig;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;

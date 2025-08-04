@@ -10,7 +10,7 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestParam;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

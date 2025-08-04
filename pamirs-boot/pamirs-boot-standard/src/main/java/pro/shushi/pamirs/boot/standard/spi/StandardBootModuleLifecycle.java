@@ -26,7 +26,7 @@ import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.ModuleStateEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 import static pro.shushi.pamirs.boot.common.enmu.BootExpEnumerate.*;

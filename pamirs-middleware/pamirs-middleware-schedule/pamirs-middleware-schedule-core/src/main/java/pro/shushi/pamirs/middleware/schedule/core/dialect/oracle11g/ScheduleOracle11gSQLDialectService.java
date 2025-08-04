@@ -1,18 +1,12 @@
 package pro.shushi.pamirs.middleware.schedule.core.dialect.oracle11g;
 
-import com.alibaba.druid.sql.SQLUtils;
-import com.alibaba.druid.sql.ast.SQLStatement;
+import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.alibaba.druid.util.JdbcUtils;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.ParameterMapping;
-import org.apache.ibatis.mapping.ResultMap;
+import org.apache.ibatis.mapping.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.middleware.schedule.core.dialect.AbstractSQLDialectService;
-import pro.shushi.pamirs.middleware.schedule.core.dialect.ScheduleDialectConstants;
-import pro.shushi.pamirs.middleware.schedule.core.dialect.ScheduleSQLDialectService;
+import pro.shushi.pamirs.middleware.schedule.core.dialect.*;
 import pro.shushi.pamirs.middleware.schedule.core.dialect.entity.DialectVersion;
 import pro.shushi.pamirs.middleware.schedule.core.dialect.visitor.Oracle11gSQLVisitor;
 
@@ -39,11 +33,11 @@ public class ScheduleOracle11gSQLDialectService extends AbstractSQLDialectServic
 
     @Override
     protected String getOriginType() {
-        return JdbcUtils.MYSQL;
+        return JdbcUtils.MYSQL.name();
     }
 
     @Override
-    protected String getTargetType() {
+    protected DbType getTargetType() {
         return JdbcUtils.ORACLE;
     }
 

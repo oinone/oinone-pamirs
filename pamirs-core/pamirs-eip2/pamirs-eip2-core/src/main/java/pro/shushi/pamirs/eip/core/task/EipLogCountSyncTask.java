@@ -8,7 +8,7 @@ import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 接口日志统计定时任务，每12小时执行一次

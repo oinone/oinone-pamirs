@@ -10,6 +10,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
@@ -36,7 +37,7 @@ public class CacheProxy<K, V> implements Cache<K, V> {
     }
 
     @Override
-    public @Nullable V getIfPresent(@CompatibleWith("K") @NonNull Object o) {
+    public @Nullable V getIfPresent(@CompatibleWith("K") @NonNull K o) {
         return cache.getIfPresent(CACHE_PREFIX_API.prefix(o));
     }
 
@@ -46,7 +47,12 @@ public class CacheProxy<K, V> implements Cache<K, V> {
     }
 
     @Override
-    public @NonNull Map<K, V> getAllPresent(@NonNull Iterable<?> iterable) {
+    public @NonNull Map<K, V> getAllPresent(@NonNull Iterable<? extends K> iterable) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Map<K, V> getAll(Iterable<? extends K> iterable, Function<? super Set<? extends K>, ? extends Map<? extends K, ? extends V>> function) {
         throw new UnsupportedOperationException();
     }
 
@@ -63,12 +69,12 @@ public class CacheProxy<K, V> implements Cache<K, V> {
     }
 
     @Override
-    public void invalidate(@NonNull Object o) {
+    public void invalidate(@NonNull K o) {
         cache.invalidate(CACHE_PREFIX_API.prefix(o));
     }
 
     @Override
-    public void invalidateAll(@NonNull Iterable<?> iterable) {
+    public void invalidateAll(@NonNull Iterable<? extends K> iterable) {
         throw new UnsupportedOperationException();
     }
 

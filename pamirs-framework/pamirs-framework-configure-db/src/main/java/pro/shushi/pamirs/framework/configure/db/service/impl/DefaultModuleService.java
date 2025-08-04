@@ -16,7 +16,7 @@ import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.ModuleStateEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -17,7 +17,7 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
 import pro.shushi.pamirs.meta.util.NamespaceAndFunUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Objects;
 

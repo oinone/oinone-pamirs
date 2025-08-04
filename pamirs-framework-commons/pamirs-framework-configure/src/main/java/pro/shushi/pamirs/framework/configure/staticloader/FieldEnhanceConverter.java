@@ -13,7 +13,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.lang.reflect.Field;
 import java.util.*;
 

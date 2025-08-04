@@ -1,10 +1,11 @@
 package pro.shushi.pamirs.eip.api.serializable;
 
+import jakarta.xml.soap.*;
+import jakarta.xml.soap.Node;
+import jakarta.xml.soap.Text;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
+import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.SuperMap;
@@ -16,7 +17,6 @@ import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -83,7 +83,7 @@ public class DefaultSoapSerializable implements IEipSerializable<SuperMap>, IEip
         return data;
     }
 
-    public void children(SuperMap data, Iterator<SOAPElement> elements, String parentName) {
+    public void children(SuperMap data, Iterator<Node> elements, String parentName) {
         while (elements.hasNext()) {
             Node node = elements.next();
             if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -97,7 +97,7 @@ public class DefaultSoapSerializable implements IEipSerializable<SuperMap>, IEip
                     name = name.replaceAll(qNamePrefix + ":", "");
                 }
                 String value = element.getValue();
-                Iterator<SOAPElement> children = element.getChildElements();
+                Iterator<Node> children = element.getChildElements();
 
                 if (null != children) {
                     SuperMap childMap = new SuperMap();

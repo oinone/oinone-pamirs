@@ -23,7 +23,7 @@ public class AsynchronousDeliveryStrategy implements DeliveryStrategy {
                 }
             });
             return true;
-        } catch (BufferExhaustedException | TimeoutException e) {
+        } catch (TimeoutException e) {
             failedDeliveryCallback.onFailedDelivery(event, e);
             return false;
         }

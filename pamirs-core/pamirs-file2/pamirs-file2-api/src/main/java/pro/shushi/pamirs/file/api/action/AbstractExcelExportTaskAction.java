@@ -32,11 +32,8 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
-import sun.misc.BASE64Decoder;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Adamancy Zhang
@@ -190,8 +187,8 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
                     rsql = rsql.substring(RSQL_ENCODE_PREFIX.length());
                     log.debug("rsql解密,密文:{}", rsql);
                     try {
-                        rsql = new String(new BASE64Decoder().decodeBuffer(rsql));
-                    } catch (IOException e) {
+                        rsql = new String(Base64.getMimeDecoder().decode(rsql));
+                    } catch (Throwable e) {
                         throw new RuntimeException(e);
                     }
                     log.debug("rsql解密,明文:{}", rsql);

@@ -1,18 +1,22 @@
 package pro.shushi.pamirs.framework.connectors.data.dialect;
 
-import com.baomidou.mybatisplus.core.parser.ISqlParser;
-import com.baomidou.mybatisplus.core.parser.SqlInfo;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.Function;
-import net.sf.jsqlparser.expression.LongValue;
-import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
-import net.sf.jsqlparser.statement.select.*;
+import net.sf.jsqlparser.statement.select.Distinct;
+import net.sf.jsqlparser.statement.select.GroupByElement;
+import net.sf.jsqlparser.statement.select.Join;
+import net.sf.jsqlparser.statement.select.OrderByElement;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.select.SelectItem;
 import org.apache.ibatis.reflection.MetaObject;
+import pro.shushi.pamirs.framework.connectors.data.dialect.api.ISqlParser;
+import pro.shushi.pamirs.framework.connectors.data.optimize.JSqlParserCountOptimize;
 import pro.shushi.pamirs.framework.connectors.data.util.CountSQLParserUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
@@ -24,12 +28,12 @@ import java.util.Optional;
  * 分页CountSQL优化解析
  *
  * @author Adamancy Zhang at 12:42 on 2024-11-05
- * @see com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize
+ * @see JSqlParserCountOptimize
  */
 @Slf4j
 public class DefaultCountSQLParser implements ISqlParser {
 
-    private final List<SelectItem> countSelectItem;
+    private final List<SelectItem<?>> countSelectItem;
 
     private boolean optimizeJoin = false;
 
@@ -44,12 +48,8 @@ public class DefaultCountSQLParser implements ISqlParser {
     /**
      * 获取jsqlparser中count的SelectItem
      */
-    protected SelectItem defaultCountSelectItem() {
-        Function function = new Function();
-        ExpressionList expressionList = new ExpressionList(Collections.singletonList(new LongValue(1)));
-        function.setName("COUNT");
-        function.setParameters(expressionList);
-        return new SelectExpressionItem(function);
+    protected SelectItem<?> defaultCountSelectItem() {
+        return new SelectItem<>(new Column().withColumnName("COUNT(*)")).withAlias(new Alias("total"));
     }
 
     protected String getOriginalCountSql(String sql) {
@@ -57,11 +57,10 @@ public class DefaultCountSQLParser implements ISqlParser {
     }
 
     @Override
-    public SqlInfo parser(MetaObject metaObject, String sql) {
+    public String parser(MetaObject metaObject, String sql) {
         if (log.isDebugEnabled()) {
             log.debug("DefaultCountSQLParser sql: {}", sql);
         }
-        SqlInfo sqlInfo = SqlInfo.newInstance();
         try {
             Select selectStatement = (Select) CCJSqlParserUtil.parse(sql);
             PlainSelect plainSelect = (PlainSelect) selectStatement.getSelectBody();
@@ -72,17 +71,16 @@ public class DefaultCountSQLParser implements ISqlParser {
             // 添加包含groupBy 不去除orderBy
             if (null == groupBy && CollectionUtils.isNotEmpty(orderBy)) {
                 plainSelect.setOrderByElements(null);
-                sqlInfo.setOrderBy(false);
             }
             //#95 Github, selectItems contains #{} ${}, which will be translated to ?, and it may be in a function: power(#{myInt},2)
-            for (SelectItem item : plainSelect.getSelectItems()) {
+            for (SelectItem<?> item : plainSelect.getSelectItems()) {
                 if (item.toString().contains(StringPool.QUESTION_MARK)) {
-                    return sqlInfo.setSql(getOriginalCountSql(selectStatement.toString()));
+                    return getOriginalCountSql(selectStatement.toString());
                 }
             }
             // 包含 distinct、groupBy不优化
             if (distinct != null || null != groupBy) {
-                return sqlInfo.setSql(getOriginalCountSql(selectStatement.toString()));
+                return getOriginalCountSql(selectStatement.toString());
             }
             // 包含 join 连表,进行判断是否移除 join 连表
             List<Join> joins = plainSelect.getJoins();
@@ -113,10 +111,10 @@ public class DefaultCountSQLParser implements ISqlParser {
             }
             // 优化 SQL
             plainSelect.setSelectItems(countSelectItem);
-            return sqlInfo.setSql(selectStatement.toString());
+            return selectStatement.toString();
         } catch (Throwable e) {
             // 无法优化使用原 SQL
-            return sqlInfo.setSql(getOriginalCountSql(sql));
+            return getOriginalCountSql(sql);
         }
     }
 }

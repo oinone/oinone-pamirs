@@ -5,7 +5,7 @@ import pro.shushi.pamirs.file.api.entity.EasyExcelBlockDefinition;
 import pro.shushi.pamirs.file.api.entity.EasyExcelSheetDefinition;
 import pro.shushi.pamirs.file.api.function.ExcelReadCallback;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;

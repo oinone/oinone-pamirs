@@ -8,7 +8,7 @@
 //import pro.shushi.pamirs.framework.connectors.event.enumeration.NotifyType;
 //import pro.shushi.pamirs.framework.session.tenant.component.PamirsTenantSession;
 //
-//import javax.validation.constraints.NotBlank;
+//import jakarta.validation.constraints.NotBlank;
 //import java.io.Serializable;
 //
 //public class NotifyTemplate {

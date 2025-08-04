@@ -4,7 +4,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.messaging.Message;
-import org.springframework.util.concurrent.ListenableFuture;
 import pro.shushi.pamirs.framework.connectors.event.api.NotifyAbstractProducer;
 import pro.shushi.pamirs.framework.connectors.event.api.NotifySendAfter;
 import pro.shushi.pamirs.framework.connectors.event.api.NotifySendBefore;
@@ -19,6 +18,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -64,7 +64,7 @@ public class KafkaNotifyProducer extends NotifyAbstractProducer<KafkaTemplate<St
         String hashKey = Optional.ofNullable(orderlyFieldgetter.apply(msg))
                 .map(String::valueOf)
                 .orElse("0");
-        headers.put(KafkaHeaders.MESSAGE_KEY, hashKey);
+        headers.put(KafkaHeaders.KEY, hashKey);
         Message<T> message = EventUtil.message(_topic, tag, null, msg, headers);
         return handle(message, _message -> getTemplate(topic).send(_message));
     }
@@ -74,19 +74,18 @@ public class KafkaNotifyProducer extends NotifyAbstractProducer<KafkaTemplate<St
         final String _topic = TopicAndGroupEditorManager.editTopic(topic);
         Map<String, Object> headers = new HashMap<>();
         headers.put(KafkaHeaders.TOPIC, _topic);
-        headers.put(KafkaHeaders.MESSAGE_KEY, hashKey);
+        headers.put(KafkaHeaders.KEY, hashKey);
         Message<T> message = EventUtil.message(_topic, tag, null, msg, headers);
         return handle(message, _message -> getTemplate(topic).send(_message));
     }
 
-    private <T> NotifySendResult handle(Message<T> message, Function<Message<T>, ListenableFuture<SendResult<String, Object>>> func) {
+    private <T> NotifySendResult handle(Message<T> message, Function<Message<T>, CompletableFuture<SendResult<String, Object>>> func) {
         NotifySendResult result = null;
         try {
             for (NotifySendBefore sendBefore : BeanDefinitionUtils.getBeansOfTypeByOrdered(NotifySendBefore.class)) {
                 message = sendBefore.sendBefore(message);
             }
             SendResult<String, Object> sendJoin = func.apply(message)
-                    .completable()
                     .get(1, TimeUnit.MINUTES);
             if (log.isDebugEnabled()) {
                 log.debug("Kafka 发送详情:[{}]", sendJoin);

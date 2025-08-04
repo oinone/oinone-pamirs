@@ -4,6 +4,7 @@ import com.sun.source.tree.Tree;
 import com.sun.tools.javac.code.Symbol;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.tree.TreeTranslator;
+import com.sun.tools.javac.util.List;
 import pro.shushi.k2.fun.utils.FunUtils;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
@@ -49,7 +50,6 @@ public class PamirsDataProcessor extends PamirsAbstractProcessor {
                     boolean isChain = data.chain();
 
                     boolean hasDefaultConstruct = false;
-                    boolean needAllArgConstruct = true;
                     for (JCTree k : jcClassDecl.defs) {
                         if (Tree.Kind.VARIABLE.equals(k.getKind())) {
 
@@ -75,22 +75,13 @@ public class PamirsDataProcessor extends PamirsAbstractProcessor {
                         if (Tree.Kind.METHOD.equals(k.getKind())) {
                             JCTree.JCMethodDecl _jcMetDef = (JCTree.JCMethodDecl) k;
                             if ("<init>".equals(_jcMetDef.name.toString())) {
-                                if (_jcMetDef.params.isEmpty()) {
-                                    hasDefaultConstruct = true;
-                                } else {
-                                    needAllArgConstruct = false;
-                                }
+                                hasDefaultConstruct = true;
                             }
                         }
                     }
                     if (!hasDefaultConstruct) {
                         JCTree.JCMethodDecl no = FunUtils.makeNoArgsConstructMethodDecl(jcClassDecl, treeMaker, names, messager, true);
                         if (null != no) jcClassDecl.defs = jcClassDecl.defs.append(no);
-                    }
-
-                    if (needAllArgConstruct) {
-                        JCTree.JCMethodDecl all = FunUtils.makeAllArgsConstructMethodDecl(jcClassDecl, treeMaker, names, messager, true);
-                        if (null != all) jcClassDecl.defs = jcClassDecl.defs.append(all);
                     }
 
                     if (!hasToString(jcClassDecl)) {

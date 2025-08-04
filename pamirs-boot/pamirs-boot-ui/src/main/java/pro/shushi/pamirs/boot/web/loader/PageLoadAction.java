@@ -35,7 +35,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

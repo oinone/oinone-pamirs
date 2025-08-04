@@ -7,7 +7,7 @@ import pro.shushi.pamirs.meta.api.dto.fun.Function;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Optional;
 
 /**

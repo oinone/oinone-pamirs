@@ -14,7 +14,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.annotation.sys.Ds;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import static pro.shushi.pamirs.framework.connectors.data.api.datasource.DsHintApi.expression;
 

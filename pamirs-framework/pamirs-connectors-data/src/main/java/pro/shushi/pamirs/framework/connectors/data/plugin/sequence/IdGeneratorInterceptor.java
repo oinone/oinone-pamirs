@@ -17,10 +17,7 @@ import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.constant.SqlConstants;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * 模型编码自动生成支持

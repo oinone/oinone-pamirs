@@ -6,7 +6,7 @@ import pro.shushi.pamirs.framework.connectors.data.dialect.api.DialectSelectorAp
 import pro.shushi.pamirs.framework.connectors.data.dialect.configuration.DsDialectConfiguration;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 方言服务选择器

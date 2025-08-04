@@ -20,7 +20,7 @@ public class DefaultOracleSQLChecker extends AbstractSQLChecker implements EipSQ
 
     @Override
     public String dbType() {
-        return JdbcUtils.ORACLE;
+        return JdbcUtils.ORACLE.name();
     }
 
     @Override

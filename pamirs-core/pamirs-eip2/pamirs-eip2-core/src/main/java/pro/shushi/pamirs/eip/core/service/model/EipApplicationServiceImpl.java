@@ -22,7 +22,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.resource.api.enmu.ExpEnumerate;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;

@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
         <artifactId>pamirs-middleware-schedule</artifactId>
-        <version>6.2.11</version>
+        <version>6.3.0</version>
     </parent>
     <artifactId>pamirs-middleware-schedule-core</artifactId>
     <name>pamirs-middleware-schedule-core</name>
@@ -50,21 +50,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure-processor</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <artifactId>dubbo-serialization-api</artifactId>
         </dependency>
 
         <dependency>
@@ -74,6 +61,10 @@
         <dependency>
             <groupId>de.javakaffee</groupId>
             <artifactId>kryo-serializers</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo.extensions</groupId>
+            <artifactId>dubbo-serialization-kryo</artifactId>
         </dependency>
 
         <dependency>

@@ -25,7 +25,7 @@ import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 import pro.shushi.pamirs.translate.visitor.AuthCompileHelper;
 import pro.shushi.pamirs.translate.visitor.DslNodeVisitor;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.*;
 
 /**

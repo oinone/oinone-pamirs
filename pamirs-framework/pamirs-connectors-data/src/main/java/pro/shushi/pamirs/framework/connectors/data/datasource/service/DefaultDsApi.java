@@ -13,7 +13,7 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.configure.PamirsFrameworkSystemConfiguration;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 import java.util.Optional;
 

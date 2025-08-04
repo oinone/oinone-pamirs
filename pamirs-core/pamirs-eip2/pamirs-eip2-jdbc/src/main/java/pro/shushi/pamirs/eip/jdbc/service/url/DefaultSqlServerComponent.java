@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.eip.jdbc.service.url;
 
-import com.alibaba.druid.util.JdbcUtils;
+import com.alibaba.druid.DbType;
 
 /**
  * DefaultSqlServerComponent
@@ -11,7 +11,7 @@ public class DefaultSqlServerComponent extends AbstractJdbcComponent {
 
     @Override
     public String dbType() {
-        return JdbcUtils.SQL_SERVER;
+        return DbType.sqlserver.name();
     }
 
     @Override

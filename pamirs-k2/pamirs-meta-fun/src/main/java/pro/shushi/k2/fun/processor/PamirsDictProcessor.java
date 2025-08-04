@@ -63,7 +63,7 @@ public class PamirsDictProcessor extends PamirsAbstractProcessor {
         JCTree.JCClassDecl jcClassDecl = trees.getTree(parent);
         List<com.sun.tools.javac.util.Name> parentVariableList;
         if (jcClassDecl == null) {
-            Iterable<Symbol> iterable = parent.members().getElements();
+            Iterable<Symbol> iterable = parent.members().getSymbols();
             parentVariableList = new ArrayList<>();
             symbol:
             for (Symbol item : iterable) {

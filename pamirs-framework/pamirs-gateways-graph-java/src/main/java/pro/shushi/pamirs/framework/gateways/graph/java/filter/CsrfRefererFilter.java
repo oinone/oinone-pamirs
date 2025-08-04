@@ -1,8 +1,10 @@
 package pro.shushi.pamirs.framework.gateways.graph.java.filter;
 
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +12,6 @@ import org.springframework.http.HttpStatus;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -24,8 +22,6 @@ import java.util.List;
 @Configuration
 @WebFilter(filterName = "csrfRefererFilter", urlPatterns = "/*")
 public class CsrfRefererFilter implements Filter {
-
-    public static final Logger logger = LoggerFactory.getLogger(CsrfRefererFilter.class);
 
     /**
      * 过滤器配置对象

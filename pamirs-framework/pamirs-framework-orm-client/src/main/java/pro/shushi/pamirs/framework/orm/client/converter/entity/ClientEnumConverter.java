@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.orm.converter.entity.handler.EnumHandler;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**

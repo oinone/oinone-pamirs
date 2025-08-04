@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.middleware.schedule.api.ScheduleAction;
 import pro.shushi.pamirs.middleware.schedule.core.condition.ScheduleSwitchCondition;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

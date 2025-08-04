@@ -7,7 +7,7 @@ import pro.shushi.pamirs.meta.api.core.orm.convert.ClientFieldConverter;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 前后端字段转换服务

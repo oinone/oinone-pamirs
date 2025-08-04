@@ -24,7 +24,7 @@ import pro.shushi.pamirs.meta.enmu.CheckStrategyEnum;
 import pro.shushi.pamirs.meta.enmu.InformationLevelEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;

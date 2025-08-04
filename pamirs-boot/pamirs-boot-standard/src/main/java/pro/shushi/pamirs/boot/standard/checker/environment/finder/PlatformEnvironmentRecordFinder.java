@@ -11,7 +11,7 @@ import pro.shushi.pamirs.meta.domain.PlatformEnvironment;
 import pro.shushi.pamirs.meta.domain.PlatformEnvironmentHistoryRecord;
 import pro.shushi.pamirs.meta.enmu.PlatformEnvironmentTypeEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 

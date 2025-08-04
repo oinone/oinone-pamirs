@@ -10,7 +10,7 @@ import com.sun.tools.javac.tree.TreeTranslator;
 import com.sun.tools.javac.util.Context;
 import com.sun.tools.javac.util.Name;
 import com.sun.tools.javac.util.Names;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import pro.shushi.k2.fun.enmu.FunType;
 import pro.shushi.k2.fun.model.FunctionDefine;
 import pro.shushi.k2.fun.utils.FunUtils;
@@ -74,7 +74,7 @@ public class PamirsOnFaaSProcessor extends JetBrainsWarpProcessor {
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
-        return SourceVersion.RELEASE_8;
+        return SourceVersion.latest();
     }
 
     @Override

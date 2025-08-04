@@ -24,7 +24,7 @@ import pro.shushi.pamirs.meta.domain.module.ModuleCategory;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

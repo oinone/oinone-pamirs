@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.api.core.orm.NamedApi;
 import pro.shushi.pamirs.meta.api.core.orm.processor.NameProcessor;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 

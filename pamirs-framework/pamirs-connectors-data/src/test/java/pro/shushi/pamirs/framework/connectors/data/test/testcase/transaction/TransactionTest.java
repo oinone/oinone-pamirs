@@ -16,7 +16,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.config.TxConfig;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**

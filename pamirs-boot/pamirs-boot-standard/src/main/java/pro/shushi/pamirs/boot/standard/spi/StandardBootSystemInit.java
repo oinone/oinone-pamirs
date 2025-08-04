@@ -9,7 +9,7 @@ import pro.shushi.pamirs.boot.common.util.SystemTableHelper;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 启动系统初始化接口

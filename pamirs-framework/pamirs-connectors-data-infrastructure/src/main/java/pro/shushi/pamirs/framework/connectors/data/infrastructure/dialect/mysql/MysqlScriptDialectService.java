@@ -18,8 +18,8 @@ import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
-import javax.validation.constraints.NotBlank;
+import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotBlank;
 import java.io.StringReader;
 import java.sql.Connection;
 

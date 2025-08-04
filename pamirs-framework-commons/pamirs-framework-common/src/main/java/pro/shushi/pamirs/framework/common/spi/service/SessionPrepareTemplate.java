@@ -16,7 +16,7 @@ import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;

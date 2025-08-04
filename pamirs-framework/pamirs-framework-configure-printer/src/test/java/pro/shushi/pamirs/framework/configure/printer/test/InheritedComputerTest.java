@@ -13,7 +13,7 @@
 //import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 //import pro.shushi.pamirs.meta.enmu.TtypeDict;
 //
-//import javax.annotation.Resource;
+//import jakarta.annotation.Resource;
 //import java.util.List;
 //
 /// **

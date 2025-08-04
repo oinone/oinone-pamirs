@@ -7,7 +7,7 @@ import pro.shushi.pamirs.framework.connectors.data.api.configure.PamirsFramework
 import pro.shushi.pamirs.framework.connectors.data.api.datasource.DsKeyFetcher;
 import pro.shushi.pamirs.framework.connectors.data.configure.sharding.ShardingDefineConfiguration;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 

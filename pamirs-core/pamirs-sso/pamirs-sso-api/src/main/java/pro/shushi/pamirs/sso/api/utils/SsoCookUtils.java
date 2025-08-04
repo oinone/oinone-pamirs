@@ -3,9 +3,9 @@ package pro.shushi.pamirs.sso.api.utils;
 import org.springframework.core.env.Environment;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class SsoCookUtils {
     public static Cookie get(HttpServletRequest request, String key) {

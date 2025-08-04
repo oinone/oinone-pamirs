@@ -23,7 +23,7 @@ import pro.shushi.pamirs.meta.common.util.PStringUtils;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.util.ParserUtil;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 /**

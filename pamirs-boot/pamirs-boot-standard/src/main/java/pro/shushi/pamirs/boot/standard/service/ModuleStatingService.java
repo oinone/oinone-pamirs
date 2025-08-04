@@ -15,7 +15,7 @@ import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.ModuleStateEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 /**

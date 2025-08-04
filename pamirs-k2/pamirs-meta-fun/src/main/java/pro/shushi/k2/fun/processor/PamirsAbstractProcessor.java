@@ -58,7 +58,7 @@ public class PamirsAbstractProcessor extends JetBrainsWarpProcessor {
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
-        return SourceVersion.RELEASE_8;
+        return SourceVersion.latest();
     }
 
     public abstract String getSupportType();

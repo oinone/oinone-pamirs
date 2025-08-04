@@ -16,7 +16,7 @@ import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;

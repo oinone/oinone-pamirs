@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend;
 
-import com.baomidou.mybatisplus.core.parser.SqlParserHelper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.reflection.MetaObject;
@@ -78,6 +77,6 @@ public class SqlPluginHelper {
      * @param metaObject 元对象
      */
     public static MappedStatement getMappedStatement(MetaObject metaObject) {
-        return (MappedStatement) metaObject.getValue(SqlParserHelper.DELEGATE_MAPPED_STATEMENT);
+        return (MappedStatement) metaObject.getValue("delegate.mappedStatement");
     }
 }

@@ -8,7 +8,7 @@ import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 熔断记录定时落库-每12小时同步一次

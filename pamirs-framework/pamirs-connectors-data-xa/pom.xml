@@ -5,7 +5,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-framework</artifactId>
-        <version>6.2.11</version>
+        <version>6.3.0</version>
     </parent>
 
     <groupId>pro.shushi.pamirs.framework</groupId>
@@ -23,8 +23,8 @@
 
         <!-- 分布式事务atomikos -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jta-atomikos</artifactId>
+            <groupId>com.atomikos</groupId>
+            <artifactId>transactions-spring-boot3-starter</artifactId>
         </dependency>
 
         <dependency>

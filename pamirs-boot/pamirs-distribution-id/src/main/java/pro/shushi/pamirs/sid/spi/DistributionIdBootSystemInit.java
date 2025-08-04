@@ -22,7 +22,7 @@ import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.sid.model.WorkerNode;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -9,7 +9,7 @@ import pro.shushi.pamirs.file.api.model.ExcelImportTask;
 import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.meta.annotation.Fun;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 

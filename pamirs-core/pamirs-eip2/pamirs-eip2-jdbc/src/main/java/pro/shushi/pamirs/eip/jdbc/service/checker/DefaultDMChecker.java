@@ -24,15 +24,15 @@ public class DefaultDMChecker extends AbstractSQLChecker implements EipSQLChecke
 
     @Override
     public String dbType() {
-        return JdbcUtils.DM;
+        return JdbcUtils.DM.name();
     }
 
     @Override
     public List<String> secondaryDbTypes() {
         return Lists.newArrayList(
-                JdbcUtils.ORACLE,
-                JdbcUtils.SQL_SERVER,
-                JdbcUtils.MYSQL
+                JdbcUtils.ORACLE.name(),
+                JdbcUtils.SQL_SERVER.name(),
+                JdbcUtils.MYSQL.name()
         );
     }
 

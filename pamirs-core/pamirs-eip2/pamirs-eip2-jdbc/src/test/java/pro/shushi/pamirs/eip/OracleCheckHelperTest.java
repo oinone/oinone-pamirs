@@ -125,7 +125,7 @@ public class OracleCheckHelperTest {
     }
 
     private String rawTest(String sql) {
-        String target = SQLCheckHelper.checkSingle(sql, JdbcUtils.ORACLE);
+        String target = SQLCheckHelper.checkSingle(sql, JdbcUtils.ORACLE.name());
         assert !target.contains("#");
         System.out.println(target);
         return target;

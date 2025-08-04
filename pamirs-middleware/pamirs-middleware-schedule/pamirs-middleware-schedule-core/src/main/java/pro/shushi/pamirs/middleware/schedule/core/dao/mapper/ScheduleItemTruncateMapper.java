@@ -1,9 +1,7 @@
 package pro.shushi.pamirs.middleware.schedule.core.dao.mapper;
 
-import com.baomidou.mybatisplus.annotation.SqlParser;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
+import org.apache.ibatis.annotations.*;
 
 /**
  * 清空表数据dao
@@ -11,7 +9,13 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface ScheduleItemTruncateMapper {
 
-    @SqlParser(filter = true)
+    @InterceptorIgnore(
+            tenantLine = "true",
+            dynamicTableName = "true",
+            blockAttack = "true",
+            illegalSql = "true",
+            dataPermission = "true"
+    )
     @Select(
             "truncate table pamirs_schedule_${tableNum}"
     )

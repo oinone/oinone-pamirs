@@ -7,7 +7,7 @@ import pro.shushi.pamirs.framework.connectors.data.api.domain.model.physical.Dat
 import pro.shushi.pamirs.framework.connectors.data.api.domain.model.physical.DatabaseInstance;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;

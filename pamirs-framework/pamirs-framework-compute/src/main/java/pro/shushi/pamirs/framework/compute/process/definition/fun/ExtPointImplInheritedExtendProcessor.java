@@ -12,7 +12,7 @@ import pro.shushi.pamirs.meta.domain.fun.ExtPointImplementation;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 /**

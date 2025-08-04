@@ -9,8 +9,8 @@
 //import pro.shushi.pamirs.meta.api.session.PamirsSession;
 //import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 //
-//import javax.annotation.PostConstruct;
-//import javax.annotation.Resource;
+//import jakarta.annotation.PostConstruct;
+//import jakarta.annotation.Resource;
 //import java.util.concurrent.locks.ReadWriteLock;
 //import java.util.concurrent.locks.ReentrantReadWriteLock;
 //

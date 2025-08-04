@@ -149,7 +149,7 @@ public class MathFunctions {
         if (null == a || null == b) {
             return null;
         }
-        return Math.floorMod(a, b);
+        return Math.floorMod(a, Long.valueOf(b));
     }
 
     public static Long mod(Integer a, Long b) {

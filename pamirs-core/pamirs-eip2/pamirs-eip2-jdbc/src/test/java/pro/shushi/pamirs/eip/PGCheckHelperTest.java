@@ -125,7 +125,7 @@ public class PGCheckHelperTest {
     }
 
     private String rawTest(String sql) {
-        String target = SQLCheckHelper.checkSingle(sql, JdbcUtils.POSTGRESQL);
+        String target = SQLCheckHelper.checkSingle(sql, JdbcUtils.POSTGRESQL.name());
         assert !target.contains("#");
         System.out.println(target);
         return target;

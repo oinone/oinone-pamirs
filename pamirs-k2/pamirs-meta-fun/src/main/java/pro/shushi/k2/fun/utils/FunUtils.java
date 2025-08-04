@@ -8,7 +8,7 @@ import com.sun.tools.javac.util.Context;
 import com.sun.tools.javac.util.List;
 import com.sun.tools.javac.util.ListBuffer;
 import com.sun.tools.javac.util.Name;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import pro.shushi.k2.fun.enmu.FunType;
@@ -27,8 +27,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -71,7 +69,7 @@ public class FunUtils {
 
         // 创建fun对象
 //                    JCTree.JCIdent annoType =treeMaker.Ident(getNameFromString("Resource"));
-        JCTree.JCAnnotation jcAnnotation = treeMaker.Annotation(memberAccess("javax.annotation.Resource", treeMaker, names), List.nil());
+        JCTree.JCAnnotation jcAnnotation = treeMaker.Annotation(memberAccess("jakarta.annotation.Resource", treeMaker, names), List.nil());
         jcClassDecl.defs = jcClassDecl.defs.prepend(makeFunField(List.of(jcAnnotation), "pro.shushi.pamirs.base.call.Fun", fun, treeMaker, names));
 
         // 创建属性get方法
@@ -424,7 +422,7 @@ public class FunUtils {
 
     public static JCTree.JCMethodDecl makeGetterMethodDecl(JCTree.JCClassDecl jcClassDecl, JCTree.JCVariableDecl jcVariableDecl, TreeMaker treeMaker, Name.Table names, Messager messager) {
         if (hasGetter(jcClassDecl, jcVariableDecl, names)) {
-            messager.printMessage(Diagnostic.Kind.NOTE, jcClassDecl.name.toString() + ":" + jcVariableDecl.getName() + "Method already exist");
+            messager.printMessage(Diagnostic.Kind.NOTE, jcClassDecl.name.toString() + ":" + jcVariableDecl.getName() + " Getter Method already exist");
             return null;
         }
         ListBuffer<JCTree.JCStatement> statements = new ListBuffer<>();
@@ -530,7 +528,7 @@ public class FunUtils {
     public static JCTree.JCMethodDecl makeSetterMethodDecl(JCTree.JCClassDecl jcClassDecl, JCTree.JCVariableDecl jcVariableDecl, TreeMaker treeMaker, Name.Table names, Messager messager, boolean isChain) {
         try {
             if (hasSetter(jcClassDecl, jcVariableDecl, names)) {
-                messager.printMessage(Diagnostic.Kind.NOTE, jcClassDecl.name.toString() + ":" + jcVariableDecl.getName() + " Method already exist");
+                messager.printMessage(Diagnostic.Kind.NOTE, jcClassDecl.name.toString() + ":" + jcVariableDecl.getName() + " Setter Method already exist");
                 return null;
             }
             //方法的访问级别
@@ -712,7 +710,7 @@ public class FunUtils {
     }
 
     public static JCTree.JCMethodDecl makeAllArgsConstructMethodDecl(JCTree.JCClassDecl jcClassDecl, TreeMaker treeMaker, Name.Table names, Messager messager, Boolean isClassics) {
-        java.util.List<JCTree.JCVariableDecl> collect = jcClassDecl.defs.stream().filter(_def -> Tree.Kind.VARIABLE.equals(_def.getKind())).map(_var -> (JCTree.JCVariableDecl) _var).collect(Collectors.toList());
+        java.util.List<JCTree.JCVariableDecl> collect = jcClassDecl.getMembers().stream().filter(_def -> Tree.Kind.VARIABLE.equals(_def.getKind())).map(_var -> (JCTree.JCVariableDecl) _var).collect(Collectors.toList());
         return makeConstructMethodDecl(jcClassDecl, treeMaker, names, messager, collect, isClassics);
     }
 
@@ -720,9 +718,9 @@ public class FunUtils {
         return makeConstructMethodDecl(jcClassDecl, treeMaker, names, messager, new ArrayList<>(0), isClassics);
     }
 
-    private static JCTree.JCMethodDecl makeConstructMethodDecl(JCTree.JCClassDecl jcClassDecl, TreeMaker treeMaker, Name.Table names, Messager messager, java.util.List<JCTree.JCVariableDecl> collect, Boolean isClassics) {
-        if (hasConstruct(jcClassDecl, names, collect.toArray(new JCTree.JCVariableDecl[0]))) {
-            messager.printMessage(Diagnostic.Kind.WARNING, jcClassDecl.name.toString() + ".<init>() Method already exist contains parameters " + collect.toArray());
+    private static JCTree.JCMethodDecl makeConstructMethodDecl(JCTree.JCClassDecl jcClassDecl, TreeMaker treeMaker, Name.Table names, Messager messager, java.util.List<JCTree.JCVariableDecl> params, Boolean isClassics) {
+        if (hasConstruct(jcClassDecl, names, params)) {
+            messager.printMessage(Diagnostic.Kind.WARNING, jcClassDecl.name.toString() + ".<init>() Method already exist contains parameters " + params);
             return null;
         }
         // 定义 修饰符
@@ -730,8 +728,10 @@ public class FunUtils {
         // 定义 方法名
         Name allConstructName = names.fromString("<init>");
         ListBuffer<JCTree.JCStatement> statements = new ListBuffer<>();
+        JCTree.JCStatement superStm = treeMaker.Exec(treeMaker.Apply(List.nil(), treeMaker.Ident(names.fromString("super")), List.nil()));
+        statements.add(superStm);
         List<JCTree.JCVariableDecl> jcVariableDecls = List.nil();
-        for (JCTree.JCVariableDecl variableDecl : collect) {
+        for (JCTree.JCVariableDecl variableDecl : params) {
             if (Flags.isStatic(variableDecl.sym) || Flags.isConstant(variableDecl.sym)) continue;
             jcVariableDecls = jcVariableDecls.append(treeMaker.VarDef(treeMaker.Modifiers(Flags.PARAMETER), variableDecl.name, variableDecl.vartype, null));
             JCTree.JCStatement mapPut;
@@ -754,31 +754,32 @@ public class FunUtils {
         return decl;
     }
 
-    private static boolean hasConstruct(JCTree.JCClassDecl jcClassDecl, Name.Table name, JCTree.JCVariableDecl... jcVariableDecls) {
-        boolean hasConstruct = false;
-
-        Map<String, JCTree.JCVariableDecl> map = new HashMap<>();
-        for (JCTree.JCVariableDecl jcVariableDecl : jcVariableDecls) {
+    private static boolean hasConstruct(JCTree.JCClassDecl jcClassDecl, Name.Table name, java.util.List<JCTree.JCVariableDecl> params) {
+        /*Map<String, JCTree.JCVariableDecl> map = new HashMap<>();
+        for (JCTree.JCVariableDecl jcVariableDecl : params) {
             if ((jcVariableDecl.getModifiers().flags & Flags.FINAL) != Flags.FINAL && (jcVariableDecl.getModifiers().flags & Flags.STATIC) != Flags.STATIC) {
                 map.put(jcVariableDecl.getName().toString(), jcVariableDecl);
             }
-        }
-        java.util.List<JCTree.JCMethodDecl> collect = jcClassDecl.defs.stream()
-                .filter(_jcMemberdef -> Tree.Kind.METHOD.equals(_jcMemberdef.getKind()))
+        }*/
+        java.util.List<JCTree.JCMethodDecl> collect = jcClassDecl.getMembers().stream()
+                .filter(_jcMemberDef -> Tree.Kind.METHOD.equals(_jcMemberDef.getKind()))
                 .map(_jcMethod -> (JCTree.JCMethodDecl) _jcMethod)
-                .filter(_jcMethod -> _jcMethod.name.equals(name.fromString("<init>")))
-                .collect(Collectors.toList());
+                .filter(_jcMethod -> _jcMethod.getName().equals(name.fromString("<init>")))
+                .toList();
 
+        boolean needInitConstruct = true;
         for (JCTree.JCMethodDecl methodDecl : collect) {
-            java.util.List<String> names = new ArrayList<>();
-            for (JCTree.JCVariableDecl param : methodDecl.params) {
-                if (map.containsKey(param.name.toString())) {
-                    names.add(param.name.toString());
+            // 方法体
+            JCTree.JCBlock methodBody = methodDecl.getBody();
+            List<JCTree.JCStatement> bodyStmts = methodBody.getStatements();
+            // 如果构造方法中只调用了 super()
+            for (JCTree.JCStatement stmt : bodyStmts) {
+                if (!StringUtils.equals(stmt.toString(), "super();")) {
+                    needInitConstruct = false;
                 }
             }
-            hasConstruct = names.size() == map.size();
         }
-        return hasConstruct;
+        return !needInitConstruct;
     }
 
     private static String getOverrideMethodName(JCTree.JCVariableDecl jcVariableDecl) {

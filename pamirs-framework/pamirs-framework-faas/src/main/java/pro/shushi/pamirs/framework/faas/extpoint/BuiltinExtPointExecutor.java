@@ -5,7 +5,7 @@ import pro.shushi.pamirs.meta.api.core.faas.ExtPointApi;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
 import pro.shushi.pamirs.meta.constant.ExtPointConstants;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 内置扩展点处理器

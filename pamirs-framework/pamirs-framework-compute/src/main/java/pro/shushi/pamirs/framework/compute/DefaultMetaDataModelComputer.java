@@ -28,7 +28,7 @@ import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 /**

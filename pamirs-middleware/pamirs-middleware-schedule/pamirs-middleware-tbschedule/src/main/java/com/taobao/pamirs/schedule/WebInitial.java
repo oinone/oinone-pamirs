@@ -1,7 +1,7 @@
 package com.taobao.pamirs.schedule;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
 
 public class WebInitial extends HttpServlet {
 

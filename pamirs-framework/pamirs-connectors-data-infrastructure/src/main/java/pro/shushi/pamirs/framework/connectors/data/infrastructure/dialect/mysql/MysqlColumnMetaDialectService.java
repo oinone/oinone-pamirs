@@ -9,7 +9,7 @@ import pro.shushi.pamirs.framework.connectors.data.infrastructure.dialect.Column
 import pro.shushi.pamirs.framework.connectors.data.infrastructure.mapper.mysql.ColumnMapper;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * MYSQL列方言服务

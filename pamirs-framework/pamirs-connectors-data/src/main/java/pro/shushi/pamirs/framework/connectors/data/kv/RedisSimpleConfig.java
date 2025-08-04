@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.framework.connectors.data.kv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,13 +64,12 @@ public class RedisSimpleConfig {
     }
 
     private <K, V> void setValueSerializer(RedisTemplate<K, V> redisTemplate, Class<V> valueClass) {
-        // 解决value的序列化方式，使用Json。其中的日期再另外处理。
-        Jackson2JsonRedisSerializer<V> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(valueClass);
         ObjectMapper objectMapper = new ObjectMapper();
 
         // 在序列化中增加类信息，否则无法反序列化。
-        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
+        // 解决value的序列化方式，使用Json。其中的日期再另外处理。
+        Jackson2JsonRedisSerializer<V> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(objectMapper, valueClass);
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
     }
 }

@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.eip.jdbc.service.url;
 
-import com.alibaba.druid.util.JdbcUtils;
+import com.alibaba.druid.DbType;
 
 /**
  * DefaultPostgreSQLComponent
@@ -11,7 +11,7 @@ public class DefaultPostgreSQLComponent extends AbstractJdbcComponent {
 
     @Override
     public String dbType() {
-        return JdbcUtils.POSTGRESQL;
+        return DbType.postgresql.name();
     }
 
     @Override

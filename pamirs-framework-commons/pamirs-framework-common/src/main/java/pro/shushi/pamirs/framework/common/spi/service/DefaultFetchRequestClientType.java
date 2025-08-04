@@ -9,7 +9,7 @@ import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestParam;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.enmu.ClientTypeEnum;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 获取请求客户端类型默认实现

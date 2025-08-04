@@ -7,7 +7,7 @@ import pro.shushi.pamirs.boot.web.loader.path.ResourcePath;
 import pro.shushi.pamirs.boot.web.manager.MetaCacheManager;
 import pro.shushi.pamirs.core.common.path.ResourcePathHelper;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * Shared Resource Path Parser

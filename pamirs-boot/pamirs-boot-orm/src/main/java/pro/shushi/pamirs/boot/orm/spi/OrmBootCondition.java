@@ -11,7 +11,7 @@ import pro.shushi.pamirs.boot.orm.configure.BootConfiguration;
 import pro.shushi.pamirs.framework.common.emnu.BootModeEnum;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 启动条件实现

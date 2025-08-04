@@ -12,7 +12,7 @@ import pro.shushi.pamirs.meta.api.dto.meta.MetaModel;
 import pro.shushi.pamirs.meta.common.constants.PackageConstants;
 import pro.shushi.pamirs.meta.util.ClassUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.function.Consumer;
 

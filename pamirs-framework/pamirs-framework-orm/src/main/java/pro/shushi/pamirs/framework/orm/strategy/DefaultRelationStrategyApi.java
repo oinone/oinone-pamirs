@@ -7,7 +7,7 @@ import pro.shushi.pamirs.meta.api.core.orm.systems.strategy.StrategyApi;
 import pro.shushi.pamirs.meta.constant.FieldConstants;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.function.Consumer;
 

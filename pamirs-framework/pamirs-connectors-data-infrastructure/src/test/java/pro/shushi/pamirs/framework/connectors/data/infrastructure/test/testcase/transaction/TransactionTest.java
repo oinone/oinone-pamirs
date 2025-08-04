@@ -9,7 +9,7 @@ import pro.shushi.pamirs.AbstractBaseTest;
 import pro.shushi.pamirs.framework.connectors.data.infrastructure.test.mock.mapper.SchemaMapper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 事务测试

@@ -1,7 +1,8 @@
 package pro.shushi.pamirs.framework.common.config;
 
-import javax.annotation.Nonnull;
-import java.security.AccessController;
+import jakarta.annotation.Nonnull;
+import jdk.internal.access.SharedSecrets;
+
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,7 +16,6 @@ public class PamirsThreadFactory implements ThreadFactory {
     private static final AtomicInteger POOL_NUMBER = new AtomicInteger(1);
     private final AtomicInteger threadNumber = new AtomicInteger(1);
     private final String namePrefix;
-    private final ThreadGroup group;
     private final boolean inheritThreadLocals;
 
     public PamirsThreadFactory(String namePrefix) {
@@ -23,9 +23,6 @@ public class PamirsThreadFactory implements ThreadFactory {
     }
 
     public PamirsThreadFactory(String namePrefix, boolean inheritThreadLocals) {
-        SecurityManager s = System.getSecurityManager();
-        group = (s != null) ? s.getThreadGroup() :
-                Thread.currentThread().getThreadGroup();
         this.namePrefix = namePrefix + "-" + POOL_NUMBER.getAndIncrement()
                 + "-thread-";
         this.inheritThreadLocals = inheritThreadLocals;
@@ -36,9 +33,9 @@ public class PamirsThreadFactory implements ThreadFactory {
         Thread t;
         String threadName = namePrefix + threadNumber.getAndIncrement();
         if (inheritThreadLocals) {
-            t = new Thread(group, r, threadName, 0);
+            t = new Thread(null, r, threadName, 0);
         } else {
-            t = sun.misc.SharedSecrets.getJavaLangAccess().newThreadWithAcc(r, AccessController.getContext());
+            t = SharedSecrets.getJavaLangAccess().newThreadWithAcc(r, null);
             t.setName(threadName);
         }
         if (t.isDaemon()) {

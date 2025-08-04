@@ -10,7 +10,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.common.util.FileUtils;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;

@@ -13,7 +13,7 @@ import pro.shushi.pamirs.framework.orm.processor.OrmObjectingProcessor;
 import pro.shushi.pamirs.meta.api.core.orm.convert.DataConverter;
 import pro.shushi.pamirs.meta.api.core.orm.template.PersistenceDataComputeTemplate;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 持久化数据转换服务

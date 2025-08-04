@@ -1,22 +1,18 @@
 package pro.shushi.pamirs.trigger.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.scheduling.support.CronSequenceGenerator;
+import org.springframework.scheduling.support.CronExpression;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery;
-import pro.shushi.pamirs.trigger.condition.ScheduleSwitchCondition;
 import pro.shushi.pamirs.trigger.enmu.TriggerTimeAnchorEnum;
 import pro.shushi.pamirs.trigger.model.ScheduleTaskAction;
 import pro.shushi.pamirs.trigger.service.AbstractTaskActionService;
 import pro.shushi.pamirs.trigger.service.ScheduleTaskActionService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Adamancy Zhang
@@ -113,7 +109,7 @@ public class ScheduleTaskActionServiceImpl extends AbstractTaskActionService<Sch
                 }
             } else {
                 //set and verification cron
-                if (CronSequenceGenerator.isValidExpression(cron)) {
+                if (CronExpression.isValidExpression(cron)) {
                     scheduleItem.setCron(cron);
                 } else {
                     throw new IllegalArgumentException("Invalid cron expression");

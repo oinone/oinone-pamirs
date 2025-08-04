@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.middleware.schedule.core.dialect;
 
+import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
@@ -23,7 +24,7 @@ public abstract class AbstractSQLDialectService implements ScheduleSQLDialectSer
 
     protected abstract String getOriginType();
 
-    protected abstract String getTargetType();
+    protected abstract DbType getTargetType();
 
     protected abstract SQLASTVisitor getSQLVisitor(List<ResultMap> resultMaps);
 

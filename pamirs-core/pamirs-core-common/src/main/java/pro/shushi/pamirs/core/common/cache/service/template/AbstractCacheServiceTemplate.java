@@ -4,7 +4,7 @@ import pro.shushi.pamirs.core.common.ObjectHelper;
 import pro.shushi.pamirs.core.common.cache.service.SimpleCacheService;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.function.Supplier;
 
 import static pro.shushi.pamirs.core.common.FetchUtil.cast;

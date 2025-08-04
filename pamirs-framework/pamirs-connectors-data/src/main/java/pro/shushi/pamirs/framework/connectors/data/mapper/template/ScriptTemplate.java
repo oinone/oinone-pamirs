@@ -16,4 +16,6 @@ public interface ScriptTemplate {
 
     String IN_CONDITION = "AND %s IN (%s)";
 
+    String UPDATED_VERSION_VAL_KEY = "#updatedVersionVal#";
+
 }

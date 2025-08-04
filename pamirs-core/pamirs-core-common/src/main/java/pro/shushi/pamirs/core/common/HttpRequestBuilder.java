@@ -1,26 +1,23 @@
 package pro.shushi.pamirs.core.common;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.http.client.methods.*;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import jakarta.validation.constraints.NotNull;
+import org.apache.hc.client5.http.classic.methods.*;
+import org.apache.hc.client5.http.impl.classic.*;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import pro.shushi.pamirs.core.common.enmu.HttpRequestTypeEnum;
 import pro.shushi.pamirs.core.common.http.IgnoredSSLVerifier;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -34,8 +31,6 @@ import java.util.function.Function;
  * </p>
  */
 public class HttpRequestBuilder {
-
-    private static final CloseableHttpResponseConsumer<String> DEFAULT_RESPONSE_CONSUMER = v -> EntityUtils.toString(v.getEntity());
 
     /**
      * 请求路径
@@ -69,13 +64,9 @@ public class HttpRequestBuilder {
 
     /**
      * SSL证书上下文
-     */
-    private SSLContext sslContext;
-
-    /**
      * 主机名验证
      */
-    private HostnameVerifier hostnameVerifier;
+    private SSLConnectionSocketFactoryBuilder connFactoryBuilder;
 
     /**
      * 禁止直接创建该对象
@@ -176,7 +167,10 @@ public class HttpRequestBuilder {
      * @return 当前对象
      */
     public HttpRequestBuilder setSslContext(SSLContext sslContext) {
-        this.sslContext = sslContext;
+        if (null == connFactoryBuilder) {
+            connFactoryBuilder = SSLConnectionSocketFactoryBuilder.create();
+        }
+        connFactoryBuilder.setSslContext(sslContext);
         return this;
     }
 
@@ -187,7 +181,10 @@ public class HttpRequestBuilder {
      * @return 当前对象
      */
     public HttpRequestBuilder setHostnameVerifier(HostnameVerifier hostnameVerifier) {
-        this.hostnameVerifier = hostnameVerifier;
+        if (null == connFactoryBuilder) {
+            connFactoryBuilder = SSLConnectionSocketFactoryBuilder.create();
+        }
+        connFactoryBuilder.setHostnameVerifier(hostnameVerifier);
         return this;
     }
 
@@ -197,8 +194,11 @@ public class HttpRequestBuilder {
      * @return 当前对象
      */
     public HttpRequestBuilder ignoredSSLVerifier() throws KeyManagementException, NoSuchAlgorithmException {
-        this.sslContext = IgnoredSSLVerifier.createSSLContext();
-        this.hostnameVerifier = IgnoredSSLVerifier.x509HostnameVerifier;
+        if (null == connFactoryBuilder) {
+            connFactoryBuilder = SSLConnectionSocketFactoryBuilder.create();
+        }
+        connFactoryBuilder.setSslContext(IgnoredSSLVerifier.createSSLContext());
+        connFactoryBuilder.setHostnameVerifier(IgnoredSSLVerifier.x509HostnameVerifier);
         return this;
     }
 
@@ -232,22 +232,22 @@ public class HttpRequestBuilder {
         String data;
         switch (requestType) {
             case GET:
-                data = setHttpRequestUrl(url -> new HttpGet(this.url), DEFAULT_RESPONSE_CONSUMER);
+                data = setHttpRequestUrl(url -> new HttpGet(this.url));
                 break;
             case POST:
                 HttpPost httpPost = new HttpPost(url);
                 data = setHttpRequestEntry(httpPost,
                         request -> httpPost.setEntity(new StringEntity(JSONObject.toJSONString(paramsJSON), StandardCharsets.UTF_8)),
-                        request -> httpPost.setEntity(new StringEntity(paramsString, StandardCharsets.UTF_8)), DEFAULT_RESPONSE_CONSUMER);
+                        request -> httpPost.setEntity(new StringEntity(paramsString, StandardCharsets.UTF_8)));
                 break;
             case PUT:
                 HttpPut httpPut = new HttpPut(url);
                 data = setHttpRequestEntry(httpPut,
                         request -> httpPut.setEntity(new StringEntity(JSONObject.toJSONString(paramsJSON), StandardCharsets.UTF_8)),
-                        request -> httpPut.setEntity(new StringEntity(paramsString, StandardCharsets.UTF_8)), DEFAULT_RESPONSE_CONSUMER);
+                        request -> httpPut.setEntity(new StringEntity(paramsString, StandardCharsets.UTF_8)));
                 break;
             case DELETE:
-                data = setHttpRequestUrl(url -> new HttpDelete(this.url), DEFAULT_RESPONSE_CONSUMER);
+                data = setHttpRequestUrl(url -> new HttpDelete(this.url));
                 break;
             default:
                 throw new UnsupportedOperationException("Invalid request type. value=" + requestType);
@@ -255,7 +255,7 @@ public class HttpRequestBuilder {
         return data;
     }
 
-    private <R> R setHttpRequestEntry(HttpUriRequest request, Consumer<HttpUriRequest> jsonConsumer, Consumer<HttpUriRequest> stringConsumer, CloseableHttpResponseConsumer<R> responseConsumer) throws IOException {
+    private String setHttpRequestEntry(HttpUriRequest request, Consumer<HttpUriRequest> jsonConsumer, Consumer<HttpUriRequest> stringConsumer) throws IOException {
         if (CharacterConstants.SEPARATOR_EMPTY.equals(paramsString)) {
             request.setHeader("Accept", "*/*");
             request.setHeader("Content-type", "application/json;charset=UTF-8");
@@ -271,11 +271,11 @@ public class HttpRequestBuilder {
             request.setHeader(key, headers.get(key));
         }
         try (CloseableHttpClient httpClient = generatorClient()) {
-            return responseConsumer.apply(httpClient.execute(request));
+            return httpClient.execute(request, new BasicHttpClientResponseHandler());
         }
     }
 
-    private <R> R setHttpRequestUrl(Function<String, HttpUriRequest> processor, CloseableHttpResponseConsumer<R> responseConsumer) throws IOException {
+    private String setHttpRequestUrl(Function<String, HttpUriRequest> processor) throws IOException {
         if (CharacterConstants.SEPARATOR_EMPTY.equals(paramsString)) {
             List<String> parameters = new ArrayList<>();
             for (String key : paramsJSON.keySet()) {
@@ -294,20 +294,17 @@ public class HttpRequestBuilder {
             request.setHeader(key, headers.get(key));
         }
         try (CloseableHttpClient httpClient = generatorClient()) {
-            return responseConsumer.apply(httpClient.execute(request));
+            return httpClient.execute(request, new BasicHttpClientResponseHandler());
         }
     }
 
     private CloseableHttpClient generatorClient() {
-        return HttpClients.custom()
-                .setSSLContext(sslContext)
-                .setSSLHostnameVerifier(hostnameVerifier)
-                .build();
-    }
-
-    @FunctionalInterface
-    private interface CloseableHttpResponseConsumer<R> {
-
-        R apply(CloseableHttpResponse response) throws IOException;
+        HttpClientBuilder httpClientBuilder = HttpClients.custom();
+        if (null != connFactoryBuilder) {
+            httpClientBuilder.setConnectionManager(PoolingHttpClientConnectionManagerBuilder.create()
+                    .setSSLSocketFactory(connFactoryBuilder.build())
+                    .build());
+        }
+        return httpClientBuilder.build();
     }
 }

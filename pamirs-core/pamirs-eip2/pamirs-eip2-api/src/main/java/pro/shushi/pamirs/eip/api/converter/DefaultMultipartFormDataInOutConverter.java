@@ -2,8 +2,8 @@ package pro.shushi.pamirs.eip.api.converter;
 
 import org.apache.camel.ExtendedExchange;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.core5.http.ContentType;
 import org.springframework.core.io.ByteArrayResource;
 import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.IEipInOutConverter;

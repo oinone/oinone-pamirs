@@ -23,7 +23,7 @@ import pro.shushi.pamirs.meta.util.ClassUtils;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;

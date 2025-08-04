@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.core.common.function;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;

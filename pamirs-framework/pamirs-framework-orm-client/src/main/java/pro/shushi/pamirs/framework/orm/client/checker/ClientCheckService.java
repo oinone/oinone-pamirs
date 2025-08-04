@@ -8,7 +8,7 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.constant.FunctionParamConstants;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 模型校验服务

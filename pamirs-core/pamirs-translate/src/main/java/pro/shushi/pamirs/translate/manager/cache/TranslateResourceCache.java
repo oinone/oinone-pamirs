@@ -8,7 +8,7 @@ import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.resource.api.model.ResourceTranslationItem;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

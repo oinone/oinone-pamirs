@@ -24,15 +24,15 @@ public class DefaultKingbaseSQLChecker extends AbstractSQLChecker implements Eip
 
     @Override
     public String dbType() {
-        return JdbcUtils.KINGBASE;
+        return JdbcUtils.KINGBASE.name();
     }
 
     @Override
     public List<String> secondaryDbTypes() {
         return Lists.newArrayList(
-                JdbcUtils.ORACLE,
-                JdbcUtils.SQL_SERVER,
-                JdbcUtils.MYSQL
+                JdbcUtils.ORACLE.name(),
+                JdbcUtils.SQL_SERVER.name(),
+                JdbcUtils.MYSQL.name()
         );
     }
 

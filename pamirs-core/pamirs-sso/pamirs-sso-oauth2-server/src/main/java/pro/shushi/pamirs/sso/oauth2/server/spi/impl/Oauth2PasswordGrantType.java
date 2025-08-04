@@ -27,8 +27,8 @@ import pro.shushi.pamirs.sso.oauth2.server.utils.TokenCache;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.utils.JwtTokenUtil;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Optional;
 

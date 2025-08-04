@@ -56,8 +56,8 @@ import pro.shushi.pamirs.middleware.schedule.common.Result;
 import pro.shushi.pamirs.resource.api.enmu.ExpEnumerate;
 import pro.shushi.pamirs.trigger.annotation.XAsync;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

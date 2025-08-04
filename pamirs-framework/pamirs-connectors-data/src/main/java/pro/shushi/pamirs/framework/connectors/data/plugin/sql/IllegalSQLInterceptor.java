@@ -1,13 +1,15 @@
 package pro.shushi.pamirs.framework.connectors.data.plugin.sql;
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
-import com.baomidou.mybatisplus.core.parser.SqlParserHelper;
 import com.baomidou.mybatisplus.core.toolkit.EncryptUtils;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.parser.JsqlParserSupport;
+import com.baomidou.mybatisplus.extension.toolkit.SqlParserUtils;
 import net.sf.jsqlparser.expression.BinaryExpression;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Function;
+import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction;
 import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
 import net.sf.jsqlparser.expression.operators.relational.NotEqualsTo;
@@ -15,7 +17,10 @@ import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.delete.Delete;
-import net.sf.jsqlparser.statement.select.*;
+import net.sf.jsqlparser.statement.select.FromItem;
+import net.sf.jsqlparser.statement.select.Join;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.update.Update;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.logging.Log;
@@ -63,7 +68,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * date 2018-03-22
  */
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
-public class IllegalSQLInterceptor implements Interceptor {
+public class IllegalSQLInterceptor extends JsqlParserSupport implements Interceptor {
 
     /**
      * 缓存验证结果，提高性能
@@ -100,14 +105,14 @@ public class IllegalSQLInterceptor implements Interceptor {
                 Function function = (Function) binaryExpression.getLeftExpression();
                 throw new MybatisPlusException("非法SQL，where条件中不能使用数据库函数，错误函数信息：" + function.toString());
             }
-            if (binaryExpression.getRightExpression() instanceof SubSelect) {
-                SubSelect subSelect = (SubSelect) binaryExpression.getRightExpression();
+            if (binaryExpression.getRightExpression() instanceof Subtraction) {
+                Subtraction subSelect = (Subtraction) binaryExpression.getRightExpression();
                 throw new MybatisPlusException("非法SQL，where条件中不能使用子查询，错误子查询SQL信息：" + subSelect.toString());
             }
         } else if (expression instanceof InExpression) {
             InExpression inExpression = (InExpression) expression;
-            if (inExpression.getRightItemsList() instanceof SubSelect) {
-                SubSelect subSelect = (SubSelect) inExpression.getRightItemsList();
+            if (inExpression.getRightExpression() instanceof Subtraction) {
+                Subtraction subSelect = (Subtraction) inExpression.getRightExpression();
                 throw new MybatisPlusException("非法SQL，where条件中不能使用子查询，错误子查询SQL信息：" + subSelect.toString());
             }
         }
@@ -142,30 +147,25 @@ public class IllegalSQLInterceptor implements Interceptor {
      * @param columnName ignore
      * @param connection ignore
      */
-    private static void validUseIndex(Table table, String columnName, Connection connection) {
+    private void validUseIndex(Table table, String columnName, Connection connection) {
         //是否使用索引
         boolean useIndexFlag = false;
-
-        String tableInfo = table.getName();
-        //表存在的索引
-        String dbName = null;
-        String tableName;
-        String[] tableArray = tableInfo.split("\\.");
-        if (tableArray.length == 1) {
-            tableName = tableArray[0];
-        } else {
-            dbName = tableArray[0];
-            tableName = tableArray[1];
-        }
-        List<IndexInfo> indexInfos = getIndexInfos(dbName, tableName, connection);
-        for (IndexInfo indexInfo : indexInfos) {
-            if (null != columnName && columnName.equalsIgnoreCase(indexInfo.getColumnName())) {
-                useIndexFlag = true;
-                break;
+        if (StringUtils.isNotBlank(columnName)) {
+            //表存在的索引
+            String dbName = table.getSchemaName();
+            String tableName = table.getName();
+            String catalogName = table.getCatalogName();
+            columnName = SqlParserUtils.removeWrapperSymbol(columnName);
+            List<IndexInfo> indexInfos = getIndexInfos(null, catalogName, dbName, tableName, connection);
+            for (IndexInfo indexInfo : indexInfos) {
+                if (indexInfo.getColumnName().equalsIgnoreCase(columnName)) {
+                    useIndexFlag = true;
+                    break;
+                }
             }
         }
         if (!useIndexFlag) {
-            throw new MybatisPlusException("非法SQL，SQL未使用到索引, table:" + table + ", columnName:" + columnName);
+            throw new MybatisPlusException("非法SQL，SQL未使用到索引, table:" + table.getName() + ", columnName:" + columnName);
         }
     }
 
@@ -225,25 +225,46 @@ public class IllegalSQLInterceptor implements Interceptor {
     /**
      * 得到表的索引信息
      *
-     * @param dbName    ignore
-     * @param tableName ignore
-     * @param conn      ignore
-     * @return ignore
+     * @param dbName    数据库名
+     * @param tableName 表名
+     * @param conn      数据库连接
+     * @return 索引信息
+     * @see #getIndexInfos(String, String, String, String, Connection)
+     * @deprecated 3.5.11
      */
-    public static List<IndexInfo> getIndexInfos(String dbName, String tableName, Connection conn) {
+    @Deprecated
+    public List<IndexInfo> getIndexInfos(String dbName, String tableName, Connection conn) {
         return getIndexInfos(null, dbName, tableName, conn);
     }
 
     /**
      * 得到表的索引信息
      *
-     * @param key       ignore
-     * @param dbName    ignore
-     * @param tableName ignore
-     * @param conn      ignore
-     * @return ignore
+     * @param key       缓存key
+     * @param dbName    数据库名
+     * @param tableName 表名
+     * @param conn      数据库连接
+     * @return 索引信息
+     * @see #getIndexInfos(String, String, String, String, Connection)
+     * @deprecated 3.5.11
      */
-    public static List<IndexInfo> getIndexInfos(String key, String dbName, String tableName, Connection conn) {
+    @Deprecated
+    public List<IndexInfo> getIndexInfos(String key, String dbName, String tableName, Connection conn) {
+        return getIndexInfos(key, null, dbName, tableName, conn);
+    }
+
+    /**
+     * 得到表的索引信息
+     *
+     * @param key         缓存key
+     * @param catalogName catalogName
+     * @param dbName      数据库名
+     * @param tableName   表名
+     * @param conn        数据库连接
+     * @return 索引信息
+     * @since 3.5.11
+     */
+    public List<IndexInfo> getIndexInfos(String key, String catalogName, String dbName, String tableName, Connection conn) {
         List<IndexInfo> indexInfos = null;
         if (StringUtils.isNotBlank(key)) {
             indexInfos = indexInfoMap.get(key);
@@ -283,7 +304,7 @@ public class IllegalSQLInterceptor implements Interceptor {
         // 如果是insert操作， 或者 @SqlParser(filter = true) 跳过该方法解析 ， 不进行验证
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
         if (SqlCommandType.INSERT.equals(mappedStatement.getSqlCommandType())
-                || SqlPluginHelper.getSqlPluginInfo(metaObject) || SqlParserHelper.getSqlParserInfo(metaObject)) {
+                || SqlPluginHelper.getSqlPluginInfo(metaObject)) {
             return invocation.proceed();
         }
         BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");

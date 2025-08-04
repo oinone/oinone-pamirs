@@ -18,7 +18,7 @@ public interface MysqlScriptTemplate extends ScriptTemplate {
 
     String LOGIC_DELETE = "`${ld.logicDeleteColumn}` = ${ld.logicNotDeleteValue}";
 
-    String OPTIMISTIC_LOCKER_COLUMN = "`${" + Constants.MP_OPTLOCK_VERSION_COLUMN + "}`";
+    String OPTIMISTIC_LOCKER_COLUMN = "`${" + UPDATED_VERSION_VAL_KEY + "}`";
 
     String OPTIMISTIC_LOCKER_VALUE = "${" + FieldUtil.NAME + ".get(%s ,\"" + Constants.MP_OPTLOCK_VERSION_ORIGINAL + "\")}";
 

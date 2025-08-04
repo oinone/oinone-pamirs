@@ -16,7 +16,7 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 

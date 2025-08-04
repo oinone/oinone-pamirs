@@ -20,7 +20,7 @@ public class DefaultMySqlSQLChecker extends AbstractSQLChecker implements EipSQL
 
     @Override
     public String dbType() {
-        return JdbcUtils.MYSQL;
+        return JdbcUtils.MYSQL.name();
     }
 
     @Override

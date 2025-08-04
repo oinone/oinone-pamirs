@@ -48,7 +48,7 @@ import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.DataSourceProtocolEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Function;

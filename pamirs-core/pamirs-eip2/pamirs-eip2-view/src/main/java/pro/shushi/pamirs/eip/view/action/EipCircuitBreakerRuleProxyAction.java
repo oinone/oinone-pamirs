@@ -18,7 +18,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author yeshenyue on 2025/4/14 15:20.

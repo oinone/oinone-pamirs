@@ -15,7 +15,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

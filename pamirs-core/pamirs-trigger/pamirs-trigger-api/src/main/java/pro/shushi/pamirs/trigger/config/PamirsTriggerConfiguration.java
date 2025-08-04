@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import pro.shushi.pamirs.framework.connectors.event.condition.NotifySwitchCondition;
 import pro.shushi.pamirs.trigger.constant.NotifyConstant;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * Pamirs Trigger 配置

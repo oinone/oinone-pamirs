@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import pro.shushi.pamirs.AbstractBaseTest;
 import pro.shushi.pamirs.meta.api.core.protocol.RequestExecutor;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import static graphql.schema.idl.RuntimeWiring.newRuntimeWiring;
 

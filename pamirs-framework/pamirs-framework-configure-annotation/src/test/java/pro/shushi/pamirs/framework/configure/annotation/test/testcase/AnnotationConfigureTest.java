@@ -10,7 +10,7 @@ import pro.shushi.pamirs.framework.configure.annotation.core.AnnotationConfigure
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 import static pro.shushi.pamirs.meta.common.constants.ModuleConstants.MODULE_BASE;

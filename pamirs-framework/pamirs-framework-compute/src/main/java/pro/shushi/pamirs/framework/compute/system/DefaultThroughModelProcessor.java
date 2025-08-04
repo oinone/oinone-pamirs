@@ -24,7 +24,7 @@ import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 import pro.shushi.pamirs.meta.util.AttributesUtils;
 import pro.shushi.pamirs.meta.util.ModelUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

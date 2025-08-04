@@ -13,7 +13,7 @@ import pro.shushi.pamirs.trigger.enmu.TriggerTimeAnchorEnum;
 import pro.shushi.pamirs.trigger.model.ScheduleTaskAction;
 import pro.shushi.pamirs.trigger.service.ScheduleTaskActionService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author yeshenyue on 2025/4/24 09:33.

@@ -8,7 +8,7 @@ import pro.shushi.pamirs.framework.connectors.data.test.mock.model.ds.TestMultiD
 import pro.shushi.pamirs.meta.annotation.sys.Ds;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**

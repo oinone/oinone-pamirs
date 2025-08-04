@@ -7,7 +7,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-logger</artifactId>
-        <version>6.2.11</version>
+        <version>6.3.0</version>
     </parent>
 
     <artifactId>pamirs-logback-appender</artifactId>
@@ -22,12 +22,6 @@
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

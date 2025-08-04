@@ -31,7 +31,7 @@ import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 import pro.shushi.pamirs.meta.util.NamespaceAndFunUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Set;
 

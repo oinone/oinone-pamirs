@@ -21,12 +21,12 @@ public class DefaultPGSQLChecker extends AbstractSQLChecker implements EipSQLChe
 
     @Override
     public String dbType() {
-        return JdbcUtils.POSTGRESQL;
+        return JdbcUtils.POSTGRESQL.name();
     }
 
     @Override
     public List<String> secondaryDbTypes() {
-        return Collections.singletonList(JdbcUtils.ORACLE);
+        return Collections.singletonList(JdbcUtils.ORACLE.name());
     }
 
     @Override

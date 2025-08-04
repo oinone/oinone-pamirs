@@ -22,7 +22,7 @@ import pro.shushi.pamirs.framework.connectors.data.infrastructure.mapper.mysql.T
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.util.ListUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -3,6 +3,7 @@ package pro.shushi.pamirs.framework.connectors.data.kv;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -122,11 +123,10 @@ public class RedisClusterConfig {
      * @param template 连接模板
      */
     private void setSerializer(StringRedisTemplate template) {
-        Jackson2JsonRedisSerializer<?> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
+        Jackson2JsonRedisSerializer<?> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(om, Object.class);
         template.setValueSerializer(jackson2JsonRedisSerializer);
         template.afterPropertiesSet();
     }
@@ -168,13 +168,12 @@ public class RedisClusterConfig {
     }
 
     private <K, V> void setValueSerializer(RedisTemplate<K, V> redisTemplate, Class<V> valueClass) {
-        // 解决value的序列化方式，使用Json。其中的日期再另外处理。
-        Jackson2JsonRedisSerializer<V> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(valueClass);
         ObjectMapper objectMapper = new ObjectMapper();
 
         // 在序列化中增加类信息，否则无法反序列化。
         objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+        // 解决value的序列化方式，使用Json。其中的日期再另外处理。
+        Jackson2JsonRedisSerializer<V> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(objectMapper, valueClass);
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
     }
 

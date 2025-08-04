@@ -14,7 +14,7 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.enmu.BatchOpTypeEnum;
 import pro.shushi.pamirs.meta.common.constants.VariableNameConstants;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 /**

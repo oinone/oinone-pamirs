@@ -31,7 +31,7 @@ import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 import static pro.shushi.pamirs.boot.common.enmu.BootExpEnumerate.BASE_BOOT_LOAD_META_FROM_ANNOTATION_ERROR;

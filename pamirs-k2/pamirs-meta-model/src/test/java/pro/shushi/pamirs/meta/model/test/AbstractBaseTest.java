@@ -2,7 +2,7 @@ package pro.shushi.pamirs.meta.model.test;
 
 import org.junit.jupiter.api.*;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.TimeZone;
 
 /**

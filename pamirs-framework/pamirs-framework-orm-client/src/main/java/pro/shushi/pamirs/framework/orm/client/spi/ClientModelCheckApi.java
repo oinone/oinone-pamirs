@@ -6,7 +6,7 @@ import pro.shushi.pamirs.framework.orm.client.checker.ClientCheckService;
 import pro.shushi.pamirs.meta.api.core.orm.systems.ModelCheckApi;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 模型校验接口默认实现

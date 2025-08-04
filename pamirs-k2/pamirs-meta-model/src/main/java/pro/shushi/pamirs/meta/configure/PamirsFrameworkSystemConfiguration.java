@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.meta.configure;
 
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +25,6 @@ public class PamirsFrameworkSystemConfiguration {
 
     public final static String PAMIRS_FRAMEWORK_SYSTEM_CONFIG_PREFIX = "pamirs.framework.system";
 
-    @NotBlank
     private String systemDsKey = ModuleConstants.MODULE_BASE;
 
     private String[] systemModels;

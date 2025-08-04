@@ -31,7 +31,7 @@ import pro.shushi.pamirs.trigger.condition.ScheduleSwitchCondition;
 import pro.shushi.pamirs.trigger.model.ExecuteTaskAction;
 import pro.shushi.pamirs.trigger.service.ExecuteTaskActionService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 

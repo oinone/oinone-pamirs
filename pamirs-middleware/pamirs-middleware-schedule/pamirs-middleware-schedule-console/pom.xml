@@ -7,7 +7,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
         <artifactId>pamirs-middleware-schedule</artifactId>
-        <version>6.2.11</version>
+        <version>6.3.0</version>
     </parent>
 
     <artifactId>pamirs-middleware-schedule-console</artifactId>
@@ -21,13 +21,13 @@
 
         <!--servlet的支持-->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
         <!--jstl-->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
         </dependency>
 
         <!-- 开启对jsp的支持 -->
@@ -97,7 +97,6 @@
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
-                        <version>1.4.2.RELEASE</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -106,7 +105,6 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <fork>true</fork>
                             <jvmArguments>
                                 -server
                                 -Xss1M
@@ -118,40 +116,6 @@
                                 -XX:+ParallelRefProcEnabled
                                 -Xdebug
                                 -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=10015
-                            </jvmArguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>suspend</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <version>1.4.2.RELEASE</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>repackage</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <fork>true</fork>
-                            <jvmArguments>
-                                -server
-                                -Xss1M
-                                -Xms1G
-                                -Xmx1G
-                                -XX:+UseG1GC
-                                -XX:+UseNUMA
-                                -XX:+UseCompressedOops
-                                -XX:+ParallelRefProcEnabled
-                                -Xdebug
-                                -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=10015
                             </jvmArguments>
                         </configuration>
                     </plugin>

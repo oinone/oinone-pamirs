@@ -5,9 +5,8 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.orm.enmu.OrmExpEnumerate;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
-import sun.misc.BASE64Decoder;
 
-import java.io.IOException;
+import java.util.Base64;
 import java.util.Map;
 
 /**
@@ -41,10 +40,9 @@ public class PersistenceByteConverter {
         if (null == fieldConfig.getMulti() || !fieldConfig.getMulti()) {
             return;
         }
-        String temp = new String((byte[]) value);
         try {
-            origin.put(fieldConfig.getLname(), new BASE64Decoder().decodeBuffer(temp.substring(1, temp.length() - 1)));
-        } catch (IOException e) {
+            origin.put(fieldConfig.getLname(), Base64.getMimeDecoder().decode((byte[]) value));
+        } catch (Throwable e) {
             throw PamirsException.construct(OrmExpEnumerate.BASE_BASE64_DECODE_ERROR, e).errThrow();
         }
     }

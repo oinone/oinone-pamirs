@@ -8,7 +8,7 @@ import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.resource.api.model.ResourceTranslation;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 
 /**

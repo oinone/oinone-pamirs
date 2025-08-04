@@ -3,7 +3,7 @@ package pro.shushi.pamirs.framework.common.entry;
 import pro.shushi.pamirs.meta.common.lambda.Getter;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.*;
 

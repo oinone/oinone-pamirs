@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.framework.connectors.data.configure.converter;
 
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.lang.Nullable;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.TableNameComputer;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
@@ -17,7 +16,7 @@ import static pro.shushi.pamirs.framework.connectors.data.enmu.DataExpEnumerate.
 public class String2TableNameComputerConverter implements Converter<String, TableNameComputer> {
 
     @Override
-    public TableNameComputer convert(@Nullable String s) {
+    public TableNameComputer convert(String s) {
         try {
             return (TableNameComputer) Class.forName(s).newInstance();
         } catch (Exception e) {

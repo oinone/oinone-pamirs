@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.orm.serialize.SerializeTemplate;
 import pro.shushi.pamirs.meta.api.core.orm.SerializeApi;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 持久化序列化服务

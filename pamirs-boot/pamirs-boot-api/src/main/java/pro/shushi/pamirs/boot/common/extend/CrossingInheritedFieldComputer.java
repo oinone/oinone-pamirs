@@ -8,7 +8,7 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import static pro.shushi.pamirs.boot.common.extend.CrossingInheritedFieldComputer.SPI_NAME;
 

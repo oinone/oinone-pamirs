@@ -8,7 +8,7 @@
     <artifactId>pamirs</artifactId>
     <name>oinone-pamirs</name>
     <packaging>pom</packaging>
-    <version>6.2.11</version>
+    <version>6.3.0</version>
     <description>oinone pamirs</description>
     <url>https://github.com/oinone</url>
 
@@ -17,69 +17,78 @@
         <project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <java.version>1.8</java.version>
-        <maven.compiler.version>3.11.0</maven.compiler.version>
-        <maven.source.version>3.3.0</maven.source.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>17</java.version>
+        <java.vendor>Oracle</java.vendor>
+        <maven.compiler.version>3.14.0</maven.compiler.version>
+        <maven.source.version>3.3.1</maven.source.version>
         <maven.javadoc.version>3.11.2</maven.javadoc.version>
-        <maven.deploy.version>3.1.1</maven.deploy.version>
-        <maven.install.version>3.1.1</maven.install.version>
-        <maven.enforcer.version>3.4.1</maven.enforcer.version>
-        <maven.surefire.version>3.2.2</maven.surefire.version>
-        <maven.clean.version>3.3.2</maven.clean.version>
-        <maven.jar.version>3.3.0</maven.jar.version>
+        <maven.deploy.version>3.1.4</maven.deploy.version>
+        <maven.install.version>3.1.4</maven.install.version>
+        <maven.enforcer.version>3.6.1</maven.enforcer.version>
+        <maven.surefire.version>3.5.3</maven.surefire.version>
+        <maven.toolchains.version>3.2.0</maven.toolchains.version>
+        <maven.clean.version>3.5.0</maven.clean.version>
+        <maven.jar.version>3.4.2</maven.jar.version>
         <maven.resources.version>3.3.1</maven.resources.version>
-        <maven.gpg.version>3.2.7</maven.gpg.version>
-        <maven.central.version>0.7.0</maven.central.version>
+        <maven.gpg.version>3.2.8</maven.gpg.version>
+        <maven.central.version>0.8.0</maven.central.version>
+        <maven.versions.version>2.18.0</maven.versions.version>
 
         <rocketmq.version>4.6.0</rocketmq.version>
-        <commons.lang3.version>3.10</commons.lang3.version>
+        <commons.lang3.version>3.18.0</commons.lang3.version>
         <commons.collections.version>3.2.1</commons.collections.version>
-        <commons.collections4.version>4.4</commons.collections4.version>
-        <commons.beanutils.version>1.9.3</commons.beanutils.version>
-        <gson.version>2.8.9</gson.version>
+        <commons.collections4.version>4.5.0</commons.collections4.version>
+        <commons.beanutils.version>1.11.0</commons.beanutils.version>
+        <gson.version>2.13.1</gson.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <druid.version>1.1.21</druid.version>
-        <mybatis-plus.version>3.4.1</mybatis-plus.version>
+        <druid.version>1.2.25</druid.version>
+        <mybatis.version>3.5.19</mybatis.version>
+        <mybatis.spring.version>3.0.4</mybatis.spring.version>
+        <mybatis-plus.version>3.5.11</mybatis-plus.version>
         <sharding-sphere.version>5.0.0-alpha</sharding-sphere.version>
-        <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
+        <thymeleaf.version>3.1.3.RELEASE</thymeleaf.version>
         <graphql.java.version>15.0</graphql.java.version>
         <graphql.java.extended.version>15.0.0</graphql.java.extended.version>
         <rsql.parser.version>2.1.0</rsql.parser.version>
-        <aspectj.version>1.9.4</aspectj.version>
-        <aspectjweaver.version>1.9.4</aspectjweaver.version>
-        <javax.servlet.version>4.0.1</javax.servlet.version>
-        <javax.mail.version>1.6.1</javax.mail.version>
+        <aspectj.version>1.9.24</aspectj.version>
+        <aspectjweaver.version>1.9.24</aspectjweaver.version>
         <!-- 不要改成2.x的版本，否则不兼容Nacos1.x的服务端；1.4.1 同时兼容1.x和2.x服务端，同时支持配置授权信息 -->
         <nacos.version>1.4.1</nacos.version>
-        <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
-        <caffeine.version>2.8.1</caffeine.version>
+        <caffeine.version>3.2.2</caffeine.version>
         <xpp3.version>1.1.4c</xpp3.version>
 
-        <dubbo.version>2.7.22</dubbo.version>
-        <groovy.version>2.5.8</groovy.version>
-        <kryo.version>5.0.3</kryo.version>
+        <groovy.version>3.0.25</groovy.version>
+        <kryo.version>5.6.2</kryo.version>
         <kryo-serializers.version>0.45</kryo-serializers.version>
-        <spring.boot.version>2.3.8.RELEASE</spring.boot.version>
-        <spring.cloud.version>Hoxton.SR10</spring.cloud.version>
-        <spring-cloud-alibaba.version>2.2.7.RELEASE</spring-cloud-alibaba.version>
-        <spring-context-alibaba.version>1.0.11</spring-context-alibaba.version>
-        <spring.cloud.nacos.version>2021.1</spring.cloud.nacos.version>
 
-        <spring.version>5.2.12.RELEASE</spring.version>
-        <jedis.version>3.3.0</jedis.version>
+        <dubbo.version>3.2.18</dubbo.version>
+        <dubbo.extensions.version>3.3.1</dubbo.extensions.version>
+        <spring-context-alibaba.version>1.0.11</spring-context-alibaba.version>
+        <spring.boot.version>3.3.13</spring.boot.version>
+        <spring.cloud.version>2023.0.6</spring.cloud.version>
+        <spring.cloud.alibaba.version>2023.0.3.3</spring.cloud.alibaba.version>
+        <spring.cloud.nacos.version>2023.0.3.3</spring.cloud.nacos.version>
+
+        <spring.version>6.1.21</spring.version>
+        <atomikos.version>6.0.0</atomikos.version>
+        <jedis.version>5.0.2</jedis.version>
+
         <!--aliyun-->
         <aliyun.oss.version>3.4.2</aliyun.oss.version>
         <!--qclound-->
         <qcloud.cos.version>5.6.166</qcloud.cos.version>
+        <!-- minio -->
+        <minio.version>6.0.13</minio.version>
+        <okhttp.version>3.14.9</okhttp.version>
 
         <!-- test -->
-        <org.junit5.platform.version>1.6.2</org.junit5.platform.version>
-        <org.junit5.jupiter.version>5.6.2</org.junit5.jupiter.version>
-        <org.junit5.vintage.version>5.6.2</org.junit5.vintage.version>
-        <junit4.version>4.13</junit4.version>
-        <jacoco.version>0.8.11</jacoco.version>
+        <org.junit5.platform.version>1.13.4</org.junit5.platform.version>
+        <org.junit5.jupiter.version>5.13.4</org.junit5.jupiter.version>
+        <org.junit5.vintage.version>5.13.4</org.junit5.vintage.version>
+        <junit4.version>4.13.2</junit4.version>
+        <jacoco.version>0.8.13</jacoco.version>
     </properties>
 
     <developers>
@@ -131,14 +140,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
                 <version>${spring.version}</version>
@@ -172,20 +173,29 @@
 
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
                 <version>${spring.cloud.nacos.version}</version>
             </dependency>
 
             <!-- dubbo -->
             <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-dubbo</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-bom</artifactId>
+                <version>${dubbo.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
             </dependency>
             <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo</artifactId>
-                <version>${dubbo.version}</version>
+                <groupId>org.apache.dubbo.extensions</groupId>
+                <artifactId>dubbo-serialization-kryo</artifactId>
+                <version>${dubbo.extensions.version}</version>
             </dependency>
             <!-- 直接指定版本号,否则用了spring-cloud-alibaba-dependencies的低版本-->
             <dependency>
@@ -197,14 +207,14 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
-                <version>2.11.4</version>
+                <version>2.14.5</version>
             </dependency>
 
             <!--分布式事务相关Atomikos+jta-->
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-jta-atomikos</artifactId>
-                <version>${spring.boot.version}</version>
+                <groupId>com.atomikos</groupId>
+                <artifactId>transactions-spring-boot3-starter</artifactId>
+                <version>${atomikos.version}</version>
             </dependency>
 
             <dependency>
@@ -213,6 +223,13 @@
                 <version>${druid.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-bom</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus</artifactId>
@@ -224,6 +241,16 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis.spring.version}</version>
+            </dependency>
             <!-- sharding-jdbc -->
             <dependency>
                 <groupId>org.apache.shardingsphere</groupId>
@@ -251,12 +278,6 @@
                         <artifactId>groovy</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.thymeleaf</groupId>
-                <artifactId>thymeleaf-spring5</artifactId>
-                <version>${thymeleaf-spring5.version}</version>
             </dependency>
 
             <!-- config -->
@@ -333,25 +354,17 @@
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons.beanutils.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
-            </dependency>
-
-            <!-- javax -->
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>${javax.servlet.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sun.mail</groupId>
-                <artifactId>javax.mail</artifactId>
-                <version>${javax.mail.version}</version>
             </dependency>
 
             <!-- graphql -->
@@ -407,23 +420,15 @@
                 <version>${xpp3.version}</version>
             </dependency>
 
-            <!--模版引擎-->
-            <dependency>
-                <groupId>freemarker</groupId>
-                <artifactId>freemarker</artifactId>
-                <version>2.3.9</version>
-            </dependency>
-
             <!-- groovy -->
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-all</artifactId>
+                <artifactId>groovy</artifactId>
                 <version>${groovy.version}</version>
-                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy</artifactId>
+                <artifactId>groovy-jsr223</artifactId>
                 <version>${groovy.version}</version>
             </dependency>
 
@@ -450,23 +455,13 @@
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-core</artifactId>
-                <version>2.21.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-api</artifactId>
-                <version>2.21.1</version>
+                <version>2.20.0</version>
             </dependency>
 
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>27.1-jre</version>
+                <version>33.4.8-jre</version>
             </dependency>
 
             <!-- jedis -->
@@ -564,6 +559,12 @@
                 <scope>test</scope>
             </dependency>
 
+            <!-- okhttp 兼容历史-->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
             <!--aliyun-->
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
@@ -577,95 +578,24 @@
                 <artifactId>cos_api</artifactId>
                 <version>${qcloud.cos.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>javax.transaction</groupId>
-                <artifactId>jta</artifactId>
-                <version>1.1</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
-        <!-- logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-        <dependency> <!-- log4j1 -> slf4j -->
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-        </dependency>
-        <dependency> <!-- commons-logging -> slf4j -->
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-        </dependency>
-
         <!-- test -->
         <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-runner</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-commons</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -824,20 +754,6 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring.boot.version}</version>
-                    <configuration>
-                        <fork>true</fork>
-                        <skip>false</skip>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                            <configuration>
-                                <attach>false</attach>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -881,6 +797,11 @@
                         <additionalJOption>-Xdoclint:none</additionalJOption>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${maven.versions.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -900,10 +821,49 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <compilerArgument>-parameters</compilerArgument>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.source}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <fork>true</fork>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                        <arg>-Xmaxerrs</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.launcher=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.platform=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.resources=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=jdk.compiler/com.sun.source.tree=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=java.base/jdk.internal.access=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens=java.xml/com.sun.org.apache.xpath.internal.jaxp=ALL-UNNAMED</arg>
+
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.launcher=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.platform=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.resources=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+                        <arg>--add-exports=jdk.compiler/com.sun.source.tree=ALL-UNNAMED</arg>
+                        <arg>--add-exports=java.base/jdk.internal.access=ALL-UNNAMED</arg>
+                        <arg>--add-exports=java.xml/com.sun.org.apache.xpath.internal.jaxp=ALL-UNNAMED</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
@@ -916,7 +876,32 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.0.0,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>[${java.version},)</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <ignoredVersions>.*-M.*,.*alpha.*,.*Alpha.*,.*RC.*,.*CR.*,.*rc.*,.*-beta.*,.*Beta.*,.*-PREVIEW</ignoredVersions>
+                </configuration>
             </plugin>
         </plugins>
     </build>

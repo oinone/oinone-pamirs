@@ -28,7 +28,7 @@ import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.function.Function;
 

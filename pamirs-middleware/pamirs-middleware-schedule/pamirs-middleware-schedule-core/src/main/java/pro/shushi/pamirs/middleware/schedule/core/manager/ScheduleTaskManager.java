@@ -32,7 +32,7 @@ import pro.shushi.pamirs.middleware.schedule.eunmeration.TaskType;
 import pro.shushi.pamirs.middleware.zookeeper.service.SpringContextManager;
 import pro.shushi.pamirs.middleware.zookeeper.service.ZookeeperService;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;

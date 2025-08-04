@@ -11,7 +11,7 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.bit.SessionMetaBit;
 import pro.shushi.pamirs.meta.common.util.ArrayUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Optional;
 import java.util.function.Supplier;
 

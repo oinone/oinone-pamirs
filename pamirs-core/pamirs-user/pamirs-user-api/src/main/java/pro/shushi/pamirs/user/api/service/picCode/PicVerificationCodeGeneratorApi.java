@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.user.api.service.picCode;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 图片验证码的生成

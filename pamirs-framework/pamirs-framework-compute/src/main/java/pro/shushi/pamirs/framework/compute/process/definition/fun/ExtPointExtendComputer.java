@@ -25,7 +25,7 @@ import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 import pro.shushi.pamirs.meta.util.ExtNamespaceAndNameUtils;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;

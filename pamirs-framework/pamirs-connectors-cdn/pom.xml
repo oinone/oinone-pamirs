@@ -7,7 +7,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-framework</artifactId>
-        <version>6.2.11</version>
+        <version>6.3.0</version>
     </parent>
 
     <groupId>pro.shushi.pamirs.framework</groupId>
@@ -16,11 +16,7 @@
 
     <properties>
         <upyun.version>4.2.1</upyun.version>
-        <minio.version>6.0.13</minio.version>
-        <findbug.version>3.0.2</findbug.version>
-        <annotations.version>3.0.1</annotations.version>
         <huaweicloud.obs.version>3.23.9.1</huaweicloud.obs.version>
-        <tencent.cos.version>5.6.181</tencent.cos.version>
     </properties>
 
     <dependencies>
@@ -30,18 +26,19 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
+            <groupId>org.apache.httpcomponents.core5</groupId>
+            <artifactId>httpcore5</artifactId>
         </dependency>
 
         <!--oss sdk -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
+            <version>${aliyun.oss.version}</version>
         </dependency>
         <dependency>
             <groupId>io.minio</groupId>
@@ -53,22 +50,6 @@
                     <artifactId>annotations</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <version>${annotations.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.code.findbugs</groupId>
-                    <artifactId>jsr305</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>${findbug.version}</version>
         </dependency>
 
         <dependency>
@@ -86,7 +67,7 @@
         <dependency>
             <groupId>com.qcloud</groupId>
             <artifactId>cos_api</artifactId>
-            <version>${tencent.cos.version}</version>
+            <version>${qcloud.cos.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>okio</artifactId>

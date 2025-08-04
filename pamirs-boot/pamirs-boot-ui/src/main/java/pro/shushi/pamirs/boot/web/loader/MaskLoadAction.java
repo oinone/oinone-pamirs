@@ -9,7 +9,7 @@ import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 母版管理器

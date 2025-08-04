@@ -15,7 +15,7 @@ import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.common.util.TimeWatcher;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

@@ -18,10 +18,7 @@ import pro.shushi.pamirs.meta.util.ExpressionUtils;
 import javax.script.ScriptEngine;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Groovy脚本引擎

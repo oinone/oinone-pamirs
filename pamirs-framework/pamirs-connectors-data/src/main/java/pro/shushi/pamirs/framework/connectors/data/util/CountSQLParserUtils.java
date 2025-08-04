@@ -1,8 +1,8 @@
 package pro.shushi.pamirs.framework.connectors.data.util;
 
-import com.baomidou.mybatisplus.core.parser.ISqlParser;
-import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import org.apache.ibatis.reflection.MetaObject;
+import pro.shushi.pamirs.framework.connectors.data.dialect.api.ISqlParser;
+import pro.shushi.pamirs.framework.connectors.data.optimize.JSqlParserCountOptimize;
 
 /**
  * Count SQL 解析工具类
@@ -11,7 +11,7 @@ import org.apache.ibatis.reflection.MetaObject;
  */
 public class CountSQLParserUtils {
 
-    private static final ISqlParser COUNT_SQL_PARSER = new JsqlParserCountOptimize();
+    private static final ISqlParser COUNT_SQL_PARSER = new JSqlParserCountOptimize();
 
     public static final CountSQLParserUtils INSTANCE = CountSQLParserUtils.newInstance();
 
@@ -37,7 +37,7 @@ public class CountSQLParserUtils {
 
     public String getOptimizeCountSql(boolean optimizeCountSql, MetaObject metaObject, String originalSql) {
         if (optimizeCountSql) {
-            return parser.parser(metaObject, originalSql).getSql();
+            return parser.parser(metaObject, originalSql);
         }
         return getOriginalCountSql(originalSql);
     }

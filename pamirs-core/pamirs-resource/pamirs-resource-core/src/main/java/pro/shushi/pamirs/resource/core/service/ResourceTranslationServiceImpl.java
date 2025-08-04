@@ -14,7 +14,7 @@ import pro.shushi.pamirs.resource.api.model.ResourceTranslation;
 import pro.shushi.pamirs.resource.api.model.ResourceTranslationItem;
 import pro.shushi.pamirs.resource.api.service.ResourceTranslationService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

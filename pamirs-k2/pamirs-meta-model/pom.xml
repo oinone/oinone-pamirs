@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-k2</artifactId>
-        <version>6.2.11</version>
+        <version>6.3.0</version>
     </parent>
 
     <groupId>pro.shushi.pamirs.k2</groupId>
@@ -37,7 +37,7 @@
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo</artifactId>
+            <artifactId>dubbo-rpc-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -71,10 +71,6 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
         </dependency>
 
     </dependencies>

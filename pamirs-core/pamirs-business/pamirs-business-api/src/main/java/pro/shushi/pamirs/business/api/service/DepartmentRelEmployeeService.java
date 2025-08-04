@@ -10,7 +10,7 @@ import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 

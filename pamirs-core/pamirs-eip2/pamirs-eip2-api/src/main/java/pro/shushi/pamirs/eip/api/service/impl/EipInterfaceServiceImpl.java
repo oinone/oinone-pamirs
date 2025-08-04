@@ -22,7 +22,7 @@ import pro.shushi.pamirs.eip.api.util.*;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")

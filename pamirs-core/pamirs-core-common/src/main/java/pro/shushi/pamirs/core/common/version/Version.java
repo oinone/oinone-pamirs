@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.NumberHelper;
 import pro.shushi.pamirs.core.common.exception.IncomparableException;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 

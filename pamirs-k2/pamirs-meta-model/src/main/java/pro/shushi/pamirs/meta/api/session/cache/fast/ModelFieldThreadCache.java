@@ -6,8 +6,8 @@ import pro.shushi.pamirs.meta.api.core.session.SessionClearApi;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 
 /**
@@ -33,7 +33,7 @@ public class ModelFieldThreadCache implements SessionClearApi {
     private static Map<String, ModelFieldConfig> init() {
         Map<String, ModelFieldConfig> cached = CACHE_BY_FIELD.get();
         if (cached == null) {
-            cached = new HashMap<>();
+            cached = new ConcurrentHashMap<>();
             CACHE_BY_FIELD.set(cached);
         }
         return cached;
@@ -42,7 +42,7 @@ public class ModelFieldThreadCache implements SessionClearApi {
     private static Map<String, ModelFieldConfig> initByName() {
         Map<String, ModelFieldConfig> cached = CACHE_BY_NAME.get();
         if (cached == null) {
-            cached = new HashMap<>();
+            cached = new ConcurrentHashMap<>();
             CACHE_BY_NAME.set(cached);
         }
         return cached;

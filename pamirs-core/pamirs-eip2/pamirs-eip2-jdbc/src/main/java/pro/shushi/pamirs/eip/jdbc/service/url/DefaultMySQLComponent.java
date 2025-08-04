@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.eip.jdbc.service.url;
 
-import com.alibaba.druid.util.JdbcUtils;
+import com.alibaba.druid.DbType;
 
 /**
  * DefaultMySQLComponent
@@ -11,7 +11,7 @@ public class DefaultMySQLComponent extends AbstractJdbcComponent {
 
     @Override
     public String dbType() {
-        return JdbcUtils.MYSQL;
+        return DbType.mysql.name();
     }
 
     @Override

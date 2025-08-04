@@ -11,7 +11,7 @@ import pro.shushi.pamirs.framework.connectors.data.configure.sharding.model.Shar
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 

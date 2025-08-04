@@ -8,7 +8,7 @@ import pro.shushi.pamirs.framework.common.api.PlatformJarVersionCheckerApi;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.util.TimeWatcher;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * PlatformJarVersionSaver

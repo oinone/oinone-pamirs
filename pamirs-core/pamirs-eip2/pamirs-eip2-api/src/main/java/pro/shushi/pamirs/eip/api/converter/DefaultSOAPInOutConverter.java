@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.api.converter;
 
+import jakarta.xml.soap.*;
 import org.apache.camel.ExtendedExchange;
 import org.apache.camel.Message;
 import pro.shushi.pamirs.core.common.SuperMap;
@@ -12,13 +13,9 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.*;
 
@@ -27,7 +24,6 @@ import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.*;
  *
  * @author yakir on 2023/05/06 17:07.
  */
-@SuppressWarnings({"unchecked"})
 @Fun(EipFunctionConstant.FUNCTION_NAMESPACE)
 @Slf4j
 public class DefaultSOAPInOutConverter implements IEipInOutConverter {
@@ -113,8 +109,7 @@ public class DefaultSOAPInOutConverter implements IEipInOutConverter {
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
             soapMessage.writeTo(baos);
-            byte[] bytes = baos.toByteArray();
-            String msg = new String(bytes, StandardCharsets.UTF_8);
+            String msg = baos.toString(StandardCharsets.UTF_8);
             log.info("SOAP Message: {}", msg);
             return msg;
         }
@@ -123,10 +118,10 @@ public class DefaultSOAPInOutConverter implements IEipInOutConverter {
     private static void soapElement(SOAPElement element, String key, Object value) throws SOAPException {
         if (key.contains(".")) {
             String[] arr = key.split("\\.", 2);
-            Iterator<SOAPElement> iterator = element.getChildElements();
+            Iterator<Node> iterator = element.getChildElements();
             Map<String, SOAPElement> childs = new HashMap<>();
             while (iterator.hasNext()) {
-                SOAPElement e = iterator.next();
+                SOAPElement e = (SOAPElement) iterator.next();
                 childs.put(e.getLocalName(), e);
             }
             boolean flag = false;

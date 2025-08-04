@@ -3,8 +3,8 @@ package pro.shushi.pamirs.eip.api;
 import pro.shushi.pamirs.eip.api.context.EipCamelContext;
 import pro.shushi.pamirs.eip.api.enmu.ExchangePatternEnum;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 所有接口基类

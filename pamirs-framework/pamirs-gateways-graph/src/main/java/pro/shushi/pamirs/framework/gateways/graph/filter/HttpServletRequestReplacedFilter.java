@@ -1,10 +1,12 @@
 package pro.shushi.pamirs.framework.gateways.graph.filter;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 public class HttpServletRequestReplacedFilter implements Filter {
+
     @Override
     public void destroy() {
 

@@ -106,19 +106,19 @@ public class TypeUtilsTest extends AbstractBaseTest {
 
         // 二进制枚举
         List<Long> personValueEnums = new ArrayList<>();
-        personValueEnums.add(new Long(PersonEnum.O2M.value() + ""));
+        personValueEnums.add(Long.valueOf(PersonEnum.O2M.value() + ""));
         Assert.assertTrue(compareEnumList(personValueEnums, PersonEnum.getValuesByBits(PersonEnum.class, 4L)));
 
         //6=2<<1+2<<0
-        personValueEnums.add(new Long(PersonEnum.O2O.value() + ""));
+        personValueEnums.add(Long.valueOf(PersonEnum.O2O.value() + ""));
         Assert.assertTrue(compareEnumList(personValueEnums, PersonEnum.getValuesByBits(PersonEnum.class, 6L)));
 
         //14=2<<1+2<<0+2<<2
-        personValueEnums.add(new Long(PersonEnum.M2O.value() + ""));
+        personValueEnums.add(Long.valueOf(PersonEnum.M2O.value() + ""));
         Assert.assertTrue(compareEnumList(personValueEnums, PersonEnum.getValuesByBits(PersonEnum.class, 14L)));
 
         //30=2<<1+2<<0+2<<2+2<<3
-        personValueEnums.add(new Long(PersonEnum.M2M.value() + ""));
+        personValueEnums.add(Long.valueOf(PersonEnum.M2M.value() + ""));
         Assert.assertTrue(compareEnumList(personValueEnums, PersonEnum.getValuesByBits(PersonEnum.class, 30L)));
 
         // 二进制枚举
@@ -148,8 +148,8 @@ public class TypeUtilsTest extends AbstractBaseTest {
         ;
         Assert.assertTrue(PersonEnum.O2M.isBitIn((long) (2 << 1)));
         Assert.assertFalse(PersonEnum.O2M.isBitIn((long) (2 << 0)));
-        Assert.assertEquals((2 << 5 | 2 << 1), PersonEnum.O2M.setBitIn(new Long((2 << 5) + "")));
-        Assert.assertEquals((2 << 5), PersonEnum.O2M.unsetBitIn(new Long((2 << 5) + "")));
+        Assert.assertEquals((2 << 5 | 2 << 1), PersonEnum.O2M.setBitIn(Long.valueOf((2 << 5) + "")));
+        Assert.assertEquals((2 << 5), PersonEnum.O2M.unsetBitIn(Long.valueOf((2 << 5) + "")));
         ArrayList<PersonEnum> personEnums = new ArrayList<>();
         personEnums.add(PersonEnum.O2M);
         personEnums.add(PersonEnum.M2M);
@@ -163,7 +163,7 @@ public class TypeUtilsTest extends AbstractBaseTest {
         Assert.assertEquals(PersonEnum.O2M, TtypeEnum.getEnum(PersonEnum.class, "O2M"));
         Assert.assertNotEquals(PersonEnum.M2M, TtypeEnum.getEnum(PersonEnum.class, "O2M"));
         Assert.assertEquals(PersonEnum.M2O, TtypeEnum.getEnumByDisplayName(PersonEnum.class, PersonEnum.M2O.displayName()));
-        PersonEnum.getEnumsByBits(PersonEnum.class, new Long((2 << 1) + ""));
+        PersonEnum.getEnumsByBits(PersonEnum.class, Long.valueOf((2 << 1) + ""));
         Assert.assertEquals(PersonEnum.M2O.displayName(), TtypeEnum.getDisplayNameByName(PersonEnum.class, PersonEnum.M2O.name()));
         Assert.assertEquals(PersonEnum.M2O.displayName(), TtypeEnum.getDisplayNameByValue(PersonEnum.class, PersonEnum.M2O.value()));
         Assert.assertEquals(PersonEnum.M2O.name(), TtypeEnum.getNameByValue(PersonEnum.class, PersonEnum.M2O.value()));

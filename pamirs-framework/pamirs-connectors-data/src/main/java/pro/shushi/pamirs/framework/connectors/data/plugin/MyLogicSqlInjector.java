@@ -2,6 +2,8 @@ package pro.shushi.pamirs.framework.connectors.data.plugin;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
+import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import org.apache.ibatis.session.Configuration;
 
 import java.util.List;
 
@@ -21,9 +23,9 @@ public class MyLogicSqlInjector extends DefaultSqlInjector {
      * @return 返回注入方法
      */
     @Override
-    public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
+    public List<AbstractMethod> getMethodList(Configuration configuration, Class<?> mapperClass, TableInfo tableInfo) {
         // 这里可以给methodList添加更多SQL注入器
-        return super.getMethodList(mapperClass);
+        return super.getMethodList(configuration, mapperClass, tableInfo);
     }
 
 }

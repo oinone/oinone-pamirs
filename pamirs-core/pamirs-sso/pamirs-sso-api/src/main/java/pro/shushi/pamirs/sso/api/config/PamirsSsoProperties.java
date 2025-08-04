@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @Configuration
 @ConfigurationProperties(prefix = SsoConfigurationConstant.PAMIRS_SSO_PREFIX)

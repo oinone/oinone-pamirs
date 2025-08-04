@@ -15,8 +15,8 @@ import pro.shushi.pamirs.user.api.enmu.UserLoginTypeEnum;
 import pro.shushi.pamirs.user.api.login.IUserLogin;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 /**

@@ -8,8 +8,8 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.user.api.service.picCode.PicVerificationCodeGeneratorApi;
 import pro.shushi.pamirs.user.api.utils.VerifyCodeUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 生成图形验证码

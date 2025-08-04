@@ -23,7 +23,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 import pro.shushi.pamirs.meta.util.NamespaceAndFunUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

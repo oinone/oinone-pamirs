@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.jdbc.service;
 
+import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import pro.shushi.pamirs.eip.jdbc.entity.SQLPrepareEntity;
@@ -26,4 +27,8 @@ public interface EipSQLChecker {
     List<SQLStatement> parser(String sql);
 
     String toSQLString(List<SQLStatement> statements);
+
+    default DbType toDruidDbType() {
+        return DbType.valueOf(dbType().toLowerCase());
+    }
 }

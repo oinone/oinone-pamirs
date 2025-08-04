@@ -1,8 +1,8 @@
 package pro.shushi.pamirs;
 
 import cz.jirutka.rsql.parser.RSQLParser;
-import org.junit.Test;
-import org.testng.AssertJUnit;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import pro.shushi.pamirs.framework.gateways.rsql.algorithm.LogicRsqlVisitor;
 import pro.shushi.pamirs.framework.gateways.rsql.algorithm.RsqlTreeLeafNode;
 import pro.shushi.pamirs.framework.gateways.rsql.algorithm.RsqlTreeLogicalNode;
@@ -24,9 +24,9 @@ public class RsqlTest {
         RsqlTreeNode accept = analysisRsql(rsql);
         RsqlTreeNode accept2 = analysisRsql(rsql2);
         RsqlTreeNode accept3 = analysisRsql(rsql3);
-        AssertJUnit.assertTrue(assertResultSize(accept, 3));
-        AssertJUnit.assertTrue(assertResultSize(accept2, 3));
-        AssertJUnit.assertTrue(assertResultSize(accept3, 2));
+        Assertions.assertTrue(assertResultSize(accept, 3));
+        Assertions.assertTrue(assertResultSize(accept2, 3));
+        Assertions.assertTrue(assertResultSize(accept3, 2));
     }
 
     @Test
@@ -37,9 +37,9 @@ public class RsqlTest {
         String accept = analysisNewRsql(rsql);
         String accept2 = analysisNewRsql(rsql2);
         String accept3 = analysisNewRsql(rsql3);
-        AssertJUnit.assertEquals("A=lt='1' and A=gt='1' and B=gt='1'", accept);
-        AssertJUnit.assertEquals("A=lt='1' and A=gt='1' and B=gt='1'", accept2);
-        AssertJUnit.assertEquals("A=gt='1' and B=gt='1'", accept3);
+        Assertions.assertEquals("A=lt='1' and A=gt='1' and B=gt='1'", accept);
+        Assertions.assertEquals("A=lt='1' and A=gt='1' and B=gt='1'", accept2);
+        Assertions.assertEquals("A=gt='1' and B=gt='1'", accept3);
     }
 
     @Test
@@ -61,17 +61,17 @@ public class RsqlTest {
         String rsql7 = "A=gt=1";
 
         RsqlTreeNode accept4 = analysisRsql(rsql4);
-        AssertJUnit.assertTrue(assertResultSize(accept4, 3));
+        Assertions.assertTrue(assertResultSize(accept4, 3));
         RsqlTreeNode accept = analysisRsql(rsql);
         RsqlTreeNode accept2 = analysisRsql(rsql2);
         RsqlTreeNode accept3 = analysisRsql(rsql3);
         RsqlTreeNode accept5 = analysisRsql(rsql5);
         RsqlTreeNode accept6 = analysisRsql(rsql6);
-        AssertJUnit.assertTrue(assertResultSize(accept, 3));
-        AssertJUnit.assertTrue(assertResultSize(accept2, 3));
-        AssertJUnit.assertTrue(assertResultSize(accept3, 2));
-        AssertJUnit.assertTrue(assertResultSize(accept5, 3));
-        AssertJUnit.assertTrue(assertResultSize(accept6, 3));
+        Assertions.assertTrue(assertResultSize(accept, 3));
+        Assertions.assertTrue(assertResultSize(accept2, 3));
+        Assertions.assertTrue(assertResultSize(accept3, 2));
+        Assertions.assertTrue(assertResultSize(accept5, 3));
+        Assertions.assertTrue(assertResultSize(accept6, 3));
     }
 
     @Test
@@ -91,13 +91,13 @@ public class RsqlTest {
         String accept5 = analysisNewRsql(rsql5);
         String accept6 = analysisNewRsql(rsql6);
         String accept7 = analysisNewRsql(rsql7);
-        AssertJUnit.assertEquals("A=lt='1' or A=gt='1' or B=gt='1'", accept4);
-        AssertJUnit.assertEquals("A=lt='1' or A=gt='1' or B=gt='1'", accept);
-        AssertJUnit.assertEquals("A=lt='1' or A=gt='1' or B=gt='1'", accept2);
-        AssertJUnit.assertEquals("A=gt='1' or B=gt='1'", accept3);
-        AssertJUnit.assertEquals("A=gt='1'", accept7);
-        AssertJUnit.assertEquals("A=lt='1' or A=gt='1' or B=gt='1'", accept5);
-        AssertJUnit.assertEquals("A=lt='1' or A=gt='1' or B=gt='1'", accept6);
+        Assertions.assertEquals("A=lt='1' or A=gt='1' or B=gt='1'", accept4);
+        Assertions.assertEquals("A=lt='1' or A=gt='1' or B=gt='1'", accept);
+        Assertions.assertEquals("A=lt='1' or A=gt='1' or B=gt='1'", accept2);
+        Assertions.assertEquals("A=gt='1' or B=gt='1'", accept3);
+        Assertions.assertEquals("A=gt='1'", accept7);
+        Assertions.assertEquals("A=lt='1' or A=gt='1' or B=gt='1'", accept5);
+        Assertions.assertEquals("A=lt='1' or A=gt='1' or B=gt='1'", accept6);
     }
 
     @Test
@@ -136,13 +136,13 @@ public class RsqlTest {
         String accept5 = analysisNewRsql(rsql5);
         String accept6 = analysisNewRsql(rsql6);
         String accept7 = analysisNewRsql(rsql7);
-        AssertJUnit.assertEquals("A=lt='1' or A=gt='1'", accept);
-        AssertJUnit.assertEquals("A=lt='1' or A=gt='1' and B=gt='1'", accept2);
-        AssertJUnit.assertEquals("A=lt='1'", accept3);
-        AssertJUnit.assertEquals("A=lt='1' or A=lt='3' and A=gt='1' and B=gt='1'", accept4);
-        AssertJUnit.assertEquals("A=lt='1' or A=gt='1'", accept5);
-        AssertJUnit.assertEquals("A=lt='1'", accept6);
-        AssertJUnit.assertEquals("A=lt='3' and A=gt='1' or A=lt='1' and A=lt='4'", accept7);
+        Assertions.assertEquals("A=lt='1' or A=gt='1'", accept);
+        Assertions.assertEquals("A=lt='1' or A=gt='1' and B=gt='1'", accept2);
+        Assertions.assertEquals("A=lt='1'", accept3);
+        Assertions.assertEquals("A=lt='1' or A=lt='3' and A=gt='1' and B=gt='1'", accept4);
+        Assertions.assertEquals("A=lt='1' or A=gt='1'", accept5);
+        Assertions.assertEquals("A=lt='1'", accept6);
+        Assertions.assertEquals("A=lt='3' and A=gt='1' or A=lt='1' and A=lt='4'", accept7);
     }
 
 

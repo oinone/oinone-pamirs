@@ -8,7 +8,7 @@ import pro.shushi.pamirs.resource.api.constants.DefaultResourceConstants;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.utils.UserPatternCheckUtils;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 
 @SPI(factory = SpringServiceLoaderFactory.class)

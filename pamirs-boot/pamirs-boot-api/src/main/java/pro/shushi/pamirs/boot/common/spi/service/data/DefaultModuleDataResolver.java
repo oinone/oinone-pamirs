@@ -9,7 +9,7 @@ import pro.shushi.pamirs.framework.configure.annotation.core.ModuleResolver;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 

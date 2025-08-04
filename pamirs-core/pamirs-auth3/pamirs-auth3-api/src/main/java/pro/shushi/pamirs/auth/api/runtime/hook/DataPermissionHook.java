@@ -9,7 +9,7 @@ import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.core.faas.HookBefore;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 数据权限Hook

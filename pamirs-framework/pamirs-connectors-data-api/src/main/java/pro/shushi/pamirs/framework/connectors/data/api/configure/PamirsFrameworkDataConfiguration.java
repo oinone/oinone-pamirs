@@ -8,7 +8,7 @@ import pro.shushi.pamirs.meta.annotation.fun.Data;
 import pro.shushi.pamirs.meta.api.prefix.DataPrefixManager;
 import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.Map;
 

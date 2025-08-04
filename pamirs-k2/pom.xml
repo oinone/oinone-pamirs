@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.11</version>
+        <version>6.3.0</version>
     </parent>
 
     <artifactId>pamirs-k2</artifactId>
@@ -20,10 +20,6 @@
         <module>pamirs-meta-model</module>
         <module>pamirs-meta-dsl</module>
     </modules>
-
-    <properties>
-        <xpp3.version>1.1.4c</xpp3.version>
-    </properties>
 
     <dependencyManagement>
         <dependencies>

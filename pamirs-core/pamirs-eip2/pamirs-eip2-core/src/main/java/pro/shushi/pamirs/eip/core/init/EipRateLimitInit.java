@@ -7,7 +7,7 @@ import pro.shushi.pamirs.boot.common.api.init.UpgradeDataInit;
 import pro.shushi.pamirs.eip.api.EipModule;
 import pro.shushi.pamirs.eip.api.service.EipOpenRateLimitPolicyService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
 

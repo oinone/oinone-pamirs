@@ -1,22 +1,16 @@
 package pro.shushi.pamirs.framework.connectors.data.plugin.sql;
 
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
-import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.SqlCommandType;
-import org.apache.ibatis.mapping.StatementType;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.mapping.*;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.DialectIgnoredHintApi;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.SQLExecuteDialectService;
+import pro.shushi.pamirs.framework.connectors.data.optimize.AbstractSqlParserHandler;
 import pro.shushi.pamirs.framework.connectors.data.util.DataConfigurationHelper;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
@@ -26,9 +20,7 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.D;
 
 import java.sql.Connection;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * SQL方言执行
@@ -69,7 +61,6 @@ public class SqlDialectInterceptor extends AbstractSqlParserHandler implements I
         String newBoundSql = Dialects.component(SQLExecuteDialectService.class, dsKey).resolve(boundSql.getSql(), findWrapperModelConfig(boundSql, mappedStatement));
 
         metaObject.setValue("delegate.boundSql.sql", newBoundSql);
-
         return invocation.proceed();
     }
 

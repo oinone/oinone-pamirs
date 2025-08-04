@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.core.common.map;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 双向实体映射Map

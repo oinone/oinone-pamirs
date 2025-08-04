@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.jdbc.helper;
 
+import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.parser.ParserException;
 import com.alibaba.druid.sql.parser.SQLParserUtils;
@@ -107,7 +108,8 @@ public class SQLPrepareHelper {
     }
 
     public static List<SQLStatement> parseStatements(String sql, String dbType) {
-        SQLStatementParser parser = SQLParserUtils.createSQLStatementParser(sql, dbType, false);
+        DbType _dbType = DbType.of(dbType);
+        SQLStatementParser parser = SQLParserUtils.createSQLStatementParser(sql, _dbType, false);
         List<SQLStatement> stmtList = parser.parseStatementList();
         if (parser.getLexer().token() != Token.EOF) {
             throw new ParserException("syntax error : " + sql);

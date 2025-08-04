@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.sequence.common.Result;
 import pro.shushi.pamirs.sequence.manager.LeafSegment;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * LeafSegmentService

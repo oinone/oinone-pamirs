@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.2.11</version>
+        <version>6.3.0</version>
     </parent>
     <artifactId>pamirs-framework-commons</artifactId>
     <name>pamirs-framework-commons</name>
@@ -19,7 +19,7 @@
     </modules>
 
     <properties>
-        <pamirs.framework.a.version>6.2.2</pamirs.framework.a.version>
+        <pamirs.framework.a.version>6.3.0</pamirs.framework.a.version>
     </properties>
 
     <dependencyManagement>
@@ -59,8 +59,8 @@
     <dependencies>
 
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
         </dependency>
 
         <!-- mvel -->
@@ -112,8 +112,7 @@
         <!-- groovy -->
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <type>pom</type>
+            <artifactId>groovy-jsr223</artifactId>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>

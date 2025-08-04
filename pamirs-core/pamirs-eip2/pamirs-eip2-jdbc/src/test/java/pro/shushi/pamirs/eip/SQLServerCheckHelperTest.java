@@ -110,7 +110,7 @@ public class SQLServerCheckHelperTest {
     }
 
     private String rawTest(String sql) {
-        String target = SQLCheckHelper.checkSingle(sql, JdbcUtils.SQL_SERVER);
+        String target = SQLCheckHelper.checkSingle(sql, JdbcUtils.SQL_SERVER.name());
         assert !target.contains("#");
         System.out.println(target);
         return target;

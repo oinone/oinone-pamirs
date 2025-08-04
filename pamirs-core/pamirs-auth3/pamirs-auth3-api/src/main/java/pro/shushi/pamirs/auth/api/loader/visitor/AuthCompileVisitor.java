@@ -32,7 +32,7 @@ import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.*;
 
 /**

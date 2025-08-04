@@ -14,7 +14,7 @@ import pro.shushi.pamirs.meta.api.core.configure.MetaModelFetcher;
 import pro.shushi.pamirs.meta.common.util.ClassScanner;
 import pro.shushi.pamirs.meta.configure.PamirsFrameworkSystemConfiguration;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Set;
 
 /**

@@ -9,7 +9,7 @@ import pro.shushi.pamirs.framework.connectors.cdn.client.FileClient;
 import pro.shushi.pamirs.framework.connectors.cdn.configure.CdnConfig;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @DisplayName("基础服务测试")

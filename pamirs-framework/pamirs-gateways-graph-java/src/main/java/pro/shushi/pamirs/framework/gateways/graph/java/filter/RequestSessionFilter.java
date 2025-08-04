@@ -1,13 +1,13 @@
 package pro.shushi.pamirs.framework.gateways.graph.java.filter;
 
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.gateways.graph.java.utils.RequestHelper;
 import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestParam;
 import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestVariables;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component

@@ -24,7 +24,7 @@ import pro.shushi.pamirs.meta.common.util.ListUtils;
 import pro.shushi.pamirs.meta.configure.PamirsFrameworkSystemConfiguration;
 import pro.shushi.pamirs.meta.enmu.DataSourceProtocolEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

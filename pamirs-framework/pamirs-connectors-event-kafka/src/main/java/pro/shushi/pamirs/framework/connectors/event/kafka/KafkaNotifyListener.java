@@ -14,6 +14,7 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.util.backoff.BackOff;
 import org.springframework.util.backoff.ExponentialBackOff;
+import org.springframework.util.backoff.FixedBackOff;
 import pro.shushi.pamirs.framework.connectors.event.api.NotifyConsumeAfter;
 import pro.shushi.pamirs.framework.connectors.event.api.NotifyConsumeBefore;
 import pro.shushi.pamirs.framework.connectors.event.api.NotifyConsumer;
@@ -42,7 +43,7 @@ public class KafkaNotifyListener<T extends Serializable> extends AbstractNotifyL
 
     private final KafkaProperties properties;
 
-    private final SeekToCurrentErrorHandler seekToCurrentErrorHandler;
+    private final CommonErrorHandler errorHandler;
 
     public KafkaNotifyListener(NotifyListenerWrapper notifyListener, NotifyConsumer<? extends Serializable> notifyConsumer,
                                KafkaProperties properties) {
@@ -51,7 +52,7 @@ public class KafkaNotifyListener<T extends Serializable> extends AbstractNotifyL
         KafkaTemplate kafkaTemplate = BeanDefinitionUtils.getBean(KafkaTemplate.class);
         BackOff backOff = new ExponentialBackOff();
         ConsumerRecordRecoverer recoverer = new DeadLetterPublishingRecoverer(kafkaTemplate);
-        this.seekToCurrentErrorHandler = new SeekToCurrentErrorHandler(recoverer, backOff);
+        this.errorHandler = new DefaultErrorHandler(recoverer, backOff);
     }
 
     /**
@@ -65,8 +66,7 @@ public class KafkaNotifyListener<T extends Serializable> extends AbstractNotifyL
         KafkaTemplate kafkaTemplate = BeanDefinitionUtils.getBean(KafkaTemplate.class);
         BackOff backOff = new ExponentialBackOff();
         ConsumerRecordRecoverer recoverer = new DeadLetterPublishingRecoverer(kafkaTemplate);
-        this.seekToCurrentErrorHandler = new SeekToCurrentErrorHandler(recoverer, backOff);
-        this.eventListener = eventListener;
+        this.errorHandler = new DefaultErrorHandler(recoverer, backOff);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class KafkaNotifyListener<T extends Serializable> extends AbstractNotifyL
             }
         });
         this.consumer = new ConcurrentMessageListenerContainer(factory, containerProperties);
-        this.consumer.setErrorHandler(seekToCurrentErrorHandler);
+        this.consumer.setCommonErrorHandler(errorHandler);
     }
 
     private ConsumerFactory<?, ?> initKafkaConsumerFactory() {

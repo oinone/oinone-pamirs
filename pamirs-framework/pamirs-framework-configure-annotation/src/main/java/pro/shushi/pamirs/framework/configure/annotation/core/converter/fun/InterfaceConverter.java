@@ -9,7 +9,7 @@ import pro.shushi.pamirs.meta.common.constants.FunctionDefaultsConstants;
 import pro.shushi.pamirs.meta.domain.fun.InterfaceDefinition;
 import pro.shushi.pamirs.meta.util.MethodUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Optional;
 

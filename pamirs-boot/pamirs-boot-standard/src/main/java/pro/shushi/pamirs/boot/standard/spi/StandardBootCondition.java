@@ -13,7 +13,7 @@ import pro.shushi.pamirs.meta.api.session.cache.spi.SessionFillOwnSignApi;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 启动条件实现

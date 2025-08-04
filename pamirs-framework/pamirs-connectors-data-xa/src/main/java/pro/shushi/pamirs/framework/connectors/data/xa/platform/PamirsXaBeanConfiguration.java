@@ -13,8 +13,8 @@ import pro.shushi.pamirs.framework.connectors.data.xa.configure.PamirsXaConfigur
 import pro.shushi.pamirs.framework.connectors.data.xa.constants.SystemBeanConstants;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
+import jakarta.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
 
 /**
  * pamirs分布式事务bean配置

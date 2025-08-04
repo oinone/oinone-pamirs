@@ -3,16 +3,18 @@ package pro.shushi.pamirs.framework.connectors.data.plugin.page;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.core.toolkit.*;
-import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
+import com.baomidou.mybatisplus.extension.parser.JsqlParserGlobal;
 import com.baomidou.mybatisplus.extension.plugins.pagination.DialectFactory;
 import com.baomidou.mybatisplus.extension.plugins.pagination.DialectModel;
 import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.IDialect;
+import com.baomidou.mybatisplus.extension.toolkit.PropertyMapper;
 import net.sf.jsqlparser.JSQLParserException;
-import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
-import net.sf.jsqlparser.statement.select.*;
+import net.sf.jsqlparser.statement.select.OrderByElement;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.select.SetOperationList;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.plugin.*;
@@ -22,8 +24,10 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.RowBounds;
 import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.DsDialectComponent;
+import pro.shushi.pamirs.framework.connectors.data.dialect.api.ISqlParser;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.SQLExecuteDialectService;
 import pro.shushi.pamirs.framework.connectors.data.mapper.context.MapperContext;
+import pro.shushi.pamirs.framework.connectors.data.optimize.AbstractSqlParserHandler;
 import pro.shushi.pamirs.framework.connectors.data.plugin.MybatisParameterHandler;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.ModelFieldConfigWrapper;
@@ -55,10 +59,12 @@ import java.util.stream.Collectors;
         args = {Connection.class, Integer.class}
 )})
 public class PaginationInterceptor extends AbstractSqlParserHandler implements Interceptor {
+
     /**
      * COUNT SQL 解析
      */
     protected ISqlParser countSqlParser;
+
     /**
      * 溢出总页数后是否进行处理
      */
@@ -79,7 +85,13 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
      * @since 3.3.1
      */
     private IDialect dialect;
-
+    /**
+     * 生成 countSql 优化掉 join
+     * 现在只支持 left join
+     *
+     * @since 3.4.2
+     */
+    protected boolean optimizeJoin = true;
 
     /**
      * Physical Page Interceptor for all the queries with parameter {@link RowBounds}
@@ -87,6 +99,7 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
     @SuppressWarnings("unchecked")
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
+
         StatementHandler statementHandler = PluginUtils.realTarget(invocation.getTarget());
         MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
 
@@ -133,7 +146,7 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
                 String countSQL = Dialects.component(SQLExecuteDialectService.class, DataConfigurationHelper.getDsKey()).countSQL(pagination.isOptimizeCountSql(), originalSql, metaObject);
                 this.queryTotal(countSQL, mappedStatement, boundSql, pagination, connection);
                 if (pagination.getTotalElements() <= 0) {
-                    return null;
+                    return invocation.proceed();
                 }
             }
 
@@ -175,11 +188,11 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
 
             Connection connection = (Connection) invocation.getArgs()[0];
 
-            if (page.isSearchCount()/* && !page.isHitCount()*/) {
+            if (page.searchCount()/* && !page.isHitCount()*/) {
                 String countSQL = Dialects.component(SQLExecuteDialectService.class, DataConfigurationHelper.getDsKey()).countSQL(page.optimizeCountSql(), originalSql, metaObject);
                 this.queryTotal(countSQL, mappedStatement, boundSql, page, connection);
                 if (page.getTotal() <= 0) {
-                    return null;
+                    return invocation.proceed();
                 }
             }
 
@@ -224,22 +237,17 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
         if (CollectionUtils.isNotEmpty(page.orders())) {
             try {
                 List<OrderItem> orderList = page.orders();
-                Select selectStatement = (Select) CCJSqlParserUtil.parse(originalSql);
-                if (selectStatement.getSelectBody() instanceof PlainSelect) {
-                    PlainSelect plainSelect = (PlainSelect) selectStatement.getSelectBody();
+                Select selectStatement = (Select) JsqlParserGlobal.parse(originalSql);
+                if (selectStatement instanceof PlainSelect plainSelect) {
                     List<OrderByElement> orderByElements = plainSelect.getOrderByElements();
                     List<OrderByElement> orderByElementsReturn = addOrderByElements(orderList, orderByElements);
                     plainSelect.setOrderByElements(orderByElementsReturn);
                     return plainSelect.toString();
-                } else if (selectStatement.getSelectBody() instanceof SetOperationList) {
-                    SetOperationList setOperationList = (SetOperationList) selectStatement.getSelectBody();
+                } else if (selectStatement instanceof SetOperationList setOperationList) {
                     List<OrderByElement> orderByElements = setOperationList.getOrderByElements();
                     List<OrderByElement> orderByElementsReturn = addOrderByElements(orderList, orderByElements);
                     setOperationList.setOrderByElements(orderByElementsReturn);
                     return setOperationList.toString();
-                } else if (selectStatement.getSelectBody() instanceof WithItem) {
-                    // todo: don't known how to resole
-                    return originalSql;
                 } else {
                     return originalSql;
                 }
@@ -263,22 +271,17 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
         if (CollectionUtils.isNotEmpty(page.orders())) {
             try {
                 List<Order> orderList = page.orders();
-                Select selectStatement = (Select) CCJSqlParserUtil.parse(originalSql);
-                if (selectStatement.getSelectBody() instanceof PlainSelect) {
-                    PlainSelect plainSelect = (PlainSelect) selectStatement.getSelectBody();
+                Select selectStatement = (Select) JsqlParserGlobal.parse(originalSql);
+                if (selectStatement instanceof PlainSelect plainSelect) {
                     List<OrderByElement> orderByElements = plainSelect.getOrderByElements();
                     List<OrderByElement> orderByElementsReturn = addLowCodeOrderByElements(model, orderList, orderByElements);
                     plainSelect.setOrderByElements(orderByElementsReturn);
                     return plainSelect.toString();
-                } else if (selectStatement.getSelectBody() instanceof SetOperationList) {
-                    SetOperationList setOperationList = (SetOperationList) selectStatement.getSelectBody();
+                } else if (selectStatement instanceof SetOperationList setOperationList) {
                     List<OrderByElement> orderByElements = setOperationList.getOrderByElements();
                     List<OrderByElement> orderByElementsReturn = addLowCodeOrderByElements(model, orderList, orderByElements);
                     setOperationList.setOrderByElements(orderByElementsReturn);
                     return setOperationList.toString();
-                } else if (selectStatement.getSelectBody() instanceof WithItem) {
-                    // todo: don't known how to resole
-                    return originalSql;
                 } else {
                     return originalSql;
                 }
@@ -300,7 +303,8 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
                     element.setAsc(item.isAsc());
                     element.setAscDescPresent(true);
                     return element;
-                }).collect(Collectors.toList());
+                })
+                .collect(Collectors.toList());
         orderByElements.addAll(orderByElementList);
         return orderByElements;
     }
@@ -315,7 +319,8 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
                     element.setAsc(item.getDirection().equals(SortDirectionEnum.ASC));
                     element.setAscDescPresent(true);
                     return element;
-                }).collect(Collectors.toList());
+                })
+                .collect(Collectors.toList());
         orderByElements.addAll(orderByElementList);
         return orderByElements;
     }
@@ -438,25 +443,14 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
     }
 
     @Override
-    public void setProperties(Properties prop) {
-        String countSqlParser = prop.getProperty("countSqlParser");
-        String overflow = prop.getProperty("overflow");
-        String limit = prop.getProperty("limit");
-        String dialectType = prop.getProperty("dialectType");
-        String dialectClazz = prop.getProperty("dialectClazz");
-        setOverflow(Boolean.parseBoolean(overflow));
-        if (StringUtils.isNotBlank(countSqlParser)) {
-            setCountSqlParser(ClassUtils.newInstance(countSqlParser));
-        }
-        if (StringUtils.isNotBlank(dialectType)) {
-            setDbType(DbType.getDbType(dialectType));
-        }
-        if (StringUtils.isNotBlank(dialectClazz)) {
-            setDialect(DialectFactory.getDialect(dialectClazz));
-        }
-        if (StringUtils.isNotBlank(limit)) {
-            setLimit(Long.parseLong(limit));
-        }
+    public void setProperties(Properties properties) {
+        PropertyMapper.newInstance(properties)
+                .whenNotBlank("overflow", Boolean::parseBoolean, this::setOverflow)
+                .whenNotBlank("dbType", DbType::getDbType, this::setDbType)
+                .whenNotBlank("dialect", ClassUtils::newInstance, this::setDialect)
+                .whenNotBlank("limit", Long::parseLong, this::setLimit)
+                .whenNotBlank("optimizeJoin", Boolean::parseBoolean, this::setOptimizeJoin);
+
     }
 
     /**
@@ -467,8 +461,7 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
      */
     public static Optional<Pagination<?>> findLowCodePage(Object parameterObject) {
         if (parameterObject != null) {
-            if (parameterObject instanceof Map) {
-                Map<?, ?> parameterMap = (Map<?, ?>) parameterObject;
+            if (parameterObject instanceof Map<?, ?> parameterMap) {
                 for (Map.Entry<?, ?> entry : parameterMap.entrySet()) {
                     if (entry.getValue() != null && entry.getValue() instanceof Pagination) {
                         return Optional.of((Pagination<?>) entry.getValue());
@@ -483,8 +476,7 @@ public class PaginationInterceptor extends AbstractSqlParserHandler implements I
 
     public static Optional<String> findModel(Object parameterObject) {
         if (parameterObject != null) {
-            if (parameterObject instanceof Map) {
-                Map<?, ?> parameterMap = (Map<?, ?>) parameterObject;
+            if (parameterObject instanceof Map<?, ?> parameterMap) {
                 return Optional.ofNullable(MapperContext.model(parameterMap));
             } else if (parameterObject instanceof Pagination) {
                 return Optional.of((Pagination<?>) parameterObject).map(Pagination::getModel);

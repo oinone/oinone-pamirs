@@ -19,7 +19,7 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.manager.data.DataManager;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 

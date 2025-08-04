@@ -6,7 +6,7 @@ import pro.shushi.pamirs.framework.connectors.data.api.configure.PamirsFramework
 import pro.shushi.pamirs.framework.connectors.data.api.datasource.DataSourceApi;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

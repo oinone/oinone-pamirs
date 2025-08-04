@@ -12,7 +12,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.util.ListUtils;
 import pro.shushi.pamirs.meta.constant.FieldConstants;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Function;

@@ -11,7 +11,7 @@ import pro.shushi.pamirs.meta.api.core.orm.template.function.FieldConverterApi;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 
 import static pro.shushi.pamirs.meta.common.enmu.BaseEnum.caseValue;

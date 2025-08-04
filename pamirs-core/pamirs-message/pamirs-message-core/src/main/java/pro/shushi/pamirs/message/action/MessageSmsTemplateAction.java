@@ -8,7 +8,7 @@ import pro.shushi.pamirs.meta.annotation.validation.Validation;
 import pro.shushi.pamirs.meta.api.core.orm.WriteWithFieldApi;
 import pro.shushi.pamirs.meta.constant.ExpConstants;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author shier

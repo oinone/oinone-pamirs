@@ -6,7 +6,7 @@ import pro.shushi.pamirs.framework.connectors.data.api.configure.PamirsFramework
 import pro.shushi.pamirs.framework.connectors.data.api.service.ModuleDsService;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**

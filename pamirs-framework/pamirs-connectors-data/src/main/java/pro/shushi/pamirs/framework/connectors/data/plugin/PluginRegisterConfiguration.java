@@ -1,9 +1,9 @@
 package pro.shushi.pamirs.framework.connectors.data.plugin;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import pro.shushi.pamirs.framework.connectors.data.optimize.JSqlParserCountOptimize;
 import pro.shushi.pamirs.framework.connectors.data.plugin.debug.SqlDebugInterceptor;
 import pro.shushi.pamirs.framework.connectors.data.plugin.logicdelete.LogicDeleteInterceptor;
 import pro.shushi.pamirs.framework.connectors.data.plugin.optlock.OptimisticLockerInterceptor;
@@ -84,7 +84,7 @@ public class PluginRegisterConfiguration {
         // 设置最大单页限制数量，默认 500 条，-1 不受限制
         // paginationInterceptor.setLimit(500);
         // 开启 count 的 join 优化,只针对部分 left join
-        paginationInterceptor.setCountSqlParser(new JsqlParserCountOptimize(true));
+        paginationInterceptor.setCountSqlParser(new JSqlParserCountOptimize(true));
         return paginationInterceptor;
     }
 

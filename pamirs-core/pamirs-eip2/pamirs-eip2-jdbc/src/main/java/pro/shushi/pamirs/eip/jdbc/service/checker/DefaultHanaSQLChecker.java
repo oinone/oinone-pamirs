@@ -24,15 +24,15 @@ public class DefaultHanaSQLChecker extends AbstractSQLChecker implements EipSQLC
 
     @Override
     public String dbType() {
-        return JdbcUtils.KINGBASE;
+        return JdbcUtils.KINGBASE.name();
     }
 
     @Override
     public List<String> secondaryDbTypes() {
         return Lists.newArrayList(
                 "HANA",
-                JdbcUtils.SQL_SERVER,
-                JdbcUtils.MYSQL
+                JdbcUtils.SQL_SERVER.name(),
+                JdbcUtils.MYSQL.name()
         );
     }
 

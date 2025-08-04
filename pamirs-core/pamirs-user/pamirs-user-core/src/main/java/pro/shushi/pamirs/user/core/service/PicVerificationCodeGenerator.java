@@ -7,7 +7,7 @@ import pro.shushi.pamirs.user.api.service.picCode.PicVerificationCodeGeneratorAp
 import pro.shushi.pamirs.user.api.service.picCode.PicVerificationCodeRequestHandler;
 import pro.shushi.pamirs.user.api.utils.VerifyCodeUtil;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author shier

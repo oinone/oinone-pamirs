@@ -24,7 +24,7 @@ public abstract class AbstractSQLChecker implements EipSQLChecker {
 
     @Override
     public String toSQLString(List<SQLStatement> statements) {
-        return SQLUtils.toSQLString(statements, dbType(), getFormatOption());
+        return SQLUtils.toSQLString(statements, toDruidDbType(), getFormatOption());
     }
 
     protected List<SQLStatement> parseStatements(String sql) {

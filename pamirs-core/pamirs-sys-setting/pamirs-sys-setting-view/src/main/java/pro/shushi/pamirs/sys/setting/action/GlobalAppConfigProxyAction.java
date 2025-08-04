@@ -45,7 +45,7 @@ import pro.shushi.pamirs.sys.setting.pmodel.GlobalAppConfigProxy;
 import pro.shushi.pamirs.sys.setting.tmodel.SystemStyleConfig;
 import pro.shushi.pamirs.sys.setting.tmodel.TranslationConfig;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.function.Consumer;
 

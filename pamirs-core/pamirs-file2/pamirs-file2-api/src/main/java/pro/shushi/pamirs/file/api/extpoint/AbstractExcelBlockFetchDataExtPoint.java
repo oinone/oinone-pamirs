@@ -21,7 +21,7 @@ import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.constant.SqlConstants;
 import pro.shushi.pamirs.resource.api.tmodel.ConditionWrapper;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 /**

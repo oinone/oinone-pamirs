@@ -14,7 +14,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.net.URI;
 import java.sql.*;
 import java.util.List;

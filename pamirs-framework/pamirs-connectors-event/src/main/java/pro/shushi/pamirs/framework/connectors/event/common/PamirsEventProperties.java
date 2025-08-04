@@ -8,7 +8,7 @@ import pro.shushi.pamirs.framework.connectors.event.condition.NotifySwitchCondit
 import pro.shushi.pamirs.framework.connectors.event.constant.EventConstants;
 import pro.shushi.pamirs.framework.connectors.event.enumeration.NotifyType;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;

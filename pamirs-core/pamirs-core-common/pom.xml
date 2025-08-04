@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-core</artifactId>
-        <version>6.2.11</version>
+        <version>6.3.0</version>
     </parent>
     <groupId>pro.shushi.pamirs.core</groupId>
     <artifactId>pamirs-core-common</artifactId>
@@ -15,7 +15,7 @@
     <description>Pamirs Platform Core Common Project</description>
 
     <properties>
-        <pinyin4j.version>2.5.0</pinyin4j.version>
+        <pinyin4j.version>2.5.1</pinyin4j.version>
     </properties>
 
     <dependencies>
@@ -47,8 +47,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
         </dependency>
         <dependency>
             <groupId>com.belerweb</groupId>

@@ -2,7 +2,7 @@ package pro.shushi.pamirs.trigger.convert;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.scheduling.support.CronSequenceGenerator;
+import org.springframework.scheduling.support.CronExpression;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -48,7 +48,7 @@ public class ScheduleTaskConverter implements ModelConverter<ScheduleTaskAction,
         }
         String cron = schedule.cron();
         try {
-            if (!CronSequenceGenerator.isValidExpression(cron)) {
+            if (!CronExpression.isValidExpression(cron)) {
                 result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                         .error(TriggerExpEnumerate.CRON_EXPRESSION_INVALID)
                         .append(MessageFormat.format("cron: {0}, clazz: {1}, method: {2}", cron, source.getClass(), source.getName())));

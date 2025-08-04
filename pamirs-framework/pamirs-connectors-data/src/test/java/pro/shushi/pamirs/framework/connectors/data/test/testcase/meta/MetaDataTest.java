@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import pro.shushi.pamirs.AbstractBaseTest;
 import pro.shushi.pamirs.framework.connectors.data.api.datasource.DataSourceApi;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;

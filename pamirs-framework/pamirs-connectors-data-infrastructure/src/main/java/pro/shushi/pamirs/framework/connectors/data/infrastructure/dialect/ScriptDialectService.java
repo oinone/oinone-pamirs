@@ -4,7 +4,7 @@ import pro.shushi.pamirs.framework.connectors.data.dialect.api.Dialect;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * 脚本执行方言服务

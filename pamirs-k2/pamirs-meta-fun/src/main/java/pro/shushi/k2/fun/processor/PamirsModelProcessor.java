@@ -56,7 +56,6 @@ public class PamirsModelProcessor extends PamirsAbstractProcessor {
                     boolean isChain = Optional.ofNullable(jcClassDecl.sym).map(_notNull -> _notNull.getAnnotation(Model.Advanced.class)).map(Model.Advanced::chain).orElse(true);
 
                     boolean hasDefaultConstruct = false;
-                    boolean needAllArgConstruct = true;
                     boolean hasSerialVersionUID = false;
                     for (JCTree k : jcClassDecl.defs) {
                         if (Tree.Kind.VARIABLE.equals(k.getKind())) {
@@ -124,13 +123,15 @@ public class PamirsModelProcessor extends PamirsAbstractProcessor {
                         }
                         if (Tree.Kind.METHOD.equals(k.getKind())) {
                             JCTree.JCMethodDecl _jcMetDef = (JCTree.JCMethodDecl) k;
-                            if ("<init>".equals(_jcMetDef.name.toString())) {
-                                if (_jcMetDef.params.isEmpty()) {
-                                    hasDefaultConstruct = true;
-                                } else {
-                                    needAllArgConstruct = false;
-                                }
-                            }
+                            if ("<init>".equals(_jcMetDef.name.toString())
+                                    && (!_jcMetDef.toString().equals("\n" + "private <init>() {\n" + "}")
+                                    || !_jcMetDef.toString().equals("\n" + "public <init>() {\n" + "}")
+                                    || !_jcMetDef.toString().equals("\n" + "protected <init>() {\n" + "}")
+                                    || !_jcMetDef.toString().equals("\n" + "<init>() {\n" + "}")
+                                    || !_jcMetDef.toString().equals("\n" + " <init>() {\n" + "}")
+                            )
+                                    && _jcMetDef.params.isEmpty())
+                                hasDefaultConstruct = true;
                         }
                     }
 
@@ -142,11 +143,6 @@ public class PamirsModelProcessor extends PamirsAbstractProcessor {
                     if (!hasDefaultConstruct) {
                         JCTree.JCMethodDecl no = FunUtils.makeNoArgsConstructMethodDecl(jcClassDecl, treeMaker, names, messager, false);
                         if (null != no) jcClassDecl.defs = jcClassDecl.defs.append(no);
-                    }
-
-                    if (needAllArgConstruct) {
-                        JCTree.JCMethodDecl all = FunUtils.makeAllArgsConstructMethodDecl(jcClassDecl, treeMaker, names, messager, false);
-                        if (null != all) jcClassDecl.defs = jcClassDecl.defs.append(all);
                     }
 
                     if (!hasToString(jcClassDecl)) {

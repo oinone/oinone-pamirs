@@ -11,7 +11,7 @@ import pro.shushi.pamirs.meta.enmu.SerializeEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.NumberUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 

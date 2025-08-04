@@ -2,7 +2,6 @@ package pro.shushi.pamirs.framework.connectors.data.configure.converter;
 
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.lang.Nullable;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import static pro.shushi.pamirs.framework.connectors.data.enmu.DataExpEnumerate.BASE_ISQL_INJECTOR_ERROR;
@@ -17,7 +16,7 @@ import static pro.shushi.pamirs.framework.connectors.data.enmu.DataExpEnumerate.
 public class String2SqlInjectorConverter implements Converter<String, ISqlInjector> {
 
     @Override
-    public ISqlInjector convert(@Nullable String s) {
+    public ISqlInjector convert(String s) {
         try {
             return (ISqlInjector) Class.forName(s).newInstance();
         } catch (Exception e) {

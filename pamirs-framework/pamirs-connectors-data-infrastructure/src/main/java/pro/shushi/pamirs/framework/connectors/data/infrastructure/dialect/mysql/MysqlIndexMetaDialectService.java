@@ -9,7 +9,7 @@ import pro.shushi.pamirs.framework.connectors.data.infrastructure.dialect.IndexM
 import pro.shushi.pamirs.framework.connectors.data.infrastructure.mapper.mysql.IndexMapper;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * MYSQL索引方言服务

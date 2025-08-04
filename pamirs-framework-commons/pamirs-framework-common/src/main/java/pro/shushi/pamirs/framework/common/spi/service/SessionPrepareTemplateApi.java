@@ -2,7 +2,7 @@ package pro.shushi.pamirs.framework.common.spi.service;
 
 import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * session构造模板方法Api

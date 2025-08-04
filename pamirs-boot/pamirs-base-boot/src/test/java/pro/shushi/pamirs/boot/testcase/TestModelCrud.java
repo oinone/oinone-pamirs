@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.boot.testcase;
 
-import org.assertj.core.util.Lists;
+import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;

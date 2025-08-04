@@ -7,7 +7,7 @@ import pro.shushi.pamirs.meta.api.core.orm.reentry.ReentryClearApi;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.ModelComputeContext;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 前后端数据转换服务

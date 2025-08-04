@@ -21,7 +21,7 @@ import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.util.ClassUtils;
 import pro.shushi.pamirs.meta.util.FunctionUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 

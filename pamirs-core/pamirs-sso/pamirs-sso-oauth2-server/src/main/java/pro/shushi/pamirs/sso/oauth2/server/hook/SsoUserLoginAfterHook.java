@@ -22,7 +22,7 @@ import pro.shushi.pamirs.user.api.model.tmodel.PamirsUserTransient;
 import pro.shushi.pamirs.user.api.utils.CookieUtil;
 import pro.shushi.pamirs.user.api.utils.JwtTokenUtil;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 

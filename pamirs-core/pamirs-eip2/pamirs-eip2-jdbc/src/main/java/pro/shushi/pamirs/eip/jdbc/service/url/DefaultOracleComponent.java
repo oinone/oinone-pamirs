@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.eip.jdbc.service.url;
 
-import com.alibaba.druid.util.JdbcUtils;
+import com.alibaba.druid.DbType;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.eip.api.model.connector.EipConnector;
 
@@ -13,7 +13,7 @@ public class DefaultOracleComponent extends AbstractJdbcComponent {
 
     @Override
     public String dbType() {
-        return JdbcUtils.ORACLE;
+        return DbType.oracle.name();
     }
 
     @Override

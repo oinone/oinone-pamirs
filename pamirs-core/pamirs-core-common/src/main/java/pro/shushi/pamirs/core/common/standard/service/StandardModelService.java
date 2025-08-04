@@ -5,7 +5,7 @@ import pro.shushi.pamirs.framework.connectors.data.sql.update.LambdaUpdateWrappe
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.base.BaseModel;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 
 /**

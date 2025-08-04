@@ -55,14 +55,13 @@ public class PamirsDProcessor extends JetBrainsWarpProcessor {
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
-        return SourceVersion.RELEASE_8;
+        return SourceVersion.RELEASE_17;
     }
 
     @Override
-    public boolean process(Set<? extends TypeElement> annotations,
-                           RoundEnvironment roundEnv) {
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         Set<? extends Element> set = roundEnv.getElementsAnnotatedWith(D.class);
-        set.forEach(element -> {
+        for (Element element : set) {
             JCTree jcTree = trees.getTree(element);
             jcTree.accept(new TreeTranslator() {
                 @Override
@@ -77,7 +76,7 @@ public class PamirsDProcessor extends JetBrainsWarpProcessor {
                         }
                     }
 
-                    jcVariableDeclList.forEach(jcVariableDecl -> {
+                    for (JCTree.JCVariableDecl jcVariableDecl : jcVariableDeclList) {
                         if (!jcVariableDecl.mods.toString().contains("static") && !jcVariableDecl.mods.toString().contains("final")) {
                             boolean isChain = Optional.ofNullable(jcClassDecl.sym).map(_notNull -> _notNull.getAnnotation(D.class)).map(D::chain).orElse(true);
                             Optional.ofNullable(FunUtils.makeGetterMethodDecl(jcClassDecl, jcVariableDecl, treeMaker, names, messager)).map(_method -> jcClassDecl.defs = jcClassDecl.defs.append(_method));
@@ -89,15 +88,12 @@ public class PamirsDProcessor extends JetBrainsWarpProcessor {
 //                            jcClassDecl.defs = jcClassDecl.defs.append(FunUtils.makeNoArgsConstructorDecl(jcClassDecl, jcVariableDecl, treeMaker, names));
 
                         }
-                    });
-                    Optional.ofNullable(FunUtils.makeAllArgsConstructMethodDecl(jcClassDecl, treeMaker, names, messager, false)).map(_method -> jcClassDecl.defs = jcClassDecl.defs.append(_method));
+                    }
                     Optional.ofNullable(FunUtils.makeNoArgsConstructMethodDecl(jcClassDecl, treeMaker, names, messager, false)).map(_method -> jcClassDecl.defs = jcClassDecl.defs.append(_method));
                     super.visitClassDef(jcClassDecl);
-
                 }
-
             });
-        });
+        }
 
         return true;
     }

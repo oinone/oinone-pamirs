@@ -20,7 +20,7 @@ public class DefaultSQLServerSQLChecker extends AbstractSQLChecker implements Ei
 
     @Override
     public String dbType() {
-        return JdbcUtils.SQL_SERVER;
+        return JdbcUtils.SQL_SERVER.name();
     }
 
     @Override

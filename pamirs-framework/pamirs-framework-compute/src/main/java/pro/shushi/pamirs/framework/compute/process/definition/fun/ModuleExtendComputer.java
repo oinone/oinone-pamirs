@@ -8,7 +8,7 @@ import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 扩展点元数据计算逻辑扩展

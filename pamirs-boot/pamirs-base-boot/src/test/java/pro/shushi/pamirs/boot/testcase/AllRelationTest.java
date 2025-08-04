@@ -15,7 +15,7 @@ import pro.shushi.pamirs.meta.api.core.orm.WriteWithFieldApi;
 import pro.shushi.pamirs.meta.domain.module.ModuleCategory;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.translate.manager.base.TranslateRedisManager;
 import pro.shushi.pamirs.translate.pojo.TranslatePojo;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.concurrent.TimeUnit;
 
 /**

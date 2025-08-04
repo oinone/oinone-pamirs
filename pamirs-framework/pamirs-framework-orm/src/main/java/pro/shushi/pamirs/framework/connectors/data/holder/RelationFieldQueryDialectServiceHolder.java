@@ -7,7 +7,7 @@ import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
 import pro.shushi.pamirs.framework.connectors.data.dialect.RelationFieldQueryDialectService;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Map;
 import java.util.concurrent.*;
 

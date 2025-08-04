@@ -11,7 +11,7 @@ import pro.shushi.pamirs.framework.gateways.graph.instrument.MessageHubInstrumen
 import pro.shushi.pamirs.framework.gateways.graph.spi.InstrumentationApi;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 

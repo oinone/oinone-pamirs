@@ -3,7 +3,7 @@ package pro.shushi.pamirs.framework.connectors.data.dialect;
 import pro.shushi.pamirs.framework.connectors.data.configure.mapper.PamirsMapperConfiguration;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsDataConfiguration;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 方言服务抽象服务

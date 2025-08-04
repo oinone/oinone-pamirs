@@ -14,7 +14,7 @@ import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.enmu.DataSourceProtocolEnum;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 /**

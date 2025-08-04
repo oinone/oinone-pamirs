@@ -15,7 +15,7 @@ import pro.shushi.pamirs.meta.domain.model.DataDictionary;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import static pro.shushi.pamirs.meta.common.constants.ModuleConstants.MODULE_BASE;
 

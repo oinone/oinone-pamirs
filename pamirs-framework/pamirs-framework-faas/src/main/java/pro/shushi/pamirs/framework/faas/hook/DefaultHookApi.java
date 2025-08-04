@@ -11,7 +11,7 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.domain.fun.Hook;
 import pro.shushi.pamirs.meta.enmu.HookTypeEnum;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;

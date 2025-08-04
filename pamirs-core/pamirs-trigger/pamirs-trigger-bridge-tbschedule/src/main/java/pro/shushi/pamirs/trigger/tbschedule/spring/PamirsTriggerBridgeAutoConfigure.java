@@ -7,7 +7,7 @@ import pro.shushi.pamirs.framework.connectors.data.configure.sharding.ShardingDe
 import pro.shushi.pamirs.framework.connectors.data.configure.sharding.model.ShardingTableDefinition;
 import pro.shushi.pamirs.trigger.tbschedule.model.PamirsSchedule;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 

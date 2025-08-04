@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.eip.jdbc.service.url;
 
-import com.alibaba.druid.util.JdbcUtils;
+import com.alibaba.druid.DbType;
 
 /**
  * DefaultKingbaseComponent
@@ -11,7 +11,7 @@ public class DefaultKingbaseComponent extends AbstractJdbcComponent {
 
     @Override
     public String dbType() {
-        return JdbcUtils.KINGBASE;
+        return DbType.kingbase.name();
     }
 
     @Override

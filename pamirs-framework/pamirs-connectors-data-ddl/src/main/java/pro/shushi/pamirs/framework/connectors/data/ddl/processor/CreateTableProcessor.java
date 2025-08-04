@@ -10,7 +10,7 @@ import pro.shushi.pamirs.framework.connectors.data.ddl.component.TableComponent;
 import pro.shushi.pamirs.framework.connectors.data.ddl.model.DdlContext;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 

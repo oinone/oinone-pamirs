@@ -48,7 +48,7 @@ public class NumberConvertUtils {
             if (str.contains(".")) {
                 return new BigDecimal(str);
             } else {
-                return new Integer(str);
+                return Integer.valueOf(str);
             }
         }
         log.error("尝试将{}转换成数值失败", n.toString());

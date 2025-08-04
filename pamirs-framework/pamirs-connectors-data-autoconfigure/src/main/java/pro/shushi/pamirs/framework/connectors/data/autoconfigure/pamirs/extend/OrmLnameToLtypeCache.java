@@ -12,7 +12,7 @@ import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;

@@ -6,7 +6,7 @@ import pro.shushi.pamirs.meta.api.core.orm.template.context.FieldComputeContext;
 import pro.shushi.pamirs.meta.api.core.orm.template.function.FieldConverterApi;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**

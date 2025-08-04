@@ -18,7 +18,7 @@ import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.ColumnInfo;
 import pro.shushi.pamirs.meta.api.session.cache.spi.SessionFillOwnSignApi;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 /**
