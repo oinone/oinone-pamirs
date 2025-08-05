@@ -759,7 +759,7 @@ public class McpSchema {
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     @JsonIgnoreProperties(ignoreUnknown = true)
     @Data
-    static class JsonSchema {
+    public static class JsonSchema {
         @JsonProperty("type")
         String type;
         @JsonProperty("properties")
@@ -797,6 +797,9 @@ public class McpSchema {
         String description;
         @JsonProperty("inputSchema")
         JsonSchema inputSchema;
+
+        public Tool() {
+        }
 
         public Tool(String name, String description, String schema) {
             this.name = name;
@@ -1364,6 +1367,10 @@ public class McpSchema {
             @JsonProperty("name")
             String name;
 
+            public PromptReference() {
+                this.type = "ref/prompt";
+            }
+
             public PromptReference(String name) {
                 this.type = "ref/prompt";
                 this.name = name;
@@ -1386,6 +1393,7 @@ public class McpSchema {
             String uri;
 
             public ResourceReference() {
+                this.type = "ref/resource";
             }
 
             public ResourceReference(String uri) {
