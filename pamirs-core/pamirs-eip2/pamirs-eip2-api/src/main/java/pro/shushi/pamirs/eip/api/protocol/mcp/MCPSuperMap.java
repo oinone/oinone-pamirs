@@ -55,7 +55,7 @@ public class MCPSuperMap extends SuperMap {
 
     @Override
     protected boolean removeEldestEntry(Map.Entry<String, Object> eldest) {
-        throw new UnsupportedOperationException();
+        return super.removeEldestEntry(eldest);
     }
 
     @Override
