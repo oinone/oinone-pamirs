@@ -56,7 +56,8 @@ public class ExcelTTypeMoneyConverter implements ExcelTTypeConverter {
 
     @Override
     public boolean canConvert(ExcelTTypeDescriptor excelTTypeDescriptor) {
-        return TtypeEnum.MONEY.value().equals(excelTTypeDescriptor.getTargetType());
+        return TtypeEnum.MONEY.value().equals(excelTTypeDescriptor.getTargetType())
+                || TtypeEnum.FLOAT.value().equals(excelTTypeDescriptor.getTargetType());
     }
 
     @Override
@@ -76,12 +77,12 @@ public class ExcelTTypeMoneyConverter implements ExcelTTypeConverter {
                     if (StringUtils.isBlank(value)) {
                         return null;
                     }
-                    String moneyValue = extractAmountString(value);
-                    if (StringUtils.isBlank(moneyValue)) {
+                    String numberValue = extractAmountString(value);
+                    if (StringUtils.isBlank(numberValue)) {
                         log.debug("can not convert {} to a number", value);
                         return defaultValue(excelTTypeDescriptor);
                     }
-                    return new BigDecimal(moneyValue).toPlainString();
+                    return new BigDecimal(numberValue).toPlainString();
                 }
             }
         } catch (Exception e) {

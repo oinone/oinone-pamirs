@@ -26,17 +26,29 @@ public class ExcelTTypeIntegerConverter extends ExcelTTypeMoneyConverter {
     public String convert(ExcelTTypeDescriptor excelTTypeDescriptor) {
         String value = excelTTypeDescriptor.getValue();
         try {
-            if ("integer".equals(excelTTypeDescriptor.getOriginType()) || "long".equals(excelTTypeDescriptor.getOriginType()) || "uid".equals(excelTTypeDescriptor.getOriginType())) {
-                if (StringUtils.isBlank(value)) {
-                    return null;
+            switch (excelTTypeDescriptor.getOriginType()) {
+                case "bool":
+                case "datetime":
+                case "year":
+                case "date":
+                case "time": {
+                    log.debug("can not convert {} type {} to a number", excelTTypeDescriptor.getOriginType(), value);
+                    return defaultValue(excelTTypeDescriptor);
                 }
-                return Long.parseLong(value) + "";
-            } else if ("binary".equals(excelTTypeDescriptor.getOriginType()) && StringUtils.isNotBlank(value)) {
-                return Long.parseLong(value, 2) + "";
+                default: {
+                    if (StringUtils.isBlank(value)) {
+                        return null;
+                    }
+                    String numberValue = extractAmountString(value);
+                    if (StringUtils.isBlank(numberValue)) {
+                        log.debug("can not convert {} to a number", value);
+                        return defaultValue(excelTTypeDescriptor);
+                    }
+                    return new BigDecimal(numberValue).longValue() + "";
+                }
             }
-            return new BigDecimal(super.convert(excelTTypeDescriptor)).longValue() + "";
         } catch (Exception e) {
-            log.debug("can not convert {} to integer, use default value", value, e);
+            log.debug("can not convert {} to a number", value, e);
             return defaultValue(excelTTypeDescriptor);
         }
     }

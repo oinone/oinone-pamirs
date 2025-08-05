@@ -43,7 +43,6 @@ public class ExcelTTypeConversionService {
                 new ExcelTTypeBoolConverter(),
                 new ExcelTTypeDateConverter(),
                 new ExcelTTypeDateTimeConverter(),
-                new ExcelTTypeFloatConverter(),
                 new ExcelTTypeIntegerConverter(),
                 new ExcelTTypeMoneyConverter(),
                 new ExcelTTypeStringConverter(),
