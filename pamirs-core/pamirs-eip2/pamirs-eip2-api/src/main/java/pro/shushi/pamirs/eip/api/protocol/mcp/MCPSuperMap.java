@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pro.shushi.pamirs.core.common.SuperMap;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -24,7 +25,7 @@ public class MCPSuperMap extends SuperMap {
         this(new SuperMap());
     }
 
-    public MCPSuperMap(SuperMap map) {
+    public MCPSuperMap(@NotNull SuperMap map) {
         super(0);
         this.delegate = map;
     }
