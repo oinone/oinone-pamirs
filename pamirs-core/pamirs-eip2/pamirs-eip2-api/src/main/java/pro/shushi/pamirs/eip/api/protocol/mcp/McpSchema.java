@@ -1452,11 +1452,11 @@ public class McpSchema {
         default String type() {
             if (this instanceof TextContent) {
                 return "text";
-            }
-            else if (this instanceof ImageContent) {
+            } else if (this instanceof ImageContent) {
                 return "image";
-            }
-            else if (this instanceof EmbeddedResource) {
+            } else if (this instanceof AudioContent) {
+                return "audio";
+            } else if (this instanceof EmbeddedResource) {
                 return "resource";
             }
             throw new IllegalArgumentException("Unknown content type: " + this);
@@ -1474,6 +1474,8 @@ public class McpSchema {
         Double priority;
         @JsonProperty("text")
         String text;
+        @JsonProperty("type")
+        String type = "text";
 
         public TextContent() {
         }
@@ -1495,6 +1497,24 @@ public class McpSchema {
         String data;
         @JsonProperty("mimeType")
         String mimeType;
+        @JsonProperty("type")
+        String type = "image";
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @Data
+    public static class AudioContent implements Content {
+        @JsonProperty("audience")
+        List<Role> audience;
+        @JsonProperty("priority")
+        Double priority;
+        @JsonProperty("data")
+        String data;
+        @JsonProperty("mimeType")
+        String mimeType;
+        @JsonProperty("type")
+        String type = "audio";
     }
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -1507,6 +1527,8 @@ public class McpSchema {
         Double priority;
         @JsonProperty("resource")
         ResourceContents resource;
+        @JsonProperty("type")
+        String type = "resource";
     }
 
     // ---------------------------
