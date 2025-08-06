@@ -105,18 +105,6 @@ public class DataSourceEnvironmentChecker extends AbstractPlatformEnvironmentChe
     }
 
     @Override
-    protected EnvironmentKeySet errorKeys() {
-        EnvironmentKeySet keys = newEnvironmentKeySet(EnvironmentKey.Level.ERROR,
-                EnvironmentKey.error("pamirs.mapper.global.table-name-case-sensitive")
-        );
-        for (String dsKey : dataSourceConfiguration.keySet()) {
-            String keyPrefix = String.format(PAMIRS_MAPPER_DS_KEY_PREFIX_FORMAT, dsKey);
-            keys.add(EnvironmentKey.error(keyPrefix + "table-name-case-sensitive"));
-        }
-        return keys;
-    }
-
-    @Override
     protected EnvironmentKeySet deprecatedKeys() {
         EnvironmentKeySet keys = newEnvironmentKeySet(EnvironmentKey.Level.DEPRECATED,
                 EnvironmentKey.deprecated("pamirs.mapper.global.table-name-case-insensitive")

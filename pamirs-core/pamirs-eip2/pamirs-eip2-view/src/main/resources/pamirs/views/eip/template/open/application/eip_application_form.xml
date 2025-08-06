@@ -5,8 +5,7 @@
     </template>
     <template slot="fields">
         <pack widget="group" title="基础信息" cols="1">
-            <field data="name" label="应用名称" required="true"
-                   pattern="/^[\u4E00-\u9FA5A-Za-z0-9_-]*$/" tips="支持录入中文、英文、数字、-、_"/>
+            <field data="name" label="应用名称" required="true"/>
             <field data="encryptType" label="数据传输加密算法" required="true"
                    hint="选择请求开放接口时所使用的数据加密算法，密钥可在创建后查看"/>
             <field data="requestDecryptFunc" label="请求预处理函数"

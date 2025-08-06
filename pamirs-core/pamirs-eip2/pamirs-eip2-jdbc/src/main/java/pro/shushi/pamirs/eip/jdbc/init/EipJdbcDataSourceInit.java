@@ -81,12 +81,19 @@ public class EipJdbcDataSourceInit implements SystemBootAfterInit {
         dmv8.setHelp("DM");
         dmv8.setDriver("dm.jdbc.driver.DmDriver");
 
+        ConnDbType hana = new ConnDbType();
+        hana.setCode("HANA");
+        hana.setDisplayName("HANA");
+        hana.setHelp("HANA");
+        hana.setDriver("com.sap.db.jdbc.Driver");
+
         types.add(mysql);
         types.add(sqlServer);
         types.add(oracle);
         types.add(postgreSQL);
         types.add(kingbase8v9);
         types.add(dmv8);
+        types.add(hana);
 
         new ConnDbType().createOrUpdateBatch(types);
     }

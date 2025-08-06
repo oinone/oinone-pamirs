@@ -12,6 +12,7 @@ import com.obs.services.internal.utils.AbstractAuthentication;
 import com.obs.services.model.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -50,6 +51,7 @@ import static pro.shushi.pamirs.meta.common.constants.CharacterConstants.SEPARAT
  * @author wangxian on 2022/05/01
  */
 @Slf4j
+@Order
 @Component
 @SPI.Service(HuaweiOBSClient.TYPE)
 public class HuaweiOBSClient extends AbstractFileClient implements FileConstants {
@@ -248,6 +250,7 @@ public class HuaweiOBSClient extends AbstractFileClient implements FileConstants
 
     @Override
     public InputStream getDownloadStream(String fileKey) {
+        fileKey = prepareDownloadFileKey(fileKey);
         CdnConfig cdnConfig = getCdnConfig();
         ObsClient obsClient = getObsClient();
         String bucket = cdnConfig.getBucket();

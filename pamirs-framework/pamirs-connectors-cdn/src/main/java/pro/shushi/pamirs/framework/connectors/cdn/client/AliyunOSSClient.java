@@ -14,6 +14,7 @@ import com.aliyun.oss.model.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
 import pro.shushi.pamirs.framework.connectors.cdn.configure.CdnConfig;
@@ -39,6 +40,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static pro.shushi.pamirs.meta.common.constants.CharacterConstants.SEPARATOR_SLASH;
 
 @Slf4j
+@Order
 @Component
 @SPI.Service(AliyunOSSClient.TYPE)
 public class AliyunOSSClient extends AbstractFileClient implements FileConstants {
@@ -232,6 +234,7 @@ public class AliyunOSSClient extends AbstractFileClient implements FileConstants
 
     @Override
     public InputStream getDownloadStream(String fileKey) {
+        fileKey = prepareDownloadFileKey(fileKey);
         CdnConfig cdnConfig = getCdnConfig();
         OSS oss = getOSS();
         OSSObject object = oss.getObject(cdnConfig.getBucket(), fileKey);

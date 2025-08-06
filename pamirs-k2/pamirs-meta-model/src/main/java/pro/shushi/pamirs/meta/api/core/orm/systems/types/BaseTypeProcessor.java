@@ -296,9 +296,10 @@ public class BaseTypeProcessor implements TypeProcessor {
             }
         }
         if (null != extra) {
-            if (extra.contains("on update CURRENT_TIMESTAMP")) {
+            String extraLowerCase = extra.toLowerCase();
+            if (extraLowerCase.contains("on update current_timestamp")) {
                 defs.add("ON UPDATE CURRENT_TIMESTAMP");
-            } else if (extra.contains("auto_increment")) {
+            } else if (extraLowerCase.contains("auto_increment")) {
                 defs.add("AUTO_INCREMENT");
             }
         }

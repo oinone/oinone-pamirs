@@ -49,6 +49,8 @@ public class PamirsMapperConfiguration implements PamirsMapperConfigurationProxy
 
     private ConcurrentHashMap<String/*dsKey*/, PamirsDataConfiguration> ds;
 
+    private boolean scriptCache = true;
+
     private LogicColumnFetcher logicColumnFetcher = Spider.getDefaultExtension(LogicColumnFetcher.class);
 
     private DataSourceRouteService dataSourceRouteService = Spider.getDefaultExtension(DataSourceRouteService.class);

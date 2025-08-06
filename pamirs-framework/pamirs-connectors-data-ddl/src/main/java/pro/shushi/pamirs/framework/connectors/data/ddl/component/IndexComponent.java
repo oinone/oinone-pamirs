@@ -75,6 +75,9 @@ public class IndexComponent {
     public List<String> generatePrimaryColumnList(ModelWrapper modelDefinition) {
         List<String> pks = modelDefinition.getPk();
         List<String> pkColumns = new ArrayList<>();
+        if (pks == null) {
+            return pkColumns;
+        }
         for (String pk : pks) {
             FieldWrapper pkField = fieldProcessor.fetchModelField(modelDefinition, pk);
             if (pkField == null) {

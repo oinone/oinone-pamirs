@@ -246,17 +246,24 @@ public class StandardMetaDataSaver implements MetaDataSaverApi {
             }
         }, "差量安装计算: " + model, "total: " + size);
 
-        if (updateMeta || MetadataUpdateChecker.shouldUpdateMetadata(model)) {
+        if ((updateMeta || MetadataUpdateChecker.shouldUpdateMetadata(model)) && !dataList.isEmpty()) {
             TimeWatcher.watch(() -> Tx.build().executeWithoutResult((status) -> {
-                if (dataList.isEmpty()) {
-                    return;
-                }
 
                 // 保存元数据
-                DataShardingHelper.build().collectionSharding(dataList, sublist -> {
-                    CommonApiFactory.getApi(WriteApi.class).createOrUpdateBatch(sublist);
-                    return sublist;
-                });
+                if (log.isDebugEnabled()) {
+                    DataShardingHelper.build().collectionSharding(dataList, sublist -> {
+                        long start = System.currentTimeMillis();
+                        log.debug("{} createOrUpdateBatch Metadata save count: {}", model, sublist.size());
+                        CommonApiFactory.getApi(WriteApi.class).createOrUpdateBatch(sublist);
+                        log.debug("{} createOrUpdateBatch Metadata cost time: {}ms", model, System.currentTimeMillis() - start);
+                        return sublist;
+                    });
+                } else {
+                    DataShardingHelper.build().collectionSharding(dataList, sublist -> {
+                        CommonApiFactory.getApi(WriteApi.class).createOrUpdateBatch(sublist);
+                        return sublist;
+                    });
+                }
 
                 // 生成安装注册表
                 List<ModelData> modelDataList = new ArrayList<>(dataList.size());
@@ -286,11 +293,23 @@ public class StandardMetaDataSaver implements MetaDataSaverApi {
                     }
                 }
 
-                DataShardingHelper.build().collectionSharding(modelDataList, sublist -> {
+                if (!modelDataList.isEmpty()) {
                     // 保存安装注册表
-                    CommonApiFactory.getApi(WriteApi.class).createOrUpdateBatch(sublist);
-                    return sublist;
-                });
+                    if (log.isDebugEnabled()) {
+                        DataShardingHelper.build().collectionSharding(modelDataList, sublist -> {
+                            long start = System.currentTimeMillis();
+                            log.debug("{} createOrUpdateBatch ModelData save count: {}", model, sublist.size());
+                            CommonApiFactory.getApi(WriteApi.class).createOrUpdateBatch(sublist);
+                            log.debug("{} createOrUpdateBatch ModelData cost time: {}ms", model, System.currentTimeMillis() - start);
+                            return sublist;
+                        });
+                    } else {
+                        DataShardingHelper.build().collectionSharding(modelDataList, sublist -> {
+                            CommonApiFactory.getApi(WriteApi.class).createOrUpdateBatch(sublist);
+                            return sublist;
+                        });
+                    }
+                }
 
                 MetaUpgradeCheckApi.get().saveMetadataToDB(model);
             }), "保存元数据: " + model, "install count: " + dataList.size());
