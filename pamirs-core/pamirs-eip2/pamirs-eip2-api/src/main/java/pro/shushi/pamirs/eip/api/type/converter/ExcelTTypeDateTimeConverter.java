@@ -71,6 +71,10 @@ public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
 
     @Override
     public String convert(ExcelTTypeDescriptor excelTTypeDescriptor) {
+        return convertOrDefault(excelTTypeDescriptor, DateFormatEnum.DATETIME.value());
+    }
+
+    protected String convertOrDefault(ExcelTTypeDescriptor excelTTypeDescriptor, String dateTimeFormat) {
         String value = excelTTypeDescriptor.getValue();
         String format = excelTTypeDescriptor.getFormat();
         try {
@@ -82,16 +86,16 @@ public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
                 case "integer":
                 case "float":
                 case "money":
-                    log.debug("can not convert {} to datetime, use default value", value);
+                    log.debug("can not convert {} to {}, use default value", value, excelTTypeDescriptor.getTargetType());
                     return defaultValue(excelTTypeDescriptor);
             }
             if (StringUtils.isBlank(value)) {
                 return null;
             }
             Date date = getDateByString(value, format);
-            return DateUtils.formatDate(date, DateFormatEnum.DATETIME.value());
+            return DateUtils.formatDate(date, dateTimeFormat);
         } catch (Exception e) {
-            log.debug("can not convert {} to datetime, use default value", value, e);
+            log.debug("can not convert {} to {}, use default value", value, excelTTypeDescriptor.getTargetType(), e);
             return defaultValue(excelTTypeDescriptor);
         }
     }

@@ -23,14 +23,7 @@ public class ExcelTTypeTimeConverter extends ExcelTTypeDateTimeConverter {
 
     @Override
     public String convert(ExcelTTypeDescriptor excelTTypeDescriptor) {
-        String value = excelTTypeDescriptor.getValue();
-        try {
-            Date date = getDateByString(value, excelTTypeDescriptor.getFormat());
-            return DateUtils.formatDate(date, DateFormatEnum.TIME.value());
-        } catch (Exception e) {
-            log.debug("can not convert {} to time, use default value", value, e);
-            return defaultValue(excelTTypeDescriptor);
-        }
+        return convertOrDefault(excelTTypeDescriptor, DateFormatEnum.TIME.value());
     }
 
 }

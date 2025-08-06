@@ -23,14 +23,7 @@ public class ExcelTTypeYearConverter extends ExcelTTypeDateTimeConverter {
 
     @Override
     public String convert(ExcelTTypeDescriptor excelTTypeDescriptor) {
-        String value = excelTTypeDescriptor.getValue();
-        try {
-            Date date = getDateByString(value, excelTTypeDescriptor.getFormat());
-            return DateUtils.formatDate(date, DateFormatEnum.YEAR.value());
-        } catch (Exception e) {
-            log.debug("can not convert {} to year, use default value", value, e);
-            return defaultValue(excelTTypeDescriptor);
-        }
+        return convertOrDefault(excelTTypeDescriptor, DateFormatEnum.YEAR.value());
     }
 
 }
