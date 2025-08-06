@@ -9,12 +9,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.excel.*;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationFile;
 import pro.shushi.pamirs.eip.api.service.EipIntegrationFileService;
 import pro.shushi.pamirs.eip.api.tmodel.EipIntegrationFileHeader;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeConversionService;
+import pro.shushi.pamirs.eip.api.type.ExcelTTypeConvertError;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -23,13 +23,13 @@ import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.common.enmu.BaseEnum;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate.EIP_FILE_EXCEL_FMT_ERROR;
 
@@ -121,7 +121,7 @@ public class EipIntegrationFileServiceImpl implements EipIntegrationFileService 
             EipIntegrationFileHeader fileHeader = eipFile.getFileHeader();
             EipExcel fileHeaderEipExcel;
             if (fileHeader != null && (fileHeaderEipExcel = fileHeader.fetchEipExcel()) != null) {
-                List<String> convertErrorMessageHub = new ArrayList<>();
+                List<ExcelTTypeConvertError> convertErrorMessageHub = new ArrayList<>();
 
                 for (EipExcelSheet excelSheet : excel.getSheets()) {
                     EipExcelSheet fileHeaderSheet = fileHeaderEipExcel.getSheet(excelSheet.getName());
@@ -140,7 +140,7 @@ public class EipIntegrationFileServiceImpl implements EipIntegrationFileService 
                             if (!StringUtils.equals(dbHead.getName(), head.getName())) continue;
 
                             String dataValue = dataValueList.get(col);
-                            ExcelTTypeDescriptor descriptor = ExcelTTypeDescriptor.valueOf(dataValue != null ? dataValue : "", head.getType(), dbHead.getType(), head.getFormat());
+                            ExcelTTypeDescriptor descriptor = ExcelTTypeDescriptor.valueOf(dataValue, head.getName(), head.getType(), dbHead.getType(), head.getFormat());
                             descriptor.setErrorMessageHub(convertErrorMessageHub);
                             descriptor.setSheetName(sheetName);
                             descriptor.setRowIndex(row);
@@ -154,7 +154,27 @@ public class EipIntegrationFileServiceImpl implements EipIntegrationFileService 
                     }
 
                     if (CollectionUtils.isNotEmpty(convertErrorMessageHub)) {
-                        PamirsSession.getMessageHub().warn("excel存在解析失败数据：\n" + String.join("，\n", convertErrorMessageHub));
+                        Map<String, List<ExcelTTypeConvertError>> sheetErrorMsgMap = convertErrorMessageHub.stream().collect(Collectors.groupingBy(ExcelTTypeConvertError::getSheetName));
+                        sheetErrorMsgMap.forEach((sheetName, sheetErrorMsgList) -> {
+                            if (CollectionUtils.isEmpty(sheetErrorMsgList)) {
+                                return;
+                            }
+                            Map<String, List<ExcelTTypeConvertError>> colErrorMsgMap = sheetErrorMsgList.stream().collect(Collectors.groupingBy(ExcelTTypeConvertError::getName));
+                            colErrorMsgMap.forEach((name, colErrorMsgList) -> {
+                                if (CollectionUtils.isEmpty(colErrorMsgList)) {
+                                    return;
+                                }
+                                String targetType = colErrorMsgList.get(0).getTargetType();
+                                TtypeEnum targetTtype = BaseEnum.getEnumByValue(TtypeEnum.class, targetType);
+                                String warnMsg = String.format("Sheet【%s】字段【%s】识别为【%s】失败：共 %s 条数据中有 %s 条格式不符合，已填充为 null",
+                                        sheetName,
+                                        name, targetTtype != null ? targetTtype.displayName() : targetType,
+                                        excelSheet.getData().size(), colErrorMsgList.size()
+                                );
+                                PamirsSession.getMessageHub().warn("字段识别异常提醒：\n" + warnMsg);
+                            });
+                        });
+                        convertErrorMessageHub.clear();
                     }
                 }
             }

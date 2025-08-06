@@ -79,6 +79,9 @@ public class ExcelTTypeDateTimeConverter implements ExcelTTypeConverter {
                 case "bool":
                 case "boolean":
                 case "uid":
+                case "integer":
+                case "float":
+                case "money":
                     log.debug("can not convert {} to datetime, use default value", value);
                     return defaultValue(excelTTypeDescriptor);
             }

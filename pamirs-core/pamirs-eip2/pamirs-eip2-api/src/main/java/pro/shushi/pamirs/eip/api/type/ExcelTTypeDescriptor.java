@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class ExcelTTypeDescriptor {
 
-    private List<String> errorMessageHub;
+    private List<ExcelTTypeConvertError> errorMessageHub;
 
     private String name;
 
@@ -39,17 +39,18 @@ public class ExcelTTypeDescriptor {
         return excelTTypeDescriptor;
     }
 
-    public static ExcelTTypeDescriptor valueOf(String value, String originType, String targetType, String format) {
+    public static ExcelTTypeDescriptor valueOf(String value, String name, String originType, String targetType, String format) {
         ExcelTTypeDescriptor excelTTypeDescriptor = new ExcelTTypeDescriptor();
         excelTTypeDescriptor.setOriginType(originType);
         excelTTypeDescriptor.setFormat(format);
         excelTTypeDescriptor.setTargetType(targetType);
         excelTTypeDescriptor.setValue(value);
+        excelTTypeDescriptor.setName(name);
         return excelTTypeDescriptor;
     }
 
     public static ExcelTTypeDescriptor valueOf(String value, String originType, String targetType) {
-        return valueOf(value, originType, targetType, null);
+        return valueOf(value, null, originType, targetType, null);
     }
 
 }

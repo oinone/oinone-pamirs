@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.eip.api.type.converter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.type.ExcelTTypeDescriptor;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -14,6 +15,9 @@ import java.math.BigDecimal;
 @Component
 @Slf4j
 public class ExcelTTypeBoolConverter implements ExcelTTypeConverter {
+
+    @Autowired
+    private ExcelTTypeMoneyConverter excelTTypeMoneyConverter;
 
     public static boolean originIsBool(String value) {
         if (StringUtils.isBlank(value)) {
@@ -47,7 +51,8 @@ public class ExcelTTypeBoolConverter implements ExcelTTypeConverter {
                     if (StringUtils.isBlank(value)) {
                         return null;
                     }
-                    return (new BigDecimal(value).compareTo(BigDecimal.ZERO) != 0) + "";
+                    String numberValue = excelTTypeMoneyConverter.convert(ExcelTTypeDescriptor.valueOf(value, TtypeEnum.STRING.value(), TtypeEnum.FLOAT.value()));
+                    return (new BigDecimal(numberValue).compareTo(BigDecimal.ZERO) != 0) + "";
                 }
                 case "year":
                 case "datetime":
