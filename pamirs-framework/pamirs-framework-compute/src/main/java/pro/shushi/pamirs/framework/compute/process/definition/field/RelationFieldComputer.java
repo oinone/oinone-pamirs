@@ -74,7 +74,7 @@ public class RelationFieldComputer implements FieldComputer<Meta, ModelDefinitio
                 String referencesModel = field.getReferences();
                 ModelDefinition references = meta.getModel(referencesModel);
                 if (references == null) {
-                    throw PamirsException.construct(BASE_MODEL_CONFIG_IS_NOT_EXISTS_ERROR).appendMsg("model：" + referencesModel).errThrow();
+                    throw PamirsException.construct(BASE_MODEL_CONFIG_IS_NOT_EXISTS_ERROR).appendMsg("model: " + data.getModel() + ", references: " + referencesModel).errThrow();
                 }
                 // 为O2M生成缺省关联字段
                 relationProcessor.makeReferenceFields(context, meta, references, field);
