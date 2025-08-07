@@ -233,11 +233,11 @@ public class EipExcelReadListener extends AnalysisEventListener<Map<Integer, Str
         if (StringUtils.isBlank(value)) {
             return ttype(cellType, format);
         }
-        if (ExcelTTypeBoolConverter.originIsBool(value)) {
-            return TtypeEnum.BOOLEAN.value();
-        }
         if (ExcelTTypeMoneyConverter.originIsNumber(value)) {
             return TtypeEnum.MONEY.value();
+        }
+        if (ExcelTTypeBoolConverter.originIsBool(value)) {
+            return TtypeEnum.BOOLEAN.value();
         }
         if (ExcelTTypeDateTimeConverter.originIsDate(value)) {
             return TtypeEnum.DATETIME.value();
