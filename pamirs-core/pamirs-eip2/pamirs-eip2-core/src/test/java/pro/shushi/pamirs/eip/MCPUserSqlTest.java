@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.eip;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -24,6 +25,12 @@ import java.util.*;
 @Slf4j
 public class MCPUserSqlTest {
 
+    public static void main(String[] args) {
+        JdbcTemplate jdbcTemplate = createJdbcTemplate();
+        List<User> users = jdbcTemplate.query("select * from user", new BeanPropertyRowMapper<>(User.class));
+        System.out.println(users);
+    }
+
     public static JdbcTemplate createJdbcTemplate() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
@@ -31,12 +38,6 @@ public class MCPUserSqlTest {
         dataSource.setUsername("root");
         dataSource.setPassword("123456");
         return new JdbcTemplate(dataSource);
-    }
-
-    public static void main(String[] args) {
-        JdbcTemplate jdbcTemplate = createJdbcTemplate();
-        List<User> users = jdbcTemplate.query("select * from user", new BeanPropertyRowMapper<>(User.class));
-        System.out.println(users);
     }
 
     /**
@@ -79,7 +80,7 @@ public class MCPUserSqlTest {
                 result = new ObjectMapper().writeValueAsString(response);
             }
 
-            log.info("response:\n {}", result);
+            log.info("response:\n{}", result);
             return result;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -140,6 +141,7 @@ public class MCPUserSqlTest {
         McpSchema.ListToolsResult result = new McpSchema.ListToolsResult();
         result.setTools(new ArrayList<>());
         result.getTools().add(listToolCreateUser());
+        result.getTools().add(listToolCreateUserBatch());
         result.getTools().add(listToolQueryUser());
 
         response.setResult(result);
@@ -175,6 +177,42 @@ public class MCPUserSqlTest {
                                 .setType("object")
                                 .setProperties(Collections.singletonMap("user", userMap))
                                 .setRequired(Lists.newArrayList("user"))
+                );
+    }
+
+    private McpSchema.Tool listToolCreateUserBatch() {
+        Map<String, Object> arrayMap = new HashMap<>();
+        arrayMap.put("type", "array");
+        arrayMap.put("description", "插入的用户信息数组");
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("type", "object");
+        userMap.put("description", "插入的用户信息");
+        userMap.put("required", Lists.newArrayList("name", "age"));
+        arrayMap.put("items", userMap);
+        {
+            Map<String, Object> propertiesMap = new HashMap<>();
+            userMap.put("properties", propertiesMap);
+            Map<String, Object> idMap = new HashMap<>();
+            idMap.put("type", "number");
+            idMap.put("description", "用户id");
+            Map<String, Object> nameMap = new HashMap<>();
+            nameMap.put("type", "string");
+            nameMap.put("description", "用户名");
+            Map<String, Object> ageMap = new HashMap<>();
+            ageMap.put("type", "number");
+            ageMap.put("description", "用户年龄");
+            propertiesMap.put("id", idMap);
+            propertiesMap.put("name", nameMap);
+            propertiesMap.put("age", ageMap);
+        }
+        return new McpSchema.Tool()
+                .setName("create_user_batch")
+                .setDescription("往数据库里批量插入用户，id数据库自增")
+                .setInputSchema(
+                        new McpSchema.JsonSchema()
+                                .setType("object")
+                                .setProperties(Collections.singletonMap("users", arrayMap))
+                                .setRequired(Lists.newArrayList("users"))
                 );
     }
 
@@ -225,6 +263,8 @@ public class MCPUserSqlTest {
 
         if ("create_user".equals(toolName)) {
             callCreateUser(response, arguments);
+        } else if ("create_user_batch".equals(toolName)) {
+            callCreateUserBatch(response, arguments);
         } else if ("query_user_list".equals(toolName)) {
             callQueryUserList(response, arguments);
         }
@@ -250,7 +290,40 @@ public class MCPUserSqlTest {
             List<McpSchema.Content> contents = new ArrayList<>();
             callToolResult.setContent(contents);
 
-            contents.add(new McpSchema.TextContent().setText("update数量：" + update));
+            contents.add(new McpSchema.OutputContent().setText(callCreateUserOutputSchema(Collections.singletonMap("update", update))));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            callToolResult.setIsError(true);
+            callToolResult.setContent(Lists.newArrayList(new McpSchema.TextContent().setText("未知异常：" + e.getMessage())));
+        }
+    }
+
+    private void callCreateUserBatch(McpSchema.JSONRPCResponse<McpSchema.CallToolResult> response, Map<String, Object> arguments) {
+        Object usersObj = arguments.get("users");
+        McpSchema.CallToolResult callToolResult = new McpSchema.CallToolResult();
+        response.setResult(callToolResult);
+        callToolResult.setIsError(false);
+
+        try {
+            System.out.println(usersObj.getClass());
+            JSONArray paramList = JSON.parseArray(JSON.toJSONString(usersObj));
+
+            List<McpSchema.Content> contents = new ArrayList<>();
+            callToolResult.setContent(contents);
+            JdbcTemplate jdbcTemplate = createJdbcTemplate();
+            Integer lastId = jdbcTemplate.queryForObject("select id from user order by id desc limit 1", Integer.class);
+            for (int i = 0; i < paramList.size(); i++) {
+                JSONObject param = paramList.getJSONObject(i);
+                jdbcTemplate.update("insert into user(name, age) values(?, ?)",
+                        param.getString("name"), param.getInteger("age")
+                );
+            }
+            List<User> users = jdbcTemplate.query("select * from user where id > ?",
+                    new Object[]{lastId},
+                    new BeanPropertyRowMapper<>(User.class)
+            );
+
+            contents.add(new McpSchema.OutputContent().setText(callCreateUserListOutputSchema(Collections.singletonMap("users", users))));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             callToolResult.setIsError(true);
@@ -297,12 +370,32 @@ public class MCPUserSqlTest {
             List<McpSchema.Content> contents = new ArrayList<>();
             callToolResult.setContent(contents);
 
-            contents.add(new McpSchema.TextContent().setText("查询用户信息：\n" + JSON.toJSONString(users)));
+            contents.add(new McpSchema.OutputContent().setText(callQueryUserListOutputSchema(Collections.singletonMap("users", users))));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             callToolResult.setIsError(true);
             callToolResult.setContent(Lists.newArrayList(new McpSchema.TextContent().setText("未知异常：" + e.getMessage())));
         }
+    }
+
+    private McpSchema.OutputData<?> callCreateUserOutputSchema(Object data) {
+        McpSchema.JsonSchema outputSchema = new McpSchema.JsonSchema();
+        Map<String, Object> updateMap = new HashMap<>();
+        updateMap.put("type", "number");
+        updateMap.put("description", "影响数据库结果条数，同jdbc的update返回结果");
+        outputSchema.setType("object");
+        outputSchema.setProperties(Collections.singletonMap("update", updateMap));
+        return new McpSchema.OutputData<>(outputSchema, data);
+    }
+
+    private McpSchema.OutputData<?> callCreateUserListOutputSchema(Object data) {
+        McpSchema.JsonSchema outputSchema = listToolQueryUser().getInputSchema();
+        return new McpSchema.OutputData<>(outputSchema, data);
+    }
+
+    private McpSchema.OutputData<?> callQueryUserListOutputSchema(Object data) {
+        McpSchema.JsonSchema outputSchema = listToolQueryUser().getInputSchema();
+        return new McpSchema.OutputData<>(outputSchema, data);
     }
 
 }

@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.eip.api.protocol.mcp;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -14,13 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Christian Tzolov
- * @link io.modelcontextprotocol.spec.McpSchema
- * <p>
  * Based on the <a href="http://www.jsonrpc.org/specification">JSON-RPC 2.0
  * specification</a> and the <a href=
- * "https://github.com/modelcontextprotocol/specification/blob/main/schema/schema.ts">Model
+ * "https://github.com/modelcontextprotocol/specification/blob/main/schema/2024-11-05/schema.ts">Model
  * Context Protocol Schema</a>.
+ *
+ * @author Christian Tzolov
  */
 public class McpSchema {
 
@@ -1482,6 +1482,67 @@ public class McpSchema {
 
         public TextContent(String content) {
             text = content;
+        }
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @Data
+    public static class OutputData<T> {
+        @JsonProperty("outputSchema")
+        JsonSchema outputSchema;
+        @JsonProperty("data")
+        T data;
+
+        public OutputData() {
+        }
+
+        public OutputData(JsonSchema outputSchema, T data) {
+            this.outputSchema = outputSchema;
+            this.data = data;
+        }
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @Data
+    public static class OutputContent implements Content {
+        @JsonProperty("audience")
+        List<Role> audience;
+        @JsonProperty("priority")
+        Double priority;
+        @JsonProperty("text")
+        String text;
+        @JsonProperty("type")
+        String type = "text";
+
+        public OutputContent() {
+        }
+
+        public OutputContent(OutputData<?> content) {
+            if (content != null) {
+                try {
+                    text = new ObjectMapper().writeValueAsString(content);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        public OutputContent setText(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public OutputContent setText(OutputData<?> content) {
+            if (content != null) {
+                try {
+                    text = new ObjectMapper().writeValueAsString(content);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return this;
         }
     }
 
