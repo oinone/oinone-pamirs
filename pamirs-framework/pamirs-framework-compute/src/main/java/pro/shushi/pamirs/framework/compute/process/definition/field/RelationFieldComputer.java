@@ -9,12 +9,15 @@ import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.FieldAttributeConstants;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
+
+import static pro.shushi.pamirs.framework.compute.emnu.ComputeExpEnumerate.BASE_MODEL_CONFIG_IS_NOT_EXISTS_ERROR;
 
 /**
  * 关联关系字段计算
@@ -68,7 +71,11 @@ public class RelationFieldComputer implements FieldComputer<Meta, ModelDefinitio
                 // 为O2O和M2O生成缺省关系字段
                 relationProcessor.makeRelationFields(context, meta, data, field);
             } else if (TtypeEnum.O2M.value().equals(field.getTtype().value())) {
-                ModelDefinition references = meta.getModel(field.getReferences());
+                String referencesModel = field.getReferences();
+                ModelDefinition references = meta.getModel(referencesModel);
+                if (references == null) {
+                    throw PamirsException.construct(BASE_MODEL_CONFIG_IS_NOT_EXISTS_ERROR).appendMsg("model：" + referencesModel).errThrow();
+                }
                 // 为O2M生成缺省关联字段
                 relationProcessor.makeReferenceFields(context, meta, references, field);
             }
