@@ -16,7 +16,7 @@ public final class MySQLNdsType implements BranchDatabaseType {
 
     @Override
     public String getName() {
-        return "MySQL-Nds";
+        return NAME;
     }
 
     @Override
