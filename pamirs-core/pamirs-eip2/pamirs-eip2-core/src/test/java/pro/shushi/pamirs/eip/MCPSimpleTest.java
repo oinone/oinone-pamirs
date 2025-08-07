@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
-import pro.shushi.pamirs.eip.api.protocol.mcp.MCPRequestSuperMap;
+import pro.shushi.pamirs.eip.api.protocol.mcp.McpRequestSuperMap;
 import pro.shushi.pamirs.eip.api.protocol.mcp.McpSchema;
 import pro.shushi.pamirs.eip.api.serializable.DefaultJSONSerializable;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -31,7 +31,7 @@ public class MCPSimpleTest {
 
         Object id = null;
         try {
-            MCPRequestSuperMap mcpSuperMap = new MCPRequestSuperMap(BeanDefinitionUtils.getBean(DefaultJSONSerializable.class).serializable(body));
+            McpRequestSuperMap mcpSuperMap = new McpRequestSuperMap(BeanDefinitionUtils.getBean(DefaultJSONSerializable.class).serializable(body));
             String method = mcpSuperMap.getMethod();
             id = mcpSuperMap.getId();
 
@@ -68,7 +68,7 @@ public class MCPSimpleTest {
         }
     }
 
-    private String initialize(MCPRequestSuperMap mcpSuperMap) throws JsonProcessingException {
+    private String initialize(McpRequestSuperMap mcpSuperMap) throws JsonProcessingException {
         McpSchema.JSONRPCRequest<McpSchema.InitializeRequest> mcpSchemaObject = mcpSuperMap.getMCPSchemaObject(new TypeReference<McpSchema.JSONRPCRequest<McpSchema.InitializeRequest>>() {
         });
 
@@ -99,7 +99,7 @@ public class MCPSimpleTest {
         return new ObjectMapper().writeValueAsString(response);
     }
 
-    private String listTools(MCPRequestSuperMap mcpSuperMap) throws JsonProcessingException {
+    private String listTools(McpRequestSuperMap mcpSuperMap) throws JsonProcessingException {
         Object id = mcpSuperMap.getId();
 
         McpSchema.JSONRPCResponse<McpSchema.ListToolsResult> response = new McpSchema.JSONRPCResponse<>();
@@ -146,7 +146,7 @@ public class MCPSimpleTest {
                 );
     }
 
-    private String callTool(MCPRequestSuperMap mcpSuperMap) throws JsonProcessingException {
+    private String callTool(McpRequestSuperMap mcpSuperMap) throws JsonProcessingException {
         Object id = mcpSuperMap.getId();
 
         McpSchema.JSONRPCRequest<McpSchema.CallToolRequest> callToolRequest = mcpSuperMap.getMCPSchemaObject(new TypeReference<McpSchema.JSONRPCRequest<McpSchema.CallToolRequest>>() {

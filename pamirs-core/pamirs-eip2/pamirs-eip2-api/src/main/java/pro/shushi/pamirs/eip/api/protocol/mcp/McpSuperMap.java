@@ -15,17 +15,17 @@ import java.util.function.Function;
  *
  * @author Gesi at 15:24 on 2025/8/4
  */
-public class MCPSuperMap extends SuperMap {
+public class McpSuperMap extends SuperMap {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private final SuperMap delegate;
 
-    public MCPSuperMap() {
+    public McpSuperMap() {
         this(new SuperMap());
     }
 
-    public MCPSuperMap(@NotNull SuperMap map) {
+    public McpSuperMap(@NotNull SuperMap map) {
         super(0);
         this.delegate = map;
     }
@@ -156,7 +156,7 @@ public class MCPSuperMap extends SuperMap {
 
     @Override
     public Object clone() {
-        return new MCPSuperMap((SuperMap) delegate.clone());
+        return new McpSuperMap((SuperMap) delegate.clone());
     }
 
     public <T> T getMCPSchemaObject(TypeReference<T> schemaTypeReference) {
