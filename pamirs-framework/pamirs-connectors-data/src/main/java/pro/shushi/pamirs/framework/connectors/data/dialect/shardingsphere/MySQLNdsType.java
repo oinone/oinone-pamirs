@@ -12,6 +12,8 @@ import java.util.Collection;
  */
 public final class MySQLNdsType implements BranchDatabaseType {
 
+    public static final String NAME = "MySQL-Nds";
+
     @Override
     public String getName() {
         return "MySQL-Nds";
