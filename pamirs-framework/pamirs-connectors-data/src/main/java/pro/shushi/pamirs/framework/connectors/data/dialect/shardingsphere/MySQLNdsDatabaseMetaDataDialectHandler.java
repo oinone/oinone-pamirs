@@ -19,7 +19,7 @@ public final class MySQLNdsDatabaseMetaDataDialectHandler implements DatabaseMet
 
     @Override
     public String getType() {
-        return "MySQL-Nds";
+        return MySQLNdsType.NAME;
     }
 
     @Override
