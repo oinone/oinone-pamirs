@@ -1,9 +1,11 @@
 package pro.shushi.pamirs.eip.api.model;
 
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
+import pro.shushi.pamirs.eip.api.tmodel.EipIntegrationFileHeader;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.IdModel;
+import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 
 /**
  * EipIntegrationFile
@@ -38,5 +40,11 @@ public class EipIntegrationFile extends IdModel {
     @Field.Text
     @Field(displayName = "接口描述", required = true)
     private String description;
+
+    @Field.one2many
+    @Field.Relation(store = false)
+    @Field(displayName = "集成文件头信息", store = NullableBoolEnum.TRUE, serialize = Field.serialize.JSON)
+    @Field.Advanced(columnDefinition = "text")
+    private EipIntegrationFileHeader fileHeader;
 
 }

@@ -25,6 +25,8 @@ public class EipExcel implements Serializable {
 
     private List<EipExcelSheet> sheets = new ArrayList<>();
 
+    private List<EipExcelSheet> originSheets = new ArrayList<>();
+
     public EipExcelSheet computeIfAbsentSheet(String sheetName) {
         for (EipExcelSheet sheet : sheets) {
             if (StringUtils.equals(sheet.getName(), sheetName)) {

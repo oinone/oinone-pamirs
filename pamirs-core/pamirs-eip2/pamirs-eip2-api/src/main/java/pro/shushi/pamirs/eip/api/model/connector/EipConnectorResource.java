@@ -3,6 +3,7 @@ package pro.shushi.pamirs.eip.api.model.connector;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.MetaOrigin;
 import pro.shushi.pamirs.eip.api.enmu.connector.*;
+import pro.shushi.pamirs.eip.api.tmodel.EipExcelTypeTransform;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
@@ -165,4 +166,14 @@ public class EipConnectorResource extends IdModel {
     @Field.Relation(store = false)
     @Field(displayName = "元数据字段")
     private List<ModelField> fields;
+
+    @Field.one2many
+    @Field.Relation(store = false)
+    @Field(displayName = "excel类型转换")
+    private EipExcelTypeTransform excelTypeTransform;
+
+    @Field.Text
+    @Field(displayName = "数据", store = NullableBoolEnum.FALSE)
+    private String dataList;
+
 }
