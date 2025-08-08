@@ -8,7 +8,7 @@
     <artifactId>pamirs</artifactId>
     <name>oinone-pamirs</name>
     <packaging>pom</packaging>
-    <version>6.2.11</version>
+    <version>6.2.12</version>
     <description>oinone pamirs</description>
     <url>https://github.com/oinone</url>
 
@@ -31,7 +31,7 @@
         <maven.jar.version>3.3.0</maven.jar.version>
         <maven.resources.version>3.3.1</maven.resources.version>
         <maven.gpg.version>3.2.7</maven.gpg.version>
-        <maven.central.version>0.7.0</maven.central.version>
+        <maven.central.version>0.8.0</maven.central.version>
 
         <rocketmq.version>4.6.0</rocketmq.version>
         <commons.lang3.version>3.10</commons.lang3.version>

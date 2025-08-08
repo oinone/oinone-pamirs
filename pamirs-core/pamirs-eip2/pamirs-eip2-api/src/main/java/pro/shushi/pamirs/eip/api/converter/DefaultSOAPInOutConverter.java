@@ -15,19 +15,19 @@ import javax.xml.namespace.QName;
 import javax.xml.soap.*;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
-import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.*;
+import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.PAMIRS_WEBSERVICE_NS;
+import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.PAMIRS_WEBSERVICE_OP;
+import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.PAMIRS_WEBSERVICE_PREFIX;
 
 /**
  * DefaultSOAPInOutConverter
  *
  * @author yakir on 2023/05/06 17:07.
  */
-@SuppressWarnings({"unchecked"})
 @Fun(EipFunctionConstant.FUNCTION_NAMESPACE)
 @Slf4j
 public class DefaultSOAPInOutConverter implements IEipInOutConverter {
@@ -120,29 +120,24 @@ public class DefaultSOAPInOutConverter implements IEipInOutConverter {
         }
     }
 
-    private static void soapElement(SOAPElement element, String key, Object value) throws SOAPException {
-        if (key.contains(".")) {
-            String[] arr = key.split("\\.", 2);
-            Iterator<SOAPElement> iterator = element.getChildElements();
-            Map<String, SOAPElement> childs = new HashMap<>();
-            while (iterator.hasNext()) {
-                SOAPElement e = iterator.next();
-                childs.put(e.getLocalName(), e);
+    public static void soapElement(SOAPElement parent, String key, Object value) throws SOAPException {
+        if (value instanceof Map) {
+            // 嵌套 Map，递归处理
+            SOAPElement element = parent.addChildElement(key);
+            Map<?, ?> map = (Map<?, ?>) value;
+            for (Map.Entry<?, ?> entry : map.entrySet()) {
+                soapElement(element, entry.getKey().toString(), entry.getValue());
             }
-            boolean flag = false;
-            for (Map.Entry<String, SOAPElement> entry : childs.entrySet()) {
-                if (entry.getKey().equals(arr[0])) {
-                    flag = true;
-                    soapElement(entry.getValue(), arr[1], value);
-                }
-            }
-            if (!flag) {
-                SOAPElement soapElement = element.addChildElement(arr[0]);
-                soapElement(soapElement, arr[1], value);
+        } else if (value instanceof Collection) {
+            // Collection：每个元素都复用 key 作为 element 名
+            Collection<?> collection = (Collection<?>) value;
+            for (Object item : collection) {
+                soapElement(parent, key, item);  // 注意复用当前 key
             }
         } else {
-            element.addChildElement(key).addTextNode(String.valueOf(value));
+            // 基础类型或字符串
+            SOAPElement element = parent.addChildElement(key);
+            element.addTextNode(value == null ? "" : value.toString());
         }
     }
-
 }
