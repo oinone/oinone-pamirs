@@ -42,6 +42,11 @@ public class EipLog extends IdModel {
     private String interfaceName;
 
     @Base
+    @Field.String
+    @Field(displayName = "接口分类", summary = "区分接口来源所用分类")
+    private String category;
+
+    @Base
     @Field.Text
     @Field.Advanced(columnDefinition = "LONGTEXT")
     @Field(displayName = "请求头数据")

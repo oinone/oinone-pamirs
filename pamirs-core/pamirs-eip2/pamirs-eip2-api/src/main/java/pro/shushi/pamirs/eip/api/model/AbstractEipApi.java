@@ -131,4 +131,9 @@ public abstract class AbstractEipApi extends BizIdModel implements IEipApi, IDat
             this.context = context;
         }
     }
+
+    @Override
+    public String catagory() {
+        return null;
+    }
 }

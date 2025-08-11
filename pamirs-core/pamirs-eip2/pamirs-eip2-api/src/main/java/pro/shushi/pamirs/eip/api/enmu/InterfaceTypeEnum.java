@@ -25,11 +25,11 @@ public enum InterfaceTypeEnum implements IEnum<String> {
 
     public static final String dictionary = "pamirs.eip.InterfaceTypeEnum";
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     InterfaceTypeEnum(String value, String displayName, String help) {
         this.value = value;

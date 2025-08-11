@@ -70,6 +70,7 @@ public class EipLogUtil {
         EipLog eipLog = new EipLog()
                 .setInterfaceName(interfaceName)
                 .setInterfaceType(type)
+                .setCategory(eipApi.catagory())
                 .setInvokeDate(new Date())
                 .setRequestHeaderData(EipHelper.getStringJSONString(exchange.getMessage().getHeaders()))
                 .setRequestOriginData(requestOriginData);

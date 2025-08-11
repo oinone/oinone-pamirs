@@ -66,4 +66,10 @@ public interface IEipApi {
      */
     @NotNull
     Boolean getIsIgnoreLogFrequency();
+
+    /**
+     * 获取接口类别
+     * @return
+     */
+    String catagory();
 }
