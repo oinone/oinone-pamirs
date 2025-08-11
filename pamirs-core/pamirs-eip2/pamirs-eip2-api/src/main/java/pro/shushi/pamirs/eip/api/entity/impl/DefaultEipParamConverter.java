@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.eip.api.entity.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.TreeHelper;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipConvertParam;
@@ -21,9 +22,11 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
     public void convert(IEipContext<T> context, List<IEipConvertParam<T>> convertParamList, IEipParamConverterCallback<T> callback) {
         Set<String> convertInParamKeySet = new HashSet<>();
         List<IEipConvertParam<T>> listConvertInParamList = new ArrayList<>();
+        boolean hasList = false;
         for (IEipConvertParam<T> convertParam : convertParamList) {
+            String inParam = convertParam.getInParam();
             //判断入参定义是否存在数组标记
-            if (convertParam.getInParam().contains(IEipContext.DEFAULT_LIST_FLAG_KEY)) {
+            if (inParam.contains(IEipContext.DEFAULT_LIST_FLAG_KEY)) {
                 //留存根参数
                 listConvertInParamList.add(convertParam);
                 //根据数组标记进行分割，形成树结构所需的中间节点
@@ -43,9 +46,12 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
                     }
                     flagIndex = paramKey.lastIndexOf(IEipContext.DEFAULT_LIST_FLAG_KEY, flagIndex - 1);
                 }
-                continue;
+                hasList = true;
+            } else if (StringUtils.isBlank(inParam) || !hasList) {
+                getAndPutValue(context, convertParam, null, convertParam.getInParam(), convertParam.getOutParam(), callback);
+            } else {
+                listConvertInParamList.add(convertParam);
             }
-            getAndPutValue(context, convertParam, null, convertParam.getInParam(), convertParam.getOutParam(), callback);
         }
         if (CollectionUtils.isNotEmpty(listConvertInParamList)) {
             listParamReadyConverter(context, listConvertInParamList, callback);
@@ -64,7 +70,11 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
                             return paramKey.substring(0, flagIndex + IEipContext.DEFAULT_LIST_FLAG_KEY.length());
                         }
                     } else {
-                        return paramKey.substring(0, paramKey.lastIndexOf(IEipContext.DEFAULT_LIST_FLAG_KEY) + IEipContext.DEFAULT_LIST_FLAG_KEY.length());
+                        int flagIndex = paramKey.lastIndexOf(IEipContext.DEFAULT_LIST_FLAG_KEY);
+                        if (flagIndex == -1) {
+                            return null;
+                        }
+                        return paramKey.substring(0, flagIndex + IEipContext.DEFAULT_LIST_FLAG_KEY.length());
                     }
                 });
         for (TreeNode<IEipConvertParam<T>> inParamRoot : inParamRootList) {
@@ -165,6 +175,9 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
         if (value == null) {
             if (Boolean.TRUE.equals(convertParam.getRequired())) {
                 throw PamirsException.construct(EipExpEnumerate.PARAM_REQUIRED).appendMsg(inParam).errThrow();
+            }
+            if (Boolean.TRUE.equals(convertParam.getIsKeepNull())) {
+                EipParamConverterHelper.putContextValue(convertParam.getTargetContextType(), context, EipParamConverterHelper.getFinalParameter(outParam, inParamCounterList), null);
             }
             return;
         }

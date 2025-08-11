@@ -70,6 +70,11 @@ public class EipConvertParam extends TransientModel implements IEipConvertParam<
     private Boolean required;
 
     @Base
+    @Field.Boolean
+    @Field(displayName = "是否保留空值", defaultValue = "false", required = true)
+    private Boolean isKeepNull;
+
+    @Base
     @Field.Integer
     @Field(displayName = "字段长度")
     private Integer size;

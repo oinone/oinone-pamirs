@@ -43,4 +43,8 @@ public class EipReqParam extends TransientModel {
     @Field(displayName = "取值表达式")
     @Field.String(size = 1024)
     private String valueExpr;
+
+    @Field.Boolean
+    @Field(displayName = "保留空值")
+    private Boolean isKeepNull;
 }
