@@ -176,4 +176,7 @@ public class EipConnectorResource extends IdModel {
     @Field(displayName = "数据", store = NullableBoolEnum.FALSE)
     private String dataList;
 
+    @Field(displayName = "是否发布为开放接口")
+    private Boolean isPublishOpenInterface;
+
 }

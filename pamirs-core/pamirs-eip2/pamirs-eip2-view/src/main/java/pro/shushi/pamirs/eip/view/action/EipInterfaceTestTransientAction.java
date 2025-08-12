@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.eip.view.action;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.apache.camel.ExtendedExchange;
 import org.apache.camel.builder.ExchangeBuilder;
 import org.apache.commons.collections4.CollectionUtils;
@@ -12,6 +13,7 @@ import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.constant.EipContextConstant;
 import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
+import pro.shushi.pamirs.eip.api.constant.WebServicePrefix;
 import pro.shushi.pamirs.eip.api.context.EipCamelContext;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
@@ -54,8 +56,6 @@ public class EipInterfaceTestTransientAction {
         return data.setIsDevelopment(Boolean.FALSE)
                 .setInterfaceName("")
                 .setTip("请确认接口调用环境是否为可测试环境，否则可能带来不可挽回的后果")
-                .setExecuteContextData("{\n\t\n}")
-                .setRequestData("{\n\t\n}")
                 .setResponseData("");
     }
 
@@ -112,14 +112,19 @@ public class EipInterfaceTestTransientAction {
     @Action(displayName = "模拟参数转换", contextType = ActionContextTypeEnum.CONTEXT_FREE, bindingType = {ViewTypeEnum.FORM})
     public EipInterfaceTestTransient mockParamConverter(EipInterfaceTestTransient data) {
         IEipIntegrationInterface integrationInterface = fetchIntegrationInterface(data);
-        IEipContext context = mockParamSerializable(data, integrationInterface);
+        IEipIntegrationInterface actualIntegrationInterface = EipInterfaceContext.getInterface(integrationInterface.getInterfaceName());
+        if (actualIntegrationInterface == null) {
+            actualIntegrationInterface = integrationInterface;
+        }
+        IEipContext context = mockParamSerializable(data, actualIntegrationInterface);
         ExtendedExchange extendedExchange = (ExtendedExchange) ExchangeBuilder.anExchange(EipCamelContext.getContext().getCamelContext())
                 .withProperty(EipContextConstant.CONTEXT_KEY, context)
-                .withPattern(integrationInterface.getExchangePattern().getExchangePattern())
+                .withPattern(actualIntegrationInterface.getExchangePattern().getExchangePattern())
                 .withBody(context.getInterfaceContext())
                 .build();
-        EipHelper.paramConvert(context, integrationInterface.getRequestParamProcessor(), extendedExchange);
-        return data.setActualRequestData(JSON.toJSONString(EipInterfaceContext.getExecutorContext(extendedExchange).getInterfaceContext()));
+        EipHelper.paramConvert(context, actualIntegrationInterface.getRequestParamProcessor(), extendedExchange);
+        return data.setActualRequestData(JSON.toJSONString(EipInterfaceContext.getExecutorContext(extendedExchange).getInterfaceContext(),
+                SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.WriteMapNullValue, SerializerFeature.PrettyFormat));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -167,10 +172,14 @@ public class EipInterfaceTestTransientAction {
         if (StringUtils.isNotBlank(executeContextData)) {
             executeContext = EipFunctionConstant.DEFAULT_JSON_SERIALIZABLE.serializable(executeContextData);
         }
+        IEipIntegrationInterface actualIntegrationInterface = EipInterfaceContext.getInterface(integrationInterface.getInterfaceName());
+        if (actualIntegrationInterface == null) {
+            actualIntegrationInterface = integrationInterface;
+        }
         String requestData = data.getRequestData();
         Object requestBody = null;
         if (StringUtils.isNotBlank(requestData)) {
-            IEipParamProcessor<?> paramProcessor = integrationInterface.getRequestParamProcessor();
+            IEipParamProcessor<?> paramProcessor = actualIntegrationInterface.getRequestParamProcessor();
             if (paramProcessor == null) {
                 throw PamirsException.construct(EipExpEnumerate.GET_REQUEST_PARAM_PROCESSOR_NULL_ERROR).errThrow();
             }
@@ -183,15 +192,33 @@ public class EipInterfaceTestTransientAction {
             } catch (Exception e) {
                 throw PamirsException.construct(EipExpEnumerate.RESPONSE_PARAM_SERIALIZABLE_DATA_ERROR, e).errThrow();
             }
+            String op = getWebServiceOp(paramProcessor);
+            if (StringUtils.isNotBlank(op) && requestBody instanceof Map) {
+                requestBody = ((Map<?, ?>) requestBody).get(op);
+            }
         }
-        return integrationInterface.getContextSupplier().get(integrationInterface, executeContext, requestBody);
+        return actualIntegrationInterface.getContextSupplier().get(actualIntegrationInterface, executeContext, requestBody);
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private String getWebServiceOp(IEipParamProcessor paramProcessor) {
+        List<IEipConvertParam> convertParamList = paramProcessor.getConvertParamList();
+        if (CollectionUtils.isEmpty(convertParamList)) {
+            return null;
+        }
+        for (IEipConvertParam convertParam : convertParamList) {
+            if (WebServicePrefix.PAMIRS_WEBSERVICE_OP.equals(convertParam.getInParam())) {
+                return (String) convertParam.getDefaultValue();
+            }
+        }
+        return null;
     }
 
     private void appendRequestParams(StringBuilder sb, IEipConvertParam<SuperMap> convertParam) {
         if (convertParam.getRequired()) {
             sb.append("(必填) ");
         } else {
-            sb.append("         ");
+            sb.append("           ");
         }
         sb.append("入参: ");
         String inParam = convertParam.getInParam();
@@ -200,10 +227,14 @@ public class EipInterfaceTestTransientAction {
         } else {
             sb.append(inParam);
         }
-        sb.append(" 出参: ").append(convertParam.getOutParam());
+        sb.append("\n           出参: ").append(convertParam.getOutParam());
         Object defaultValue = convertParam.getDefaultValue();
         if (ObjectHelper.isNotBlank(defaultValue)) {
-            sb.append(" 默认值: ").append(StringHelper.valueOf(defaultValue));
+            sb.append("; 默认值: ").append(StringHelper.valueOf(defaultValue));
+        }
+        Boolean isKeepNull = convertParam.getIsKeepNull();
+        if (isKeepNull != null) {
+            sb.append("; 保留空值: ").append(isKeepNull);
         }
         if (ParamTypeEnum.ENUMERATION.equals(convertParam.getInParamType())) {
             for (Map.Entry<String, String> mapping : Optional.ofNullable(convertParam.getConvertMap()).map(Map::entrySet).orElse(new HashSet<>())) {

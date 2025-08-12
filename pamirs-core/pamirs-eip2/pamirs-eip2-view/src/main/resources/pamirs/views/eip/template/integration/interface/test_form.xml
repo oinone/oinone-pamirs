@@ -1,0 +1,37 @@
+<view type="FORM" model="pamirs.eip.EipInterfaceTestTransient" name="integration_interface_test_form">
+    <template slot="actions">
+        <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
+        <action name="test" confirm="请确认接口调用环境是否为可测试环境，否则可能带来不可挽回的后果" refreshData="false" updateData="true"/>
+        <action name="mockParamConverter" refreshData="false" updateData="true"/>
+    </template>
+    <template slot="fields">
+        <pack title="基础信息" cols="2">
+            <field data="isDevelopment" label="开发测试" span="2" widget="Switch"/>
+            <field data="integrationInterface" label="集成接口" span="1" widget="Select"
+                   optionLabel="activeRecord.name + ' - ' + activeRecord.interfaceName"
+                   optionFields="name,interfaceName"
+                   searchFields="name,interfaceName"
+                   required="!activeRecord.isDevelopment"
+                   domain="dataStatus == 'ENABLED'"
+                   constructFun="constructMirror"
+                   invisible="activeRecord.isDevelopment"/>
+            <field data="interfaceName" label="接口技术名称" span="1" widget="Input"
+                   required="activeRecord.isDevelopment"
+                   invisible="!activeRecord.isDevelopment"/>
+            <field data="tip" label="" widget="Input" span="1" readonly="true"/>
+            <pack widget="row" cols="3">
+                <pack widget="col" span="2">
+                    <pack widget="row" cols="2">
+                        <field data="requestData" label="请求数据" widget="TextArea" span="1" rows="8"/>
+                        <field data="executeContextData" label="执行上下文" widget="TextArea" rows="8" span="1"/>
+                        <field data="actualRequestData" label="请求数据（转换后）" widget="TextArea" span="1" rows="8"/>
+                        <field data="responseData" label="响应数据" widget="TextArea" span="1" rows="8" required="true"/>
+                    </pack>
+                </pack>
+                <pack widget="col" span="1">
+                    <field data="requestParams" label="参数说明" widget="TextArea" span="1" rows="8" readonly="true"/>
+                </pack>
+            </pack>
+        </pack>
+    </template>
+</view>
