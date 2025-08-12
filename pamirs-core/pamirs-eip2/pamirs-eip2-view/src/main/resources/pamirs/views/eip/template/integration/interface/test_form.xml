@@ -22,10 +22,25 @@
             <pack widget="row" cols="3">
                 <pack widget="col" span="2">
                     <pack widget="row" cols="2">
-                        <field data="requestData" label="请求数据" widget="TextArea" span="1" rows="8"/>
-                        <field data="executeContextData" label="执行上下文" widget="TextArea" rows="8" span="1"/>
+                        <pack widget="tabs" span="2">
+                            <pack widget="tab" title="Body参数">
+                                <field data="requestData" labelInvisible="true" rows="8"/>
+                            </pack>
+                            <pack widget="tab" title="Query参数">
+                                <field data="requestQueryData" labelInvisible="true" rows="8"/>
+                            </pack>
+                            <pack widget="tab" title="Path参数">
+                                <field data="requestPathData" labelInvisible="true" rows="8"/>
+                            </pack>
+                            <pack widget="tab" title="Header参数">
+                                <field data="requestHeaderData" labelInvisible="true" rows="8"/>
+                            </pack>
+                            <pack widget="tab" title="执行上下文">
+                                <field data="executeContextData" labelInvisible="true" rows="8"/>
+                            </pack>
+                        </pack>
                         <field data="actualRequestData" label="请求数据（转换后）" widget="TextArea" span="1" rows="8"/>
-                        <field data="responseData" label="响应数据" widget="TextArea" span="1" rows="8" required="true"/>
+                        <field data="responseData" label="响应数据" widget="TextArea" span="1" rows="8"/>
                     </pack>
                 </pack>
                 <pack widget="col" span="1">

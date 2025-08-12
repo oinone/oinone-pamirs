@@ -44,8 +44,20 @@ public class EipInterfaceTestTransient extends TransientModel {
     private String requestParams;
 
     @Field.Text
-    @Field(displayName = "请求数据")
+    @Field(displayName = "Body参数")
     private String requestData;
+
+    @Field.Text
+    @Field(displayName = "Query参数")
+    private String requestQueryData;
+
+    @Field.Text
+    @Field(displayName = "Path参数")
+    private String requestPathData;
+
+    @Field.Text
+    @Field(displayName = "Header参数")
+    private String requestHeaderData;
 
     @Field.Text
     @Field(displayName = "真实请求数据")

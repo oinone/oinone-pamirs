@@ -32,6 +32,7 @@ import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
+import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -123,8 +124,7 @@ public class EipInterfaceTestTransientAction {
                 .withBody(context.getInterfaceContext())
                 .build();
         EipHelper.paramConvert(context, actualIntegrationInterface.getRequestParamProcessor(), extendedExchange);
-        return data.setActualRequestData(JSON.toJSONString(EipInterfaceContext.getExecutorContext(extendedExchange).getInterfaceContext(),
-                SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.WriteMapNullValue, SerializerFeature.PrettyFormat));
+        return data.setActualRequestData(toJSONString(EipInterfaceContext.getExecutorContext(extendedExchange).getInterfaceContext()));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -138,7 +138,12 @@ public class EipInterfaceTestTransientAction {
         } else {
             data.setTip("调用失败: " + result.getErrorCode() + " - " + result.getErrorMessage());
         }
-        return data.setResponseData(result.getResult(String.class));
+        String responseData = result.getResult(String.class);
+        if (StringUtils.isNotBlank(responseData) && JsonUtils.isJSONString(responseData)) {
+            data.setResponseData(toJSONString(JSON.parseObject(responseData)));
+            return data;
+        }
+        return data.setResponseData(responseData);
     }
 
     public IEipIntegrationInterface<?> fetchIntegrationInterface(EipInterfaceTestTransient data) {
@@ -197,7 +202,15 @@ public class EipInterfaceTestTransientAction {
                 requestBody = ((Map<?, ?>) requestBody).get(op);
             }
         }
-        return actualIntegrationInterface.getContextSupplier().get(actualIntegrationInterface, executeContext, requestBody);
+        IEipContext<?> context = actualIntegrationInterface.getContextSupplier().get(actualIntegrationInterface, executeContext, requestBody);
+        context.putAllInterfaceContextValue(EipFunctionConstant.DEFAULT_JSON_SERIALIZABLE.serializable(data.getRequestQueryData()));
+        context.putAllInterfaceContextValue(EipFunctionConstant.DEFAULT_JSON_SERIALIZABLE.serializable(data.getRequestPathData()));
+        context.putAllInterfaceContextValue(EipFunctionConstant.DEFAULT_JSON_SERIALIZABLE.serializable(data.getRequestHeaderData()));
+        return context;
+    }
+
+    private String toJSONString(Object object) {
+        return JSON.toJSONString(object, SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.WriteMapNullValue, SerializerFeature.PrettyFormat);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
