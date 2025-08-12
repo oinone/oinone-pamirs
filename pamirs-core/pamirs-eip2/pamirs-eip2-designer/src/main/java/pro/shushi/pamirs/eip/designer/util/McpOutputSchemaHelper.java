@@ -26,7 +26,7 @@ public class McpOutputSchemaHelper {
         return new ObjectMapper().convertValue(outputSchemaNode.getSchemaObject(), McpSchema.JsonSchema.class);
     }
 
-    public static McpSchemaObjectNode respBody2InputSchemaNode(List<EipOpenRespParam> resp) {
+    public static McpSchemaObjectNode respBody2OutputSchemaNode(List<EipOpenRespParam> resp) {
         McpSchemaObjectNode inputSchema = new McpSchemaObjectNode();
         inputSchema.setKey("outputSchema");
         inputSchema.setRequired(true);
