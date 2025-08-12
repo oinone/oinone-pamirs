@@ -79,7 +79,7 @@ public class EipInitializationUtil {
         routeDefinition.end();
         routeDefinition.onException(Throwable.class)
                 .handled(true)
-                .process(EipFunctionConstant.DEFAULT_OPEN_INTERFACE_ERROR_HANDLER);
+                .process(eipOpenApi.getErrorHandler());
         addRouteDefinitionToContext(routeDefinition);
         return this;
     }

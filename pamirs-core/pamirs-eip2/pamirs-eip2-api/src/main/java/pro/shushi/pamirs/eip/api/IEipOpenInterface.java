@@ -1,5 +1,7 @@
 package pro.shushi.pamirs.eip.api;
 
+import org.apache.camel.processor.ErrorHandler;
+
 public interface IEipOpenInterface<T> extends IEipApi, IEipAfterProperty<IEipOpenInterface<T>> {
 
     /**
@@ -61,4 +63,9 @@ public interface IEipOpenInterface<T> extends IEipApi, IEipAfterProperty<IEipOpe
      * 响应预处理处理器
      */
     IEipEncryptionProcessor getResponseEncryptionProcessor();
+
+    /**
+     * 统一异常处理器
+     */
+    ErrorHandler getErrorHandler();
 }

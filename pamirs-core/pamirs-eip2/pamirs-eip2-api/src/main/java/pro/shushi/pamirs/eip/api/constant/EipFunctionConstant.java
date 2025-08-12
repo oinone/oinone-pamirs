@@ -51,6 +51,8 @@ public class EipFunctionConstant {
 
     public static final String OPEN_RESPONSE_ENCRYPTION_PREFIX = "EIP_OPEN_RESPONSE_ENCRYPTION_PREFIX_";
 
+    public static final String OPEN_ERROR_HANDLER_PREFIX = "EIP_OPEN_ERROR_HANDLER_PREFIX_";
+
     //endregion
 
     //region fun 常量
@@ -92,6 +94,8 @@ public class EipFunctionConstant {
     public static final String DEFAULT_Hl7_FHIR_DATA_IN_OUT_CONVERTER_FUN = IN_OUT_CONVERTER_PREFIX + "DefaultHl7FhirDataInOutConverter";
 
     public static final String DEFAULT_OPEN_Hl7_FHIR_JSON_PARAM_CONVERTER_FUN = IN_OUT_CONVERTER_PREFIX + "OpenApiHl7FhirJsonParamConvert";
+
+    public static final String DEFAULT_OPEN_ERROR_HANDLER_FUN = OPEN_ERROR_HANDLER_PREFIX + "defaultOpenErrorHandler";
 
     //endregion
 

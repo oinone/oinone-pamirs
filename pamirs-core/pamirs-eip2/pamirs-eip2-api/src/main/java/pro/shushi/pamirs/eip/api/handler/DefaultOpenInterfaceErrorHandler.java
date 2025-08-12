@@ -7,16 +7,28 @@ import pro.shushi.pamirs.core.common.StringHelper;
 import pro.shushi.pamirs.eip.api.IEipApi;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
+import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
 import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.util.EipLogUtil;
+import pro.shushi.pamirs.meta.annotation.Fun;
+import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 @Slf4j
+@Fun(EipFunctionConstant.FUNCTION_NAMESPACE)
 public class DefaultOpenInterfaceErrorHandler implements ErrorHandler {
+
+    @Function.fun(EipFunctionConstant.DEFAULT_OPEN_ERROR_HANDLER_FUN)
+    @Function.Advanced(displayName = "默认异常处理器")
+    @Function(name = EipFunctionConstant.DEFAULT_OPEN_ERROR_HANDLER_FUN)
+    public String processError(Exchange exchange) throws Exception {
+        process(exchange);
+        return "";
+    }
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -62,7 +74,6 @@ public class DefaultOpenInterfaceErrorHandler implements ErrorHandler {
         if (context == null) {
             EipLogUtil.openApiFailure(exchange, errorMsg, resultString);
         }
-
 
         exchange.getMessage().setBody(resultString);
 

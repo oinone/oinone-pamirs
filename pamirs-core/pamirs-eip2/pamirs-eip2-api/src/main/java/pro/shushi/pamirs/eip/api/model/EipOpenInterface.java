@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.eip.api.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import org.apache.camel.processor.ErrorHandler;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.*;
@@ -162,6 +163,16 @@ public class EipOpenInterface extends AbstractSingleInterface implements IEipOpe
     @Field(displayName = "响应预处理函数名称")
     private String responseEncryptionFun;
 
+    @Base
+    @Field.String
+    @Field(displayName = "异常处理函数命名空间")
+    private String errorHandlerNamespace;
+
+    @Base
+    @Field.String
+    @Field(displayName = "异常处理函数名称")
+    private String errorHandlerFun;
+
     @JSONField(serialize = false)
     @Override
     public IEipContextSupplier<SuperMap> getContextSupplier() {
@@ -276,6 +287,16 @@ public class EipOpenInterface extends AbstractSingleInterface implements IEipOpe
             return null;
         }
         return new DefaultEncryptionFunction(namespace, fun);
+    }
+
+    @Override
+    public ErrorHandler getErrorHandler() {
+        String namespace = getErrorHandlerNamespace();
+        String fun = getErrorHandlerFun();
+        if (StringUtils.isAnyBlank(namespace, fun)) {
+            return EipFunctionConstant.DEFAULT_OPEN_INTERFACE_ERROR_HANDLER;
+        }
+        return new DefaultErrorHandlerFunction(namespace, fun);
     }
 
     @JSONField(serialize = false)

@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.api.entity;
 
+import org.apache.camel.processor.ErrorHandler;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.constant.EipConfigurationConstant;
@@ -31,6 +32,8 @@ public abstract class AbstractEipOpenInterface<T> extends AbstractEipApi impleme
     private IEipDecryptProcessor requestDecryptProcessor;
 
     private IEipEncryptionProcessor responseEncryptionProcessor;
+
+    private ErrorHandler errorHandler;
 
     public AbstractEipOpenInterface(EipCamelContext context, String interfaceName, String uri) {
         super(context, interfaceName, uri);
@@ -149,6 +152,15 @@ public abstract class AbstractEipOpenInterface<T> extends AbstractEipApi impleme
     @Override
     public IEipEncryptionProcessor getResponseEncryptionProcessor() {
         return responseEncryptionProcessor;
+    }
+
+    public void setErrorHandler(ErrorHandler errorHandler) {
+        this.errorHandler = errorHandler;
+    }
+
+    @Override
+    public ErrorHandler getErrorHandler() {
+        return errorHandler;
     }
 
     public AbstractEipOpenInterface<T> setResponseEncryptionProcessor(IEipEncryptionProcessor responseEncryptionProcessor) {
