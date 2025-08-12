@@ -53,6 +53,11 @@
                 <artifactId>pamirs-eip2-designer</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.eip2</groupId>
+                <artifactId>pamirs-eip2-mcp-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.camel</groupId>

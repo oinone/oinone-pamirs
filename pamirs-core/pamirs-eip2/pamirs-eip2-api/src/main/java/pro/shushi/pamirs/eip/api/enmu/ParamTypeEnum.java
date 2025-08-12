@@ -26,11 +26,11 @@ public enum ParamTypeEnum implements IEnum<String> {
 
     public static final String dictionary = "pamirs.eip.EipParamTypeEnum";
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     ParamTypeEnum(String value, String displayName, String help) {
         this.value = value;

@@ -20,5 +20,9 @@
             <groupId>pro.shushi.pamirs.core</groupId>
             <artifactId>pamirs-eip2-jdbc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>pro.shushi.pamirs.eip2</groupId>
+            <artifactId>pamirs-eip2-mcp-api</artifactId>
+        </dependency>
     </dependencies>
 </project>
