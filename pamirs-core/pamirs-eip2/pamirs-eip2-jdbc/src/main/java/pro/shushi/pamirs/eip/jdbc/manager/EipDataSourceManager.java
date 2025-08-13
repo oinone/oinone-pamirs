@@ -1,11 +1,15 @@
 package pro.shushi.pamirs.eip.jdbc.manager;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.vendor.MSSQLValidConnectionChecker;
+import com.alibaba.druid.pool.vendor.MySqlValidConnectionChecker;
 import com.alibaba.druid.pool.vendor.OracleValidConnectionChecker;
+import com.alibaba.druid.pool.vendor.PGValidConnectionChecker;
 import com.alibaba.druid.util.Utils;
 import com.google.common.collect.Sets;
 import org.apache.camel.CamelContext;
 import pro.shushi.pamirs.core.common.entry.Holder;
+import pro.shushi.pamirs.eip.api.constant.EipSystemDataSourceType;
 import pro.shushi.pamirs.eip.api.context.EipCamelContext;
 import pro.shushi.pamirs.eip.jdbc.config.EipJdbcProperties;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -38,6 +42,10 @@ public class EipDataSourceManager {
     }
 
     public static DataSource buildSimpleDataSource(String jdbcUrl, String driverClassName, String username, String password) {
+        return buildSimpleDataSource(jdbcUrl, driverClassName, username, password, null);
+    }
+
+    public static DataSource buildSimpleDataSource(String jdbcUrl, String driverClassName, String username, String password, String dbType) {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl(jdbcUrl);
         dataSource.setDriverClassName(driverClassName);
@@ -54,9 +62,25 @@ public class EipDataSourceManager {
         dataSource.setPoolPreparedStatements(true);
         dataSource.setBreakAfterAcquireFailure(true);
         // DruidDataSource#initValidConnectionChecker()
-        if (DataSourceProtocolEnum.DM.value().startsWith(jdbcUrl)) {
+        if (dbType == null) {
+            if (DataSourceProtocolEnum.DM.value().startsWith(jdbcUrl)) {
+                try {
+                    dataSource.setValidConnectionCheckerClassName(OracleValidConnectionChecker.class.getName());
+                } catch (Exception e) {
+                    log.error("Set valid connection checker error.", e);
+                }
+            }
+        } else {
             try {
-                dataSource.setValidConnectionCheckerClassName(OracleValidConnectionChecker.class.getName());
+                if (EipSystemDataSourceType.mysql().getCode().equals(dbType)) {
+                    dataSource.setValidConnectionCheckerClassName(MySqlValidConnectionChecker.class.getName());
+                } else if (EipSystemDataSourceType.oracle().getCode().equals(dbType)) {
+                    dataSource.setValidConnectionCheckerClassName(OracleValidConnectionChecker.class.getName());
+                } else if (EipSystemDataSourceType.mssql().getCode().equals(dbType)) {
+                    dataSource.setValidConnectionCheckerClassName(MSSQLValidConnectionChecker.class.getName());
+                } else if (EipSystemDataSourceType.pgsql().getCode().equals(dbType)) {
+                    dataSource.setValidConnectionCheckerClassName(PGValidConnectionChecker.class.getName());
+                }
             } catch (Exception e) {
                 log.error("Set valid connection checker error.", e);
             }

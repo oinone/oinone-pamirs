@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.SystemBootAfterInit;
 import pro.shushi.pamirs.eip.api.config.EipSwitchCondition;
+import pro.shushi.pamirs.eip.api.constant.EipSystemDataSourceType;
 import pro.shushi.pamirs.eip.api.enmu.connector.ConnType;
 import pro.shushi.pamirs.eip.api.enmu.connector.TestConnStatus;
 import pro.shushi.pamirs.eip.api.model.connector.ConnDbType;
@@ -61,36 +62,7 @@ public class EipJdbcDataSourceInit implements SystemBootAfterInit {
     }
 
     private void initDbTypes() {
-
         List<ConnDbType> types = new ArrayList<>();
-
-        ConnDbType mysql = new ConnDbType();
-        mysql.setCode("MySQL");
-        mysql.setDisplayName("MySQL");
-        mysql.setHelp("MySQL");
-        mysql.setDriver("com.mysql.jdbc.Driver");
-        mysql.setBasic(true);
-
-        ConnDbType sqlServer = new ConnDbType();
-        sqlServer.setCode("SQLServer");
-        sqlServer.setDisplayName("SQL Server");
-        sqlServer.setHelp("SQL Server");
-        sqlServer.setDriver("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        sqlServer.setBasic(true);
-
-        ConnDbType oracle = new ConnDbType();
-        oracle.setCode("Oracle");
-        oracle.setDisplayName("Oracle");
-        oracle.setHelp("Oracle");
-        oracle.setDriver("oracle.jdbc.OracleDriver");
-        oracle.setBasic(true);
-
-        ConnDbType postgreSQL = new ConnDbType();
-        postgreSQL.setCode("PostgreSQL");
-        postgreSQL.setDisplayName("PostgreSQL");
-        postgreSQL.setHelp("PostgreSQL");
-        postgreSQL.setDriver("org.postgresql.Driver");
-        postgreSQL.setBasic(true);
 
         ConnDbType kingbase8v9 = new ConnDbType();
         kingbase8v9.setCode("Kingbase");
@@ -113,10 +85,10 @@ public class EipJdbcDataSourceInit implements SystemBootAfterInit {
         hana.setDriver("com.sap.db.jdbc.Driver");
         hana.setBasic(false);
 
-        types.add(mysql);
-        types.add(sqlServer);
-        types.add(oracle);
-        types.add(postgreSQL);
+        types.add(EipSystemDataSourceType.mysql());
+        types.add(EipSystemDataSourceType.mssql());
+        types.add(EipSystemDataSourceType.oracle());
+        types.add(EipSystemDataSourceType.pgsql());
         types.add(kingbase8v9);
         types.add(dmv8);
         types.add(hana);
