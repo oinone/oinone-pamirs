@@ -30,11 +30,14 @@ public class McpOutputSchemaHelper {
         McpSchemaObjectNode inputSchema = new McpSchemaObjectNode();
         inputSchema.setKey("outputSchema");
         inputSchema.setRequired(true);
-        inputSchema.setParamType(McpParamTypeEnum.OBJECT);
+        inputSchema.setMcpParamType(McpParamTypeEnum.OBJECT);
         inputSchema.setChildren(new ArrayList<>());
 
         for (EipOpenRespParam param : resp) {
-            inputSchema.getChildren().add(respBody2SchemaNode(param));
+            AbstractMcpSchemaNode paramNode = respBody2SchemaNode(param);
+            if (paramNode != null) {
+                inputSchema.getChildren().add(paramNode);
+            }
         }
 
         return inputSchema;
@@ -46,41 +49,53 @@ public class McpOutputSchemaHelper {
         }
         List<AbstractMcpSchemaNode> result = new ArrayList<>(paramList.size());
         for (EipOpenRespParam param : paramList) {
-            result.add(respBody2SchemaNode(param));
+            AbstractMcpSchemaNode paramNode = respBody2SchemaNode(param);
+            if (paramNode != null) {
+                result.add(paramNode);
+            }
         }
         return result;
     }
 
     public static AbstractMcpSchemaNode respBody2SchemaNode(EipOpenRespParam param) {
-        boolean isObject = ParamTypeEnum.OBJECT.equals(param.getParamType());
+        ParamTypeEnum paramType = param.getParamType();
+        McpParamTypeEnum type = McpParamTypeEnum.fetchByParamType(paramType);
+        boolean isObject = McpParamTypeEnum.OBJECT.equals(type) || McpParamTypeEnum.MAP.equals(type);
+        if (type == null) {
+            return null;
+        }
         if (Boolean.TRUE.equals(param.getIsMulti())) {
             return new McpSchemaArrayNode()
                     .setKey(param.getKey())
                     .setDesc(param.getDesc())
-                    .setParamType(McpParamTypeEnum.ARRAY)
+                    .setMcpParamType(McpParamTypeEnum.ARRAY)
                     .setValueExpr(param.getValueExpr())
                     .setChildren(Collections.singletonList(isObject ?
                             new McpSchemaObjectNode()
                                     .setDesc(param.getDesc())
-                                    .setParamType(McpParamTypeEnum.OBJECT)
+                                    .setParamType(paramType)
+                                    .setMcpParamType(type)
                                     .setChildren(respBody2SchemaNode(param.getChildren()))
                             :
                             new McpSchemaSimpleNode()
                                     .setDesc(param.getDesc())
-                                    .setParamType(McpParamTypeEnum.fetchByParamType(param.getParamType()))
+                                    .setParamType(paramType)
+                                    .setMcpParamType(type)
                     ));
         } else if (isObject) {
             return new McpSchemaObjectNode()
                     .setKey(param.getKey())
                     .setDesc(param.getDesc())
                     .setValueExpr(param.getValueExpr())
-                    .setParamType(McpParamTypeEnum.OBJECT)
+                    .setParamType(paramType)
+                    .setMcpParamType(type)
                     .setChildren(respBody2SchemaNode(param.getChildren()));
         } else {
             return new McpSchemaSimpleNode()
                     .setKey(param.getKey())
                     .setDesc(param.getDesc())
-                    .setParamType(McpParamTypeEnum.fetchByParamType(param.getParamType()))
+                    .setParamType(paramType)
+                    .setMcpParamType(type)
                     .setValueExpr(param.getValueExpr());
         }
     }

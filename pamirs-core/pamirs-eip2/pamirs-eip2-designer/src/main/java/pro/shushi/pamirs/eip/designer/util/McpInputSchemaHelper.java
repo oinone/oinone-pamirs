@@ -27,11 +27,14 @@ public class McpInputSchemaHelper {
         McpSchemaObjectNode inputSchema = new McpSchemaObjectNode();
         inputSchema.setKey("inputSchema");
         inputSchema.setRequired(true);
-        inputSchema.setParamType(McpParamTypeEnum.OBJECT);
+        inputSchema.setMcpParamType(McpParamTypeEnum.OBJECT);
         inputSchema.setChildren(new ArrayList<>());
 
         for (EipOpenReqBodyParam param : req) {
-            inputSchema.getChildren().add(reqBody2SchemaNode(param));
+            AbstractMcpSchemaNode paramNode = reqBody2SchemaNode(param);
+            if (paramNode != null) {
+                inputSchema.getChildren().add(paramNode);
+            }
         }
 
         return inputSchema;
@@ -43,30 +46,40 @@ public class McpInputSchemaHelper {
         }
         List<AbstractMcpSchemaNode> result = new ArrayList<>(paramList.size());
         for (EipOpenReqBodyParam param : paramList) {
-            result.add(reqBody2SchemaNode(param));
+            AbstractMcpSchemaNode paramNode = reqBody2SchemaNode(param);
+            if (paramNode != null) {
+                result.add(paramNode);
+            }
         }
         return result;
     }
 
     public static AbstractMcpSchemaNode reqBody2SchemaNode(EipOpenReqBodyParam param) {
-        boolean isObject = ParamTypeEnum.OBJECT.equals(param.getParamType());
+        ParamTypeEnum paramType = param.getParamType();
+        McpParamTypeEnum mcpType = McpParamTypeEnum.fetchByParamType(paramType);
+        boolean isObject = McpParamTypeEnum.OBJECT.equals(mcpType) || McpParamTypeEnum.MAP.equals(mcpType);
+        if (mcpType == null) {
+            return null;
+        }
         if (Boolean.TRUE.equals(param.getIsMulti())) {
             return new McpSchemaArrayNode()
                     .setKey(param.getKey())
                     .setRequired(param.getRequired())
                     .setDesc(param.getDesc())
                     .setDefaultValue(param.getDefaultValue())
-                    .setParamType(McpParamTypeEnum.ARRAY)
+                    .setMcpParamType(McpParamTypeEnum.ARRAY)
                     .setValueExpr(param.getValueExpr())
                     .setChildren(Collections.singletonList(isObject ?
                             new McpSchemaObjectNode()
                                     .setDesc(param.getDesc())
-                                    .setParamType(McpParamTypeEnum.OBJECT)
+                                    .setParamType(paramType)
+                                    .setMcpParamType(mcpType)
                                     .setChildren(reqBody2SchemaNode(param.getChildren()))
                             :
                             new McpSchemaSimpleNode()
                                     .setDesc(param.getDesc())
-                                    .setParamType(McpParamTypeEnum.fetchByParamType(param.getParamType()))
+                                    .setParamType(paramType)
+                                    .setMcpParamType(mcpType)
                     ));
         } else if (isObject) {
             return new McpSchemaObjectNode()
@@ -75,13 +88,15 @@ public class McpInputSchemaHelper {
                     .setDesc(param.getDesc())
                     .setValueExpr(param.getValueExpr())
                     .setDefaultValue(param.getDefaultValue())
-                    .setParamType(McpParamTypeEnum.OBJECT)
+                    .setParamType(paramType)
+                    .setMcpParamType(mcpType)
                     .setChildren(reqBody2SchemaNode(param.getChildren()));
         } else {
             return new McpSchemaSimpleNode()
                     .setKey(param.getKey())
                     .setDesc(param.getDesc())
-                    .setParamType(McpParamTypeEnum.fetchByParamType(param.getParamType()))
+                    .setParamType(paramType)
+                    .setMcpParamType(mcpType)
                     .setRequired(param.getRequired())
                     .setValueExpr(param.getValueExpr())
                     .setDefaultValue(param.getDefaultValue());
