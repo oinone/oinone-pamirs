@@ -71,7 +71,6 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
                     integrationInterface.setIsIgnoreLogFrequency(isIgnoreLogFrequency);
                 }
                 EipHelper.fillEipIntegrationInterface(integrationInterface);
-                integrationInterface.setContext(context);
             }
             EipInterfaceContext.putInterface(eipInterface);
             EipInitializationUtil.newInstance(context)
@@ -215,7 +214,6 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
                     openInterface.setIsIgnoreLogFrequency(isIgnoreLogFrequency);
                 }
                 EipHelper.fillEipOpenInterface(openInterface);
-                openInterface.setContext(context);
             }
             EipInitializationUtil.newInstance(context)
                     .addOpenApi(eipInterface);

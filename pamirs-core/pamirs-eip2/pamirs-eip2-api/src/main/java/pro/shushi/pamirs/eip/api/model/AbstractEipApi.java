@@ -114,21 +114,13 @@ public abstract class AbstractEipApi extends BizIdModel implements IEipApi, IDat
     @Field(displayName = "业务分组编码")
     private String connGroupCode;
 
-    @JSONField(serialize = false)
-    private transient EipCamelContext context;
-
     @Field.Boolean
     @Field(displayName = "是否忽略日志记录频率限制", store = NullableBoolEnum.FALSE)
     private Boolean isIgnoreLogFrequency;
 
+    @JSONField(serialize = false)
     @Override
     public EipCamelContext getContext() {
-        return context;
-    }
-
-    public void setContext(EipCamelContext context) {
-        if (this.context == null) {
-            this.context = context;
-        }
+        return EipCamelContext.getContext();
     }
 }

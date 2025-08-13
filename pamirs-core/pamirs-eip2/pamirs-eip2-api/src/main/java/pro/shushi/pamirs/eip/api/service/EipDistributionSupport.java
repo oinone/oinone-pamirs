@@ -6,29 +6,15 @@ import pro.shushi.pamirs.eip.api.model.EipRouteDefinition;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 
 import java.util.List;
-import java.util.function.BiPredicate;
 
+/**
+ * EIP 分布式支持
+ *
+ * @author Adamancy Zhang at 13:04 on 2020-09-27
+ */
 public interface EipDistributionSupport {
 
-    BiPredicate<byte[], byte[]> DEFAULT_COMPARATOR = (originData, data) -> {
-        if (originData == null) {
-            return Boolean.TRUE;
-        }
-        if (data == null) {
-            return Boolean.FALSE;
-        }
-        if (originData.length == 2) {
-            if (originData[0] == data[0] && originData[1] == data[1]) {
-                return Boolean.FALSE;
-            } else {
-                return Boolean.TRUE;
-            }
-        } else {
-            return Boolean.TRUE;
-        }
-    };
-
-    String ZOOKEEPER_PARENT_NODE_PATH_PREFIX = "/eip";
+    String NODE_PATH_PREFIX = "/eip/api";
 
     byte[] ENABLED = new byte[]{1};
 

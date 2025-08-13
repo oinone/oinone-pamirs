@@ -143,16 +143,22 @@ public class EipInterfaceContext {
             return result;
         }
 
-        try {
-            result = BeanDefinitionUtils.getBean(CircuitBreaker.class).execute(eipInterface.getInterfaceName(), executorContext, () -> {
-                //将消息发送到接口指定路由，并交由Camel执行
-                exchange.set(producerTemplate.send(eipInterface.getUri(), exchange.get()));
-                // 结果处理
-                return verificationInterrupted(exchange.get());
-            });
-        } catch (CircuitBreakerOpenException e) {
-            log.warn("接口进入熔断状态，msg:{}", e.getMessage());
-            return EipResult.error(getExecutorContext(exchange.get()), CircuitBreakerOpenException.ERROR_CODE, e.getMessage(), e);
+        CircuitBreaker circuitBreaker = BeanDefinitionUtils.getBean(CircuitBreaker.class);
+        if (circuitBreaker == null) {
+            exchange.set(producerTemplate.send(eipInterface.getUri(), exchange.get()));
+            result = verificationInterrupted(exchange.get());
+        } else {
+            try {
+                result = circuitBreaker.execute(eipInterface.getInterfaceName(), executorContext, () -> {
+                    //将消息发送到接口指定路由，并交由Camel执行
+                    exchange.set(producerTemplate.send(eipInterface.getUri(), exchange.get()));
+                    // 结果处理
+                    return verificationInterrupted(exchange.get());
+                });
+            } catch (CircuitBreakerOpenException e) {
+                log.warn("接口进入熔断状态，msg:{}", e.getMessage());
+                return EipResult.error(getExecutorContext(exchange.get()), CircuitBreakerOpenException.ERROR_CODE, e.getMessage(), e);
+            }
         }
 
         //如果消息发生中断，则直接返回

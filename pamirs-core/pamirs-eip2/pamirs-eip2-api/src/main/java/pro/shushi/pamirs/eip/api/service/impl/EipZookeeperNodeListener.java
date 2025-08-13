@@ -4,7 +4,6 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.ChildData;
 import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
 import org.apache.curator.framework.recipes.cache.TreeCacheListener;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.IEipApi;
@@ -14,7 +13,6 @@ import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.model.EipRouteDefinition;
 import pro.shushi.pamirs.eip.api.service.EipDistributionSupport;
-import pro.shushi.pamirs.eip.api.service.EipInterfaceModifyProcessor;
 import pro.shushi.pamirs.eip.api.service.EipInterfaceService;
 import pro.shushi.pamirs.framework.session.tenant.component.PamirsTenantSession;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -24,17 +22,13 @@ import pro.shushi.pamirs.middleware.zookeeper.service.ZookeeperService;
 
 @Slf4j
 @Component
-public class EipZookeeperNodeListener implements TreeCacheListener, InitializingBean {
+public class EipZookeeperNodeListener implements TreeCacheListener {
 
     @Autowired
     private ZookeeperService zookeeperService;
 
     @Autowired
     private EipInterfaceService interfaceService;
-
-    private EipInterfaceModifyProcessor registerConsumer;
-
-    private EipInterfaceModifyProcessor cancellationConsumer;
 
     @Override
     public void childEvent(CuratorFramework curatorFramework, TreeCacheEvent treeCacheEvent) throws Exception {
@@ -51,57 +45,55 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
         }
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        this.registerConsumer = (interfaceType, eipApi, isEnable) -> {
-            switch (interfaceType) {
-                case INTEGRATION:
-                    interfaceService.registerInterface((EipIntegrationInterface) eipApi);
-                    break;
-                case OPEN:
-                    interfaceService.registerOpenInterface((EipOpenInterface) eipApi);
-                    break;
-                case ROUTE:
-                    interfaceService.registerRouteDefinition((EipRouteDefinition) eipApi);
-                    break;
-            }
-        };
-        this.cancellationConsumer = (interfaceType, eipApi, isEnable) -> {
-            switch (interfaceType) {
-                case INTEGRATION:
-                    interfaceService.cancellationInterface((EipIntegrationInterface) eipApi);
-                    break;
-                case OPEN:
-                    interfaceService.cancellationOpenInterface((EipOpenInterface) eipApi);
-                    break;
-                case ROUTE:
-                    interfaceService.cancellationRouteDefinition((EipRouteDefinition) eipApi);
-                    break;
-            }
-        };
+    private void registerConsumer(InterfaceTypeEnum interfaceType, IEipApi eipApi, boolean isEnabled) {
+        switch (interfaceType) {
+            case INTEGRATION:
+                interfaceService.registerInterface((EipIntegrationInterface) eipApi);
+                break;
+            case OPEN:
+                interfaceService.registerOpenInterface((EipOpenInterface) eipApi);
+                break;
+            case ROUTE:
+                interfaceService.registerRouteDefinition((EipRouteDefinition) eipApi);
+                break;
+        }
+    }
+
+    private void cancellationConsumer(InterfaceTypeEnum interfaceType, IEipApi eipApi, boolean isEnabled) {
+        switch (interfaceType) {
+            case INTEGRATION:
+                interfaceService.cancellationInterface((EipIntegrationInterface) eipApi);
+                break;
+            case OPEN:
+                interfaceService.cancellationOpenInterface((EipOpenInterface) eipApi);
+                break;
+            case ROUTE:
+                interfaceService.cancellationRouteDefinition((EipRouteDefinition) eipApi);
+                break;
+        }
     }
 
     private void addInterface(ChildData childData) {
-        processInterfaceModify(childData, registerConsumer);
+        processInterfaceModify(childData, this::registerConsumer);
     }
 
     private void updateInterface(ChildData childData) {
         processInterfaceModify(childData, (interfaceType, eipApi, isEnable) -> {
             if (isEnable) {
-                registerConsumer.accept(interfaceType, eipApi, Boolean.TRUE);
+                registerConsumer(interfaceType, eipApi, Boolean.TRUE);
             } else {
-                cancellationConsumer.accept(interfaceType, eipApi, Boolean.FALSE);
+                cancellationConsumer(interfaceType, eipApi, Boolean.FALSE);
             }
         });
     }
 
     private void removeInterface(ChildData childData) {
-        processInterfaceModify(childData, cancellationConsumer);
+        processInterfaceModify(childData, this::cancellationConsumer);
     }
 
-    private void processInterfaceModify(ChildData childData, EipInterfaceModifyProcessor consumer) {
-        String path = childData.getPath();
-        int rootPathLength = zookeeperService.getRootPath().length() + EipDistributionSupport.ZOOKEEPER_PARENT_NODE_PATH_PREFIX.length() + 1;
+    private void processInterfaceModify(ChildData data, EipInterfaceModifyProcessor consumer) {
+        String path = data.getPath();
+        int rootPathLength = zookeeperService.getRootPath().length() + EipDistributionSupport.NODE_PATH_PREFIX.length() + 1;
         if (path.length() <= rootPathLength) {
             return;
         }
@@ -119,7 +111,7 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
         if (tenant != null) {
             PamirsTenantSession.setTenant(tenant);
         }
-        processInterfaceModify(childData, pathList, consumer);
+        processInterfaceModify(data, pathList, consumer);
     }
 
     private void processInterfaceModify(ChildData childData, String[] pathList, EipInterfaceModifyProcessor consumer) {
@@ -137,7 +129,7 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
         Boolean isEnable = null;
         // 忽略日志频率配置
         Boolean isIgnoreLogConfig = null;
-        if (data != null && data.length == 2) {
+        if (data != null && data.length >= 2) {
             //此处仅处理有效数据变更
             byte data0 = data[0];
             if (data0 == EipDistributionSupport.ENABLED[0]) {
@@ -170,5 +162,11 @@ public class EipZookeeperNodeListener implements TreeCacheListener, Initializing
             default:
                 return null;
         }
+    }
+
+    @FunctionalInterface
+    private interface EipInterfaceModifyProcessor {
+
+        void accept(InterfaceTypeEnum interfaceType, IEipApi eipApi, Boolean isEnable);
     }
 }

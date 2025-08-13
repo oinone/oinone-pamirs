@@ -41,7 +41,7 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
     @Autowired
     private EipLogStrategyService eipLogStrategyService;
 
-    private final Map<String /* tenantRootPath */, TreeCache> treeCacheMap = new ConcurrentHashMap<>();
+    private final Map<String, TreeCache> treeCacheMap = new ConcurrentHashMap<>();
 
     @Override
     public synchronized void start() throws Exception {
@@ -108,26 +108,16 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
         if (dataStatus == null) {
             return new Result<String>().error().setData(String.format("无法获取%s状态，刷新失败 [interfaceName %s]", interfaceTypeName, interfaceName));
         }
-        byte[] finalData = new byte[2];
-        if (DataStatusEnum.ENABLED.equals(dataStatus)) {
-            finalData[0] = ENABLED[0];
-        } else {
-            finalData[0] = DISABLED[0];
-        }
-        if (Boolean.TRUE.equals(eipInterface.getIsIgnoreLogFrequency())) {
-            finalData[1] = ENABLED[0];
-        } else {
-            finalData[1] = DISABLED[0];
-        }
+        byte[] finalData = createData(DataStatusEnum.ENABLED.equals(dataStatus), Boolean.TRUE.equals(eipInterface.getIsIgnoreLogFrequency()), new Date());
         final String routePath;
         String tenant = PamirsTenantSession.getTenant();
         if (StringUtils.isEmpty(tenant)) {
-            routePath = ZOOKEEPER_PARENT_NODE_PATH_PREFIX + CharacterConstants.SEPARATOR_SLASH + type.value() + CharacterConstants.SEPARATOR_SLASH + interfaceName;
+            routePath = NODE_PATH_PREFIX + CharacterConstants.SEPARATOR_SLASH + type.value() + CharacterConstants.SEPARATOR_SLASH + interfaceName;
         } else {
-            routePath = ZOOKEEPER_PARENT_NODE_PATH_PREFIX + CharacterConstants.SEPARATOR_SLASH + tenant + CharacterConstants.SEPARATOR_SLASH + type.getValue() + CharacterConstants.SEPARATOR_SLASH + interfaceName;
+            routePath = NODE_PATH_PREFIX + CharacterConstants.SEPARATOR_SLASH + tenant + CharacterConstants.SEPARATOR_SLASH + type.getValue() + CharacterConstants.SEPARATOR_SLASH + interfaceName;
         }
         try {
-            this.zookeeperService.createOrUpdateData(routePath, finalData, DEFAULT_COMPARATOR);
+            this.zookeeperService.createOrUpdateData(routePath, finalData, this::defaultComparator);
         } catch (Exception e) {
             log.error("{}刷新失败 [interfaceName {}]", interfaceTypeName, interfaceName, e);
             return new Result<String>().error().setData(String.format("%s刷新失败 [interfaceName %s]", interfaceTypeName, interfaceName));
@@ -142,27 +132,22 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
         EipCamelContext context = EipCamelContext.getContext();
         String rootPath;
         if (StringUtils.isEmpty(tenant)) {
-            rootPath = EipDistributionSupport.ZOOKEEPER_PARENT_NODE_PATH_PREFIX;
+            rootPath = NODE_PATH_PREFIX;
         } else {
-            rootPath = EipDistributionSupport.ZOOKEEPER_PARENT_NODE_PATH_PREFIX + CharacterConstants.SEPARATOR_SLASH + tenant;
+            rootPath = NODE_PATH_PREFIX + CharacterConstants.SEPARATOR_SLASH + tenant;
         }
         List<RouteDefinition> routeDefinitionList = Optional.ofNullable(context).map(EipCamelContext::getCamelContext).map(ModelCamelContext::getRouteDefinitions).orElse(null);
         // 查询忽略日志频率配置
         Set<String> enableIgnoreLogConfigs = queryEnableIgnoreFrequency(routeDefinitionList);
         if (CollectionUtils.isNotEmpty(routeDefinitionList)) {
             try {
-                String routePath;
                 for (RouteDefinition routeDefinition : routeDefinitionList) {
                     String routeDefinitionId = routeDefinition.getId();
                     InterfaceTypeEnum interfaceType = EipHelper.getInterfaceType(routeDefinitionId);
                     String interfaceName = EipInitializationUtil.parseInterfaceNameByRouteId(routeDefinitionId);
-                    routePath = rootPath + CharacterConstants.SEPARATOR_SLASH + interfaceType.getValue() + CharacterConstants.SEPARATOR_SLASH + interfaceName;
-
-                    byte[] initialData = new byte[2];
-                    initialData[0] = ENABLED[0];
-                    initialData[1] = enableIgnoreLogConfigs.contains(routeDefinitionId) ? ENABLED[0] : DISABLED[0];
-
-                    this.zookeeperService.createOrUpdateData(routePath, initialData, EipDistributionSupport.DEFAULT_COMPARATOR);
+                    String routePath = rootPath + CharacterConstants.SEPARATOR_SLASH + interfaceType.getValue() + CharacterConstants.SEPARATOR_SLASH + interfaceName;
+                    byte[] initialData = createInitialData(enableIgnoreLogConfigs.contains(routeDefinitionId));
+                    this.zookeeperService.createOrUpdateData(routePath, initialData, this::defaultComparator);
                 }
                 tenantRootPathList.add(rootPath);
             } catch (Exception e) {
@@ -175,6 +160,34 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
         }
     }
 
+    private byte[] createData(boolean isEnabled, boolean isIgnoreLogFrequency, Date date) {
+        byte[] updateFactor = Long.toString(date.getTime()).getBytes();
+        byte[] finalData = new byte[2 + updateFactor.length];
+        if (isEnabled) {
+            finalData[0] = ENABLED[0];
+        } else {
+            finalData[0] = DISABLED[0];
+        }
+        if (isIgnoreLogFrequency) {
+            finalData[1] = ENABLED[0];
+        } else {
+            finalData[1] = DISABLED[0];
+        }
+        System.arraycopy(updateFactor, 0, finalData, 2, updateFactor.length);
+        return finalData;
+    }
+
+    private byte[] createInitialData(boolean isIgnoreLogFrequency) {
+        byte[] finalData = new byte[2];
+        finalData[0] = ENABLED[0];
+        if (isIgnoreLogFrequency) {
+            finalData[1] = ENABLED[0];
+        } else {
+            finalData[1] = DISABLED[0];
+        }
+        return finalData;
+    }
+
     private Set<String> queryEnableIgnoreFrequency(List<RouteDefinition> routeDefinitionList) {
         if (CollectionUtils.isEmpty(routeDefinitionList)) {
             return Collections.emptySet();
@@ -184,5 +197,21 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
                 .map(EipInitializationUtil::parseInterfaceNameByRouteId)
                 .collect(Collectors.toList());
         return eipLogStrategyService.queryEnableIgnoreLogConfig(interfaceNames);
+    }
+
+    private boolean defaultComparator(byte[] originData, byte[] data) {
+        if (originData == null) {
+            return Boolean.TRUE;
+        }
+        if (data == null) {
+            return Boolean.FALSE;
+        }
+        if (data.length == 2) {
+            if (originData[0] == data[0] && originData[1] == data[1]) {
+                return Boolean.FALSE;
+            }
+            return Boolean.TRUE;
+        }
+        return Boolean.TRUE;
     }
 }
