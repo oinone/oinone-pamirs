@@ -883,5 +883,6 @@
   "由高级模式切换为快捷模式，将去掉条件中的括号和未选中行，是否切换？": "Switching from advanced mode to shortcut mode will remove parentheses and unselected rows from the criteria. Do you want to switch?",
   "搜索": "search",
   "Api描述": "API description",
-  "发送人用户列表": "Sender user list"
+  "发送人用户列表": "Sender user list",
+  "当前集成接口「${activeRecord.resourceName}」已被以下开放接口引用：<br>开放接口「${activeRecord.openInterfaceName}」（路径：${activeRecord.openInterfacePath}）<br>删除该集成接口时，将会连同引用它的开放接口一并删除。删除后，所有依赖该接口的开放接口将无法正常调用，可能导致业务中断。": "The current integrated API 「${activeRecord.resourceName}」 is referenced by the following open APIs:\nOpen API 「${activeRecord.openInterfaceName}」 (Path: ${activeRecord.openInterfacePath})\nDeleting this integrated API will also delete the open APIs that reference it. After deletion, all open APIs depending on this API will fail to function properly, which may cause business interruptions."
 }
