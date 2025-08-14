@@ -197,7 +197,10 @@ public class EipDataSourceManager {
             }
         }
         if (dataSource instanceof DruidDataSource) {
-            ((DruidDataSource) dataSource).setEnable(false);
+            DruidDataSource druidDataSource = (DruidDataSource) dataSource;
+            if (druidDataSource.isEnable()) {
+                druidDataSource.setEnable(false);
+            }
         }
         return true;
     }
