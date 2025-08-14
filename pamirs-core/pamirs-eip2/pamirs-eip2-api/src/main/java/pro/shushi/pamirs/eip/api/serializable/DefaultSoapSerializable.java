@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.api.serializable;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
@@ -112,67 +113,69 @@ public class DefaultSoapSerializable implements IEipSerializable<SuperMap>, IEip
         MessageFactory factory = MessageFactory.newInstance(version);
         SOAPMessage message = factory.createMessage(null, new ByteArrayInputStream(bytes));
         message.saveChanges();
-        SOAPHeader header = message.getSOAPHeader();
         SOAPBody body = message.getSOAPBody();
-        SuperMap data = new SuperMap();
-        children(data, body.getChildElements(), null, null);
-        return data;
+        return (SuperMap) resolveXMLObject(body.getChildElements());
     }
 
-    public void children(SuperMap data, Iterator<SOAPElement> elements, String parentName, SuperMap parentData) {
+    public static Object resolveXMLObject(Iterator<Node> elements) {
+        SuperMap superMap = new SuperMap();
         while (elements.hasNext()) {
             Node node = elements.next();
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 SOAPElement element = (SOAPElement) node;
-                String name = element.getNodeName();
-                String qNamePrefix = Optional.ofNullable(element.getElementQName())
-                        .map(QName::getPrefix)
-                        .filter(StringUtils::isNotBlank)
-                        .orElse(null);
-                if (null != qNamePrefix) {
-                    name = name.replaceAll(qNamePrefix + ":", "");
-                }
-                String value = element.getValue();
-                Iterator<SOAPElement> children = element.getChildElements();
-
-                if (data == null) {
-                    data = new SuperMap();
-                    parentData.put(parentName, data);
-                }
-                if (null != children && children.hasNext()) {
-                    data.put(name, null);
-                    children(null, children, name, data);
-                } else {
-                    data.put(name, value);
-                }
-            } else if (node.getNodeType() == Node.TEXT_NODE) {
-                Text element = (Text) node;
-                String value = element.getValue();
-                if (data == null) {
-                    data = parentData;
-                }
-                if (StringUtils.contains(value, "<") && StringUtils.contains(value, "</")) {
-                    try {
-                        Map<String, Object> dataMap = readXml(element.getValue());
-                        data.putAll(dataMap);
-                    } catch (Throwable e) {
-                        log.error("解析内部XML失败");
-                        data.put(parentName, value);
+                Iterator<Node> children = element.getChildElements();
+                String fieldName = getFieldName(element);
+                if (children != null && children.hasNext()) {
+                    Object value = resolveXMLObject(children);
+                    Object exist = superMap.get(fieldName);
+                    if (exist == null) {
+                        superMap.put(fieldName, value);
+                    } else if (exist instanceof Collection) {
+                        ((Collection<Object>) exist).add(value);
+                    } else {
+                        superMap.put(fieldName, Lists.newArrayList(exist, value));
                     }
                 } else {
-                    data.put(parentName, value);
+                    superMap.put(fieldName, null);
                 }
+            } else if (node.getNodeType() == Node.TEXT_NODE) {
+                if (elements.hasNext()) {
+                    continue;
+                }
+                Text element = (Text) node;
+                String value = element.getValue();
+                if (StringUtils.contains(value, "<") && StringUtils.contains(value, "</")) {
+                    try {
+                        return readXml(element.getValue());
+                    } catch (Throwable e) {
+                        log.error("解析内部XML失败");
+                    }
+                }
+                return value;
             }
         }
+        return superMap;
     }
 
-    private Map<String, Object> readXml(String xml) throws DocumentException {
+    private static String getFieldName(SOAPElement element) {
+        String name = element.getNodeName();
+        String qNamePrefix = Optional.ofNullable(element.getElementQName())
+                .map(QName::getPrefix)
+                .filter(StringUtils::isNotBlank)
+                .orElse(null);
+        if (null != qNamePrefix) {
+            name = name.replaceAll(qNamePrefix + ":", "");
+        }
+        return name;
+    }
+
+    private static Map<String, Object> readXml(String xml) throws DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(new StringReader(xml));
         return parseElement(document.getRootElement());
     }
 
-    private Map<String, Object> parseElement(Element e) {
+    private static Map<String, Object> parseElement(Element e) {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         List<Element> list = e.elements();
         if (CollectionUtils.isNotEmpty(list)) {
