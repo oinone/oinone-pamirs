@@ -206,13 +206,31 @@ public class EipParamsHelper {
         return openApiResponseParams;
     }
 
-    public static List<EipReqBodyParam> caseQueryParams2BodyParams(List<EipReqQueryParam> queryParams) {
+    public static List<EipOpenReqBodyParam> caseOpenQueryParams2BodyParams(List<EipOpenReqQueryParam> queryParams) {
         if (CollectionUtils.isEmpty(queryParams)) {
             return new ArrayList<>();
         }
-        List<EipReqBodyParam> openApiBodyParams = new ArrayList<>(queryParams.size());
+        List<EipOpenReqBodyParam> openApiBodyParams = new ArrayList<>(queryParams.size());
+        for (EipOpenReqQueryParam queryParam : queryParams) {
+            EipOpenReqBodyParam openApiBodyParam = new EipOpenReqBodyParam();
+            openApiBodyParam.setKey(queryParam.getKey());
+            openApiBodyParam.setRequired(queryParam.getRequired());
+            openApiBodyParam.setDefaultValue(queryParam.getDefaultValue());
+            openApiBodyParam.setDesc(queryParam.getDesc());
+            openApiBodyParam.setValueExpr(queryParam.getValueExpr());
+            openApiBodyParam.setParamType(queryParam.getParamType());
+            openApiBodyParams.add(openApiBodyParam);
+        }
+        return openApiBodyParams;
+    }
+
+    public static List<EipOpenReqBodyParam> caseQueryParams2OpenBodyParams(List<EipReqQueryParam> queryParams) {
+        if (CollectionUtils.isEmpty(queryParams)) {
+            return new ArrayList<>();
+        }
+        List<EipOpenReqBodyParam> openApiBodyParams = new ArrayList<>(queryParams.size());
         for (EipReqQueryParam queryParam : queryParams) {
-            EipReqBodyParam openApiBodyParam = new EipReqBodyParam();
+            EipOpenReqBodyParam openApiBodyParam = new EipOpenReqBodyParam();
             openApiBodyParam.setKey(queryParam.getKey());
             openApiBodyParam.setRequired(queryParam.getRequired());
             openApiBodyParam.setDefaultValue(queryParam.getDefaultValue());
