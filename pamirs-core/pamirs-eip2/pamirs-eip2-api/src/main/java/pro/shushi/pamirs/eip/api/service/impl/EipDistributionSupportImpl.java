@@ -6,8 +6,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.curator.framework.recipes.cache.TreeCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
+import pro.shushi.pamirs.eip.api.config.EipDistributionSwitchCondition;
 import pro.shushi.pamirs.eip.api.context.EipCamelContext;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.AbstractEipApi;
@@ -28,8 +30,14 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+/**
+ * EIP 分布式支持
+ *
+ * @author Adamancy Zhang at 13:04 on 2020-09-27
+ */
 @Slf4j
 @Service
+@Conditional(EipDistributionSwitchCondition.class)
 public class EipDistributionSupportImpl implements EipDistributionSupport {
 
     @Autowired
