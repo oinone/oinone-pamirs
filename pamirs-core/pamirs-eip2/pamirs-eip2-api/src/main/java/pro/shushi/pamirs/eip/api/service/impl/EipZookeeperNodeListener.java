@@ -46,6 +46,9 @@ public class EipZookeeperNodeListener implements TreeCacheListener {
     }
 
     private void registerConsumer(InterfaceTypeEnum interfaceType, IEipApi eipApi, boolean isEnabled) {
+        if (!isEnabled) {
+            return;
+        }
         switch (interfaceType) {
             case INTEGRATION:
                 interfaceService.registerInterface((EipIntegrationInterface) eipApi);
@@ -60,6 +63,9 @@ public class EipZookeeperNodeListener implements TreeCacheListener {
     }
 
     private void cancellationConsumer(InterfaceTypeEnum interfaceType, IEipApi eipApi, boolean isEnabled) {
+        if (isEnabled) {
+            return;
+        }
         switch (interfaceType) {
             case INTEGRATION:
                 interfaceService.cancellationInterface((EipIntegrationInterface) eipApi);
