@@ -185,7 +185,7 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
         }
         String responseData = result.getResult(String.class);
         if (StringUtils.isNotBlank(responseData) && JsonUtils.isJSONString(responseData)) {
-            data.setResponseData(toJSONString(JSON.parseObject(responseData)));
+            data.setResponseData(toJSONString(JSON.parse(responseData)));
             return data;
         }
         return data.setResponseData(responseData);
