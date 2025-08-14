@@ -252,7 +252,7 @@ public class DefaultRequestProcessor extends AbstractEipIntegrationInterfaceProc
             }
         }
         if (StringUtils.isNotBlank(uri)) {
-//            uri = Spider.getDefaultExtension(EipInterfaceUriSpi.class).computeUri(uri, exchange, context);//扩展点
+            uri = Spider.getDefaultExtension(EipInterfaceUriSpi.class).computeUri(uri, exchange, context);//扩展点
             URI httpUri = null;
             Endpoint endpoint = exchange.getContext().hasEndpoint(uri);
             if (endpoint == null) {
