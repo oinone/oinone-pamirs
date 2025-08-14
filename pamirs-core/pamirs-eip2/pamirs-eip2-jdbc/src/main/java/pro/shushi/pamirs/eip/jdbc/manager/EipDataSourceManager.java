@@ -150,7 +150,7 @@ public class EipDataSourceManager {
 
     public static boolean close(String dsKey) {
         String id = generatorId(dsKey);
-        DataSource dataSource = DATA_SOURCES.remove(id);
+        DataSource dataSource = DATA_SOURCES.get(id);
         if (dataSource == null) {
             log.info("Not found {} data source", id);
             return true;
@@ -176,6 +176,7 @@ public class EipDataSourceManager {
             return register0(key, dataSourceSupplier);
         } else if (value instanceof EipDynamicDataSource) {
             ((EipDynamicDataSource) value).setDataSource(dataSourceSupplier.get());
+            return value;
         }
         log.error("unsupported refresh data source. key: {}", key);
         return value;
@@ -185,7 +186,9 @@ public class EipDataSourceManager {
         if (dataSource instanceof EipDynamicDataSource) {
             dataSource = ((EipDynamicDataSource) dataSource).getDataSource();
         }
-        if (dataSource instanceof Closeable) {
+        if (dataSource instanceof DruidDataSource) {
+            ((DruidDataSource) dataSource).setEnable(false);
+        } else if (dataSource instanceof Closeable) {
             log.info("closing {} data source", id);
             try {
                 ((Closeable) dataSource).close();
