@@ -211,6 +211,9 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
         } else {
             integrationInterface = fetchIntegrationInterface(data.getIntegrationInterface());
             integrationInterface = EipInterfaceContext.getAnyInterface(integrationInterface.getInterfaceName());
+            if (integrationInterface == null) {
+                throw PamirsException.construct(EipExpEnumerate.INTEGRATION_INTERFACE_NULL_ERROR).errThrow();
+            }
         }
         return integrationInterface;
     }
