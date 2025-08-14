@@ -186,9 +186,7 @@ public class EipDataSourceManager {
         if (dataSource instanceof EipDynamicDataSource) {
             dataSource = ((EipDynamicDataSource) dataSource).getDataSource();
         }
-        if (dataSource instanceof DruidDataSource) {
-            ((DruidDataSource) dataSource).setEnable(false);
-        } else if (dataSource instanceof Closeable) {
+        if (dataSource instanceof Closeable) {
             log.info("closing {} data source", id);
             try {
                 ((Closeable) dataSource).close();
@@ -197,6 +195,9 @@ public class EipDataSourceManager {
                 log.error("close {} data source error.", id, e);
                 return false;
             }
+        }
+        if (dataSource instanceof DruidDataSource) {
+            ((DruidDataSource) dataSource).setEnable(false);
         }
         return true;
     }
