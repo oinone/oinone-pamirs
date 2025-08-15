@@ -14,8 +14,10 @@ import pro.shushi.pamirs.eip.api.service.EipDistributionSupport;
 import pro.shushi.pamirs.eip.api.service.EipService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.Fun;
+import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.trigger.annotation.XAsync;
 
 /**
  * @author Adamancy Zhang at 16:49 on 2025-08-14
@@ -30,7 +32,8 @@ public class EipAsyncServiceImpl implements EipAsyncService {
     @Autowired(required = false)
     private EipDistributionSupport distributionSupport;
 
-    @Async
+    @XAsync(displayName = "注册集成接口")
+    @Function
     @Override
     public void registerInterface(String interfaceName, Boolean isIgnoreLogFrequency) {
         EipIntegrationInterface api = fetchApi(EipIntegrationInterface.MODEL_MODEL, interfaceName, true);
@@ -46,7 +49,8 @@ public class EipAsyncServiceImpl implements EipAsyncService {
         }
     }
 
-    @Async
+    @XAsync(displayName = "注销集成接口")
+    @Function
     @Override
     public void cancellationInterface(String interfaceName) {
         EipIntegrationInterface api = fetchApi(EipIntegrationInterface.MODEL_MODEL, interfaceName, false);
@@ -61,7 +65,8 @@ public class EipAsyncServiceImpl implements EipAsyncService {
         }
     }
 
-    @Async
+    @XAsync(displayName = "注册路由定义")
+    @Function
     @Override
     public void registerRouteDefinition(String interfaceName, Boolean isIgnoreLogFrequency) {
         EipRouteDefinition api = fetchApi(EipRouteDefinition.MODEL_MODEL, interfaceName, true);
@@ -77,7 +82,8 @@ public class EipAsyncServiceImpl implements EipAsyncService {
         }
     }
 
-    @Async
+    @XAsync(displayName = "注销路由定义")
+    @Function
     @Override
     public void cancellationRouteDefinition(String interfaceName) {
         EipRouteDefinition api = fetchApi(EipRouteDefinition.MODEL_MODEL, interfaceName, false);
@@ -92,7 +98,8 @@ public class EipAsyncServiceImpl implements EipAsyncService {
         }
     }
 
-    @Async
+    @XAsync(displayName = "注册开放接口")
+    @Function
     @Override
     public void registerOpenInterface(String interfaceName, Boolean isIgnoreLogFrequency) {
         EipOpenInterface api = fetchApi(EipOpenInterface.MODEL_MODEL, interfaceName, true);
@@ -108,7 +115,8 @@ public class EipAsyncServiceImpl implements EipAsyncService {
         }
     }
 
-    @Async
+    @XAsync(displayName = "注销开放接口")
+    @Function
     @Override
     public void cancellationOpenInterface(String interfaceName) {
         EipOpenInterface api = fetchApi(EipOpenInterface.MODEL_MODEL, interfaceName, false);
