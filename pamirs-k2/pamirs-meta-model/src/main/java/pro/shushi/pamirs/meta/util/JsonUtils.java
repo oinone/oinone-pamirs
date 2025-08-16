@@ -120,11 +120,25 @@ public class JsonUtils {
     }
 
     public static boolean isJSONString(String json) {
+        return validateJSONType(json) != null;
+    }
+
+    public static boolean isJSONObject(String json) {
+        return JSONValidator.Type.Object.equals(validateJSONType(json));
+    }
+
+    public static boolean isJSONArray(String json) {
+        return JSONValidator.Type.Array.equals(validateJSONType(json));
+    }
+
+    public static JSONValidator.Type validateJSONType(String json) {
         try (JSONValidator validator = JSONValidator.from(json)) {
-            return validator.validate();
+            if (validator.validate()) {
+                return validator.getType();
+            }
         } catch (IOException ignored) {
         }
-        return false;
+        return null;
     }
 }
 
