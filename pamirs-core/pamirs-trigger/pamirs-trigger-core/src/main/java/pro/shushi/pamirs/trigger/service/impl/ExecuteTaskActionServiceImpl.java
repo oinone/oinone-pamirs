@@ -1,12 +1,10 @@
 package pro.shushi.pamirs.trigger.service.impl;
 
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery;
-import pro.shushi.pamirs.trigger.condition.ScheduleSwitchCondition;
 import pro.shushi.pamirs.trigger.model.ExecuteTaskAction;
 import pro.shushi.pamirs.trigger.service.AbstractTaskActionService;
 import pro.shushi.pamirs.trigger.service.ExecuteTaskActionService;
@@ -20,7 +18,6 @@ import java.util.List;
  */
 @Service
 @Fun(ExecuteTaskActionService.FUN_NAMESPACE)
-@Conditional(ScheduleSwitchCondition.class)
 public class ExecuteTaskActionServiceImpl extends AbstractTaskActionService<ExecuteTaskAction> implements ExecuteTaskActionService {
 
     @Function
