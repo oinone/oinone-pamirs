@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.eip.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;

@@ -80,11 +80,11 @@ public class EipZookeeperNodeListener implements TreeCacheListener {
     }
 
     private void addInterface(ChildData childData) {
-        processInterfaceModify(childData, this::registerConsumer);
+        processInterfaceModify(childData, false, this::registerConsumer);
     }
 
     private void updateInterface(ChildData childData) {
-        processInterfaceModify(childData, (interfaceType, eipApi, isEnable) -> {
+        processInterfaceModify(childData, true, (interfaceType, eipApi, isEnable) -> {
             if (isEnable) {
                 registerConsumer(interfaceType, eipApi, Boolean.TRUE);
             } else {
@@ -94,10 +94,10 @@ public class EipZookeeperNodeListener implements TreeCacheListener {
     }
 
     private void removeInterface(ChildData childData) {
-        processInterfaceModify(childData, this::cancellationConsumer);
+        processInterfaceModify(childData, true, this::cancellationConsumer);
     }
 
-    private void processInterfaceModify(ChildData data, EipInterfaceModifyProcessor consumer) {
+    private void processInterfaceModify(ChildData data, boolean nullable, EipInterfaceModifyProcessor consumer) {
         String path = data.getPath();
         int rootPathLength = zookeeperService.getRootPath().length() + EipDistributionSupport.NODE_PATH_PREFIX.length() + 1;
         if (path.length() <= rootPathLength) {
@@ -117,16 +117,16 @@ public class EipZookeeperNodeListener implements TreeCacheListener {
         if (tenant != null) {
             PamirsTenantSession.setTenant(tenant);
         }
-        processInterfaceModify(data, pathList, consumer);
+        processInterfaceModify(data, pathList, nullable, consumer);
     }
 
-    private void processInterfaceModify(ChildData childData, String[] pathList, EipInterfaceModifyProcessor consumer) {
+    private void processInterfaceModify(ChildData childData, String[] pathList, boolean nullable, EipInterfaceModifyProcessor consumer) {
         InterfaceTypeEnum interfaceType = InterfaceTypeEnum.safeValueOf(pathList[0]);
         if (interfaceType == null) {
             //无效类型忽略
             return;
         }
-        IEipApi eipApi = fetchInterface(interfaceType, pathList[1]);
+        IEipApi eipApi = fetchInterface(interfaceType, pathList[1], nullable);
         if (eipApi == null) {
             //无效接口信息忽略
             return;
@@ -157,14 +157,29 @@ public class EipZookeeperNodeListener implements TreeCacheListener {
         }
     }
 
-    private IEipApi fetchInterface(InterfaceTypeEnum interfaceType, String interfaceName) {
+    private IEipApi fetchInterface(InterfaceTypeEnum interfaceType, String interfaceName, boolean nullable) {
         switch (interfaceType) {
-            case INTEGRATION:
-                return Models.origin().queryOne(new EipIntegrationInterface().setInterfaceName(interfaceName));
-            case OPEN:
-                return Models.origin().queryOne(new EipOpenInterface().setInterfaceName(interfaceName));
-            case ROUTE:
-                return Models.origin().queryOne(new EipRouteDefinition().setInterfaceName(interfaceName));
+            case INTEGRATION: {
+                IEipApi eipApi = Models.origin().queryOne(new EipIntegrationInterface().setInterfaceName(interfaceName));
+                if (eipApi == null && nullable) {
+                    eipApi = new EipIntegrationInterface().setInterfaceName(interfaceName);
+                }
+                return eipApi;
+            }
+            case OPEN: {
+                IEipApi eipApi = Models.origin().queryOne(new EipOpenInterface().setInterfaceName(interfaceName));
+                if (eipApi == null && nullable) {
+                    eipApi = new EipOpenInterface().setInterfaceName(interfaceName);
+                }
+                return eipApi;
+            }
+            case ROUTE: {
+                IEipApi eipApi = Models.origin().queryOne(new EipRouteDefinition().setInterfaceName(interfaceName));
+                if (eipApi == null && nullable) {
+                    eipApi = new EipRouteDefinition().setInterfaceName(interfaceName);
+                }
+                return eipApi;
+            }
             default:
                 return null;
         }
