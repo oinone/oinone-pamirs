@@ -176,6 +176,7 @@ public class EipDataSourceManager {
             return register0(key, dataSourceSupplier);
         } else if (value instanceof EipDynamicDataSource) {
             ((EipDynamicDataSource) value).setDataSource(dataSourceSupplier.get());
+            log.info("refreshed {} data source", key);
             return value;
         }
         log.error("unsupported refresh data source. key: {}", key);

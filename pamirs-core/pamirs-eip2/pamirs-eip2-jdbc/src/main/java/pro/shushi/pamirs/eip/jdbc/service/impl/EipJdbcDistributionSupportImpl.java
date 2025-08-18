@@ -78,6 +78,9 @@ public class EipJdbcDistributionSupportImpl implements EipJdbcDistributionSuppor
             finalData = DISABLED;
         }
         try {
+            if (log.isInfoEnabled()) {
+                log.info("ready refresh connector. {}", dsKey);
+            }
             this.zookeeperService.createOrUpdateData(routePath, finalData, this::defaultComparator);
         } catch (Exception e) {
             log.error("{} refresh error.", key, e);
