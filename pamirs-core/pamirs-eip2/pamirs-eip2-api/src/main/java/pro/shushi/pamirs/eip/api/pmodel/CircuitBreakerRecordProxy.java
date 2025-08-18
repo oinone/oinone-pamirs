@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.eip.api.pmodel;
 
-import pro.shushi.pamirs.eip.api.model.CircuitBreakerRecord;
+import pro.shushi.pamirs.eip.api.model.statistics.CircuitBreakerRecord;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 

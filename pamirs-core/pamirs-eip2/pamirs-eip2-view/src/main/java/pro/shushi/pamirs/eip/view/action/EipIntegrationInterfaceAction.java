@@ -9,7 +9,7 @@ import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
-import pro.shushi.pamirs.eip.api.service.EipLogStrategyService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.eip.api.service.EipService;
 import pro.shushi.pamirs.eip.api.service.model.EipIntegrationInterfaceService;
 import pro.shushi.pamirs.meta.annotation.Action;

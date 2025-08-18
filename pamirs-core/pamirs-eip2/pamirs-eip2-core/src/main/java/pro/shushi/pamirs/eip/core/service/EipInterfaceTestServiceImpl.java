@@ -28,6 +28,7 @@ import pro.shushi.pamirs.eip.api.service.EipInterfaceTestService;
 import pro.shushi.pamirs.eip.api.util.EipHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
@@ -39,6 +40,7 @@ import java.util.Optional;
 /**
  * @author Adamancy Zhang at 18:10 on 2025-08-12
  */
+@Slf4j
 @Service
 @Fun(EipInterfaceTestService.FUN_NAMESPACE)
 public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
@@ -183,12 +185,22 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
         } else {
             data.setTip("调用失败: " + result.getErrorCode() + " - " + result.getErrorMessage());
         }
-        String responseData = result.getResult(String.class);
-        if (StringUtils.isNotBlank(responseData) && JsonUtils.isJSONString(responseData)) {
-            data.setResponseData(toJSONString(JSON.parse(responseData)));
+        try {
+            String responseData = result.getResult(String.class);
+            if (StringUtils.isNotBlank(responseData) && JsonUtils.isJSONString(responseData)) {
+                data.setResponseData(toJSONString(JSON.parse(responseData)));
+                return data;
+            }
+            return data.setResponseData(responseData);
+        } catch (Throwable e) {
+            String responseType = Optional.ofNullable(result.getResult())
+                    .map(v -> v.getClass().getName())
+                    .orElse(null);
+            String message = String.format("Unsupported response data type: %s.", responseType);
+            log.error(message, e);
+            data.setResponseData(message);
             return data;
         }
-        return data.setResponseData(responseData);
     }
 
     public IEipIntegrationInterface<?> fetchIntegrationInterface(EipInterfaceTestTransient data) {
@@ -257,10 +269,6 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
         return context;
     }
 
-    private String toJSONString(Object object) {
-        return JSON.toJSONString(object, SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.WriteMapNullValue, SerializerFeature.PrettyFormat);
-    }
-
     @SuppressWarnings({"unchecked", "rawtypes"})
     private String getWebServiceOp(IEipParamProcessor paramProcessor) {
         List<IEipConvertParam> convertParamList = paramProcessor.getConvertParamList();
@@ -281,5 +289,9 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
             throw PamirsException.construct(EipExpEnumerate.INTEGRATION_INTERFACE_NULL_ERROR).errThrow();
         }
         return data;
+    }
+
+    private String toJSONString(Object object) {
+        return JSON.toJSONString(object, SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.WriteMapNullValue, SerializerFeature.PrettyFormat);
     }
 }

@@ -6,7 +6,7 @@ import pro.shushi.pamirs.boot.base.ux.annotation.action.UxAction;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxRoute;
 import pro.shushi.pamirs.boot.base.ux.annotation.button.UxRouteButton;
 import pro.shushi.pamirs.eip.api.pmodel.EipCircuitBreakerRuleProxy;
-import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerRuleProxyService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipCircuitBreakerRuleProxyService;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;

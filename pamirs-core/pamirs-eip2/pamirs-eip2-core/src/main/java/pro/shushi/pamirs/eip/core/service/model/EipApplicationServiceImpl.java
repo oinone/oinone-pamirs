@@ -11,7 +11,7 @@ import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.model.EipApplication;
 import pro.shushi.pamirs.eip.api.model.EipAuthentication;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
-import pro.shushi.pamirs.eip.api.service.EipOpenRateLimitPolicyService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipOpenRateLimitPolicyService;
 import pro.shushi.pamirs.eip.api.service.model.EipApplicationService;
 import pro.shushi.pamirs.eip.api.util.EipIpUtil;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;

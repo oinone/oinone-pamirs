@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
-import pro.shushi.pamirs.eip.api.service.EipLogStrategyService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.eip.api.service.EipService;
 import pro.shushi.pamirs.eip.api.service.model.EipOpenInterfaceService;
 import pro.shushi.pamirs.meta.annotation.Action;

@@ -2,9 +2,9 @@ package pro.shushi.pamirs.eip.view.action;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.eip.api.model.CircuitBreakerRecord;
+import pro.shushi.pamirs.eip.api.model.statistics.CircuitBreakerRecord;
 import pro.shushi.pamirs.eip.api.pmodel.CircuitBreakerRecordProxy;
-import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerRecordService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipCircuitBreakerRecordService;
 import pro.shushi.pamirs.framework.faas.utils.ArgUtils;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
