@@ -7,9 +7,9 @@ import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.entity.EipResult;
-import pro.shushi.pamirs.eip.api.model.EipLog;
+import pro.shushi.pamirs.eip.api.strategy.spi.EipLogStrategyHandler;
 import pro.shushi.pamirs.eip.api.util.EipHelper;
-import pro.shushi.pamirs.eip.api.util.EipLogUtil;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 
 public class DefaultExceptionProcessor extends AbstractEipIntegrationInterfaceProcessor<SuperMap> implements IEipProcessor<IEipIntegrationInterface<SuperMap>> {
 
@@ -23,13 +23,13 @@ public class DefaultExceptionProcessor extends AbstractEipIntegrationInterfacePr
         Message message = exchange.getMessage();
         Object body = message.getBody();
 
-        //获取执行器上下文
+        // 获取执行器上下文
         IEipContext<SuperMap> context = EipInterfaceContext.getExecutorContext(exchange);
 
-        //获取响应参数处理器
+        // 获取响应参数处理器
         IEipParamProcessor<SuperMap> paramProcessor = integrationInterface.getResponseParamProcessor();
 
-        //序列化入参
+        // 序列化入参
         SuperMap interfaceContext;
         if (body instanceof SuperMap) {
             interfaceContext = (SuperMap) body;
@@ -37,51 +37,44 @@ public class DefaultExceptionProcessor extends AbstractEipIntegrationInterfacePr
             interfaceContext = paramProcessor.getSerializable().serializable(body);
         }
 
-        //更新执行器上下文
+        // 更新执行器上下文
         context = refreshExecutorContext(exchange, context, interfaceContext);
 
-        //获取Eip日志
-        EipLog eipLog = EipLogUtil.getEipLog(context);
-        if (eipLog != null) {
+        // 更新body数据
+        message.setBody(interfaceContext);
 
-            //更新body数据
-            message.setBody(interfaceContext);
+        // 更新日志响应数据
+        Spider.getDefaultExtension(EipLogStrategyHandler.class).updateResponseData(context, exchange);
 
-            //更新响应数据
-            EipLogUtil.updateResponseData(eipLog, exchange);
-        }
-
-        //获取异常参数处理器
+        // 获取异常参数处理器
         IEipExceptionParamProcessor<SuperMap> exceptionParamProcessor = integrationInterface.getExceptionParamProcessor();
 
-        //参数转换
+        // 参数转换
         EipHelper.paramConvert(context, exceptionParamProcessor, exchange);
 
-        //更新执行器上下文
+        // 更新执行器上下文
         context = EipInterfaceContext.getExecutorContext(exchange);
         interfaceContext = context.getInterfaceContext();
 
-        //异常判定
+        // 异常判定
         if (exceptionParamProcessor.getExceptionPredict().test(context)) {
             EipResult<SuperMap> errorResult = EipResult.error(context,
                     StringHelper.valueOf(context.getExecutorContextValue(IEipContext.DEFAULT_ERROR_CODE_KEY)),
                     StringHelper.valueOf(context.getExecutorContextValue(IEipContext.DEFAULT_ERROR_MESSAGE_KEY)),
                     body);
 
-            //设置出参
+            // 设置出参
             message.setBody(errorResult);
 
-            if (eipLog != null) {
-                EipLogUtil.failure(context, eipLog, exchange);
-            }
+            Spider.getDefaultExtension(EipLogStrategyHandler.class).failure(context, exchange);
 
-            //路由中断
+            // 路由中断
             exchange.setInterrupted(true);
 
             return;
         }
 
-        //设置出参
+        // 设置出参
         message.setBody(interfaceContext);
     }
 }

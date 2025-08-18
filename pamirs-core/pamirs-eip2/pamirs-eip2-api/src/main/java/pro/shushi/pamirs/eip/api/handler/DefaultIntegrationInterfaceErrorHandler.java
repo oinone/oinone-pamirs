@@ -7,10 +7,10 @@ import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipExceptionHandler;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.entity.EipResult;
-import pro.shushi.pamirs.eip.api.model.EipLog;
-import pro.shushi.pamirs.eip.api.util.EipLogUtil;
+import pro.shushi.pamirs.eip.api.strategy.spi.EipLogStrategyHandler;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
 import java.util.List;
@@ -54,9 +54,6 @@ public class DefaultIntegrationInterfaceErrorHandler implements ErrorHandler {
 
         exchange.getMessage().setBody(finalResult);
 
-        EipLog eipLog = EipLogUtil.getEipLog(context);
-        if (eipLog != null) {
-            EipLogUtil.failure(context, eipLog, exchange);
-        }
+        Spider.getDefaultExtension(EipLogStrategyHandler.class).failure(context, exchange);
     }
 }
