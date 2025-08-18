@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.eip.api.constant;
 
 import org.apache.camel.ExtendedExchange;
-import org.apache.camel.processor.ErrorHandler;
 import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.builder.DefaultEipInterfaceBuilder;
@@ -130,9 +129,9 @@ public class EipFunctionConstant {
 
     public static final DefaultPagingExpression DEFAULT_PAGING_EXPRESSION = new DefaultPagingExpression();
 
-    public static final ErrorHandler DEFAULT_INTEGRATION_INTERFACE_ERROR_HANDLER = new DefaultIntegrationInterfaceErrorHandler();
+    public static final IEipErrorHandler DEFAULT_INTEGRATION_INTERFACE_ERROR_HANDLER = new DefaultIntegrationInterfaceErrorHandler();
 
-    public static final ErrorHandler DEFAULT_OPEN_INTERFACE_ERROR_HANDLER = new DefaultOpenInterfaceErrorHandler();
+    public static final IEipErrorHandler DEFAULT_OPEN_INTERFACE_ERROR_HANDLER = new DefaultOpenInterfaceErrorHandler();
 
     //endregion
 

@@ -2,10 +2,10 @@ package pro.shushi.pamirs.eip.api.handler;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.camel.Exchange;
-import org.apache.camel.processor.ErrorHandler;
 import pro.shushi.pamirs.core.common.StringHelper;
 import pro.shushi.pamirs.eip.api.IEipApi;
 import pro.shushi.pamirs.eip.api.IEipContext;
+import pro.shushi.pamirs.eip.api.IEipErrorHandler;
 import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
 import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
@@ -20,7 +20,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 @Slf4j
 @Fun(EipFunctionConstant.FUNCTION_NAMESPACE)
-public class DefaultOpenInterfaceErrorHandler implements ErrorHandler {
+public class DefaultOpenInterfaceErrorHandler implements IEipErrorHandler {
 
     @Function.fun(EipFunctionConstant.DEFAULT_OPEN_ERROR_HANDLER_FUN)
     @Function.Advanced(displayName = "默认异常处理器")

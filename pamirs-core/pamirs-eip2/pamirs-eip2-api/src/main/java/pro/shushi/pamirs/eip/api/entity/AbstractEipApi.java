@@ -20,20 +20,15 @@ public abstract class AbstractEipApi implements IEipApi {
 
     private final Boolean isIgnoreLogFrequency;
 
-    private final String category;
+    private String category;
 
     public AbstractEipApi(EipCamelContext context, String interfaceName, String uri) {
-        this(context, interfaceName, uri, null);
-    }
-
-    public AbstractEipApi(EipCamelContext context, String interfaceName, String uri, String category) {
         this.context = context;
         this.interfaceName = interfaceName;
         this.uri = uri;
         this.isEnabledLog = Boolean.TRUE;
         this.isDBManaged = Boolean.FALSE;
         this.isIgnoreLogFrequency = Boolean.FALSE;
-        this.category = category;
     }
 
     @Override
@@ -81,7 +76,7 @@ public abstract class AbstractEipApi implements IEipApi {
     }
 
     @Override
-    public String catagory() {
+    public String getCategory() {
         return category;
     }
 }

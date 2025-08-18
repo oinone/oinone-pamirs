@@ -33,7 +33,7 @@ public abstract class AbstractEipOpenInterface<T> extends AbstractEipApi impleme
 
     private IEipEncryptionProcessor responseEncryptionProcessor;
 
-    private ErrorHandler errorHandler;
+    private IEipErrorHandler errorHandler;
 
     public AbstractEipOpenInterface(EipCamelContext context, String interfaceName, String uri) {
         super(context, interfaceName, uri);
@@ -154,12 +154,12 @@ public abstract class AbstractEipOpenInterface<T> extends AbstractEipApi impleme
         return responseEncryptionProcessor;
     }
 
-    public void setErrorHandler(ErrorHandler errorHandler) {
+    public void setErrorHandler(IEipErrorHandler errorHandler) {
         this.errorHandler = errorHandler;
     }
 
     @Override
-    public ErrorHandler getErrorHandler() {
+    public IEipErrorHandler getErrorHandler() {
         return errorHandler;
     }
 

@@ -1,9 +1,9 @@
 package pro.shushi.pamirs.eip.api.handler;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.processor.ErrorHandler;
 import pro.shushi.pamirs.core.common.StringHelper;
 import pro.shushi.pamirs.eip.api.IEipContext;
+import pro.shushi.pamirs.eip.api.IEipErrorHandler;
 import pro.shushi.pamirs.eip.api.IEipExceptionHandler;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.entity.EipResult;
@@ -16,7 +16,7 @@ import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import java.util.List;
 
 @Slf4j
-public class DefaultIntegrationInterfaceErrorHandler implements ErrorHandler {
+public class DefaultIntegrationInterfaceErrorHandler implements IEipErrorHandler {
 
     @Override
     public void process(Exchange exchange) throws Exception {

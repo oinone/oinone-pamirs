@@ -47,7 +47,7 @@ public class DefaultEipOpenInterface extends AbstractEipOpenInterface<SuperMap> 
     }
 
     @Override
-    public ErrorHandler getErrorHandler() {
+    public IEipErrorHandler getErrorHandler() {
         return EipFunctionConstant.DEFAULT_OPEN_INTERFACE_ERROR_HANDLER;
     }
 }

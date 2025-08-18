@@ -133,7 +133,7 @@ public abstract class AbstractEipApi extends BizIdModel implements IEipApi, IDat
     }
 
     @Override
-    public String catagory() {
+    public String getCategory() {
         return null;
     }
 }

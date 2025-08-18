@@ -104,8 +104,4 @@ public abstract class AbstractSingleInterface extends AbstractEipApi {
     @Field(displayName = "大于30s调用数量", store = NullableBoolEnum.FALSE)
     private Long timeoutCall;
 
-    @Override
-    public String catagory() {
-        return getCategory();
-    }
 }

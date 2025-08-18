@@ -67,5 +67,5 @@ public interface IEipOpenInterface<T> extends IEipApi, IEipAfterProperty<IEipOpe
     /**
      * 统一异常处理器
      */
-    ErrorHandler getErrorHandler();
+    IEipErrorHandler getErrorHandler();
 }

@@ -290,7 +290,7 @@ public class EipOpenInterface extends AbstractSingleInterface implements IEipOpe
     }
 
     @Override
-    public ErrorHandler getErrorHandler() {
+    public IEipErrorHandler getErrorHandler() {
         String namespace = getErrorHandlerNamespace();
         String fun = getErrorHandlerFun();
         if (StringUtils.isAnyBlank(namespace, fun)) {

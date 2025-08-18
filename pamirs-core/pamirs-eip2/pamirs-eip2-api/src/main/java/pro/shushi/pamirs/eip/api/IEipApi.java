@@ -69,7 +69,6 @@ public interface IEipApi {
 
     /**
      * 获取接口类别
-     * @return
      */
-    String catagory();
+    String getCategory();
 }
