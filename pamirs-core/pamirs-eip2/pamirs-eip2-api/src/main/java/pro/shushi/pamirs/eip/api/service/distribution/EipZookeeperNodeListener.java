@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.eip.api.service.impl;
+package pro.shushi.pamirs.eip.api.service.distribution;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.ChildData;
@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.IEipApi;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
-import pro.shushi.pamirs.eip.api.model.AbstractEipApi;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.model.EipRouteDefinition;
-import pro.shushi.pamirs.eip.api.service.EipDistributionSupport;
 import pro.shushi.pamirs.eip.api.service.EipInterfaceService;
 import pro.shushi.pamirs.framework.session.tenant.component.PamirsTenantSession;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -80,11 +78,11 @@ public class EipZookeeperNodeListener implements TreeCacheListener {
     }
 
     private void addInterface(ChildData childData) {
-        processInterfaceModify(childData, false, this::registerConsumer);
+        processInterfaceModify(childData, this::registerConsumer);
     }
 
     private void updateInterface(ChildData childData) {
-        processInterfaceModify(childData, true, (interfaceType, eipApi, isEnable) -> {
+        processInterfaceModify(childData, (interfaceType, eipApi, isEnable) -> {
             if (isEnable) {
                 registerConsumer(interfaceType, eipApi, Boolean.TRUE);
             } else {
@@ -94,10 +92,10 @@ public class EipZookeeperNodeListener implements TreeCacheListener {
     }
 
     private void removeInterface(ChildData childData) {
-        processInterfaceModify(childData, true, this::cancellationConsumer);
+        processInterfaceModify(childData, this::cancellationConsumer);
     }
 
-    private void processInterfaceModify(ChildData data, boolean nullable, EipInterfaceModifyProcessor consumer) {
+    private void processInterfaceModify(ChildData data, EipInterfaceModifyProcessor consumer) {
         String path = data.getPath();
         int rootPathLength = zookeeperService.getRootPath().length() + EipDistributionSupport.NODE_PATH_PREFIX.length() + 1;
         if (path.length() <= rootPathLength) {
@@ -117,65 +115,58 @@ public class EipZookeeperNodeListener implements TreeCacheListener {
         if (tenant != null) {
             PamirsTenantSession.setTenant(tenant);
         }
-        processInterfaceModify(data, pathList, nullable, consumer);
+        processInterfaceModify(data, pathList, consumer);
     }
 
-    private void processInterfaceModify(ChildData childData, String[] pathList, boolean nullable, EipInterfaceModifyProcessor consumer) {
+    private void processInterfaceModify(ChildData childData, String[] pathList, EipInterfaceModifyProcessor consumer) {
         InterfaceTypeEnum interfaceType = InterfaceTypeEnum.safeValueOf(pathList[0]);
         if (interfaceType == null) {
             //无效类型忽略
             return;
         }
-        IEipApi eipApi = fetchInterface(interfaceType, pathList[1], nullable);
-        if (eipApi == null) {
-            //无效接口信息忽略
-            return;
-        }
         byte[] data = childData.getData();
         Boolean isEnable = null;
-        // 忽略日志频率配置
-        Boolean isIgnoreLogConfig = null;
-        if (data != null && data.length >= 2) {
+        boolean isNotNull = false;
+        if (data != null && data.length >= 1) {
             //此处仅处理有效数据变更
             byte data0 = data[0];
             if (data0 == EipDistributionSupport.ENABLED[0]) {
                 isEnable = Boolean.TRUE;
             } else if (data0 == EipDistributionSupport.DISABLED[0]) {
                 isEnable = Boolean.FALSE;
-            }
-            byte data1 = data[1];
-            if (data1 == EipDistributionSupport.ENABLED[0]) {
-                isIgnoreLogConfig = Boolean.TRUE;
-            } else if (data1 == EipDistributionSupport.DISABLED[0]) {
-                isIgnoreLogConfig = Boolean.FALSE;
+                isNotNull = true;
             }
         }
-        if (isEnable != null && isIgnoreLogConfig != null) {
-            ((AbstractEipApi) eipApi).setIsIgnoreLogFrequency(isIgnoreLogConfig);
+        if (isEnable != null) {
+            IEipApi eipApi = fetchInterface(interfaceType, pathList[1], isNotNull);
+            if (eipApi == null) {
+                //无效接口信息忽略
+                return;
+            }
             //当有效数据变更时调用指定处理逻辑
             consumer.accept(interfaceType, eipApi, isEnable);
         }
     }
 
-    private IEipApi fetchInterface(InterfaceTypeEnum interfaceType, String interfaceName, boolean nullable) {
+    private IEipApi fetchInterface(InterfaceTypeEnum interfaceType, String interfaceName, boolean isNotNull) {
         switch (interfaceType) {
             case INTEGRATION: {
                 IEipApi eipApi = Models.origin().queryOne(new EipIntegrationInterface().setInterfaceName(interfaceName));
-                if (eipApi == null && nullable) {
+                if (eipApi == null && isNotNull) {
                     eipApi = new EipIntegrationInterface().setInterfaceName(interfaceName);
                 }
                 return eipApi;
             }
             case OPEN: {
                 IEipApi eipApi = Models.origin().queryOne(new EipOpenInterface().setInterfaceName(interfaceName));
-                if (eipApi == null && nullable) {
+                if (eipApi == null && isNotNull) {
                     eipApi = new EipOpenInterface().setInterfaceName(interfaceName);
                 }
                 return eipApi;
             }
             case ROUTE: {
                 IEipApi eipApi = Models.origin().queryOne(new EipRouteDefinition().setInterfaceName(interfaceName));
-                if (eipApi == null && nullable) {
+                if (eipApi == null && isNotNull) {
                     eipApi = new EipRouteDefinition().setInterfaceName(interfaceName);
                 }
                 return eipApi;

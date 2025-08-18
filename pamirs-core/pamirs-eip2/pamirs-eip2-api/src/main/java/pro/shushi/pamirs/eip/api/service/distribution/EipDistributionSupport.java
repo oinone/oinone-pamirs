@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.eip.api.service;
+package pro.shushi.pamirs.eip.api.service.distribution;
 
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
@@ -12,23 +12,13 @@ import java.util.List;
  *
  * @author Adamancy Zhang at 13:04 on 2020-09-27
  */
-public interface EipDistributionSupport {
+public interface EipDistributionSupport extends EipDistributionService {
 
     String NODE_PATH_PREFIX = "/eip/api";
 
     byte[] ENABLED = new byte[]{1};
 
     byte[] DISABLED = new byte[]{0};
-
-    /**
-     * 开启分布式支持
-     */
-    void start() throws Exception;
-
-    /**
-     * 关闭分布式支持
-     */
-    void close();
 
     /**
      * 注册监听
