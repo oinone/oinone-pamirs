@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.eip.api.model;
+package pro.shushi.pamirs.eip.api.model.strategy;
 
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.meta.annotation.Field;

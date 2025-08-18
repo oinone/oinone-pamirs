@@ -1,5 +1,7 @@
-package pro.shushi.pamirs.eip.api.model;
+package pro.shushi.pamirs.eip.api.model.statistics;
 
+import pro.shushi.pamirs.eip.api.model.strategy.EipCircuitBreakerRule;
+import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.IdModel;

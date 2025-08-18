@@ -1,9 +1,10 @@
-package pro.shushi.pamirs.eip.api.model;
+package pro.shushi.pamirs.eip.api.model.strategy;
 
-import pro.shushi.pamirs.eip.api.circuitbreaker.CircuitBreakerConfig;
 import pro.shushi.pamirs.eip.api.enmu.CircuitBreakerRecoveryStrategyEnum;
 import pro.shushi.pamirs.eip.api.enmu.CircuitBreakerTypeEnum;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
+import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
+import pro.shushi.pamirs.eip.api.strategy.circuitbreaker.CircuitBreakerConfig;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.common.CodeModel;

@@ -15,7 +15,7 @@ public interface EipAsyncService {
      * 注册集成接口
      */
     @Function
-    void registerInterface(String interfaceName, Boolean isIgnoreLogFrequency);
+    void registerInterface(String interfaceName);
 
     /**
      * 注销集成接口（删除时不可用）
@@ -27,7 +27,7 @@ public interface EipAsyncService {
      * 注册路由定义
      */
     @Function
-    void registerRouteDefinition(String interfaceName, Boolean isIgnoreLogFrequency);
+    void registerRouteDefinition(String interfaceName);
 
     /**
      * 注销路由定义（删除时不可用）
@@ -39,7 +39,7 @@ public interface EipAsyncService {
      * 注册开放接口
      */
     @Function
-    void registerOpenInterface(String interfaceName, Boolean isIgnoreLogFrequency);
+    void registerOpenInterface(String interfaceName);
 
     /**
      * 注销开放接口（删除时不可用）

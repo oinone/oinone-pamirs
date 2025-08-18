@@ -9,7 +9,7 @@ import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.model.EipRouteDefinition;
 import pro.shushi.pamirs.eip.api.service.EipAsyncService;
-import pro.shushi.pamirs.eip.api.service.EipDistributionSupport;
+import pro.shushi.pamirs.eip.api.service.distribution.EipDistributionSupport;
 import pro.shushi.pamirs.eip.api.service.EipInterfaceService;
 import pro.shushi.pamirs.eip.api.service.EipService;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -90,7 +90,7 @@ public class EipServiceImpl implements EipService {
     public void registerInterface(EipIntegrationInterface eipInterface) {
         Result<String> result;
         if (distributionSupport != null && eipInterface.getIsDBManaged()) {
-            eipAsyncService.registerInterface(eipInterface.getInterfaceName(), eipInterface.getIsIgnoreLogFrequency());
+            eipAsyncService.registerInterface(eipInterface.getInterfaceName());
             result = new Result<>();
         } else {
             result = interfaceService.registerInterface(eipInterface);
@@ -118,7 +118,7 @@ public class EipServiceImpl implements EipService {
     public void registerRouteDefinition(EipRouteDefinition eipInterface) {
         Result<String> result;
         if (distributionSupport != null && eipInterface.getIsDBManaged()) {
-            eipAsyncService.registerRouteDefinition(eipInterface.getInterfaceName(), eipInterface.getIsIgnoreLogFrequency());
+            eipAsyncService.registerRouteDefinition(eipInterface.getInterfaceName());
             result = new Result<>();
         } else {
             result = interfaceService.registerRouteDefinition(eipInterface);
@@ -146,7 +146,7 @@ public class EipServiceImpl implements EipService {
     public void registerOpenInterface(EipOpenInterface eipInterface) {
         Result<String> result;
         if (distributionSupport != null && eipInterface.getIsDBManaged()) {
-            eipAsyncService.registerOpenInterface(eipInterface.getInterfaceName(), eipInterface.getIsIgnoreLogFrequency());
+            eipAsyncService.registerOpenInterface(eipInterface.getInterfaceName());
             result = new Result<>();
         } else {
             result = interfaceService.registerOpenInterface(eipInterface);

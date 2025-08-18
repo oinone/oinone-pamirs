@@ -18,15 +18,12 @@ public abstract class AbstractEipApi implements IEipApi {
 
     private final Boolean isDBManaged;
 
-    private final Boolean isIgnoreLogFrequency;
-
     public AbstractEipApi(EipCamelContext context, String interfaceName, String uri) {
         this.context = context;
         this.interfaceName = interfaceName;
         this.uri = uri;
         this.isEnabledLog = Boolean.TRUE;
         this.isDBManaged = Boolean.FALSE;
-        this.isIgnoreLogFrequency = Boolean.FALSE;
     }
 
     @Override
@@ -52,11 +49,6 @@ public abstract class AbstractEipApi implements IEipApi {
     @Override
     public Boolean getIsEnabledLog() {
         return isEnabledLog;
-    }
-
-    @Override
-    public Boolean getIsIgnoreLogFrequency() {
-        return isIgnoreLogFrequency;
     }
 
     @Override

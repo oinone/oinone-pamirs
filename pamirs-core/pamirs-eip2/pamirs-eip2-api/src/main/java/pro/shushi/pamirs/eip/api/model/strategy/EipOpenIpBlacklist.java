@@ -1,5 +1,6 @@
-package pro.shushi.pamirs.eip.api.model;
+package pro.shushi.pamirs.eip.api.model.strategy;
 
+import pro.shushi.pamirs.eip.api.model.EipApplication;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.IdModel;
