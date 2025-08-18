@@ -7,7 +7,6 @@ import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipPamirsTenantFinder;
 
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -25,15 +24,7 @@ public class DefaultUrlTenantFinder implements IEipPamirsTenantFinder {
 
     @Override
     public String find(IEipContext<SuperMap> context, ExtendedExchange exchange) {
-        String url = Optional.ofNullable(context.getExecutorContext().get("http"))
-                .map(_data -> (Map<?, ?>) _data)
-                .map(_data -> _data.get("url"))
-                .map(_data -> (Map<?, ?>) _data)
-                .map(_data -> _data.get("dynamic"))
-                .map(_data -> (Map<?, ?>) _data)
-                .map(_data -> _data.get("params"))
-                .map(_data -> (Map<?, ?>) _data)
-                .map(_data -> _data.get("CamelHttpUrl"))
+        String url = Optional.ofNullable(context.getExecutorContextValue(IEipContext.URL_DYNAMIC_PARAMS_KEY + ".CamelHttpUrl"))
                 .map(_data -> (String) _data)
                 .filter(StringUtils::isNotBlank)
                 .filter(_url -> _url.contains(".oinone.top"))
