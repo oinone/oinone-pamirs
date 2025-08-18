@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.eip.api.pmodel;
 
-import pro.shushi.pamirs.eip.api.model.EipOpenIpBlacklist;
+import pro.shushi.pamirs.eip.api.model.strategy.EipOpenIpBlacklist;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 

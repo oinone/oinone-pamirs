@@ -14,7 +14,7 @@ import pro.shushi.pamirs.eip.api.constant.EipContextConstant;
 import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.eip.api.entity.EipResult;
 import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
-import pro.shushi.pamirs.eip.api.exception.CircuitBreakerOpenException;
+import pro.shushi.pamirs.eip.api.strategy.exception.CircuitBreakerOpenException;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.service.EipExecuteService;
 import pro.shushi.pamirs.meta.annotation.Fun;

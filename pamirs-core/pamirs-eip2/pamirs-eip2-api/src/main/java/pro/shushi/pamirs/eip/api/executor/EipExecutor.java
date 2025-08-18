@@ -6,16 +6,21 @@ import pro.shushi.pamirs.eip.api.IEipIdempotentProcessor;
 import pro.shushi.pamirs.eip.api.IEipProcessCallback;
 import pro.shushi.pamirs.eip.api.entity.EipResult;
 import pro.shushi.pamirs.eip.api.service.EipExecuteService;
+import pro.shushi.pamirs.eip.api.service.EipRemoteExecuteService;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 
 import java.lang.reflect.Type;
 
 /**
  * 默认SuperMap上下文执行器
+ *
+ * @author Adamancy Zhang at 16:51 on 2025-08-16
  */
 public class EipExecutor {
 
     private final SuperMap executorContext;
+
+    private boolean isRemote = false;
 
     private EipExecutor(SuperMap executorContext) {
         this.executorContext = executorContext;
@@ -66,14 +71,27 @@ public class EipExecutor {
     }
 
     /**
+     * 使用远程调用
+     *
+     * @return 执行器
+     */
+    public EipExecutor remote() {
+        isRemote = true;
+        return this;
+    }
+
+    /**
      * 无参调用
      *
      * @param interfaceName 接口名称
      * @return 结果集
      */
+    @SuppressWarnings("unchecked")
     public EipResult<SuperMap> call(String interfaceName) {
+        if (isRemote) {
+            return CommonApiFactory.getApi(EipRemoteExecuteService.class).callByInterfaceName(interfaceName, executorContext, null);
+        }
         return CommonApiFactory.getApi(EipExecuteService.class).callByInterfaceName(interfaceName, executorContext, null);
-//        return Models.directive().run(() -> Fun.run(EipExecuteService.FUN_NAMESPACE, "callByInterfaceName", interfaceName, executorContext, null));
     }
 
     /**
@@ -83,9 +101,12 @@ public class EipExecutor {
      * @param body          入参
      * @return 结果集
      */
+    @SuppressWarnings("unchecked")
     public EipResult<SuperMap> call(String interfaceName, Object body) {
+        if (isRemote) {
+            return CommonApiFactory.getApi(EipRemoteExecuteService.class).callByInterfaceName(interfaceName, executorContext, body);
+        }
         return CommonApiFactory.getApi(EipExecuteService.class).callByInterfaceName(interfaceName, executorContext, body);
-//        return Models.directive().run(() -> Fun.run(EipExecuteService.FUN_NAMESPACE, "callByInterfaceName", interfaceName, executorContext, body));
     }
 
     /**

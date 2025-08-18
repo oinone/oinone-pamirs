@@ -9,11 +9,11 @@ import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
-import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
-import pro.shushi.pamirs.eip.api.util.EipLogUtil;
+import pro.shushi.pamirs.eip.api.strategy.spi.EipLogStrategyHandler;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 
 @Slf4j
 public class DefaultOpenInterfaceErrorHandler implements ErrorHandler {
@@ -60,17 +60,13 @@ public class DefaultOpenInterfaceErrorHandler implements ErrorHandler {
         String resultString = JSON.toJSONString(OpenEipResult.error(errorCode, errorMsg));
 
         if (context == null) {
-            EipLogUtil.openApiFailure(exchange, errorMsg, resultString);
+            Spider.getDefaultExtension(EipLogStrategyHandler.class).openApiFailure(exchange, errorMsg, resultString);
         }
-
 
         exchange.getMessage().setBody(resultString);
 
         if (context != null) {
-            EipLog eipLog = EipLogUtil.getEipLog(context);
-            if (eipLog != null) {
-                EipLogUtil.failure(context, eipLog, exchange);
-            }
+            Spider.getDefaultExtension(EipLogStrategyHandler.class).failure(context, exchange);
         }
     }
 }

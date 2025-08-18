@@ -10,7 +10,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.function.FunctionHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
@@ -27,7 +26,6 @@ import pro.shushi.pamirs.meta.util.JsonUtils;
 import pro.shushi.pamirs.middleware.schedule.common.Result;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 import pro.shushi.pamirs.trigger.annotation.XAsync;
-import pro.shushi.pamirs.trigger.condition.ScheduleSwitchCondition;
 import pro.shushi.pamirs.trigger.model.ExecuteTaskAction;
 import pro.shushi.pamirs.trigger.service.ExecuteTaskActionService;
 
@@ -43,10 +41,9 @@ import java.util.Arrays;
 @Aspect
 @Component
 @Fun(XAsyncExecutor.FUN_NAMESPACE)
-@Conditional(ScheduleSwitchCondition.class)
 public class XAsyncAspect implements XAsyncExecutor {
 
-    @Autowired
+    @Autowired(required = false)
     private ExecuteTaskActionService executeTaskActionService;
 
     @Resource
@@ -64,7 +61,7 @@ public class XAsyncAspect implements XAsyncExecutor {
         Function function = funApi.fetch(method);
         XAsync xAsync = method.getDeclaredAnnotation(XAsync.class);
         SessionMetaBit sessionMetaBit = PamirsSession.directive();
-        if (BitUtil.has(sessionMetaBit.bitValue(), SystemDirectiveEnum.SYNC.getValue())) {
+        if (BitUtil.has(sessionMetaBit.bitValue(), SystemDirectiveEnum.SYNC.getValue()) || executeTaskActionService == null) {
             return joinPoint.proceed();
         } else {
             executeTaskActionService.submit((ExecuteTaskAction) new ExecuteTaskAction()

@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.api.model.connector;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.eip.api.enmu.MetaOrigin;
 import pro.shushi.pamirs.eip.api.enmu.connector.*;
@@ -10,6 +11,7 @@ import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.base.IdModel;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
+import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 
 import java.util.List;
 
@@ -103,6 +105,15 @@ public class EipConnector extends IdModel {
     @Field.String
     private String connDBType;
 
+    @Field(displayName = "基础数据库/文件类型")
+    @Field.many2one
+    @Field.Relation(relationFields = "connBasicDbType", referenceFields = "code")
+    private ConnDbType basicDbType;
+
+    @Field(displayName = "基础数据库类型关联关系")
+    @Field.String
+    private String connBasicDbType;
+
     @Field(displayName = "端口")
     @Field.Integer
     private Integer port;
@@ -139,6 +150,11 @@ public class EipConnector extends IdModel {
     @Field.Enum
     private TestConnStatus testConnStatus;
 
+    @Field.Enum
+    @Field(displayName = "连接状态", store = NullableBoolEnum.FALSE)
+    private TestConnStatus connStatus;
+
+    @JSONField(serialize = false)
     public String getDriver() {
         if (null == this.getDbType() && StringUtils.isNotBlank(this.getConnDBType())) {
             this.fieldQuery(EipConnector::getDbType);

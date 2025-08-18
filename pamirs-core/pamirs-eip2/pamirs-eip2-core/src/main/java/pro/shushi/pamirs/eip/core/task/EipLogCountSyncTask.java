@@ -2,7 +2,7 @@ package pro.shushi.pamirs.eip.core.task;
 
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
-import pro.shushi.pamirs.eip.api.service.EipLogCountService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogCountService;
 import pro.shushi.pamirs.eip.core.task.abs.EipAbstractScheduledJob;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;

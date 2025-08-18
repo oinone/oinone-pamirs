@@ -15,7 +15,6 @@
                    hint="可根据实际需要，设置您所需要的响应预处理函数"
                    domain="namespace == 'pamirs.eip.default.namespace' and fun =starts= 'EIP_OPEN_RESPONSE_ENCRYPTION_PREFIX_'"/>
             <field data="description" label="应用描述" required="true"
-                   widget="EipOpenText"
                    placeholder="请输入当前 Key Pair 的应用描述"
                    hint="精准明确的描述有助于后续管理 ^_^"/>
         </pack>

@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.trigger.convert;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.scheduling.support.CronSequenceGenerator;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -16,7 +15,6 @@ import pro.shushi.pamirs.meta.enmu.InformationLevelEnum;
 import pro.shushi.pamirs.meta.util.NamespaceAndFunUtils;
 import pro.shushi.pamirs.middleware.schedule.eunmeration.TaskType;
 import pro.shushi.pamirs.trigger.annotation.XSchedule;
-import pro.shushi.pamirs.trigger.condition.ScheduleSwitchCondition;
 import pro.shushi.pamirs.trigger.enmu.TriggerExpEnumerate;
 import pro.shushi.pamirs.trigger.init.ScheduleTaskInit;
 import pro.shushi.pamirs.trigger.model.ScheduleTaskAction;
@@ -32,7 +30,6 @@ import java.util.Optional;
 @SuppressWarnings("rawtypes")
 @Slf4j
 @Component
-@Conditional(ScheduleSwitchCondition.class)
 public class ScheduleTaskConverter implements ModelConverter<ScheduleTaskAction, Method> {
 
     @Override

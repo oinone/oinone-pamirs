@@ -1,9 +1,9 @@
 package pro.shushi.pamirs.boot.web.spi.meta;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import pro.shushi.pamirs.boot.base.model.ServerAction;
 import pro.shushi.pamirs.framework.common.utils.ObjectUtils;
 import pro.shushi.pamirs.meta.api.core.compute.systems.inherit.InheritedExtendProcessor;
@@ -13,8 +13,7 @@ import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * base 继承逻辑扩展
@@ -54,16 +53,15 @@ public class ServerActionInheritedExtendProcessor implements InheritedExtendProc
             if (superFunction.isMetaCompleted()) {
                 continue;
             }
-            String namespace = superFunction.getNamespace();
-            String name = superFunction.getName();
-            String superSign = ServerAction.sign(namespace, name);
-            Pair<String, ServerAction> superServerActionWithModule
-                    = meta.getDataItemWithModule(ServerAction.MODEL_MODEL, superSign);
-            ServerAction superServerAction = superServerActionWithModule.getValue();
-            if (null != superServerAction) {
+            List<Pair<String, ServerAction>> superServerActions = getSuperServerActions(meta, superFunction.getNamespace(), superFunction.getFun(), superFunction.getName());
+            for (Pair<String, ServerAction> superServerActionWithModule : superServerActions) {
+                ServerAction superServerAction = superServerActionWithModule.getValue();
                 if (superServerAction.isMetaCompleted()) {
                     continue;
                 }
+                String namespace = superServerAction.getModel();
+                String name = superServerAction.getName();
+                String superSign = ServerAction.sign(namespace, name);
                 MetaData metaData = meta.getData().get(modelDefinition.getModule());
                 String sign = ServerAction.sign(modelDefinition.getModel(), name);
                 ServerAction selfServerAction = Optional.ofNullable(meta.getData().get(modelDefinition.getModule()))
@@ -110,6 +108,46 @@ public class ServerActionInheritedExtendProcessor implements InheritedExtendProc
                 }
             }
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Pair<String, ServerAction>> getSuperServerActions(Meta meta, String namespace, String fun, String name) {
+        List<Pair<String, ServerAction>> serverActionWithModules = new ArrayList<>();
+        String sign = ServerAction.sign(namespace, name);
+        Pair<String, ServerAction> serverActionWithModule = meta.getDataItemWithModule(ServerAction.MODEL_MODEL, sign);
+        if (serverActionWithModule.getValue() != null) {
+            serverActionWithModules.add(serverActionWithModule);
+        }
+        List<ServerAction> otherServerActions = new ArrayList<>();
+        List<MetaData> metaDataList = new ArrayList<>(meta.getData().values());
+        Collections.reverse(metaDataList);
+        for (MetaData metaData : metaDataList) {
+            Optional.ofNullable(metaData.getDataMap(ServerAction.MODEL_MODEL))
+                    .map(v -> new ArrayList<>((Collection<ServerAction>) (Object) v.values()))
+                    .ifPresent(otherServerActions::addAll);
+        }
+        if (CollectionUtils.isEmpty(otherServerActions)) {
+            return serverActionWithModules;
+        }
+        Set<String> signSet = new HashSet<>();
+        signSet.add(sign);
+        for (ServerAction otherServerAction : otherServerActions) {
+            String model = otherServerAction.getModel();
+            if (!namespace.equals(model)) {
+                continue;
+            }
+            String action = otherServerAction.getName();
+            String actionSign = ServerAction.sign(model, action);
+            if (signSet.contains(actionSign)) {
+                continue;
+            }
+            signSet.add(actionSign);
+            Pair<String, ServerAction> otherServerActionWithModule = meta.getDataItemWithModule(ServerAction.MODEL_MODEL, actionSign);
+            if (otherServerActionWithModule.getValue() != null) {
+                serverActionWithModules.add(otherServerActionWithModule);
+            }
+        }
+        return serverActionWithModules;
     }
 
     @Override

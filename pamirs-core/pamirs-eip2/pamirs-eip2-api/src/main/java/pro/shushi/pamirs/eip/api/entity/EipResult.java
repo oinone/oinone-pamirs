@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.api.entity;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.eip.api.IEipContext;
@@ -76,7 +75,7 @@ public class EipResult<T> implements Serializable {
             if (String.class.equals(type)) {
                 return (V) resultString;
             }
-            if (JSON.isValid(resultString)) {
+            if (JsonUtils.isJSONString(resultString)) {
                 return JsonUtils.parseObject(resultString, type);
             } else {
                 throw new UnsupportedOperationException("不被支持的结果类型");

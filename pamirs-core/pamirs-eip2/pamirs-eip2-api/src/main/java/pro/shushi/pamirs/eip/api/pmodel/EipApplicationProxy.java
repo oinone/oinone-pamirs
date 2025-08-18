@@ -2,7 +2,7 @@ package pro.shushi.pamirs.eip.api.pmodel;
 
 import pro.shushi.pamirs.core.common.enmu.EncryptTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipApplication;
-import pro.shushi.pamirs.eip.api.model.EipOpenRateLimitPolicy;
+import pro.shushi.pamirs.eip.api.model.strategy.EipOpenRateLimitPolicy;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;

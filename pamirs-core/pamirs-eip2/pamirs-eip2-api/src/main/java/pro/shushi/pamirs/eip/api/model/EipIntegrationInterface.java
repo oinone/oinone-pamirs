@@ -6,6 +6,7 @@ import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.IEipContextSupplier;
 import pro.shushi.pamirs.eip.api.IEipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
+import pro.shushi.pamirs.eip.api.model.strategy.EipCircuitBreakerRule;
 import pro.shushi.pamirs.eip.api.pamirs.DefaultContextSupplierFunction;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;

@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.eip.api;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 上下文
@@ -103,6 +104,11 @@ public interface IEipContext<T> extends Serializable {
     void putExecutorContextValue(String key, Object value);
 
     /**
+     * 添加执行器上下文的值
+     */
+    void putAllExecutorContextValue(Map<? extends String, ?> map);
+
+    /**
      * 接口上下文
      *
      * @return 上下文承载对象
@@ -124,4 +130,9 @@ public interface IEipContext<T> extends Serializable {
      * @param value 值
      */
     void putInterfaceContextValue(String key, Object value);
+
+    /**
+     * 添加接口上下文的值
+     */
+    void putAllInterfaceContextValue(Map<? extends String, ?> map);
 }

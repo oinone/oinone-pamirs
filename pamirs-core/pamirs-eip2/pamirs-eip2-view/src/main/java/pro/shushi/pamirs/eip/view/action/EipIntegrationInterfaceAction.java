@@ -5,13 +5,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.behavior.impl.DataStatusBehavior;
-import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
-import pro.shushi.pamirs.eip.api.service.EipLogStrategyService;
 import pro.shushi.pamirs.eip.api.service.EipService;
 import pro.shushi.pamirs.eip.api.service.model.EipIntegrationInterfaceService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -89,9 +88,6 @@ public class EipIntegrationInterfaceAction extends DataStatusBehavior<EipIntegra
         data = data.queryById();
         eipLogStrategyService.ignoreFrequency(data.getInterfaceName(), InterfaceTypeEnum.INTEGRATION);
         data.setIsIgnoreLogFrequency(true);
-        if (DataStatusEnum.ENABLED.equals(data.getDataStatus())) {
-            eipService.registerInterface(data);
-        }
         return data;
     }
 
@@ -102,9 +98,6 @@ public class EipIntegrationInterfaceAction extends DataStatusBehavior<EipIntegra
         data = data.queryById();
         eipLogStrategyService.cancelIgnoreFrequency(data.getInterfaceName(), InterfaceTypeEnum.INTEGRATION);
         data.setIsIgnoreLogFrequency(false);
-        if (DataStatusEnum.ENABLED.equals(data.getDataStatus())) {
-            eipService.registerInterface(data);
-        }
         return data;
     }
 

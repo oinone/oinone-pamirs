@@ -3,6 +3,7 @@ package pro.shushi.pamirs.eip.jdbc.camel;
 import com.alibaba.druid.pool.DruidPooledPreparedStatement;
 import org.apache.camel.Exchange;
 import org.apache.camel.component.sql.DefaultSqlPrepareStatementStrategy;
+import org.apache.camel.component.sql.SqlPrepareStatementStrategy;
 import org.apache.camel.util.CollectionStringBuffer;
 import org.apache.camel.util.StringQuoteHelper;
 import org.springframework.jdbc.core.ArgumentPreparedStatementSetter;
@@ -26,7 +27,7 @@ public class EipSqlPrepareStatementStrategy extends DefaultSqlPrepareStatementSt
 
     public static final String NAME = "sqlPrepareStatementStrategy";
 
-    public static final EipSqlPrepareStatementStrategy INSTANCE = new EipSqlPrepareStatementStrategy();
+    public static final SqlPrepareStatementStrategy INSTANCE = new EipSqlPrepareStatementStrategy();
 
     private static final Pattern REPLACE_IN_PATTERN = Pattern.compile("\\:\\?in\\:(\\w+|\\$\\{[^\\}]+\\}|\\$simple\\{[^\\}]+\\})", Pattern.MULTILINE);
 

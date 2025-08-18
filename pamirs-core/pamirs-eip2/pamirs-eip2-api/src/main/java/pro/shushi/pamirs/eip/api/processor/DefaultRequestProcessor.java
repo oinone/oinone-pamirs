@@ -14,10 +14,9 @@ import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.auth.basic.enumeration.EipBasicAuthParameter;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.entity.EipResult;
-import pro.shushi.pamirs.eip.api.extpoint.EipInterfaceUriSpi;
 import pro.shushi.pamirs.eip.api.model.EipLog;
+import pro.shushi.pamirs.eip.api.strategy.spi.EipLogStrategyHandler;
 import pro.shushi.pamirs.eip.api.util.EipHelper;
-import pro.shushi.pamirs.eip.api.util.EipLogUtil;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.util.JsonUtils;
@@ -87,11 +86,13 @@ public class DefaultRequestProcessor extends AbstractEipIntegrationInterfaceProc
         // 更新执行器上下文
         context = refreshExecutorContext(exchange, context, interfaceContext);
 
+        EipLogStrategyHandler logStrategyHandler = Spider.getDefaultExtension(EipLogStrategyHandler.class);
+
         // 生成请求执行日志
         EipLog eipLog = null;
-        if (integrationInterface.getIsEnabledLog()) {
+        if (logStrategyHandler.isEnabled(context, exchange)) {
             // 预留请求参数日志，当发生异常时，该日志会进行存储，正常状态下，会重新创建
-            eipLog = EipLogUtil.createEipLog(context, exchange);
+            eipLog = logStrategyHandler.create(context, exchange);
         }
 
         // 获取认证处理器
@@ -109,7 +110,7 @@ public class DefaultRequestProcessor extends AbstractEipIntegrationInterfaceProc
             exchange.getMessage().setBody(body);
 
             if (eipLog != null) {
-                EipLogUtil.failure(context, eipLog, exchange);
+                logStrategyHandler.failure(context, exchange);
             }
 
             exchange.setInterrupted(Boolean.TRUE);
@@ -193,7 +194,7 @@ public class DefaultRequestProcessor extends AbstractEipIntegrationInterfaceProc
 
         if (eipLog != null) {
             // 更新真实请求数据日志
-            EipLogUtil.updateRequestTargetData(eipLog, exchange);
+            logStrategyHandler.updateRequestTargetData(context, exchange);
         }
     }
 
@@ -252,7 +253,6 @@ public class DefaultRequestProcessor extends AbstractEipIntegrationInterfaceProc
             }
         }
         if (StringUtils.isNotBlank(uri)) {
-            uri = Spider.getDefaultExtension(EipInterfaceUriSpi.class).computeUri(uri, exchange, context);//扩展点
             URI httpUri = null;
             Endpoint endpoint = exchange.getContext().hasEndpoint(uri);
             if (endpoint == null) {
