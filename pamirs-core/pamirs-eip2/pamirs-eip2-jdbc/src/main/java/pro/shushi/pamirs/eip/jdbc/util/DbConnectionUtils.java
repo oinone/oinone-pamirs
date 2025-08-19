@@ -17,7 +17,7 @@ public class DbConnectionUtils {
         try {
             // jdbc:mysql://127.0.0.1:3306/database
             String url = buildUrl(connector);
-            Class.forName(connector.getDriver());
+            Class.forName(connector.driver());
             //2、获取数据库连接
             DriverManager.setLoginTimeout(50);
             try (Connection conn = DriverManager.getConnection(url, connector.getUser(), connector.getPassword())) {
@@ -42,7 +42,7 @@ public class DbConnectionUtils {
         if (StringUtils.isBlank(connDbType)) {
             connDbType = connector.getConnBasicDbType();
         }
-        return EipDataSourceManager.buildSimpleDataSource(url, connector.getDriver(), connector.getUser(), connector.getPassword(), connDbType);
+        return EipDataSourceManager.buildSimpleDataSource(url, connector.driver(), connector.getUser(), connector.getPassword(), connDbType);
     }
 
     public static String buildUrl(EipConnector connector) {

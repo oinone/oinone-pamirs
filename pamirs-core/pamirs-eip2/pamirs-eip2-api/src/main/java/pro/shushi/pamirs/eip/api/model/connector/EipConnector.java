@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.api.model.connector;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.eip.api.enmu.MetaOrigin;
 import pro.shushi.pamirs.eip.api.enmu.connector.*;
@@ -154,8 +153,7 @@ public class EipConnector extends IdModel {
     @Field(displayName = "连接状态", store = NullableBoolEnum.FALSE)
     private TestConnStatus connStatus;
 
-    @JSONField(serialize = false)
-    public String getDriver() {
+    public String driver() {
         if (null == this.getDbType() && StringUtils.isNotBlank(this.getConnDBType())) {
             this.fieldQuery(EipConnector::getDbType);
         }
