@@ -69,12 +69,6 @@ public interface IEipApi {
     Boolean getIsEnabledLog();
 
     /**
-     * 是否被数据库管理（内存中直接定义的对象均返回false，数据库中定义的对象均返回true）
-     */
-    @NotNull
-    Boolean getIsDBManaged();
-
-    /**
      * 获取接口类别
      */
     String getCategory();
