@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.meta.util;
 
+import com.alibaba.fastjson.JSONValidator;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.parser.ParserConfig;
@@ -13,6 +14,7 @@ import pro.shushi.pamirs.meta.api.core.orm.serialize.filter.BigDecimalSerializeF
 import pro.shushi.pamirs.meta.api.core.orm.serialize.type.EnumUsingValueDeserializer;
 import pro.shushi.pamirs.meta.api.core.orm.serialize.type.EnumUsingValueSerializer;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -117,5 +119,26 @@ public class JsonUtils {
         return KernelJsonUtils.toJSONString(object, serializeConfig, defaultFilters, filters, features);
     }
 
+    public static boolean isJSONString(String json) {
+        return validateJSONType(json) != null;
+    }
+
+    public static boolean isJSONObject(String json) {
+        return JSONValidator.Type.Object.equals(validateJSONType(json));
+    }
+
+    public static boolean isJSONArray(String json) {
+        return JSONValidator.Type.Array.equals(validateJSONType(json));
+    }
+
+    public static JSONValidator.Type validateJSONType(String json) {
+        try (JSONValidator validator = JSONValidator.from(json)) {
+            if (validator.validate()) {
+                return validator.getType();
+            }
+        } catch (IOException ignored) {
+        }
+        return null;
+    }
 }
 

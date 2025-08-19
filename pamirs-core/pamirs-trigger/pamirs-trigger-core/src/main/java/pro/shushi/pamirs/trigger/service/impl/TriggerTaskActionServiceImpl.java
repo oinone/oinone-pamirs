@@ -4,13 +4,10 @@ import com.google.common.base.Joiner;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.ObjectHelper;
-import pro.shushi.pamirs.framework.connectors.data.constant.DbConstants;
 import pro.shushi.pamirs.framework.connectors.data.datasource.DataSourceFetcher;
-import pro.shushi.pamirs.framework.connectors.data.datasource.ddl.DdlManager;
 import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.DsDialectComponent;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -24,13 +21,11 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.spi.Spider;
-import pro.shushi.pamirs.middleware.canal.domain.DBInfo;
 import pro.shushi.pamirs.middleware.canal.entity.RefreshFilterEntity;
 import pro.shushi.pamirs.middleware.canal.service.CanalService;
 import pro.shushi.pamirs.middleware.schedule.api.ScheduleAction;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleQuery;
-import pro.shushi.pamirs.trigger.condition.ScheduleSwitchCondition;
 import pro.shushi.pamirs.trigger.config.PamirsTriggerConfiguration;
 import pro.shushi.pamirs.trigger.constant.NotifyConstant;
 import pro.shushi.pamirs.trigger.constant.WorkFlowConstant;
@@ -39,7 +34,6 @@ import pro.shushi.pamirs.trigger.service.AbstractTaskActionService;
 import pro.shushi.pamirs.trigger.service.TriggerTaskActionExecutor;
 import pro.shushi.pamirs.trigger.service.TriggerTaskActionService;
 
-import java.net.URI;
 import java.util.*;
 
 /**

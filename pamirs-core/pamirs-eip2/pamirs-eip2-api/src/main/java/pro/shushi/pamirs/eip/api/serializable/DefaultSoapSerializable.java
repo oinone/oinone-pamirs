@@ -1,11 +1,13 @@
 package pro.shushi.pamirs.eip.api.serializable;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.IEipDeserialization;
@@ -14,12 +16,14 @@ import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * DefaultSoapSerializable
@@ -32,105 +36,146 @@ import java.util.*;
 @SuppressWarnings({"unchecked"})
 public class DefaultSoapSerializable implements IEipSerializable<SuperMap>, IEipDeserialization<SuperMap> {
 
+    private static final Pattern WHITESPACE_PATTERN = Pattern.compile(">(\\s+)<");
+
+    @Autowired
+    private DefaultJSONSerializable defaultJSONSerializable;
+
     @Function.fun(EipFunctionConstant.DEFAULT_SOAP_SERIALIZABLE_FUN)
     @Function.Advanced(displayName = "默认SOAP序列化")
     @Function(name = EipFunctionConstant.DEFAULT_SOAP_SERIALIZABLE_FUN)
     @Override
     public SuperMap serializable(Object inObject) {
-
-        SuperMap superMap = null;
-        if (inObject instanceof InputStream) {
-            try (BufferedInputStream bis = new BufferedInputStream((InputStream) inObject);
-                 ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-                byte[] bytes = new byte[1024];
-                int len = 0;
-                while ((len = bis.read(bytes)) != -1) {
-                    bos.write(bytes, 0, len);
-                }
-                bytes = bos.toByteArray();
-                String xml = new String(bytes, StandardCharsets.UTF_8);
-                log.info("SOAP响应: {}", xml);
-                xml = xml.replaceAll("\n+", "");
-                xml = xml.replaceAll("\r+", "");
-                xml = xml.replaceAll("\t+", "");
-                bytes = xml.getBytes(StandardCharsets.UTF_8);
-                try {
-                    superMap = soap2Map(bytes, SOAPConstants.SOAP_1_2_PROTOCOL);
-                } catch (SOAPException | IOException e0) {
-                    log.error("1.2解析失败");
-                    superMap = soap2Map(bytes, SOAPConstants.SOAP_1_1_PROTOCOL);
-                }
-            } catch (SOAPException | IOException ex) {
-                log.error("SOAP反序列化异常", ex);
-                superMap = new SuperMap();
-            }
-        } else {
-            log.error("返回非InputStream");
-            superMap = new SuperMap();
+        if (inObject == null) {
+            return new SuperMap();
         }
-        return superMap;
+        SuperMap result;
+        if (inObject instanceof SuperMap) {
+            result = (SuperMap) inObject;
+        } else if (inObject instanceof Map) {
+            result = new SuperMap((Map<String, Object>) inObject);
+        } else if (inObject instanceof InputStream) {
+            String xml = inputStreamToString((InputStream) inObject);
+            result = stringToMap(xml);
+        } else if (inObject instanceof String) {
+            result = stringToMap((String) inObject);
+        } else {
+            log.error("无法识别的SOAP入参类型");
+            result = new SuperMap();
+        }
+        return result;
+    }
+
+    private String inputStreamToString(InputStream inObject) {
+        try (BufferedInputStream bis = new BufferedInputStream(inObject);
+             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            byte[] bytes = new byte[2048];
+            int len;
+            while ((len = bis.read(bytes)) != -1) {
+                bos.write(bytes, 0, len);
+            }
+            bytes = bos.toByteArray();
+            return new String(bytes, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            log.error("读取", e);
+        }
+        return null;
+    }
+
+    private SuperMap stringToMap(String content) {
+        if (StringUtils.isNotBlank(content)) {
+            if (JsonUtils.isJSONString(content)) {
+                return defaultJSONSerializable.serializable(content);
+            }
+            return soapXML2Map(content);
+        }
+        return new SuperMap();
+    }
+
+    public SuperMap soapXML2Map(String xml) {
+        log.debug("SOAP响应: {}", xml);
+        xml = WHITESPACE_PATTERN.matcher(xml).replaceAll("><");
+        byte[] bytes = xml.getBytes(StandardCharsets.UTF_8);
+        try {
+            return soap2Map(bytes, SOAPConstants.SOAP_1_2_PROTOCOL);
+        } catch (SOAPException | IOException e) {
+            log.debug("SOAP 1.2 反序列化异常", e);
+            try {
+                return soap2Map(bytes, SOAPConstants.SOAP_1_1_PROTOCOL);
+            } catch (SOAPException | IOException ee) {
+                log.error("SOAP 1.1 反序列化异常", ee);
+                return new SuperMap();
+            }
+        }
     }
 
     public SuperMap soap2Map(byte[] bytes, String version) throws SOAPException, IOException {
-
         MessageFactory factory = MessageFactory.newInstance(version);
         SOAPMessage message = factory.createMessage(null, new ByteArrayInputStream(bytes));
         message.saveChanges();
-        SOAPHeader header = message.getSOAPHeader();
         SOAPBody body = message.getSOAPBody();
-        SuperMap data = new SuperMap();
-        children(data, body.getChildElements(), null);
-        return data;
+        return (SuperMap) resolveXMLObject(body.getChildElements());
     }
 
-    public void children(SuperMap data, Iterator<SOAPElement> elements, String parentName) {
+    public static Object resolveXMLObject(Iterator<Node> elements) {
+        SuperMap superMap = new SuperMap();
         while (elements.hasNext()) {
             Node node = elements.next();
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 SOAPElement element = (SOAPElement) node;
-                String name = element.getNodeName();
-                String qNamePrefix = Optional.ofNullable(element.getElementQName())
-                        .map(QName::getPrefix)
-                        .filter(StringUtils::isNotBlank)
-                        .orElse(null);
-                if (null != qNamePrefix) {
-                    name = name.replaceAll(qNamePrefix + ":", "");
-                }
-                String value = element.getValue();
-                Iterator<SOAPElement> children = element.getChildElements();
-
-                if (null != children) {
-                    SuperMap childMap = new SuperMap();
-                    data.put(name, childMap);
-                    children(childMap, children, name);
+                Iterator<Node> children = element.getChildElements();
+                String fieldName = getFieldName(element);
+                if (children != null && children.hasNext()) {
+                    Object value = resolveXMLObject(children);
+                    Object exist = superMap.get(fieldName);
+                    if (exist == null) {
+                        superMap.put(fieldName, value);
+                    } else if (exist instanceof Collection) {
+                        ((Collection<Object>) exist).add(value);
+                    } else {
+                        superMap.put(fieldName, Lists.newArrayList(exist, value));
+                    }
                 } else {
-                    data.put(name, value);
+                    superMap.put(fieldName, null);
                 }
             } else if (node.getNodeType() == Node.TEXT_NODE) {
+                if (elements.hasNext()) {
+                    continue;
+                }
                 Text element = (Text) node;
                 String value = element.getValue();
                 if (StringUtils.contains(value, "<") && StringUtils.contains(value, "</")) {
                     try {
-                        Map<String, Object> dataMap = readXml(element.getValue());
-                        data.putAll(dataMap);
+                        return readXml(element.getValue());
                     } catch (Throwable e) {
                         log.error("解析内部XML失败");
-                        data.put(parentName, value);
                     }
-                } else {
-                    data.put(parentName, value);
                 }
+                return value;
             }
         }
+        return superMap;
     }
 
-    private Map<String, Object> readXml(String xml) throws DocumentException {
+    private static String getFieldName(SOAPElement element) {
+        String name = element.getNodeName();
+        String qNamePrefix = Optional.ofNullable(element.getElementQName())
+                .map(QName::getPrefix)
+                .filter(StringUtils::isNotBlank)
+                .orElse(null);
+        if (null != qNamePrefix) {
+            name = name.replaceAll(qNamePrefix + ":", "");
+        }
+        return name;
+    }
+
+    private static Map<String, Object> readXml(String xml) throws DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(new StringReader(xml));
         return parseElement(document.getRootElement());
     }
 
-    private Map<String, Object> parseElement(Element e) {
+    private static Map<String, Object> parseElement(Element e) {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         List<Element> list = e.elements();
         if (CollectionUtils.isNotEmpty(list)) {

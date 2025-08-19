@@ -37,6 +37,21 @@ public enum InterfaceTypeEnum implements IEnum<String> {
         this.help = help;
     }
 
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
+    }
+
     public String getValue() {
         return value;
     }
@@ -51,7 +66,7 @@ public enum InterfaceTypeEnum implements IEnum<String> {
 
     public static InterfaceTypeEnum safeValueOf(String value) {
         for (InterfaceTypeEnum item : InterfaceTypeEnum.values()) {
-            if (item.getValue().equals(value)) {
+            if (item.value.equals(value)) {
                 return item;
             }
         }

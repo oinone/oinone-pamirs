@@ -1,8 +1,13 @@
 package pro.shushi.pamirs.eip.api;
 
-import org.apache.camel.processor.ErrorHandler;
+import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 
 public interface IEipOpenInterface<T> extends IEipApi, IEipAfterProperty<IEipOpenInterface<T>> {
+
+    @Override
+    default InterfaceTypeEnum getType() {
+        return InterfaceTypeEnum.OPEN;
+    }
 
     /**
      * 交换处理器

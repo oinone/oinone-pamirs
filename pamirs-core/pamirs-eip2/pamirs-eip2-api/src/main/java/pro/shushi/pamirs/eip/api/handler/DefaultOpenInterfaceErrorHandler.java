@@ -1,7 +1,5 @@
 package pro.shushi.pamirs.eip.api.handler;
 
-import com.alibaba.fastjson.JSON;
-import org.apache.camel.Exchange;
 import pro.shushi.pamirs.core.common.StringHelper;
 import pro.shushi.pamirs.eip.api.IEipApi;
 import pro.shushi.pamirs.eip.api.IEipContext;
@@ -10,13 +8,7 @@ import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
 import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
-import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
-import pro.shushi.pamirs.eip.api.util.EipLogUtil;
-import pro.shushi.pamirs.meta.annotation.Fun;
-import pro.shushi.pamirs.meta.annotation.Function;
-import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 @Slf4j
 @Fun(EipFunctionConstant.FUNCTION_NAMESPACE)
@@ -72,16 +64,14 @@ public class DefaultOpenInterfaceErrorHandler implements IEipErrorHandler {
         String resultString = JSON.toJSONString(OpenEipResult.error(errorCode, errorMsg));
 
         if (context == null) {
-            EipLogUtil.openApiFailure(exchange, errorMsg, resultString);
+            Spider.getDefaultExtension(EipLogStrategyHandler.class).openApiFailure(exchange, errorMsg, resultString);
         }
+
 
         exchange.getMessage().setBody(resultString);
 
         if (context != null) {
-            EipLog eipLog = EipLogUtil.getEipLog(context);
-            if (eipLog != null) {
-                EipLogUtil.failure(context, eipLog, exchange);
-            }
+            Spider.getDefaultExtension(EipLogStrategyHandler.class).failure(context, exchange);
         }
     }
 }

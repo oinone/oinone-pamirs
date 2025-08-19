@@ -16,6 +16,8 @@ public interface IEipConvertParam<T> extends Serializable {
 
     Boolean getRequired();
 
+    Boolean getIsKeepNull();
+
     Integer getSize();
 
     Map<String, String> getConvertMap();

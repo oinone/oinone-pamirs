@@ -9,6 +9,7 @@ import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
 import pro.shushi.pamirs.core.common.InitializationUtil;
 import pro.shushi.pamirs.eip.api.EipModule;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
+import pro.shushi.pamirs.eip.api.model.EipInterfaceTestTransient;
 import pro.shushi.pamirs.eip.api.model.scene.EipSceneInstance;
 import pro.shushi.pamirs.eip.api.pmodel.EipSceneDefinitionProxy;
 import pro.shushi.pamirs.eip.api.pmodel.EipSceneInstanceProxy;
@@ -65,5 +66,6 @@ public class EipMetadataEditor implements MetaDataEditor {
         util.createViewAction("集成接口详情detail", "详情", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipIntegrationInterfaceEdit.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "集成接口详情detail", null);
         util.createViewAction("集成接口复制form", "复制", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipIntegrationInterfaceEdit.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "集成接口复制form", null);
 
+        util.createViewAction("redirectTestPage", "测试", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipInterfaceTestTransient.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "integration_interface_test_form", null);
     }
 }

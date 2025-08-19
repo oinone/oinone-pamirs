@@ -136,8 +136,9 @@ public class EipConnectorResource extends IdModel {
     @Field(displayName = "是否为单个结果集")
     private Boolean isSingleResultSet;
 
-    @Field(displayName = "sql", summary = "sql，当connector为db时才使用")
-    @Field.String(size = 4096)
+    @Field(displayName = "SQL", summary = "sql，当connector为db时才使用")
+    @Field.Text
+    @Field.Advanced(columnDefinition = "MEDIUMTEXT")
     private String sql;
 
     @Field(displayName = "是否授权Api")
@@ -175,5 +176,8 @@ public class EipConnectorResource extends IdModel {
     @Field.Text
     @Field(displayName = "数据", store = NullableBoolEnum.FALSE)
     private String dataList;
+
+    @Field(displayName = "是否发布为开放接口")
+    private Boolean isPublishOpenInterface;
 
 }
