@@ -474,6 +474,174 @@ public class MapHelper {
     }
 
     /**
+     * 根据表达式解析方式从指定map中获取值
+     *
+     * @param origin 指定map
+     * @param key    键
+     * @return 值
+     */
+    @SuppressWarnings("unchecked")
+    public static Object removeIteration(Map<String, Object> origin, String key) {
+        if (origin == null || key == null) {
+            return null;
+        }
+        String[] keys = key.split("\\.");
+        Map<String, Object> originPoint = origin;
+        for (int i = 0; i < keys.length; i++) {
+            String sk = keys[i];
+            int li = sk.indexOf("[");
+            int ri = sk.indexOf("]");
+            Object object;
+            if (i == keys.length - 1) {
+                if (li == -1 && ri == -1) {
+                    return originPoint.remove(sk);
+                } else if (li != -1 && ri != -1) {
+                    String tsk = sk.substring(0, li);
+                    object = originPoint.get(tsk);
+                    List<Object> listPoint;
+                    if (object instanceof List) {
+                        listPoint = (List<Object>) object;
+                    } else {
+                        return null;
+                    }
+                    String indexString = sk.substring(li + 1, ri);
+                    int index = -1;
+                    if (StringUtils.isNotBlank(indexString)) {
+                        try {
+                            index = Integer.parseInt(indexString);
+                        } catch (NumberFormatException ignored) {
+                        }
+                        if (index == -1) {
+                            return null;
+                        }
+                        if (index >= listPoint.size()) {
+                            return null;
+                        }
+                    } else {
+                        return null;
+                    }
+                    li = ri + 1;
+                    while (li < sk.length()) {
+                        li = sk.indexOf("[", li);
+                        ri = sk.indexOf("]", li);
+                        if (li != -1 && ri != -1) {
+                            indexString = sk.substring(li + 1, ri);
+                            object = listPoint.get(index);
+                            List<Object> tempL;
+                            if (object instanceof List) {
+                                tempL = (List<Object>) object;
+                            } else {
+                                return null;
+                            }
+                            int tempIndex = -1;
+                            if (StringUtils.isNotBlank(indexString)) {
+                                try {
+                                    tempIndex = Integer.parseInt(indexString);
+                                } catch (NumberFormatException ignored) {
+                                }
+                                if (tempIndex == -1) {
+                                    return null;
+                                }
+                                if (tempIndex >= tempL.size()) {
+                                    return null;
+                                }
+                            } else {
+                                return null;
+                            }
+                            listPoint = tempL;
+                            index = tempIndex;
+                        } else {
+                            return null;
+                        }
+                        li = ri + 1;
+                    }
+                    return listPoint.remove(index);
+                } else {
+                    return null;
+                }
+            } else {
+                if (li == -1 && ri == -1) {
+                    object = originPoint.get(sk);
+                    if (object instanceof Map) {
+                        originPoint = (Map<String, Object>) object;
+                    } else {
+                        return null;
+                    }
+                } else if (li != -1 && ri != -1) {
+                    String tsk = sk.substring(0, li);
+                    object = originPoint.get(tsk);
+                    List<Object> listPoint;
+                    if (object instanceof List) {
+                        listPoint = (List<Object>) object;
+                    } else {
+                        return null;
+                    }
+                    String indexString = sk.substring(li + 1, ri);
+                    int index = -1;
+                    if (StringUtils.isNotBlank(indexString)) {
+                        try {
+                            index = Integer.parseInt(indexString);
+                        } catch (NumberFormatException ignored) {
+                        }
+                        if (index == -1) {
+                            return null;
+                        }
+                        if (index >= listPoint.size()) {
+                            return null;
+                        }
+                    } else {
+                        return null;
+                    }
+                    li = ri + 1;
+                    while (li < sk.length()) {
+                        li = sk.indexOf("[", li);
+                        ri = sk.indexOf("]", li);
+                        if (li != -1 && ri != -1) {
+                            indexString = sk.substring(li + 1, ri);
+                            object = listPoint.get(index);
+                            List<Object> tempL;
+                            if (object instanceof List) {
+                                tempL = (List<Object>) object;
+                            } else {
+                                return null;
+                            }
+                            int tempIndex = -1;
+                            if (StringUtils.isNotBlank(indexString)) {
+                                try {
+                                    tempIndex = Integer.parseInt(indexString);
+                                } catch (NumberFormatException ignored) {
+                                }
+                                if (tempIndex == -1) {
+                                    return null;
+                                }
+                                if (tempIndex >= listPoint.size()) {
+                                    return null;
+                                }
+                            } else {
+                                return null;
+                            }
+                            listPoint = tempL;
+                            index = tempIndex;
+                        } else {
+                            return null;
+                        }
+                        li = ri + 1;
+                    }
+                    object = listPoint.get(index);
+                    if (object instanceof Map) {
+                        originPoint = (Map<String, Object>) object;
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * 使用递归方式将目标map中的所有值添加到指定map中
      *
      * @param origin 指定map
@@ -529,8 +697,8 @@ public class MapHelper {
         return newMap;
     }
 
-    public static Map<String, Object> deepClone(Map<String, Object> map, PamirsSupplier<Map<String, Object>> supplier) {
-        Map<String, Object> newMap = supplier.get();
+    public static <R extends Map<String, Object>> R deepClone(Map<String, Object> map, PamirsSupplier<R> supplier) {
+        R newMap = supplier.get();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();

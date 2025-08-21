@@ -19,17 +19,26 @@ public class SuperMapTest {
         map.putIteration("a.b.a", 1);
         map.putIteration("a.b.b", 1);
         map.putIteration("a.c[0].a", 1);
-        map.putIteration("a.c[1].b", 1);
+        map.putIteration("a.c[1].b", 2);
         map.putIteration("b.d[0]", 1);
-        map.putIteration("b.d[1]", 1);
+        map.putIteration("b.d[1]", 2);
 
         assert (Integer) map.getIteration("a.a.a") == 1;
         assert (Integer) map.getIteration("a.a.b") == 1;
         assert (Integer) map.getIteration("a.b.a") == 1;
         assert (Integer) map.getIteration("a.b.b") == 1;
         assert (Integer) map.getIteration("a.c[0].a") == 1;
-        assert (Integer) map.getIteration("a.c[1].b") == 1;
+        assert (Integer) map.getIteration("a.c[1].b") == 2;
         assert (Integer) map.getIteration("b.d[0]") == 1;
-        assert (Integer) map.getIteration("b.d[1]") == 1;
+        assert (Integer) map.getIteration("b.d[1]") == 2;
+
+        assert (Integer) map.removeIteration("a.a.a") == 1;
+        assert (Integer) map.getIteration("a.a.b") == 1;
+        SuperMap target = (SuperMap) map.removeIteration("a.c[0]");
+        assert target != null && target.size() == 1 && (Integer) target.get("a") == 1;
+        target = (SuperMap) map.getIteration("a.c[0]");
+        assert target != null && target.size() == 1 && (Integer) target.get("b") == 2;
+        assert (Integer) map.removeIteration("b.d[0]") == 1;
+        assert (Integer) map.getIteration("b.d[0]") == 2;
     }
 }
