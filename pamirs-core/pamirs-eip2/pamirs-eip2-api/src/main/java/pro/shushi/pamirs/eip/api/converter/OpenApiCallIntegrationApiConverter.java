@@ -2,6 +2,9 @@ package pro.shushi.pamirs.eip.api.converter;
 
 import org.apache.camel.ExtendedExchange;
 import org.apache.camel.http.base.HttpOperationFailedException;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.MapHelper;
@@ -14,6 +17,7 @@ import pro.shushi.pamirs.eip.api.entity.EipResult;
 import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
 import pro.shushi.pamirs.eip.api.executor.EipExecutor;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
+import pro.shushi.pamirs.eip.api.pamirs.DefaultOpenFunctionConverterFunction;
 import pro.shushi.pamirs.eip.api.strategy.exception.CircuitBreakerOpenException;
 import pro.shushi.pamirs.eip.api.util.EipParamConverterHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
@@ -22,6 +26,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 开放接口调用集成接口
@@ -45,13 +50,20 @@ public class OpenApiCallIntegrationApiConverter implements IEipConverter<SuperMa
     @Override
     public void convert(IEipContext<SuperMap> context, ExtendedExchange exchange) {
         SuperMap executorContext = convertExecutorContext(context.getExecutorContext());
-        SuperMap body = context.getInterfaceContext();
-        String interfaceName = context.getApi().getInterfaceName();
-        EipResult<SuperMap> result = EipExecutor.newInstance(executorContext)
-                .setting(interfaceName)
-                .setRequestParamConvertFunction(OpenApiCallIntegrationApiParamConverter.INSTANCE)
-                .and()
-                .call(interfaceName, body);
+        Pair<SuperMap, Boolean> res = convertInterfaceContext((IEipOpenInterface<?>) context.getApi(), context.getInterfaceContext(), executorContext);
+        SuperMap body = res.getLeft();
+        boolean isOldApi = res.getRight();
+        EipResult<SuperMap> result;
+        if (isOldApi) {
+            result = EipExecutor.newInstance(executorContext).call(context.getApi().getInterfaceName(), body);
+        } else {
+            String interfaceName = context.getApi().getInterfaceName();
+            result = EipExecutor.newInstance(executorContext)
+                    .setting(interfaceName)
+                    .setRequestParamConvertFunction(OpenApiCallIntegrationApiParamConverter.INSTANCE)
+                    .and()
+                    .call(interfaceName, body);
+        }
         Object returnResult = result.getResult();
         if (returnResult instanceof HttpOperationFailedException) {
             HttpOperationFailedException httpOperationFailedException = (HttpOperationFailedException) returnResult;
@@ -79,6 +91,52 @@ public class OpenApiCallIntegrationApiConverter implements IEipConverter<SuperMa
         SuperMap target = MapHelper.deepClone(executorContext, SuperMap::new);
         target.removeIteration(IEipContext.REQUEST_STORE_PREFIX);
         return target;
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private Pair<SuperMap, Boolean> convertInterfaceContext(IEipOpenInterface eipApi, SuperMap interfaceContext, SuperMap executorContext) {
+        if (interfaceContext == null) {
+            interfaceContext = new SuperMap();
+        }
+        boolean isOldApi = false;
+        if (MapUtils.isEmpty(interfaceContext)) {
+            isOldApi = true;
+        } else {
+            List<IEipConvertParam> convertParamList = (List<IEipConvertParam>) Optional.ofNullable(eipApi.getRequestParamProcessor())
+                    .map(IEipOpenParamProcessor::getConvertParamList)
+                    .orElse(null);
+            if (CollectionUtils.isNotEmpty(convertParamList)) {
+                for (IEipConvertParam convertParam : convertParamList) {
+                    if (convertParam.getOutParam().startsWith(DefaultOpenFunctionConverterFunction.OPEN_FUNCTION_CONVERTER_ARGS)) {
+                        isOldApi = true;
+                    }
+                }
+            }
+        }
+        if (isOldApi) {
+            Object headerParamsObj = executorContext.getIteration(IEipContext.HEADER_PARAMS_KEY);
+            if (headerParamsObj instanceof Map) {
+                Map<String, Object> headerParams = (Map<String, Object>) headerParamsObj;
+                headerParams.forEach(interfaceContext::putIteration);
+//            for (Map.Entry<String, Object> entry : headerParams.entrySet()) {
+//                interfaceContext.putIteration(IEipContext.HEADER_PARAMS_KEY + CharacterConstants.SEPARATOR_DOT + entry.getKey(), entry.getValue());
+//            }
+            } else if (headerParamsObj != null) {
+                log.error("Header parameter conversion failed: expected a Map, but found {}", headerParamsObj.getClass().getName());
+            }
+
+            Object queryParamsObj = executorContext.getIteration(IEipContext.URL_QUERY_PARAMS_KEY);
+            if (queryParamsObj instanceof Map) {
+                Map<String, Object> queryParams = (Map<String, Object>) queryParamsObj;
+                queryParams.forEach(interfaceContext::putIteration);
+//            for (String queryKey : queryParams.keySet()) {
+//                interfaceContext.putIteration(IEipContext.URL_QUERY_PARAMS_KEY + CharacterConstants.SEPARATOR_DOT + queryKey, queryParams.get(queryKey));
+//            }
+            } else if (queryParamsObj != null) {
+                log.error("Query parameter conversion failed: expected a Map, but found {}", queryParamsObj.getClass().getName());
+            }
+        }
+        return Pair.of(interfaceContext, isOldApi);
     }
 
     private static class OpenApiCallIntegrationApiParamConverter implements IEipParamConverter<SuperMap> {
