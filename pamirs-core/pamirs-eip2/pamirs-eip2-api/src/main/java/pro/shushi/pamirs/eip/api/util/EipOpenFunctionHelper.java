@@ -6,7 +6,9 @@ import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.core.common.function.FunctionHelper;
 import pro.shushi.pamirs.core.common.function.context.ArgumentContext;
 import pro.shushi.pamirs.core.common.function.context.FunctionContext;
+import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
+import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 
 import java.util.List;
@@ -37,6 +39,11 @@ public class EipOpenFunctionHelper {
                         argObj = FunctionHelper.deserializationArgument(argumentContext, argJson);
                     } else {
                         argObj = FunctionHelper.deserializationClientArgument(argumentContext, argJson);
+                    }
+                    if (argObj instanceof Pagination) {
+                        ((Pagination<?>) argObj).setModel(functionContext.getNamespace());
+                    } else if (argObj instanceof IWrapper) {
+                        ((IWrapper<?>) argObj).setModel(functionContext.getNamespace());
                     }
                 }
                 argObjs[i] = argObj;

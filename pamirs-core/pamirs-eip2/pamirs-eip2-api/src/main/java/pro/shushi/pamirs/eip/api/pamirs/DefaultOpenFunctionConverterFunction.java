@@ -30,10 +30,13 @@ public class DefaultOpenFunctionConverterFunction<T> extends AbstractExecuteFunc
         // 根据函数定义,从上下文中获取入参
         Object[] argObjs = EipOpenFunctionHelper.convertArguments(function, (SuperMap) context.getInterfaceContextValue(OPEN_FUNCTION_CONVERTER_ARGS));
         Object result;
+        PamirsSession.directive().enableFromClient();
+        PamirsSession.directive().enableHook();
+        PamirsSession.directive().enableExtPoint();
         if (argObjs == null) {
-            result = ignoreHookCall();
+            result = call();
         } else {
-            result = ignoreHookCall(argObjs);
+            result = call(argObjs);
         }
         String returnModel = function.getReturnType().getModel();
         if (result != null && StringUtils.isNotBlank(returnModel)) {
