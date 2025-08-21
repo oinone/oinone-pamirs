@@ -558,7 +558,7 @@ public class DateFunctions {
         if (StringUtils.isBlank(dateStr) || "null".equalsIgnoreCase(dateStr)) {
             return null;
         }
-        return DateUtils.convertFormatDate(dateStr, DateFormatEnum.DATETIME.value());
+        return DateUtils.convertToDate(dateStr);
     }
 
     private static Date convertToStandardDate(java.sql.Date sqlDate) {
