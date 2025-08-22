@@ -149,16 +149,9 @@ public class EipHelper {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> void paramConvert(IEipContext<T> context, IEipParamConverterProcessor<T> paramConverterProcessor, ExtendedExchange exchange) {
-        IEipConverter<T> converter = (IEipConverter<T>) context.getExecutorContextValue(IEipContext.REQUEST_CONVERT_PREFIX + context.getApi().getInterfaceName());
-        if (converter == null) {
-            converter = paramConverterProcessor.getConverter();
-        }
-        IEipParamConverter<T> paramConverter = (IEipParamConverter<T>) context.getExecutorContextValue(IEipContext.REQUEST_PARAM_CONVERT_PREFIX + context.getApi().getInterfaceName());
-        if (paramConverter == null) {
-            paramConverter = paramConverterProcessor.getParamConverter();
-        }
+        IEipConverter<T> converter = paramConverterProcessor.getConverter();
+        IEipParamConverter<T> paramConverter = paramConverterProcessor.getParamConverter();
         List<IEipConvertParam<T>> convertParamList = paramConverterProcessor.getConvertParamList();
         if (converter == null && paramConverter == null) {
             return;
