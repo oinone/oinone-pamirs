@@ -6,6 +6,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import pro.shushi.pamirs.core.common.function.context.ArgumentContext;
 import pro.shushi.pamirs.core.common.function.context.FunctionContext;
 import pro.shushi.pamirs.core.common.function.context.IArgument;
+import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Fun;
@@ -14,6 +15,7 @@ import pro.shushi.pamirs.meta.api.audit.spi.DataAuditApi;
 import pro.shushi.pamirs.meta.api.core.orm.systems.directive.SystemDirectiveEnum;
 import pro.shushi.pamirs.meta.api.dto.fun.Arg;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
+import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.enmu.UriType;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.api.session.cache.holder.RequestMetaDataCacheApiHolder;
@@ -195,7 +197,11 @@ public class FunctionHelper {
                 List<String> argList = JsonUtils.parseObjectList(arg, String.class);
                 return argList.stream().map(_arg -> PamirsDataUtils.parseModelObject(argument.getModel(), _arg)).collect(Collectors.toList());
             } else {
-                return PamirsDataUtils.parseModelObject(argument.getModel(), arg);
+                String model = argument.getModel();
+                if (IWrapper.MODEL_MODEL.equals(model)) {
+                    return JsonUtils.parseObject(arg, QueryWrapper.class);
+                }
+                return PamirsDataUtils.parseModelObject(model, arg);
             }
         } catch (Throwable e) {
             log.error("deserialization client argument type convert error", e);

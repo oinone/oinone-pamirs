@@ -209,17 +209,19 @@ public class EipOpenInterface extends AbstractSingleInterface implements IEipOpe
             }
         }
 
-        switch (localConverterType) {
-            case EIP_FUNCTION:
-                return new DefaultConverterFunction<>(namespace, fun);
-            case EIP_FUNCTION_WITH_RESULT:
-                return new DefaultOpenEipFunctionConverterFunction<>(namespace, fun);
-            case MODEL_FUNCTION:
-                return new DefaultOpenModelFunctionConverterFunction<>(namespace, fun);
-            case FUNCTION:
-                return new DefaultOpenFunctionConverterFunction<>(namespace, fun);
-            default:
-                return null;
+        if (EipOpenConverterTypeEnum.EIP_FUNCTION.equals(localConverterType)) {
+            return new DefaultConverterFunction<>(namespace, fun);
+        } else {
+            switch (localConverterType) {
+                case EIP_FUNCTION_WITH_RESULT:
+                    return new DefaultOpenEipFunctionConverterFunction<>(namespace, fun);
+                case MODEL_FUNCTION:
+                    return new DefaultOpenModelFunctionConverterFunction<>(namespace, fun);
+                case FUNCTION:
+                    return new DefaultOpenFunctionConverterFunction<>(namespace, fun);
+                default:
+                    return new DefaultConverterFunction<>(namespace, fun);
+            }
         }
     }
 

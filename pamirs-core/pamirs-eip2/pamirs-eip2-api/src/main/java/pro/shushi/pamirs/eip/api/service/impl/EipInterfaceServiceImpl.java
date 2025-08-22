@@ -4,6 +4,7 @@ import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.model.RouteDefinition;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.eip.api.IEipApi;
 import pro.shushi.pamirs.eip.api.IEipIntegrationInterface;
@@ -12,10 +13,14 @@ import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.eip.api.context.EipCamelContext;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.enmu.ComponentTypeEnum;
+import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.*;
 import pro.shushi.pamirs.eip.api.pamirs.DefaultConverterFunction;
 import pro.shushi.pamirs.eip.api.pamirs.DefaultFilterFunction;
 import pro.shushi.pamirs.eip.api.service.EipInterfaceService;
+import pro.shushi.pamirs.eip.api.strategy.context.EipLogStrategyContext;
+import pro.shushi.pamirs.eip.api.strategy.entity.EipLogStrategyEntity;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.eip.api.util.*;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
@@ -26,6 +31,9 @@ import java.util.List;
 @Slf4j
 @Service
 public class EipInterfaceServiceImpl implements EipInterfaceService {
+
+    @Autowired
+    private EipLogStrategyService eipLogStrategyService;
 
     @Override
     public Result<String> registerApi(IEipApi eipApi) {
@@ -67,6 +75,9 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
                     .from(EipFunctionConstant.EMPTY.apply(context, interfaceName))
                     .<EipCamelRouteUtil>to(eipInterface)
                     .end();
+            EipLogStrategyEntity logStrategy = EipLogStrategyContext.getOrCreate(InterfaceTypeEnum.INTEGRATION, eipInterface.getInterfaceName());
+            logStrategy.setEnabled(!Boolean.FALSE.equals(eipInterface.getIsEnabledLog()));
+            eipLogStrategyService.refreshLogStrategy(logStrategy);
         } catch (Exception e) {
             log.error("集成接口注册失败", e);
             return new Result<String>().error().setData(e.getMessage());
@@ -194,6 +205,9 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
                 EipHelper.fillEipOpenInterface(openInterface);
             }
             EipInitializationUtil.newInstance().addOpenApi(eipInterface);
+            EipLogStrategyEntity logStrategy = EipLogStrategyContext.getOrCreate(InterfaceTypeEnum.OPEN, eipInterface.getInterfaceName());
+            logStrategy.setEnabled(!Boolean.FALSE.equals(eipInterface.getIsEnabledLog()));
+            eipLogStrategyService.refreshLogStrategy(logStrategy);
         } catch (Exception e) {
             log.error("开放接口注册失败", e);
             return new Result<String>().error().setData(e.getMessage());

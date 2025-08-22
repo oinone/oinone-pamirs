@@ -28,6 +28,10 @@ public interface IEipContext<T> extends Serializable {
 
     String DEFAULT_ERROR_MESSAGE_KEY = "eip.result.errorMessage";
 
+    String REQUEST_CONVERT_PREFIX = "config.request.convert.function.";
+
+    String REQUEST_PARAM_CONVERT_PREFIX = "config.request.param-convert.function.";
+
     String RESPONSE_CALLBACK_PREFIX = "config.callback.function.";
 
     String RESPONSE_CALLBACK_TYPE_PREFIX = "config.callback.type.";

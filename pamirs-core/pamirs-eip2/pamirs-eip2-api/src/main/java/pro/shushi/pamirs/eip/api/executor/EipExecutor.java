@@ -1,12 +1,9 @@
 package pro.shushi.pamirs.eip.api.executor;
 
 import pro.shushi.pamirs.core.common.SuperMap;
-import pro.shushi.pamirs.eip.api.IEipContext;
-import pro.shushi.pamirs.eip.api.IEipIdempotentProcessor;
-import pro.shushi.pamirs.eip.api.IEipProcessCallback;
+import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.entity.EipResult;
 import pro.shushi.pamirs.eip.api.service.EipExecuteService;
-import pro.shushi.pamirs.eip.api.service.EipRemoteExecuteService;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 
 import java.lang.reflect.Type;
@@ -19,8 +16,6 @@ import java.lang.reflect.Type;
 public class EipExecutor {
 
     private final SuperMap executorContext;
-
-    private boolean isRemote = false;
 
     private EipExecutor(SuperMap executorContext) {
         this.executorContext = executorContext;
@@ -71,27 +66,13 @@ public class EipExecutor {
     }
 
     /**
-     * 使用远程调用
-     *
-     * @return 执行器
-     */
-    public EipExecutor remote() {
-        isRemote = true;
-        return this;
-    }
-
-    /**
      * 无参调用
      *
      * @param interfaceName 接口名称
      * @return 结果集
      */
-    @SuppressWarnings("unchecked")
     public EipResult<SuperMap> call(String interfaceName) {
-        if (isRemote) {
-            return CommonApiFactory.getApi(EipRemoteExecuteService.class).callByInterfaceName(interfaceName, executorContext, null);
-        }
-        return CommonApiFactory.getApi(EipExecuteService.class).callByInterfaceName(interfaceName, executorContext, null);
+        return call(interfaceName, null);
     }
 
     /**
@@ -103,9 +84,6 @@ public class EipExecutor {
      */
     @SuppressWarnings("unchecked")
     public EipResult<SuperMap> call(String interfaceName, Object body) {
-        if (isRemote) {
-            return CommonApiFactory.getApi(EipRemoteExecuteService.class).callByInterfaceName(interfaceName, executorContext, body);
-        }
         return CommonApiFactory.getApi(EipExecuteService.class).callByInterfaceName(interfaceName, executorContext, body);
     }
 
@@ -130,6 +108,16 @@ public class EipExecutor {
          */
         public EipExecutor and() {
             return this.executor;
+        }
+
+        public EipInterfaceSetting setRequestConvertFunction(IEipConverter<SuperMap> converter) {
+            executor.executorContext.putIteration(IEipContext.REQUEST_CONVERT_PREFIX + interfaceName, converter);
+            return this;
+        }
+
+        public EipInterfaceSetting setRequestParamConvertFunction(IEipParamConverter<SuperMap> converter) {
+            executor.executorContext.putIteration(IEipContext.REQUEST_PARAM_CONVERT_PREFIX + interfaceName, converter);
+            return this;
         }
 
         /**

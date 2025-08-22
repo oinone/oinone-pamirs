@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.api.serializable;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +17,6 @@ import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.*;
@@ -84,7 +84,7 @@ public class DefaultSoapSerializable implements IEipSerializable<SuperMap>, IEip
 
     private SuperMap stringToMap(String content) {
         if (StringUtils.isNotBlank(content)) {
-            if (JsonUtils.isJSONString(content)) {
+            if (JSON.isValid(content)) {
                 return defaultJSONSerializable.serializable(content);
             }
             return soapXML2Map(content);

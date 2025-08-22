@@ -28,6 +28,7 @@ import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.middleware.zookeeper.service.ZookeeperService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -84,7 +85,7 @@ public class EipLogStrategyDistributionSupportImpl implements EipLogStrategyDist
             if (log.isInfoEnabled()) {
                 log.info("ready refresh log strategy: {}", JSON.toJSONString(logStrategy));
             }
-            this.zookeeperService.createOrUpdateData(routePath, createData(logStrategy));
+            this.zookeeperService.createOrUpdateData(routePath, createData(logStrategy), this::defaultComparator);
         } catch (Exception e) {
             log.error("刷新失败 [interfaceName {}]", interfaceName, e);
             return new Result<String>().error().setData(String.format("刷新失败 [interfaceName %s]", interfaceName));
@@ -170,17 +171,11 @@ public class EipLogStrategyDistributionSupportImpl implements EipLogStrategyDist
 
     private boolean defaultComparator(byte[] originData, byte[] data) {
         if (originData == null) {
-            return Boolean.TRUE;
+            return true;
         }
-        if (data == null) {
-            return Boolean.FALSE;
+        if (originData.length == data.length) {
+            return !Arrays.equals(originData, data);
         }
-        if (data.length == 1) {
-            if (originData[0] == data[0]) {
-                return Boolean.FALSE;
-            }
-            return Boolean.TRUE;
-        }
-        return Boolean.TRUE;
+        return true;
     }
 }

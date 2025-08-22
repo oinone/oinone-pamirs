@@ -31,9 +31,9 @@ public class DefaultOpenFunctionConverterFunction<T> extends AbstractExecuteFunc
         Object[] argObjs = EipOpenFunctionHelper.convertArguments(function, (SuperMap) context.getInterfaceContextValue(OPEN_FUNCTION_CONVERTER_ARGS));
         Object result;
         if (argObjs == null) {
-            result = ignoreHookCall();
+            result = call();
         } else {
-            result = ignoreHookCall(argObjs);
+            result = call(argObjs);
         }
         String returnModel = function.getReturnType().getModel();
         if (result != null && StringUtils.isNotBlank(returnModel)) {
