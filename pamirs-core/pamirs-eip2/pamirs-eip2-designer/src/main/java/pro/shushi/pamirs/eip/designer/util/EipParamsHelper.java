@@ -3,7 +3,6 @@ package pro.shushi.pamirs.eip.designer.util;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.eip.api.IEipContext;
-import pro.shushi.pamirs.eip.api.enmu.ContextTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipConvertParam;
 import pro.shushi.pamirs.eip.api.pamirs.DefaultOpenFunctionConverterFunction;
 import pro.shushi.pamirs.eip.designer.model.conn.*;
@@ -15,38 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class EipParamsHelper {
-
-    public static void buildQueryParams(List<EipConvertParam> requestConvertParams, List<EipOpenReqQueryParam> queryParams) {
-        if (CollectionUtils.isEmpty(queryParams)) {
-            return;
-        }
-        for (EipOpenReqQueryParam param : queryParams) {
-            requestConvertParams.add(
-                    new EipConvertParam()
-                            .setInParam(IEipContext.URL_QUERY_PARAMS_KEY + "." + param.getKey())
-                            .setOutParam(DefaultOpenFunctionConverterFunction.OPEN_FUNCTION_CONVERTER_ARGS + "." + param.getValueExpr())
-                            .setRequired(param.getRequired())
-                            .setDefaultValue(StringUtils.isEmpty(param.getDefaultValue()) ? null : param.getDefaultValue())
-            );
-        }
-    }
-
-    public static void buildHeaderParams(List<EipConvertParam> requestConvertParams, List<EipOpenReqHeaderParam> headerParams) {
-        if (CollectionUtils.isEmpty(headerParams)) {
-            return;
-        }
-        for (EipOpenReqHeaderParam param : headerParams) {
-            requestConvertParams.add(
-                    new EipConvertParam()
-                            .setOriginContextType(ContextTypeEnum.EXECUTOR)
-                            .setTargetContextType(ContextTypeEnum.EXECUTOR)
-                            .setInParam(IEipContext.HEADER_PARAMS_KEY + "." + param.getKey())
-                            .setOutParam(DefaultOpenFunctionConverterFunction.OPEN_FUNCTION_CONVERTER_ARGS + "." + param.getKey())
-                            .setRequired(param.getRequired())
-                            .setDefaultValue(StringUtils.isEmpty(param.getDefaultValue()) ? null : param.getDefaultValue())
-            );
-        }
-    }
 
     public static void buildBodyParams(List<EipConvertParam> requestConvertParams, List<EipOpenReqBodyParam> bodyParams, String prefix) {
         if (CollectionUtils.isEmpty(bodyParams)) {
@@ -102,49 +69,6 @@ public class EipParamsHelper {
                 buildRespParams(responseConvertParams, param.getChildren(), key);
             }
         }
-    }
-
-    public static List<EipOpenReqQueryParam> buildQueryParams(List<EipReqQueryParam> queryParams) {
-        List<EipOpenReqQueryParam> openApiQueryParams = new ArrayList<>(queryParams.size());
-        for (EipReqQueryParam queryParam : queryParams) {
-            EipOpenReqQueryParam openApiQueryParam = new EipOpenReqQueryParam();
-            openApiQueryParam.setKey(queryParam.getKey());
-            openApiQueryParam.setRequired(queryParam.getRequired());
-            openApiQueryParam.setDefaultValue(queryParam.getDefaultValue());
-            openApiQueryParam.setDesc(queryParam.getDesc());
-            openApiQueryParam.setValueExpr(queryParam.getKey());
-            openApiQueryParam.setParamType(queryParam.getParamType());
-            openApiQueryParams.add(openApiQueryParam);
-        }
-        return openApiQueryParams;
-    }
-
-    public static List<EipOpenReqPathParam> buildPathParams(List<EipReqPathParam> pathParams) {
-        List<EipOpenReqPathParam> openApiPathParams = new ArrayList<>(pathParams.size());
-        for (EipReqPathParam pathParam : pathParams) {
-            EipOpenReqPathParam openApiPathParam = new EipOpenReqPathParam();
-            openApiPathParam.setKey(pathParam.getKey());
-            openApiPathParam.setRequired(pathParam.getRequired());
-            openApiPathParam.setDefaultValue(pathParam.getDefaultValue());
-            openApiPathParam.setDesc(pathParam.getDesc());
-            openApiPathParam.setParamType(pathParam.getParamType());
-            openApiPathParams.add(openApiPathParam);
-        }
-        return openApiPathParams;
-    }
-
-    public static List<EipOpenReqHeaderParam> buildHeaderParams(List<EipReqHeaderParam> headerParams) {
-        List<EipOpenReqHeaderParam> openApiHeaderParams = new ArrayList<>(headerParams.size());
-        for (EipReqHeaderParam headerParam : headerParams) {
-            EipOpenReqHeaderParam openApiHeaderParam = new EipOpenReqHeaderParam();
-            openApiHeaderParam.setKey(headerParam.getKey());
-            openApiHeaderParam.setRequired(headerParam.getRequired());
-            openApiHeaderParam.setDefaultValue(headerParam.getDefaultValue());
-            openApiHeaderParam.setDesc(headerParam.getDesc());
-            openApiHeaderParam.setParamType(headerParam.getParamType());
-            openApiHeaderParams.add(openApiHeaderParam);
-        }
-        return openApiHeaderParams;
     }
 
     public static List<EipOpenReqBodyParam> buildBodyParams(List<EipReqBodyParam> bodyParams) {
