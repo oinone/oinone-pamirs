@@ -3,12 +3,11 @@ package pro.shushi.pamirs.eip.view.action;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
-import pro.shushi.pamirs.eip.api.service.EipLogStrategyService;
 import pro.shushi.pamirs.eip.api.service.EipService;
 import pro.shushi.pamirs.eip.api.service.model.EipOpenInterfaceService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -59,9 +58,6 @@ public class EipOpenInterfaceAction {
         data = data.queryById();
         eipLogStrategyService.ignoreFrequency(data.getInterfaceName(), InterfaceTypeEnum.OPEN);
         data.setIsIgnoreLogFrequency(true);
-        if (DataStatusEnum.ENABLED.equals(data.getDataStatus())) {
-            eipService.registerOpenInterface(data);
-        }
         return data;
     }
 
@@ -72,9 +68,6 @@ public class EipOpenInterfaceAction {
         data = data.queryById();
         eipLogStrategyService.cancelIgnoreFrequency(data.getInterfaceName(), InterfaceTypeEnum.OPEN);
         data.setIsIgnoreLogFrequency(false);
-        if (DataStatusEnum.ENABLED.equals(data.getDataStatus())) {
-            eipService.registerOpenInterface(data);
-        }
         return data;
     }
 }

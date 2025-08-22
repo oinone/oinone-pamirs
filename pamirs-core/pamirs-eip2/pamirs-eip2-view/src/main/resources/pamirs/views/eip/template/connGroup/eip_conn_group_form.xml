@@ -11,7 +11,7 @@
                placeholder="请输入业务域名称" hint="全局唯一"/>
         <field data="description" label="描述" required="true"
                placeholder="请输入业务域的描述信息"
-               maxLength="256" widget="EipOpenText"
+               maxLength="256"
                hint="精准明确的业务域描述同样有助于后续管理 ^_^"/>
     </template>
 </view>

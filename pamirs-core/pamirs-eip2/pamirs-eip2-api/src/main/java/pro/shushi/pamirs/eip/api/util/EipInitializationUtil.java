@@ -30,7 +30,6 @@ public class EipInitializationUtil {
         return new EipInitializationUtil(EipCamelContext.getContext());
     }
 
-    @Deprecated
     public static EipInitializationUtil newInstance(EipCamelContext context) {
         return new EipInitializationUtil(context);
     }

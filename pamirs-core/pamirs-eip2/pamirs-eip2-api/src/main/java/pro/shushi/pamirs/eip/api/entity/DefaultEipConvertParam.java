@@ -22,6 +22,8 @@ public class DefaultEipConvertParam<T> implements IEipConvertParam<T> {
 
     private Boolean required;
 
+    private Boolean isKeepNull;
+
     private Integer size;
 
     private final Map<String, String> convertMap;
@@ -46,6 +48,7 @@ public class DefaultEipConvertParam<T> implements IEipConvertParam<T> {
         this.outParam = outParam;
         this.outParamType = ParamTypeEnum.OBJECT;
         this.required = Boolean.FALSE;
+        this.isKeepNull = Boolean.FALSE;
         this.convertMap = convertMap;
         this.originContextType = ContextTypeEnum.INTERFACE;
         this.targetContextType = ContextTypeEnum.INTERFACE;
@@ -122,6 +125,16 @@ public class DefaultEipConvertParam<T> implements IEipConvertParam<T> {
     }
 
     @Override
+    public Boolean getIsKeepNull() {
+        return required;
+    }
+
+    public DefaultEipConvertParam<T> setIsKeepNull(Boolean isKeepNull) {
+        this.isKeepNull = isKeepNull;
+        return this;
+    }
+
+    @Override
     public Integer getSize() {
         return size;
     }
@@ -168,6 +181,9 @@ public class DefaultEipConvertParam<T> implements IEipConvertParam<T> {
                 .setSize(size)
                 .setInParamType(inParamType)
                 .setOutParamType(outParamType)
+                .setDefaultValue(defaultValue)
+                .setRequired(required)
+                .setIsKeepNull(isKeepNull)
                 .setOriginContextType(originContextType)
                 .setTargetContextType(targetContextType)
                 .setParamConverterCallback(callback);

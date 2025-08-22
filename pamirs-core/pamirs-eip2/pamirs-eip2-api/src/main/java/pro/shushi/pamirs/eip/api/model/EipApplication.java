@@ -7,6 +7,7 @@ import pro.shushi.pamirs.core.common.behavior.IDataStatus;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.eip.api.IEipDecryptProcessor;
 import pro.shushi.pamirs.eip.api.IEipEncryptionProcessor;
+import pro.shushi.pamirs.eip.api.model.strategy.EipOpenIpBlacklist;
 import pro.shushi.pamirs.eip.api.pamirs.DefaultDecryptFunction;
 import pro.shushi.pamirs.eip.api.pamirs.DefaultEncryptionFunction;
 import pro.shushi.pamirs.meta.annotation.Field;

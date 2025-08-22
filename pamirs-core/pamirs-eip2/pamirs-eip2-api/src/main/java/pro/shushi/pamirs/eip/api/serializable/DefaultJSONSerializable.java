@@ -1,7 +1,7 @@
 package pro.shushi.pamirs.eip.api.serializable;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONValidator;
 import com.google.common.primitives.Primitives;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.SuperMap;
@@ -11,6 +11,7 @@ import pro.shushi.pamirs.eip.api.constant.EipContextConstant;
 import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
+import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.List;
 
@@ -57,11 +58,12 @@ public class DefaultJSONSerializable extends AbstractSerializable implements IEi
 
     @Override
     protected SuperMap stringToSuperMap(String s) {
+        JSONValidator.Type jsonType = JsonUtils.validateJSONType(s);
         SuperMap result;
-        if (JSONObject.isValidArray((s))) {
+        if (JSONValidator.Type.Array.equals(jsonType)) {
             result = new SuperMap();
             result.put(EipContextConstant.LIST_KEY, JSON.parseArray(s, SuperMap.class));
-        } else if (JSONObject.isValidObject(s)) {
+        } else if (jsonType != null) {
             result = JSON.parseObject(s, SuperMap.class);
         } else {
             result = new SuperMap();

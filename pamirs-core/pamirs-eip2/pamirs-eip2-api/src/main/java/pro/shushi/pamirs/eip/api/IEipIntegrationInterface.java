@@ -1,6 +1,13 @@
 package pro.shushi.pamirs.eip.api;
 
+import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
+
 public interface IEipIntegrationInterface<T> extends IEipApi, IEipAfterProperty<IEipIntegrationInterface<T>> {
+
+    @Override
+    default InterfaceTypeEnum getType() {
+        return InterfaceTypeEnum.INTEGRATION;
+    }
 
     /**
      * 上下文提供者

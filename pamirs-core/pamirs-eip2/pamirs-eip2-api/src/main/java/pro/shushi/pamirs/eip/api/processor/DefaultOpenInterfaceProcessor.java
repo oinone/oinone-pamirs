@@ -13,17 +13,17 @@ import pro.shushi.pamirs.core.common.enmu.EncryptTypeEnum;
 import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
 import pro.shushi.pamirs.eip.api.auth.PamirsTenantAuthenticationProcessor;
-import pro.shushi.pamirs.eip.api.auth.api.OpenApiIpBlackCheckApi;
-import pro.shushi.pamirs.eip.api.auth.api.OpenApiIpWhiteCheckApi;
 import pro.shushi.pamirs.eip.api.config.PamirsEipOpenApiProperties;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
-import pro.shushi.pamirs.eip.api.limiter.api.OpenRateLimitApi;
 import pro.shushi.pamirs.eip.api.model.EipApplication;
 import pro.shushi.pamirs.eip.api.model.EipLog;
+import pro.shushi.pamirs.eip.api.strategy.limiter.api.OpenRateLimitApi;
+import pro.shushi.pamirs.eip.api.strategy.spi.EipLogStrategyHandler;
+import pro.shushi.pamirs.eip.api.strategy.spi.OpenApiIpBlackCheckApi;
+import pro.shushi.pamirs.eip.api.strategy.spi.OpenApiIpWhiteCheckApi;
 import pro.shushi.pamirs.eip.api.util.EipHelper;
-import pro.shushi.pamirs.eip.api.util.EipLogUtil;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.Spider;
@@ -73,10 +73,12 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
         // 设置执行器上下文
         EipInterfaceContext.setExecutorContext(exchange, context);
 
+        EipLogStrategyHandler logStrategyHandler = Spider.getDefaultExtension(EipLogStrategyHandler.class);
+
         // 生成请求执行日志
         EipLog eipLog = null;
-        if (openInterface.getIsEnabledLog()) {
-            eipLog = EipLogUtil.createEipLog(context, exchange);
+        if (logStrategyHandler.isEnabled(context, exchange)) {
+            eipLog = logStrategyHandler.create(context, exchange);
         }
 
         // url查询参数处理
@@ -87,17 +89,21 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
 
         // 获取认证处理器
         IEipAuthenticationProcessor<SuperMap> authenticationProcessor = openInterface.getAuthenticationProcessor();
-        boolean needAuthentication = authenticationProcessor != null;
 
         // 请求认证
-        if (!BeanDefinitionUtils.getBean(PamirsTenantAuthenticationProcessor.class).authentication(context, exchange) || (needAuthentication && !authenticationProcessor.authentication(context, exchange))) {
+        PamirsTenantAuthenticationProcessor tenantAuthenticationProcessor = BeanDefinitionUtils.getBean(PamirsTenantAuthenticationProcessor.class);
+        boolean tenantAuthentication = true;
+        if (tenantAuthenticationProcessor != null) {
+            tenantAuthentication = tenantAuthenticationProcessor.authentication(context, exchange);
+        }
+        if (!tenantAuthentication || (authenticationProcessor != null && !authenticationProcessor.authentication(context, exchange))) {
 
             body = openInterface.getInOutConverter().exchangeObject(exchange, exchange.getMessage().getBody());
 
             message.setBody(body);
 
             if (eipLog != null) {
-                EipLogUtil.failure(context, eipLog, exchange);
+                logStrategyHandler.failure(context, exchange);
             }
 
             return;
@@ -135,7 +141,7 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
             message.setBody(context.getInterfaceContext());
 
             // 更新真实请求数据日志
-            EipLogUtil.updateRequestTargetData(eipLog, exchange);
+            logStrategyHandler.updateRequestTargetData(context, exchange);
 
             message.setBody(body);
         }
@@ -193,8 +199,8 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
         message.setBody(body);
 
         if (eipLog != null) {
-            EipLogUtil.updateResponseData(eipLog, exchange);
-            EipLogUtil.success(context, eipLog);
+            logStrategyHandler.updateResponseData(context, exchange);
+            logStrategyHandler.success(context, exchange);
         }
     }
 

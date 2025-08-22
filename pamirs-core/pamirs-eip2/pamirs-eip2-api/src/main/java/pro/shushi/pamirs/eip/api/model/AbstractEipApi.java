@@ -37,42 +37,30 @@ public abstract class AbstractEipApi extends BizIdModel implements IEipApi, IDat
     @Field(displayName = "模块")
     private ModuleDefinition moduleDefinition;
 
-    @Base
     @Field.String
     @Field(displayName = "模块编码", required = true)
     private String module;
 
-    @Base
     @Field.String
     @Field(displayName = "接口名称", required = true)
     private String name;
 
-    @Base
     @Field.String
     @Field(displayName = "接口技术名称", required = true)
     private String interfaceName;
 
-    @Base
     @Field.Text
     @Field(displayName = "接口描述", required = true)
     private String description;
 
-    @Base
     @Field.Enum
     @Field(displayName = "交换模式", defaultValue = "InOut", required = true, summary = "Camel内置交换模式")
     private ExchangePatternEnum exchangePattern;
 
-    @Base
-    @Field.Boolean
-    @Field(displayName = "是否启用日志", defaultValue = "true")
-    private Boolean isEnabledLog;
-
-    @Base
     @Field.Enum
     @Field(displayName = "数据状态", defaultValue = "ENABLED", required = true)
     private DataStatusEnum dataStatus;
 
-    @Base
     @Field.Boolean
     @Field(displayName = "是否被管理", defaultValue = "true", required = true)
     private Boolean isDBManaged;
@@ -83,52 +71,45 @@ public abstract class AbstractEipApi extends BizIdModel implements IEipApi, IDat
      * @deprecated 2.3.0
      */
     @Deprecated
-    @Base
     @Field.Enum
     @Field(displayName = "请求响应协议", defaultValue = "http", summary = "请求响应协议")
     private EipProtocolTypeEnum protocolTypeEnum;
 
     @Deprecated
-    @Base
     @Field.many2one
     @Field.Relation(relationFields = {"libCode"}, referenceFields = {"code"})
     @Field(displayName = "集成库")
     private EipLib lib;
 
     @Deprecated
-    @Base
     @Field.String
     @Field(displayName = "集成库编码", defaultValue = DEFAULT_LIB_CODE, invisible = true)
     private String libCode;
 
     @Deprecated
-    @Base
     @Field.many2one
     @Field.Relation(relationFields = {"connGroupCode"}, referenceFields = {"code"})
     @Field(displayName = "业务分组")
     private EipConnGroup connGroup;
 
     @Deprecated
-    @Base
     @Field.String
     @Field(displayName = "业务分组编码")
     private String connGroupCode;
 
-    @JSONField(serialize = false)
-    private transient EipCamelContext context;
+    @Deprecated
+    @Field.Boolean
+    @Field(displayName = "是否启用日志", defaultValue = "true")
+    private Boolean isEnabledLog;
 
+    @Deprecated
     @Field.Boolean
     @Field(displayName = "是否忽略日志记录频率限制", store = NullableBoolEnum.FALSE)
     private Boolean isIgnoreLogFrequency;
 
+    @JSONField(serialize = false)
     @Override
     public EipCamelContext getContext() {
-        return context;
-    }
-
-    public void setContext(EipCamelContext context) {
-        if (this.context == null) {
-            this.context = context;
-        }
+        return EipCamelContext.getContext();
     }
 }

@@ -13,12 +13,13 @@ import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.IEipOpenInterface;
 import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
-import pro.shushi.pamirs.eip.api.auth.api.EipLogSaveApi;
-import pro.shushi.pamirs.eip.api.cache.EipLogCountCacheApi;
-import pro.shushi.pamirs.eip.api.config.PamirsEipLogProperties;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
+import pro.shushi.pamirs.eip.api.strategy.cache.EipLogCountCacheApi;
+import pro.shushi.pamirs.eip.api.strategy.context.EipLogStrategyContext;
+import pro.shushi.pamirs.eip.api.strategy.entity.EipLogStrategyEntity;
+import pro.shushi.pamirs.eip.api.strategy.spi.EipLogSaveApi;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.cdn.pojo.CdnFile;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
@@ -27,13 +28,16 @@ import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.dto.config.TxConfig;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.spi.Spider;
-import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * @deprecated please using EipLogStrategyHandler spi
+ */
+@Deprecated
 @Slf4j
 public class EipLogUtil {
 
@@ -93,10 +97,11 @@ public class EipLogUtil {
 
     public static <V> void success(IEipContext<V> context, EipLog eipLog) {
         IEipApi eipApi = context.getApi();
-        if (eipApi.getIsIgnoreLogFrequency()) {
+        EipLogStrategyEntity logStrategy = EipLogStrategyContext.get(eipApi.getType(), eipApi.getInterfaceName());
+        if (logStrategy.isIgnoreLogFrequency()) {
             uploadEipLog(eipLog, true, null);
         } else {
-            Double frequency = BeanDefinitionUtils.getBean(PamirsEipLogProperties.class).getFrequency();
+            double frequency = logStrategy.getFrequency();
             boolean record = ThreadLocalRandom.current().nextDouble() < frequency;
             uploadEipLog(eipLog, record, frequency);
         }

@@ -6,18 +6,19 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.ExchangeBuilder;
 import org.apache.camel.support.ExchangeHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.http.MediaType;
 import pro.shushi.pamirs.core.common.StringHelper;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipExceptionParamProcessor;
 import pro.shushi.pamirs.eip.api.IEipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.IEipParamProcessor;
-import pro.shushi.pamirs.eip.api.circuitbreaker.CircuitBreaker;
 import pro.shushi.pamirs.eip.api.constant.EipContextConstant;
 import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.eip.api.enmu.ExchangePatternEnum;
 import pro.shushi.pamirs.eip.api.entity.EipResult;
-import pro.shushi.pamirs.eip.api.exception.CircuitBreakerOpenException;
+import pro.shushi.pamirs.eip.api.strategy.circuitbreaker.CircuitBreaker;
+import pro.shushi.pamirs.eip.api.strategy.exception.CircuitBreakerOpenException;
 import pro.shushi.pamirs.eip.api.util.EipCamelRouteUtil;
 import pro.shushi.pamirs.eip.api.util.EipInitializationUtil;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -27,7 +28,6 @@ import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Adamancy Zhang at 15:30 on 2021-02-24
@@ -104,7 +104,7 @@ public class EipInterfaceContext {
     }
 
     public static <T> EipResult<T> call(IEipIntegrationInterface<T> eipInterface, T executorContext, Object body) {
-        //获取CamelContext并检查启用状态
+        // 获取CamelContext并检查启用状态
         EipCamelContext camelContext = EipCamelContext.getContext();
         try {
             if (!camelContext.getIsEnabled()) {
@@ -114,94 +114,85 @@ public class EipInterfaceContext {
             return EipResult.error(null, "Oops!", e.getMessage(), e);
         }
 
-        //获取生产者
+        // 获取生产者
         ProducerTemplate producerTemplate = camelContext.getProducerTemplate();
 
-        //创建执行上下文
+        // 创建执行上下文
         IEipContext<T> context = eipInterface.getContextSupplier().get(eipInterface, executorContext, eipInterface.getRequestParamProcessor().getSerializable().serializable(body));
 
-        //创建交换消息对象
-        AtomicReference<Exchange> exchange = new AtomicReference<>(createExchange(camelContext, context));
+        // 创建交换消息对象
+        Exchange exchange = createExchange(camelContext, context);
 
-        //获取请求参数处理器
+        // 获取请求参数处理器
         IEipParamProcessor<T> paramProcessor = eipInterface.getRequestParamProcessor();
 
-        //请求参数处理
+        // 请求参数处理
         try {
-            paramProcessor.getProcessor().process(exchange.get());
+            paramProcessor.getProcessor().process(exchange);
         } catch (Exception e) {
-            if (e instanceof PamirsException) {
-                PamirsException exception = (PamirsException) e;
-                return EipResult.error(getExecutorContext(exchange.get()), StringHelper.valueOf(exception.getCode()), exception.getMessage(), e);
+            return error(exchange, e);
+        }
+
+        // 如果消息发生中断，则直接返回
+        EipResult<T> result = verificationInterrupted(exchange);
+        if (result != null) {
+            return result;
+        }
+
+        CircuitBreaker circuitBreaker = BeanDefinitionUtils.getBean(CircuitBreaker.class);
+        if (circuitBreaker == null) {
+            exchange = producerTemplate.send(eipInterface.getUri(), exchange);
+            result = verificationInterrupted(exchange);
+        } else {
+            try {
+                Pair<Exchange, EipResult<T>> pair = circuitBreaker.execute(producerTemplate, context, eipInterface, exchange);
+                exchange = pair.getKey();
+                result = pair.getValue();
+            } catch (CircuitBreakerOpenException e) {
+                log.warn("接口进入熔断状态，msg:{}", e.getMessage());
+                return EipResult.error(getExecutorContext(exchange), CircuitBreakerOpenException.ERROR_CODE, e.getMessage(), e);
             }
-            return EipResult.error(getExecutorContext(exchange.get()), "Oops!", e.getMessage(), e);
         }
 
-        //如果消息发生中断，则直接返回
-        EipResult<T> result = verificationInterrupted(exchange.get());
+        // 如果消息发生中断，则直接返回
         if (result != null) {
             return result;
         }
 
-        try {
-            result = BeanDefinitionUtils.getBean(CircuitBreaker.class).execute(eipInterface.getInterfaceName(), executorContext, () -> {
-                //将消息发送到接口指定路由，并交由Camel执行
-                exchange.set(producerTemplate.send(eipInterface.getUri(), exchange.get()));
-                // 结果处理
-                return verificationInterrupted(exchange.get());
-            });
-        } catch (CircuitBreakerOpenException e) {
-            log.warn("接口进入熔断状态，msg:{}", e.getMessage());
-            return EipResult.error(getExecutorContext(exchange.get()), CircuitBreakerOpenException.ERROR_CODE, e.getMessage(), e);
-        }
-
-        //如果消息发生中断，则直接返回
-        if (result != null) {
-            return result;
-        }
-
-        //获取异常参数处理器
+        // 获取异常参数处理器
         IEipExceptionParamProcessor<T> exceptionParamProcessor = eipInterface.getExceptionParamProcessor();
 
-        //异常参数处理
+        // 异常参数处理
         try {
-            exceptionParamProcessor.getProcessor().process(exchange.get());
+            exceptionParamProcessor.getProcessor().process(exchange);
         } catch (Exception e) {
-            if (e instanceof PamirsException) {
-                PamirsException exception = (PamirsException) e;
-                return EipResult.error(getExecutorContext(exchange.get()), StringHelper.valueOf(exception.getCode()), exception.getMessage(), e);
-            }
-            return EipResult.error(getExecutorContext(exchange.get()), "Oops!", e.getMessage(), e);
+            return error(exchange, e);
         }
 
-        //如果消息发生中断，则直接返回
-        result = verificationInterrupted(exchange.get());
+        // 如果消息发生中断，则直接返回
+        result = verificationInterrupted(exchange);
         if (result != null) {
             return result;
         }
 
-        //获取响应参数处理器
+        // 获取响应参数处理器
         paramProcessor = eipInterface.getResponseParamProcessor();
 
-        //响应参数处理
+        // 响应参数处理
         try {
-            paramProcessor.getProcessor().process(exchange.get());
+            paramProcessor.getProcessor().process(exchange);
         } catch (Exception e) {
-            if (e instanceof PamirsException) {
-                PamirsException exception = (PamirsException) e;
-                return EipResult.error(getExecutorContext(exchange.get()), StringHelper.valueOf(exception.getCode()), exception.getMessage(), e);
-            }
-            return EipResult.error(getExecutorContext(exchange.get()), "Oops!", e.getMessage(), e);
+            return error(exchange, e);
         }
 
-        //如果消息发生中断，则直接返回
-        result = verificationInterrupted(exchange.get());
+        // 如果消息发生中断，则直接返回
+        result = verificationInterrupted(exchange);
         if (result != null) {
             return result;
         }
 
-        //返回响应结果
-        return EipResult.success(EipInterfaceContext.getExecutorContext(exchange.get()), exchange.get().getMessage().getBody());
+        // 返回响应结果
+        return EipResult.success(EipInterfaceContext.getExecutorContext(exchange), exchange.getMessage().getBody());
     }
 
     @Deprecated
@@ -249,8 +240,16 @@ public class EipInterfaceContext {
         return exchange;
     }
 
+    private static <T> EipResult<T> error(Exchange exchange, Exception e) {
+        if (e instanceof PamirsException) {
+            PamirsException exception = (PamirsException) e;
+            return EipResult.error(getExecutorContext(exchange), StringHelper.valueOf(exception.getCode()), exception.getMessage(), e);
+        }
+        return EipResult.error(getExecutorContext(exchange), "Oops!", e.getMessage(), e);
+    }
+
     @SuppressWarnings("unchecked")
-    private static <T> EipResult<T> verificationInterrupted(Exchange exchange) {
+    public static <T> EipResult<T> verificationInterrupted(Exchange exchange) {
         ExtendedExchange extendedExchange = (ExtendedExchange) exchange;
         //当Camel进行异常处理后
         if (extendedExchange.isInterrupted()

@@ -25,16 +25,31 @@ public enum InterfaceTypeEnum implements IEnum<String> {
 
     public static final String dictionary = "pamirs.eip.InterfaceTypeEnum";
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     InterfaceTypeEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;
+    }
+
+    @Override
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    @Override
+    public String help() {
+        return help;
     }
 
     public String getValue() {
@@ -51,7 +66,7 @@ public enum InterfaceTypeEnum implements IEnum<String> {
 
     public static InterfaceTypeEnum safeValueOf(String value) {
         for (InterfaceTypeEnum item : InterfaceTypeEnum.values()) {
-            if (item.getValue().equals(value)) {
+            if (item.value.equals(value)) {
                 return item;
             }
         }

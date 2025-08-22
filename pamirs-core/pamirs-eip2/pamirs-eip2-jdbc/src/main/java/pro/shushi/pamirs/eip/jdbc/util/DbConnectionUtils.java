@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.jdbc.util;
 
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.eip.api.model.connector.EipConnector;
 import pro.shushi.pamirs.eip.jdbc.manager.EipDataSourceManager;
 import pro.shushi.pamirs.eip.jdbc.service.EipJdbcComponent;
@@ -16,7 +17,7 @@ public class DbConnectionUtils {
         try {
             // jdbc:mysql://127.0.0.1:3306/database
             String url = buildUrl(connector);
-            Class.forName(connector.getDriver());
+            Class.forName(connector.driver());
             //2、获取数据库连接
             DriverManager.setLoginTimeout(50);
             try (Connection conn = DriverManager.getConnection(url, connector.getUser(), connector.getPassword())) {
@@ -37,7 +38,11 @@ public class DbConnectionUtils {
 
     public static DataSource buildDataSource(EipConnector connector) {
         String url = buildUrl(connector);
-        return EipDataSourceManager.buildSimpleDataSource(url, connector.getDriver(), connector.getUser(), connector.getPassword());
+        String connDbType = connector.getConnBasicDbType();
+        if (StringUtils.isBlank(connDbType)) {
+            connDbType = connector.getConnBasicDbType();
+        }
+        return EipDataSourceManager.buildSimpleDataSource(url, connector.driver(), connector.getUser(), connector.getPassword(), connDbType);
     }
 
     public static String buildUrl(EipConnector connector) {

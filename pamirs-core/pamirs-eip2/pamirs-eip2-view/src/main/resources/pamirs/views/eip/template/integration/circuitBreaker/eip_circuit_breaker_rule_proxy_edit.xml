@@ -16,7 +16,7 @@
                 <option label="异常熔断" name="EXCEPTION"/>
             </options>
         </field>
-        <field colSpan="HALF" data="integrationInterfaceList" label="集成接口" widget="table" rows="10" required="true"
+        <field colSpan="HALF" data="integrationInterfaceList" label="集成接口" rows="10" required="true"
                domain="circuitBreakerRuleCode =isnull=true or circuitBreakerRuleCode == ${activeRecord.code}"/>
         <field colSpan="HALF" data="statisticalDuration" label="统计时长" required="true" showSuffix="true" suffix="s"
                suffixStore="false" suffixText="s" suffixType="TEXT" min="1" max="7200"/>
