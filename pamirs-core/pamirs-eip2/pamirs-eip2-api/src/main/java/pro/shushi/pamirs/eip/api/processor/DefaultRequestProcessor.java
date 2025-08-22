@@ -140,7 +140,7 @@ public class DefaultRequestProcessor extends AbstractEipIntegrationInterfaceProc
         }
 
         // 参数转换
-        EipHelper.paramConvert(context, paramProcessor, exchange);
+        EipHelper.paramConvert(context, new RequestParamConverterProcessor(context, paramProcessor), exchange);
 
         //增量处理
         IEipIncrementalProcessor<SuperMap> incrementalProcessor = integrationInterface.getIncrementalProcessor();
@@ -362,5 +362,49 @@ public class DefaultRequestProcessor extends AbstractEipIntegrationInterfaceProc
         }
 
         return exp;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static class RequestParamConverterProcessor implements IEipParamConverterProcessor<SuperMap> {
+
+        private final IEipContext<?> context;
+
+        private final String interfaceName;
+
+        private final IEipParamConverterProcessor<SuperMap> paramConverterProcessor;
+
+        public RequestParamConverterProcessor(IEipContext<?> context, IEipParamConverterProcessor<SuperMap> paramConverterProcessor) {
+            this.context = context;
+            this.interfaceName = context.getApi().getInterfaceName();
+            this.paramConverterProcessor = paramConverterProcessor;
+        }
+
+        @Override
+        public IEipConverter<SuperMap> getConverter() {
+            IEipConverter<SuperMap> converter = (IEipConverter<SuperMap>) context.getExecutorContextValue(IEipContext.REQUEST_CONVERT_PREFIX + interfaceName);
+            if (converter == null) {
+                converter = paramConverterProcessor.getConverter();
+            }
+            return converter;
+        }
+
+        @Override
+        public IEipParamConverter<SuperMap> getParamConverter() {
+            IEipParamConverter<SuperMap> paramConverter = (IEipParamConverter<SuperMap>) context.getExecutorContextValue(IEipContext.REQUEST_PARAM_CONVERT_PREFIX + interfaceName);
+            if (paramConverter == null) {
+                paramConverter = paramConverterProcessor.getParamConverter();
+            }
+            return paramConverter;
+        }
+
+        @Override
+        public IEipParamConverterCallback<SuperMap> getParamConverterCallback() {
+            return paramConverterProcessor.getParamConverterCallback();
+        }
+
+        @Override
+        public List<IEipConvertParam<SuperMap>> getConvertParamList() {
+            return paramConverterProcessor.getConvertParamList();
+        }
     }
 }
