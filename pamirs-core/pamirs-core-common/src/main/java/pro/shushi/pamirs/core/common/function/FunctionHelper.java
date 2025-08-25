@@ -201,7 +201,7 @@ public class FunctionHelper {
                 if (IWrapper.MODEL_MODEL.equals(model)) {
                     return JsonUtils.parseObject(arg, QueryWrapper.class);
                 }
-                return PamirsDataUtils.parseModelObject(argument.getModel(), arg);
+                return PamirsDataUtils.parseModelObject(model, arg);
             }
         } catch (Throwable e) {
             log.error("deserialization client argument type convert error", e);

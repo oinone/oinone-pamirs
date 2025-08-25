@@ -167,7 +167,6 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
     private void getAndPutValue(IEipContext<T> context, IEipConvertParam<T> convertParam, List<AtomicInteger> inParamCounterList,
                                 String inParam, String outParam,
                                 IEipParamConverterCallback<T> callback, Object inValue) {
-
         Object value = convertValue(context, convertParam, inParamCounterList, callback, inValue);
         if (value == null) {
             if (Boolean.TRUE.equals(convertParam.getRequired())) {

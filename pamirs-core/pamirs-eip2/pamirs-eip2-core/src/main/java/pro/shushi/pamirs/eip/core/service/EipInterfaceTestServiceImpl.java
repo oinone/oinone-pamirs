@@ -30,12 +30,8 @@ import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
-import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Adamancy Zhang at 18:10 on 2025-08-12
@@ -187,7 +183,7 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
         }
         try {
             String responseData = result.getResult(String.class);
-            if (StringUtils.isNotBlank(responseData) && JsonUtils.isJSONString(responseData)) {
+            if (StringUtils.isNotBlank(responseData) && JSON.isValid(responseData)) {
                 data.setResponseData(toJSONString(JSON.parse(responseData)));
                 return data;
             }
@@ -260,6 +256,11 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
             String op = getWebServiceOp(paramProcessor);
             if (StringUtils.isNotBlank(op) && requestBody instanceof Map) {
                 requestBody = ((Map<?, ?>) requestBody).get(op);
+                if (requestBody instanceof Collection) {
+                    SuperMap result = new SuperMap();
+                    result.put(EipContextConstant.LIST_KEY, requestBody);
+                    requestBody = result;
+                }
             }
         }
         IEipContext<?> context = actualIntegrationInterface.getContextSupplier().get(actualIntegrationInterface, executeContext, requestBody);

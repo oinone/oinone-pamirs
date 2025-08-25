@@ -7,6 +7,9 @@ import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializeFilter;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import pro.shushi.pamirs.meta.api.core.orm.serialize.KernelJsonUtils;
 import pro.shushi.pamirs.meta.api.core.orm.serialize.config.PamirsParserConfig;
 import pro.shushi.pamirs.meta.api.core.orm.serialize.config.PamirsSerializerConfig;
@@ -119,6 +122,14 @@ public class JsonUtils {
         return KernelJsonUtils.toJSONString(object, serializeConfig, defaultFilters, filters, features);
     }
 
+    private static final JsonFactory JSON_FACTORY;
+
+    static {
+        JSON_FACTORY = new JsonFactory();
+        JSON_FACTORY.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+        JSON_FACTORY.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+    }
+
     public static boolean isJSONString(String json) {
         return validateJSONType(json) != null;
     }
@@ -132,9 +143,32 @@ public class JsonUtils {
     }
 
     public static JSONValidator.Type validateJSONType(String json) {
-        try (JSONValidator validator = JSONValidator.from(json)) {
-            if (validator.validate()) {
-                return validator.getType();
+        try (JsonParser parser = JSON_FACTORY.createParser(json)) {
+            JsonToken firstToken = parser.nextToken();
+            if (JsonToken.START_OBJECT.equals(firstToken)) {
+                JsonToken lastToken = null;
+                while (true) {
+                    JsonToken t = parser.nextToken();
+                    if (t == null) {
+                        break;
+                    }
+                    lastToken = t;
+                }
+                if (JsonToken.END_OBJECT.equals(lastToken)) {
+                    return JSONValidator.Type.Object;
+                }
+            } else if (JsonToken.START_ARRAY.equals(firstToken)) {
+                JsonToken lastToken = null;
+                while (true) {
+                    JsonToken t = parser.nextToken();
+                    if (t == null) {
+                        break;
+                    }
+                    lastToken = t;
+                }
+                if (JsonToken.END_ARRAY.equals(lastToken)) {
+                    return JSONValidator.Type.Array;
+                }
             }
         } catch (IOException ignored) {
         }

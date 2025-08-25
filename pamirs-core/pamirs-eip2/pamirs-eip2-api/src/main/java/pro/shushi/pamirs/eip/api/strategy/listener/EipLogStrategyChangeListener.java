@@ -8,7 +8,6 @@ import org.apache.curator.framework.recipes.cache.TreeCacheListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
-import pro.shushi.pamirs.eip.api.service.distribution.EipDistributionSupport;
 import pro.shushi.pamirs.eip.api.strategy.context.EipLogStrategyContext;
 import pro.shushi.pamirs.eip.api.strategy.entity.EipLogStrategyEntity;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyDistributionSupport;
@@ -30,7 +29,16 @@ public class EipLogStrategyChangeListener implements TreeCacheListener {
 
     @Override
     public void childEvent(CuratorFramework curatorFramework, TreeCacheEvent treeCacheEvent) throws Exception {
-        ChildData childData = treeCacheEvent.getData();
+        switch (treeCacheEvent.getType()) {
+            case NODE_ADDED:
+            case NODE_UPDATED:
+            case NODE_REMOVED:
+                process(treeCacheEvent.getData());
+                break;
+        }
+    }
+
+    private void process(ChildData childData) {
         String path = childData.getPath();
         int rootPathLength = zookeeperService.getRootPath().length() + EipLogStrategyDistributionSupport.NODE_PATH_PREFIX.length() + 1;
         if (path.length() <= rootPathLength) {

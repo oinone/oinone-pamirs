@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-trigger</artifactId>
-        <version>6.2.13</version>
+        <version>6.2.14</version>
     </parent>
     <artifactId>pamirs-trigger-api</artifactId>
     <name>pamirs-trigger-api</name>

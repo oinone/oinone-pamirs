@@ -19,9 +19,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
-import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.PAMIRS_WEBSERVICE_NS;
-import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.PAMIRS_WEBSERVICE_OP;
-import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.PAMIRS_WEBSERVICE_PREFIX;
+import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.*;
 
 /**
  * DefaultSOAPInOutConverter
@@ -31,6 +29,8 @@ import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.PAMIRS_WEBSERV
 @Fun(EipFunctionConstant.FUNCTION_NAMESPACE)
 @Slf4j
 public class DefaultSOAPInOutConverter implements IEipInOutConverter {
+
+    private static final String NS = "ns";
 
     @Function.fun(EipFunctionConstant.DEFAULT_SOAP_IN_OUT_CONVERTER_FUN)
     @Function.Advanced(displayName = "默认SOAP输入输出转换器")
@@ -92,24 +92,12 @@ public class DefaultSOAPInOutConverter implements IEipInOutConverter {
                 .map(String::valueOf)
                 .orElse("");
 
-        SuperMap body = Optional.of(inObject)
+        Object requestBody = Optional.of(inObject)
                 .map(_in -> (SuperMap) _in)
                 .map(_in -> _in.get(PAMIRS_WEBSERVICE_PREFIX))
-                .map(_body -> (SuperMap) _body)
                 .orElse(new SuperMap());
 
-        SOAPBodyElement payload = null;
-        if (isV2) {
-            payload = soapMessage.getSOAPBody().addBodyElement(new QName(wsNs, wsOp));
-        } else {
-            payload = soapMessage.getSOAPBody().addBodyElement(new QName(wsNs, wsOp, "ns"));
-        }
-
-        for (Map.Entry<String, ?> entry : body.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            soapElement(payload, key, value);
-        }
+        soapElement(soapMessage.getSOAPBody(), isV2, wsNs, wsOp, null, requestBody);
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
             soapMessage.writeTo(baos);
@@ -117,6 +105,40 @@ public class DefaultSOAPInOutConverter implements IEipInOutConverter {
             String msg = new String(bytes, StandardCharsets.UTF_8);
             log.info("SOAP Message: {}", msg);
             return msg;
+        }
+    }
+
+    private static SOAPBodyElement createPayload(SOAPBody soapBody, boolean isV2, String wsNs, String wsOp) throws SOAPException {
+        if (isV2) {
+            return soapBody.addBodyElement(new QName(wsNs, wsOp));
+        } else {
+            return soapBody.addBodyElement(new QName(wsNs, wsOp, NS));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void soapElement(SOAPBody soapBody, boolean isV2, String wsNs, String wsOp, SOAPBodyElement payload, Object requestBody) throws SOAPException {
+        if (requestBody instanceof Map) {
+            if (payload == null) {
+                payload = createPayload(soapBody, isV2, wsNs, wsOp);
+            }
+            Map<String, ?> body = (Map<String, ?>) requestBody;
+            for (Map.Entry<String, ?> entry : body.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                soapElement(payload, key, value);
+            }
+        } else if (requestBody instanceof Collection) {
+            if (payload != null) {
+                throw new UnsupportedOperationException("无效的二维数组");
+            }
+            Collection<?> body = (Collection<?>) requestBody;
+            for (Object item : body) {
+                payload = createPayload(soapBody, isV2, wsNs, wsOp);
+                soapElement(soapBody, isV2, wsNs, wsOp, payload, item);
+            }
+        } else {
+            throw new UnsupportedOperationException("无效的数据类型");
         }
     }
 

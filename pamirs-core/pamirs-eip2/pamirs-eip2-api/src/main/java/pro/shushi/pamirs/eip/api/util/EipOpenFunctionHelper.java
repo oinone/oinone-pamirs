@@ -46,6 +46,11 @@ public class EipOpenFunctionHelper {
                         ((IWrapper<?>) argObj).setModel(functionContext.getNamespace());
                     }
                 }
+                if (argObj instanceof Pagination) {
+                    ((Pagination<?>) argObj).setModel(functionContext.getNamespace());
+                } else if (argObj instanceof IWrapper) {
+                    ((IWrapper<?>) argObj).setModel(functionContext.getNamespace());
+                }
                 argObjs[i] = argObj;
             }
         }
