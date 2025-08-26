@@ -11,15 +11,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * EnhanceModelPackages
+ * ChannelConfig
  *
  * @author yakir on 2022/09/06 20:15.
  */
 @Configuration
 @ConfigurationProperties(prefix = "pamirs.channel")
-public class EnhanceModelPackages {
+public class ChannelConfig {
 
     private List<String> packages;
+
+    private int threadSize = 0;
 
     public List<String> basePackages() {
         List<String> basePackages = Optional.ofNullable(packages)
@@ -40,8 +42,17 @@ public class EnhanceModelPackages {
         return packages;
     }
 
-    public EnhanceModelPackages setPackages(List<String> packages) {
+    public ChannelConfig setPackages(List<String> packages) {
         this.packages = packages;
+        return this;
+    }
+
+    public int getThreadSize() {
+        return threadSize;
+    }
+
+    public ChannelConfig setThreadSize(int threadSize) {
+        this.threadSize = threadSize;
         return this;
     }
 }

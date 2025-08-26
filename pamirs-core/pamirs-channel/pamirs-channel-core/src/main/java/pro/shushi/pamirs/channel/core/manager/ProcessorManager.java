@@ -3,33 +3,27 @@ package pro.shushi.pamirs.channel.core.manager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.channel.core.config.ChannelConfig;
 import pro.shushi.pamirs.channel.model.ChannelModel;
 import pro.shushi.pamirs.channel.model.ElasticIndexLog;
-import pro.shushi.pamirs.framework.common.config.TtlAsyncTaskExecutor;
+import pro.shushi.pamirs.framework.connectors.data.api.orm.BatchSizeHintApi;
 import pro.shushi.pamirs.framework.connectors.data.configure.sharding.ShardingDefineConfiguration;
 import pro.shushi.pamirs.framework.connectors.data.elastic.common.ElasticDocApi;
 import pro.shushi.pamirs.framework.connectors.data.mapper.GenericMapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
-import pro.shushi.pamirs.framework.session.tenant.component.PamirsTenantSession;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.systems.ModelDirectiveApi;
-import pro.shushi.pamirs.meta.api.dto.condition.Order;
-import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
-import pro.shushi.pamirs.meta.api.dto.condition.Sort;
+import pro.shushi.pamirs.meta.api.dto.condition.*;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+import java.util.concurrent.*;
 
 import static pro.shushi.pamirs.channel.enmu.ChannelExpEnumerate.CHANNEL_DUMP_MANAGER_ERROR;
 import static pro.shushi.pamirs.channel.enmu.ChannelExpEnumerate.SYSTEM_ERROR;
@@ -58,6 +52,8 @@ public class ProcessorManager extends AbstractProcessor {
     private GenericMapper genericMapper;
     @Autowired
     private ElasticDataConverter elasticDataConverter;
+    @Autowired
+    private ChannelConfig channelConfig;
     @Autowired
     private ShardingDefineConfiguration shardingDefineConfiguration;
 
@@ -96,9 +92,9 @@ public class ProcessorManager extends AbstractProcessor {
         QueryWrapper<DataMap> wrapper = new QueryWrapper<>();
         wrapper.from(originModel);
         wrapper.select(sql);
-        List<DataMap> res = genericMapper.<DataMap>selectList(wrapper);
+        List<DataMap> res = genericMapper.selectList(wrapper);
 
-        if (null == res || 1 > res.size()) {
+        if (null == res || res.isEmpty()) {
             throw PamirsException.construct(SYSTEM_ERROR)
                     .errThrow();
         }
@@ -131,29 +127,42 @@ public class ProcessorManager extends AbstractProcessor {
             return 0L;
         }
 
-        int totalPage = new Long(countId / batchSize).intValue() + 1;
+        ChannelDumpExecutor dumpExecutor = new ChannelDumpExecutor(channelConfig.getThreadSize());
+        ExecutorService executor = dumpExecutor.getExecutorService();
 
-        CountDownLatch latch = new CountDownLatch(totalPage);
-        ExecutorService exec = TtlAsyncTaskExecutor.getExecutorService();
-        for (int i = 1; i <= totalPage; i++) {
-            final int fi = i;
-            exec.submit(() -> {
-                try {
+        // 流控
+        int semaphoreSize = Math.max(channelConfig.getThreadSize(), 1);
+        Semaphore semaphore = new Semaphore(semaphoreSize);
+
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        while (minId < maxId) {
+
+            final long _minId = minId;
+            final long _maxId = minId + batchSize;
+
+            try {
+                semaphore.acquire();
+            } catch (InterruptedException e) {
+                log.error("获取信号量异常", e);
+                continue;
+            }
+
+            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                try (BatchSizeHintApi ignored = BatchSizeHintApi.use(-1)) {
                     Pagination<DataMap> pagination = new Pagination<>();
                     pagination.setSort(new Sort().addOrder(new Order().setField(ID).setDirection(SortDirectionEnum.ASC)));
                     pagination.setSize(batchSize);
-                    pagination.setCurrentPage(fi);
                     QueryWrapper<DataMap> wrapper = new QueryWrapper<>();
                     wrapper.from(originModel);
                     wrapper.select(SEPARATOR_ASTERISK);
+                    wrapper.setBatchSize(batchSize.intValue());
                     if (!isShardingModel) {
                         // 分库分表退化成不同分页查选
-                        String sql = ID + ">=" + minId + " and " + ID + "<=" + maxId;
+                        String sql = ID + ">=" + _minId + " and " + ID + "<" + _maxId;
                         wrapper.apply(sql);
                     }
-                    log.info("tenant: [{}]", PamirsTenantSession.getTenant());
                     List<DataMap> dataMaps = genericMapper.selectListByPage(pagination, wrapper);
-                    if (null == dataMaps || dataMaps.size() < 1) {
+                    if (null == dataMaps || dataMaps.isEmpty()) {
                         return;
                     }
                     ModelDirectiveApi directiveApi = Models.modelDirective();
@@ -161,24 +170,31 @@ public class ProcessorManager extends AbstractProcessor {
                         directiveApi.enableColumn(dataMaps);
                     }
                     List<?> dataList = elasticDataConverter.out(model, dataMaps);
-                    if (null == dataList || dataList.size() < 1) {
+                    if (null == dataList || dataList.isEmpty()) {
                         return;
                     }
                     List<?> list = Models.directive().run(() -> Fun.run(model, "synchronize", dataList));
                     List<Map<String, Object>> maps = elasticDataConverter.in(model, list);
                     List<Map<String, Object>> resBulk = elasticDocApi.bulkIndex(naming, maps);
-                    log.info("[{}] [{}]", naming, resBulk.size());
+                    log.info("[{}] [{}] [{}]-[{}]", naming, resBulk.size(), _minId, _maxId);
                 } catch (Throwable throwable) {
                     log.error("Dump发生异常", throwable);
                 } finally {
-                    latch.countDown();
+                    semaphore.release();
                 }
-            });
+            }, executor);
+            futures.add(future);
+            minId = _maxId;
         }
 
+        CompletableFuture<?>[] futureArray = futures.toArray(new CompletableFuture[0]);
+
+        CompletableFuture<Void> allFuture = CompletableFuture.allOf(futureArray);
+
         try {
-            latch.await(1, TimeUnit.MINUTES);
-        } catch (InterruptedException e) {
+            allFuture.join();
+            dumpExecutor.close();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -187,5 +203,4 @@ public class ProcessorManager extends AbstractProcessor {
 
         return syncedCount;
     }
-
 }
