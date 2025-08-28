@@ -24,7 +24,7 @@ public class DefaultStrategyApi implements StrategyApi {
             return;
         }
         if (PamirsSession.directive().isUsePkStrategy()) {
-            if (Models.compute().isPkValueValid(entity)) {
+            if (Models.compute().isPkValueValid(entity) || Models.compute().isUniqueKeyValueValid(entity)) {
                 updateConsumer.accept(entity);
             } else {
                 insertConsumer.accept(entity);
