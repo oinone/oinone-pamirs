@@ -21,9 +21,13 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 @SPI.Service
 public class DefaultEipLogSave implements EipLogSaveApi {
 
-
     @Override
     public EipLog saveLog(EipLog eipLog, IEipContext<SuperMap> context) {
-        return eipLog.create();
+        if (eipLog.getId() != null) {
+            eipLog.updateById();
+            return eipLog;
+        } else {
+            return eipLog.create();
+        }
     }
 }
