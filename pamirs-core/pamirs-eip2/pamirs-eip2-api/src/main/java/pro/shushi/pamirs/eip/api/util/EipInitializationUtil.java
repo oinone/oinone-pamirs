@@ -67,6 +67,9 @@ public class EipInitializationUtil {
         String uri = eipOpenApi.getUri();
         if (uri.startsWith(EipConfigurationConstant.ENDPOINT_REST)) {
             routeDefinition.fromRest(uri);
+        } else if (uri.startsWith(EipConfigurationConstant.STREAM_URI_PREFIX_MARK)) {
+            routeDefinition.from(uri.substring(EipConfigurationConstant.STREAM_URI_PREFIX_MARK.length()) + "?httpMethodRestrict=POST&streaming=true");
+            routeDefinition.noStreamCaching();
         } else {
             routeDefinition.from(uri);
         }
