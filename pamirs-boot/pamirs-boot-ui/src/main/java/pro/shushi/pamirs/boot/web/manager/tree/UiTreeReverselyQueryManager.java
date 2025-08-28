@@ -8,6 +8,7 @@ import pro.shushi.pamirs.boot.base.model.tree.UiTreeNode;
 import pro.shushi.pamirs.boot.base.model.tree.UiTreeNodeMetadata;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
@@ -19,7 +20,6 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
-import pro.shushi.pamirs.meta.common.util.PStringUtils;
 import pro.shushi.pamirs.meta.constant.FieldConstants;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
@@ -166,7 +166,8 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
             //最末层
             if (i == metadataList.size() - 1) {
                 UiTreeNodeMetadata currentMetadata = metadataList.get(i);
-                ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(currentMetadata.getModel());
+                String model = currentMetadata.getModel();
+                ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
                 List<Map<String, Object>> leafDatas = leafNodes.stream()
                         .map(UiTreeNode::getValue)
                         .<Map<String, Object>>map(_v -> PamirsDataUtils.parseModelMap(currentMetadata.getModel(), _v))
@@ -179,8 +180,8 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
                     throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).appendMsg("叶子结点数据缺少唯一键").errThrow();
                 }
                 queryWrapper.in(
-                        uniques.stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
-                        uniques.stream().map(_field -> leafDatas.stream().map(m -> m.get(_field)).collect(Collectors.toList())).toArray(List[]::new)
+                        uniques.stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(model, field)).getColumn()).collect(Collectors.toList()),
+                        uniques.stream().map(field -> leafDatas.stream().map(m -> m.get(field)).collect(Collectors.toList())).toArray(List[]::new)
                 );
                 List<Map<String, Object>> localDataList = Models.data().queryListByWrapper(queryWrapper).stream().map(this::convertMap).collect(Collectors.toList());
                 List<Map<String, Object>> localDataMapList = localDataList.stream().map(this::convertMap).collect(Collectors.toList());
@@ -474,13 +475,15 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
         if (TtypeEnum.M2M.value().equals(relFieldConfig.getTtype())) {
             QueryWrapper<Object> m2mRelQueryWrapper = Pops.query().from(relFieldConfig.getThrough());
             if (Boolean.TRUE.equals(fieldInChild)) {
+                String through = relFieldConfig.getThrough();
                 m2mRelQueryWrapper.in(
-                        relFieldConfig.getThroughRelationFields().stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                        relFieldConfig.getThroughRelationFields().stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(through, field)).getColumn()).collect(Collectors.toList()),
                         relFieldConfig.getRelationFields().stream().map(i -> childrenNodes.stream().map(m -> m.get(i)).collect(Collectors.toList())).toArray(List[]::new)
                 );
             } else {
+                String through = relFieldConfig.getThrough();
                 m2mRelQueryWrapper.in(
-                        relFieldConfig.getThroughReferenceFields().stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                        relFieldConfig.getThroughReferenceFields().stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(through, field)).getColumn()).collect(Collectors.toList()),
                         relFieldConfig.getReferenceFields().stream().map(i -> childrenNodes.stream().map(m -> m.get(i)).collect(Collectors.toList())).toArray(List[]::new)
                 );
             }
@@ -493,13 +496,15 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
                 queryWrapper.lt(FieldConstants.ID, 0);
             } else {
                 if (Boolean.TRUE.equals(fieldInChild)) {
+                    String references = relFieldConfig.getReferences();
                     queryWrapper.in(
-                            relFieldConfig.getReferenceFields().stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                            relFieldConfig.getReferenceFields().stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(references, field)).getColumn()).collect(Collectors.toList()),
                             relFieldConfig.getThroughReferenceFields().stream().map(i -> throughMapList.stream().map(through -> through.get(i)).collect(Collectors.toList())).toArray(List[]::new)
                     );
                 } else {
+                    String model = relFieldConfig.getModel();
                     queryWrapper.in(
-                            relFieldConfig.getRelationFields().stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                            relFieldConfig.getRelationFields().stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(model, field)).getColumn()).collect(Collectors.toList()),
                             relFieldConfig.getThroughRelationFields().stream().map(i -> throughMapList.stream().map(through -> through.get(i)).collect(Collectors.toList())).toArray(List[]::new)
                     );
                 }
@@ -507,13 +512,15 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
             }
         } else {
             if (Boolean.TRUE.equals(fieldInChild)) {
+                String references = relFieldConfig.getReferences();
                 queryWrapper.in(
-                        relFieldConfig.getReferenceFields().stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                        relFieldConfig.getReferenceFields().stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(references, field)).getColumn()).collect(Collectors.toList()),
                         relFieldConfig.getRelationFields().stream().map(i -> childrenNodes.stream().map(m -> m.get(i)).collect(Collectors.toList())).toArray(List[]::new)
                 );
             } else {
+                String model = relFieldConfig.getModel();
                 queryWrapper.in(
-                        relFieldConfig.getRelationFields().stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                        relFieldConfig.getRelationFields().stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(model, field)).getColumn()).collect(Collectors.toList()),
                         relFieldConfig.getReferenceFields().stream().map(i -> childrenNodes.stream().map(m -> m.get(i)).collect(Collectors.toList())).toArray(List[]::new)
                 );
             }
