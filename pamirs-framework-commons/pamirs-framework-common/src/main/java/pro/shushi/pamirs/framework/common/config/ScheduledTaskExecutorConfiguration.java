@@ -33,8 +33,7 @@ public class ScheduledTaskExecutorConfiguration {
                 for (ScheduleApi scheduleApi : scheduleApis) {
                     try {
                         scheduleApi.run();
-                    } catch (Exception e) {
-                        //忽略
+                    } catch (Throwable ignored) {
                     }
                 }
             }
