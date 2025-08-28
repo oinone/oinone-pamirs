@@ -29,12 +29,10 @@ public class ScheduledTaskExecutorConfiguration {
         log.info("Register global scheduled executor service [CoreSize {}]", corePoolSize);
         Runnable task = () -> {
             List<ScheduleApi> scheduleApis = BeanDefinitionUtils.getBeansOfTypeByOrdered(ScheduleApi.class);
-            if (null != scheduleApis) {
-                for (ScheduleApi scheduleApi : scheduleApis) {
-                    try {
-                        scheduleApi.run();
-                    } catch (Throwable ignored) {
-                    }
+            for (ScheduleApi scheduleApi : scheduleApis) {
+                try {
+                    scheduleApi.run();
+                } catch (Throwable ignored) {
                 }
             }
         };
