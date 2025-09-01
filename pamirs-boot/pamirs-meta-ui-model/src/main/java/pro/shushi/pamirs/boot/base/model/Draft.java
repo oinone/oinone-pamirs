@@ -14,19 +14,19 @@ import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 @Base
 @Model.model(Draft.MODEL_MODEL)
 @Model(displayName = "草稿")
-@Model.Advanced(unique = {"viewIdentifier,userId"})
+@Model.Advanced(unique = {"userId,viewIdentifier"})
 public class Draft extends IdModel {
 
     public static final String MODEL_MODEL = "base.Draft";
 
     @Base
+    @Field(displayName = "草稿用户id", required = true)
+    private Long userId;
+
+    @Base
     @Field(displayName = "页面唯一标识", summary = "一般是ui页面名+数据唯一键", required = true)
     @Field.String(size = 512)
     private String viewIdentifier;
-
-    @Base
-    @Field(displayName = "草稿用户id", required = true)
-    private Long userId;
 
     @Base
     @Field(displayName = "草稿内容")
