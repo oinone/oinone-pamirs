@@ -373,11 +373,15 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
             }
 
             if (Boolean.TRUE.equals(fieldInParent)) {
+                String references = relFieldConfig.getReferences();
                 childFields = relFieldConfig.getReferenceFields();
+                childColumns = childFields.stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(references, field)).getColumn()).collect(Collectors.toList());
                 parentFields = relFieldConfig.getRelationFields();
                 if (TtypeEnum.M2M.value().equals(relFieldConfig.getTtype())) {
+                    String through = relFieldConfig.getThrough();
                     throughChildFields = relFieldConfig.getThroughReferenceFields();
                     throughParentFields = relFieldConfig.getThroughRelationFields();
+                    throughParentColumns = throughParentFields.stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(through, field)).getColumn()).collect(Collectors.toList());
                 }
             } else {
                 String model = relFieldConfig.getModel();
