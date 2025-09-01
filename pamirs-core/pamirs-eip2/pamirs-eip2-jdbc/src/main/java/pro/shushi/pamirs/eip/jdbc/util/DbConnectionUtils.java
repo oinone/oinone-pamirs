@@ -40,7 +40,7 @@ public class DbConnectionUtils {
         String url = buildUrl(connector);
         String connDbType = connector.getConnBasicDbType();
         if (StringUtils.isBlank(connDbType)) {
-            connDbType = connector.getConnBasicDbType();
+            connDbType = connector.getConnDBType();
         }
         return EipDataSourceManager.buildSimpleDataSource(url, connector.driver(), connector.getUser(), connector.getPassword(), connDbType);
     }
