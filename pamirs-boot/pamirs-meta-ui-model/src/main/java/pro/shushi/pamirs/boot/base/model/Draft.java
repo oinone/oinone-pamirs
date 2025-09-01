@@ -21,6 +21,7 @@ public class Draft extends IdModel {
 
     @Base
     @Field(displayName = "页面唯一标识", summary = "一般是ui页面名+数据唯一键", required = true)
+    @Field.String(size = 512)
     private String viewIdentifier;
 
     @Base
