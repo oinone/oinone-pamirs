@@ -180,4 +180,7 @@ public class EipConnectorResource extends IdModel {
     @Field(displayName = "是否发布为开放接口")
     private Boolean isPublishOpenInterface;
 
+    @Field(displayName = "是否发布为MCP工具", store = NullableBoolEnum.FALSE)
+    private Boolean isPublishMcpTool;
+
 }
