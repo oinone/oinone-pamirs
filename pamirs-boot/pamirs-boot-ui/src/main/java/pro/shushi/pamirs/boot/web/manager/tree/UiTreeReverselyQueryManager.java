@@ -436,15 +436,14 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
      */
     private List<Object> _fetchParentByChildren(List<Map<String, Object>> childrenNodes, UiTreeNodeMetadata currentNodeMetadata, ModelFieldConfig relFieldConfig) {
         QueryWrapper<Object> queryWrapper = Pops.query().from(currentNodeMetadata.getModel());
-        _buildWrapper4FetchParentByChildren(childrenNodes, currentNodeMetadata, relFieldConfig, queryWrapper);
+        queryWrapper = _buildWrapper4FetchParentByChildren(childrenNodes, currentNodeMetadata, relFieldConfig, queryWrapper);
         return Models.data().queryListByWrapper(queryWrapper);
     }
 
-    private void _buildWrapper4FetchParentByChildren(List<Map<String, Object>> childrenNodes, UiTreeNodeMetadata currentNodeMetadata, ModelFieldConfig relFieldConfig, QueryWrapper<Object> queryWrapper) {
+    private QueryWrapper<Object> _buildWrapper4FetchParentByChildren(List<Map<String, Object>> childrenNodes, UiTreeNodeMetadata currentNodeMetadata, ModelFieldConfig relFieldConfig, QueryWrapper<Object> queryWrapper) {
         if (CollectionUtils.isEmpty(childrenNodes)) {
             //一定查不到
-            queryWrapper.lt(FieldConstants.ID, 0);
-            return;
+            return null;
         }
         if (!TtypeEnum.isRelationType(relFieldConfig.getTtype())) {
             log.error("错误的关联字段,model:{},field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
@@ -493,7 +492,7 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
             if (CollectionUtils.isEmpty(throughMapList)) {
                 // 没有数据
                 //一定查不到
-                queryWrapper.lt(FieldConstants.ID, 0);
+                return null;
             } else {
                 if (Boolean.TRUE.equals(fieldInChild)) {
                     String references = relFieldConfig.getReferences();
@@ -526,6 +525,7 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
             }
             addFilter(parentModel, currentNodeMetadata.getFilter(), queryWrapper);
         }
+        return queryWrapper;
     }
 
     /**
