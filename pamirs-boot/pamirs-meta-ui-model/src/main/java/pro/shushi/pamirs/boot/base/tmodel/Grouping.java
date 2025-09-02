@@ -5,6 +5,7 @@ import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
+import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 @Model(displayName = "分组")
 @Model.model(Grouping.MODEL_MODEL)
-public class Grouping extends TransientModel {
+public class Grouping<T extends D> extends TransientModel {
 
     public static final String MODEL_MODEL = "base.Grouping";
 

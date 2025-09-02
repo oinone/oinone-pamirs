@@ -4,6 +4,7 @@ import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
+import pro.shushi.pamirs.boot.base.enmu.GroupOrderTypeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.GroupField;
 import pro.shushi.pamirs.boot.base.tmodel.GroupResult;
 import pro.shushi.pamirs.boot.base.tmodel.GroupSelectField;
@@ -19,14 +20,13 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * @author Gesi at 17:10 on 2025/9/1
@@ -42,7 +42,7 @@ public class GroupingServiceImpl implements GroupingService {
     };
 
     @Override
-    public <T> GroupResult fetchGroupPage(Grouping group, Pagination<T> page, IWrapper<T> wrapper, boolean isFetchData) {
+    public <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page, IWrapper<T> wrapper, boolean isFetchData) {
         String model = group.getModel();
         ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
         if (modelConfig == null) {
@@ -70,24 +70,14 @@ public class GroupingServiceImpl implements GroupingService {
             return fetchAllData(group, page, wrapper);
         }
 
-        List<GroupSelectField> selectGroupFields = group.getSelectGroupFields();
-
-        // 查询一级分组时才考虑分页情况
-        if (!Boolean.TRUE.equals(group.getNeedPagination()) || CollectionUtils.isNotEmpty(selectGroupFields)) {
-            page.setCurrentPage(1);
-            page.setSize(count);
-        }
-
         if (!isFetchData) {
             return queryGroupInfo(group);
         } else {
-
+            return queryGroupData(group, page);
         }
-
-        return null;
     }
 
-    private <T> GroupResult fetchAllData(Grouping group, Pagination<T> page, IWrapper<T> wrapper) {
+    private <T extends D> GroupResult<T> fetchAllData(Grouping<T> group, Pagination<T> page, IWrapper<T> wrapper) {
         Sort sort = new Sort();
         List<Order> orderList = new ArrayList<>();
 
@@ -105,60 +95,112 @@ public class GroupingServiceImpl implements GroupingService {
         PamirsSession.directive().enableExtPoint();
     }
 
-    private GroupResult queryGroupInfo(final Grouping group) {
-        return new GroupResult();
+    private <T extends D> GroupResult<T> queryGroupInfo(final Grouping<T> group) {
+        GroupResult<T> groupResult = new GroupResult<>();
+        groupResult.setTotalElements(group.getTotalCount());
+
+        consumeGroupSelectTree(group, null, (treePath) -> {
+            QueryWrapper<?> queryWrapper = buildPageQueryWrapper(group);
+            List<String> groupFields = new ArrayList<>(treePath.size() + 1);
+            queryWrapper.and(andWrapper -> {
+                for (Pair<ModelFieldConfig, GroupSelectField> treeNode : treePath) {
+                    ModelFieldConfig modelFieldConfig = treeNode.getLeft();
+                    GroupSelectField selectField = treeNode.getRight();
+                    GroupOrderTypeEnum orderType = Optional.ofNullable(selectField.getGroupField().getOrderType()).orElse(GroupOrderTypeEnum.ASC);
+                    groupFields.add(modelFieldConfig.getColumn());
+                    queryWrapper.orderBy(true, GroupOrderTypeEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
+                    andWrapper.eq(modelFieldConfig.getColumn(), selectField.getGroupValue());
+                }
+            });
+            queryWrapper.groupBy(groupFields.toArray(new String[0]));
+            groupFields.add("COUNT(*) " + COUNT_FIELD_NAME);
+            queryWrapper.select(groupFields.toArray(new String[0]));
+
+            List<T> dataList = Fun.run(group.getModel(), FunctionConstants.queryListByWrapper, queryWrapper);
+
+        });
+
+        return groupResult;
     }
 
+    private <T extends D> GroupResult<T> queryGroupData(final Grouping<T> group, Pagination<?> page) {
+        GroupResult<T> groupResult = new GroupResult<>();
+        groupResult.setTotalElements(group.getTotalCount());
+        return groupResult;
+    }
 
     /**
      * 构建所有已选查询分组的查询条件
      */
-    private void appendGroupPageWhereCondition(final Grouping group, QueryWrapper<?> queryWrapper) {
+    private <T extends D> void appendGroupPageWhereCondition(final Grouping<T> group, QueryWrapper<?> queryWrapper) {
         List<GroupSelectField> selectGroupFields = group.getSelectGroupFields();
         if (CollectionUtils.isEmpty(selectGroupFields)) {
             return;
         }
         queryWrapper.and(andWrapper -> {
-            for (GroupSelectField selectGroupField : selectGroupFields) {
-                appendGroupPageWhereCondition(group, andWrapper, selectGroupField, new ArrayList<>());
-            }
+            consumeGroupSelectTree(group, null, (treePath) -> {
+                andWrapper.or(orWrapper -> {
+                    for (Pair<ModelFieldConfig, GroupSelectField> groupColumnValue : treePath) {
+                        orWrapper.eq(groupColumnValue.getLeft().getColumn(), groupColumnValue.getRight().getGroupValue());
+                    }
+                });
+            });
         });
     }
 
-    private void appendGroupPageWhereCondition(
-            Grouping group,
-            QueryWrapper<?> groupCondition,
-            GroupSelectField currentSelectField, List<Pair<String, String>> groupColumnValues
+    private <T extends D> QueryWrapper<T> buildPageQueryWrapper(Grouping<T> group) {
+        QueryWrapper<T> queryWrapper = new QueryWrapper<>();
+        queryWrapper.from(group.getModel())
+                .setRsql(group.getPageRsql())
+                .setQueryData(JsonUtils.parseObject(group.getPageQueryData(), QUERY_DATA_TYPE_REF));
+        return queryWrapper;
+    }
+
+    private <T extends D> void consumeGroupSelectTree(
+            Grouping<T> group,
+            Consumer<Pair<ModelFieldConfig, GroupSelectField>> treeNodeConsumer,
+            Consumer<List<Pair<ModelFieldConfig, GroupSelectField>>> treePathConsumer
     ) {
-        if (CollectionUtils.isEmpty(currentSelectField.getChildGroupSelectFields())) {
-            groupCondition.or(orWrapper -> {
-                for (Pair<String, String> groupColumnValue : groupColumnValues) {
-                    orWrapper.eq(groupColumnValue.getLeft(), groupColumnValue.getRight());
-                }
-            });
+        if (CollectionUtils.isEmpty(group.getSelectGroupFields())) {
             return;
         }
+        for (GroupSelectField selectGroupField : group.getSelectGroupFields()) {
+            consumeGroupSelectTree0(group, treeNodeConsumer, treePathConsumer, selectGroupField, new ArrayList<>());
+        }
+    }
 
-        GroupField groupField = currentSelectField.getGroupField();
+    private <T extends D> void consumeGroupSelectTree0(
+            Grouping<T> group,
+            Consumer<Pair<ModelFieldConfig, GroupSelectField>> treeNodeConsumer,
+            Consumer<List<Pair<ModelFieldConfig, GroupSelectField>>> treePathConsumer,
+            GroupSelectField currentField, List<Pair<ModelFieldConfig, GroupSelectField>> groupColumnValues
+    ) {
+        GroupField groupField = currentField.getGroupField();
         String field = groupField.getField();
         ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(field);
         if (modelFieldConfig == null) {
             throw PamirsException.construct(GroupingExpEnumerate.FIELD_NOT_FIND).appendMsg("模型" + group.getModel() + "字段" + field + "找不到").errThrow();
         }
+        Pair<ModelFieldConfig, GroupSelectField> treeNode = Pair.of(modelFieldConfig, currentField);
 
-        groupColumnValues.add(Pair.of(modelFieldConfig.getColumn(), currentSelectField.getGroupValue()));
-        for (GroupSelectField childGroupSelectField : currentSelectField.getChildGroupSelectFields()) {
-            appendGroupPageWhereCondition(group, groupCondition, childGroupSelectField, groupColumnValues);
+        if (treeNodeConsumer != null) {
+            treeNodeConsumer.accept(treeNode);
+        }
+
+        if (CollectionUtils.isEmpty(currentField.getChildGroupSelectFields())) {
+            groupColumnValues.add(treeNode);
+            if (treePathConsumer != null) {
+                treePathConsumer.accept(groupColumnValues);
+            }
+            groupColumnValues.remove(groupColumnValues.size() - 1);
+            return;
+        }
+
+        groupColumnValues.add(treeNode);
+        for (GroupSelectField childGroupSelectField : currentField.getChildGroupSelectFields()) {
+            consumeGroupSelectTree0(group, treeNodeConsumer, treePathConsumer, childGroupSelectField, groupColumnValues);
         }
         groupColumnValues.remove(groupColumnValues.size() - 1);
-    }
-
-    private QueryWrapper<?> buildPageQueryWrapper(Grouping group) {
-        QueryWrapper<?> queryWrapper = new QueryWrapper<>();
-        queryWrapper.from(group.getModel())
-                .setRsql(group.getPageRsql())
-                .setQueryData(JsonUtils.parseObject(group.getPageQueryData(), QUERY_DATA_TYPE_REF));
-        return queryWrapper;
     }
 
 }

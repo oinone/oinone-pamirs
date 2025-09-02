@@ -4,6 +4,7 @@ import pro.shushi.pamirs.boot.base.tmodel.GroupResult;
 import pro.shushi.pamirs.boot.base.tmodel.Grouping;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.base.D;
 
 /**
  * 分组服务
@@ -12,6 +13,6 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
  */
 public interface GroupingService {
 
-    <T> GroupResult fetchGroupPage(Grouping group, Pagination<T> page, IWrapper<T> wrapper, boolean isFetchData);
+    <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page, IWrapper<T> wrapper, boolean isFetchData);
 
 }
