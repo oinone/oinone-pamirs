@@ -27,6 +27,17 @@ public class DraftServiceImpl implements DraftService {
         if (PamirsSession.getUserId() == null) {
             return new Draft();
         }
+        List<Draft> draftList = new Draft().queryList(
+                Pops.<Draft>lambdaQuery().from(Draft.MODEL_MODEL)
+                        .select(Draft::getId)
+                        .eq(Draft::getUserId, PamirsSession.getUserId())
+                        .eq(Draft::getViewIdentifier, draft.getViewIdentifier())
+                        .orderByDesc(Draft::getWriteDate)
+        );
+        if (CollectionUtils.isNotEmpty(draftList)) {
+            draft.setId(draftList.get(0).getId());
+        }
+
         draft.setUserId(PamirsSession.getUserId());
         if (draft.getId() == null) {
             draft = draft.create();
