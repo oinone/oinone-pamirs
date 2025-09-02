@@ -26,6 +26,6 @@ public class GroupResult<T extends D> extends TransientModel {
     private Boolean isFetchAll;
 
     @Field(displayName = "返回的分组信息")
-    private List<GroupInfo> groups;
+    private List<GroupInfo<T>> groups;
 
 }

@@ -2,6 +2,7 @@ package pro.shushi.pamirs.boot.base.tmodel;
 
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
+import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Model(displayName = "分组信息")
 @Model.model(GroupInfo.MODEL_MODEL)
-public class GroupInfo extends TransientModel {
+public class GroupInfo<T extends D> extends TransientModel {
 
     public static final String MODEL_MODEL = "base.GroupInfo";
 
@@ -26,15 +27,23 @@ public class GroupInfo extends TransientModel {
      */
     private Object dataStatistic;
 
-    @Field(displayName = "当前分组的所有值", summary = "转换成Json字符串")
-    private String valuesJson;
+    @Field(displayName = "当前分组值", summary = "转换成字符串")
+    private String valueStr;
+
+    @Field(displayName = "当前分组数据", summary = "转换成Json字符串")
+    private String dataListStr;
 
     /**
-     * 当前分组的所有值
+     * 当前分组的值
      */
-    private List<Object> values;
+    private Object value;
+
+    /**
+     * 当前分组的数据
+     */
+    private List<T> dataList;
 
     @Field(displayName = "下一级分组信息")
-    private List<GroupInfo> groups;
+    private List<GroupInfo<T>> groups;
 
 }

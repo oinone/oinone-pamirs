@@ -5,10 +5,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.boot.base.enmu.GroupOrderTypeEnum;
-import pro.shushi.pamirs.boot.base.tmodel.GroupField;
-import pro.shushi.pamirs.boot.base.tmodel.GroupResult;
-import pro.shushi.pamirs.boot.base.tmodel.GroupSelectField;
-import pro.shushi.pamirs.boot.base.tmodel.Grouping;
+import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.web.enmu.GroupingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -27,6 +24,7 @@ import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * @author Gesi at 17:10 on 2025/9/1
@@ -113,11 +111,13 @@ public class GroupingServiceImpl implements GroupingService {
                 }
             });
             queryWrapper.groupBy(groupFields.toArray(new String[0]));
-            groupFields.add("COUNT(*) " + COUNT_FIELD_NAME);
-            queryWrapper.select(groupFields.toArray(new String[0]));
+            List<String> selectFields = new ArrayList<>(groupFields);
+            selectFields.add("COUNT(*) " + COUNT_FIELD_NAME);
+            queryWrapper.select(selectFields.toArray(new String[0]));
 
+            enableFunctionCallSpi();
             List<T> dataList = Fun.run(group.getModel(), FunctionConstants.queryListByWrapper, queryWrapper);
-
+            fullGroupInfo(group, groupResult, dataList, true);
         });
 
         return groupResult;
@@ -201,6 +201,46 @@ public class GroupingServiceImpl implements GroupingService {
             consumeGroupSelectTree0(group, treeNodeConsumer, treePathConsumer, childGroupSelectField, groupColumnValues);
         }
         groupColumnValues.remove(groupColumnValues.size() - 1);
+    }
+
+    private <T extends D> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, boolean isFromGroupCount) {
+        List<GroupField> groupFields = group.getGroupFields();
+        List<GroupInfo<T>> level1Groups = groupResult.getGroups();
+        groupResult.setGroups(level1Groups);
+        for (T data : dataList) {
+            GroupInfo<T> groupInfo = null;
+            List<GroupInfo<T>> beforeLevelGroups = level1Groups;
+            for (int i = 0; i < groupFields.size(); i++) {
+                GroupField groupField = groupFields.get(i);
+                if (data.get_d().containsKey(groupField.getField())) {
+                    Object value = data.get_d().get(groupField.getField());
+                    for (GroupInfo<T> beforeLevelGroup : beforeLevelGroups) {
+                        if (Objects.equals(value, beforeLevelGroup.getValue())) {
+                            groupInfo = beforeLevelGroup;
+                            break;
+                        }
+                    }
+                    if (groupInfo == null) {
+                        groupInfo = new GroupInfo<>();
+                        groupInfo.setField(groupField.getField());
+                        groupInfo.setValue(value);
+                        groupInfo.setGroups(new ArrayList<>());
+                        beforeLevelGroups.add(groupInfo);
+                    }
+
+                    beforeLevelGroups = groupInfo.getGroups();
+                } else {
+                    break;
+                }
+            }
+
+            if (groupInfo != null) {
+                if (groupInfo.getDataList() == null) {
+                    groupInfo.setDataList(new ArrayList<>());
+                }
+                groupInfo.getDataList().add(data);
+            }
+        }
     }
 
 }
