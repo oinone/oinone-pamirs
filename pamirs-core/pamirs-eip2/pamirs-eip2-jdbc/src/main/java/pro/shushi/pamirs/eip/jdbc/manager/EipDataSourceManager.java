@@ -8,6 +8,7 @@ import com.alibaba.druid.pool.vendor.PGValidConnectionChecker;
 import com.alibaba.druid.util.Utils;
 import com.google.common.collect.Sets;
 import org.apache.camel.CamelContext;
+import org.apache.commons.collections4.MapUtils;
 import pro.shushi.pamirs.core.common.entry.Holder;
 import pro.shushi.pamirs.eip.api.constant.EipSystemDataSourceType;
 import pro.shushi.pamirs.eip.api.context.EipCamelContext;
@@ -20,6 +21,7 @@ import javax.sql.DataSource;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,10 +44,14 @@ public class EipDataSourceManager {
     }
 
     public static DataSource buildSimpleDataSource(String jdbcUrl, String driverClassName, String username, String password) {
-        return buildSimpleDataSource(jdbcUrl, driverClassName, username, password, null);
+        return buildSimpleDataSource(jdbcUrl, driverClassName, username, password, null, null);
     }
 
-    public static DataSource buildSimpleDataSource(String jdbcUrl, String driverClassName, String username, String password, String dbType) {
+    public static DataSource buildSimpleDataSource(String jdbcUrl, String driverClassName, String username, String password,
+                                                   String dbType, String basicDbType) {
+        if (basicDbType == null) {
+            basicDbType = dbType;
+        }
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl(jdbcUrl);
         dataSource.setDriverClassName(driverClassName);
@@ -62,7 +68,7 @@ public class EipDataSourceManager {
         dataSource.setPoolPreparedStatements(true);
         dataSource.setBreakAfterAcquireFailure(true);
         // DruidDataSource#initValidConnectionChecker()
-        if (dbType == null) {
+        if (basicDbType == null) {
             if (DataSourceProtocolEnum.DM.value().startsWith(jdbcUrl)) {
                 try {
                     dataSource.setValidConnectionCheckerClassName(OracleValidConnectionChecker.class.getName());
@@ -72,13 +78,13 @@ public class EipDataSourceManager {
             }
         } else {
             try {
-                if (EipSystemDataSourceType.mysql().getCode().equals(dbType)) {
+                if (EipSystemDataSourceType.mysql().getCode().equals(basicDbType)) {
                     dataSource.setValidConnectionCheckerClassName(MySqlValidConnectionChecker.class.getName());
-                } else if (EipSystemDataSourceType.oracle().getCode().equals(dbType)) {
+                } else if (EipSystemDataSourceType.oracle().getCode().equals(basicDbType)) {
                     dataSource.setValidConnectionCheckerClassName(OracleValidConnectionChecker.class.getName());
-                } else if (EipSystemDataSourceType.mssql().getCode().equals(dbType)) {
+                } else if (EipSystemDataSourceType.mssql().getCode().equals(basicDbType)) {
                     dataSource.setValidConnectionCheckerClassName(MSSQLValidConnectionChecker.class.getName());
-                } else if (EipSystemDataSourceType.pgsql().getCode().equals(dbType)) {
+                } else if (EipSystemDataSourceType.pgsql().getCode().equals(basicDbType)) {
                     dataSource.setValidConnectionCheckerClassName(PGValidConnectionChecker.class.getName());
                 }
             } catch (Exception e) {
@@ -86,9 +92,11 @@ public class EipDataSourceManager {
             }
         }
         EipJdbcProperties eipJdbcProperties = BeanDefinitionUtils.getBean(EipJdbcProperties.class);
-        if (eipJdbcProperties != null) {
-            Map<String, String> properties = eipJdbcProperties.getDataSource();
-            if (!properties.isEmpty()) {
+        if (dbType != null && eipJdbcProperties != null) {
+            Map<String, String> properties = Optional.ofNullable(eipJdbcProperties.getDataSource())
+                    .map(v -> v.get(dbType))
+                    .orElse(null);
+            if (MapUtils.isNotEmpty(properties)) {
                 DruidSafeProperties safeProperties = new DruidSafeProperties(properties);
                 dataSource.configFromPropety(safeProperties);
                 extraConfigFromProperty(dataSource, safeProperties);
