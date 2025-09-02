@@ -19,8 +19,6 @@ public class Draft extends IdModel {
 
     public static final String MODEL_MODEL = "base.Draft";
 
-    public static final String DRAFT_VIEW_NAME = "草稿";
-
     @Base
     @Field(displayName = "草稿用户id", required = true)
     private Long userId;
