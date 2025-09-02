@@ -35,6 +35,9 @@ public class RsqlParseHook implements HookBefore {
             while (index < args.length && null != args[index]) {
                 if (args[index] instanceof AbstractWrapper) {
                     String namespace = function.getNamespace();
+                    if ("base.Grouping".equals(namespace)) {
+                        break;
+                    }
                     if (PamirsSession.getContext().getSimpleModelConfig(namespace) != null) {
                         parse((AbstractWrapper<?, ?, ?>) args[index], namespace);
                     }
