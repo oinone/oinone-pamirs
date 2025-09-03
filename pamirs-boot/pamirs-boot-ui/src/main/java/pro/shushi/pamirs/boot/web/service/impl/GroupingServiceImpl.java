@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.boot.web.service.impl;
 
 import com.alibaba.fastjson.TypeReference;
+import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
@@ -208,7 +209,6 @@ public class GroupingServiceImpl implements GroupingService {
 
         Map<List<GroupInfo.GroupPathNode>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
         Set<List<GroupInfo.GroupPathNode>> firstGroupPathList = new LinkedHashSet<>();
-        Set<List<GroupInfo.GroupPathNode>> lastGroupPathList = new HashSet<>();
 
         for (T data : dataList) {
             List<GroupInfo.GroupPathNode> groupPath = new ArrayList<>();
@@ -244,7 +244,6 @@ public class GroupingServiceImpl implements GroupingService {
                 }
 
                 GroupInfo<T> lastGroupInfo = groupPathMap.get(groupPath);
-                lastGroupPathList.add(groupPath);
                 if (isFromGroupCount) {
                     lastGroupInfo.setDataStatistic(data.get_d().get(COUNT_FIELD_NAME));
                 } else {
@@ -261,28 +260,45 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         // 填充分组信息
-        List<List<GroupInfo.GroupPathNode>> groupPathList = new ArrayList<>(groupPathMap.keySet());
-        // 分组路径长的在前面，确保处理父分组时其下面的子分组一定处理过
-        groupPathList.sort((path1, path2) -> Integer.compare(path2.size(), path1.size()));
+        // 分组路径长先处理，确保处理父分组时其下面的子分组一定处理过
+        Map<Integer, List<List<GroupInfo.GroupPathNode>>> groupPathMapByNodeNum = new HashMap<>();
+        for (List<GroupInfo.GroupPathNode> groupPath : groupPathMap.keySet()) {
+            groupPathMapByNodeNum.putIfAbsent(groupPath.size(), new ArrayList<>());
+            groupPathMapByNodeNum.get(groupPath.size()).add(groupPath);
+        }
 
-        for (List<GroupInfo.GroupPathNode> groupPath : groupPathList) {
-            // 这里的子级groupInfo一定是都填充完成的
-            GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
-            List<GroupInfo<T>> childGroups = groupInfo.getGroups();
-            if (CollectionUtils.isNotEmpty(childGroups)) {
-                List<T> groupDataList = new ArrayList<>();
-                for (GroupInfo<T> childGroup : childGroups) {
-                    if (!isFromGroupCount) {
-                        if (CollectionUtils.isNotEmpty(childGroup.getDataList())) {
-                            groupDataList.addAll(childGroup.getDataList());
+        List<Integer> groupPathNodeNumList = new ArrayList<>(groupPathMapByNodeNum.keySet());
+        groupPathNodeNumList.sort((n1, n2) -> Integer.compare(n2, n1));
+
+        for (Integer nodeNum : groupPathNodeNumList) {
+            List<List<GroupInfo.GroupPathNode>> groupPathList = groupPathMapByNodeNum.get(nodeNum);
+            for (List<GroupInfo.GroupPathNode> groupPath : groupPathList) {
+                // 这里的子级groupInfo一定是都填充完成的
+                GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
+                List<GroupInfo<T>> childGroups = groupInfo.getGroups();
+                if (CollectionUtils.isNotEmpty(childGroups)) {
+                    List<T> groupDataList = new ArrayList<>();
+                    for (GroupInfo<T> childGroup : childGroups) {
+                        if (!isFromGroupCount) {
+                            if (CollectionUtils.isNotEmpty(childGroup.getDataList())) {
+                                groupDataList.addAll(childGroup.getDataList());
+                            }
                         }
                     }
-                }
-                groupInfo.setDataList(groupDataList);
-                // 计算统计函数
-                if (!isFromGroupCount) {
-                    if (statisticConsumer != null) {
-                        statisticConsumer.accept(groupInfo);
+                    groupInfo.setDataList(groupDataList);
+                    // 计算统计函数
+                    if (!isFromGroupCount) {
+                        if (statisticConsumer != null) {
+                            statisticConsumer.accept(groupInfo);
+                        }
+                    } else {
+                        Long count = childGroups.stream().map(groupInfoI -> {
+                            if (groupInfoI.getDataStatistic() != null) {
+                                return Long.parseLong(groupInfoI.getDataStatistic().toString());
+                            }
+                            return null;
+                        }).filter(Objects::nonNull).reduce(0L, Long::sum);
+                        groupInfo.setDataStatistic(count);
                     }
                 }
             }
