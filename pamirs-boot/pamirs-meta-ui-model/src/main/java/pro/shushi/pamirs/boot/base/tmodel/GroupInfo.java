@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.D;
@@ -23,16 +24,19 @@ public class GroupInfo<T extends D> extends TransientModel {
     @Field(displayName = "当前分组数据统计值", summary = "转换成字符串")
     private String dataStatisticStr;
 
-    /**
-     * 当前分组数据统计值
-     */
-    private Object dataStatistic;
-
     @Field(displayName = "当前分组值", summary = "转换成字符串")
     private String valueStr;
 
     @Field(displayName = "当前分组数据", summary = "转换成Json字符串")
     private String dataListStr;
+
+    @Field(displayName = "下一级分组信息")
+    private List<GroupInfo<T>> groups;
+
+    /**
+     * 当前分组数据统计值
+     */
+    private Object dataStatistic;
 
     /**
      * 当前分组的值
@@ -44,8 +48,10 @@ public class GroupInfo<T extends D> extends TransientModel {
      */
     private List<T> dataList;
 
-    @Field(displayName = "下一级分组信息")
-    private List<GroupInfo<T>> groups;
+    /**
+     * 当前分组信息所依赖的分组字段信息
+     */
+    private GroupField groupField;
 
     /**
      * 分组路径
@@ -54,37 +60,40 @@ public class GroupInfo<T extends D> extends TransientModel {
 
     public static class GroupPathNode {
 
+        public String field;
+
         public Object value;
 
-        public GroupPathNode(Object value) {
+        public GroupPathNode(String field, Object value) {
+            this.field = field;
             this.value = value;
         }
 
         @Override
         public String toString() {
             if (value == null) {
-                return "null";
+                return field + " - null";
             }
-            return value.toString();
+            return field + " - " + value;
         }
 
         @Override
         public int hashCode() {
             if (value == null) {
-                return 0;
+                return field.hashCode();
             }
-            return value.hashCode();
+            return field.hashCode() & value.hashCode();
         }
 
         @Override
         public boolean equals(Object obj) {
-            Object other;
+            GroupPathNode other;
             if (obj instanceof GroupPathNode) {
-                other = ((GroupPathNode) obj).value;
+                other = ((GroupPathNode) obj);
             } else {
-                other = obj;
+                return false;
             }
-            return Objects.equals(other, value);
+            return StringUtils.equals(other.field, field) && Objects.equals(other, value);
         }
     }
 

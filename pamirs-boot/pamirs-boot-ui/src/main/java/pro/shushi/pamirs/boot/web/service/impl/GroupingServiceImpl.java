@@ -24,6 +24,7 @@ import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * @author Gesi at 17:10 on 2025/9/1
@@ -116,7 +117,7 @@ public class GroupingServiceImpl implements GroupingService {
 
             enableFunctionCallSpi();
             List<T> dataList = Fun.run(group.getModel(), FunctionConstants.queryListByWrapper, queryWrapper);
-            fullGroupInfo(group, groupResult, dataList, true);
+            fullGroupInfo(group, groupResult, dataList, true, null);
         });
 
         return groupResult;
@@ -202,21 +203,22 @@ public class GroupingServiceImpl implements GroupingService {
         groupColumnValues.remove(groupColumnValues.size() - 1);
     }
 
-    private <T extends D> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, boolean isFromGroupCount) {
+    private <T extends D> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, boolean isFromGroupCount, Consumer<GroupInfo<T>> statisticConsumer) {
         List<GroupField> groupFields = group.getGroupFields();
-        List<GroupInfo<T>> level1Groups = groupResult.getGroups();
-        groupResult.setGroups(level1Groups);
 
-        Map<List<GroupInfo.GroupPathNode>, GroupInfo<T>> groupPathMap = new HashMap<>();
+        Map<List<GroupInfo.GroupPathNode>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
+        Set<List<GroupInfo.GroupPathNode>> firstGroupPathList = new LinkedHashSet<>();
+        Set<List<GroupInfo.GroupPathNode>> lastGroupPathList = new HashSet<>();
 
         for (T data : dataList) {
             List<GroupInfo.GroupPathNode> groupPath = new ArrayList<>();
-            for (GroupField groupField : groupFields) {
+            for (int i = 0; i < groupFields.size(); i++) {
+                GroupField groupField = groupFields.get(i);
                 if (data.get_d().containsKey(groupField.getField())) {
                     GroupInfo<T> parentGroupInfo = groupPathMap.get(groupPath);
 
                     Object value = data.get_d().get(groupField.getField());
-                    groupPath.add(new GroupInfo.GroupPathNode(value));
+                    groupPath.add(new GroupInfo.GroupPathNode(groupField.getField(), value));
 
                     // 判断当前分组是否已存在
                     GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
@@ -225,7 +227,7 @@ public class GroupingServiceImpl implements GroupingService {
                         groupInfo.setGroupPath(groupPath);
                         groupInfo.setField(groupField.getField());
                         groupInfo.setValue(value);
-
+                        groupInfo.setGroupField(groupField);
                         groupPathMap.put(groupPath, groupInfo);
                     }
 
@@ -242,6 +244,7 @@ public class GroupingServiceImpl implements GroupingService {
                 }
 
                 GroupInfo<T> lastGroupInfo = groupPathMap.get(groupPath);
+                lastGroupPathList.add(groupPath);
                 if (isFromGroupCount) {
                     lastGroupInfo.setDataStatistic(data.get_d().get(COUNT_FIELD_NAME));
                 } else {
@@ -250,11 +253,42 @@ public class GroupingServiceImpl implements GroupingService {
                     }
                     lastGroupInfo.getDataList().add(data);
                 }
+
+                if (i == 0) {
+                    firstGroupPathList.add(groupPath);
+                }
             }
         }
 
         // 填充分组信息
         List<List<GroupInfo.GroupPathNode>> groupPathList = new ArrayList<>(groupPathMap.keySet());
+        // 分组路径长的在前面，确保处理父分组时其下面的子分组一定处理过
+        groupPathList.sort((path1, path2) -> Integer.compare(path2.size(), path1.size()));
+
+        for (List<GroupInfo.GroupPathNode> groupPath : groupPathList) {
+            // 这里的子级groupInfo一定是都填充完成的
+            GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
+            List<GroupInfo<T>> childGroups = groupInfo.getGroups();
+            if (CollectionUtils.isNotEmpty(childGroups)) {
+                List<T> groupDataList = new ArrayList<>();
+                for (GroupInfo<T> childGroup : childGroups) {
+                    if (!isFromGroupCount) {
+                        if (CollectionUtils.isNotEmpty(childGroup.getDataList())) {
+                            groupDataList.addAll(childGroup.getDataList());
+                        }
+                    }
+                }
+                groupInfo.setDataList(groupDataList);
+                // 计算统计函数
+                if (!isFromGroupCount) {
+                    if (statisticConsumer != null) {
+                        statisticConsumer.accept(groupInfo);
+                    }
+                }
+            }
+        }
+
+        groupResult.setGroups(firstGroupPathList.stream().map(groupPathMap::get).collect(Collectors.toList()));
     }
 
 }
