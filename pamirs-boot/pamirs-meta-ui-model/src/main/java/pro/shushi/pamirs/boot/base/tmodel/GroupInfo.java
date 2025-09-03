@@ -6,6 +6,7 @@ import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Gesi at 15:46 on 2025/9/1
@@ -45,5 +46,46 @@ public class GroupInfo<T extends D> extends TransientModel {
 
     @Field(displayName = "下一级分组信息")
     private List<GroupInfo<T>> groups;
+
+    /**
+     * 分组路径
+     */
+    private List<GroupPathNode> groupPath;
+
+    public static class GroupPathNode {
+
+        public Object value;
+
+        public GroupPathNode(Object value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            if (value == null) {
+                return "null";
+            }
+            return value.toString();
+        }
+
+        @Override
+        public int hashCode() {
+            if (value == null) {
+                return 0;
+            }
+            return value.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            Object other;
+            if (obj instanceof GroupPathNode) {
+                other = ((GroupPathNode) obj).value;
+            } else {
+                other = obj;
+            }
+            return Objects.equals(other, value);
+        }
+    }
 
 }

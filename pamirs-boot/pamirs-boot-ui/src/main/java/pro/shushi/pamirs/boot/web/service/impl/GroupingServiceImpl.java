@@ -24,7 +24,6 @@ import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 /**
  * @author Gesi at 17:10 on 2025/9/1
@@ -207,40 +206,55 @@ public class GroupingServiceImpl implements GroupingService {
         List<GroupField> groupFields = group.getGroupFields();
         List<GroupInfo<T>> level1Groups = groupResult.getGroups();
         groupResult.setGroups(level1Groups);
+
+        Map<List<GroupInfo.GroupPathNode>, GroupInfo<T>> groupPathMap = new HashMap<>();
+
         for (T data : dataList) {
-            GroupInfo<T> groupInfo = null;
-            List<GroupInfo<T>> beforeLevelGroups = level1Groups;
-            for (int i = 0; i < groupFields.size(); i++) {
-                GroupField groupField = groupFields.get(i);
+            List<GroupInfo.GroupPathNode> groupPath = new ArrayList<>();
+            for (GroupField groupField : groupFields) {
                 if (data.get_d().containsKey(groupField.getField())) {
+                    GroupInfo<T> parentGroupInfo = groupPathMap.get(groupPath);
+
                     Object value = data.get_d().get(groupField.getField());
-                    for (GroupInfo<T> beforeLevelGroup : beforeLevelGroups) {
-                        if (Objects.equals(value, beforeLevelGroup.getValue())) {
-                            groupInfo = beforeLevelGroup;
-                            break;
-                        }
-                    }
+                    groupPath.add(new GroupInfo.GroupPathNode(value));
+
+                    // 判断当前分组是否已存在
+                    GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
                     if (groupInfo == null) {
                         groupInfo = new GroupInfo<>();
+                        groupInfo.setGroupPath(groupPath);
                         groupInfo.setField(groupField.getField());
                         groupInfo.setValue(value);
-                        groupInfo.setGroups(new ArrayList<>());
-                        beforeLevelGroups.add(groupInfo);
+
+                        groupPathMap.put(groupPath, groupInfo);
                     }
 
-                    beforeLevelGroups = groupInfo.getGroups();
+                    // 将当前分组信息放到父级分组里
+                    if (parentGroupInfo != null) {
+                        if (parentGroupInfo.getGroups() == null) {
+                            parentGroupInfo.setGroups(new ArrayList<>());
+                        }
+                        parentGroupInfo.getGroups().add(groupInfo);
+                    }
                 } else {
+                    // 没有使用该级分组做查询（该级及子级还未展开）
                     break;
                 }
-            }
 
-            if (groupInfo != null) {
-                if (groupInfo.getDataList() == null) {
-                    groupInfo.setDataList(new ArrayList<>());
+                GroupInfo<T> lastGroupInfo = groupPathMap.get(groupPath);
+                if (isFromGroupCount) {
+                    lastGroupInfo.setDataStatistic(data.get_d().get(COUNT_FIELD_NAME));
+                } else {
+                    if (lastGroupInfo.getDataList() == null) {
+                        lastGroupInfo.setDataList(new ArrayList<>());
+                    }
+                    lastGroupInfo.getDataList().add(data);
                 }
-                groupInfo.getDataList().add(data);
             }
         }
+
+        // 填充分组信息
+        List<List<GroupInfo.GroupPathNode>> groupPathList = new ArrayList<>(groupPathMap.keySet());
     }
 
 }
