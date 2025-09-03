@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.jdbc.util;
 
-import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.eip.api.model.connector.EipConnector;
 import pro.shushi.pamirs.eip.jdbc.manager.EipDataSourceManager;
 import pro.shushi.pamirs.eip.jdbc.service.EipJdbcComponent;
@@ -38,11 +37,7 @@ public class DbConnectionUtils {
 
     public static DataSource buildDataSource(EipConnector connector) {
         String url = buildUrl(connector);
-        String connDbType = connector.getConnBasicDbType();
-        if (StringUtils.isBlank(connDbType)) {
-            connDbType = connector.getConnDBType();
-        }
-        return EipDataSourceManager.buildSimpleDataSource(url, connector.driver(), connector.getUser(), connector.getPassword(), connDbType);
+        return EipDataSourceManager.buildSimpleDataSource(url, connector.driver(), connector.getUser(), connector.getPassword(), connector.getConnDBType(), connector.getConnBasicDbType());
     }
 
     public static String buildUrl(EipConnector connector) {
