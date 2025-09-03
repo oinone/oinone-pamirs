@@ -141,8 +141,7 @@ public enum UserExpEnumerate implements ExpBaseEnum {
     // endregion
     INVALID_ROLE_CODE(ERROR_TYPE.BIZ_ERROR, 10030129, "角色编码无效"),
     NAME_CANNOT_BE_EMPTY(ERROR_TYPE.BIZ_ERROR, 10030130, "姓名不能为空"),
-    INVALID_ROLE_CODE_EXCEPTION(ERROR_TYPE.BIZ_ERROR, 10030131, "{} 无效的角色编码,请进行修改后重新导入"),
-    USER_HAS_UNFINISHED_WORK_CANNOT_DELETE(ERROR_TYPE.BIZ_ERROR, 10030132, "用户仍存在工作未交接，无法删除");
+    INVALID_ROLE_CODE_EXCEPTION(ERROR_TYPE.BIZ_ERROR, 10030131, "{} 无效的角色编码,请进行修改后重新导入");
 
     private final ERROR_TYPE type;
 
