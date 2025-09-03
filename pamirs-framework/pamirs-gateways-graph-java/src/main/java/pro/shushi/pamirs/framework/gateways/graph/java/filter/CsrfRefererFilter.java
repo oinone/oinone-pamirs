@@ -22,7 +22,7 @@ import java.util.List;
 @Data
 @ConditionalOnProperty(prefix = "pamirs.security.csrf", name = "check", havingValue = "true")
 @Configuration
-@WebFilter(filterName = "csrfRefererFilter", urlPatterns = "/*")
+@WebFilter(filterName = "csrfRefererFilter", urlPatterns = "/*", asyncSupported = true)
 public class CsrfRefererFilter implements Filter {
 
     public static final Logger logger = LoggerFactory.getLogger(CsrfRefererFilter.class);
