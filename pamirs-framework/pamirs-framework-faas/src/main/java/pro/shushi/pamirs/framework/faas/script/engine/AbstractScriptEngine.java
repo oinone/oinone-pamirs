@@ -3,6 +3,7 @@ package pro.shushi.pamirs.framework.faas.script.engine;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.mvel2.jsr223.MvelScriptEngine;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.util.AppClassLoader;
 
 import javax.script.*;
@@ -16,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Adamancy Zhang at 15:47 on 2024-07-17
  */
+@Slf4j
 public abstract class AbstractScriptEngine implements PamirsScriptEngine {
 
     private static final Map<String, ScriptEngine> CACHE = new ConcurrentHashMap<>(4);
@@ -31,10 +33,10 @@ public abstract class AbstractScriptEngine implements PamirsScriptEngine {
     }
 
     protected AbstractScriptEngine(ScriptEngine scriptEngine) {
-        this.scriptEngine = scriptEngine;
         if (scriptEngine == null) {
             scriptEngine = generatorDefaultScriptEngine();
         }
+        this.scriptEngine = scriptEngine;
         if (scriptEngine instanceof Compilable) {
             this.compilableEngine = (Compilable) scriptEngine;
             this.compiledScriptCache = Caffeine.newBuilder().maximumSize(10_000).build();
@@ -45,7 +47,17 @@ public abstract class AbstractScriptEngine implements PamirsScriptEngine {
     }
 
     private static ScriptEngine init(String type) {
-        return CACHE.computeIfAbsent(type, (k) -> new ScriptEngineManager(AppClassLoader.getClassLoader(PamirsScriptEngine.class)).getEngineByName(k));
+        return CACHE.computeIfAbsent(type, (k) -> {
+            ScriptEngine engine = new ScriptEngineManager(AppClassLoader.getClassLoader(PamirsScriptEngine.class)).getEngineByName(k);
+            if (log.isInfoEnabled()) {
+                String engineClassName = null;
+                if (engine != null) {
+                    engineClassName = engine.getClass().getName();
+                }
+                log.info("load script engine {}: {}", k, engineClassName);
+            }
+            return engine;
+        });
     }
 
     protected ScriptEngine generatorDefaultScriptEngine() {
