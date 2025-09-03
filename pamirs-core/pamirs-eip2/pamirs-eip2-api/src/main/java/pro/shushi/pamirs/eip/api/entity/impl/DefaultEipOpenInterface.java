@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.api.entity.impl;
 
-import org.apache.camel.processor.ErrorHandler;
 import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
@@ -46,8 +45,4 @@ public class DefaultEipOpenInterface extends AbstractEipOpenInterface<SuperMap> 
         return EipFunctionConstant.DEFAULT_IN_OUT_CONVERTER;
     }
 
-    @Override
-    public IEipErrorHandler getErrorHandler() {
-        return EipFunctionConstant.DEFAULT_OPEN_INTERFACE_ERROR_HANDLER;
-    }
 }

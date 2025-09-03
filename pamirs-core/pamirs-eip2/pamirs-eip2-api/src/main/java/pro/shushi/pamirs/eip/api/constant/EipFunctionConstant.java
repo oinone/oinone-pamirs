@@ -94,8 +94,6 @@ public class EipFunctionConstant {
 
     public static final String DEFAULT_OPEN_Hl7_FHIR_JSON_PARAM_CONVERTER_FUN = IN_OUT_CONVERTER_PREFIX + "OpenApiHl7FhirJsonParamConvert";
 
-    public static final String DEFAULT_OPEN_ERROR_HANDLER_FUN = OPEN_ERROR_HANDLER_PREFIX + "defaultOpenErrorHandler";
-
     //endregion
 
     // 集成接口发送请求
