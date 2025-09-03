@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.middleware</groupId>
         <artifactId>pamirs-middleware</artifactId>
-        <version>6.2.16</version>
+        <version>6.2.17</version>
     </parent>
     <groupId>pro.shushi.pamirs.middleware.lock</groupId>
     <artifactId>pamirs-middleware-lock</artifactId>
