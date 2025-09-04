@@ -205,4 +205,26 @@ public class EncryptHelper {
         }
         return builder.toString();
     }
+
+    /**
+     * 字符串base64加密
+     *
+     * @param str 源字符串
+     * @return base64加密结果
+     */
+    public static String encrypt2Base64(String str) {
+        return Base64.getEncoder().encodeToString(str.getBytes());
+    }
+
+    /**
+     * 字符串base64解密
+     *
+     * @param base64 base64字符串
+     * @return 源字符串
+     */
+    public static String decryptByBase64(String base64) {
+        byte[] decode = Base64.getDecoder().decode(base64);
+        return new String(decode);
+    }
+
 }
