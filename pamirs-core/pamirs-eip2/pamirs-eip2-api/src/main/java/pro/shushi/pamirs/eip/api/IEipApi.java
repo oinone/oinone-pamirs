@@ -68,8 +68,4 @@ public interface IEipApi {
     @NotNull
     Boolean getIsEnabledLog();
 
-    /**
-     * 获取接口类别
-     */
-    String getCategory();
 }
