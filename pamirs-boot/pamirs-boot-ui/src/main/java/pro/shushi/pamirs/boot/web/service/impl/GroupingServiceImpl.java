@@ -113,7 +113,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         Pagination<T> pagination = Models.origin().queryPage(new Pagination<>(1, group.getTotalCount()), parseQueryWrapper(queryWrapper));
-        fullGroupInfo(group, groupResult, pagination.getContent(), false, (groupInfo) -> {
+        fullGroupInfo(group, groupResult, pagination.getContent(), true, (groupInfo) -> {
             // todo 加统计函数实现
         });
 
@@ -123,6 +123,19 @@ public class GroupingServiceImpl implements GroupingService {
     private <T extends D> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setIsFetchAll(false);
+
+        if (Boolean.TRUE.equals(group.getNeedPagination())) {
+            // 查询一级分组情况
+            Pagination<T> pagination = new Pagination<>(page.getCurrentPage(), page.getSize());
+            GroupField groupField = group.getGroupFields().get(0);
+            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
+            SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
+            QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
+            queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
+            pagination = Models.origin().queryPage(pagination, queryWrapper);
+            List<Object> groupQueryCondition = pagination.getContent().stream()
+                    .map(data -> data.get_d().get(groupField.getField())).collect(Collectors.toList());
+        }
 
         boolean isQueryStatistic = CollectionUtils.isNotEmpty(group.getStatisticFields());
         boolean isQueryPagedFirstGroup = Boolean.TRUE.equals(group.getNeedPagination()) && CollectionUtils.isEmpty(group.getSelectGroupFields());
