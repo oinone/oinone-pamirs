@@ -18,11 +18,6 @@ import pro.shushi.pamirs.meta.common.spi.Spider;
 @Slf4j
 public class DefaultOpenInterfaceErrorHandler implements ErrorHandler {
 
-    public String processError(Exchange exchange) throws Exception {
-        process(exchange);
-        return "";
-    }
-
     @Override
     public void process(Exchange exchange) throws Exception {
         Throwable e = exchange.getException();
