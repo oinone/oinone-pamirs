@@ -51,8 +51,6 @@ public class EipFunctionConstant {
 
     public static final String OPEN_RESPONSE_ENCRYPTION_PREFIX = "EIP_OPEN_RESPONSE_ENCRYPTION_PREFIX_";
 
-    public static final String OPEN_ERROR_HANDLER_PREFIX = "EIP_OPEN_ERROR_HANDLER_PREFIX_";
-
     //endregion
 
     //region fun 常量
