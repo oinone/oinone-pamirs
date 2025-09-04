@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.boot.web.service.impl;
 
 import com.alibaba.fastjson.TypeReference;
+import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
@@ -70,7 +71,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         if (!isFetchData) {
-            return queryGroupInfo(group);
+            return queryGroupInfo(group, page);
         } else {
             return queryGroupData(group, page);
         }
@@ -110,8 +111,9 @@ public class GroupingServiceImpl implements GroupingService {
             String[] selectFields = new String[selectFieldSet.size()];
             List<String> selectFieldList = new ArrayList<>(selectFieldSet);
             for (int i = 0; i < selectFieldList.size(); i++) {
-                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(selectFieldList.get(i));
-                selectFields[i] = modelFieldConfig.getColumn();
+                String field = selectFieldList.get(i);
+                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(field);
+                selectFields[i] = modelFieldConfig.getColumn() + " " + field;
             }
             queryWrapper.select(selectFields);
         }
@@ -119,11 +121,7 @@ public class GroupingServiceImpl implements GroupingService {
         enableFunctionCallSpi();
         Pagination<T> pagination = Fun.run(group.getModel(), FunctionConstants.queryPage, new Pagination<>(1, group.getTotalCount()), queryWrapper);
         fullGroupInfo(group, groupResult, pagination.getContent(), false, (groupInfo) -> {
-            if (groupInfo.getDataList() == null) {
-                groupInfo.setDataStatistic(0);
-            } else {
-                groupInfo.setDataStatistic(groupInfo.getDataList().size());
-            }
+            // todo 加统计函数实现
         });
 
         return groupResult;
@@ -138,14 +136,48 @@ public class GroupingServiceImpl implements GroupingService {
         PamirsSession.directive().enableExtPoint();
     }
 
-    private <T extends D> GroupResult<T> queryGroupInfo(final Grouping<T> group) {
+    private <T extends D> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
         GroupResult<T> groupResult = new GroupResult<>();
-        groupResult.setTotalElements(group.getTotalCount());
-        groupResult.setTotalPages(1);
         groupResult.setIsFetchAll(false);
 
-        consumeGroupSelectTree(group, null, (treePath) -> {
-            QueryWrapper<?> queryWrapper = buildPageQueryWrapper(group);
+        boolean isQueryStatistic = CollectionUtils.isNotEmpty(group.getStatisticFields());
+        boolean isQueryPagedFirstGroup = Boolean.TRUE.equals(group.getNeedPagination()) && CollectionUtils.isEmpty(group.getSelectGroupFields());
+        boolean isSelectQueryGroup = CollectionUtils.isNotEmpty(group.getSelectGroupFields());
+        Pagination<T> pagination;
+        if (isQueryPagedFirstGroup) {
+            // 查询一级分组情况
+            pagination = new Pagination<>(page.getCurrentPage(), page.getSize());
+            group.setSqlGroupFields(Lists.newArrayList(group.getGroupFields().get(0)));
+        } else {
+            pagination = new Pagination<>(1, group.getTotalCount());
+            group.setSqlGroupFields(group.getGroupFields());
+        }
+
+        if (isSelectQueryGroup && !isQueryStatistic) {
+            consumeGroupSelectTree(group, null, (treePath) -> {
+                QueryWrapper<?> queryWrapper = buildPageQueryWrapper(group);
+                List<String> groupFields = new ArrayList<>(treePath.size() + 1);
+                queryWrapper.and(andWrapper -> {
+                    for (Pair<ModelFieldConfig, GroupSelectField> treeNode : treePath) {
+                        ModelFieldConfig modelFieldConfig = treeNode.getLeft();
+                        GroupSelectField selectField = treeNode.getRight();
+                        SortDirectionEnum orderType = Optional.ofNullable(selectField.getGroupField().getOrderType()).orElse(SortDirectionEnum.ASC);
+                        groupFields.add(modelFieldConfig.getColumn());
+                        queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
+                        andWrapper.eq(modelFieldConfig.getColumn(), selectField.getGroupValue());
+                    }
+                });
+                queryWrapper.groupBy(groupFields.toArray(new String[0]));
+                List<String> selectFields = new ArrayList<>(groupFields);
+                selectFields.add("COUNT(*) " + COUNT_FIELD_NAME);
+                queryWrapper.select(selectFields.toArray(new String[0]));
+
+                enableFunctionCallSpi();
+                Pagination<T> paginationResult = Fun.run(group.getModel(), FunctionConstants.queryPage, pagination, queryWrapper);
+                fullGroupInfo(group, groupResult, paginationResult.getContent(), true, null);
+            });
+        } else {
+            /*QueryWrapper<?> queryWrapper = buildPageQueryWrapper(group);
             List<String> groupFields = new ArrayList<>(treePath.size() + 1);
             queryWrapper.and(andWrapper -> {
                 for (Pair<ModelFieldConfig, GroupSelectField> treeNode : treePath) {
@@ -163,9 +195,9 @@ public class GroupingServiceImpl implements GroupingService {
             queryWrapper.select(selectFields.toArray(new String[0]));
 
             enableFunctionCallSpi();
-            Pagination<T> pagination = Fun.run(group.getModel(), FunctionConstants.queryPage, new Pagination<>(1, group.getTotalCount()), queryWrapper);
-            fullGroupInfo(group, groupResult, pagination.getContent(), true, null);
-        });
+            Pagination<T> paginationResult = Fun.run(group.getModel(), FunctionConstants.queryPage, pagination, queryWrapper);
+            fullGroupInfo(group, groupResult, paginationResult.getContent(), true, null);*/
+        }
 
         return groupResult;
     }
@@ -253,58 +285,90 @@ public class GroupingServiceImpl implements GroupingService {
     }
 
     private <T extends D> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, boolean isFromGroupCount, Consumer<GroupInfo<T>> statisticConsumer) {
-        List<GroupField> groupFields = group.getGroupFields();
+        List<GroupField> sqlGroupFields = group.getSqlGroupFields();
+        List<GroupSelectField> selectGroupFields = group.getSelectGroupFields();
 
         Map<List<GroupInfo.GroupPathNode>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
         Set<List<GroupInfo.GroupPathNode>> firstGroupPathList = new LinkedHashSet<>();
-        Set<List<GroupInfo.GroupPathNode>> lastGroupPathList = new LinkedHashSet<>();
+        Set<List<GroupInfo.GroupPathNode>> lastGroupPathList = new HashSet<>();
+        Set<List<GroupInfo.GroupPathNode>> selectGroupPath = null;
+
+        // 加载之前已加载过的分组信息
+        List<GroupInfo<T>> beforeGroupFields = groupResult.getGroups();
+        LinkedList<GroupInfo<T>> beforeGroupFieldStack = new LinkedList<>();
+        if (CollectionUtils.isNotEmpty(beforeGroupFields)) {
+            beforeGroupFieldStack.addAll(beforeGroupFields);
+        }
+        while (!beforeGroupFieldStack.isEmpty()) {
+            GroupInfo<T> groupInfo = beforeGroupFieldStack.remove(0);
+            groupPathMap.put(groupInfo.getGroupPath(), groupInfo);
+            if (CollectionUtils.isNotEmpty(groupInfo.getGroups())) {
+                beforeGroupFieldStack.addAll(groupInfo.getGroups());
+            }
+        }
+
+        if (CollectionUtils.isNotEmpty(selectGroupFields)) {
+            selectGroupPath = new HashSet<>();
+            final Set<List<GroupInfo.GroupPathNode>> finalSelectGroupPath = selectGroupPath;
+            consumeGroupSelectTree(group, null, (treePath) -> {
+                List<GroupInfo.GroupPathNode> groupPath = treePath.stream()
+                        .map(pair -> new GroupInfo.GroupPathNode(pair.getRight().getGroupField(), pair.getRight().getGroupValue()))
+                        .collect(Collectors.toList());
+                finalSelectGroupPath.add(groupPath);
+            });
+        }
 
         for (T data : dataList) {
-            List<GroupInfo.GroupPathNode> groupPath = new ArrayList<>();
-            for (int i = 0; i < groupFields.size(); i++) {
-                GroupField groupField = groupFields.get(i);
-                if (data.get_d().containsKey(groupField.getField())) {
-                    GroupInfo<T> parentGroupInfo = groupPathMap.get(groupPath);
+            List<GroupInfo.GroupPathNode> groupPath = null;
+            for (int i = 0; i < sqlGroupFields.size(); i++) {
+                GroupField groupField = sqlGroupFields.get(i);
+                GroupInfo<T> parentGroupInfo = groupPathMap.get(groupPath);
 
-                    Object value = data.get_d().get(groupField.getField());
-                    groupPath.add(new GroupInfo.GroupPathNode(groupField.getField(), value));
-
-                    // 判断当前分组是否已存在
-                    GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
-                    if (groupInfo == null) {
-                        groupInfo = new GroupInfo<>();
-                        groupInfo.setGroupPath(groupPath);
-                        groupInfo.setField(groupField.getField());
-                        groupInfo.setValue(value);
-                        groupInfo.setGroupField(groupField);
-                        groupPathMap.put(groupPath, groupInfo);
-                    }
-
-                    // 将当前分组信息放到父级分组里
-                    if (parentGroupInfo != null) {
-                        if (parentGroupInfo.getGroups() == null) {
-                            parentGroupInfo.setGroups(new ArrayList<>());
-                        }
-                        parentGroupInfo.getGroups().add(groupInfo);
-                    }
+                Object value = data.get_d().get(groupField.getField());
+                if (groupPath == null) {
+                    groupPath = new ArrayList<>();
                 } else {
-                    // 没有使用该级分组做查询（该级及子级还未展开）
-                    break;
+                    groupPath = new ArrayList<>(groupPath);
+                }
+                groupPath.add(new GroupInfo.GroupPathNode(groupField, value));
+
+                // 判断当前分组是否已存在
+                GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
+                if (groupInfo == null) {
+                    groupInfo = new GroupInfo<>();
+                    groupInfo.setGroupPath(groupPath);
+                    groupInfo.setField(groupField.getField());
+                    groupInfo.setValue(value);
+                    groupInfo.setGroupField(groupField);
+                    groupPathMap.put(groupPath, groupInfo);
                 }
 
-                GroupInfo<T> lastGroupInfo = groupPathMap.get(groupPath);
-                if (isFromGroupCount) {
-                    lastGroupInfo.setDataStatistic(data.get_d().get(COUNT_FIELD_NAME));
-                } else {
-                    if (lastGroupInfo.getDataList() == null) {
-                        lastGroupInfo.setDataList(new ArrayList<>());
+                // 将当前分组信息放到父级分组里
+                if (parentGroupInfo != null) {
+                    if (parentGroupInfo.getGroups() == null) {
+                        parentGroupInfo.setGroups(new ArrayList<>());
                     }
-                    lastGroupInfo.getDataList().add(data);
+                    parentGroupInfo.getGroups().add(groupInfo);
                 }
-
                 if (i == 0) {
                     firstGroupPathList.add(groupPath);
                 }
+
+                // 选择了指定的分组路径且指定分组路径包含当前路径情况下说明子级路径还没有展开
+                if (selectGroupPath != null && selectGroupPath.contains(groupPath)) {
+                    break;
+                }
+            }
+
+            // 最终获取到的当前数据所属最后一级分组信息
+            GroupInfo<T> lastGroupInfo = groupPathMap.get(groupPath);
+            if (isFromGroupCount) {
+                lastGroupInfo.setDataCount((Long) data.get_d().get(COUNT_FIELD_NAME));
+            } else {
+                if (lastGroupInfo.getDataList() == null) {
+                    lastGroupInfo.setDataList(new ArrayList<>());
+                }
+                lastGroupInfo.getDataList().add(data);
             }
             lastGroupPathList.add(groupPath);
         }
@@ -325,7 +389,7 @@ public class GroupingServiceImpl implements GroupingService {
             for (List<GroupInfo.GroupPathNode> groupPath : groupPathList) {
                 // 这里的子级groupInfo一定是都填充完成的
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
-                groupInfo.setValueStr(stringifyValue(groupInfo, groupInfo.getValue()));
+                groupInfo.setValueStr(GroupInfo.stringifyValue(groupInfo, groupInfo.getValue()));
                 List<GroupInfo<T>> childGroups = groupInfo.getGroups();
                 if (CollectionUtils.isNotEmpty(childGroups)) {
                     List<T> groupDataList = new ArrayList<>();
@@ -349,11 +413,11 @@ public class GroupingServiceImpl implements GroupingService {
                             }
                             return null;
                         }).filter(Objects::nonNull).reduce(0L, Long::sum);
-                        groupInfo.setDataStatistic(count);
+                        groupInfo.setDataCount(count);
                     }
 
                     // 序列化统计结果
-                    groupInfo.setDataStatisticStr(stringifyStatisticResult(groupInfo, groupInfo.getDataStatistic()));
+                    groupInfo.setDataStatisticStr(GroupInfo.stringifyStatisticResult(group, groupInfo, groupInfo.getDataStatistic()));
                 }
             }
         }
@@ -369,20 +433,6 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         groupResult.setGroups(firstGroupPathList.stream().map(groupPathMap::get).collect(Collectors.toList()));
-    }
-
-    private String stringifyValue(GroupInfo<?> groupInfo, Object value) {
-        if (value == null) {
-            return null;
-        }
-        return value.toString();
-    }
-
-    private String stringifyStatisticResult(GroupInfo<?> groupInfo, Object dataStatistic) {
-        if (dataStatistic == null) {
-            return null;
-        }
-        return dataStatistic.toString();
     }
 
 }

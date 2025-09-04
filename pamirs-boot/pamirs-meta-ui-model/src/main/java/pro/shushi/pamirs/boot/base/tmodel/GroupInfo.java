@@ -7,6 +7,7 @@ import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -21,7 +22,10 @@ public class GroupInfo<T extends D> extends TransientModel {
     @Field(displayName = "字段名")
     private String field;
 
-    @Field(displayName = "当前分组数据统计值", summary = "转换成字符串")
+    @Field(displayName = "当前分组下数据总数")
+    private Long dataCount;
+
+    @Field(displayName = "当前分组数据统计值", summary = "转换成Json字符串")
     private String dataStatisticStr;
 
     @Field(displayName = "当前分组值", summary = "转换成字符串")
@@ -36,7 +40,7 @@ public class GroupInfo<T extends D> extends TransientModel {
     /**
      * 当前分组数据统计值
      */
-    private Object dataStatistic;
+    private Map<String, Object> dataStatistic;
 
     /**
      * 当前分组的值
@@ -58,13 +62,27 @@ public class GroupInfo<T extends D> extends TransientModel {
      */
     private List<GroupPathNode> groupPath;
 
+    public static String stringifyValue(GroupInfo<?> groupInfo, Object value) {
+        if (value == null) {
+            return null;
+        }
+        return value.toString();
+    }
+
+    public static String stringifyStatisticResult(Grouping<?> group, GroupInfo<?> groupInfo, Map<String, Object> dataStatistic) {
+        if (dataStatistic == null) {
+            return null;
+        }
+        return dataStatistic.toString();
+    }
+
     public static class GroupPathNode {
 
-        public String field;
+        public GroupField field;
 
         public Object value;
 
-        public GroupPathNode(String field, Object value) {
+        public GroupPathNode(GroupField field, Object value) {
             this.field = field;
             this.value = value;
         }
@@ -93,7 +111,7 @@ public class GroupInfo<T extends D> extends TransientModel {
             } else {
                 return false;
             }
-            return StringUtils.equals(other.field, field) && Objects.equals(other, value);
+            return StringUtils.equals(other.field.getField(), field.getField()) && Objects.equals(other.value, value);
         }
     }
 

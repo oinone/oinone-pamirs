@@ -51,6 +51,8 @@ public class Grouping<T extends D> extends TransientModel {
 
     private transient List<String> selects;
 
+    private List<GroupField> sqlGroupFields;
+
     // 总数据量
     private long totalCount;
 
