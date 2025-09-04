@@ -4,11 +4,13 @@ import com.alibaba.fastjson.TypeReference;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.web.enmu.GroupingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
+import pro.shushi.pamirs.framework.gateways.hook.RsqlParseHook;
 import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.dto.condition.Order;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
@@ -40,30 +42,24 @@ public class GroupingServiceImpl implements GroupingService {
     private static final TypeReference<Map<String, Object>> QUERY_DATA_TYPE_REF = new TypeReference<Map<String, Object>>() {
     };
 
+    @Autowired
+    private RsqlParseHook rsqlParseHook;
+
     @Override
-    public <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page, IWrapper<T> wrapper, boolean isFetchData) {
+    public <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page, boolean isFetchData) {
         String model = group.getModel();
         ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
         if (modelConfig == null) {
             throw PamirsException.construct(GroupingExpEnumerate.MODEL_NOT_FIND).errThrow();
         }
         group.setModelConfig(modelConfig);
-        if (wrapper != null && !(wrapper instanceof QueryWrapper)) {
-            throw PamirsException.construct(GroupingExpEnumerate.WRAPPER_CLASS_ERROR).errThrow();
-        }
-        QueryWrapper<T> queryWrapper = (QueryWrapper<T>) wrapper;
+        ConditionWrapper queryWrapper = group.getQueryWrapper();
         if (queryWrapper == null) {
-            queryWrapper = new QueryWrapper<>();
+            queryWrapper = new ConditionWrapper();
         }
-        queryWrapper.from(model);
-        String pageRsql = queryWrapper.getRsql();
-        String pageQueryData = JsonUtils.toJSONString(queryWrapper.getQueryData() != null ? queryWrapper.getQueryData() : new HashMap<>());
-        group.setPageRsql(pageRsql != null ? pageRsql : "");
-        group.setPageQueryData(pageQueryData);
-        group.setSelects(queryWrapper.getSelects());
+        queryWrapper.setModel(model);
 
         // 数据量小于指定数量时直接返回全部
-        enableFunctionCallSpi();
         Long count = Fun.run(model, FunctionConstants.countByWrapper, buildPageQueryWrapper(group));
         group.setTotalCount(count);
         if (count <= QUERY_GROUP_ALL_DATA_LIMIT) {
@@ -106,7 +102,7 @@ public class GroupingServiceImpl implements GroupingService {
             }
         }
 
-        if (CollectionUtils.isNotEmpty(group.getSelects())) {
+        /*if (CollectionUtils.isNotEmpty(group.getQueryWrapper().getSelects())) {
             selectFieldSet.addAll(group.getSelects());
             String[] selectFields = new String[selectFieldSet.size()];
             List<String> selectFieldList = new ArrayList<>(selectFieldSet);
@@ -116,7 +112,7 @@ public class GroupingServiceImpl implements GroupingService {
                 selectFields[i] = modelFieldConfig.getColumn() + " " + field;
             }
             queryWrapper.select(selectFields);
-        }
+        }*/
 
         enableFunctionCallSpi();
         Pagination<T> pagination = Fun.run(group.getModel(), FunctionConstants.queryPage, new Pagination<>(1, group.getTotalCount()), queryWrapper);
@@ -232,8 +228,8 @@ public class GroupingServiceImpl implements GroupingService {
     private <T extends D> QueryWrapper<T> buildPageQueryWrapper(Grouping<T> group) {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         queryWrapper.from(group.getModel())
-                .setRsql(group.getPageRsql())
-                .setQueryData(JsonUtils.parseObject(group.getPageQueryData(), QUERY_DATA_TYPE_REF));
+                .setRsql(group.getQueryWrapper().getRsql())
+                .setQueryData(JsonUtils.parseObject(JsonUtils.toJSONString(group.getQueryWrapper().getQueryData()), QUERY_DATA_TYPE_REF));
         return queryWrapper;
     }
 

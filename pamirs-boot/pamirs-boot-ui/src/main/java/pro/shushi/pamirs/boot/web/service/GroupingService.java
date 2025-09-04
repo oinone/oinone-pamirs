@@ -13,6 +13,6 @@ import pro.shushi.pamirs.meta.base.D;
  */
 public interface GroupingService {
 
-    <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page, IWrapper<T> wrapper, boolean isFetchData);
+    <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> pag, boolean isFetchData);
 
 }

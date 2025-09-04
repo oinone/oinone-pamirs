@@ -9,7 +9,6 @@ import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
-import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
@@ -29,8 +28,8 @@ public class GroupingAction {
 
     @Function.Advanced(displayName = "分页查询分组信息", type = FunctionTypeEnum.QUERY)
     @Function(openLevel = FunctionOpenEnum.API)
-    public <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page, IWrapper<T> queryWrapper) {
-        return groupingService.fetchGroupPage(group, page, queryWrapper, false);
+    public <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
+        return groupingService.fetchGroupPage(group, page, false);
     }
 
     @Function.Advanced(displayName = "查询分组统计", type = FunctionTypeEnum.QUERY)
@@ -41,8 +40,8 @@ public class GroupingAction {
 
     @Function.Advanced(displayName = "获取某个最后一级分组下的数据", type = FunctionTypeEnum.QUERY)
     @Function(openLevel = FunctionOpenEnum.API)
-    public <T extends D> GroupResult<T> fetchGroupData(Grouping<T> group, Pagination<T> page, IWrapper<T> queryWrapper) {
-        return groupingService.fetchGroupPage(group, page, queryWrapper, true);
+    public <T extends D> GroupResult<T> fetchGroupData(Grouping<T> group, Pagination<T> page) {
+        return groupingService.fetchGroupPage(group, page, true);
     }
 
 }
