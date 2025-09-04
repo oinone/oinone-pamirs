@@ -94,8 +94,9 @@ public class EipOpenInterfaceServiceImpl implements EipOpenInterfaceService {
             throw PamirsException.construct(EipExpEnumerate.OPEN_INTERFACE_CREATE_REQUEST_ERROR).appendMsg("uri重复").errThrow();
         }
         // 处理忽略日志频率配置
-        if (data.getIsIgnoreLogFrequency() != null) {
-            if (data.getIsIgnoreLogFrequency()) {
+        Boolean isIgnoreLogFrequency = data.getIsIgnoreLogFrequency();
+        if (isIgnoreLogFrequency != null) {
+            if (isIgnoreLogFrequency) {
                 eipLogStrategyService.ignoreFrequency(data.getInterfaceName(), InterfaceTypeEnum.OPEN);
             } else {
                 eipLogStrategyService.cancelIgnoreFrequency(data.getInterfaceName(), InterfaceTypeEnum.OPEN);
@@ -109,6 +110,9 @@ public class EipOpenInterfaceServiceImpl implements EipOpenInterfaceService {
 
         EipOpenInterface result = data.queryById();
         eipService.registerApi(result);
+        if (isIgnoreLogFrequency != null) {
+            result.setIsIgnoreLogFrequency(isIgnoreLogFrequency);
+        }
         return result;
     }
 
