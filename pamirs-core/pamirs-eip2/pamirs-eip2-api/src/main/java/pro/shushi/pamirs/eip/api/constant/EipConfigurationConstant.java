@@ -20,8 +20,6 @@ public class EipConfigurationConstant {
 
     public static final String ENDPOINT_REST = "rest";
 
-    public static final String STREAM_URI_PREFIX_MARK = "$streamable-uri://";
-
     //region EIP 系统用户常量
 
     public static final Long EIP_SYSTEM_USER_ID = 8848L;
