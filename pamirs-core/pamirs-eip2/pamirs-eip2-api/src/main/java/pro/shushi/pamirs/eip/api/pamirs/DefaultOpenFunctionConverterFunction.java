@@ -2,6 +2,7 @@ package pro.shushi.pamirs.eip.api.pamirs;
 
 import org.apache.camel.ExtendedExchange;
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.auth.api.runtime.session.AuthFunctionPermissionSession;
 import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipConverter;
@@ -33,6 +34,7 @@ public class DefaultOpenFunctionConverterFunction<T> extends AbstractExecuteFunc
         PamirsSession.directive().enableFromClient();
         PamirsSession.directive().enableHook();
         PamirsSession.directive().enableExtPoint();
+        AuthFunctionPermissionSession.passed();
         if (argObjs == null) {
             result = call();
         } else {
