@@ -71,19 +71,13 @@ public class EipLogProxyServiceImpl implements EipLogProxyService {
                     Models.origin().queryListByWrapper(openInterfaceLambdaQueryWrapper).stream().map(EipOpenInterface::getInterfaceName).collect(Collectors.toSet())
             );
 
-            if (CollectionUtils.isEmpty(interfaceNameList) && StringUtils.isBlank(interfaceDisplayName)) {
+            if (CollectionUtils.isEmpty(interfaceNameList)) {
                 return null;
             } else {
-                queryWrapper.and(andWrapper -> {
-                    andWrapper
-                            .in(
-                                    CollectionUtils.isNotEmpty(interfaceNameList),
-                                    PStringUtils.fieldName2Column(LambdaUtil.fetchFieldName(EipLogProxy::getInterfaceName)),
-                                    interfaceNameList
-                            )
-                            .or(CollectionUtils.isNotEmpty(interfaceNameList) && StringUtils.isNotBlank(interfaceDisplayName))
-                            .like(StringUtils.isNotBlank(interfaceDisplayName), PStringUtils.fieldName2Column(LambdaUtil.fetchFieldName(EipLogProxy::getDisplayApiName)), interfaceDisplayName);
-                });
+                queryWrapper.in(
+                        PStringUtils.fieldName2Column(LambdaUtil.fetchFieldName(EipLogProxy::getInterfaceName)),
+                        interfaceNameList
+                );
             }
         }
         return queryWrapper;
@@ -111,11 +105,7 @@ public class EipLogProxyServiceImpl implements EipLogProxyService {
             }
             if (eipLogProxy.getEipInterface() != null) {
                 AbstractSingleInterface eipInterface = eipLogProxy.getEipInterface();
-                if (StringUtils.isNotBlank(eipLogProxy.getDisplayApiName())) {
-                    eipLogProxy.setInterfaceDisplayName(eipLogProxy.getDisplayApiName());
-                } else {
-                    eipLogProxy.setInterfaceDisplayName(eipInterface.getName());
-                }
+                eipLogProxy.setInterfaceDisplayName(eipInterface.getName());
                 eipLogProxy.setInterfaceDescription(eipInterface.getDescription());
                 eipLogProxy.setInterfaceUri(eipInterface.getUri());
                 eipLogProxy.setInterfaceModuleDefinition(eipInterface.getModuleDefinition());
