@@ -114,18 +114,9 @@ public class FunctionUtils {
             }
             if (null == method) {
                 for (Method tempMethod : clazz.getMethods()) {
-                    pro.shushi.pamirs.meta.annotation.Function.fun fun = tempMethod.getAnnotation(pro.shushi.pamirs.meta.annotation.Function.fun.class);
-                    if (fun != null && StringUtils.equals(fun.value(), methodName)) {
+                    if (tempMethod.getName().equals(methodName)) {
                         method = tempMethod;
                         break;
-                    }
-                }
-                if (null == method) {
-                    for (Method tempMethod : clazz.getMethods()) {
-                        if (tempMethod.getName().equals(methodName)) {
-                            method = tempMethod;
-                            break;
-                        }
                     }
                 }
             }
