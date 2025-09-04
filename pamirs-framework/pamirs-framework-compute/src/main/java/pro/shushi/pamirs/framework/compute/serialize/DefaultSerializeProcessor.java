@@ -82,7 +82,11 @@ public class DefaultSerializeProcessor<T> implements SerializeProcessor<T> {
     public T deserialize(String serializeType, String ltype, String ltypeT, String format, String value) {
         Class<?> ltypeClazz = TypeUtils.getClass(ltype);
         if (TypeUtils.isIEnumClass(ltypeClazz)) {
-            return (T) Enums.getEnumByValue((Class<IEnum>) ltypeClazz, value);
+            T iEnum = (T) Enums.getEnumByValue((Class<IEnum>) ltypeClazz, value);
+            if (iEnum == null) {
+                iEnum = (T) Enums.getEnumByValue((Class<IEnum>) ltypeClazz, !"0".equals(value));
+            }
+            return iEnum;
         }
         if (null == value) {
             return null;
