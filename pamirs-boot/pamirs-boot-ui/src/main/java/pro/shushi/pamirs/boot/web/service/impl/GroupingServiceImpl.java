@@ -352,6 +352,7 @@ public class GroupingServiceImpl implements GroupingService {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(groupPath);
             if (!isFetchData) {
                 lastGroupInfo.setDataCount((Long) data.get_d().get(COUNT_FIELD_NAME));
+                lastGroupInfo.setGroupData(data);
             } else {
                 if (lastGroupInfo.getDataList() == null) {
                     lastGroupInfo.setDataList(new ArrayList<>());
@@ -390,18 +391,18 @@ public class GroupingServiceImpl implements GroupingService {
                     }
                     groupInfo.setDataList(groupDataList);
                     // 计算统计函数
-                    if (isFetchData) {
-                        if (statisticConsumer != null) {
-                            statisticConsumer.accept(groupInfo);
-                        }
-                    } else {
-                        Long count = childGroups.stream().map(groupInfoI -> {
-                            if (groupInfoI.getDataStatistic() != null) {
-                                return Long.parseLong(groupInfoI.getDataStatistic().toString());
-                            }
-                            return null;
-                        }).filter(Objects::nonNull).reduce(0L, Long::sum);
+                    if (statisticConsumer != null) {
+                        statisticConsumer.accept(groupInfo);
+                    }
+                    if (!isFetchData) {
+                        Long count = childGroups.stream()
+                                .map(GroupInfo::getDataCount)
+                                .filter(Objects::nonNull)
+                                .reduce(0L, Long::sum);
                         groupInfo.setDataCount(count);
+                    }
+                    if (statisticConsumer != null) {
+                        statisticConsumer.accept(groupInfo);
                     }
 
                     // 序列化统计结果
