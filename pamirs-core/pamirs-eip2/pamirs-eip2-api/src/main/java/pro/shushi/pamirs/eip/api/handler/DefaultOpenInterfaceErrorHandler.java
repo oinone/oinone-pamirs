@@ -2,10 +2,10 @@ package pro.shushi.pamirs.eip.api.handler;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.camel.Exchange;
+import org.apache.camel.processor.ErrorHandler;
 import pro.shushi.pamirs.core.common.StringHelper;
 import pro.shushi.pamirs.eip.api.IEipApi;
 import pro.shushi.pamirs.eip.api.IEipContext;
-import pro.shushi.pamirs.eip.api.IEipErrorHandler;
 import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
@@ -16,7 +16,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 
 @Slf4j
-public class DefaultOpenInterfaceErrorHandler implements IEipErrorHandler {
+public class DefaultOpenInterfaceErrorHandler implements ErrorHandler {
 
     public String processError(Exchange exchange) throws Exception {
         process(exchange);
