@@ -18,8 +18,6 @@ public abstract class AbstractEipApi implements IEipApi {
 
     private final Boolean isDBManaged;
 
-    private String category;
-
     public AbstractEipApi(EipCamelContext context, String interfaceName, String uri) {
         this.context = context;
         this.interfaceName = interfaceName;
@@ -67,8 +65,4 @@ public abstract class AbstractEipApi implements IEipApi {
         this.isEnabledLog = Boolean.FALSE;
     }
 
-    @Override
-    public String getCategory() {
-        return category;
-    }
 }
