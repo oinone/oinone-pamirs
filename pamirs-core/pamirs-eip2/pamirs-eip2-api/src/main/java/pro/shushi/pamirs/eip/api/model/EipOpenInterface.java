@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.eip.api.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import org.apache.camel.processor.ErrorHandler;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.*;
