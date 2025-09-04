@@ -49,6 +49,8 @@ public class Grouping<T extends D> extends TransientModel {
     // 页面传入的Wrapper里的queryData
     private String pageQueryData;
 
+    private transient List<String> selects;
+
     // 总数据量
     private long totalCount;
 
