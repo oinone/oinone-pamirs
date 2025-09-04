@@ -29,19 +29,7 @@ public class GroupingAction {
     @Function.Advanced(displayName = "分页查询分组信息", type = FunctionTypeEnum.QUERY)
     @Function(openLevel = FunctionOpenEnum.API)
     public <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
-        return groupingService.fetchGroupPage(group, page, false);
-    }
-
-    @Function.Advanced(displayName = "查询分组统计", type = FunctionTypeEnum.QUERY)
-    @Function(openLevel = FunctionOpenEnum.API)
-    public <T extends D> GroupResult<T> fetchStatistics(Grouping<T> group) {
-        return new GroupResult<T>();
-    }
-
-    @Function.Advanced(displayName = "获取某个最后一级分组下的数据", type = FunctionTypeEnum.QUERY)
-    @Function(openLevel = FunctionOpenEnum.API)
-    public <T extends D> GroupResult<T> fetchGroupData(Grouping<T> group, Pagination<T> page) {
-        return groupingService.fetchGroupPage(group, page, true);
+        return groupingService.fetchGroupPage(group, page);
     }
 
 }

@@ -27,17 +27,14 @@ public class Grouping<T extends D> extends TransientModel {
     @Field(displayName = "查询条件")
     private ConditionQueryWrapper queryWrapper;
 
-    @Field(displayName = "是否是查询全部数据")
-    private Boolean isFetchAll;
+    @Field(displayName = "总数据量")
+    private Long totalDataCount;
 
     @Field(displayName = "是否需要分页")
     private Boolean needPagination;
 
     @Field(displayName = "所有分组字段")
     private List<GroupField> groupFields;
-
-    @Field(displayName = "当前已选择的分组字段")
-    private List<GroupSelectField> selectGroupFields;
 
     @Field(displayName = "所选统计字段")
     private List<GroupField> statisticFields;
@@ -47,9 +44,6 @@ public class Grouping<T extends D> extends TransientModel {
     private Map<String, ModelFieldConfig> modelFieldConfigCache = new HashMap<>();
 
     private List<GroupField> sqlGroupFields;
-
-    // 总数据量
-    private long totalCount;
 
     public ModelFieldConfig getModelFieldConfig(String field) {
         return getModelFieldConfigCache().computeIfAbsent(field,

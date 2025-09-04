@@ -1,9 +1,7 @@
 package pro.shushi.pamirs.boot.web.service.impl;
 
 import com.alibaba.fastjson.TypeReference;
-import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.boot.base.tmodel.*;
@@ -33,10 +31,6 @@ import java.util.stream.Collectors;
 @Service
 public class GroupingServiceImpl implements GroupingService {
 
-    public static final long QUERY_GROUP_ALL_DATA_LIMIT = 300;
-
-    public static final String COUNT_FIELD_NAME = "COUNT";
-
     private static final TypeReference<Map<String, Object>> QUERY_DATA_TYPE_REF = new TypeReference<Map<String, Object>>() {
     };
 
@@ -44,7 +38,7 @@ public class GroupingServiceImpl implements GroupingService {
     private RsqlParseHook rsqlParseHook;
 
     @Override
-    public <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page, boolean isFetchData) {
+    public <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
         String model = group.getModel();
         ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
         if (modelConfig == null) {
@@ -57,41 +51,31 @@ public class GroupingServiceImpl implements GroupingService {
         }
         queryWrapper.setModel(model);
 
-        // 数据量小于指定数量时直接返回全部
         Long count = Models.origin().count(parseQueryWrapper(buildPageQueryWrapper(group)));
-        group.setTotalCount(count);
-        if (count <= QUERY_GROUP_ALL_DATA_LIMIT) {
-            return fetchAllData(group, page);
-        }
-
-        if (!isFetchData) {
-            return queryGroupInfo(group, page);
-        } else {
-            return queryGroupData(group, page);
-        }
+        group.setTotalDataCount(count);
+        return queryGroupInfo(group, page);
     }
 
-    private <T extends D> GroupResult<T> fetchAllData(Grouping<T> group, Pagination<T> page) {
-        Sort sort = group.getQueryWrapper().getSort();
-        long totalCount = group.getTotalCount();
+    private <T extends D> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
         GroupResult<T> groupResult = new GroupResult<>();
-        groupResult.setTotalElements(totalCount);
-        groupResult.setTotalPages(1);
-        groupResult.setIsFetchAll(true);
-
-        page.setCurrentPage(1);
-        page.setSize(totalCount);
+        groupResult.setTotalDataCount(group.getTotalDataCount());
 
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        Set<String> selectFieldSet = new HashSet<>();
+        if (Boolean.TRUE.equals(group.getNeedPagination())) {
+            Pagination<T> pagination = addGroupPaginationCondition(group, queryWrapper, page.getCurrentPage(), page.getSize());
+            groupResult.setTotalPages(pagination.getTotalPages());
+            groupResult.setTotalElements(pagination.getTotalElements());
+        } else {
+            groupResult.setTotalPages(1);
+            groupResult.setTotalElements(group.getTotalDataCount());
+        }
 
-        List<GroupField> groupFieldList = group.getGroupFields();
-        for (GroupField groupField : groupFieldList) {
+        for (GroupField groupField : group.getGroupFields()) {
             ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
             SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
             queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
-            selectFieldSet.add(modelFieldConfig.getColumn());
         }
+        Sort sort = group.getQueryWrapper().getSort();
         if (Boolean.TRUE.equals(page.getSortable()) && sort != null && sort.getOrders() != null) {
             for (Order order : sort.getOrders()) {
                 ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(order.getField());
@@ -99,130 +83,39 @@ public class GroupingServiceImpl implements GroupingService {
                 queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
             }
         }
-
-        if (CollectionUtils.isNotEmpty(group.getQueryWrapper().getSelects())) {
-            selectFieldSet.addAll(group.getQueryWrapper().getSelects());
-            String[] selectFields = new String[selectFieldSet.size()];
-            List<String> selectFieldList = new ArrayList<>(selectFieldSet);
-            for (int i = 0; i < selectFieldList.size(); i++) {
-                String field = selectFieldList.get(i);
-                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(field);
-                selectFields[i] = modelFieldConfig.getColumn() + " " + field;
-            }
-            queryWrapper.select(selectFields);
-        }
-
-        Pagination<T> pagination = Models.origin().queryPage(new Pagination<>(1, group.getTotalCount()), parseQueryWrapper(queryWrapper));
-        fullGroupInfo(group, groupResult, pagination.getContent(), true, (groupInfo) -> {
+        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, group.getTotalDataCount()), parseQueryWrapper(queryWrapper));
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), (groupInfo) -> {
             // todo 加统计函数实现
         });
-
         return groupResult;
     }
 
-    private <T extends D> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
-        GroupResult<T> groupResult = new GroupResult<>();
-        groupResult.setIsFetchAll(false);
+    private <T extends D> Pagination<T> addGroupPaginationCondition(Grouping<T> group, QueryWrapper<T> queryWrapper, int pageNo, long pageSize) {
+        GroupField firstGroupField = group.getGroupFields().get(0);
+        ModelFieldConfig firstModelFieldConfig = group.getModelFieldConfig(firstGroupField.getField());
 
-        if (Boolean.TRUE.equals(group.getNeedPagination())) {
-            // 查询一级分组情况
-            Pagination<T> pagination = new Pagination<>(page.getCurrentPage(), page.getSize());
-            GroupField groupField = group.getGroupFields().get(0);
-            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
-            SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
-            QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-            queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
-            pagination = Models.origin().queryPage(pagination, queryWrapper);
-            List<Object> groupQueryCondition = pagination.getContent().stream()
-                    .map(data -> data.get_d().get(groupField.getField())).collect(Collectors.toList());
-        }
+        Pagination<T> pagination = new Pagination<>(pageNo, pageSize);
+        SortDirectionEnum orderType = Optional.ofNullable(firstGroupField.getOrderType()).orElse(SortDirectionEnum.ASC);
+        QueryWrapper<T> groupQueryWrapper = buildPageQueryWrapper(group);
+        groupQueryWrapper.select(firstModelFieldConfig.getColumn());
+        groupQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), firstModelFieldConfig.getColumn());
+        pagination = Models.origin().queryPage(pagination, parseQueryWrapper(groupQueryWrapper));
 
-        boolean isQueryStatistic = CollectionUtils.isNotEmpty(group.getStatisticFields());
-        boolean isQueryPagedFirstGroup = Boolean.TRUE.equals(group.getNeedPagination()) && CollectionUtils.isEmpty(group.getSelectGroupFields());
-        boolean isSelectQueryGroup = CollectionUtils.isNotEmpty(group.getSelectGroupFields());
-        Pagination<T> pagination;
-        if (isQueryPagedFirstGroup) {
-            // 查询一级分组情况
-            pagination = new Pagination<>(page.getCurrentPage(), page.getSize());
-            group.setSqlGroupFields(Lists.newArrayList(group.getGroupFields().get(0)));
-        } else {
-            pagination = new Pagination<>(1, group.getTotalCount());
-            group.setSqlGroupFields(group.getGroupFields());
-        }
-
-        if (isSelectQueryGroup && !isQueryStatistic) {
-            consumeGroupSelectTree(group, null, (treePath) -> {
-                QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-                List<String> groupFields = new ArrayList<>(treePath.size() + 1);
-                queryWrapper.and(andWrapper -> {
-                    for (Pair<ModelFieldConfig, GroupSelectField> treeNode : treePath) {
-                        ModelFieldConfig modelFieldConfig = treeNode.getLeft();
-                        GroupSelectField selectField = treeNode.getRight();
-                        SortDirectionEnum orderType = Optional.ofNullable(selectField.getGroupField().getOrderType()).orElse(SortDirectionEnum.ASC);
-                        groupFields.add(modelFieldConfig.getColumn());
-                        queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
-                        andWrapper.eq(modelFieldConfig.getColumn(), selectField.getGroupValue());
-                    }
-                });
-                queryWrapper.groupBy(groupFields.toArray(new String[0]));
-                List<String> selectFields = new ArrayList<>(groupFields);
-                selectFields.add("COUNT(*) " + COUNT_FIELD_NAME);
-                queryWrapper.select(selectFields.toArray(new String[0]));
-
-                Pagination<T> paginationResult = Models.origin().queryPage(pagination, parseQueryWrapper(queryWrapper));
-                fullGroupInfo(group, groupResult, paginationResult.getContent(), true, null);
-            });
-        } else {
-            /*QueryWrapper<?> queryWrapper = buildPageQueryWrapper(group);
-            List<String> groupFields = new ArrayList<>(treePath.size() + 1);
+        if (CollectionUtils.isNotEmpty(pagination.getContent())) {
+            Pagination<T> finalPagination = pagination;
             queryWrapper.and(andWrapper -> {
-                for (Pair<ModelFieldConfig, GroupSelectField> treeNode : treePath) {
-                    ModelFieldConfig modelFieldConfig = treeNode.getLeft();
-                    GroupSelectField selectField = treeNode.getRight();
-                    SortDirectionEnum orderType = Optional.ofNullable(selectField.getGroupField().getOrderType()).orElse(SortDirectionEnum.ASC);
-                    groupFields.add(modelFieldConfig.getColumn());
-                    queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
-                    andWrapper.eq(modelFieldConfig.getColumn(), selectField.getGroupValue());
+                for (T data : finalPagination.getContent()) {
+                    Object groupValue = data.get_d().get(firstGroupField.getField());
+                    if (groupValue == null) {
+                        andWrapper.or().isNull(firstModelFieldConfig.getColumn());
+                    } else {
+                        andWrapper.or().eq(firstModelFieldConfig.getColumn(), groupValue);
+                    }
                 }
             });
-            queryWrapper.groupBy(groupFields.toArray(new String[0]));
-            List<String> selectFields = new ArrayList<>(groupFields);
-            selectFields.add("COUNT(*) " + COUNT_FIELD_NAME);
-            queryWrapper.select(selectFields.toArray(new String[0]));
-
-            enableFunctionCallSpi();
-            Pagination<T> paginationResult = Fun.run(group.getModel(), FunctionConstants.queryPage, pagination, queryWrapper);
-            fullGroupInfo(group, groupResult, paginationResult.getContent(), true, null);*/
         }
 
-        return groupResult;
-    }
-
-    private <T extends D> GroupResult<T> queryGroupData(final Grouping<T> group, Pagination<?> page) {
-        GroupResult<T> groupResult = new GroupResult<>();
-        groupResult.setTotalElements(group.getTotalCount());
-        groupResult.setIsFetchAll(false);
-
-        return groupResult;
-    }
-
-    /**
-     * 构建所有已选查询分组的查询条件
-     */
-    private <T extends D> void appendGroupPageWhereCondition(final Grouping<T> group, QueryWrapper<?> queryWrapper) {
-        List<GroupSelectField> selectGroupFields = group.getSelectGroupFields();
-        if (CollectionUtils.isEmpty(selectGroupFields)) {
-            return;
-        }
-        queryWrapper.and(andWrapper -> {
-            consumeGroupSelectTree(group, null, (treePath) -> {
-                andWrapper.or(orWrapper -> {
-                    for (Pair<ModelFieldConfig, GroupSelectField> groupColumnValue : treePath) {
-                        orWrapper.eq(groupColumnValue.getLeft().getColumn(), groupColumnValue.getRight().getGroupValue());
-                    }
-                });
-            });
-        });
+        return pagination;
     }
 
     private <T extends D> QueryWrapper<T> buildPageQueryWrapper(Grouping<T> group) {
@@ -238,56 +131,8 @@ public class GroupingServiceImpl implements GroupingService {
         return queryWrapper;
     }
 
-    private <T extends D> void consumeGroupSelectTree(
-            Grouping<T> group,
-            Consumer<Pair<ModelFieldConfig, GroupSelectField>> treeNodeConsumer,
-            Consumer<List<Pair<ModelFieldConfig, GroupSelectField>>> treePathConsumer
-    ) {
-        if (CollectionUtils.isEmpty(group.getSelectGroupFields())) {
-            return;
-        }
-        for (GroupSelectField selectGroupField : group.getSelectGroupFields()) {
-            consumeGroupSelectTree0(group, treeNodeConsumer, treePathConsumer, selectGroupField, new ArrayList<>());
-        }
-    }
-
-    private <T extends D> void consumeGroupSelectTree0(
-            Grouping<T> group,
-            Consumer<Pair<ModelFieldConfig, GroupSelectField>> treeNodeConsumer,
-            Consumer<List<Pair<ModelFieldConfig, GroupSelectField>>> treePathConsumer,
-            GroupSelectField currentField, List<Pair<ModelFieldConfig, GroupSelectField>> groupColumnValues
-    ) {
-        GroupField groupField = currentField.getGroupField();
-        String field = groupField.getField();
-        ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(field);
-        if (modelFieldConfig == null) {
-            throw PamirsException.construct(GroupingExpEnumerate.FIELD_NOT_FIND).appendMsg("模型" + group.getModel() + "字段" + field + "找不到").errThrow();
-        }
-        Pair<ModelFieldConfig, GroupSelectField> treeNode = Pair.of(modelFieldConfig, currentField);
-
-        if (treeNodeConsumer != null) {
-            treeNodeConsumer.accept(treeNode);
-        }
-
-        if (CollectionUtils.isEmpty(currentField.getChildGroupSelectFields())) {
-            groupColumnValues.add(treeNode);
-            if (treePathConsumer != null) {
-                treePathConsumer.accept(groupColumnValues);
-            }
-            groupColumnValues.remove(groupColumnValues.size() - 1);
-            return;
-        }
-
-        groupColumnValues.add(treeNode);
-        for (GroupSelectField childGroupSelectField : currentField.getChildGroupSelectFields()) {
-            consumeGroupSelectTree0(group, treeNodeConsumer, treePathConsumer, childGroupSelectField, groupColumnValues);
-        }
-        groupColumnValues.remove(groupColumnValues.size() - 1);
-    }
-
-    private <T extends D> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, boolean isFetchData, Consumer<GroupInfo<T>> statisticConsumer) {
+    private <T extends D> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, Consumer<GroupInfo<T>> statisticConsumer) {
         List<GroupField> sqlGroupFields = group.getSqlGroupFields();
-        List<GroupSelectField> selectGroupFields = group.getSelectGroupFields();
 
         Map<List<GroupInfo.GroupPathNode>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
         Set<List<GroupInfo.GroupPathNode>> firstGroupPathList = new LinkedHashSet<>();
@@ -306,17 +151,6 @@ public class GroupingServiceImpl implements GroupingService {
             if (CollectionUtils.isNotEmpty(groupInfo.getGroups())) {
                 beforeGroupFieldStack.addAll(groupInfo.getGroups());
             }
-        }
-
-        if (CollectionUtils.isNotEmpty(selectGroupFields)) {
-            selectGroupPath = new HashSet<>();
-            final Set<List<GroupInfo.GroupPathNode>> finalSelectGroupPath = selectGroupPath;
-            consumeGroupSelectTree(group, null, (treePath) -> {
-                List<GroupInfo.GroupPathNode> groupPath = treePath.stream()
-                        .map(pair -> new GroupInfo.GroupPathNode(pair.getRight().getGroupField(), pair.getRight().getGroupValue()))
-                        .collect(Collectors.toList());
-                finalSelectGroupPath.add(groupPath);
-            });
         }
 
         for (T data : dataList) {
@@ -356,22 +190,14 @@ public class GroupingServiceImpl implements GroupingService {
                 }
 
                 // 选择了指定的分组路径且指定分组路径包含当前路径情况下说明子级路径还没有展开
-                if (selectGroupPath != null && selectGroupPath.contains(groupPath)) {
-                    break;
-                }
             }
 
             // 最终获取到的当前数据所属最后一级分组信息
             GroupInfo<T> lastGroupInfo = groupPathMap.get(groupPath);
-            if (!isFetchData) {
-                lastGroupInfo.setDataCount((Long) data.get_d().get(COUNT_FIELD_NAME));
-                lastGroupInfo.setGroupData(data);
-            } else {
-                if (lastGroupInfo.getDataList() == null) {
-                    lastGroupInfo.setDataList(new ArrayList<>());
-                }
-                lastGroupInfo.getDataList().add(data);
+            if (lastGroupInfo.getDataList() == null) {
+                lastGroupInfo.setDataList(new ArrayList<>());
             }
+            lastGroupInfo.getDataList().add(data);
             lastGroupPathList.add(groupPath);
         }
 
@@ -396,23 +222,14 @@ public class GroupingServiceImpl implements GroupingService {
                 if (CollectionUtils.isNotEmpty(childGroups)) {
                     List<T> groupDataList = new ArrayList<>();
                     for (GroupInfo<T> childGroup : childGroups) {
-                        if (isFetchData) {
-                            if (CollectionUtils.isNotEmpty(childGroup.getDataList())) {
-                                groupDataList.addAll(childGroup.getDataList());
-                            }
+                        if (CollectionUtils.isNotEmpty(childGroup.getDataList())) {
+                            groupDataList.addAll(childGroup.getDataList());
                         }
                     }
                     groupInfo.setDataList(groupDataList);
                     // 计算统计函数
                     if (statisticConsumer != null) {
                         statisticConsumer.accept(groupInfo);
-                    }
-                    if (!isFetchData) {
-                        Long count = childGroups.stream()
-                                .map(GroupInfo::getDataCount)
-                                .filter(Objects::nonNull)
-                                .reduce(0L, Long::sum);
-                        groupInfo.setDataCount(count);
                     }
                     if (statisticConsumer != null) {
                         statisticConsumer.accept(groupInfo);
@@ -425,12 +242,10 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         // 序列化叶子节点数据List
-        if (isFetchData) {
-            for (List<GroupInfo.GroupPathNode> lastGroupPath : lastGroupPathList) {
-                GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
-                if (lastGroupInfo.getDataList() != null) {
-                    lastGroupInfo.setDataListStr(JsonUtils.toJSONString(lastGroupInfo.getDataList()));
-                }
+        for (List<GroupInfo.GroupPathNode> lastGroupPath : lastGroupPathList) {
+            GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
+            if (lastGroupInfo.getDataList() != null) {
+                lastGroupInfo.setDataListStr(JsonUtils.toJSONString(lastGroupInfo.getDataList()));
             }
         }
 

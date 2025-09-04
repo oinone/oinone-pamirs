@@ -22,8 +22,8 @@ public class GroupResult<T extends D> extends TransientModel {
     @Field(displayName = "总页数", defaultValue = "0", invisible = true)
     private Integer totalPages;
 
-    @Field(displayName = "是否获取了所有数据")
-    private Boolean isFetchAll;
+    @Field(displayName = "总数据量")
+    private Long totalDataCount;
 
     @Field(displayName = "返回的分组信息")
     private List<GroupInfo<T>> groups;
