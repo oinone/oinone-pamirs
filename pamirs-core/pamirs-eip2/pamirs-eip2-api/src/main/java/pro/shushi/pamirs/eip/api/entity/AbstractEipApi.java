@@ -64,5 +64,4 @@ public abstract class AbstractEipApi implements IEipApi {
     public void disableLog() {
         this.isEnabledLog = Boolean.FALSE;
     }
-
 }

@@ -44,5 +44,4 @@ public class DefaultEipOpenInterface extends AbstractEipOpenInterface<SuperMap> 
     protected IEipInOutConverter getDefaultInOutConverter() {
         return EipFunctionConstant.DEFAULT_IN_OUT_CONVERTER;
     }
-
 }

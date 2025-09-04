@@ -98,5 +98,4 @@ public abstract class AbstractSingleInterface extends AbstractEipApi {
     @Field.Integer
     @Field(displayName = "大于30s调用数量", store = NullableBoolEnum.FALSE)
     private Long timeoutCall;
-
 }

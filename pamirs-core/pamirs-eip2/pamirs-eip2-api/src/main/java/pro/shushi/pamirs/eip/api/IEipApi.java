@@ -67,5 +67,4 @@ public interface IEipApi {
     @Deprecated
     @NotNull
     Boolean getIsEnabledLog();
-
 }

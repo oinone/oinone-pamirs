@@ -68,5 +68,4 @@ public interface IEipOpenInterface<T> extends IEipApi, IEipAfterProperty<IEipOpe
      * 响应预处理处理器
      */
     IEipEncryptionProcessor getResponseEncryptionProcessor();
-
 }
