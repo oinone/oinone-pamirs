@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
 import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
@@ -26,7 +25,7 @@ public class Grouping<T extends D> extends TransientModel {
     private String model;
 
     @Field(displayName = "查询条件")
-    private ConditionWrapper queryWrapper;
+    private ConditionQueryWrapper queryWrapper;
 
     @Field(displayName = "是否是查询全部数据")
     private Boolean isFetchAll;

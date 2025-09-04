@@ -53,6 +53,11 @@ public class GroupInfo<T extends D> extends TransientModel {
     private List<T> dataList;
 
     /**
+     * 当前分组数据
+     */
+    private T groupData;
+
+    /**
      * 当前分组信息所依赖的分组字段信息
      */
     private GroupField groupField;

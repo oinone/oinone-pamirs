@@ -11,17 +11,15 @@ import pro.shushi.pamirs.boot.web.enmu.GroupingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.gateways.hook.RsqlParseHook;
-import pro.shushi.pamirs.meta.api.Fun;
+import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Order;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.condition.Sort;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
-import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
-import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
@@ -53,14 +51,14 @@ public class GroupingServiceImpl implements GroupingService {
             throw PamirsException.construct(GroupingExpEnumerate.MODEL_NOT_FIND).errThrow();
         }
         group.setModelConfig(modelConfig);
-        ConditionWrapper queryWrapper = group.getQueryWrapper();
+        ConditionQueryWrapper queryWrapper = group.getQueryWrapper();
         if (queryWrapper == null) {
-            queryWrapper = new ConditionWrapper();
+            queryWrapper = new ConditionQueryWrapper();
         }
         queryWrapper.setModel(model);
 
         // 数据量小于指定数量时直接返回全部
-        Long count = Fun.run(model, FunctionConstants.countByWrapper, buildPageQueryWrapper(group));
+        Long count = Models.origin().count(parseQueryWrapper(buildPageQueryWrapper(group)));
         group.setTotalCount(count);
         if (count <= QUERY_GROUP_ALL_DATA_LIMIT) {
             return fetchAllData(group, page);
@@ -74,7 +72,7 @@ public class GroupingServiceImpl implements GroupingService {
     }
 
     private <T extends D> GroupResult<T> fetchAllData(Grouping<T> group, Pagination<T> page) {
-        Sort sort = page.getSort();
+        Sort sort = group.getQueryWrapper().getSort();
         long totalCount = group.getTotalCount();
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setTotalElements(totalCount);
@@ -102,8 +100,8 @@ public class GroupingServiceImpl implements GroupingService {
             }
         }
 
-        /*if (CollectionUtils.isNotEmpty(group.getQueryWrapper().getSelects())) {
-            selectFieldSet.addAll(group.getSelects());
+        if (CollectionUtils.isNotEmpty(group.getQueryWrapper().getSelects())) {
+            selectFieldSet.addAll(group.getQueryWrapper().getSelects());
             String[] selectFields = new String[selectFieldSet.size()];
             List<String> selectFieldList = new ArrayList<>(selectFieldSet);
             for (int i = 0; i < selectFieldList.size(); i++) {
@@ -112,24 +110,14 @@ public class GroupingServiceImpl implements GroupingService {
                 selectFields[i] = modelFieldConfig.getColumn() + " " + field;
             }
             queryWrapper.select(selectFields);
-        }*/
+        }
 
-        enableFunctionCallSpi();
-        Pagination<T> pagination = Fun.run(group.getModel(), FunctionConstants.queryPage, new Pagination<>(1, group.getTotalCount()), queryWrapper);
+        Pagination<T> pagination = Models.origin().queryPage(new Pagination<>(1, group.getTotalCount()), parseQueryWrapper(queryWrapper));
         fullGroupInfo(group, groupResult, pagination.getContent(), false, (groupInfo) -> {
             // todo 加统计函数实现
         });
 
         return groupResult;
-    }
-
-    /**
-     * 函数调用时走hook和扩展点等spi逻辑
-     */
-    private void enableFunctionCallSpi() {
-        PamirsSession.directive().enableFromClient();
-        PamirsSession.directive().enableHook();
-        PamirsSession.directive().enableExtPoint();
     }
 
     private <T extends D> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
@@ -151,7 +139,7 @@ public class GroupingServiceImpl implements GroupingService {
 
         if (isSelectQueryGroup && !isQueryStatistic) {
             consumeGroupSelectTree(group, null, (treePath) -> {
-                QueryWrapper<?> queryWrapper = buildPageQueryWrapper(group);
+                QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
                 List<String> groupFields = new ArrayList<>(treePath.size() + 1);
                 queryWrapper.and(andWrapper -> {
                     for (Pair<ModelFieldConfig, GroupSelectField> treeNode : treePath) {
@@ -168,8 +156,7 @@ public class GroupingServiceImpl implements GroupingService {
                 selectFields.add("COUNT(*) " + COUNT_FIELD_NAME);
                 queryWrapper.select(selectFields.toArray(new String[0]));
 
-                enableFunctionCallSpi();
-                Pagination<T> paginationResult = Fun.run(group.getModel(), FunctionConstants.queryPage, pagination, queryWrapper);
+                Pagination<T> paginationResult = Models.origin().queryPage(pagination, parseQueryWrapper(queryWrapper));
                 fullGroupInfo(group, groupResult, paginationResult.getContent(), true, null);
             });
         } else {
@@ -233,6 +220,11 @@ public class GroupingServiceImpl implements GroupingService {
         return queryWrapper;
     }
 
+    private <T> QueryWrapper<T> parseQueryWrapper(final QueryWrapper<T> queryWrapper) {
+        rsqlParseHook.parse(queryWrapper, queryWrapper.getModel());
+        return queryWrapper;
+    }
+
     private <T extends D> void consumeGroupSelectTree(
             Grouping<T> group,
             Consumer<Pair<ModelFieldConfig, GroupSelectField>> treeNodeConsumer,
@@ -280,7 +272,7 @@ public class GroupingServiceImpl implements GroupingService {
         groupColumnValues.remove(groupColumnValues.size() - 1);
     }
 
-    private <T extends D> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, boolean isFromGroupCount, Consumer<GroupInfo<T>> statisticConsumer) {
+    private <T extends D> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, boolean isFetchData, Consumer<GroupInfo<T>> statisticConsumer) {
         List<GroupField> sqlGroupFields = group.getSqlGroupFields();
         List<GroupSelectField> selectGroupFields = group.getSelectGroupFields();
 
@@ -358,7 +350,7 @@ public class GroupingServiceImpl implements GroupingService {
 
             // 最终获取到的当前数据所属最后一级分组信息
             GroupInfo<T> lastGroupInfo = groupPathMap.get(groupPath);
-            if (isFromGroupCount) {
+            if (!isFetchData) {
                 lastGroupInfo.setDataCount((Long) data.get_d().get(COUNT_FIELD_NAME));
             } else {
                 if (lastGroupInfo.getDataList() == null) {
@@ -390,7 +382,7 @@ public class GroupingServiceImpl implements GroupingService {
                 if (CollectionUtils.isNotEmpty(childGroups)) {
                     List<T> groupDataList = new ArrayList<>();
                     for (GroupInfo<T> childGroup : childGroups) {
-                        if (!isFromGroupCount) {
+                        if (isFetchData) {
                             if (CollectionUtils.isNotEmpty(childGroup.getDataList())) {
                                 groupDataList.addAll(childGroup.getDataList());
                             }
@@ -398,7 +390,7 @@ public class GroupingServiceImpl implements GroupingService {
                     }
                     groupInfo.setDataList(groupDataList);
                     // 计算统计函数
-                    if (!isFromGroupCount) {
+                    if (isFetchData) {
                         if (statisticConsumer != null) {
                             statisticConsumer.accept(groupInfo);
                         }
@@ -419,7 +411,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         // 序列化叶子节点数据List
-        if (!isFromGroupCount) {
+        if (isFetchData) {
             for (List<GroupInfo.GroupPathNode> lastGroupPath : lastGroupPathList) {
                 GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
                 if (lastGroupInfo.getDataList() != null) {

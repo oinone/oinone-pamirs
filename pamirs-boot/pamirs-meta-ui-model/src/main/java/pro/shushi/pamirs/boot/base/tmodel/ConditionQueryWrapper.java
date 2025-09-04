@@ -6,21 +6,24 @@ import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.dto.condition.Sort;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
+import java.util.List;
 import java.util.Map;
 
 @Base
-@Model.model(ConditionWrapper.MODEL_MODEL)
+@Model.model(ConditionQueryWrapper.MODEL_MODEL)
 @Model(displayName = "查询条件")
-public class ConditionWrapper extends TransientModel {
+public class ConditionQueryWrapper extends TransientModel {
 
     private static final long serialVersionUID = 8483736574402915828L;
 
-    public static final String MODEL_MODEL = "base.ConditionWrapper";
+    public static final String MODEL_MODEL = "base.ConditionQueryWrapper";
 
+    @Base
     @Field.String
     @Field(displayName = "模型编码")
     private String model;
 
+    @Base
     @Field.String
     @Field(displayName = "rsql")
     private String rsql;
@@ -34,6 +37,8 @@ public class ConditionWrapper extends TransientModel {
     @Field(displayName = "传输数据")
     private Map<String, Object> queryData;
 
-
+    @Base
+    @Field(displayName = "属性选择")
+    private List<String> selects;
 
 }
