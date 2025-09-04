@@ -112,5 +112,4 @@ public abstract class AbstractEipApi extends BizIdModel implements IEipApi, IDat
     public EipCamelContext getContext() {
         return EipCamelContext.getContext();
     }
-
 }
