@@ -63,7 +63,6 @@ public class DefaultOpenInterfaceErrorHandler implements ErrorHandler {
             Spider.getDefaultExtension(EipLogStrategyHandler.class).openApiFailure(exchange, errorMsg, resultString);
         }
 
-
         exchange.getMessage().setBody(resultString);
 
         if (context != null) {
