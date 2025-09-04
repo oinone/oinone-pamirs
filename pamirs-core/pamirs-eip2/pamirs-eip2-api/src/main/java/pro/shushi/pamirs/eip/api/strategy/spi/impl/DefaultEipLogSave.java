@@ -23,11 +23,6 @@ public class DefaultEipLogSave implements EipLogSaveApi {
 
     @Override
     public EipLog saveLog(EipLog eipLog, IEipContext<SuperMap> context) {
-        if (eipLog.getId() != null) {
-            eipLog.updateById();
-            return eipLog;
-        } else {
-            return eipLog.create();
-        }
+        return eipLog.create();
     }
 }
