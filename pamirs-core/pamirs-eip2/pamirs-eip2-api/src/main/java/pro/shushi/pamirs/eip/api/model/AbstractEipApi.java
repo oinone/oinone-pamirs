@@ -107,14 +107,15 @@ public abstract class AbstractEipApi extends BizIdModel implements IEipApi, IDat
     @Field(displayName = "是否忽略日志记录频率限制", store = NullableBoolEnum.FALSE)
     private Boolean isIgnoreLogFrequency;
 
+    @Base
+    @Field.String
+    @Field(displayName = "接口分类", summary = "区分接口来源所用分类")
+    private String category;
+
     @JSONField(serialize = false)
     @Override
     public EipCamelContext getContext() {
         return EipCamelContext.getContext();
     }
 
-    @Override
-    public String getCategory() {
-        return null;
-    }
 }

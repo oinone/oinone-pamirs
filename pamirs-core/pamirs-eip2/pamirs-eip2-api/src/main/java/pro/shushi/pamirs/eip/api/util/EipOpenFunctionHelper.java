@@ -40,11 +40,6 @@ public class EipOpenFunctionHelper {
                     } else {
                         argObj = FunctionHelper.deserializationClientArgument(argumentContext, argJson);
                     }
-                    if (argObj instanceof Pagination) {
-                        ((Pagination<?>) argObj).setModel(functionContext.getNamespace());
-                    } else if (argObj instanceof IWrapper) {
-                        ((IWrapper<?>) argObj).setModel(functionContext.getNamespace());
-                    }
                 }
                 if (argObj instanceof Pagination) {
                     ((Pagination<?>) argObj).setModel(functionContext.getNamespace());
