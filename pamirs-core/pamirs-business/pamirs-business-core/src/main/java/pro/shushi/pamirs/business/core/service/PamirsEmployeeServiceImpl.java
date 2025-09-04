@@ -177,7 +177,6 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     @Override
     public PamirsEmployee updateById(PamirsEmployee data) {
         data.updateById();
-        updateWorkflowUserData(data);
         return data;
     }
 
@@ -380,25 +379,5 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         pamirsUser = userService.create(pamirsUser);
 
         return pamirsUser;
-    }
-
-    /**
-     * 更新工作流交接与委托员工名称
-     */
-    private void updateWorkflowUserData(PamirsEmployee employee) {
-        pro.shushi.pamirs.meta.api.dto.fun.Function handoverFunction = PamirsSession.getContext().getFunctionAllowNull(
-                UserConstants.WORKFLOW_TASK_HANDOVER_NAMESPACE,
-                UserConstants.WORKFLOW_UPDATE_HANDOVER_TO_EMPLOYEE_NAME_FUN
-        );
-        if (null != handoverFunction) {
-            pro.shushi.pamirs.meta.api.Fun.run(handoverFunction, employee);
-        }
-        pro.shushi.pamirs.meta.api.dto.fun.Function delegationFunction = PamirsSession.getContext().getFunctionAllowNull(
-                UserConstants.WORKFLOW_TASK_DELEGATION_NAMESPACE,
-                UserConstants.WORKFLOW_UPDATE_DELEGATION_EMPLOYEE_NAME_FUN
-        );
-        if (null != handoverFunction) {
-            pro.shushi.pamirs.meta.api.Fun.run(delegationFunction, employee);
-        }
     }
 }

@@ -9,8 +9,8 @@
     <template slot="rowActions">
         <action name="redirectUpdatePage" label="编辑"/>
         <action name="redirectDetailPage" label="详情"/>
-        <action name="taskDelegationCreateByEmployee" label="委托" model="workflow.WorkflowTaskDelegationProxy"/>
-        <action name="taskHandoverCreateByEmployee" label="交接" model="workflow.WorkflowTaskHandoverProxy"/>
+        <action name="taskDelegationCreateByEmployee" label="委托"/>
+        <action name="taskHandoverCreateByEmployee" label="交接" />
         <!--        <action name="dataStatusEnable"   label="审核通过" text="审核通过"/>-->
         <!--        <action name="dataStatusDisable"  label="审核不通过" text="审核不通过"/>-->
     </template>
