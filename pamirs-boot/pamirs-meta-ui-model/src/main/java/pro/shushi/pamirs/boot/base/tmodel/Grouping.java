@@ -43,8 +43,6 @@ public class Grouping<T extends D> extends TransientModel {
 
     private Map<String, ModelFieldConfig> modelFieldConfigCache = new HashMap<>();
 
-    private List<GroupField> sqlGroupFields;
-
     public ModelFieldConfig getModelFieldConfig(String field) {
         return getModelFieldConfigCache().computeIfAbsent(field,
                 key -> getModelConfig().getModelFieldConfigList().stream().filter(fieldConfig -> StringUtils.equals(fieldConfig.getField(), key)).findFirst().orElse(null)

@@ -132,12 +132,11 @@ public class GroupingServiceImpl implements GroupingService {
     }
 
     private <T extends D> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, Consumer<GroupInfo<T>> statisticConsumer) {
-        List<GroupField> sqlGroupFields = group.getSqlGroupFields();
+        List<GroupField> sqlGroupFields = group.getGroupFields();
 
         Map<List<GroupInfo.GroupPathNode>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
         Set<List<GroupInfo.GroupPathNode>> firstGroupPathList = new LinkedHashSet<>();
         Set<List<GroupInfo.GroupPathNode>> lastGroupPathList = new HashSet<>();
-        Set<List<GroupInfo.GroupPathNode>> selectGroupPath = null;
 
         // 加载之前已加载过的分组信息
         List<GroupInfo<T>> beforeGroupFields = groupResult.getGroups();
