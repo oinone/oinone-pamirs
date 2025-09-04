@@ -22,6 +22,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.AbstractModel;
 import pro.shushi.pamirs.meta.base.IdModel;
 import pro.shushi.pamirs.meta.base.manager.data.CodeDataManager;
@@ -35,6 +36,7 @@ import pro.shushi.pamirs.resource.api.enmu.UserSignUpType;
 import pro.shushi.pamirs.user.api.cache.UserCache;
 import pro.shushi.pamirs.user.api.checker.PamirsUserBehaviorChecker;
 import pro.shushi.pamirs.user.api.constants.UserConstant;
+import pro.shushi.pamirs.user.api.constants.UserConstants;
 import pro.shushi.pamirs.user.api.enmu.UserExpEnumerate;
 import pro.shushi.pamirs.user.api.enmu.UserSourceEnum;
 import pro.shushi.pamirs.user.api.enmu.UserType;
@@ -459,7 +461,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<PamirsUser> deleteWithFieldBatch(List<PamirsUser> pamirsUsers) {
         paramCheck(pamirsUsers);
-
         return Models.origin().deleteWithFieldBatch(pamirsUsers);
     }
 
@@ -771,7 +772,6 @@ public class UserServiceImpl implements UserService {
         } else {
             updateUserRole(user.getRoles(), user);
         }
-
     }
 
     // 创建用户的角色信息
