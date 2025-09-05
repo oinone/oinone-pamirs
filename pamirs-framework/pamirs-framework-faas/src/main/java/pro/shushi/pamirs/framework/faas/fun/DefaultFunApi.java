@@ -120,7 +120,7 @@ public class DefaultFunApi implements FunApi {
 
     @Override
     public Object run(String namespace, String fun, Object... args) {
-        Function function = Objects.requireNonNull(PamirsSession.getContext()).getFunction(namespace, fun);
+        Function function = PamirsSession.getContext().getFunction(namespace, fun);
         return functionManager.runProxy(arguments -> funEngine.run(function, arguments), function, args);
     }
 
