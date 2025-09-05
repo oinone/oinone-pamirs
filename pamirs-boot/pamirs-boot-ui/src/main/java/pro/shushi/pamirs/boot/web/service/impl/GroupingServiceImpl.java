@@ -168,6 +168,7 @@ public class GroupingServiceImpl implements GroupingService {
 
                 // 判断当前分组是否已存在
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
+                boolean isCreateGroup = false;
                 if (groupInfo == null) {
                     groupInfo = new GroupInfo<>();
                     groupInfo.setGroupPath(groupPath);
@@ -175,10 +176,11 @@ public class GroupingServiceImpl implements GroupingService {
                     groupInfo.setValue(value);
                     groupInfo.setGroupField(groupField);
                     groupPathMap.put(groupPath, groupInfo);
+                    isCreateGroup = true;
                 }
 
                 // 将当前分组信息放到父级分组里
-                if (parentGroupInfo != null) {
+                if (parentGroupInfo != null && isCreateGroup) {
                     if (parentGroupInfo.getGroups() == null) {
                         parentGroupInfo.setGroups(new ArrayList<>());
                     }
@@ -187,8 +189,6 @@ public class GroupingServiceImpl implements GroupingService {
                 if (i == 0) {
                     firstGroupPathList.add(groupPath);
                 }
-
-                // 选择了指定的分组路径且指定分组路径包含当前路径情况下说明子级路径还没有展开
             }
 
             // 最终获取到的当前数据所属最后一级分组信息
@@ -215,7 +215,6 @@ public class GroupingServiceImpl implements GroupingService {
             List<List<GroupInfo.GroupPathNode>> groupPathList = groupPathMapByNodeNum.get(nodeNum);
             for (List<GroupInfo.GroupPathNode> groupPath : groupPathList) {
                 String path = groupPath.stream().map(node -> node.field.getField() + "-" + node.value).collect(Collectors.joining(","));
-                System.out.println(path);
                 // 这里的子级groupInfo一定是都填充完成的
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
                 groupInfo.setValueStr(GroupInfo.stringifyValue(groupInfo, groupInfo.getValue()));
