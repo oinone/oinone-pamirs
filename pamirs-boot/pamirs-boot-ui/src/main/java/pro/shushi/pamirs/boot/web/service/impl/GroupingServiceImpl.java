@@ -67,7 +67,6 @@ public class GroupingServiceImpl implements GroupingService {
             groupResult.setTotalElements(pagination.getTotalElements());
         } else {
             groupResult.setTotalPages(1);
-            groupResult.setTotalElements(group.getTotalDataCount());
         }
 
         for (GroupField groupField : group.getGroupFields()) {
@@ -87,6 +86,9 @@ public class GroupingServiceImpl implements GroupingService {
         fullGroupInfo(group, groupResult, paginationResult.getContent(), (groupInfo) -> {
             // todo 加统计函数实现
         });
+        if (!Boolean.TRUE.equals(group.getNeedPagination())) {
+            groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
+        }
         return groupResult;
     }
 
