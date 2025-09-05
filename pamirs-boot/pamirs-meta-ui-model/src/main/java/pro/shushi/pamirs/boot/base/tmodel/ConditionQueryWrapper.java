@@ -14,8 +14,6 @@ import java.util.Map;
 @Model(displayName = "查询条件")
 public class ConditionQueryWrapper extends TransientModel {
 
-    private static final long serialVersionUID = 8483736574402915828L;
-
     public static final String MODEL_MODEL = "base.ConditionQueryWrapper";
 
     @Base
