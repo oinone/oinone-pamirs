@@ -14,6 +14,7 @@ import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
 import pro.shushi.pamirs.eip.api.auth.PamirsTenantAuthenticationProcessor;
 import pro.shushi.pamirs.eip.api.config.PamirsEipOpenApiProperties;
+import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
@@ -51,6 +52,21 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
     public void processor(ExtendedExchange exchange) throws Exception {
         IEipOpenInterface<SuperMap> openInterface = getApi();
         exchange.setProperty(OpenApiConstant.EIP_OPEN_INTERFACE, openInterface);
+
+        // 请求认证
+        PamirsTenantAuthenticationProcessor tenantAuthenticationProcessor = BeanDefinitionUtils.getBean(PamirsTenantAuthenticationProcessor.class);
+        boolean tenantAuthentication = true;
+        if (tenantAuthenticationProcessor != null) {
+            IEipContext<SuperMap> context = EipFunctionConstant.DEFAULT_CONTEXT_SUPPLIER.get(openInterface, null, null);
+
+            // url查询参数处理
+            urlQueryParamProcessor(exchange, context);
+
+            // http请求头参数处理
+            httpHeaderParamProcessor(exchange, context);
+
+            tenantAuthentication = tenantAuthenticationProcessor.authentication(context, exchange);
+        }
 
         EipApplication eipApplication = fetchEipApplication(exchange);
 
@@ -90,12 +106,6 @@ public class DefaultOpenInterfaceProcessor extends AbstractOpenInterfaceProcesso
         // 获取认证处理器
         IEipAuthenticationProcessor<SuperMap> authenticationProcessor = openInterface.getAuthenticationProcessor();
 
-        // 请求认证
-        PamirsTenantAuthenticationProcessor tenantAuthenticationProcessor = BeanDefinitionUtils.getBean(PamirsTenantAuthenticationProcessor.class);
-        boolean tenantAuthentication = true;
-        if (tenantAuthenticationProcessor != null) {
-            tenantAuthentication = tenantAuthenticationProcessor.authentication(context, exchange);
-        }
         if (!tenantAuthentication || (authenticationProcessor != null && !authenticationProcessor.authentication(context, exchange))) {
 
             body = openInterface.getInOutConverter().exchangeObject(exchange, exchange.getMessage().getBody());

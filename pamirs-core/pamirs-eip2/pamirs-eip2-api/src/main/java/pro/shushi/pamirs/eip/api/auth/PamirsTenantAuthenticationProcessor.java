@@ -30,7 +30,9 @@ public class PamirsTenantAuthenticationProcessor extends AbstractOpenApiAuthenti
                 }
             }
         }
-        PamirsTenantSession.setTenant(tenant);
+        if (StringUtils.isNotBlank(tenant)) {
+            PamirsTenantSession.setTenant(tenant);
+        }
         return true;
     }
 }
