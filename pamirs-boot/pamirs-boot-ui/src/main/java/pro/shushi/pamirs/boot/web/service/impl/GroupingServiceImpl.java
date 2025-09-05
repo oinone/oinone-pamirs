@@ -213,6 +213,8 @@ public class GroupingServiceImpl implements GroupingService {
 
         for (Integer nodeNum : groupPathNodeNumList) {
             List<List<GroupInfo.GroupPathNode>> groupPathList = groupPathMapByNodeNum.get(nodeNum);
+            // 将空值放到当前级别最后
+            
             for (List<GroupInfo.GroupPathNode> groupPath : groupPathList) {
                 // 这里的子级groupInfo一定是都填充完成的
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
