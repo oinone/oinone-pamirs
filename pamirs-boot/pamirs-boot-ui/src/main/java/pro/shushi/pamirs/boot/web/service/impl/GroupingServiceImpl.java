@@ -16,9 +16,9 @@ import pro.shushi.pamirs.meta.api.dto.condition.Sort;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
-import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
+import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.*;
@@ -38,7 +38,7 @@ public class GroupingServiceImpl implements GroupingService {
     private RsqlParseHook rsqlParseHook;
 
     @Override
-    public <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
+    public <T> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
         String model = group.getModel();
         ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
         if (modelConfig == null) {
@@ -56,7 +56,7 @@ public class GroupingServiceImpl implements GroupingService {
         return queryGroupInfo(group, page);
     }
 
-    private <T extends D> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
+    private <T> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setTotalDataCount(group.getTotalDataCount());
 
@@ -90,7 +90,7 @@ public class GroupingServiceImpl implements GroupingService {
         return groupResult;
     }
 
-    private <T extends D> Pagination<T> addGroupPaginationCondition(Grouping<T> group, QueryWrapper<T> queryWrapper, int pageNo, long pageSize) {
+    private <T> Pagination<T> addGroupPaginationCondition(Grouping<T> group, QueryWrapper<T> queryWrapper, int pageNo, long pageSize) {
         GroupField firstGroupField = group.getGroupFields().get(0);
         ModelFieldConfig firstModelFieldConfig = group.getModelFieldConfig(firstGroupField.getField());
 
@@ -105,7 +105,7 @@ public class GroupingServiceImpl implements GroupingService {
             Pagination<T> finalPagination = pagination;
             queryWrapper.and(andWrapper -> {
                 for (T data : finalPagination.getContent()) {
-                    Object groupValue = data.get_d().get(firstGroupField.getField());
+                    Object groupValue = FieldUtils.getFieldValue(data, firstGroupField.getField());
                     if (groupValue == null) {
                         andWrapper.or().isNull(firstModelFieldConfig.getColumn());
                     } else {
@@ -118,7 +118,7 @@ public class GroupingServiceImpl implements GroupingService {
         return pagination;
     }
 
-    private <T extends D> QueryWrapper<T> buildPageQueryWrapper(Grouping<T> group) {
+    private <T> QueryWrapper<T> buildPageQueryWrapper(Grouping<T> group) {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         queryWrapper.from(group.getModel())
                 .setRsql(group.getQueryWrapper().getRsql())
@@ -131,8 +131,8 @@ public class GroupingServiceImpl implements GroupingService {
         return queryWrapper;
     }
 
-    private <T extends D> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, Consumer<GroupInfo<T>> statisticConsumer) {
-        List<GroupField> sqlGroupFields = group.getGroupFields();
+    private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, Consumer<GroupInfo<T>> statisticConsumer) {
+        List<GroupField> groupFields = group.getGroupFields();
 
         Map<List<GroupInfo.GroupPathNode>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
         Set<List<GroupInfo.GroupPathNode>> firstGroupPathList = new LinkedHashSet<>();
@@ -154,11 +154,11 @@ public class GroupingServiceImpl implements GroupingService {
 
         for (T data : dataList) {
             List<GroupInfo.GroupPathNode> groupPath = null;
-            for (int i = 0; i < sqlGroupFields.size(); i++) {
-                GroupField groupField = sqlGroupFields.get(i);
+            for (int i = 0; i < groupFields.size(); i++) {
+                GroupField groupField = groupFields.get(i);
                 GroupInfo<T> parentGroupInfo = groupPathMap.get(groupPath);
 
-                Object value = data.get_d().get(groupField.getField());
+                Object value = FieldUtils.getFieldValue(data, groupField.getField());
                 if (groupPath == null) {
                     groupPath = new ArrayList<>();
                 } else {
@@ -213,13 +213,14 @@ public class GroupingServiceImpl implements GroupingService {
 
         for (Integer nodeNum : groupPathNodeNumList) {
             List<List<GroupInfo.GroupPathNode>> groupPathList = groupPathMapByNodeNum.get(nodeNum);
-            // 将空值放到当前级别最后
-            
             for (List<GroupInfo.GroupPathNode> groupPath : groupPathList) {
+                String path = groupPath.stream().map(node -> node.field.getField() + "-" + node.value).collect(Collectors.joining(","));
+                System.out.println(path);
                 // 这里的子级groupInfo一定是都填充完成的
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
                 groupInfo.setValueStr(GroupInfo.stringifyValue(groupInfo, groupInfo.getValue()));
                 List<GroupInfo<T>> childGroups = groupInfo.getGroups();
+                moveGroupNullValueToLast(childGroups);
                 if (CollectionUtils.isNotEmpty(childGroups)) {
                     List<T> groupDataList = new ArrayList<>();
                     for (GroupInfo<T> childGroup : childGroups) {
@@ -251,6 +252,13 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         groupResult.setGroups(firstGroupPathList.stream().map(groupPathMap::get).collect(Collectors.toList()));
+        moveGroupNullValueToLast(groupResult.getGroups());
+    }
+
+    private <T> void moveGroupNullValueToLast(List<GroupInfo<T>> groups) {
+        if (CollectionUtils.isNotEmpty(groups) && groups.get(0).getValue() == null) {
+            groups.add(groups.remove(0));
+        }
     }
 
 }

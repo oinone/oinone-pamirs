@@ -3,7 +3,6 @@ package pro.shushi.pamirs.boot.base.tmodel;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
-import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Objects;
  */
 @Model(displayName = "分组信息")
 @Model.model(GroupInfo.MODEL_MODEL)
-public class GroupInfo<T extends D> extends TransientModel {
+public class GroupInfo<T> extends TransientModel {
 
     public static final String MODEL_MODEL = "base.GroupInfo";
 
@@ -95,17 +94,17 @@ public class GroupInfo<T extends D> extends TransientModel {
         @Override
         public String toString() {
             if (value == null) {
-                return field + " - null";
+                return field.getField() + " - null";
             }
-            return field + " - " + value;
+            return field.getField() + " - " + value;
         }
 
         @Override
         public int hashCode() {
             if (value == null) {
-                return field.hashCode();
+                return field.getField().hashCode();
             }
-            return field.hashCode() & value.hashCode();
+            return field.getField().hashCode() & value.hashCode();
         }
 
         @Override

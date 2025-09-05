@@ -9,7 +9,6 @@ import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
-import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 
@@ -28,7 +27,7 @@ public class GroupingAction {
 
     @Function.Advanced(displayName = "分页查询分组信息", type = FunctionTypeEnum.QUERY)
     @Function(openLevel = FunctionOpenEnum.API)
-    public <T extends D> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
+    public <T> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
         return groupingService.fetchGroupPage(group, page);
     }
 

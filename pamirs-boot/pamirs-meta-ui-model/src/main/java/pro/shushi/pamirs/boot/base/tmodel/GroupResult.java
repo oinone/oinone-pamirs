@@ -2,7 +2,6 @@ package pro.shushi.pamirs.boot.base.tmodel;
 
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
-import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  */
 @Model(displayName = "分组信息")
 @Model.model(GroupResult.MODEL_MODEL)
-public class GroupResult<T extends D> extends TransientModel {
+public class GroupResult<T> extends TransientModel {
 
     public static final String MODEL_MODEL = "base.GroupResult";
 
