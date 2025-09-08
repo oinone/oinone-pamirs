@@ -5,17 +5,16 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.common.spi.HoldKeeper;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.util.ListUtils;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
+import pro.shushi.pamirs.meta.spi.NamespaceAndFunFetcher;
 
-import java.beans.Introspector;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,12 @@ import java.util.List;
 @SuppressWarnings({"unused"})
 @Slf4j
 public class NamespaceAndFunUtils {
+
+    private static final HoldKeeper<NamespaceAndFunFetcher> HOLDER = new HoldKeeper<>();
+
+    private static NamespaceAndFunFetcher getApi() {
+        return HOLDER.supply(() -> Spider.getDefaultExtension(NamespaceAndFunFetcher.class));
+    }
 
     public static final Cache<Method, String> namespaceCache = Caffeine.newBuilder().maximumSize(10_000).build();
 
@@ -106,24 +111,7 @@ public class NamespaceAndFunUtils {
     }
 
     public static void fillBeanName(Method method, FunctionDefinition functionDefinition) {
-        Component componentAnnotation = AnnotationUtils.getAnnotation(method.getDeclaringClass(), Component.class);
-        Service serviceAnnotation = AnnotationUtils.getAnnotation(method.getDeclaringClass(), Service.class);
-        String beanName;
-        if (null != serviceAnnotation) {
-            beanName = serviceAnnotation.value();
-            if (StringUtils.isBlank(beanName)) {
-                beanName = Introspector.decapitalize(ClassUtils.getShortName(method.getDeclaringClass().getSimpleName()));
-            }
-            functionDefinition.setBeanName(beanName);
-        } else if (null != componentAnnotation) {
-            beanName = componentAnnotation.value();
-            if (StringUtils.isBlank(beanName)) {
-                beanName = Introspector.decapitalize(ClassUtils.getShortName(method.getDeclaringClass().getSimpleName()));
-            }
-            functionDefinition.setBeanName(beanName);
-        } else {
-            functionDefinition.setBeanName(null);
-        }
+        functionDefinition.setBeanName(getApi().getBeanName(method));
     }
 
     public interface AnnotationHandler {

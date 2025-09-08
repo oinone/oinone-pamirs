@@ -21,4 +21,5 @@ public interface UserConstants {
 
     String SINGLE_USER_CACHE_MODE = "single";
     String MULTIPLE_USER_CACHE_MODE = "multiple";
+
 }

@@ -27,8 +27,10 @@ import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 import pro.shushi.pamirs.resource.api.enmu.UserSignUpType;
+import pro.shushi.pamirs.user.api.constants.UserConstants;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.service.UserService;
 
@@ -378,5 +380,4 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
         return pamirsUser;
     }
-
 }

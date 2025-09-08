@@ -8,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import pro.shushi.pamirs.eip.api.constant.EipConfigurationConstant;
 
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,7 +16,7 @@ import java.util.Map;
  * @author Adamancy Zhang at 21:22 on 2025-08-12
  */
 @Configuration
-@ConfigurationProperties(prefix = EipConfigurationConstant.PAMIRS_EIP_OPEN_API_PREFIX)
+@ConfigurationProperties(prefix = EipJdbcProperties.PAMIRS_EIP_JDBC_PREFIX)
 @Validated
 @RefreshScope
 @Conditional(EipJdbcSwitchCondition.class)
@@ -28,7 +27,7 @@ public class EipJdbcProperties {
     @NotNull
     private Boolean enabled = Boolean.TRUE;
 
-    private Map<String, String> dataSource = new HashMap<>();
+    private Map<String, Map<String, String>> dataSource;
 
     public Boolean getEnabled() {
         return enabled;
@@ -38,11 +37,11 @@ public class EipJdbcProperties {
         this.enabled = enabled;
     }
 
-    public Map<String, String> getDataSource() {
+    public Map<String, Map<String, String>> getDataSource() {
         return dataSource;
     }
 
-    public void setDataSource(Map<String, String> dataSource) {
+    public void setDataSource(Map<String, Map<String, String>> dataSource) {
         this.dataSource = dataSource;
     }
 }

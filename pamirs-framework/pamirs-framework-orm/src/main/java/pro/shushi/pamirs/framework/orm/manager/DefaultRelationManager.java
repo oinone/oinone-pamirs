@@ -373,7 +373,7 @@ public class DefaultRelationManager implements RelationManager {
                 ModelFieldConfig relationFieldConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelField(model, relationField);
                 if (null == relationFieldConfig) {
                     throw PamirsException.construct(BASE_RELATION_FIELD_CONFIG_ERROR)
-                            .appendMsg("field:" + relationField).errThrow();
+                            .appendMsg("model: " + model + ", field:" + relationField).errThrow();
                 }
                 Object relationFieldValue = FieldUtils.getFieldValue(value, relationFieldConfig.getLname());
                 FieldUtils.setFieldValue(singleFieldValue, referenceFieldConfig.getLname(), relationFieldValue);

@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.channel.core.config.EnhanceModelPackages;
+import pro.shushi.pamirs.channel.core.config.ChannelConfig;
 import pro.shushi.pamirs.channel.enmu.DumpStateEnum;
 import pro.shushi.pamirs.channel.enmu.IncrementEnum;
 import pro.shushi.pamirs.channel.meta.Analyzer;
@@ -38,11 +38,11 @@ import java.util.stream.Collectors;
 public class EnhanceModelScanner {
 
     @Autowired
-    private EnhanceModelPackages enhanceModelPackages;
+    private ChannelConfig channelConfig;
 
     public List<ChannelModel> enhanceModel() {
 
-        List<String> basePackages = enhanceModelPackages.basePackages();
+        List<String> basePackages = channelConfig.basePackages();
         Set<Class<?>> klassSet = ClassUtils.getClassesByPacks(basePackages);
         List<ChannelModel> channelModels = new ArrayList<>();
         for (Class<?> klass : klassSet) {

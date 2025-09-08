@@ -14,6 +14,8 @@ import pro.shushi.pamirs.meta.annotation.fun.Data;
 @ConfigurationProperties(prefix = "pamirs.request.thread")
 public class RequestThreadPoolConfig {
 
+    private boolean deferred = true;
+
     private int coreSize = Math.max(Runtime.getRuntime().availableProcessors(), 10);
 
     private int maxSize = Math.max(Runtime.getRuntime().availableProcessors(), 16);

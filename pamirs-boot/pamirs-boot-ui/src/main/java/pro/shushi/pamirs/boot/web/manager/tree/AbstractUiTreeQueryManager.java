@@ -9,6 +9,7 @@ import pro.shushi.pamirs.boot.base.model.tree.UiTreeNodeMetadata;
 import pro.shushi.pamirs.boot.web.constants.TranslateConstants;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -17,9 +18,9 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.api.session.RequestContext;
 import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
-import pro.shushi.pamirs.meta.common.util.PStringUtils;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.util.*;
@@ -37,14 +38,16 @@ public abstract class AbstractUiTreeQueryManager {
      * @param queryWrapper 查询条件
      */
     protected void addSelfRootFilter(String model, String field, QueryWrapper queryWrapper) {
-        ModelFieldConfig fieldConfig = PamirsSession.getContext().getModelField(model, field);
+        RequestContext requestContext = PamirsSession.getContext();
+        ModelFieldConfig fieldConfig = requestContext.getModelField(model, field);
         if (TtypeEnum.M2O.value().equals(fieldConfig.getTtype())) {
             for (String f : fieldConfig.getRelationFields()) {
-                queryWrapper.isNull(PStringUtils.fieldName2Column(f));
+                queryWrapper.isNull(Configs.wrap(requestContext.getModelField(model, f)).getColumn());
             }
         } else if (TtypeEnum.O2M.value().equals(fieldConfig.getTtype())) {
+            String references = fieldConfig.getReferences();
             for (String f : fieldConfig.getReferenceFields()) {
-                queryWrapper.isNull(PStringUtils.fieldName2Column(f));
+                queryWrapper.isNull(Configs.wrap(requestContext.getModelField(references, f)).getColumn());
             }
         } else {
             log.error("错误的关联字段,model:{},field:{}", fieldConfig.getModel(), fieldConfig.getField());
@@ -70,9 +73,10 @@ public abstract class AbstractUiTreeQueryManager {
             }
         }
         if (CollectionUtils.isNotEmpty(searchFields)) {
+            String model = metadata.getModel();
             queryWrapper.and(_w -> {
                 for (String searchField : searchFields) {
-                    _w.or().like(PStringUtils.fieldName2Column(searchField), keywords);
+                    _w.or().like(Configs.wrap(PamirsSession.getContext().getModelField(model, searchField)).getColumn(), keywords);
                 }
             });
         }
@@ -304,13 +308,15 @@ public abstract class AbstractUiTreeQueryManager {
             if (CollectionUtils.isEmpty(throughMapList)) {
                 QueryWrapper<Object> m2mRelQueryWrapper = Pops.query().from(relFieldConfig.getThrough());
                 if (Boolean.TRUE.equals(fieldInParent)) {
+                    String through = relFieldConfig.getThrough();
                     m2mRelQueryWrapper.in(
-                            relFieldConfig.getThroughRelationFields().stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                            relFieldConfig.getThroughRelationFields().stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(through, field)).getColumn()).collect(Collectors.toList()),
                             relFieldConfig.getRelationFields().stream().map(i -> parents.stream().map(m -> m.getValueObj().get(i)).collect(Collectors.toList())).toArray(List[]::new)
                     );
                 } else {
+                    String through = relFieldConfig.getThrough();
                     m2mRelQueryWrapper.in(
-                            relFieldConfig.getThroughReferenceFields().stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                            relFieldConfig.getThroughReferenceFields().stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(through, field)).getColumn()).collect(Collectors.toList()),
                             relFieldConfig.getReferenceFields().stream().map(i -> parents.stream().map(m -> m.getValueObj().get(i)).collect(Collectors.toList())).toArray(List[]::new)
                     );
                 }
