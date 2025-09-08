@@ -258,6 +258,9 @@ public class GroupingServiceImpl implements GroupingService {
                         }
                     }
                     groupInfo.setDataList(groupDataList);
+
+//              统计要不要跟着懒加载一起呢      if (nodeNum == 1 || group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(groupPath))
+
                     // 计算统计函数
                     if (statisticConsumer != null) {
                         statisticConsumer.accept(groupInfo);
@@ -275,7 +278,7 @@ public class GroupingServiceImpl implements GroupingService {
         // 序列化叶子节点数据List
         for (GroupPath<T> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
-            if (lastGroupInfo.getDataList() != null) {
+            if (lastGroupInfo.getDataList() != null && (group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(lastGroupPath))) {
                 lastGroupInfo.setDataListStr(GroupInfo.stringifyDataList(group, lastGroupInfo, lastGroupInfo.getDataList()));
             }
         }

@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -46,6 +47,13 @@ public class Grouping<T> extends TransientModel {
         return getModelFieldConfigCache().computeIfAbsent(field,
                 key -> getModelConfig().getModelFieldConfigList().stream().filter(fieldConfig -> StringUtils.equals(fieldConfig.getField(), key)).findFirst().orElse(null)
         );
+    }
+
+    public boolean containsExpandPath(GroupPath<T> groupPath) {
+        if (CollectionUtils.isEmpty(getExpandGroupPaths())) {
+            return false;
+        }
+        return getExpandGroupPaths().contains(groupPath);
     }
 
 }
