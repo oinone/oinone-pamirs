@@ -151,9 +151,9 @@ public class GroupingServiceImpl implements GroupingService {
     private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, Consumer<GroupInfo<T>> statisticConsumer) {
         List<GroupField> groupFields = group.getGroupFields();
 
-        Map<List<GroupInfo.GroupPathNode>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
-        Set<List<GroupInfo.GroupPathNode>> firstGroupPathList = new LinkedHashSet<>();
-        Set<List<GroupInfo.GroupPathNode>> lastGroupPathList = new HashSet<>();
+        Map<List<GroupPathNode>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
+        Set<List<GroupPathNode>> firstGroupPathList = new LinkedHashSet<>();
+        Set<List<GroupPathNode>> lastGroupPathList = new HashSet<>();
 
         // 加载之前已加载过的分组信息
         List<GroupInfo<T>> beforeGroupFields = groupResult.getGroups();
@@ -170,7 +170,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         for (T data : dataList) {
-            List<GroupInfo.GroupPathNode> groupPath = null;
+            List<GroupPathNode> groupPath = null;
             for (int i = 0; i < groupFields.size(); i++) {
                 GroupField groupField = groupFields.get(i);
                 GroupInfo<T> parentGroupInfo = groupPathMap.get(groupPath);
@@ -181,7 +181,7 @@ public class GroupingServiceImpl implements GroupingService {
                 } else {
                     groupPath = new ArrayList<>(groupPath);
                 }
-                groupPath.add(new GroupInfo.GroupPathNode(groupField, value));
+                groupPath.add(new GroupPathNode(groupField, value));
 
                 // 判断当前分组是否已存在
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
@@ -219,8 +219,8 @@ public class GroupingServiceImpl implements GroupingService {
 
         // 填充分组信息
         // 分组路径长先处理，确保处理父分组时其下面的子分组一定处理过
-        Map<Integer, List<List<GroupInfo.GroupPathNode>>> groupPathMapByNodeNum = new HashMap<>();
-        for (List<GroupInfo.GroupPathNode> groupPath : groupPathMap.keySet()) {
+        Map<Integer, List<List<GroupPathNode>>> groupPathMapByNodeNum = new HashMap<>();
+        for (List<GroupPathNode> groupPath : groupPathMap.keySet()) {
             groupPathMapByNodeNum.putIfAbsent(groupPath.size(), new ArrayList<>());
             groupPathMapByNodeNum.get(groupPath.size()).add(groupPath);
         }
@@ -229,8 +229,8 @@ public class GroupingServiceImpl implements GroupingService {
         groupPathNodeNumList.sort((n1, n2) -> Integer.compare(n2, n1));
 
         for (Integer nodeNum : groupPathNodeNumList) {
-            List<List<GroupInfo.GroupPathNode>> groupPathList = groupPathMapByNodeNum.get(nodeNum);
-            for (List<GroupInfo.GroupPathNode> groupPath : groupPathList) {
+            List<List<GroupPathNode>> groupPathList = groupPathMapByNodeNum.get(nodeNum);
+            for (List<GroupPathNode> groupPath : groupPathList) {
                 String path = groupPath.stream().map(node -> node.field.getField() + "-" + node.value).collect(Collectors.joining(","));
                 // 这里的子级groupInfo一定是都填充完成的
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
@@ -260,7 +260,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         // 序列化叶子节点数据List
-        for (List<GroupInfo.GroupPathNode> lastGroupPath : lastGroupPathList) {
+        for (List<GroupPathNode> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             if (lastGroupInfo.getDataList() != null) {
                 lastGroupInfo.setDataListStr(GroupInfo.stringifyDataList(group, lastGroupInfo, lastGroupInfo.getDataList()));

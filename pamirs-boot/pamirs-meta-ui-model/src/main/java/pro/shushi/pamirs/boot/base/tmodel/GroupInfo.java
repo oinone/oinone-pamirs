@@ -1,15 +1,12 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
-import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Gesi at 15:46 on 2025/9/1
@@ -87,42 +84,6 @@ public class GroupInfo<T> extends TransientModel {
             return null;
         }
         return PamirsDataUtils.toJSONString(group.getModel(), dataList);
-    }
-
-    public static class GroupPathNode {
-
-        public GroupField field;
-
-        public Object value;
-
-        public GroupPathNode(@NotNull GroupField field, Object value) {
-            this.field = field;
-            this.value = value;
-        }
-
-        @Override
-        public String toString() {
-            if (value == null) {
-                return field.getField() + " - null";
-            }
-            return field.getField() + " - " + value;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(field.getField().hashCode(), value != null ? value.hashCode() : 0);
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            GroupPathNode other;
-            if (obj instanceof GroupPathNode) {
-                other = ((GroupPathNode) obj);
-            } else {
-                return false;
-            }
-            return StringUtils.equals(other.field.getField(), field.getField()) && Objects.equals(other.value, value);
-        }
     }
 
 }
