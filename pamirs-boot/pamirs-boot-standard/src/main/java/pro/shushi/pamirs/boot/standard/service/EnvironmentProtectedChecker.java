@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.LifecycleBeginInit;
 import pro.shushi.pamirs.boot.common.api.init.LifecycleCompletedInit;
-import pro.shushi.pamirs.boot.standard.checker.EnvironmentRecordFinder;
 import pro.shushi.pamirs.boot.standard.checker.PlatformEnvironmentChecker;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentCheckContext;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentCheckResult;
@@ -51,6 +50,9 @@ public class EnvironmentProtectedChecker implements LifecycleBeginInit, Lifecycl
 
     @Resource
     private MetaSimulateService metaSimulateService;
+
+    @Autowired
+    private EnvironmentHistoryRecordSaver environmentHistoryRecordSaver;
 
     @Autowired
     private Environment environment;
@@ -180,8 +182,7 @@ public class EnvironmentProtectedChecker implements LifecycleBeginInit, Lifecycl
     }
 
     private void saveEnvironmentsRecords(EnvironmentCheckContext context, List<PlatformEnvironment> environments, Map<String, List<PlatformEnvironment>> recordHistoryEnvironmentMap) {
-        EnvironmentRecordFinder environmentRecordFinder = BeanDefinitionUtils.getBean(EnvironmentRecordFinder.class);
-        List<PlatformEnvironmentHistoryRecord> createRecords = new ArrayList<>(environmentRecordFinder.collectionUpdate(context, environments, recordHistoryEnvironmentMap));
+        List<PlatformEnvironmentHistoryRecord> createRecords = new ArrayList<>(environmentHistoryRecordSaver.collectionUpdate(context, environments, recordHistoryEnvironmentMap));
         if (!createRecords.isEmpty()) {
             Models.origin().createBatch(createRecords);
         }

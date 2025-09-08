@@ -203,12 +203,20 @@ public abstract class AbstractPlatformEnvironmentChecker implements PlatformEnvi
         switch (key.getLevel()) {
             case IMMUTABLE:
                 if (newValue == null || !newValue.equals(oldValue)) {
+                    // FIXME: zbh 20250908 兼容旧版环境检查未处理环境变量的问题
+                    if (oldValue != null && oldValue.startsWith("${") && oldValue.endsWith("}")) {
+                        break;
+                    }
                     addError(context, currentEnvironment, getErrorMessage(key.getMessage(), EnvironmentCheckConstants.IMMUTABLE_TIP + oldValue));
                 }
                 break;
             case ADD:
             case ADD_OR_DELETE:
                 if (oldValue != null && newValue != null && !oldValue.equals(newValue)) {
+                    // FIXME: zbh 20250908 兼容旧版环境检查未处理环境变量的问题
+                    if (oldValue.startsWith("${") && oldValue.endsWith("}")) {
+                        break;
+                    }
                     addError(context, currentEnvironment, getErrorMessage(key.getMessage(), EnvironmentCheckConstants.IMMUTABLE_TIP + oldValue));
                 }
                 break;
@@ -305,22 +313,27 @@ public abstract class AbstractPlatformEnvironmentChecker implements PlatformEnvi
     }
 
     protected String getProperty(String key, String defaultValue) {
-        if (environment instanceof ConfigurableEnvironment) {
-            ConfigurableEnvironment configurableEnvironment = (ConfigurableEnvironment) environment;
-            ConfigurableConversionService configurableConversionService = configurableEnvironment.getConversionService();
-            MutablePropertySources propertySources = configurableEnvironment.getPropertySources();
-            for (PropertySource<?> propertySource : propertySources) {
-                Object value = propertySource.getProperty(key);
-                if (value != null) {
-                    if (value instanceof String) {
-                        return (String) value;
+        String value = null;
+        try {
+            value = environment.getProperty(key, String.class, defaultValue);
+        } catch (IllegalArgumentException e) {
+            if (environment instanceof ConfigurableEnvironment) {
+                ConfigurableEnvironment configurableEnvironment = (ConfigurableEnvironment) environment;
+                ConfigurableConversionService configurableConversionService = configurableEnvironment.getConversionService();
+                MutablePropertySources propertySources = configurableEnvironment.getPropertySources();
+                for (PropertySource<?> propertySource : propertySources) {
+                    Object objectValue = propertySource.getProperty(key);
+                    if (objectValue != null) {
+                        if (objectValue instanceof String) {
+                            return (String) objectValue;
+                        }
+                        return convertValueIfNecessary(configurableConversionService, objectValue);
                     }
-                    return convertValueIfNecessary(configurableConversionService, value);
                 }
+                return defaultValue;
             }
-            return defaultValue;
         }
-        return environment.getProperty(key, String.class, defaultValue);
+        return value;
     }
 
     protected String getPropertyWithDefaultValue(String key) {
