@@ -5,6 +5,7 @@ import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -86,7 +87,7 @@ public class GroupInfo<T> extends TransientModel {
 
         public Object value;
 
-        public GroupPathNode(GroupField field, Object value) {
+        public GroupPathNode(@NotNull GroupField field, Object value) {
             this.field = field;
             this.value = value;
         }
@@ -101,10 +102,7 @@ public class GroupInfo<T> extends TransientModel {
 
         @Override
         public int hashCode() {
-            if (value == null) {
-                return field.getField().hashCode();
-            }
-            return field.getField().hashCode() & value.hashCode();
+            return Objects.hash(field.getField().hashCode(), value != null ? value.hashCode() : 0);
         }
 
         @Override
