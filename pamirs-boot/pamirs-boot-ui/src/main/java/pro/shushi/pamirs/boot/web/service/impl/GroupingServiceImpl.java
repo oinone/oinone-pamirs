@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Service
 public class GroupingServiceImpl implements GroupingService {
 
-    private static final long GROUP_LAZY_LOAD_DATA_LIMIT = 1;
+    private static final long GROUP_LAZY_LOAD_DATA_LIMIT = 300;
 
     private static final TypeReference<Map<String, Object>> QUERY_DATA_TYPE_REF = new TypeReference<Map<String, Object>>() {
     };
@@ -123,9 +123,11 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         QueryWrapper<T> groupNullQueryWrapper = buildPageQueryWrapper(group);
+        Pagination<T> nullPagination = new Pagination<>(1, 1);
+        nullPagination.setSortable(false);
         groupNullQueryWrapper.isNull(firstModelFieldConfig.getColumn());
         groupNullQueryWrapper.select(firstModelFieldConfig.getColumn());
-        Pagination<T> nullPagination = Models.origin().queryPage((Pagination<T>) new Pagination<>(1, 1).setSortable(false), parseQueryWrapper(groupNullQueryWrapper));
+        nullPagination = Models.origin().queryPage(nullPagination, parseQueryWrapper(groupNullQueryWrapper));
         if (nullPagination.getTotalElements() > 0) {
             pagination.setTotalElements(pagination.getTotalElements() + 1);
         }
