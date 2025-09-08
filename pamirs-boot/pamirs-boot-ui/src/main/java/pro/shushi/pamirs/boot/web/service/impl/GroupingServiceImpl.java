@@ -72,7 +72,7 @@ public class GroupingServiceImpl implements GroupingService {
         groupResult.setTotalDataCount(group.getTotalDataCount());
 
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        boolean needPagination = page.getCurrentPage() != null && page.getCurrentPage() >= 0;
+        boolean needPagination = page.getSize() != null && page.getSize() >= 0;
         if (needPagination) {
             Pagination<T> pagination = addGroupPaginationCondition(group, queryWrapper, page.getCurrentPage(), page.getSize());
             groupResult.setTotalPages(pagination.getTotalPages());
@@ -269,9 +269,6 @@ public class GroupingServiceImpl implements GroupingService {
                     if (statisticConsumer != null) {
                         statisticConsumer.accept(groupInfo);
                     }
-                    if (statisticConsumer != null) {
-                        statisticConsumer.accept(groupInfo);
-                    }
 
                     // 序列化统计结果
                     groupInfo.setDataStatisticStr(GroupInfo.stringifyStatisticResult(group, groupInfo, groupInfo.getDataStatistic()));
@@ -283,7 +280,7 @@ public class GroupingServiceImpl implements GroupingService {
         for (GroupPath<T> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             lastGroupInfo.setIsLeaf(true);
-            if (lastGroupInfo.getDataList() != null && (group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(lastGroupPath))) {
+            if (lastGroupInfo.getDataList() != null && (Boolean.FALSE.equals(group.getNeedLazyLoad()) || group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(lastGroupPath))) {
                 lastGroupInfo.setDataListStr(GroupInfo.stringifyDataList(group, lastGroupInfo, lastGroupInfo.getDataList()));
             }
         }
