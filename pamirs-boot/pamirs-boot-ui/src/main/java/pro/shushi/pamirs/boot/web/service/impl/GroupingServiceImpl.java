@@ -99,22 +99,37 @@ public class GroupingServiceImpl implements GroupingService {
         Pagination<T> pagination = new Pagination<>(pageNo, pageSize);
         SortDirectionEnum orderType = Optional.ofNullable(firstGroupField.getOrderType()).orElse(SortDirectionEnum.ASC);
         QueryWrapper<T> groupQueryWrapper = buildPageQueryWrapper(group);
-        groupQueryWrapper.select(firstModelFieldConfig.getColumn());
+        groupQueryWrapper.isNotNull(firstModelFieldConfig.getColumn());
+        groupQueryWrapper.select("DISTINCT " + firstModelFieldConfig.getColumn() + ", 1");
         groupQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), firstModelFieldConfig.getColumn());
         pagination = Models.origin().queryPage(pagination, parseQueryWrapper(groupQueryWrapper));
+        boolean needGroupNullValue;
+        if (pagination.getContent() == null) {
+            pagination.setContent(new ArrayList<>());
+        }
 
-        if (CollectionUtils.isNotEmpty(pagination.getContent())) {
+        QueryWrapper<T> groupNullQueryWrapper = buildPageQueryWrapper(group);
+        groupNullQueryWrapper.isNull(firstModelFieldConfig.getColumn());
+        groupNullQueryWrapper.select("DISTINCT " + firstModelFieldConfig.getColumn() + ", 1");
+        Pagination<T> nullPagination = Models.origin().queryPage(new Pagination<>(1, 1), parseQueryWrapper(groupNullQueryWrapper));
+        if (CollectionUtils.isNotEmpty(nullPagination.getContent())) {
+            pagination.setTotalElements(pagination.getTotalElements() + 1);
+        }
+
+        needGroupNullValue = pagination.getContent().size() < pageSize && CollectionUtils.isNotEmpty(nullPagination.getContent());
+        if (pageNo <= pagination.getTotalPages()) {
             Pagination<T> finalPagination = pagination;
             queryWrapper.and(andWrapper -> {
                 for (T data : finalPagination.getContent()) {
                     Object groupValue = FieldUtils.getFieldValue(data, firstGroupField.getField());
-                    if (groupValue == null) {
-                        andWrapper.or().isNull(firstModelFieldConfig.getColumn());
-                    } else {
-                        andWrapper.or().eq(firstModelFieldConfig.getColumn(), groupValue);
-                    }
+                    andWrapper.or().eq(firstModelFieldConfig.getColumn(), groupValue);
+                }
+                if (needGroupNullValue) {
+                    andWrapper.or().isNull(firstModelFieldConfig.getColumn());
                 }
             });
+        } else {
+            queryWrapper.eq("1", "0");
         }
 
         return pagination;
@@ -248,7 +263,7 @@ public class GroupingServiceImpl implements GroupingService {
         for (List<GroupInfo.GroupPathNode> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             if (lastGroupInfo.getDataList() != null) {
-                lastGroupInfo.setDataListStr(JsonUtils.toJSONString(lastGroupInfo.getDataList()));
+                lastGroupInfo.setDataListStr(GroupInfo.stringifyDataList(group, lastGroupInfo, lastGroupInfo.getDataList()));
             }
         }
 
