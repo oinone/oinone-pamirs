@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
- *
  * @author Gesi at 14:31 on 2025/9/8
  */
 public class GroupPathNode {
