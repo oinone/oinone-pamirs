@@ -39,9 +39,6 @@ public class Grouping<T> extends TransientModel {
     @Field(displayName = "展开的分组路径")
     private List<GroupPath<T>> expandGroupPaths;
 
-    @Field(displayName = "是否需要懒加载", defaultValue = "true")
-    private Boolean needLazyLoad;
-
     private ModelConfig modelConfig;
 
     private Map<String, ModelFieldConfig> modelFieldConfigCache = new HashMap<>();
