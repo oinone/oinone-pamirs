@@ -17,6 +17,9 @@ public class GroupInfo<T> extends TransientModel {
 
     public static final String MODEL_MODEL = "base.GroupInfo";
 
+    @Field(displayName = "是否为数据节点")
+    private Boolean isLeaf;
+
     @Field(displayName = "字段名")
     private String field;
 

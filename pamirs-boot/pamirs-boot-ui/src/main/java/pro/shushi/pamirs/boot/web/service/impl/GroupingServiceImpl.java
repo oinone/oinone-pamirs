@@ -202,6 +202,7 @@ public class GroupingServiceImpl implements GroupingService {
                 boolean isCreateGroup = false;
                 if (groupInfo == null) {
                     groupInfo = new GroupInfo<>();
+                    groupInfo.setIsLeaf(false);
                     groupInfo.setGroupPath(groupPath);
                     groupInfo.setField(groupField.getField());
                     groupInfo.setValue(value);
@@ -279,6 +280,7 @@ public class GroupingServiceImpl implements GroupingService {
         // 序列化叶子节点数据List
         for (GroupPath<T> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
+            lastGroupInfo.setIsLeaf(true);
             if (lastGroupInfo.getDataList() != null && (group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(lastGroupPath))) {
                 lastGroupInfo.setDataListStr(GroupInfo.stringifyDataList(group, lastGroupInfo, lastGroupInfo.getDataList()));
             }
