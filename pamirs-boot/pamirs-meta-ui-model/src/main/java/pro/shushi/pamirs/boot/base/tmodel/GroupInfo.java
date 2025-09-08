@@ -63,7 +63,7 @@ public class GroupInfo<T> extends TransientModel {
     /**
      * 分组路径
      */
-    private List<GroupPathNode> groupPath;
+    private GroupPath<T> groupPath;
 
     public static String stringifyValue(GroupInfo<?> groupInfo, Object value) {
         if (value == null) {

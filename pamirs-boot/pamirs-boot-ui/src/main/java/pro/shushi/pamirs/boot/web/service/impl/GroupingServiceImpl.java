@@ -31,6 +31,8 @@ import java.util.stream.Collectors;
 @Service
 public class GroupingServiceImpl implements GroupingService {
 
+    private static final long GROUP_LAZY_LOAD_DATA_LIMIT = 300;
+
     private static final TypeReference<Map<String, Object>> QUERY_DATA_TYPE_REF = new TypeReference<Map<String, Object>>() {
     };
 
@@ -53,6 +55,15 @@ public class GroupingServiceImpl implements GroupingService {
 
         Long count = Models.origin().count(parseQueryWrapper(buildPageQueryWrapper(group)));
         group.setTotalDataCount(count);
+
+        if (CollectionUtils.isNotEmpty(group.getExpandGroupPaths())) {
+            for (GroupPath<T> expandGroupPath : group.getExpandGroupPaths()) {
+                for (GroupPathNode<T> groupPathNode : expandGroupPath.getNodeList()) {
+                    groupPathNode.setGroup(group);
+                }
+            }
+        }
+
         return queryGroupInfo(group, page);
     }
 
@@ -61,7 +72,8 @@ public class GroupingServiceImpl implements GroupingService {
         groupResult.setTotalDataCount(group.getTotalDataCount());
 
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        if (Boolean.TRUE.equals(group.getNeedPagination())) {
+        boolean needPagination = page.getCurrentPage() != null && page.getCurrentPage() >= 0;
+        if (needPagination) {
             Pagination<T> pagination = addGroupPaginationCondition(group, queryWrapper, page.getCurrentPage(), page.getSize());
             groupResult.setTotalPages(pagination.getTotalPages());
             groupResult.setTotalElements(pagination.getTotalElements());
@@ -86,7 +98,7 @@ public class GroupingServiceImpl implements GroupingService {
         fullGroupInfo(group, groupResult, paginationResult.getContent(), (groupInfo) -> {
             // todo 加统计函数实现
         });
-        if (!Boolean.TRUE.equals(group.getNeedPagination())) {
+        if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
         }
         return groupResult;
@@ -100,7 +112,8 @@ public class GroupingServiceImpl implements GroupingService {
         SortDirectionEnum orderType = Optional.ofNullable(firstGroupField.getOrderType()).orElse(SortDirectionEnum.ASC);
         QueryWrapper<T> groupQueryWrapper = buildPageQueryWrapper(group);
         groupQueryWrapper.isNotNull(firstModelFieldConfig.getColumn());
-        groupQueryWrapper.select("DISTINCT " + firstModelFieldConfig.getColumn() + ", 1");
+        groupQueryWrapper.select(firstModelFieldConfig.getColumn() + ", 1");
+        groupQueryWrapper.groupBy(firstModelFieldConfig.getColumn());
         groupQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), firstModelFieldConfig.getColumn());
         pagination = Models.origin().queryPage(pagination, parseQueryWrapper(groupQueryWrapper));
         boolean needGroupNullValue;
@@ -110,7 +123,7 @@ public class GroupingServiceImpl implements GroupingService {
 
         QueryWrapper<T> groupNullQueryWrapper = buildPageQueryWrapper(group);
         groupNullQueryWrapper.isNull(firstModelFieldConfig.getColumn());
-        groupNullQueryWrapper.select("DISTINCT " + firstModelFieldConfig.getColumn() + ", 1");
+        groupNullQueryWrapper.select(firstModelFieldConfig.getColumn() + ", 1");
         Pagination<T> nullPagination = Models.origin().queryPage(new Pagination<>(1, 1), parseQueryWrapper(groupNullQueryWrapper));
         if (CollectionUtils.isNotEmpty(nullPagination.getContent())) {
             pagination.setTotalElements(pagination.getTotalElements() + 1);
@@ -151,9 +164,9 @@ public class GroupingServiceImpl implements GroupingService {
     private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, Consumer<GroupInfo<T>> statisticConsumer) {
         List<GroupField> groupFields = group.getGroupFields();
 
-        Map<List<GroupPathNode>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
-        Set<List<GroupPathNode>> firstGroupPathList = new LinkedHashSet<>();
-        Set<List<GroupPathNode>> lastGroupPathList = new HashSet<>();
+        Map<GroupPath<T>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
+        Set<GroupPath<T>> firstGroupPathList = new LinkedHashSet<>();
+        Set<GroupPath<T>> lastGroupPathList = new HashSet<>();
 
         // 加载之前已加载过的分组信息
         List<GroupInfo<T>> beforeGroupFields = groupResult.getGroups();
@@ -163,25 +176,25 @@ public class GroupingServiceImpl implements GroupingService {
         }
         while (!beforeGroupFieldStack.isEmpty()) {
             GroupInfo<T> groupInfo = beforeGroupFieldStack.remove(0);
-            groupPathMap.put(groupInfo.getGroupPath(), groupInfo);
+            groupPathMap.put(new GroupPath<>(groupInfo.getGroupPath()), groupInfo);
             if (CollectionUtils.isNotEmpty(groupInfo.getGroups())) {
                 beforeGroupFieldStack.addAll(groupInfo.getGroups());
             }
         }
 
         for (T data : dataList) {
-            List<GroupPathNode> groupPath = null;
+            GroupPath<T> groupPath = null;
             for (int i = 0; i < groupFields.size(); i++) {
                 GroupField groupField = groupFields.get(i);
                 GroupInfo<T> parentGroupInfo = groupPathMap.get(groupPath);
 
                 Object value = FieldUtils.getFieldValue(data, groupField.getField());
                 if (groupPath == null) {
-                    groupPath = new ArrayList<>();
+                    groupPath = new GroupPath<>();
                 } else {
-                    groupPath = new ArrayList<>(groupPath);
+                    groupPath = new GroupPath<>(groupPath);
                 }
-                groupPath.add(new GroupPathNode(groupField, value));
+                groupPath.addNode(new GroupPathNode<>(group, groupField.getField(), value));
 
                 // 判断当前分组是否已存在
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
@@ -219,8 +232,8 @@ public class GroupingServiceImpl implements GroupingService {
 
         // 填充分组信息
         // 分组路径长先处理，确保处理父分组时其下面的子分组一定处理过
-        Map<Integer, List<List<GroupPathNode>>> groupPathMapByNodeNum = new HashMap<>();
-        for (List<GroupPathNode> groupPath : groupPathMap.keySet()) {
+        Map<Integer, List<GroupPath<T>>> groupPathMapByNodeNum = new HashMap<>();
+        for (GroupPath<T> groupPath : groupPathMap.keySet()) {
             groupPathMapByNodeNum.putIfAbsent(groupPath.size(), new ArrayList<>());
             groupPathMapByNodeNum.get(groupPath.size()).add(groupPath);
         }
@@ -229,9 +242,9 @@ public class GroupingServiceImpl implements GroupingService {
         groupPathNodeNumList.sort((n1, n2) -> Integer.compare(n2, n1));
 
         for (Integer nodeNum : groupPathNodeNumList) {
-            List<List<GroupPathNode>> groupPathList = groupPathMapByNodeNum.get(nodeNum);
-            for (List<GroupPathNode> groupPath : groupPathList) {
-                String path = groupPath.stream().map(node -> node.field.getField() + "-" + node.value).collect(Collectors.joining(","));
+            List<GroupPath<T>> groupPathList = groupPathMapByNodeNum.get(nodeNum);
+            for (GroupPath<T> groupPath : groupPathList) {
+                String path = groupPath.getNodeList().stream().map(node -> node.getField() + "-" + node.getValue()).collect(Collectors.joining(","));
                 // 这里的子级groupInfo一定是都填充完成的
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
                 groupInfo.setValueStr(GroupInfo.stringifyValue(groupInfo, groupInfo.getValue()));
@@ -260,7 +273,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         // 序列化叶子节点数据List
-        for (List<GroupPathNode> lastGroupPath : lastGroupPathList) {
+        for (GroupPath<T> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             if (lastGroupInfo.getDataList() != null) {
                 lastGroupInfo.setDataListStr(GroupInfo.stringifyDataList(group, lastGroupInfo, lastGroupInfo.getDataList()));
