@@ -42,7 +42,8 @@ public class GroupPathNode<T> extends TransientModel {
 
     public Object getValue() {
         if (fromClient) {
-            return valueFromString(this);
+            setValue(valueFromString(this));
+            fromClient = false;
         }
         return value;
     }
