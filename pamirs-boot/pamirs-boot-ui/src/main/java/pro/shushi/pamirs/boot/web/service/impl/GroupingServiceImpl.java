@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Service
 public class GroupingServiceImpl implements GroupingService {
 
-    private static final long GROUP_LAZY_LOAD_DATA_LIMIT = 300;
+    private static final long GROUP_LAZY_LOAD_DATA_LIMIT = 1;
 
     private static final TypeReference<Map<String, Object>> QUERY_DATA_TYPE_REF = new TypeReference<Map<String, Object>>() {
     };
@@ -109,6 +109,7 @@ public class GroupingServiceImpl implements GroupingService {
         ModelFieldConfig firstModelFieldConfig = group.getModelFieldConfig(firstGroupField.getField());
 
         Pagination<T> pagination = new Pagination<>(pageNo, pageSize);
+        pagination.setSortable(false);
         SortDirectionEnum orderType = Optional.ofNullable(firstGroupField.getOrderType()).orElse(SortDirectionEnum.ASC);
         QueryWrapper<T> groupQueryWrapper = buildPageQueryWrapper(group);
         groupQueryWrapper.isNotNull(firstModelFieldConfig.getColumn());
@@ -124,7 +125,7 @@ public class GroupingServiceImpl implements GroupingService {
         QueryWrapper<T> groupNullQueryWrapper = buildPageQueryWrapper(group);
         groupNullQueryWrapper.isNull(firstModelFieldConfig.getColumn());
         groupNullQueryWrapper.select(firstModelFieldConfig.getColumn());
-        Pagination<T> nullPagination = Models.origin().queryPage(new Pagination<>(1, 1), parseQueryWrapper(groupNullQueryWrapper));
+        Pagination<T> nullPagination = Models.origin().queryPage((Pagination<T>) new Pagination<>(1, 1).setSortable(false), parseQueryWrapper(groupNullQueryWrapper));
         if (nullPagination.getTotalElements() > 0) {
             pagination.setTotalElements(pagination.getTotalElements() + 1);
         }
