@@ -46,8 +46,11 @@ public class GroupingServiceImpl implements GroupingService {
     @Override
     public <T> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
         loadGroupBaseInfo(group);
-        Long count = Models.origin().count(parseQueryWrapper(buildPageQueryWrapper(group)));
-        group.setTotalDataCount(count);
+        Pagination<T> countPage = new Pagination<>(1, 1);
+        countPage.setSortable(false);
+        countPage = Models.origin().queryPage(countPage, parseQueryWrapper(buildPageQueryWrapper(group)));
+        group.setTotalDataCount(countPage.getTotalElements());
+        group.setNeedLazyLoad((page.getSize() == null || page.getSize() < 0) && group.getTotalDataCount() > GROUP_LAZY_LOAD_DATA_LIMIT);
         return queryGroupInfo(group, page);
     }
 
@@ -139,8 +142,8 @@ public class GroupingServiceImpl implements GroupingService {
             SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
             queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
         }
-        Sort sort = group.getQueryWrapper().getSort();
-        if (Boolean.TRUE.equals(page.getSortable()) && sort != null && sort.getOrders() != null) {
+        Sort sort = page.getSort();
+        if (!Boolean.FALSE.equals(page.getSortable()) && sort != null && sort.getOrders() != null) {
             for (Order order : sort.getOrders()) {
                 ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(order.getField());
                 SortDirectionEnum orderType = Optional.ofNullable(order.getDirection()).orElse(SortDirectionEnum.ASC);
@@ -383,7 +386,7 @@ public class GroupingServiceImpl implements GroupingService {
         for (GroupPath<T> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             lastGroupInfo.setIsLeaf(true);
-            if (lastGroupInfo.getDataList() != null && group.getTotalDataCount() != null && (group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(lastGroupPath))) {
+            if (lastGroupInfo.getDataList() != null && !group.isNeedLazyLoad()) {
                 lastGroupInfo.setDataListStr(lastGroupInfo.getDataList() != null ? PamirsDataUtils.toJSONString(group.getModel(), lastGroupInfo.getDataList()) : null);
             }
         }
