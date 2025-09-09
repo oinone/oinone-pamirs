@@ -363,6 +363,9 @@ public class GroupingServiceImpl implements GroupingService {
                     }
                     groupInfo.setDataList(groupDataList);
                 }
+                if (groupResult.getExpandGroupData() != null) {
+                    groupResult.getExpandGroupData().put(groupPath, groupInfo.getDataList() != null ? PamirsDataUtils.toJSONString(group.getModel(), groupInfo.getDataList()) : null);
+                }
 
                 // 计算统计函数
                 if (statisticConsumer != null) {
@@ -382,9 +385,6 @@ public class GroupingServiceImpl implements GroupingService {
             lastGroupInfo.setIsLeaf(true);
             if (lastGroupInfo.getDataList() != null && group.getTotalDataCount() != null && (group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(lastGroupPath))) {
                 lastGroupInfo.setDataListStr(lastGroupInfo.getDataList() != null ? PamirsDataUtils.toJSONString(group.getModel(), lastGroupInfo.getDataList()) : null);
-                if (groupResult.getExpandGroupData() != null) {
-                    groupResult.getExpandGroupData().put(lastGroupPath, lastGroupInfo.getDataListStr());
-                }
             }
         }
 
