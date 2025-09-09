@@ -80,6 +80,9 @@ public class GroupInfo<T> extends TransientModel {
             return null;
         }
         if (value instanceof Date) {
+            if (value instanceof java.sql.Date) {
+                return DateUtils.formatDate(new Date(((java.sql.Date) value).getTime()));
+            }
             return DateUtils.formatDate((Date) value);
         } else if (value instanceof BaseEnum) {
             return ((BaseEnum<?, ?>) value).name();
@@ -100,7 +103,10 @@ public class GroupInfo<T> extends TransientModel {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        if (Date.class.getName().equals(fieldConfig.getLtype())) {
+        if (Date.class.isAssignableFrom(valueClass)) {
+            if (java.sql.Date.class.isAssignableFrom(valueClass)) {
+                return new java.sql.Date(DateUtils.formatDate(valueStr, DateUtils.yyyyMMddHHmmss).getTime());
+            }
             return DateUtils.formatDate(valueStr, DateUtils.yyyyMMddHHmmss);
         } else if (Number.class.isAssignableFrom(valueClass)) {
             if (valueClass == Integer.class) {

@@ -198,7 +198,7 @@ public class GroupingServiceImpl implements GroupingService {
         SortDirectionEnum orderType = Optional.ofNullable(firstGroupField.getOrderType()).orElse(SortDirectionEnum.ASC);
         QueryWrapper<T> groupQueryWrapper = buildPageQueryWrapper(group);
         groupQueryWrapper.isNotNull(firstModelFieldConfig.getColumn());
-        groupQueryWrapper.select(firstModelFieldConfig.getColumn());
+        groupQueryWrapper.select(firstModelFieldConfig.getColumn() + " " + firstModelFieldConfig.getField());
         groupQueryWrapper.groupBy(firstModelFieldConfig.getColumn());
         groupQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), firstModelFieldConfig.getColumn());
         pagination = Models.origin().queryPage(pagination, parseQueryWrapper(groupQueryWrapper));
@@ -211,7 +211,7 @@ public class GroupingServiceImpl implements GroupingService {
         Pagination<T> nullPagination = new Pagination<>(1, 1);
         nullPagination.setSortable(false);
         groupNullQueryWrapper.isNull(firstModelFieldConfig.getColumn());
-        groupNullQueryWrapper.select(firstModelFieldConfig.getColumn());
+        groupNullQueryWrapper.select(firstModelFieldConfig.getColumn() + " " + firstModelFieldConfig.getField());
         nullPagination = Models.origin().queryPage(nullPagination, parseQueryWrapper(groupNullQueryWrapper));
         if (nullPagination.getTotalElements() > 0) {
             pagination.setTotalElements(pagination.getTotalElements() + 1);
