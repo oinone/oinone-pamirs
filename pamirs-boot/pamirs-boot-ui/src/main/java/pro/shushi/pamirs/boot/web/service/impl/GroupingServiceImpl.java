@@ -4,9 +4,11 @@ import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.web.enmu.GroupingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
+import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.gateways.hook.RsqlParseHook;
 import pro.shushi.pamirs.meta.api.Models;
@@ -17,6 +19,7 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
@@ -96,7 +99,10 @@ public class GroupingServiceImpl implements GroupingService {
         }
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, group.getTotalDataCount()), parseQueryWrapper(queryWrapper));
         fullGroupInfo(group, groupResult, paginationResult.getContent(), (groupInfo) -> {
-            // todo 加统计函数实现
+            // 加统计函数实现
+            GroupStatisticTypeEnum statisticType = Optional.ofNullable(groupInfo.getGroupField().getStatisticType()).orElse(GroupStatisticTypeEnum.NONE);
+            Map<String, Object> statisticValue = Spider.getExtension(GroupStatisticApi.class, statisticType.getValue()).statistic(group, groupInfo, groupInfo.getDataList());
+            groupInfo.setDataStatistic(statisticValue);
         });
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
@@ -248,7 +254,6 @@ public class GroupingServiceImpl implements GroupingService {
         for (Integer nodeNum : groupPathNodeNumList) {
             List<GroupPath<T>> groupPathList = groupPathMapByNodeNum.get(nodeNum);
             for (GroupPath<T> groupPath : groupPathList) {
-                String path = groupPath.getNodeList().stream().map(node -> node.getField() + "-" + node.getValue()).collect(Collectors.joining(","));
                 // 这里的子级groupInfo一定是都填充完成的
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
                 groupInfo.setValueStr(GroupInfo.stringifyValue(groupInfo, groupInfo.getValue()));
@@ -263,9 +268,7 @@ public class GroupingServiceImpl implements GroupingService {
                     }
                     groupInfo.setDataList(groupDataList);
 
-//              统计要不要跟着懒加载一起呢      if (nodeNum == 1 || group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(groupPath))
-
-                    // 计算统计函数
+                   // 计算统计函数
                     if (statisticConsumer != null) {
                         statisticConsumer.accept(groupInfo);
                     }
