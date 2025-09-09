@@ -8,6 +8,7 @@ import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -22,7 +23,8 @@ public class GroupMaxStatistic extends AbstractGroupStatisticApi implements Grou
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<T> dataList) {
-        return null;
+        List<BigDecimal> numberList = formatNumber(dataList);
+        return max(numberList);
     }
 
 }
