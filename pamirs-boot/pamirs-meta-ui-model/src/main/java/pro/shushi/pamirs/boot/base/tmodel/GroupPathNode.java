@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -23,11 +24,14 @@ public class GroupPathNode<T> extends TransientModel {
     @Field
     private String valueStr;
 
-    public Grouping<T> group;
+    @JSONField(serialize = false)
+    private transient Grouping<T> group;
 
-    public boolean fromClient = true;
+    @JSONField(serialize = false)
+    private transient boolean fromClient = true;
 
-    public Object value;
+    @JSONField(serialize = false)
+    private transient Object value;
 
     public GroupPathNode() {
         fromClient = true;
@@ -37,7 +41,7 @@ public class GroupPathNode<T> extends TransientModel {
         setGroup(group);
         setField(field);
         setValue(value);
-        setFromClient(false);
+        fromClient = false;
     }
 
     public Object getValue() {

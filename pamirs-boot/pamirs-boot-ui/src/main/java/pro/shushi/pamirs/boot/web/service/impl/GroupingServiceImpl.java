@@ -61,9 +61,14 @@ public class GroupingServiceImpl implements GroupingService {
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
 
         GroupResult<T> groupResult = new GroupResult<>();
+        groupResult.setExpandGroupStatistic(new HashMap<>());
         group.unsetExpandGroupPaths();
         group.setTotalDataCount(Long.MAX_VALUE);
         fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
+        groupResult.setExpandGroupStatisticStr(new ArrayList<>(group.getExpandGroupPaths().size()));
+        for (GroupPath<T> expandGroupPath : group.getExpandGroupPaths()) {
+            groupResult.getExpandGroupStatisticStr().add(groupResult.getExpandGroupStatistic().get(expandGroupPath));
+        }
         return groupResult;
     }
 
@@ -82,17 +87,10 @@ public class GroupingServiceImpl implements GroupingService {
         groupResult.setExpandGroupData(new HashMap<>());
         group.setTotalDataCount(0L);
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
-        Map<String, String> expandGroupDataStr = new HashMap<>(groupResult.getExpandGroupData().size());
-        groupResult.getExpandGroupData().forEach((groupPath, s) -> {
-            for (GroupPathNode<T> pathNode : groupPath.getNodeList()) {
-                pathNode.setValueStr(GroupInfo.stringifyValue(pathNode.getGroup().getModelFieldConfig(pathNode.getField()), pathNode.getValue()));
-                pathNode.setGroup(null);
-                pathNode.setValue(null);
-                pathNode.setFromClient(false);
-            }
-            expandGroupDataStr.put(JsonUtils.toJSONString(groupPath), s);
-        });
-        groupResult.setExpandGroupDataStr(JsonUtils.toJSONString(expandGroupDataStr));
+        groupResult.setExpandGroupDataStr(new ArrayList<>(group.getExpandGroupPaths().size()));
+        for (GroupPath<T> expandGroupPath : group.getExpandGroupPaths()) {
+            groupResult.getExpandGroupDataStr().add(groupResult.getExpandGroupData().get(expandGroupPath));
+        }
         groupResult.unsetGroups();
         return groupResult;
     }
@@ -369,6 +367,9 @@ public class GroupingServiceImpl implements GroupingService {
                 }
                 // 序列化统计结果
                 groupInfo.setDataStatisticStr(GroupInfo.stringifyStatisticResult(group, groupInfo, groupInfo.getDataStatistic()));
+                if (groupResult.getExpandGroupStatistic() != null) {
+                    groupResult.getExpandGroupStatistic().put(groupPath, groupInfo.getDataStatisticStr());
+                }
             }
         }
 

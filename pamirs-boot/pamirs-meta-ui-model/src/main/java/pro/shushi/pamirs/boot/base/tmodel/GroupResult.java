@@ -30,7 +30,12 @@ public class GroupResult<T> extends TransientModel {
 
     private Map<GroupPath<T>, String> expandGroupData;
 
-    @Field(displayName = "展开的分组数据", summary = "转换成Json字符串")
-    private String expandGroupDataStr;
+    @Field(displayName = "展开的分组数据")
+    private List<String> expandGroupDataStr;
+
+    private Map<GroupPath<T>, String> expandGroupStatistic;
+
+    @Field(displayName = "返回的分组统计数据")
+    private List<String> expandGroupStatisticStr;
 
 }
