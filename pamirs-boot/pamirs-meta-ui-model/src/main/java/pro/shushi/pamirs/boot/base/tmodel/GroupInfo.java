@@ -3,6 +3,7 @@ package pro.shushi.pamirs.boot.base.tmodel;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
+import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
 import java.util.List;
@@ -68,11 +69,18 @@ public class GroupInfo<T> extends TransientModel {
      */
     private GroupPath<T> groupPath;
 
-    public static String stringifyValue(GroupInfo<?> groupInfo, Object value) {
+    public static String stringifyValue(ModelFieldConfig fieldConfig, Object value) {
         if (value == null) {
             return null;
         }
         return value.toString();
+    }
+
+    public static Object valueFromString(ModelFieldConfig fieldConfig, Object valueStr) {
+        if (valueStr == null) {
+            return null;
+        }
+        return valueStr;
     }
 
     public static String stringifyStatisticResult(Grouping<?> group, GroupInfo<?> groupInfo, Map<String, Object> dataStatistic) {

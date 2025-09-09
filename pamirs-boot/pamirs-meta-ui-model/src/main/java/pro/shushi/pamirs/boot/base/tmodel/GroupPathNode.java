@@ -42,7 +42,7 @@ public class GroupPathNode<T> extends TransientModel {
 
     public Object getValue() {
         if (fromClient) {
-            setValue(valueFromString(this));
+            setValue(GroupInfo.valueFromString(getGroup().getModelFieldConfig(getField()), getValueStr()));
             fromClient = false;
         }
         return value;
@@ -73,13 +73,6 @@ public class GroupPathNode<T> extends TransientModel {
             return false;
         }
         return Objects.equals(getValue(), other.getValue());
-    }
-
-    public Object valueFromString(GroupPathNode<?> groupPathNode) {
-        if (groupPathNode.getValueStr() == null) {
-            return null;
-        }
-        return getValueStr();
     }
 
 }

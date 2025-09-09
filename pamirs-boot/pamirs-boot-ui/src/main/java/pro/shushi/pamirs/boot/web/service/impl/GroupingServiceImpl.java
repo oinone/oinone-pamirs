@@ -62,6 +62,7 @@ public class GroupingServiceImpl implements GroupingService {
 
         GroupResult<T> groupResult = new GroupResult<>();
         group.unsetExpandGroupPaths();
+        group.setTotalDataCount(Long.MAX_VALUE);
         fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
         return groupResult;
     }
@@ -79,8 +80,20 @@ public class GroupingServiceImpl implements GroupingService {
 
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupData(new HashMap<>());
+        group.setTotalDataCount(0L);
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
-        groupResult.setExpandGroupDataStr(JsonUtils.toJSONString(groupResult.getExpandGroupData()));
+        Map<String, String> expandGroupDataStr = new HashMap<>(groupResult.getExpandGroupData().size());
+        groupResult.getExpandGroupData().forEach((groupPath, s) -> {
+            for (GroupPathNode<T> pathNode : groupPath.getNodeList()) {
+                pathNode.setValueStr(GroupInfo.stringifyValue(pathNode.getGroup().getModelFieldConfig(pathNode.getField()), pathNode.getValue()));
+                pathNode.setGroup(null);
+                pathNode.setValue(null);
+                pathNode.setFromClient(false);
+            }
+            expandGroupDataStr.put(JsonUtils.toJSONString(groupPath), s);
+        });
+        groupResult.setExpandGroupDataStr(JsonUtils.toJSONString(expandGroupDataStr));
+        groupResult.unsetGroups();
         return groupResult;
     }
 
@@ -337,7 +350,7 @@ public class GroupingServiceImpl implements GroupingService {
             for (GroupPath<T> groupPath : groupPathList) {
                 // 这里的子级groupInfo一定是都填充完成的
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
-                groupInfo.setValueStr(GroupInfo.stringifyValue(groupInfo, groupInfo.getValue()));
+                groupInfo.setValueStr(GroupInfo.stringifyValue(group.getModelFieldConfig(groupInfo.getField()), groupInfo.getValue()));
                 List<GroupInfo<T>> childGroups = groupInfo.getGroups();
                 moveGroupNullValueToLast(childGroups);
                 if (CollectionUtils.isNotEmpty(childGroups)) {
