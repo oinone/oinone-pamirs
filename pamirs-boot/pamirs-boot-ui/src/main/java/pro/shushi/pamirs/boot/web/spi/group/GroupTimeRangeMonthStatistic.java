@@ -22,7 +22,7 @@ public class GroupTimeRangeMonthStatistic extends AbstractGroupStatisticApi impl
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<?> dataList) {
-        return null;
+        return "mock TIME_RANGE_MONTH";
     }
 
 }

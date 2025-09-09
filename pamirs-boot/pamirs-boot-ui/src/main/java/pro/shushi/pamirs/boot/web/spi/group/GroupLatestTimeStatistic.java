@@ -22,7 +22,7 @@ public class GroupLatestTimeStatistic extends AbstractGroupStatisticApi implemen
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<?> dataList) {
-        return null;
+        return "mock LATEST_TIME";
     }
 
 }
