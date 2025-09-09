@@ -7,6 +7,7 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.base.TransientModel;
 import pro.shushi.pamirs.meta.common.enmu.BaseEnum;
 import pro.shushi.pamirs.meta.common.enmu.IEnum;
+import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.DateUtils;
 
 import java.math.BigDecimal;
@@ -79,11 +80,16 @@ public class GroupInfo<T> extends TransientModel {
         if (value == null) {
             return null;
         }
-        if (value instanceof Date) {
-            if (value instanceof java.sql.Date) {
-                return DateUtils.formatDate(new Date(((java.sql.Date) value).getTime()));
+        if (TtypeEnum.isDateType(fieldConfig.getTtype())) {
+            if (value instanceof Date) {
+                return DateUtils.formatDate(new Date(((Date) value).getTime()), fieldConfig.getFormat());
+            } else {
+                if (TtypeEnum.YEAR.value().equals(fieldConfig.getTtype())) {
+                    return value.toString();
+                } else {
+                    return DateUtils.formatDate(new Date((long) value), fieldConfig.getFormat());
+                }
             }
-            return DateUtils.formatDate((Date) value);
         } else if (value instanceof BaseEnum) {
             return ((BaseEnum<?, ?>) value).name();
         } else if (value instanceof IEnum) {
@@ -103,11 +109,22 @@ public class GroupInfo<T> extends TransientModel {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        if (Date.class.isAssignableFrom(valueClass)) {
-            if (java.sql.Date.class.isAssignableFrom(valueClass)) {
-                return new java.sql.Date(DateUtils.formatDate(valueStr, DateUtils.yyyyMMddHHmmss).getTime());
+        if (TtypeEnum.isDateType(fieldConfig.getTtype())) {
+            if (Date.class.isAssignableFrom(valueClass)) {
+                Date date = DateUtils.formatDate(valueStr, fieldConfig.getFormat());
+                if (java.sql.Date.class.isAssignableFrom(valueClass)) {
+                    return new java.sql.Date(date.getTime());
+                } else if (java.sql.Timestamp.class.isAssignableFrom(valueClass)) {
+                    return new java.sql.Timestamp(date.getTime());
+                }
+                return date;
+            } else {
+                if (TtypeEnum.YEAR.value().equals(fieldConfig.getTtype())) {
+                    return Long.parseLong(valueStr);
+                } else {
+                    return DateUtils.formatDate(valueStr, fieldConfig.getFormat()).getTime();
+                }
             }
-            return DateUtils.formatDate(valueStr, DateUtils.yyyyMMddHHmmss);
         } else if (Number.class.isAssignableFrom(valueClass)) {
             if (valueClass == Integer.class) {
                 return Integer.valueOf(valueStr);
