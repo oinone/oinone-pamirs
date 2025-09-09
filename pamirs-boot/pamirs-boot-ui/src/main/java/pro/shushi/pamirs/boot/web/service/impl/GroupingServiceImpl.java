@@ -100,9 +100,16 @@ public class GroupingServiceImpl implements GroupingService {
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, group.getTotalDataCount()), parseQueryWrapper(queryWrapper));
         fullGroupInfo(group, groupResult, paginationResult.getContent(), (groupInfo) -> {
             // 加统计函数实现
-            GroupStatisticTypeEnum statisticType = Optional.ofNullable(groupInfo.getGroupField().getStatisticType()).orElse(GroupStatisticTypeEnum.NONE);
-            Map<String, Object> statisticValue = Spider.getExtension(GroupStatisticApi.class, statisticType.getValue()).statistic(group, groupInfo, groupInfo.getDataList());
-            groupInfo.setDataStatistic(statisticValue);
+            List<GroupField> statisticFields = group.getStatisticFields();
+            if (statisticFields != null) {
+                Map<String, Object> statisticValues = new HashMap<>(statisticFields.size());
+                for (GroupField statisticField : statisticFields) {
+                    GroupStatisticTypeEnum statisticType = Optional.ofNullable(groupInfo.getGroupField().getStatisticType()).orElse(GroupStatisticTypeEnum.NONE);
+                    Object statisticValue = Spider.getExtension(GroupStatisticApi.class, statisticType.getValue()).statistic(group, groupInfo, statisticField, groupInfo.getDataList());
+                    statisticValues.put(statisticField.getField(), statisticValue);
+                }
+                groupInfo.setDataStatistic(statisticValues);
+            }
         });
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);

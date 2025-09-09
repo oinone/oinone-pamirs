@@ -11,14 +11,14 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import java.util.List;
 
 /**
- * 记录总数
+ * 时间范围（月）
  *
  * @author Gesi at 9:39 on 2025/9/9
  */
-@SPI.Service("COUNT")
+@SPI.Service("TIME_RANGE_MONTH")
 @Component
 @Slf4j
-public class GroupCountStatistic extends AbstractGroupStatisticApi implements GroupStatisticApi {
+public class GroupTimeRangeMonthStatistic extends AbstractGroupStatisticApi implements GroupStatisticApi {
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<T> dataList) {

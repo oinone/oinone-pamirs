@@ -11,14 +11,14 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import java.util.List;
 
 /**
- * 记录总数
+ * 未填写占比
  *
  * @author Gesi at 9:39 on 2025/9/9
  */
-@SPI.Service("COUNT")
+@SPI.Service("NULL_PERCENT")
 @Component
 @Slf4j
-public class GroupCountStatistic extends AbstractGroupStatisticApi implements GroupStatisticApi {
+public class GroupNullPercentStatistic extends AbstractGroupStatisticApi implements GroupStatisticApi {
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<T> dataList) {
