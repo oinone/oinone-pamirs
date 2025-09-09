@@ -21,8 +21,8 @@ import java.util.List;
 public class GroupCountStatistic extends AbstractGroupStatisticApi implements GroupStatisticApi {
 
     @Override
-    public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<T> dataList) {
-        return dataList != null ? dataList.size() : 0;
+    public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<?> dataList) {
+        return total(dataList);
     }
 
 }

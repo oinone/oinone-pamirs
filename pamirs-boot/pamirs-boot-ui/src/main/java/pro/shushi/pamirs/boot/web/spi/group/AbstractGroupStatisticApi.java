@@ -2,9 +2,6 @@ package pro.shushi.pamirs.boot.web.spi.group;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
-import pro.shushi.pamirs.boot.base.tmodel.GroupField;
-import pro.shushi.pamirs.boot.base.tmodel.GroupInfo;
-import pro.shushi.pamirs.boot.base.tmodel.Grouping;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
 
 import java.math.BigDecimal;
@@ -18,6 +15,27 @@ import java.util.stream.Collectors;
  * @author Gesi at 9:44 on 2025/9/9
  */
 public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
+
+    protected long total(List<?> dataList) {
+        if (CollectionUtils.isEmpty(dataList)) {
+            return 0;
+        }
+        return dataList.size();
+    }
+
+    protected long filled(List<?> dataList) {
+        if (CollectionUtils.isEmpty(dataList)) {
+            return 0;
+        }
+        return dataList.stream().filter(Objects::nonNull).count();
+    }
+
+    protected long notFilled(List<?> dataList) {
+        if (CollectionUtils.isEmpty(dataList)) {
+            return 0;
+        }
+        return total(dataList) - filled(dataList);
+    }
 
     protected List<BigDecimal> formatNumber(List<?> dataList) {
         if (dataList == null) {

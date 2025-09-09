@@ -22,7 +22,7 @@ import java.util.List;
 public class GroupMedianStatistic extends AbstractGroupStatisticApi implements GroupStatisticApi {
 
     @Override
-    public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<T> dataList) {
+    public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<?> dataList) {
         List<BigDecimal> numberList = formatNumber(dataList);
         return median(numberList);
     }

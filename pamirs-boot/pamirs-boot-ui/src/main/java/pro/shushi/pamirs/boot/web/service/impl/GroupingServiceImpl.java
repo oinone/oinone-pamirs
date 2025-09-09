@@ -150,9 +150,21 @@ public class GroupingServiceImpl implements GroupingService {
                     GroupStatisticTypeEnum statisticType =
                             Optional.ofNullable(statisticField.getStatisticType())
                                     .orElse(GroupStatisticTypeEnum.NONE);
+                    List<T> dataList = groupInfo.getDataList();
+                    List<?> fieldDataList;
+                    if (dataList != null) {
+                        fieldDataList = dataList.stream().map(data -> {
+                            if (data == null) {
+                                return null;
+                            }
+                            return FieldUtils.getFieldValue(data, statisticField.getField());
+                        }).collect(Collectors.toList());
+                    } else {
+                        fieldDataList = null;
+                    }
                     Object statisticValue = Spider
                             .getExtension(GroupStatisticApi.class, statisticType.getValue())
-                            .statistic(group, groupInfo, statisticField, groupInfo.getDataList());
+                            .statistic(group, groupInfo, statisticField, fieldDataList);
                     statisticValues.put(statisticField.getField(), statisticValue);
                 }
                 groupInfo.setDataStatistic(statisticValues);

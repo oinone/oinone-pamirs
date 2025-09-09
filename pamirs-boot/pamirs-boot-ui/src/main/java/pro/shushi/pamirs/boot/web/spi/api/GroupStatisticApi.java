@@ -16,6 +16,6 @@ import java.util.List;
 @SPI(factory = SpringServiceLoaderFactory.class)
 public interface GroupStatisticApi {
 
-    <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<T> dataList);
+    <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<?> dataList);
 
 }
