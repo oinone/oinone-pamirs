@@ -11,6 +11,7 @@ import pro.shushi.pamirs.boot.web.service.GroupingService;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.gateways.hook.RsqlParseHook;
+import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Order;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
@@ -52,12 +53,13 @@ public class GroupingServiceImpl implements GroupingService {
 
     @Override
     public <T> GroupResult<T> fetchStatistics(Grouping<T> group) {
-        if (CollectionUtils.isEmpty(group.getExpandGroupPaths())) {
+        List<GroupPath<T>> expandGroupPaths = group.getExpandGroupPaths();
+        if (CollectionUtils.isEmpty(expandGroupPaths)) {
             throw PamirsException.construct(GroupingExpEnumerate.STATISTICS_PATHS_IS_NULL).errThrow();
         }
         loadGroupBaseInfo(group);
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        addGroupExpandCondition(group, queryWrapper, group.getExpandGroupPaths());
+        addGroupExpandCondition(group, queryWrapper, expandGroupPaths);
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
 
         GroupResult<T> groupResult = new GroupResult<>();
@@ -65,8 +67,8 @@ public class GroupingServiceImpl implements GroupingService {
         group.unsetExpandGroupPaths();
         group.setTotalDataCount(Long.MAX_VALUE);
         fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
-        groupResult.setExpandGroupStatisticStr(new ArrayList<>(group.getExpandGroupPaths().size()));
-        for (GroupPath<T> expandGroupPath : group.getExpandGroupPaths()) {
+        groupResult.setExpandGroupStatisticStr(new ArrayList<>(expandGroupPaths.size()));
+        for (GroupPath<T> expandGroupPath : expandGroupPaths) {
             groupResult.getExpandGroupStatisticStr().add(groupResult.getExpandGroupStatistic().get(expandGroupPath));
         }
         return groupResult;
@@ -74,21 +76,22 @@ public class GroupingServiceImpl implements GroupingService {
 
     @Override
     public <T> GroupResult<T> fetchGroupData(Grouping<T> group) {
-        if (CollectionUtils.isEmpty(group.getExpandGroupPaths())) {
+        List<GroupPath<T>> expandGroupPaths = group.getExpandGroupPaths();
+        if (CollectionUtils.isEmpty(expandGroupPaths)) {
             throw PamirsException.construct(GroupingExpEnumerate.LAZY_LOAD_PATHS_IS_NULL).errThrow();
         }
         loadGroupBaseInfo(group);
 
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        addGroupExpandCondition(group, queryWrapper, group.getExpandGroupPaths());
+        addGroupExpandCondition(group, queryWrapper, expandGroupPaths);
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
 
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupData(new HashMap<>());
         group.setTotalDataCount(0L);
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
-        groupResult.setExpandGroupDataStr(new ArrayList<>(group.getExpandGroupPaths().size()));
-        for (GroupPath<T> expandGroupPath : group.getExpandGroupPaths()) {
+        groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
+        for (GroupPath<T> expandGroupPath : expandGroupPaths) {
             groupResult.getExpandGroupDataStr().add(groupResult.getExpandGroupData().get(expandGroupPath));
         }
         groupResult.unsetGroups();
@@ -366,7 +369,7 @@ public class GroupingServiceImpl implements GroupingService {
                     statisticConsumer.accept(group, groupInfo);
                 }
                 // 序列化统计结果
-                groupInfo.setDataStatisticStr(GroupInfo.stringifyStatisticResult(group, groupInfo, groupInfo.getDataStatistic()));
+                groupInfo.setDataStatisticStr(groupInfo.getDataStatistic() != null ? JsonUtils.toJSONString(groupInfo.getDataStatistic()) : null);
                 if (groupResult.getExpandGroupStatistic() != null) {
                     groupResult.getExpandGroupStatistic().put(groupPath, groupInfo.getDataStatisticStr());
                 }
@@ -378,7 +381,7 @@ public class GroupingServiceImpl implements GroupingService {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             lastGroupInfo.setIsLeaf(true);
             if (lastGroupInfo.getDataList() != null && group.getTotalDataCount() != null && (group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(lastGroupPath))) {
-                lastGroupInfo.setDataListStr(GroupInfo.stringifyDataList(group, lastGroupInfo, lastGroupInfo.getDataList()));
+                lastGroupInfo.setDataListStr(lastGroupInfo.getDataList() != null ? PamirsDataUtils.toJSONString(group.getModel(), lastGroupInfo.getDataList()) : null);
                 if (groupResult.getExpandGroupData() != null) {
                     groupResult.getExpandGroupData().put(lastGroupPath, lastGroupInfo.getDataListStr());
                 }
