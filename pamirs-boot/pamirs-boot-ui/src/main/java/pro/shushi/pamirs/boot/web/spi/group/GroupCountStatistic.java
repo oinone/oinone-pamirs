@@ -22,7 +22,7 @@ public class GroupCountStatistic extends AbstractGroupStatisticApi implements Gr
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<T> dataList) {
-        return null;
+        return dataList != null ? dataList.size() : 0;
     }
 
 }

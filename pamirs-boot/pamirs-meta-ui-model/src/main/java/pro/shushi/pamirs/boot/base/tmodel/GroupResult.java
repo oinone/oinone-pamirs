@@ -5,6 +5,7 @@ import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Gesi at 15:46 on 2025/9/1
@@ -26,5 +27,10 @@ public class GroupResult<T> extends TransientModel {
 
     @Field(displayName = "返回的分组信息")
     private List<GroupInfo<T>> groups;
+
+    private Map<GroupPath<T>, String> expandGroupData;
+
+    @Field(displayName = "展开的分组数据", summary = "转换成Json字符串")
+    private String expandGroupDataStr;
 
 }

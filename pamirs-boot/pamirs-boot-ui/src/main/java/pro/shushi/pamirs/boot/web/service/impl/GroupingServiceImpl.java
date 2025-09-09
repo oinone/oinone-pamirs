@@ -25,7 +25,7 @@ import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.*;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +44,47 @@ public class GroupingServiceImpl implements GroupingService {
 
     @Override
     public <T> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
+        loadGroupBaseInfo(group);
+        Long count = Models.origin().count(parseQueryWrapper(buildPageQueryWrapper(group)));
+        group.setTotalDataCount(count);
+        return queryGroupInfo(group, page);
+    }
+
+    @Override
+    public <T> GroupResult<T> fetchStatistics(Grouping<T> group) {
+        if (CollectionUtils.isEmpty(group.getExpandGroupPaths())) {
+            throw PamirsException.construct(GroupingExpEnumerate.STATISTICS_PATHS_IS_NULL).errThrow();
+        }
+        loadGroupBaseInfo(group);
+        QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
+        addGroupExpandCondition(group, queryWrapper, group.getExpandGroupPaths());
+        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
+
+        GroupResult<T> groupResult = new GroupResult<>();
+        group.unsetExpandGroupPaths();
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
+        return groupResult;
+    }
+
+    @Override
+    public <T> GroupResult<T> fetchGroupData(Grouping<T> group) {
+        if (CollectionUtils.isEmpty(group.getExpandGroupPaths())) {
+            throw PamirsException.construct(GroupingExpEnumerate.LAZY_LOAD_PATHS_IS_NULL).errThrow();
+        }
+        loadGroupBaseInfo(group);
+
+        QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
+        addGroupExpandCondition(group, queryWrapper, group.getExpandGroupPaths());
+        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
+
+        GroupResult<T> groupResult = new GroupResult<>();
+        groupResult.setExpandGroupData(new HashMap<>());
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
+        groupResult.setExpandGroupDataStr(JsonUtils.toJSONString(groupResult.getExpandGroupData()));
+        return groupResult;
+    }
+
+    private <T> void loadGroupBaseInfo(Grouping<T> group) {
         String model = group.getModel();
         ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
         if (modelConfig == null) {
@@ -56,9 +97,6 @@ public class GroupingServiceImpl implements GroupingService {
         }
         queryWrapper.setModel(model);
 
-        Long count = Models.origin().count(parseQueryWrapper(buildPageQueryWrapper(group)));
-        group.setTotalDataCount(count);
-
         if (CollectionUtils.isNotEmpty(group.getExpandGroupPaths())) {
             for (GroupPath<T> expandGroupPath : group.getExpandGroupPaths()) {
                 for (GroupPathNode<T> groupPathNode : expandGroupPath.getNodeList()) {
@@ -66,8 +104,6 @@ public class GroupingServiceImpl implements GroupingService {
                 }
             }
         }
-
-        return queryGroupInfo(group, page);
     }
 
     private <T> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
@@ -98,23 +134,30 @@ public class GroupingServiceImpl implements GroupingService {
             }
         }
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, group.getTotalDataCount()), parseQueryWrapper(queryWrapper));
-        fullGroupInfo(group, groupResult, paginationResult.getContent(), (groupInfo) -> {
-            // 加统计函数实现
-            List<GroupField> statisticFields = group.getStatisticFields();
-            if (statisticFields != null) {
-                Map<String, Object> statisticValues = new HashMap<>(statisticFields.size());
-                for (GroupField statisticField : statisticFields) {
-                    GroupStatisticTypeEnum statisticType = Optional.ofNullable(groupInfo.getGroupField().getStatisticType()).orElse(GroupStatisticTypeEnum.NONE);
-                    Object statisticValue = Spider.getExtension(GroupStatisticApi.class, statisticType.getValue()).statistic(group, groupInfo, statisticField, groupInfo.getDataList());
-                    statisticValues.put(statisticField.getField(), statisticValue);
-                }
-                groupInfo.setDataStatistic(statisticValues);
-            }
-        });
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
         }
         return groupResult;
+    }
+
+    private <T> BiConsumer<Grouping<T>, GroupInfo<T>> statisticFunction() {
+        return (group, groupInfo) -> {
+            List<GroupField> statisticFields = group.getStatisticFields();
+            if (statisticFields != null) {
+                Map<String, Object> statisticValues = new HashMap<>(statisticFields.size());
+                for (GroupField statisticField : statisticFields) {
+                    GroupStatisticTypeEnum statisticType =
+                            Optional.ofNullable(statisticField.getStatisticType())
+                                    .orElse(GroupStatisticTypeEnum.NONE);
+                    Object statisticValue = Spider
+                            .getExtension(GroupStatisticApi.class, statisticType.getValue())
+                            .statistic(group, groupInfo, statisticField, groupInfo.getDataList());
+                    statisticValues.put(statisticField.getField(), statisticValue);
+                }
+                groupInfo.setDataStatistic(statisticValues);
+            }
+        };
     }
 
     private <T> Pagination<T> addGroupPaginationCondition(Grouping<T> group, QueryWrapper<T> queryWrapper, int pageNo, long pageSize) {
@@ -149,9 +192,10 @@ public class GroupingServiceImpl implements GroupingService {
         if (pageNo <= pagination.getTotalPages()) {
             Pagination<T> finalPagination = pagination;
             queryWrapper.and(andWrapper -> {
-                for (T data : finalPagination.getContent()) {
-                    Object groupValue = FieldUtils.getFieldValue(data, firstGroupField.getField());
-                    andWrapper.or().eq(firstModelFieldConfig.getColumn(), groupValue);
+                List<Object> groupValueList =
+                        finalPagination.getContent().stream().map(data -> FieldUtils.getFieldValue(data, firstGroupField.getField())).collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(groupValueList)) {
+                    andWrapper.in(firstModelFieldConfig.getColumn(), groupValueList);
                 }
                 if (needGroupNullValue) {
                     andWrapper.or().isNull(firstModelFieldConfig.getColumn());
@@ -162,6 +206,24 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         return pagination;
+    }
+
+    private <T> void addGroupExpandCondition(Grouping<T> group, QueryWrapper<T> queryWrapper, List<GroupPath<T>> expandGroupPaths) {
+        queryWrapper.and(andWrapper -> {
+            for (GroupPath<T> expandGroupPath : expandGroupPaths) {
+                andWrapper.or().and(pathAndWrapper -> {
+                    for (GroupPathNode<T> pathNode : expandGroupPath.getNodeList()) {
+                        String column = group.getModelFieldConfig(pathNode.getField()).getColumn();
+                        Object value = pathNode.getValue();
+                        if (value != null) {
+                            pathAndWrapper.eq(column, value);
+                        } else {
+                            pathAndWrapper.isNull(column);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private <T> QueryWrapper<T> buildPageQueryWrapper(Grouping<T> group) {
@@ -177,7 +239,7 @@ public class GroupingServiceImpl implements GroupingService {
         return queryWrapper;
     }
 
-    private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, Consumer<GroupInfo<T>> statisticConsumer) {
+    private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, BiConsumer<Grouping<T>, GroupInfo<T>> statisticConsumer) {
         List<GroupField> groupFields = group.getGroupFields();
 
         Map<GroupPath<T>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
@@ -274,15 +336,14 @@ public class GroupingServiceImpl implements GroupingService {
                         }
                     }
                     groupInfo.setDataList(groupDataList);
-
-                   // 计算统计函数
-                    if (statisticConsumer != null) {
-                        statisticConsumer.accept(groupInfo);
-                    }
-
-                    // 序列化统计结果
-                    groupInfo.setDataStatisticStr(GroupInfo.stringifyStatisticResult(group, groupInfo, groupInfo.getDataStatistic()));
                 }
+
+                // 计算统计函数
+                if (statisticConsumer != null) {
+                    statisticConsumer.accept(group, groupInfo);
+                }
+                // 序列化统计结果
+                groupInfo.setDataStatisticStr(GroupInfo.stringifyStatisticResult(group, groupInfo, groupInfo.getDataStatistic()));
             }
         }
 
@@ -290,8 +351,11 @@ public class GroupingServiceImpl implements GroupingService {
         for (GroupPath<T> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             lastGroupInfo.setIsLeaf(true);
-            if (lastGroupInfo.getDataList() != null && (group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(lastGroupPath))) {
+            if (lastGroupInfo.getDataList() != null && group.getTotalDataCount() != null && (group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT || group.containsExpandPath(lastGroupPath))) {
                 lastGroupInfo.setDataListStr(GroupInfo.stringifyDataList(group, lastGroupInfo, lastGroupInfo.getDataList()));
+                if (groupResult.getExpandGroupData() != null) {
+                    groupResult.getExpandGroupData().put(lastGroupPath, lastGroupInfo.getDataListStr());
+                }
             }
         }
 

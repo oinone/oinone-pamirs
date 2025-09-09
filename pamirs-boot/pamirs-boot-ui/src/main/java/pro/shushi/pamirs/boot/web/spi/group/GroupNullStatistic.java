@@ -9,6 +9,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 未填写
@@ -22,7 +23,7 @@ public class GroupNullStatistic extends AbstractGroupStatisticApi implements Gro
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, GroupField statisticField, List<T> dataList) {
-        return null;
+        return dataList != null ? dataList.stream().filter(Objects::isNull).count() : 0;
     }
 
 }
