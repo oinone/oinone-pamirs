@@ -1,10 +1,17 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.base.TransientModel;
+import pro.shushi.pamirs.meta.common.enmu.BaseEnum;
+import pro.shushi.pamirs.meta.common.enmu.IEnum;
+import pro.shushi.pamirs.meta.util.DateUtils;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -72,12 +79,59 @@ public class GroupInfo<T> extends TransientModel {
         if (value == null) {
             return null;
         }
+        if (value instanceof Date) {
+            return DateUtils.formatDate((Date) value);
+        } else if (value instanceof BaseEnum) {
+            return ((BaseEnum<?, ?>) value).name();
+        } else if (value instanceof IEnum) {
+            return ((IEnum<?>) value).name();
+        }
         return value.toString();
     }
 
-    public static Object valueFromString(ModelFieldConfig fieldConfig, Object valueStr) {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static Object valueFromString(ModelFieldConfig fieldConfig, String valueStr) {
         if (valueStr == null) {
             return null;
+        }
+        Class<?> valueClass;
+        try {
+            valueClass = Class.forName(fieldConfig.getLtype());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if (Date.class.getName().equals(fieldConfig.getLtype())) {
+            return DateUtils.formatDate(valueStr, DateUtils.yyyyMMddHHmmss);
+        } else if (Number.class.isAssignableFrom(valueClass)) {
+            if (valueClass == Integer.class) {
+                return Integer.valueOf(valueStr);
+            } else if (valueClass == Long.class) {
+                return Long.valueOf(valueStr);
+            } else if (valueClass == Double.class) {
+                return Double.valueOf(valueStr);
+            } else if (valueClass == Float.class) {
+                return Float.valueOf(valueStr);
+            } else if (valueClass == Short.class) {
+                return Short.valueOf(valueStr);
+            } else if (valueClass == Byte.class) {
+                return Byte.valueOf(valueStr);
+            } else if (valueClass == java.math.BigDecimal.class) {
+                return new BigDecimal(valueStr);
+            } else if (valueClass == java.math.BigInteger.class) {
+                return new BigInteger(valueStr);
+            }
+        } else if (Boolean.class.getName().equals(fieldConfig.getLtype())) {
+            return Boolean.valueOf(valueStr);
+        } else if (Character.class.getName().equals(fieldConfig.getLtype())) {
+            if (StringUtils.isBlank(valueStr)) {
+                return null;
+            } else {
+                return valueStr.charAt(0);
+            }
+        } else if (BaseEnum.class.isAssignableFrom(valueClass)) {
+            return BaseEnum.getEnum((Class<? extends BaseEnum<?, ?>>) valueClass, valueStr);
+        } else if (IEnum.class.isAssignableFrom(valueClass)) {
+            return Enum.valueOf((Class<? extends Enum>) valueClass, valueStr);
         }
         return valueStr;
     }
