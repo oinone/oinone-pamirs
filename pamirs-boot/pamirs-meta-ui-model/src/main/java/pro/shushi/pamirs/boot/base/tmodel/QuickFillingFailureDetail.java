@@ -23,4 +23,6 @@ public class QuickFillingFailureDetail extends TransientModel {
     @Field(displayName = "失败原因")
     private String msg;
 
+    private boolean failed;
+
 }
