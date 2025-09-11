@@ -5,10 +5,9 @@ import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 /**
- *
  * @author Gesi at 19:21 on 2025/9/10
  */
-public interface QuickFillingValueTransformer {
+public interface QuickFillingValueConverter {
 
     boolean canTransform(TtypeEnum ttype);
 

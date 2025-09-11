@@ -7,12 +7,13 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFilling;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailure;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingService;
-import pro.shushi.pamirs.boot.web.service.QuickFillingValueTransformer;
+import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
@@ -36,7 +37,7 @@ import java.util.Map;
 public class QuickFillingServiceImpl implements QuickFillingService {
 
     @Autowired
-    private List<QuickFillingValueTransformer> valueTransformers;
+    private List<QuickFillingValueConverter> valueConverters;
 
     private static final TypeReference<List<Map<String, String>>> PARAM_VALUE_TYPE_REFERENCE = new TypeReference<List<Map<String, String>>>() {
     };
@@ -133,13 +134,12 @@ public class QuickFillingServiceImpl implements QuickFillingService {
     private Object transformObjectValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
         TtypeEnum ttype = TtypeEnum.getEnumByValue(TtypeEnum.class, modelConfigField.getTtype());
-        for (QuickFillingValueTransformer valueTransformer : valueTransformers) {
-            if (valueTransformer.canTransform(ttype)) {
-                return valueTransformer.transformObjectValue(quickFillingField, value, failureDetail);
+        for (QuickFillingValueConverter valueConverter : valueConverters) {
+            if (valueConverter.canTransform(ttype)) {
+                return valueConverter.transformObjectValue(quickFillingField, value, failureDetail);
             }
         }
-        failureDetail.setFailed(true);
-        failureDetail.setMsg("不能识别的类型" + ttype);
+        failureDetail.fail(QuickFillingFailCodeEnum.UNSUPPORTED_TYPE, value, ttype + "类型不支持自动填报");
         return null;
     }
 

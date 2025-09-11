@@ -17,6 +17,9 @@ public class QuickFillingFailureDetail extends TransientModel {
     @Field(displayName = "失败字段")
     private String field;
 
+    @Field(displayName = "源填写值")
+    private String originValue;
+
     @Field(displayName = "失败原因编码")
     private QuickFillingFailCodeEnum code;
 
@@ -24,5 +27,21 @@ public class QuickFillingFailureDetail extends TransientModel {
     private String msg;
 
     private boolean failed;
+
+    public void fail(QuickFillingFailCodeEnum code, String value) {
+        setFailed(true);
+        setOriginValue(value);
+        if (QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE.equals(code)) {
+            fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, value, "数据不符合规则，请修改后继续");
+            return;
+        }
+    }
+
+    public void fail(QuickFillingFailCodeEnum code, String value, String msg) {
+        setFailed(true);
+        setOriginValue(value);
+        setCode(code);
+        setMsg(msg);
+    }
 
 }
