@@ -13,8 +13,6 @@ public interface GroupingService {
 
     <T> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page);
 
-    <T> GroupResult<T> fetchStatistics(Grouping<T> group);
-
     <T> GroupResult<T> fetchGroupData(Grouping<T> group);
 
 }

@@ -32,9 +32,6 @@ public class Grouping<T> extends TransientModel {
     @Field(displayName = "所有分组字段")
     private List<GroupField> groupFields;
 
-    @Field(displayName = "所选统计字段")
-    private List<GroupField> statisticFields;
-
     @Field(displayName = "展开的分组路径")
     private List<GroupPath<T>> expandGroupPaths;
 

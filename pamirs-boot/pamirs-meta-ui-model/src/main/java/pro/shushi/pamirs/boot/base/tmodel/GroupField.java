@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
-import pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.TransientModel;
@@ -20,8 +19,5 @@ public class GroupField extends TransientModel {
 
     @Field(displayName = "排序类型")
     private SortDirectionEnum orderType;
-
-    @Field(displayName = "统计类型")
-    private GroupStatisticTypeEnum statisticType;
 
 }
