@@ -31,12 +31,6 @@ public class GroupingAction {
         return groupingService.fetchGroupPage(group, page);
     }
 
-    @Function.Advanced(displayName = "查询统计信息", type = FunctionTypeEnum.QUERY)
-    @Function(openLevel = FunctionOpenEnum.API)
-    public <T> GroupResult<T> fetchStatistics(Grouping<T> group) {
-        return groupingService.fetchStatistics(group);
-    }
-
     @Function.Advanced(displayName = "查询分组数据", type = FunctionTypeEnum.QUERY)
     @Function(openLevel = FunctionOpenEnum.API)
     public <T> GroupResult<T> fetchGroupData(Grouping<T> group) {
