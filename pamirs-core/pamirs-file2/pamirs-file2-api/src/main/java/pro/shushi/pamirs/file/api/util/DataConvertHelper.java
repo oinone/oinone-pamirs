@@ -224,7 +224,6 @@ public class DataConvertHelper {
         Object formatObject = fetchExportFormat(definitionContext, cellDefinition);
         if (formatObject != null && !CharacterConstants.SEPARATOR_EMPTY.equals(value)) {
             Map<String, Object> context = generatorExpContext(data, value);
-            String a = new ArrayList<>().stream().map(v -> v.toString()).collect(Collectors.joining(","));
             try {
                 return Exp.fastRun((String) formatObject, ScriptType.EL, context);
             } catch (Throwable e) {
