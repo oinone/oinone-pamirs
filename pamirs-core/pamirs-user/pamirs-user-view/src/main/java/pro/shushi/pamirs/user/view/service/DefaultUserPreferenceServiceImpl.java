@@ -22,10 +22,6 @@ public class DefaultUserPreferenceServiceImpl implements UserPreferenceService {
         if (view == null) {
             return null;
         }
-        if (!ViewTypeEnum.TABLE.equals(view.getType())) {
-            // 只有table支持个性化配置, 其他不查询
-            return null;
-        }
         if (viewAction != null && !(ActionTargetEnum.ROUTER.equals(viewAction.getTarget()) || ActionTargetEnum.OPEN_WINDOW.equals(viewAction.getTarget()))) {
             // 内嵌的页面不支持个性化配置, 不查询
             return null;
