@@ -185,6 +185,11 @@ public class ExcelFixedHeadHelper {
             log.error("无法自动填充单元格定义，请检查属性配置是否正确 model: {}, key: {}, value: {}", model, fieldKey, cellDefinition.getValue());
             return;
         }
+        fillCellDefinition(modelFieldConfig, cellDefinition);
+    }
+
+    public static boolean fillCellDefinition(ModelFieldConfig modelFieldConfig, ExcelCellDefinition cellDefinition) {
+        String fieldKey = modelFieldConfig.getField();
         ModelField modelField = modelFieldConfig.getModelField();
         TtypeEnum ttype = modelField.getTtype();
         if (TtypeEnum.isRelatedType(ttype.value())) {
@@ -250,9 +255,10 @@ public class ExcelFixedHeadHelper {
                 }),
                 BaseEnum.defaults(() -> ExcelValueTypeEnum.STRING));
         cellDefinition.setType(excelValueType);
+        return true;
     }
 
-    private ModelFieldConfig finderModelFieldConfig(String model, String[] fields, int index) {
+    private static ModelFieldConfig finderModelFieldConfig(String model, String[] fields, int index) {
         String field = fields[index];
         int li = field.indexOf("["),
                 ri = field.indexOf("]");
@@ -270,7 +276,7 @@ public class ExcelFixedHeadHelper {
         return finderModelFieldConfig(modelFieldConfig.getReferences(), fields, index);
     }
 
-    private void relationFieldProcess(ExcelCellDefinition cellDefinition, ModelField modelField, boolean isMulti) {
+    private static void relationFieldProcess(ExcelCellDefinition cellDefinition, ModelField modelField, boolean isMulti) {
         RequestContext requestContext = PamirsSession.getContext();
         String referenceModel = modelField.getReferences();
         ModelConfig referenceModelConfig = requestContext.getModelConfig(referenceModel);

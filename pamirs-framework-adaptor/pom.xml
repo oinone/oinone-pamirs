@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>6.3.0</version>
+        <version>6.3.1</version>
     </parent>
 
     <artifactId>pamirs-framework-adaptor</artifactId>
