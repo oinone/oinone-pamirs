@@ -10,12 +10,11 @@ import pro.shushi.pamirs.core.common.cache.MemoryListSearchCache;
 import pro.shushi.pamirs.file.api.config.ExcelConstant;
 import pro.shushi.pamirs.file.api.config.FileProperties;
 import pro.shushi.pamirs.file.api.context.ExcelDefinitionContext;
-import pro.shushi.pamirs.file.api.enmu.ExcelExportFileTypeEnum;
-import pro.shushi.pamirs.file.api.enmu.ExcelExportMethodEnum;
-import pro.shushi.pamirs.file.api.enmu.ExcelTaskStateEnum;
-import pro.shushi.pamirs.file.api.enmu.FileExpEnumerate;
+import pro.shushi.pamirs.file.api.enmu.*;
+import pro.shushi.pamirs.file.api.model.ExcelCellDefinition;
 import pro.shushi.pamirs.file.api.model.ExcelExportTask;
 import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
+import pro.shushi.pamirs.file.api.pmodel.ExcelModelField;
 import pro.shushi.pamirs.file.api.service.ExcelFileService;
 import pro.shushi.pamirs.file.api.service.ExcelWorkbookDefinitionService;
 import pro.shushi.pamirs.file.api.util.ExcelFixedHeadHelper;
@@ -32,6 +31,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
+import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import sun.misc.BASE64Decoder;
 
 import java.io.IOException;
@@ -144,7 +144,7 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
         if (modelConfig == null) {
             throw PamirsException.construct(FileExpEnumerate.EXPORT_MODEL_NOT_EXIST).errThrow();
         }
-        List<ModelField> selectedFields = data.getSelectedFields();
+        List<ExcelModelField> selectedFields = data.getSelectedFields();
         if (CollectionUtils.isEmpty(selectedFields)) {
             throw PamirsException.construct(FileExpEnumerate.EXPORT_FIELD_IS_NOT_SELECTED).errThrow();
         }
@@ -152,14 +152,34 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
                 .setDisplayName(modelConfig.getDisplayName() + ExcelConstant.EXPORT_NAME)
                 .createBlock(modelConfig.getDisplayName(), model);
         MemoryListSearchCache<String, ModelFieldConfig> modelFieldCache = new MemoryListSearchCache<>(modelConfig.getModelFieldConfigList(), ModelFieldConfig::getField);
-        for (ModelField selectedField : selectedFields) {
+        for (ExcelModelField selectedField : selectedFields) {
             String field = selectedField.getField();
             String displayName = selectedField.getDisplayName();
             ModelFieldConfig modelFieldConfig = modelFieldCache.get(field);
             if (modelFieldConfig == null) {
                 throw PamirsException.construct(FileExpEnumerate.EXPORT_MODEL_FIELD_NOT_EXIST).errThrow();
             }
-            fixedHeadHelper.addColumn(field, displayName);
+            ExcelCellDefinition cellDefinition = new ExcelCellDefinition().setValue(displayName);
+            String optionLabel = selectedField.getOptionLabel();
+            if (StringUtils.isBlank(optionLabel)) {
+                fixedHeadHelper.addColumn(field, cellDefinition);
+            } else {
+                if (ExcelFixedHeadHelper.fillCellDefinition(modelFieldConfig, cellDefinition)) {
+                    if (ExcelValueTypeEnum.OBJECT.equals(cellDefinition.getType())) {
+                        ModelField modelField = modelFieldConfig.getModelField();
+                        TtypeEnum ttype = modelField.getTtype();
+                        if (TtypeEnum.isRelatedType(ttype.value())) {
+                            ttype = modelField.getRelatedTtype();
+                        }
+                        if (TtypeEnum.isRelationOne(ttype)) {
+                            cellDefinition.setFormat(optionLabel);
+                        } else if (TtypeEnum.isRelationMany(ttype)) {
+                            cellDefinition.setFormat(String.format("results = []; for (activeRecord : activeRecords) { results.add(%s); } return results.stream().collect(java.util.stream.Collectors.joining(\",\"));", optionLabel));
+                        }
+                    }
+                    fixedHeadHelper.addColumn(field, cellDefinition);
+                }
+            }
         }
         ExcelWorkbookDefinition workbookDefinition = fixedHeadHelper.build();
         data.setWorkbookDefinition(workbookDefinition);

@@ -1,12 +1,14 @@
-package pro.shushi.pamirs.boot.standard.checker.environment.finder;
+package pro.shushi.pamirs.boot.standard.service;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections4.MapUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.boot.standard.checker.environment.AbstractEnvironmentRecordFinder;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentCheckContext;
 import pro.shushi.pamirs.boot.standard.entity.StartupEnvironmentInfo;
+import pro.shushi.pamirs.boot.standard.utils.PlatformEnvironmentGenerator;
 import pro.shushi.pamirs.meta.domain.PlatformEnvironment;
 import pro.shushi.pamirs.meta.domain.PlatformEnvironmentHistoryRecord;
 import pro.shushi.pamirs.meta.enmu.PlatformEnvironmentTypeEnum;
@@ -21,21 +23,23 @@ import java.util.stream.Collectors;
  * @author Gesi at 14:41 on 2024/11/29
  */
 @Component
-public class PlatformEnvironmentRecordFinder extends AbstractEnvironmentRecordFinder {
+public class EnvironmentHistoryRecordSaver {
 
-    public static final String STARTUP_ENVIRONMENT_INFO = "startup-environment-info";
+    private static final String STARTUP_ENVIRONMENT_INFO = "startup-environment-info";
+
+    @Autowired
+    private Environment environment;
 
     @Resource
     private ApplicationArguments arguments;
 
-    @Override
     public List<PlatformEnvironmentHistoryRecord> collectionUpdate(EnvironmentCheckContext context, List<PlatformEnvironment> environments, Map<String, List<PlatformEnvironment>> recordHistoryEnvironmentMap) {
         Map<String, Map<String, PlatformEnvironment>> dbEnviromentsMap = groupPlatformEnvironmentMap(recordHistoryEnvironmentMap);
 
         List<PlatformEnvironmentHistoryRecord> historyRecords = new ArrayList<>();
 
-        StartupEnvironmentInfo startupEnvironmentInfo = StartupEnvironmentInfo.getStartupEnvironmentInfo(getEnvironment(), arguments);
-        PlatformEnvironment startupEnvironment = generatorEnvironmentProperty(STARTUP_ENVIRONMENT_INFO, JSON.toJSONString(startupEnvironmentInfo));
+        StartupEnvironmentInfo startupEnvironmentInfo = StartupEnvironmentInfo.getStartupEnvironmentInfo(this.environment, arguments);
+        PlatformEnvironment startupEnvironment = PlatformEnvironmentGenerator.newInstance("platform", STARTUP_ENVIRONMENT_INFO, JSON.toJSONString(startupEnvironmentInfo));
         historyRecords.add(generatorEnvironmentHistory(startupEnvironment, startupEnvironment.getValue(), null, PlatformEnvironmentTypeEnum.CREATE));
 
         if (MapUtils.isNotEmpty(context.getCreate())) {
@@ -45,7 +49,7 @@ public class PlatformEnvironmentRecordFinder extends AbstractEnvironmentRecordFi
                     if (environment == null) {
                         return;
                     }
-                    generatorEnvironmentHistory(type, environment.getCode(), environment.getKey(), environment.getValue(), null, PlatformEnvironmentTypeEnum.CREATE);
+                    historyRecords.add(generatorEnvironmentHistory(type, environment.getCode(), environment.getKey(), environment.getValue(), null, PlatformEnvironmentTypeEnum.CREATE));
                 });
             });
         }
@@ -59,7 +63,7 @@ public class PlatformEnvironmentRecordFinder extends AbstractEnvironmentRecordFi
                     if (environment == null) {
                         return;
                     }
-                    generatorEnvironmentHistory(type, environment.getCode(), environment.getKey(), environment.getValue(), Optional.ofNullable(dbEnvironment).map(PlatformEnvironment::getValue).orElse(null), PlatformEnvironmentTypeEnum.UPDATE);
+                    historyRecords.add(generatorEnvironmentHistory(type, environment.getCode(), environment.getKey(), environment.getValue(), Optional.ofNullable(dbEnvironment).map(PlatformEnvironment::getValue).orElse(null), PlatformEnvironmentTypeEnum.UPDATE));
                 });
             });
         }
@@ -73,16 +77,15 @@ public class PlatformEnvironmentRecordFinder extends AbstractEnvironmentRecordFi
                     if (dbEnvironment == null) {
                         return;
                     }
-                    generatorEnvironmentHistory(type, dbEnvironment.getCode(), dbEnvironment.getKey(), null, dbEnvironment.getValue(), PlatformEnvironmentTypeEnum.DELETE);
+                    historyRecords.add(generatorEnvironmentHistory(type, dbEnvironment.getCode(), dbEnvironment.getKey(), null, dbEnvironment.getValue(), PlatformEnvironmentTypeEnum.DELETE));
                 });
             });
         }
 
-        historyRecords = historyRecords.stream().filter(Objects::nonNull).collect(Collectors.toList());
         if (historyRecords.size() > 1) {
             return historyRecords;
         }
-        return new ArrayList<>(0);
+        return Collections.emptyList();
     }
 
     private Map<String, Map<String, PlatformEnvironment>> groupPlatformEnvironmentMap(Map<String, List<PlatformEnvironment>> environments) {
@@ -96,4 +99,27 @@ public class PlatformEnvironmentRecordFinder extends AbstractEnvironmentRecordFi
         return enviromentsMap;
     }
 
+    protected PlatformEnvironmentHistoryRecord generatorEnvironmentHistory(PlatformEnvironment environment, String currentValue, String historyValue, PlatformEnvironmentTypeEnum alterType) {
+        PlatformEnvironmentHistoryRecord platformEnvironmentHistoryRecord = new PlatformEnvironmentHistoryRecord();
+        platformEnvironmentHistoryRecord.setStartupCode(StartupEnvironmentInfo.getCurrentStartupCode(this.environment, this.arguments));
+        platformEnvironmentHistoryRecord.setHistoryValue(historyValue);
+        platformEnvironmentHistoryRecord.setAlterType(alterType);
+        platformEnvironmentHistoryRecord.setEnvironmentType(environment.getType());
+        platformEnvironmentHistoryRecord.setEnvironmentCode(environment.getCode());
+        platformEnvironmentHistoryRecord.setEnvironmentKey(environment.getKey());
+        platformEnvironmentHistoryRecord.setCurrentValue(currentValue);
+        return platformEnvironmentHistoryRecord;
+    }
+
+    protected PlatformEnvironmentHistoryRecord generatorEnvironmentHistory(String type, String code, String key, String currentValue, String historyValue, PlatformEnvironmentTypeEnum alterType) {
+        PlatformEnvironmentHistoryRecord platformEnvironmentHistoryRecord = new PlatformEnvironmentHistoryRecord();
+        platformEnvironmentHistoryRecord.setStartupCode(StartupEnvironmentInfo.getCurrentStartupCode(this.environment, this.arguments));
+        platformEnvironmentHistoryRecord.setHistoryValue(historyValue);
+        platformEnvironmentHistoryRecord.setAlterType(alterType);
+        platformEnvironmentHistoryRecord.setEnvironmentType(type);
+        platformEnvironmentHistoryRecord.setEnvironmentCode(code);
+        platformEnvironmentHistoryRecord.setEnvironmentKey(key);
+        platformEnvironmentHistoryRecord.setCurrentValue(currentValue);
+        return platformEnvironmentHistoryRecord;
+    }
 }

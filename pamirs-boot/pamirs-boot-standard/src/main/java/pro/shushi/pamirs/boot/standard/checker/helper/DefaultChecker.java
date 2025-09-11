@@ -13,12 +13,14 @@ import pro.shushi.pamirs.meta.domain.PlatformEnvironment;
  */
 public class DefaultChecker implements EnvironmentKey.Checker {
 
+    public static final EnvironmentKey.Checker INSTANCE = new DefaultChecker();
+
     @Override
     public PlatformEnvironment check(EnvironmentCheckContext context, PlatformEnvironment currentEnvironment, PlatformEnvironment historyEnvironment) {
         if (context.isImmutableEnvironment()) {
             addContext(context, currentEnvironment, historyEnvironment);
         } else {
-            addUpdate(context, currentEnvironment);
+            addUpdate(context, currentEnvironment, historyEnvironment);
         }
         return currentEnvironment;
     }
@@ -30,12 +32,20 @@ public class DefaultChecker implements EnvironmentKey.Checker {
         switch (key.getLevel()) {
             case IMMUTABLE:
                 if (newValue == null || !newValue.equals(oldValue)) {
+                    // FIXME: zbh 20250908 兼容旧版环境检查未处理环境变量的问题
+                    if (oldValue != null && oldValue.startsWith("${") && oldValue.endsWith("}")) {
+                        break;
+                    }
                     addError(context, currentEnvironment, getErrorMessage(key.getMessage(), EnvironmentCheckConstants.IMMUTABLE_TIP + oldValue));
                 }
                 break;
             case ADD:
             case ADD_OR_DELETE:
                 if (oldValue != null && newValue != null && !oldValue.equals(newValue)) {
+                    // FIXME: zbh 20250908 兼容旧版环境检查未处理环境变量的问题
+                    if (oldValue.startsWith("${") && oldValue.endsWith("}")) {
+                        break;
+                    }
                     addError(context, currentEnvironment, getErrorMessage(key.getMessage(), EnvironmentCheckConstants.IMMUTABLE_TIP + oldValue));
                 }
                 break;
@@ -50,6 +60,14 @@ public class DefaultChecker implements EnvironmentKey.Checker {
             case DEPRECATED:
                 addDeprecated(context, currentEnvironment);
                 break;
+        }
+    }
+
+    protected void addUpdate(EnvironmentCheckContext context, PlatformEnvironment currentEnvironment, PlatformEnvironment historyEnvironment) {
+        String oldValue = historyEnvironment.getValue();
+        String newValue = currentEnvironment.getValue();
+        if (newValue == null || !newValue.equals(oldValue)) {
+            context.addUpdate(currentEnvironment);
         }
     }
 

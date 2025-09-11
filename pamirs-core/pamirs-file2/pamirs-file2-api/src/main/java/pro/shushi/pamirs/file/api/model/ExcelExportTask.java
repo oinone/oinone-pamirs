@@ -3,9 +3,9 @@ package pro.shushi.pamirs.file.api.model;
 import pro.shushi.pamirs.boot.base.resource.PamirsFile;
 import pro.shushi.pamirs.file.api.enmu.ExcelExportFileTypeEnum;
 import pro.shushi.pamirs.file.api.enmu.ExcelExportMethodEnum;
+import pro.shushi.pamirs.file.api.pmodel.ExcelModelField;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
-import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 import pro.shushi.pamirs.resource.api.tmodel.ConditionWrapper;
 
@@ -48,9 +48,9 @@ public class ExcelExportTask extends AbstractExcelTask {
     private ExcelExportMethodEnum exportMethod;
 
     @Field.one2many
-    @Field.Relation(relationFields = {"model"}, referenceFields = {"model"})
+    @Field.Relation(relationFields = {"model"}, referenceFields = {"model"}, store = false)
     @Field(displayName = "选择字段")
-    private List<ModelField> selectedFields;
+    private List<ExcelModelField> selectedFields;
 
     @Field.String
     @Field(displayName = "单次请求ID", summary = "同步下载时，先提供完整数据存储在redis，再通过对应ID获取数据进行下载")
