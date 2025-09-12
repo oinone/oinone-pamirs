@@ -27,7 +27,7 @@ public class BooleanConverter extends AbstractValueConverter implements QuickFil
             return boolCaseModelValue(Boolean.FALSE, quickFillingField.getModelConfigField());
         }
 
-        failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, value);
+        failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
         return null;
     }
 

@@ -1,10 +1,7 @@
 package pro.shushi.pamirs.boot.base.model;
 
 import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.boot.base.enmu.AppConfigLoginLayoutTypeEnum;
-import pro.shushi.pamirs.boot.base.enmu.AppConfigModeEnum;
-import pro.shushi.pamirs.boot.base.enmu.AppConfigScopeEnum;
-import pro.shushi.pamirs.boot.base.enmu.AppConfigSizeEnum;
+import pro.shushi.pamirs.boot.base.enmu.*;
 import pro.shushi.pamirs.boot.base.tmodel.MultiTabTheme;
 import pro.shushi.pamirs.boot.base.tmodel.SideBarTheme;
 import pro.shushi.pamirs.meta.annotation.Field;
@@ -115,6 +112,11 @@ public class AppConfig extends IdModel {
     @Field.Enum
     @Field(displayName = "主题模式")
     private AppConfigModeEnum mode;
+
+    @Base
+    @Field.Enum
+    @Field(displayName = "主题风格")
+    private AppConfigThemeStyleEnum style;
 
     @Base
     @Field.Enum

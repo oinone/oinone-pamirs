@@ -81,15 +81,7 @@ public class GroupInfo<T> extends TransientModel {
             return null;
         }
         if (TtypeEnum.isDateType(fieldConfig.getTtype())) {
-            if (value instanceof Date) {
-                return DateUtils.formatDate(new Date(((Date) value).getTime()), fieldConfig.getFormat());
-            } else {
-                if (TtypeEnum.YEAR.value().equals(fieldConfig.getTtype())) {
-                    return value.toString();
-                } else {
-                    return DateUtils.formatDate(new Date((long) value), fieldConfig.getFormat());
-                }
-            }
+            return DateUtils.formatDate(new Date(((Date) value).getTime()), fieldConfig.getFormat());
         } else if (value instanceof BaseEnum) {
             return ((BaseEnum<?, ?>) value).name();
         } else if (value instanceof IEnum) {
@@ -116,14 +108,10 @@ public class GroupInfo<T> extends TransientModel {
                     return new java.sql.Date(date.getTime());
                 } else if (java.sql.Timestamp.class.isAssignableFrom(valueClass)) {
                     return new java.sql.Timestamp(date.getTime());
+                } else if (java.sql.Time.class.isAssignableFrom(valueClass)) {
+                    return new java.sql.Time(date.getTime());
                 }
                 return date;
-            } else {
-                if (TtypeEnum.YEAR.value().equals(fieldConfig.getTtype())) {
-                    return Long.parseLong(valueStr);
-                } else {
-                    return DateUtils.formatDate(valueStr, fieldConfig.getFormat()).getTime();
-                }
             }
         } else if (Number.class.isAssignableFrom(valueClass)) {
             if (valueClass == Integer.class) {

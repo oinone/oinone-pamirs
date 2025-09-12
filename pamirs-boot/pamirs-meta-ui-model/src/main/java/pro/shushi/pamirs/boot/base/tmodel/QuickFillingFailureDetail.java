@@ -28,18 +28,22 @@ public class QuickFillingFailureDetail extends TransientModel {
 
     private boolean failed;
 
-    public void fail(QuickFillingFailCodeEnum code, String value) {
+    public QuickFillingFailureDetail(String field, String originValue) {
+        setFailed(false);
+        setField(field);
+        setOriginValue(originValue);
+    }
+
+    public void fail(QuickFillingFailCodeEnum code) {
         setFailed(true);
-        setOriginValue(value);
         if (QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE.equals(code)) {
-            fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, value, "数据不符合规则，请修改后继续");
+            fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, "数据不符合规则，请修改后继续");
             return;
         }
     }
 
-    public void fail(QuickFillingFailCodeEnum code, String value, String msg) {
+    public void fail(QuickFillingFailCodeEnum code, String msg) {
         setFailed(true);
-        setOriginValue(value);
         setCode(code);
         setMsg(msg);
     }
