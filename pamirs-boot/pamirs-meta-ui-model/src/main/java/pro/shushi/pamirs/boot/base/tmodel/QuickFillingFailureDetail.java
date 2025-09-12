@@ -30,6 +30,7 @@ public class QuickFillingFailureDetail extends TransientModel {
 
     public void fail(QuickFillingFailCodeEnum code, String field, String value) {
         setFailed(true);
+        setField(field);
         setOriginValue(value);
         if (QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE.equals(code)) {
             fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value, "数据不符合规则，请修改后继续");
