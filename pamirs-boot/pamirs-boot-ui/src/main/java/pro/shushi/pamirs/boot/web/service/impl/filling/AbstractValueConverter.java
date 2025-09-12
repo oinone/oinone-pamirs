@@ -24,7 +24,6 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
             return null;
         }
 
-        String field = quickFillingField.getField();
         ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
         if (Boolean.TRUE.equals(modelFieldConfig.getMulti())) {
             Collection multiCollection = null;
@@ -77,6 +76,8 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
         }
     }
 
-    protected abstract Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail);
+    protected Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
+        return null;
+    }
 
 }

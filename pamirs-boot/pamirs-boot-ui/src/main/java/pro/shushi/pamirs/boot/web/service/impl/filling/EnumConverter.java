@@ -9,6 +9,8 @@ import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.common.enmu.BaseEnum;
+import pro.shushi.pamirs.meta.domain.model.DataDictionary;
+import pro.shushi.pamirs.meta.domain.model.DataDictionaryItem;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.lang.reflect.Field;
@@ -45,6 +47,20 @@ public class EnumConverter extends AbstractValueConverter implements QuickFillin
             }
         } else if (valueClass.isEnum()) {
             return resolveJavaEnum(valueClass, value, failureDetail);
+        } else {
+            // 无代码枚举
+            DataDictionary dataDictionary = new DataDictionary().setDictionary(modelFieldConfig.getDictionary()).queryOne();
+            for (DataDictionaryItem option : dataDictionary.getOptions()) {
+                if (StringUtils.equals(value, option.getDisplayName())) {
+                    if (dataDictionary.getBit() || Long.class.equals(valueClass)) {
+                        return Long.parseLong(option.getValue());
+                    } else if (Integer.class.equals(valueClass)) {
+                        return Integer.parseInt(option.getValue());
+                    } else if (TtypeEnum.STRING.equals(dataDictionary.getValueType())) {
+                        return option.getValue();
+                    }
+                }
+            }
         }
 
         failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);

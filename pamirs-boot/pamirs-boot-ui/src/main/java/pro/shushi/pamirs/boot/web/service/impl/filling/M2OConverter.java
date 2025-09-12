@@ -18,7 +18,7 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
     }
 
     @Override
-    public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
+    public Object transformObjectValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         return null;
     }
 }
