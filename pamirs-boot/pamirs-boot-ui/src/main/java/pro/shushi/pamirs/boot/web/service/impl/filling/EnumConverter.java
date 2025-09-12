@@ -24,10 +24,11 @@ public class EnumConverter extends AbstractValueConverter implements QuickFillin
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
+        String field = quickFillingField.getField();
+        ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
         Class<?> valueClass;
         try {
-            valueClass = Class.forName(modelConfigField.getLtype());
+            valueClass = Class.forName(Boolean.TRUE.equals(modelFieldConfig.getMulti()) ? modelFieldConfig.getLtypeT() : modelFieldConfig.getLtype());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +38,7 @@ public class EnumConverter extends AbstractValueConverter implements QuickFillin
             return Enum.valueOf((Class<? extends Enum>) valueClass, value);
         }
 
-        failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, value);
+        failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value);
         return null;
     }
 }

@@ -26,8 +26,9 @@ public class NumberConverter extends AbstractValueConverter implements QuickFill
 
     @Override
     public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
+        String field = quickFillingField.getField();
         if (!originIsNumber(value)) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, value);
+            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value);
             return null;
         }
 
@@ -36,36 +37,38 @@ public class NumberConverter extends AbstractValueConverter implements QuickFill
 
         Object returnValue = numberCaseModelValue(number, modelConfigField);
         if (returnValue == null) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, value);
+            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value);
         }
         return returnValue;
     }
 
     private Object numberCaseModelValue(BigDecimal number, ModelFieldConfig modelFieldConfig) {
-        if (Integer.class.getName().equals(modelFieldConfig.getLtype())) {
+        String ltype = Boolean.TRUE.equals(modelFieldConfig.getMulti()) ? modelFieldConfig.getLtypeT() : modelFieldConfig.getLtype();
+
+        if (Integer.class.getName().equals(ltype)) {
             return number.intValue();
-        } else if (Long.class.getName().equals(modelFieldConfig.getLtype())) {
+        } else if (Long.class.getName().equals(ltype)) {
             return number.longValue();
-        } else if (Double.class.getName().equals(modelFieldConfig.getLtype())) {
+        } else if (Double.class.getName().equals(ltype)) {
             return number.doubleValue();
-        } else if (Float.class.getName().equals(modelFieldConfig.getLtype())) {
+        } else if (Float.class.getName().equals(ltype)) {
             return number.floatValue();
-        } else if (Short.class.getName().equals(modelFieldConfig.getLtype())) {
+        } else if (Short.class.getName().equals(ltype)) {
             return number.shortValue();
-        } else if (Byte.class.getName().equals(modelFieldConfig.getLtype())) {
+        } else if (Byte.class.getName().equals(ltype)) {
             return number.byteValue();
-        } else if (java.math.BigDecimal.class.getName().equals(modelFieldConfig.getLtype())) {
-            if (TtypeEnum.MONEY.value().equals(modelFieldConfig.getTtype())) {
+        } else if (java.math.BigDecimal.class.getName().equals(ltype)) {
+            if (TtypeEnum.MONEY.value().equals(ltype)) {
                 if (modelFieldConfig.getDecimal() != null) {
                     return number.setScale(modelFieldConfig.getDecimal(), RoundingMode.DOWN);
                 }
             }
             return number;
-        } else if (java.math.BigInteger.class.getName().equals(modelFieldConfig.getLtype())) {
+        } else if (java.math.BigInteger.class.getName().equals(ltype)) {
             return new BigInteger(number.intValue() + "");
         }
 
-        return null;
+        return number.toPlainString();
     }
 
     private boolean originIsNumber(String value) {

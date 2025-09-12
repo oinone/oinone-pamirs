@@ -21,13 +21,14 @@ public class BooleanConverter extends AbstractValueConverter implements QuickFil
 
     @Override
     public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
+        String field = quickFillingField.getField();
         if ("TRUE".equalsIgnoreCase(value) || "1".equals(value) || "是".equals(value) || "Y".equalsIgnoreCase(value)) {
             return boolCaseModelValue(Boolean.TRUE, quickFillingField.getModelConfigField());
         } else if ("FALSE".equalsIgnoreCase(value) || "0".equals(value) || "否".equals(value) || "N".equalsIgnoreCase(value)) {
             return boolCaseModelValue(Boolean.FALSE, quickFillingField.getModelConfigField());
         }
 
-        failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, value);
+        failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value);
         return null;
     }
 

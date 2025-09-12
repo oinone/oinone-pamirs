@@ -26,20 +26,22 @@ public class DateConverter extends AbstractValueConverter implements QuickFillin
 
     @Override
     public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
+        String field = quickFillingField.getField();
+        ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
         Date date;
         try {
             date = getDate(value, quickFillingField);
         } catch (Exception e) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, value);
+            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value);
             return null;
         }
 
-        if (java.sql.Date.class.getName().equals(modelConfigField.getLtype())) {
+        String ltype = Boolean.TRUE.equals(modelFieldConfig.getMulti()) ? modelFieldConfig.getLtypeT() : modelFieldConfig.getLtype();
+        if (java.sql.Date.class.getName().equals(ltype)) {
             return new java.sql.Date(date.getTime());
-        } else if (java.sql.Timestamp.class.getName().equals(modelConfigField.getLtype())) {
+        } else if (java.sql.Timestamp.class.getName().equals(ltype)) {
             return new java.sql.Timestamp(date.getTime());
-        } else if (java.sql.Time.class.getName().equals(modelConfigField.getLtype())) {
+        } else if (java.sql.Time.class.getName().equals(ltype)) {
             return new java.sql.Time(date.getTime());
         }
         return date;
@@ -47,34 +49,63 @@ public class DateConverter extends AbstractValueConverter implements QuickFillin
 
 
     private Date getDate(String value, QuickFillingField quickFillingField) {
-        ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
+        ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
+        String ttype = Boolean.TRUE.equals(modelFieldConfig.getMulti()) ? modelFieldConfig.getLtypeT() : modelFieldConfig.getLtype();
 
         Date date = null;
-        if (TtypeEnum.YEAR.value().equals(modelConfigField.getTtype())) {
+        if (TtypeEnum.YEAR.value().equals(ttype)) {
             try {
                 date = DateUtils.formatDate(value, "yyyy");
             } catch (Exception ignored) {
             }
         } else {
-            String[] patterns = {
+            String[] datePatterns = {
                     "yyyy/MM/dd",
                     "yyyy-MM-dd",
-                    "yyyy.MM.dd",
+                    "yyyy.MM.dd"
+            };
+            String[] timePatterns = {
                     "HH:mm:ss"
             };
-            for (String p : patterns) {
-                try {
-                    date = new SimpleDateFormat(p).parse(value);
-                } catch (ParseException ignored) {
+
+            if (TtypeEnum.DATE.value().equals(ttype)) {
+                for (String datePattern : datePatterns) {
+                    try {
+                        date = new SimpleDateFormat(datePattern).parse(value);
+                    } catch (ParseException ignored) {
+                    }
+                    if (date != null) {
+                        return date;
+                    }
                 }
-                if (date != null) {
-                    return date;
+            } else if (TtypeEnum.TIME.value().equals(ttype)) {
+                for (String timePattern : timePatterns) {
+                    try {
+                        date = new SimpleDateFormat(timePattern).parse(value);
+                    } catch (ParseException ignored) {
+                    }
+                    if (date != null) {
+                        return date;
+                    }
+                }
+            } else {
+                for (String datePattern : datePatterns) {
+                    for (String timePattern : timePatterns) {
+                        try {
+                            date = new SimpleDateFormat(datePattern + " " + timePattern).parse(value);
+                        } catch (ParseException ignored) {
+                        }
+                        if (date != null) {
+                            return date;
+                        }
+                    }
                 }
             }
+
         }
 
         if (date == null) {
-            return DateUtils.formatDate(value, modelConfigField.getFormat());
+            return DateUtils.formatDate(value, modelFieldConfig.getFormat());
         }
         return date;
     }
