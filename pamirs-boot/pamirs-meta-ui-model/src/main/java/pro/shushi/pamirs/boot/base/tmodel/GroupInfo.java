@@ -1,18 +1,13 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
-import org.apache.commons.lang3.StringUtils;
+import com.alibaba.fastjson.JSONObject;
+import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.base.TransientModel;
-import pro.shushi.pamirs.meta.common.enmu.BaseEnum;
-import pro.shushi.pamirs.meta.common.enmu.IEnum;
-import pro.shushi.pamirs.meta.enmu.TtypeEnum;
-import pro.shushi.pamirs.meta.util.DateUtils;
+import pro.shushi.pamirs.meta.util.FieldUtils;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -80,71 +75,26 @@ public class GroupInfo<T> extends TransientModel {
         if (value == null) {
             return null;
         }
-        if (TtypeEnum.isDateType(fieldConfig.getTtype())) {
-            return DateUtils.formatDate(new Date(((Date) value).getTime()), fieldConfig.getFormat());
-        } else if (value instanceof BaseEnum) {
-            return ((BaseEnum<?, ?>) value).name();
-        } else if (value instanceof IEnum) {
-            return ((IEnum<?>) value).name();
+        String model = fieldConfig.getModel();
+        Object modelObject = PamirsDataUtils.jsonObjectToModelObject(model, new JSONObject());
+        FieldUtils.setFieldValue(modelObject, fieldConfig.getField(), value);
+        Map<String, Object> jsonObject = PamirsDataUtils.modelObjectToJsonObject(model, modelObject);
+        value = jsonObject.get(fieldConfig.getField());
+        if (value == null) {
+            return null;
         }
         return value.toString();
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public static Object valueFromString(ModelFieldConfig fieldConfig, String valueStr) {
         if (valueStr == null) {
             return null;
         }
-        Class<?> valueClass;
-        try {
-            valueClass = Class.forName(fieldConfig.getLtype());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        if (TtypeEnum.isDateType(fieldConfig.getTtype())) {
-            if (Date.class.isAssignableFrom(valueClass)) {
-                Date date = DateUtils.formatDate(valueStr, fieldConfig.getFormat());
-                if (java.sql.Date.class.isAssignableFrom(valueClass)) {
-                    return new java.sql.Date(date.getTime());
-                } else if (java.sql.Timestamp.class.isAssignableFrom(valueClass)) {
-                    return new java.sql.Timestamp(date.getTime());
-                } else if (java.sql.Time.class.isAssignableFrom(valueClass)) {
-                    return new java.sql.Time(date.getTime());
-                }
-                return date;
-            }
-        } else if (Number.class.isAssignableFrom(valueClass)) {
-            if (valueClass == Integer.class) {
-                return Integer.valueOf(valueStr);
-            } else if (valueClass == Long.class) {
-                return Long.valueOf(valueStr);
-            } else if (valueClass == Double.class) {
-                return Double.valueOf(valueStr);
-            } else if (valueClass == Float.class) {
-                return Float.valueOf(valueStr);
-            } else if (valueClass == Short.class) {
-                return Short.valueOf(valueStr);
-            } else if (valueClass == Byte.class) {
-                return Byte.valueOf(valueStr);
-            } else if (valueClass == java.math.BigDecimal.class) {
-                return new BigDecimal(valueStr);
-            } else if (valueClass == java.math.BigInteger.class) {
-                return new BigInteger(valueStr);
-            }
-        } else if (Boolean.class.getName().equals(fieldConfig.getLtype())) {
-            return Boolean.valueOf(valueStr);
-        } else if (Character.class.getName().equals(fieldConfig.getLtype())) {
-            if (StringUtils.isBlank(valueStr)) {
-                return null;
-            } else {
-                return valueStr.charAt(0);
-            }
-        } else if (BaseEnum.class.isAssignableFrom(valueClass)) {
-            return BaseEnum.getEnum((Class<? extends BaseEnum<?, ?>>) valueClass, valueStr);
-        } else if (IEnum.class.isAssignableFrom(valueClass)) {
-            return Enum.valueOf((Class<? extends Enum>) valueClass, valueStr);
-        }
-        return valueStr;
+        String model = fieldConfig.getModel();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(fieldConfig.getField(), valueStr);
+        Object modelObject = PamirsDataUtils.jsonObjectToModelObject(model, jsonObject);
+        return FieldUtils.getFieldValue(modelObject, fieldConfig.getField());
     }
 
 }
