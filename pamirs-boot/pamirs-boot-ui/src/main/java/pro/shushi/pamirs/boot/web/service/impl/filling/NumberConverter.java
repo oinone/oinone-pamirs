@@ -10,6 +10,8 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 
 /**
  * @author Gesi at 9:35 on 2025/9/11
@@ -32,11 +34,38 @@ public class NumberConverter extends AbstractValueConverter implements QuickFill
         BigDecimal number = new BigDecimal(value);
         ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
 
-        return numberCaseModelValue(number, modelConfigField);
+        Object returnValue = numberCaseModelValue(number, modelConfigField);
+        if (returnValue == null) {
+            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, value);
+        }
+        return returnValue;
     }
 
     private Object numberCaseModelValue(BigDecimal number, ModelFieldConfig modelFieldConfig) {
-        return number;
+        if (Integer.class.getName().equals(modelFieldConfig.getLtype())) {
+            return number.intValue();
+        } else if (Long.class.getName().equals(modelFieldConfig.getLtype())) {
+            return number.longValue();
+        } else if (Double.class.getName().equals(modelFieldConfig.getLtype())) {
+            return number.doubleValue();
+        } else if (Float.class.getName().equals(modelFieldConfig.getLtype())) {
+            return number.floatValue();
+        } else if (Short.class.getName().equals(modelFieldConfig.getLtype())) {
+            return number.shortValue();
+        } else if (Byte.class.getName().equals(modelFieldConfig.getLtype())) {
+            return number.byteValue();
+        } else if (java.math.BigDecimal.class.getName().equals(modelFieldConfig.getLtype())) {
+            if (TtypeEnum.MONEY.value().equals(modelFieldConfig.getTtype())) {
+                if (modelFieldConfig.getDecimal() != null) {
+                    return number.setScale(modelFieldConfig.getDecimal(), RoundingMode.DOWN);
+                }
+            }
+            return number;
+        } else if (java.math.BigInteger.class.getName().equals(modelFieldConfig.getLtype())) {
+            return new BigInteger(number.intValue() + "");
+        }
+
+        return null;
     }
 
     private boolean originIsNumber(String value) {

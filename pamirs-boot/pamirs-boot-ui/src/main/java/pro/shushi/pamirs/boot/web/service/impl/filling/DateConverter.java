@@ -1,10 +1,17 @@
 package pro.shushi.pamirs.boot.web.service.impl.filling;
 
 import org.springframework.stereotype.Service;
+import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
+import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
+import pro.shushi.pamirs.meta.util.DateUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author Gesi at 9:35 on 2025/9/11
@@ -19,6 +26,56 @@ public class DateConverter extends AbstractValueConverter implements QuickFillin
 
     @Override
     public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        return null;
+        ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
+        Date date;
+        try {
+            date = getDate(value, quickFillingField);
+        } catch (Exception e) {
+            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, value);
+            return null;
+        }
+
+        if (java.sql.Date.class.getName().equals(modelConfigField.getLtype())) {
+            return new java.sql.Date(date.getTime());
+        } else if (java.sql.Timestamp.class.getName().equals(modelConfigField.getLtype())) {
+            return new java.sql.Timestamp(date.getTime());
+        } else if (java.sql.Time.class.getName().equals(modelConfigField.getLtype())) {
+            return new java.sql.Time(date.getTime());
+        }
+        return date;
+    }
+
+
+    private Date getDate(String value, QuickFillingField quickFillingField) {
+        ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
+
+        Date date = null;
+        if (TtypeEnum.YEAR.value().equals(modelConfigField.getTtype())) {
+            try {
+                date = DateUtils.formatDate(value, "yyyy");
+            } catch (Exception ignored) {
+            }
+        } else {
+            String[] patterns = {
+                    "yyyy/MM/dd",
+                    "yyyy-MM-dd",
+                    "yyyy.MM.dd",
+                    "HH:mm:ss"
+            };
+            for (String p : patterns) {
+                try {
+                    date = new SimpleDateFormat(p).parse(value);
+                } catch (ParseException ignored) {
+                }
+                if (date != null) {
+                    return date;
+                }
+            }
+        }
+
+        if (date == null) {
+            return DateUtils.formatDate(value, modelConfigField.getFormat());
+        }
+        return date;
     }
 }

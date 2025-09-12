@@ -14,6 +14,7 @@ import java.util.*;
  */
 public abstract class AbstractValueConverter implements QuickFillingValueConverter {
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public Object transformObjectValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         if (StringUtils.isBlank(value)) {
@@ -22,32 +23,37 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
 
         ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
         if (Boolean.TRUE.equals(modelConfigField.getMulti())) {
-            String[] valueList = value.split(",");
-            Collection<Object> multiCollection;
+            Collection multiCollection = null;
             try {
                 Class<?> collectionClass = Class.forName(modelConfigField.getLtype());
-                if (!collectionClass.isInterface() || Modifier.isAbstract(collectionClass.getModifiers())) {
-                    multiCollection = (Collection<Object>) collectionClass.newInstance();
-                } else {
-                    if (List.class.isAssignableFrom(collectionClass)) {
-                        multiCollection = new ArrayList<>();
+                if (Collection.class.isAssignableFrom(collectionClass)) {
+                    if (!collectionClass.isInterface() || Modifier.isAbstract(collectionClass.getModifiers())) {
+                        multiCollection = (Collection) collectionClass.newInstance();
                     } else {
-                        multiCollection = new HashSet<>();
+                        if (List.class.isAssignableFrom(collectionClass)) {
+                            multiCollection = new ArrayList<>();
+                        } else if (Set.class.isAssignableFrom(collectionClass)) {
+                            multiCollection = new HashSet<>();
+                        }
                     }
                 }
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
 
-            for (String valueItem : valueList) {
-                Object transformValue = transform(quickFillingField, valueItem, failureDetail);
-                multiCollection.add(transformValue);
+            if (multiCollection != null) {
+                String[] valueList = value.split(",");
+                for (String valueItem : valueList) {
+                    Object transformValue = transform(quickFillingField, valueItem, failureDetail);
+                    if (failureDetail.isFailed()) {
+                        return null;
+                    }
+                    multiCollection.add(transformValue);
+                }
+                return multiCollection;
             }
-
-            return multiCollection;
-        } else {
-            return transform(quickFillingField, value, failureDetail);
         }
+        return transform(quickFillingField, value, failureDetail);
     }
 
     protected abstract Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail);
