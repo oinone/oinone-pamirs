@@ -62,6 +62,7 @@ public class EipLogStrategyContext {
             frequency = logProperties.getFrequency();
         }
         EipLogStrategyEntity logStrategy = new EipLogStrategyEntity();
+        logStrategy.setEnabled(true);
         logStrategy.setFrequency(frequency);
         return logStrategy;
     }
