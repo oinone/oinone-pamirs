@@ -104,6 +104,7 @@ public class EipLogStrategyServiceImpl implements EipLogStrategyService {
 
     @XAsync(displayName = "刷新日志策略")
     @Function
+    @Override
     public void refreshLogStrategy(EipLogStrategyEntity logStrategy) {
         if (eipLogStrategyDistributionSupport == null) {
             EipLogStrategyContext.put(logStrategy.getInterfaceType(), logStrategy.getInterfaceName(), logStrategy);
