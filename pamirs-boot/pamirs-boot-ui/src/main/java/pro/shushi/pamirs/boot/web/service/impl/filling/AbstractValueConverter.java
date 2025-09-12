@@ -54,7 +54,7 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
                     } catch (Exception e) {
                         log.error("自动填报类型转换失败", e);
                         if (!failureDetail.isFailed()) {
-                            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value);
+                            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
                         }
                         return null;
                     }
@@ -71,7 +71,7 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
         } catch (Exception e) {
             log.error("自动填报类型转换失败", e);
             if (!failureDetail.isFailed()) {
-                failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value);
+                failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
             }
             return null;
         }

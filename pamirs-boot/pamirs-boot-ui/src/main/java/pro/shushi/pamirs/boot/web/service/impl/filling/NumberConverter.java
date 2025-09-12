@@ -26,9 +26,8 @@ public class NumberConverter extends AbstractValueConverter implements QuickFill
 
     @Override
     public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        String field = quickFillingField.getField();
         if (!originIsNumber(value)) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value);
+            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
             return null;
         }
 
@@ -37,7 +36,7 @@ public class NumberConverter extends AbstractValueConverter implements QuickFill
 
         Object returnValue = numberCaseModelValue(number, modelConfigField);
         if (returnValue == null) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value);
+            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
         }
         return returnValue;
     }

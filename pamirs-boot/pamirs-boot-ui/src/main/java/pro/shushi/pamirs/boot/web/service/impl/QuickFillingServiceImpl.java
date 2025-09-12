@@ -64,8 +64,7 @@ public class QuickFillingServiceImpl implements QuickFillingService {
             quickFilling.getFields().forEach((field, header) -> {
                 String value = paramValue.get(field);
                 QuickFillingField quickFillingField = quickFilling.getFields().get(field);
-                QuickFillingFailureDetail failureDetail = new QuickFillingFailureDetail();
-                failureDetail.setFailed(false);
+                QuickFillingFailureDetail failureDetail = new QuickFillingFailureDetail(field, value);
 
                 Object transformedValue = transformObjectValue(quickFillingField, value, failureDetail);
 
@@ -132,7 +131,6 @@ public class QuickFillingServiceImpl implements QuickFillingService {
     }
 
     private Object transformObjectValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        String field = quickFillingField.getField();
         ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
         TtypeEnum ttype = TtypeEnum.getEnumByValue(TtypeEnum.class, modelConfigField.getTtype());
         for (QuickFillingValueConverter valueConverter : valueConverters) {
@@ -140,7 +138,7 @@ public class QuickFillingServiceImpl implements QuickFillingService {
                 return valueConverter.transformObjectValue(quickFillingField, value, failureDetail);
             }
         }
-        failureDetail.fail(QuickFillingFailCodeEnum.UNSUPPORTED_TYPE, field, value, ttype + "类型不支持自动填报");
+        failureDetail.fail(QuickFillingFailCodeEnum.UNSUPPORTED_TYPE, ttype + "类型不支持自动填报");
         return null;
     }
 

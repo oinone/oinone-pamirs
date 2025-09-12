@@ -26,13 +26,12 @@ public class DateConverter extends AbstractValueConverter implements QuickFillin
 
     @Override
     public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        String field = quickFillingField.getField();
         ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
         Date date;
         try {
             date = getDate(value, quickFillingField);
         } catch (Exception e) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, field, value);
+            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
             return null;
         }
 
