@@ -7,7 +7,6 @@ import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 
 import java.lang.reflect.Modifier;
@@ -88,19 +87,7 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
 
     protected <T> QueryWrapper<T> getRelationQueryWrapper(QuickFillingField quickFillingField, boolean isMulti) {
         ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
-        String relationModelClassName;
-        if (isMulti) {
-            relationModelClassName = modelFieldConfig.getLtypeT();
-        } else {
-            relationModelClassName = modelFieldConfig.getLtype();
-        }
-        Class<?> relationModelClass;
-        try {
-            relationModelClass = Class.forName(relationModelClassName);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        String relationModel = Models.api().getModel(relationModelClass);
+        String relationModel = modelFieldConfig.getReferences();
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         queryWrapper.from(relationModel);
         return queryWrapper;
