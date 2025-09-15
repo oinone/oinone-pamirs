@@ -17,6 +17,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -38,8 +39,10 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
         }
         QueryWrapper<Object> relationQueryWrapper = getRelationQueryWrapper(quickFillingField, true);
         String relationModel = relationQueryWrapper.getModel();
+        AtomicInteger relationQueryNum = new AtomicInteger(0);
+
         relationQueryWrapper.and(andWrapper -> {
-            fillQueryWrapperCondition(relationModel, andWrapper, quickFillingField, value, failureDetail);
+            relationQueryNum.set(fillQueryWrapperCondition(relationModel, andWrapper, quickFillingField, value, failureDetail));
         });
 
         if (failureDetail.isFailed()) {
@@ -47,7 +50,8 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
         }
 
         List<Object> relationList = Models.origin().queryListByWrapper(relationQueryWrapper);
-        if (CollectionUtils.isEmpty(relationList)) {
+        if (relationQueryNum.get() != relationList.size()) {
+            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_NUMBER_NOT_MATCH, "查询数量不匹配");
             return null;
         }
         Collection<Object> relationCollection = getFieldCollection(modelFieldConfig);
@@ -55,8 +59,9 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
         return relationCollection;
     }
 
-    private void fillQueryWrapperCondition(String relationModel, QueryWrapper<Object> queryWrapper, QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
+    private int fillQueryWrapperCondition(String relationModel, QueryWrapper<Object> queryWrapper, QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         ModelConfig relationModelConfig = PamirsSession.getContext().getModelConfig(relationModel);
+
         List<String> relationSelectFields = quickFillingField.getRelationSelectFields();
         List<ModelFieldConfig> relationSelectFieldConfigs = new ArrayList<>(relationSelectFields.size());
         for (String relationSelectField : relationSelectFields) {
@@ -66,19 +71,17 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
         }
 
         String[] valueList = value.split(",");
+        int relationQueryNum = 0;
 
         for (String valueItem : valueList) {
             String[] valueSearchPartList = valueItem.split("-");
             if (StringUtils.isBlank(valueItem) || valueSearchPartList.length == 0) {
-                queryWrapper.or(orWrapper -> {
-                    orWrapper.eq("1", "0");
-                });
                 continue;
             }
 
             if (valueSearchPartList.length > relationSelectFieldConfigs.size()) {
                 failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
-                return;
+                return 0;
             }
             queryWrapper.or(orWrapper -> {
                 for (int i = 0; i < valueSearchPartList.length; i++) {
@@ -91,6 +94,14 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
                     }
                 }
             });
+            relationQueryNum++;
         }
+
+        if (relationQueryNum == 0) {
+            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+            return 0;
+        }
+
+        return relationQueryNum;
     }
 }

@@ -109,6 +109,7 @@ public class QuickFillingServiceImpl implements QuickFillingService {
     }
 
     private void loadParamValues(QuickFilling quickFilling) {
+        Map<String, QuickFillingField> fields = quickFilling.getFields();
         String valuesStr = quickFilling.getValuesStr();
         List<Map<String, String>> values = JsonUtils.parseObject(valuesStr, PARAM_VALUE_TYPE_REFERENCE);
         values.removeIf(value -> {
@@ -117,6 +118,7 @@ public class QuickFillingServiceImpl implements QuickFillingService {
             }
             boolean isEmpty = true;
             for (Map.Entry<String, String> entry : value.entrySet()) {
+                QuickFillingField fieldHeader = fields.get(entry.getKey());
                 if (StringUtils.isNotBlank(entry.getValue())) {
                     isEmpty = false;
                     break;
