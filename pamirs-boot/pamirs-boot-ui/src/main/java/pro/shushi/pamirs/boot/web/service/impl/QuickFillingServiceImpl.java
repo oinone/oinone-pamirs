@@ -24,10 +24,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -120,7 +117,7 @@ public class QuickFillingServiceImpl implements QuickFillingService {
             }
             boolean isEmpty = true;
             for (Map.Entry<String, String> entry : value.entrySet()) {
-                if (StringUtils.isNotEmpty(entry.getValue())) {
+                if (StringUtils.isNotBlank(entry.getValue())) {
                     isEmpty = false;
                     break;
                 }

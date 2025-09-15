@@ -5,7 +5,9 @@ import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
+import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 
 import java.lang.reflect.Modifier;
@@ -17,33 +19,15 @@ import java.util.*;
 @Slf4j
 public abstract class AbstractValueConverter implements QuickFillingValueConverter {
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public Object transformObjectValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        if (StringUtils.isBlank(value)) {
+        if (value == null || StringUtils.isBlank(value)) {
             return null;
         }
 
         ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
         if (Boolean.TRUE.equals(modelFieldConfig.getMulti())) {
-            Collection multiCollection = null;
-            try {
-                Class<?> collectionClass = Class.forName(modelFieldConfig.getLtype());
-                if (Collection.class.isAssignableFrom(collectionClass)) {
-                    if (!collectionClass.isInterface() && Modifier.isAbstract(collectionClass.getModifiers())) {
-                        multiCollection = (Collection) collectionClass.newInstance();
-                    } else {
-                        if (List.class.isAssignableFrom(collectionClass)) {
-                            multiCollection = new ArrayList<>();
-                        } else if (Set.class.isAssignableFrom(collectionClass)) {
-                            multiCollection = new HashSet<>();
-                        }
-                    }
-                }
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-
+            Collection<Object> multiCollection = getFieldCollection(modelFieldConfig);
             if (multiCollection != null) {
                 String[] valueList = value.split(",");
                 for (String valueItem : valueList) {
@@ -78,6 +62,48 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
 
     protected Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         return null;
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    protected Collection<Object> getFieldCollection(ModelFieldConfig modelFieldConfig) {
+        Collection<Object> multiCollection = null;
+        try {
+            Class<?> collectionClass = Class.forName(modelFieldConfig.getLtype());
+            if (Collection.class.isAssignableFrom(collectionClass)) {
+                if (!collectionClass.isInterface() && Modifier.isAbstract(collectionClass.getModifiers())) {
+                    multiCollection = (Collection) collectionClass.newInstance();
+                } else {
+                    if (List.class.isAssignableFrom(collectionClass)) {
+                        multiCollection = new ArrayList<>();
+                    } else if (Set.class.isAssignableFrom(collectionClass)) {
+                        multiCollection = new HashSet<>();
+                    }
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return multiCollection;
+    }
+
+    protected <T> QueryWrapper<T> getRelationQueryWrapper(QuickFillingField quickFillingField, boolean isMulti) {
+        ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
+        String relationModelClassName;
+        if (isMulti) {
+            relationModelClassName = modelFieldConfig.getLtypeT();
+        } else {
+            relationModelClassName = modelFieldConfig.getLtype();
+        }
+        Class<?> relationModelClass;
+        try {
+            relationModelClass = Class.forName(relationModelClassName);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String relationModel = Models.api().getModel(relationModelClass);
+        QueryWrapper<T> queryWrapper = new QueryWrapper<>();
+        queryWrapper.from(relationModel);
+        return queryWrapper;
     }
 
 }
