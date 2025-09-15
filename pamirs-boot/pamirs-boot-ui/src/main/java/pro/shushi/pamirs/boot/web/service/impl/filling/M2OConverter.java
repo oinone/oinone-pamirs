@@ -36,8 +36,9 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
             return getFieldCollection(modelFieldConfig);
         }
         QueryWrapper<Object> relationQueryWrapper = getRelationQueryWrapper(quickFillingField, false);
+        String relationModel = relationQueryWrapper.getModel();
         relationQueryWrapper.and(andWrapper -> {
-            fillQueryWrapperCondition(andWrapper, quickFillingField, value, failureDetail);
+            fillQueryWrapperCondition(relationModel, andWrapper, quickFillingField, value, failureDetail);
         });
 
         if (failureDetail.isFailed()) {
@@ -52,8 +53,7 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
         return relationList.get(0);
     }
 
-    private void fillQueryWrapperCondition(QueryWrapper<Object> queryWrapper, QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        String relationModel = queryWrapper.getModel();
+    private void fillQueryWrapperCondition(String relationModel, QueryWrapper<Object> queryWrapper, QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         ModelConfig relationModelConfig = PamirsSession.getContext().getModelConfig(relationModel);
         List<String> relationSelectFields = quickFillingField.getRelationSelectFields();
         List<ModelFieldConfig> relationSelectFieldConfigs = new ArrayList<>(relationSelectFields.size());
