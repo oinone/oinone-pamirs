@@ -36,7 +36,9 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
             return getFieldCollection(modelFieldConfig);
         }
         QueryWrapper<Object> relationQueryWrapper = getRelationQueryWrapper(quickFillingField, false);
-        fillQueryWrapperCondition(relationQueryWrapper, quickFillingField, value, failureDetail);
+        relationQueryWrapper.and(andWrapper -> {
+            fillQueryWrapperCondition(andWrapper, quickFillingField, value, failureDetail);
+        });
 
         if (failureDetail.isFailed()) {
             return null;
