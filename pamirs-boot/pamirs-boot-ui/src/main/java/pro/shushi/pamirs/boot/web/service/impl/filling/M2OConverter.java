@@ -62,7 +62,7 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
 
         List<Object> relationList = Models.origin().queryListByWrapper(relationQueryWrapper);
         if (CollectionUtils.isEmpty(relationList)) {
-            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_NUMBER_NOT_MATCH, "查询数量不匹配");
+            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_NUMBER_NOT_MATCH, "查询结果数量与传入数量不匹配");
             return null;
         } else if (relationList.size() != 1) {
             failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "查询到多条数据");

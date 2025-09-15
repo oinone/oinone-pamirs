@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.boot.web.service.impl.filling;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
@@ -51,7 +50,7 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
 
         List<Object> relationList = Models.origin().queryListByWrapper(relationQueryWrapper);
         if (relationQueryNum.get() != relationList.size()) {
-            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_NUMBER_NOT_MATCH, "查询数量不匹配");
+            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_NUMBER_NOT_MATCH, "查询结果数量与传入数量不匹配");
             return null;
         }
         Collection<Object> relationCollection = getFieldCollection(modelFieldConfig);
