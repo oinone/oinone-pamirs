@@ -12,7 +12,7 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
 public enum QuickFillingFailCodeEnum implements IEnum<Integer> {
 
     TYPE_INCOMPATIBLE(1, "类型不兼容", "类型不兼容"),
-    QUERY_KEY_REPEAT(2, "查询键重复", "查询键重复"),
+    QUERY_TOO_MANY_VALUE(2, "查询到多条数据", "查询到多条数据"),
     UNSUPPORTED_TYPE(3, "不支持的类型", "不支持的类型"),
     ;
 

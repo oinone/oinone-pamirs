@@ -39,6 +39,10 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
         QueryWrapper<Object> relationQueryWrapper = getRelationQueryWrapper(quickFillingField, true);
         fillQueryWrapperCondition(relationQueryWrapper, quickFillingField, value, failureDetail);
 
+        if (failureDetail.isFailed()) {
+            return null;
+        }
+
         List<Object> relationList = Models.origin().queryListByWrapper(relationQueryWrapper);
         if (CollectionUtils.isEmpty(relationList)) {
             return null;
@@ -78,7 +82,11 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
                 for (int i = 0; i < valueSearchPartList.length; i++) {
                     ModelFieldConfig relationModelFieldConfig = relationSelectFieldConfigs.get(i);
                     String searchPart = valueSearchPartList[i];
-                    orWrapper.eq(relationModelFieldConfig.getColumn(), searchPart);
+                    if (StringUtils.isNotBlank(searchPart)) {
+                        orWrapper.eq(relationModelFieldConfig.getColumn(), searchPart);
+                    } else {
+                        orWrapper.isNull(relationModelFieldConfig.getColumn());
+                    }
                 }
             });
         }

@@ -38,8 +38,13 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
         QueryWrapper<Object> relationQueryWrapper = getRelationQueryWrapper(quickFillingField, false);
         fillQueryWrapperCondition(relationQueryWrapper, quickFillingField, value, failureDetail);
 
+        if (failureDetail.isFailed()) {
+            return null;
+        }
+
         List<Object> relationList = Models.origin().queryListByWrapper(relationQueryWrapper);
         if (CollectionUtils.isEmpty(relationList) || relationList.size() != 1) {
+            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_VALUE, "查询到多条数据");
             return null;
         }
         return relationList.get(0);
@@ -69,7 +74,11 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
         for (int i = 0; i < valueSearchPartList.length; i++) {
             ModelFieldConfig relationModelFieldConfig = relationSelectFieldConfigs.get(i);
             String searchPart = valueSearchPartList[i];
-            queryWrapper.eq(relationModelFieldConfig.getColumn(), searchPart);
+            if (StringUtils.isNotBlank(searchPart)) {
+                queryWrapper.eq(relationModelFieldConfig.getColumn(), searchPart);
+            } else {
+                queryWrapper.isNull(relationModelFieldConfig.getColumn());
+            }
         }
     }
 }
