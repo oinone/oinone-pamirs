@@ -18,6 +18,7 @@ import pro.shushi.pamirs.framework.connectors.data.mapper.GenericMapper;
 import pro.shushi.pamirs.framework.connectors.data.mapper.context.MapperContext;
 import pro.shushi.pamirs.framework.connectors.data.sql.AbstractWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -154,6 +155,7 @@ public class SQLUpdateInterceptor implements Interceptor {
             break;
             case UPDATE: {
                 QueryWrapper<DataMap> queryWrapper = null;
+                String idColumn = Configs.wrap(PamirsSession.getContext().getModelField(model, ID)).getColumn();
                 if (map.containsKey("param2")) {
                     queryWrapper = Pops.<DataMap>query().from(model);
                     AbstractWrapper luw = (AbstractWrapper) map.get("param2");
@@ -175,11 +177,12 @@ public class SQLUpdateInterceptor implements Interceptor {
                     }
                     Long id = Long.valueOf(String.valueOf(idObj));
                     queryWrapper = Pops.<DataMap>query().from(model);
-                    queryWrapper.eq(ID, id);
+                    queryWrapper.eq(idColumn, id);
                 }
 
                 List<DataMap> beforeList = Tx.build(new TxConfig().setPropagation(Propagation.REQUIRES_NEW.value()))
-                        .execute(new RecordTransactionCallback(queryWrapper) {});
+                        .execute(new RecordTransactionCallback(queryWrapper) {
+                        });
 
                 if (null == beforeList || beforeList.isEmpty()) {
                     // 兼容同一个事务，Insert+Update
@@ -209,7 +212,7 @@ public class SQLUpdateInterceptor implements Interceptor {
                     return result;
                 }
 
-                QueryWrapper<DataMap> afterQw = Pops.<DataMap>query().from(model).in(ID, beforeIds);
+                QueryWrapper<DataMap> afterQw = Pops.<DataMap>query().from(model).in(idColumn, beforeIds);
                 List<DataMap> afterList = BeanDefinitionUtils.getBean(GenericMapper.class).selectList(afterQw);
                 Map<String, DataMap> afterMap = Optional.ofNullable(afterList)
                         .map(List::stream)
@@ -230,10 +233,11 @@ public class SQLUpdateInterceptor implements Interceptor {
                 Object ccDel = map.getOrDefault(CONDITION_COLLECTION, null);
                 Object et = map.getOrDefault(ENTITY, null);
                 Object ew = map.getOrDefault(WRAPPER, null);
+                String idColumn = Configs.wrap(PamirsSession.getContext().getModelField(model, ID)).getColumn();
                 if (null != collDel) {
                     for (Object item : (List) collDel) {
                         Map dataMap = (Map) item;
-                        QueryWrapper<DataMap> beforeQw = Pops.<DataMap>query().from(model).eq(ID, dataMap.get(ID));
+                        QueryWrapper<DataMap> beforeQw = Pops.<DataMap>query().from(model).eq(idColumn, dataMap.get(ID));
                         DataMap before = BeanDefinitionUtils.getBean(GenericMapper.class).selectOne(beforeQw);
                         if (null == before || null == before.get(ID)) {
                             break;
@@ -244,7 +248,7 @@ public class SQLUpdateInterceptor implements Interceptor {
                 } else if (null != ccDel) {
                     for (Object item : (List) ccDel) {
                         Map dataMap = (Map) item;
-                        QueryWrapper<DataMap> beforeQw = Pops.<DataMap>query().from(model).eq(ID, dataMap.get(ID));
+                        QueryWrapper<DataMap> beforeQw = Pops.<DataMap>query().from(model).eq(idColumn, dataMap.get(ID));
                         DataMap before = BeanDefinitionUtils.getBean(GenericMapper.class).selectOne(beforeQw);
                         if (null == before || null == before.get(ID)) {
                             continue;
@@ -259,7 +263,7 @@ public class SQLUpdateInterceptor implements Interceptor {
                     } else {
                         etm = ((D) et).get_d();
                     }
-                    QueryWrapper<DataMap> beforeQw = Pops.<DataMap>query().from(model).eq(ID, etm.get(ID));
+                    QueryWrapper<DataMap> beforeQw = Pops.<DataMap>query().from(model).eq(idColumn, etm.get(ID));
                     DataMap before = BeanDefinitionUtils.getBean(GenericMapper.class).selectOne(beforeQw);
                     if (null == before || null == before.get(ID)) {
                         break;
@@ -274,7 +278,8 @@ public class SQLUpdateInterceptor implements Interceptor {
                     UnsafeUtil.setValue(queryWrapper, "expression", luw.getExpression());
 
                     List<DataMap> beforeList = Tx.build(new TxConfig().setPropagation(Propagation.REQUIRES_NEW.value()))
-                            .execute(new RecordTransactionCallback(queryWrapper) {});
+                            .execute(new RecordTransactionCallback(queryWrapper) {
+                            });
 
                     if (null == beforeList || beforeList.isEmpty()) {
                         // 兼容同一个事务，Delete
