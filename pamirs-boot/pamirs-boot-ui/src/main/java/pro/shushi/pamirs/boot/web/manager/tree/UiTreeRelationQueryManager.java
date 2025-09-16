@@ -170,8 +170,12 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
         if (queryWrapper == null) {
             return;
         }
+        List<String> childQueryColumns = new ArrayList<>(relationQueryContext.childColumns.size());
+        for (int i = 0; i < relationQueryContext.childColumns.size(); i++) {
+            childQueryColumns.add(relationQueryContext.childColumns.get(i) + " as " + relationQueryContext.childFields.get(i));
+        }
         // 增加分组条件
-        queryWrapper.select(relationQueryContext.childColumns.stream().map(i -> i + " as " + i).toArray(String[]::new));
+        queryWrapper.select(childQueryColumns.toArray(new String[0]));
         queryWrapper.groupBy(relationQueryContext.childColumns.toArray(new String[0]));
         queryWrapper.setBatchSize(-1);
 
