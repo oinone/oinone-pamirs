@@ -62,7 +62,7 @@ public class PamirsCompanyAction {
     @Function.fun(FunctionConstants.create)
     public PamirsCompany create(PamirsCompany data) {
         data.setPartnerType(BusinessPartnerTypeEnum.COMPANY);
-        data = pamirsCompanyService.create(data);
+        data = pamirsCompanyService.create(data.construct());
         return data;
     }
 
