@@ -8,11 +8,14 @@ import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
+import pro.shushi.pamirs.boot.web.spi.api.ResourceModelQueryService;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.base.D;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
@@ -47,14 +50,11 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
         String relationModel = relationQueryWrapper.getModel();
 
         if (ADDRESS_MODEL.equals(relationModel)) {
-            relationQueryWrapper.and(andWrapper -> {
-                fillAddressQueryWrapperCondition(andWrapper, quickFillingField, value, failureDetail);
-            });
-        } else {
-            relationQueryWrapper.and(andWrapper -> {
-                fillQueryWrapperCondition(relationModel, andWrapper, quickFillingField, value, failureDetail);
-            });
+            return getResourceAddress(quickFillingField, value, failureDetail);
         }
+        relationQueryWrapper.and(andWrapper -> {
+            fillQueryWrapperCondition(relationModel, andWrapper, quickFillingField, value, failureDetail);
+        });
 
         if (failureDetail.isFailed()) {
             return null;
@@ -103,22 +103,44 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
         }
     }
 
-    private void fillAddressQueryWrapperCondition(QueryWrapper<Object> queryWrapper, QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
+    private Object getResourceAddress(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         List<Map<String, String>> addressValueList = JsonUtils.parseObject(value, ADDRESS_VALUE_TYPE_REFERENCE);
-        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(ADDRESS_MODEL);
-        boolean isAllAddressValueNull = true;
-        for (Map<String, String> addressValueMap : addressValueList) {
-            String addressField = addressValueMap.get("field");
-            String addressValue = addressValueMap.get("value");
-            ModelFieldConfig modelFieldConfig =
-                    modelConfig.getModelFieldConfigList().stream().filter(i -> StringUtils.equals(i.getField(), addressField)).collect(Collectors.toList()).get(0);
-            if (StringUtils.isNotBlank(addressValue)) {
-                queryWrapper.eq(modelFieldConfig.getColumn(), addressValue);
-                isAllAddressValueNull = false;
+        String countryName = null;
+        String provinceName = null;
+        String cityName = null;
+        String districtName = null;
+        String streetName = null;
+        for (Map<String, String> addressMap : addressValueList) {
+            String addressField = addressMap.get("field");
+            String addressValue = addressMap.get("value");
+            if (StringUtils.equals(addressField, "country")) {
+                countryName = addressValue;
+            } else if (StringUtils.equals(addressField, "province")) {
+                provinceName = addressValue;
+            } else if (StringUtils.equals(addressField, "city")) {
+                cityName = addressValue;
+            } else if (StringUtils.equals(addressField, "district")) {
+                districtName = addressValue;
+            } else if (StringUtils.equals(addressField, "originStreet")) {
+                streetName = addressValue;
             }
         }
-        if (isAllAddressValueNull) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+        D address = Spider.getLoader(ResourceModelQueryService.class).getExtension().queryResourceAddressByName(null, countryName, provinceName, cityName, districtName, streetName);
+        if (address == null) {
+            return null;
         }
+        if (StringUtils.isNotBlank(countryName) && address.get_d().get("originCountry") == null) {
+            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "未查询到或查询到多条国家数据");
+        } else if (StringUtils.isNotBlank(provinceName) && address.get_d().get("originProvince") == null) {
+            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "未查询到或查询到多条省/州数据");
+        } else if (StringUtils.isNotBlank(cityName) && address.get_d().get("originCity") == null) {
+            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "未查询到或查询到多条城市数据");
+        } else if (StringUtils.isNotBlank(districtName) && address.get_d().get("originDistrict") == null) {
+            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "未查询到或查询到多条区/县数据");
+        } else if (StringUtils.isNotBlank(streetName) && address.get_d().get("originStreet") == null) {
+            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "未查询到或查询到多条街道数据");
+        }
+        return address;
     }
+
 }
