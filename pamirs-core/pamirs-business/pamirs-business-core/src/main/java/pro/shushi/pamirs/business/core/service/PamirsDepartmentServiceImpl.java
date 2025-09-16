@@ -232,7 +232,7 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
 
     @Function
     @Override
-    public List<PamirsDepartment> queryDepartmentTreeList(IWrapper<PamirsDepartment> queryWrapper) {
+    public List<PamirsDepartment> queryDepartmentRootList(IWrapper<PamirsDepartment> queryWrapper) {
         List<PamirsDepartment> departmentList = Models.origin().queryListByWrapper(queryWrapper);
         if (CollectionUtils.isEmpty(departmentList)) {
             return new ArrayList<>();

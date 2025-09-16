@@ -97,8 +97,8 @@ public class PamirsDepartmentAction {
 
     @Function.Advanced(displayName = "根据条件查询部门列表及结果部门所有的父部门", type = FunctionTypeEnum.QUERY)
     @Function(openLevel = {LOCAL, REMOTE, API})
-    public List<PamirsDepartment> queryDepartmentTreeList(IWrapper<PamirsDepartment> queryWrapper) {
-        return pamirsDepartmentService.queryDepartmentTreeList(queryWrapper);
+    public List<PamirsDepartment> queryDepartmentRootList(IWrapper<PamirsDepartment> queryWrapper) {
+        return pamirsDepartmentService.queryDepartmentRootList(queryWrapper);
     }
 
     @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)

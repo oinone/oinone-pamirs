@@ -39,5 +39,5 @@ public interface PamirsDepartmentService {
     PamirsDepartment fillDeptSupervisor(PamirsDepartment department);
 
     @Function
-    List<PamirsDepartment> queryDepartmentTreeList(IWrapper<PamirsDepartment> queryWrapper);
+    List<PamirsDepartment> queryDepartmentRootList(IWrapper<PamirsDepartment> queryWrapper);
 }
