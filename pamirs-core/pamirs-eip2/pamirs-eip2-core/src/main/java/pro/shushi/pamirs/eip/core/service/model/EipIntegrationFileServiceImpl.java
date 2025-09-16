@@ -10,13 +10,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.excel.*;
-import pro.shushi.pamirs.eip.api.model.EipIntegrationFile;
-import pro.shushi.pamirs.eip.api.service.EipIntegrationFileService;
-import pro.shushi.pamirs.eip.api.tmodel.EipIntegrationFileHeader;
 import pro.shushi.pamirs.eip.api.excel.type.ExcelTTypeConversionService;
 import pro.shushi.pamirs.eip.api.excel.type.ExcelTTypeConvertError;
 import pro.shushi.pamirs.eip.api.excel.type.ExcelTTypeDescriptor;
-import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
+import pro.shushi.pamirs.eip.api.model.EipIntegrationFile;
+import pro.shushi.pamirs.eip.api.service.EipIntegrationFileService;
+import pro.shushi.pamirs.eip.api.tmodel.EipIntegrationFileHeader;
+import pro.shushi.pamirs.file.api.util.FileUtil;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -27,7 +27,8 @@ import pro.shushi.pamirs.meta.common.enmu.BaseEnum;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
-import java.io.InputStream;
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -95,11 +96,7 @@ public class EipIntegrationFileServiceImpl implements EipIntegrationFileService 
 
         String excelUrl = eipFile.getUrl();
         ExcelReader reader = null;
-        try {
-            String ossName = excelUrl.replaceAll("https://", "")
-                    .replaceAll("http://", "");
-            ossName = StringUtils.substring(ossName, StringUtils.indexOf(ossName, "/") + 1);
-            InputStream is = FileClientFactory.getClient().getDownloadStream(ossName);
+        try (BufferedInputStream is = FileUtil.getRemoteBufferedInputStream(excelUrl)) {
 
             // 限制读取
             EipExcelReadListener readListener = new EipExcelReadListener();
@@ -180,10 +177,8 @@ public class EipIntegrationFileServiceImpl implements EipIntegrationFileService 
             }
 
             return excel;
-        } catch (ExcelRuntimeException ee) {
-            log.error("EasyExcel转换异常", ee);
-            throw PamirsException.construct(EIP_FILE_EXCEL_FMT_ERROR)
-                    .errThrow();
+        } catch (IOException | ExcelRuntimeException e) {
+            throw PamirsException.construct(EIP_FILE_EXCEL_FMT_ERROR, e).errThrow();
         } finally {
             if (null != reader) {
                 reader.close();
