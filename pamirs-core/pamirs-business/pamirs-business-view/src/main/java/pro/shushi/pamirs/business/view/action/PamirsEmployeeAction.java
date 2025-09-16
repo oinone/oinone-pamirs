@@ -67,7 +67,7 @@ public class PamirsEmployeeAction {
     }
 
     @Action.Advanced(name = FunctionConstants.create, managed = true, invisible = ExpConstants.idValueExist)
-    @Action(displayName = "确定", summary = "添加", bindingType = ViewTypeEnum.FORM)
+    @Action(displayName = "创建", summary = "添加", bindingType = ViewTypeEnum.FORM, label = "确定")
     @Function(name = FunctionConstants.create)
     @Function.fun(FunctionConstants.create)
     public PamirsEmployee create(PamirsEmployee data) {
@@ -128,7 +128,7 @@ public class PamirsEmployeeAction {
     }
 
     @Action.Advanced(name = FunctionConstants.update, managed = true, invisible = ExpConstants.idValueNotExist)
-    @Action(displayName = "确定", summary = "修改", bindingType = ViewTypeEnum.FORM)
+    @Action(displayName = "更新", summary = "修改", bindingType = ViewTypeEnum.FORM, label = "确定")
     @Function(name = FunctionConstants.update)
     @Function.fun(FunctionConstants.update)
     public PamirsEmployee update(PamirsEmployee data) {

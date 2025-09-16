@@ -13,7 +13,6 @@ import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
 import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
-import pro.shushi.pamirs.business.api.model.PamirsPosition;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
 import pro.shushi.pamirs.business.util.DepartmentRelEmployeeHelper;
@@ -27,10 +26,8 @@ import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
-import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 import pro.shushi.pamirs.resource.api.enmu.UserSignUpType;
-import pro.shushi.pamirs.user.api.constants.UserConstants;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.service.UserService;
 
@@ -105,14 +102,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         if (StringUtils.isBlank(data.getEmployeeType())) {
             data.setEmployeeType(BusinessModule.DEFAULT_TYPE);
         }
-        List<PamirsPosition> positions = data.getPositions();
         List<PamirsDepartment> departmentList = data.getDepartmentList();
-        if (CollectionUtils.isNotEmpty(positions)) {
-            for (int i = 0; i < positions.size(); i++) {
-                PamirsPosition position = positions.get(i).queryOne();
-                positions.set(i, position);
-            }
-        }
         if (StringUtils.isNotBlank(data.getDepartmentCode())) {
             PamirsDepartment department = new PamirsDepartment().setCode(data.getDepartmentCode()).queryByCode();
             if (department != null) {
@@ -151,7 +141,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         List<PamirsDepartment> finalDepartmentList = departmentList;
         return Tx.build().execute(status -> {
             PamirsUser pamirsUser = null;
-            if (employee.getBindingMode().equals(BindingModeEnum.CREATE_BINDING)) {
+            if (BindingModeEnum.CREATE_BINDING.equals(employee.getBindingMode())) {
                 pamirsUser = createUser(employee);
                 createUserBaseRole(pamirsUser.getId());
             }
@@ -161,15 +151,13 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             }
             result = result.fieldQuery(PamirsEmployee::getDepartmentList);
             List<PamirsDepartment> originDepartments = result.getDepartmentList();
-            result = result.fieldQuery(PamirsEmployee::getPositions);
             result = result.relationDelete(PamirsEmployee::getDepartmentList);
-            result = result.relationDelete(PamirsEmployee::getPositions);
 
-            result.setPositions(positions);
             result.setDepartmentList(finalDepartmentList);
             departmentRelEmployeeService.assignSupervisorOrImmediateSupervisor(data, result.getDepartmentList(), originDepartments);
+            result.fieldSaveOnCascade(PamirsEmployee::getCompanyList);
+            result.fieldSaveOnCascade(PamirsEmployee::getPositions);
             result.fieldSave(PamirsEmployee::getDepartmentList);
-            result.fieldSave(PamirsEmployee::getPositions);
             return result;
         });
     }
