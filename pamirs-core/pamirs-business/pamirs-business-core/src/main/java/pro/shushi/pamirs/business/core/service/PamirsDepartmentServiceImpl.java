@@ -268,5 +268,7 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
             }
             childList.forEach(i -> i.setParent(parent));
         });
+
+        fullParentDepartment(parentDepartmentList);
     }
 }
