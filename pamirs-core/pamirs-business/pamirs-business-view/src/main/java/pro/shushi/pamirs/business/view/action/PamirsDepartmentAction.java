@@ -20,8 +20,11 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import static pro.shushi.pamirs.meta.enmu.FunctionOpenEnum.*;
 
 /**
  * @author xzf (xzf@shushi.pro)
@@ -90,6 +93,12 @@ public class PamirsDepartmentAction {
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public Pagination<PamirsDepartment> queryPage(Pagination<PamirsDepartment> page, IWrapper<PamirsDepartment> queryWrapper) {
         return pamirsDepartmentService.queryPageAndFillSupervisor(page, queryWrapper);
+    }
+
+    @Function.Advanced(displayName = "根据条件查询部门列表及结果部门所有的父部门", type = FunctionTypeEnum.QUERY)
+    @Function(openLevel = {LOCAL, REMOTE, API})
+    public List<PamirsDepartment> queryDepartmentTreeList(IWrapper<PamirsDepartment> queryWrapper) {
+        return pamirsDepartmentService.queryDepartmentTreeList(queryWrapper);
     }
 
     @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)

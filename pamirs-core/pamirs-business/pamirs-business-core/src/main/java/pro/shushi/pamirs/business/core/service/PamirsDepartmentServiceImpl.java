@@ -19,6 +19,7 @@ import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
+import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.base.K2;
@@ -227,5 +228,16 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
             Collections.swap(employees, 0, supervisorIndex);
         }
         return department;
+    }
+
+    @Function
+    @Override
+    public List<PamirsDepartment> queryDepartmentTreeList(IWrapper<PamirsDepartment> queryWrapper) {
+        List<PamirsDepartment> departmentList = Models.origin().queryListByWrapper(queryWrapper);
+        if (CollectionUtils.isEmpty(departmentList)) {
+            return new ArrayList<>();
+        }
+
+        return departmentList;
     }
 }
