@@ -237,7 +237,36 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         if (CollectionUtils.isEmpty(departmentList)) {
             return new ArrayList<>();
         }
-
+        fullParentDepartment(departmentList);
         return departmentList;
+    }
+
+    private void fullParentDepartment(List<PamirsDepartment> departmentList) {
+        if (CollectionUtils.isEmpty(departmentList)) {
+            return;
+        }
+
+        Map<String, List<PamirsDepartment>> parentCodeMap = departmentList.stream().collect(Collectors.groupingBy(PamirsDepartment::getParentCode));
+        List<String> parentCodeList = new ArrayList<>(parentCodeMap.keySet()).stream().filter(StringUtils::isNotBlank).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(parentCodeList)) {
+            return;
+        }
+
+        List<PamirsDepartment> parentDepartmentList = Models.origin().queryListByWrapper(
+                Pops.<PamirsDepartment>lambdaQuery().from(PamirsDepartment.MODEL_MODEL)
+                        .in(PamirsDepartment::getCode, parentCodeList)
+        );
+        Map<String, PamirsDepartment> parentMap = parentDepartmentList.stream().collect(Collectors.toMap(PamirsDepartment::getCode, i -> i, (a, b) -> a));
+
+        parentCodeMap.forEach((parentCode, childList) -> {
+            if (StringUtils.isBlank(parentCode) || CollectionUtils.isEmpty(childList)) {
+                return;
+            }
+            PamirsDepartment parent = parentMap.get(parentCode);
+            if (parent == null) {
+                return;
+            }
+            childList.forEach(i -> i.setParent(parent));
+        });
     }
 }
