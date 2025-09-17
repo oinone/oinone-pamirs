@@ -14,6 +14,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -71,7 +72,7 @@ public class DepartmentManager {
         String deptTreeCode = employeeList.get(0).getDepartmentTreeCode();
         log.info("userCurrent deptTreeCode:{}", deptTreeCode);
 
-        return deptTreeCode;
+        return StringUtils.isNotBlank(deptTreeCode) ? deptTreeCode : "";
     }
 
     /**
@@ -90,7 +91,7 @@ public class DepartmentManager {
         if (CollectionUtils.isEmpty(employeeList)) {
             log.warn("userCurrent deptTreeCode:-1");
         }
-        String deptTreeCodes = employeeList.stream().map(PamirsEmployee::getDepartmentTreeCode).distinct().collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
+        String deptTreeCodes = employeeList.stream().map(PamirsEmployee::getDepartmentTreeCode).filter(Objects::nonNull).distinct().collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
         log.info("userCurrent deptTreeCode:{}", deptTreeCodes);
 
         return deptTreeCodes;
