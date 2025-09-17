@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.business.core.manager;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -31,7 +32,16 @@ public class EmployeeManager {
 
     public String userEmpCode(Long userId) {
         List<PamirsEmployee> employeeList = new PamirsEmployee()
-                .queryList(Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL).eq(PamirsEmployee::getBindingUserId, userId));
+                .queryList(Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL).select(PamirsEmployee::getCode).eq(PamirsEmployee::getBindingUserId, userId));
+        if (CollectionUtils.isEmpty(employeeList)) {
+            return "";
+        }
+        return employeeList.get(0).getCode();
+    }
+
+    public String userEmpCodes(Long userId) {
+        List<PamirsEmployee> employeeList = new PamirsEmployee()
+                .queryList(Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL).select(PamirsEmployee::getCode).eq(PamirsEmployee::getBindingUserId, userId));
         return employeeList.stream().map(PamirsEmployee::getCode).collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
     }
 
