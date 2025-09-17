@@ -2,23 +2,21 @@ package pro.shushi.pamirs.business.placeholder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.business.core.manager.EmployeeManager;
+import pro.shushi.pamirs.business.core.manager.DepartmentManager;
 import pro.shushi.pamirs.core.common.placeholder.AbstractPlaceHolderParser;
 
-/**
- * @author Gesi at 9:46 on 2025/9/17
- */
 @Component
-public class EmployeePlaceHolder extends AbstractPlaceHolderParser {
+public class DepartmentsPlaceHolder extends AbstractPlaceHolderParser {
 
-    private static final String EMPLOYEE_CODE_PLACEHOLDER = "${currentUserEmpCode}";
+    // 返回当前用户组织部门的【树编码】
+    private static final String DEPARTMENT_CODE_PLACEHOLDER = "${currentUserDeptCodes}";
 
     @Autowired
-    private EmployeeManager employeeManager;
+    private DepartmentManager departmentManager;
 
     @Override
     protected String value() {
-        return employeeManager.currentUserEmpCode();
+        return departmentManager.currentUserDeptCodes();
     }
 
     @Override
@@ -33,6 +31,6 @@ public class EmployeePlaceHolder extends AbstractPlaceHolderParser {
 
     @Override
     public String namespace() {
-        return EMPLOYEE_CODE_PLACEHOLDER;
+        return DEPARTMENT_CODE_PLACEHOLDER;
     }
 }

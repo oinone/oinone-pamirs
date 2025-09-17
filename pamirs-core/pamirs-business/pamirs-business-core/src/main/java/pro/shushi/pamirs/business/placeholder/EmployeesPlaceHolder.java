@@ -9,16 +9,16 @@ import pro.shushi.pamirs.core.common.placeholder.AbstractPlaceHolderParser;
  * @author Gesi at 9:46 on 2025/9/17
  */
 @Component
-public class EmployeePlaceHolder extends AbstractPlaceHolderParser {
+public class EmployeesPlaceHolder extends AbstractPlaceHolderParser {
 
-    private static final String EMPLOYEE_CODE_PLACEHOLDER = "${currentUserEmpCode}";
+    private static final String EMPLOYEE_CODE_PLACEHOLDER = "${currentUserEmpCodes}";
 
     @Autowired
     private EmployeeManager employeeManager;
 
     @Override
     protected String value() {
-        return employeeManager.currentUserEmpCode();
+        return employeeManager.currentUserEmpCodes();
     }
 
     @Override

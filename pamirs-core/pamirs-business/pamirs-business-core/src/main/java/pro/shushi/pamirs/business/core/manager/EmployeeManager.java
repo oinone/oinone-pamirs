@@ -30,6 +30,15 @@ public class EmployeeManager {
         return userEmpCode(userId);
     }
 
+    public String currentUserEmpCodes() {
+        Long userId = PamirsSession.getUserId();
+        if (userId == null) {
+            throw PamirsException.construct(BASE_USER_NOT_LOGIN_ERROR).errThrow();
+        }
+
+        return userEmpCodes(userId);
+    }
+
     public String userEmpCode(Long userId) {
         List<PamirsEmployee> employeeList = new PamirsEmployee()
                 .queryList(Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL).select(PamirsEmployee::getCode).eq(PamirsEmployee::getBindingUserId, userId));
