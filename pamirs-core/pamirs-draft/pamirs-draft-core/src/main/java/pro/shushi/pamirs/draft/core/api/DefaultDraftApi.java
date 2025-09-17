@@ -35,7 +35,7 @@ public class DefaultDraftApi implements DraftApi {
     }
 
     @Function.fun("createOrUpdateDraft")
-    @Function.Advanced(displayName = "创建或更新草稿", managed = true)
+    @Function.Advanced(displayName = "创建或更新草稿", type = FunctionTypeEnum.QUERY, managed = true)
     @Function(summary = "创建或更新草稿", openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.API, FunctionOpenEnum.REMOTE})
     @Override
     public <T> T createOrUpdateDraft(T data) {
@@ -60,7 +60,7 @@ public class DefaultDraftApi implements DraftApi {
     }
 
     @Function.fun("deleteDraft")
-    @Function.Advanced(displayName = "删除草稿", managed = true)
+    @Function.Advanced(displayName = "删除草稿", type = FunctionTypeEnum.QUERY, managed = true)
     @Function(summary = "删除草稿", openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.API, FunctionOpenEnum.REMOTE})
     @Override
     public <T> T deleteDraft(T data) {
