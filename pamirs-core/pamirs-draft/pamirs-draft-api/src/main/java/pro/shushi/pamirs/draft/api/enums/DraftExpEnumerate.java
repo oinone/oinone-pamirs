@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.boot.web.enmu;
+package pro.shushi.pamirs.draft.api.enums;
 
 import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
 
@@ -10,7 +10,8 @@ import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
 public enum DraftExpEnumerate implements ExpBaseEnum {
 
     SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10065000, "系统异常"),
-    DRAFT_VIEW_IDENTIFIER_NULL_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10065001, "草稿参数页面名为空"),
+    USER_NOT_FIND(ERROR_TYPE.SYSTEM_ERROR, 10065001, "未找到用户信息"),
+    MODEL_NOT_FIND(ERROR_TYPE.SYSTEM_ERROR, 10065002, "未找到模型信息"),
     ;
 
     private final ERROR_TYPE type;

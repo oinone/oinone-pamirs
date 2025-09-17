@@ -39,6 +39,7 @@
         <module>pamirs-translate</module>
         <module>pamirs-international</module>
         <module>pamirs-timezone</module>
+        <module>pamirs-draft</module>
 
         <!-- extension capability -->
         <module>pamirs-apps</module>
@@ -257,6 +258,16 @@
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-management-center</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-draft-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-draft-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
