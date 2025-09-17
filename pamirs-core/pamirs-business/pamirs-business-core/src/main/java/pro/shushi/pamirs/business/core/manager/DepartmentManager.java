@@ -90,7 +90,7 @@ public class DepartmentManager {
         if (CollectionUtils.isEmpty(employeeList)) {
             log.warn("userCurrent deptTreeCode:-1");
         }
-        String deptTreeCodes = employeeList.stream().map(PamirsEmployee::getDepartmentTreeCode).collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
+        String deptTreeCodes = employeeList.stream().map(PamirsEmployee::getDepartmentTreeCode).distinct().collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
         log.info("userCurrent deptTreeCode:{}", deptTreeCodes);
 
         return deptTreeCodes;
