@@ -197,4 +197,10 @@ public class PamirsEmployeeAction {
 
         return "";
     }
+
+    @Action(displayName = "根据部门编码查询员工")
+    @Action.Advanced(type = FunctionTypeEnum.QUERY)
+    public List<PamirsEmployee> queryListByDepartmentCodes(List<String> departmentCodes) {
+        return pamirsEmployeeService.queryListByDepartmentCodes(departmentCodes);
+    }
 }

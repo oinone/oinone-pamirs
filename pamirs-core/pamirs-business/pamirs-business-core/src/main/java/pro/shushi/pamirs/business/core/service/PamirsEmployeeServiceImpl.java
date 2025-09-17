@@ -297,6 +297,18 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         return Models.origin().queryPage(page, query);
     }
 
+    @Function
+    @Override
+    public List<PamirsEmployee> queryListByDepartmentCodes(List<String> departmentCodes) {
+        if (CollectionUtils.isEmpty(departmentCodes)) {
+            return new ArrayList<>();
+        }
+        LambdaQueryWrapper<PamirsEmployee> query = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL)
+                .in(PamirsEmployee::getDepartmentCode, departmentCodes);
+
+        return Models.origin().queryListByWrapper(query);
+    }
+
     private Set<String> fetchImmediateSupervisorCode(String departmentCode, String myselfCode) {
         // 1.查询直属关系
         List<DepartmentRelEmployee> relList = Models.data().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()

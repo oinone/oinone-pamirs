@@ -68,4 +68,8 @@ public interface PamirsEmployeeService {
 
     @Function
     Pagination<PamirsEmployee> queryPageImmediateSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper);
+
+    @Function
+    List<PamirsEmployee> queryListByDepartmentCodes(List<String> departmentCodes);
+
 }
