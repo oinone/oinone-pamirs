@@ -72,4 +72,7 @@ public interface PamirsEmployeeService {
     @Function
     List<PamirsEmployee> queryListByDepartmentCodes(List<String> departmentCodes);
 
+    @Function
+    List<PamirsEmployee> queryListByRoleCodes(List<String> roleCodes);
+
 }

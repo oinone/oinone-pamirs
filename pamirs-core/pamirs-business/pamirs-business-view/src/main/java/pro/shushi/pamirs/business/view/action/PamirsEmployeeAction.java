@@ -203,4 +203,10 @@ public class PamirsEmployeeAction {
     public List<PamirsEmployee> queryListByDepartmentCodes(List<String> departmentCodes) {
         return pamirsEmployeeService.queryListByDepartmentCodes(departmentCodes);
     }
+
+    @Action(displayName = "根据角色编码查询员工")
+    @Action.Advanced(type = FunctionTypeEnum.QUERY)
+    public List<PamirsEmployee> queryListByRoleCodes(List<String> roleCodes) {
+        return pamirsEmployeeService.queryListByRoleCodes(roleCodes);
+    }
 }

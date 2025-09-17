@@ -309,6 +309,33 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         return Models.origin().queryListByWrapper(query);
     }
 
+    @Function
+    @Override
+    public List<PamirsEmployee> queryListByRoleCodes(List<String> roleCodes) {
+        if (CollectionUtils.isEmpty(roleCodes)) {
+            return new ArrayList<>();
+        }
+        List<Long> roleIds = new AuthRole().queryList(
+                Pops.<AuthRole>lambdaQuery().from(AuthRole.MODEL_MODEL)
+                        .select(AuthRole::getId)
+                        .in(AuthRole::getCode, roleCodes)
+        ).stream().map(AuthRole::getId).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return new ArrayList<>();
+        }
+        List<Long> userIds = new AuthUserRoleRel().queryList(
+                Pops.<AuthUserRoleRel>lambdaQuery().from(AuthUserRoleRel.MODEL_MODEL)
+                        .select(AuthUserRoleRel::getUserId)
+                        .in(AuthUserRoleRel::getRoleId, roleIds)
+        ).stream().map(AuthUserRoleRel::getUserId).distinct().collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(userIds)) {
+            return new ArrayList<>();
+        }
+        LambdaQueryWrapper<PamirsEmployee> query = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL)
+                .in(PamirsEmployee::getBindingUserId, userIds);
+        return Models.origin().queryListByWrapper(query);
+    }
+
     private Set<String> fetchImmediateSupervisorCode(String departmentCode, String myselfCode) {
         // 1.查询直属关系
         List<DepartmentRelEmployee> relList = Models.data().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
