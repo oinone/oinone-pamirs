@@ -237,17 +237,24 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         if (CollectionUtils.isEmpty(departmentList)) {
             return new ArrayList<>();
         }
-        fullParentDepartment(departmentList);
-        return departmentList;
+        Map<String, PamirsDepartment> flatMap = new LinkedHashMap<>();
+        fullParentDepartment(departmentList, flatMap);
+        return new ArrayList<>(flatMap.values());
     }
 
-    private void fullParentDepartment(List<PamirsDepartment> departmentList) {
+    private void fullParentDepartment(List<PamirsDepartment> departmentList, Map<String, PamirsDepartment> flatMap) {
         if (CollectionUtils.isEmpty(departmentList)) {
             return;
         }
 
-        Map<String, List<PamirsDepartment>> parentCodeMap = departmentList.stream().collect(Collectors.groupingBy(PamirsDepartment::getParentCode));
-        List<String> parentCodeList = new ArrayList<>(parentCodeMap.keySet()).stream().filter(StringUtils::isNotBlank).collect(Collectors.toList());
+        for (PamirsDepartment department : departmentList) {
+            if (!flatMap.containsKey(department.getCode())) {
+                flatMap.put(department.getCode(), department);
+            }
+        }
+
+        Map<String, List<PamirsDepartment>> parentCodeMap = departmentList.stream().filter(i -> StringUtils.isNotBlank(i.getParentCode())).collect(Collectors.groupingBy(PamirsDepartment::getParentCode));
+        List<String> parentCodeList = new ArrayList<>(parentCodeMap.keySet());
         if (CollectionUtils.isEmpty(parentCodeList)) {
             return;
         }
@@ -269,6 +276,6 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
             childList.forEach(i -> i.setParent(parent));
         });
 
-        fullParentDepartment(parentDepartmentList);
+        fullParentDepartment(parentDepartmentList, flatMap);
     }
 }
