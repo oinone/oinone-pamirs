@@ -9,6 +9,7 @@ import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
+import pro.shushi.pamirs.business.api.tmodel.PamirsEmployeeQuery;
 import pro.shushi.pamirs.core.common.check.UserInfoChecker;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.meta.annotation.Action;
@@ -200,8 +201,8 @@ public class PamirsEmployeeAction {
 
     @Function(openLevel = {FunctionOpenEnum.API})
     @Function.Advanced(displayName = "根据dsl过滤条件查询员工", type = FunctionTypeEnum.QUERY)
-    public List<PamirsEmployee> queryListByDslFilter(String domainRsql, List<String> empCodes, List<String> deptCodes, List<String> roleCodes) {
-        return pamirsEmployeeService.queryListByDslFilter(domainRsql, empCodes, deptCodes, roleCodes);
+    public List<PamirsEmployee> queryListByDslFilter(PamirsEmployeeQuery query) {
+        return pamirsEmployeeService.queryListByDslFilter(query);
     }
 
 }

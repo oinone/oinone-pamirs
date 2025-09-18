@@ -16,6 +16,7 @@ import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
+import pro.shushi.pamirs.business.api.tmodel.PamirsEmployeeQuery;
 import pro.shushi.pamirs.business.util.DepartmentRelEmployeeHelper;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -313,7 +314,11 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
     @Function
     @Override
-    public List<PamirsEmployee> queryListByDslFilter(String domainRsql, List<String> empCodes, List<String> deptCodes, List<String> roleCodes) {
+    public List<PamirsEmployee> queryListByDslFilter(PamirsEmployeeQuery query) {
+        String domainRsql = query.getDomainRsql();
+        List<String> empCodes = query.getEmpCodes();
+        List<String> deptCodes = query.getDeptCodes();
+        List<String> roleCodes = query.getRoleCodes();
         if (CollectionUtils.isEmpty(empCodes) && CollectionUtils.isEmpty(deptCodes) && CollectionUtils.isEmpty(roleCodes)) {
             return new ArrayList<>();
         }
