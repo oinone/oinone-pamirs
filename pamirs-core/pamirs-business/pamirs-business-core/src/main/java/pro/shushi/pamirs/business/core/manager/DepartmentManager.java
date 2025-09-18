@@ -109,7 +109,7 @@ public class DepartmentManager {
         String deptTreeCodes = employeeList.stream().map(PamirsEmployee::getDepartmentTreeCode).filter(Objects::nonNull).distinct().map(i -> "'" + i + "'").collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
         log.info("userCurrent deptTreeCode:{}", deptTreeCodes);
 
-        return StringUtils.isNotBlank(deptTreeCodes) ? "(" + deptTreeCodes + ")" : "";
+        return StringUtils.isNotBlank(deptTreeCodes) ? "(" + deptTreeCodes + ")" : "''";
     }
 
     /**
@@ -129,19 +129,19 @@ public class DepartmentManager {
         }
         List<String> departmentCodeList = employeeList.stream().map(PamirsEmployee::getDepartmentTreeCode).filter(StringUtils::isNotBlank).distinct().collect(Collectors.toList());
         if (CollectionUtils.isEmpty(departmentCodeList)) {
-            return "";
+            return "''";
         }
 
         List<PamirsDepartment> departmentList = departmentService.queryDepartmentChildList(Pops.<PamirsDepartment>lambdaQuery().from(PamirsDepartment.MODEL_MODEL).in(PamirsDepartment::getTreeCode, departmentCodeList));
         if (CollectionUtils.isEmpty(departmentList)) {
             log.warn("userCurrent deptTreeCode:-1");
-            return "";
+            return "''";
         }
 
         String deptWithChildTreeCodes =
                 departmentList.stream().map(PamirsDepartment::getTreeCode).filter(StringUtils::isNotBlank).distinct().map(i -> "'" + i + "'").collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
         log.info("userCurrent deptWithChildTreeCode:{}", deptWithChildTreeCodes);
-        return StringUtils.isNotBlank(deptWithChildTreeCodes) ? "(" + deptWithChildTreeCodes + ")" : "";
+        return StringUtils.isNotBlank(deptWithChildTreeCodes) ? "(" + deptWithChildTreeCodes + ")" : "''";
     }
 
 
