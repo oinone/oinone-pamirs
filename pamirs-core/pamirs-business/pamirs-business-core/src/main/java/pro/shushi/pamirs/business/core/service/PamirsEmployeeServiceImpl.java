@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.business.core.service;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,7 @@ import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
 import pro.shushi.pamirs.framework.gateways.rsql.RSQLHelper;
+import pro.shushi.pamirs.framework.gateways.rsql.RsqlParseHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.Models;
@@ -299,41 +301,48 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
     @Function
     @Override
-    public List<PamirsEmployee> queryListByDepartmentCodes(List<String> departmentCodes) {
-        if (CollectionUtils.isEmpty(departmentCodes)) {
+    public List<PamirsEmployee> queryListByDslFilter(String domainRsql, List<String> empCodes, List<String> deptCodes, List<String> roleCodes) {
+        if (CollectionUtils.isEmpty(empCodes) && CollectionUtils.isEmpty(deptCodes) && CollectionUtils.isEmpty(roleCodes)) {
             return new ArrayList<>();
         }
-        LambdaQueryWrapper<PamirsEmployee> query = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL)
-                .in(PamirsEmployee::getDepartmentCode, departmentCodes);
+        LambdaQueryWrapper<PamirsEmployee> queryWrapper = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL);
+        if (StringUtils.isNotBlank(domainRsql)) {
+            queryWrapper.setRsql(domainRsql);
+            RsqlParseHelper.parseQueryWrapper(queryWrapper, PamirsEmployee.MODEL_MODEL);
+        }
 
-        return Models.origin().queryListByWrapper(query);
-    }
+        queryWrapper.and(andWrapper -> {
+            andWrapper.from(PamirsEmployee.MODEL_MODEL);
+            if (CollectionUtils.isNotEmpty(empCodes)) {
+                andWrapper.or().in(PamirsEmployee::getCode, empCodes);
+            }
+            if (CollectionUtils.isNotEmpty(deptCodes)) {
+                andWrapper.or().in(PamirsEmployee::getDepartmentCode, deptCodes);
+            }
+            if (CollectionUtils.isNotEmpty(roleCodes)) {
+                List<Long> userIds = null;
+                List<Long> roleIds = new AuthRole().queryList(
+                        Pops.<AuthRole>lambdaQuery().from(AuthRole.MODEL_MODEL)
+                                .select(AuthRole::getId)
+                                .in(AuthRole::getCode, roleCodes)
+                ).stream().map(AuthRole::getId).collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(roleIds)) {
+                    userIds = new AuthUserRoleRel().queryList(
+                            Pops.<AuthUserRoleRel>lambdaQuery().from(AuthUserRoleRel.MODEL_MODEL)
+                                    .select(AuthUserRoleRel::getUserId)
+                                    .in(AuthUserRoleRel::getRoleId, roleIds)
+                    ).stream().map(AuthUserRoleRel::getUserId).distinct().collect(Collectors.toList());
+                }
 
-    @Function
-    @Override
-    public List<PamirsEmployee> queryListByRoleCodes(List<String> roleCodes) {
-        if (CollectionUtils.isEmpty(roleCodes)) {
-            return new ArrayList<>();
-        }
-        List<Long> roleIds = new AuthRole().queryList(
-                Pops.<AuthRole>lambdaQuery().from(AuthRole.MODEL_MODEL)
-                        .select(AuthRole::getId)
-                        .in(AuthRole::getCode, roleCodes)
-        ).stream().map(AuthRole::getId).collect(Collectors.toList());
-        if (CollectionUtils.isEmpty(roleIds)) {
-            return new ArrayList<>();
-        }
-        List<Long> userIds = new AuthUserRoleRel().queryList(
-                Pops.<AuthUserRoleRel>lambdaQuery().from(AuthUserRoleRel.MODEL_MODEL)
-                        .select(AuthUserRoleRel::getUserId)
-                        .in(AuthUserRoleRel::getRoleId, roleIds)
-        ).stream().map(AuthUserRoleRel::getUserId).distinct().collect(Collectors.toList());
-        if (CollectionUtils.isEmpty(userIds)) {
-            return new ArrayList<>();
-        }
-        LambdaQueryWrapper<PamirsEmployee> query = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL)
-                .in(PamirsEmployee::getBindingUserId, userIds);
-        return Models.origin().queryListByWrapper(query);
+                if (CollectionUtils.isNotEmpty(userIds)) {
+                    andWrapper.or().in(PamirsEmployee::getBindingUserId, userIds);
+                } else {
+                    andWrapper.or().eq(PamirsEmployee::getBindingUserId, -1L);
+                }
+            }
+        });
+
+        return new PamirsEmployee().queryList(queryWrapper);
     }
 
     private Set<String> fetchImmediateSupervisorCode(String departmentCode, String myselfCode) {

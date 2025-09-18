@@ -1,20 +1,14 @@
 package pro.shushi.pamirs.framework.gateways.hook;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.sql.AbstractWrapper;
-import pro.shushi.pamirs.framework.connectors.data.sql.ISqlSegment;
-import pro.shushi.pamirs.framework.connectors.data.sql.segments.MergeSegments;
-import pro.shushi.pamirs.framework.gateways.rsql.RSQLHelper;
-import pro.shushi.pamirs.framework.gateways.rsql.connector.RSQLToSQLNodeConnector;
+import pro.shushi.pamirs.framework.gateways.rsql.RsqlParseHelper;
 import pro.shushi.pamirs.meta.annotation.Hook;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.core.faas.HookBefore;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
-
-import java.util.Optional;
 
 /**
  * 解释Rsql
@@ -47,21 +41,6 @@ public class RsqlParseHook implements HookBefore {
     }
 
     public void parse(AbstractWrapper<?, ?, ?> wrapper, String model) {
-        Optional.ofNullable(wrapper.getExpression())
-                .map(MergeSegments::getNormal)
-                .filter(v -> !v.isEmpty())
-                .ifPresent(segments -> {
-                    for (ISqlSegment segment : segments) {
-                        if (segment instanceof AbstractWrapper) {
-                            parse((AbstractWrapper<?, ?, ?>) segment, model);
-                        }
-                    }
-                });
-        String rsql = wrapper.getRsql();
-        if (StringUtils.isNotBlank(rsql)) {
-            wrapper.setOriginRsql(rsql);
-            wrapper.apply(RSQLHelper.toTargetString(RSQLHelper.parse(model, wrapper.getRsql()), RSQLToSQLNodeConnector.INSTANCE));
-            wrapper.unsetRsql();
-        }
+        RsqlParseHelper.parseQueryWrapper(wrapper, model);
     }
 }

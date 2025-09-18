@@ -198,15 +198,10 @@ public class PamirsEmployeeAction {
         return "";
     }
 
-    @Action(displayName = "根据部门编码查询员工")
-    @Action.Advanced(type = FunctionTypeEnum.QUERY)
-    public List<PamirsEmployee> queryListByDepartmentCodes(List<String> departmentCodes) {
-        return pamirsEmployeeService.queryListByDepartmentCodes(departmentCodes);
+    @Function(openLevel = {FunctionOpenEnum.API})
+    @Function.Advanced(displayName = "根据dsl过滤条件查询员工", type = FunctionTypeEnum.QUERY)
+    public List<PamirsEmployee> queryListByDslFilter(String domainRsql, List<String> empCodes, List<String> deptCodes, List<String> roleCodes) {
+        return pamirsEmployeeService.queryListByDslFilter(domainRsql, empCodes, deptCodes, roleCodes);
     }
 
-    @Action(displayName = "根据角色编码查询员工")
-    @Action.Advanced(type = FunctionTypeEnum.QUERY)
-    public List<PamirsEmployee> queryListByRoleCodes(List<String> roleCodes) {
-        return pamirsEmployeeService.queryListByRoleCodes(roleCodes);
-    }
 }

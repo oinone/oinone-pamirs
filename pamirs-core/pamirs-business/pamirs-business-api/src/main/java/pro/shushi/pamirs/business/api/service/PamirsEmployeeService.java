@@ -70,9 +70,6 @@ public interface PamirsEmployeeService {
     Pagination<PamirsEmployee> queryPageImmediateSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper);
 
     @Function
-    List<PamirsEmployee> queryListByDepartmentCodes(List<String> departmentCodes);
-
-    @Function
-    List<PamirsEmployee> queryListByRoleCodes(List<String> roleCodes);
+    List<PamirsEmployee> queryListByDslFilter(String domainRsql, List<String> empCodes, List<String> deptCodes, List<String> roleCodes);
 
 }
