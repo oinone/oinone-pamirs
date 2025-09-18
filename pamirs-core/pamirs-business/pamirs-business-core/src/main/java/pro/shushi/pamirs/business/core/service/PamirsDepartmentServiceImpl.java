@@ -242,6 +242,18 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         return new ArrayList<>(flatMap.values());
     }
 
+    @Function
+    @Override
+    public List<PamirsDepartment> queryDepartmentChildList(IWrapper<PamirsDepartment> queryWrapper) {
+        List<PamirsDepartment> departmentList = Models.origin().queryListByWrapper(queryWrapper);
+        if (CollectionUtils.isEmpty(departmentList)) {
+            return new ArrayList<>();
+        }
+        Map<String, PamirsDepartment> flatMap = new LinkedHashMap<>();
+        fullChildDepartment(departmentList, flatMap);
+        return new ArrayList<>(flatMap.values());
+    }
+
     private void fullParentDepartment(List<PamirsDepartment> departmentList, Map<String, PamirsDepartment> flatMap) {
         if (CollectionUtils.isEmpty(departmentList)) {
             return;
@@ -277,5 +289,32 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         });
 
         fullParentDepartment(parentDepartmentList, flatMap);
+    }
+
+    private void fullChildDepartment(List<PamirsDepartment> departmentList, Map<String, PamirsDepartment> flatMap) {
+        if (CollectionUtils.isEmpty(departmentList)) {
+            return;
+        }
+
+        for (PamirsDepartment department : departmentList) {
+            if (!flatMap.containsKey(department.getCode())) {
+                flatMap.put(department.getCode(), department);
+            }
+        }
+
+        List<String> codeList = departmentList.stream().map(PamirsDepartment::getCode).distinct().collect(Collectors.toList());
+
+        List<PamirsDepartment> childDepartmentList = Models.origin().queryListByWrapper(
+                Pops.<PamirsDepartment>lambdaQuery().from(PamirsDepartment.MODEL_MODEL)
+                        .in(PamirsDepartment::getParentCode, codeList)
+        );
+        Map<String, List<PamirsDepartment>> childMap = childDepartmentList.stream().collect(Collectors.groupingBy(PamirsDepartment::getCode));
+        departmentList.forEach(parent -> {
+            String parentCode = parent.getCode();
+            List<PamirsDepartment> childDepartments = childMap.get(parentCode);
+            parent.setChildList(childDepartments);
+        });
+
+        fullChildDepartment(childDepartmentList, flatMap);
     }
 }

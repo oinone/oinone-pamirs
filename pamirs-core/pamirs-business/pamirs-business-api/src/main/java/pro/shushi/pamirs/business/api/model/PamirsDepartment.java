@@ -46,6 +46,11 @@ public class PamirsDepartment extends BizCodeModel implements IDataStatus, ITree
     @Field(displayName = "上级部门")
     private PamirsDepartment parent;
 
+    @Field.one2many
+    @Field.Relation(relationFields = {"code"}, referenceFields = {"parentCode"})
+    @Field(displayName = "下级部门")
+    private List<PamirsDepartment> childList;
+
     @Field.String
     @Field(displayName = "上级部门编码", invisible = true)
     private String parentCode;
