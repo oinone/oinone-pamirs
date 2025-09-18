@@ -36,7 +36,7 @@ public class DefaultDraftApi implements DraftApi {
     }
 
     @Function.fun("createOrUpdateDraft")
-    @Function.Advanced(displayName = "创建或更新草稿", type = FunctionTypeEnum.QUERY, managed = true)
+    @Function.Advanced(displayName = "创建或更新草稿", type = {FunctionTypeEnum.CREATE, FunctionTypeEnum.UPDATE}, managed = true)
     @Function(summary = "创建或更新草稿", openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.API, FunctionOpenEnum.REMOTE})
     @Override
     public <T> T createOrUpdateDraft(T data) {
@@ -61,7 +61,7 @@ public class DefaultDraftApi implements DraftApi {
     }
 
     @Function.fun("deleteDraft")
-    @Function.Advanced(displayName = "删除草稿", type = FunctionTypeEnum.QUERY, managed = true)
+    @Function.Advanced(displayName = "删除草稿", type = FunctionTypeEnum.DELETE, managed = true)
     @Function(summary = "删除草稿", openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.API, FunctionOpenEnum.REMOTE})
     @Override
     public <T> T deleteDraft(T data) {
@@ -78,7 +78,10 @@ public class DefaultDraftApi implements DraftApi {
         String model = Models.api().getDataModel(data);
         DraftContextApi draftContextApi = null;
         if (model != null) {
-            draftContextApi = Spider.getExtension(DraftContextApi.class, model);
+            // 先尝试通过模型获取spi
+            try {
+                draftContextApi = Spider.getExtension(DraftContextApi.class, model);
+            } catch (Exception ignored) {}
         }
         if (draftContextApi == null) {
             draftContextApi = Spider.getExtension(DraftContextApi.class, "defaultDraftContextApi");
