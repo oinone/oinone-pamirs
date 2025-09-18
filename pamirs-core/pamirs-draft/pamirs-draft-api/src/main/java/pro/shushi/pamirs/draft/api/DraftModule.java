@@ -24,7 +24,6 @@ import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
         }
 )
 @Module.module(DraftModule.MODULE_MODULE)
-@Module.Advanced(selfBuilt = true)
 public class DraftModule implements PamirsModule {
 
     public static final String MODULE_MODULE = "draft";

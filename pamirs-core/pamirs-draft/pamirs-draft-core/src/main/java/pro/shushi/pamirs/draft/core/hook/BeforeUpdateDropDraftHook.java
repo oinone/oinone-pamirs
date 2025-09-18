@@ -1,6 +1,8 @@
 package pro.shushi.pamirs.draft.core.hook;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.draft.api.utils.DraftDeleteFunction;
 import pro.shushi.pamirs.meta.annotation.Hook;
 import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.Models;
@@ -14,19 +16,24 @@ import pro.shushi.pamirs.meta.constant.FunctionConstants;
  * @author Gesi at 11:13 on 2025/9/18
  */
 @Component
-public class BeforeCreateUpdateDropDraftHook implements HookBefore {
+public class BeforeUpdateDropDraftHook implements HookBefore {
 
     @Hook(fun = {
             FunctionConstants.createOne, FunctionConstants.createOrUpdate,
-            FunctionConstants.createOrUpdateWithResult, FunctionConstants.updateByPk,
-            FunctionConstants.updateByEntity
+            FunctionConstants.createOrUpdateWithResult,
+            FunctionConstants.updateByPk, FunctionConstants.updateByEntity,
+            FunctionConstants.deleteByPk, FunctionConstants.deleteByEntity,
     })
     @Override
     public Object run(Function function, Object... args) {
         Object data = args[0];
         if (data != null) {
             String model = Models.api().getDataModel(data);
-            Fun.run(model, "deleteDraft", data);
+            if (StringUtils.isNotBlank(model)) {
+                try (DraftDeleteFunction ignored = new DraftDeleteFunction(function)) {
+                    Fun.run(model, "deleteDraft", data);
+                }
+            }
         }
         return args;
     }
