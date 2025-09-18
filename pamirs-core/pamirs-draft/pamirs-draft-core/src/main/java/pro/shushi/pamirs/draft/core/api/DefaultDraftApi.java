@@ -3,6 +3,7 @@ package pro.shushi.pamirs.draft.core.api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.systems.DraftApi;
 import pro.shushi.pamirs.draft.api.model.Draft;
 import pro.shushi.pamirs.draft.api.spi.DraftContextApi;
@@ -25,7 +26,7 @@ public class DefaultDraftApi implements DraftApi {
     @Function(summary = "查询草稿", openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.API, FunctionOpenEnum.REMOTE})
     @Override
     public <T> T queryDraft(T data) {
-        DraftContextApi draftContextApi = Spider.getDefaultExtension(DraftContextApi.class);
+        DraftContextApi draftContextApi = getDraftContextApi(data);
         Draft<T> draft = draftContextApi.loadDraftContext(data);
         Draft<T> dbDraft = queryDbDraft(draft);
         if (dbDraft != null) {
@@ -39,7 +40,7 @@ public class DefaultDraftApi implements DraftApi {
     @Function(summary = "创建或更新草稿", openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.API, FunctionOpenEnum.REMOTE})
     @Override
     public <T> T createOrUpdateDraft(T data) {
-        DraftContextApi draftContextApi = Spider.getDefaultExtension(DraftContextApi.class);
+        DraftContextApi draftContextApi = getDraftContextApi(data);
         Draft<T> draft = draftContextApi.loadDraftContext(data);
         Draft<T> dbDraft = queryDbDraft(draft);
         boolean isCreate = true;
@@ -64,13 +65,25 @@ public class DefaultDraftApi implements DraftApi {
     @Function(summary = "删除草稿", openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.API, FunctionOpenEnum.REMOTE})
     @Override
     public <T> T deleteDraft(T data) {
-        DraftContextApi draftContextApi = Spider.getDefaultExtension(DraftContextApi.class);
+        DraftContextApi draftContextApi = getDraftContextApi(data);
         Draft<T> draft = draftContextApi.loadDraftContext(data);
         Draft<T> dbDraft = queryDbDraft(draft);
         if (dbDraft == null) {
             return null;
         }
         return Boolean.TRUE.equals(dbDraft.deleteById()) ? data : null;
+    }
+
+    private <T> DraftContextApi getDraftContextApi(T data) {
+        String model = Models.api().getDataModel(data);
+        DraftContextApi draftContextApi = null;
+        if (model != null) {
+            draftContextApi = Spider.getExtension(DraftContextApi.class, model);
+        }
+        if (draftContextApi == null) {
+            draftContextApi = Spider.getExtension(DraftContextApi.class, "defaultDraftContextApi");
+        }
+        return draftContextApi;
     }
 
     private <T> Draft<T> queryDbDraft(Draft<T> draft) {

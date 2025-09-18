@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  * @author Gesi at 14:13 on 2025/9/17
  */
 @Component
-@SPI.Service
+@SPI.Service("defaultDraftContextApi")
 public class DefaultDraftContextApi implements DraftContextApi {
 
     @Override
