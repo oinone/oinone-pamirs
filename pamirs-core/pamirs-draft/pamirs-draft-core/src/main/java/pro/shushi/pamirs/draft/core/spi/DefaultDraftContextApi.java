@@ -52,7 +52,7 @@ public class DefaultDraftContextApi implements DraftContextApi {
 
         draft.setDataPks(getDataPks(model, draft));
 
-        draft.setDraftIdentifier(generatorDefaultDraftIdentifier(draft.getModel(), draft.getUserId(), draft.getDataPks(), draft.getPath()));
+        draft.setDraftIdentifier(generatorDefaultDraftIdentifier(draft));
         draft.setCode(generatorCode(draft.getDraftIdentifier()));
 
         return draft;
@@ -122,7 +122,12 @@ public class DefaultDraftContextApi implements DraftContextApi {
         return JsonUtils.toJSONString(pkValues);
     }
 
-    protected String generatorDefaultDraftIdentifier(String model, Long userId, String dataPks, String path) {
+    protected String generatorDefaultDraftIdentifier(Draft<?> draft) {
+        String model = draft.getModel();
+        Long userId = draft.getUserId();
+        String dataPks = draft.getDataPks();
+        String path = draft.getPath();
+
         StringBuilder builder = new StringBuilder(model).append(CharacterConstants.SEPARATOR_OCTOTHORPE);
         builder.append(userId).append(CharacterConstants.SEPARATOR_OCTOTHORPE).append(dataPks);
         if (StringUtils.isNotBlank(path)) {
