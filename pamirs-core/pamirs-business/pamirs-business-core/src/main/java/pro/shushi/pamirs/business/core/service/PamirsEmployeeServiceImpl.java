@@ -56,6 +56,18 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         if (StringUtils.isBlank(data.getEmployeeType())) {
             data.setEmployeeType(BusinessModule.DEFAULT_TYPE);
         }
+        if (StringUtils.isNotBlank(data.getDepartmentCode())) {
+            PamirsDepartment department = new PamirsDepartment().setCode(data.getDepartmentCode()).queryByCode();
+            List<PamirsDepartment> departments = data.getDepartmentList();
+            if (department != null) {
+                data.setDepartmentTreeCode(department.getTreeCode());
+                if (CollectionUtils.isEmpty(departments)) departments = new ArrayList<>();
+                if (departments.stream().noneMatch(t -> t.getId().equals(department.getId()))) {
+                    departments.add(department);
+                    data.setDepartmentList(departments);
+                }
+            }
+        }
         data = data.create();
         departmentRelEmployeeService.assignSupervisorOrImmediateSupervisor(data, data.getDepartmentList(), null);
         return data;
