@@ -50,20 +50,7 @@ public class DefaultDraftContextApi implements DraftContextApi {
         }
         draft.setPath(getPath(model, Optional.ofNullable(AccessResourceInfoSession.getInfo()).map(AccessResourceInfo::getPaths).orElse(null)));
 
-        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(draft.getModel());
-        List<String> pks = new ArrayList<>(modelConfig.getPk());
-        Collections.sort(pks);
-        List<Object> pkValues = new ArrayList<>(pks.size());
-        for (String pk : pks) {
-            Object pkValue;
-            if (data != null) {
-                pkValue = FieldUtils.getFieldValue(data, pk);
-            } else {
-                pkValue = null;
-            }
-            pkValues.add(pkValue);
-        }
-        draft.setDataPks(JsonUtils.toJSONString(pkValues));
+        draft.setDataPks(getDataPks(model, draft));
 
         draft.setDraftIdentifier(generatorDefaultDraftIdentifier(draft.getModel(), draft.getUserId(), draft.getDataPks(), draft.getPath()));
         draft.setCode(generatorCode(draft.getDraftIdentifier()));
@@ -115,6 +102,24 @@ public class DefaultDraftContextApi implements DraftContextApi {
         }
 
         return "[" + pagePaths.stream().map(ResourcePath::toString).collect(Collectors.joining(ResourcePath.PATH_SPLIT)) + "]";
+    }
+
+    protected <T> String getDataPks(String model, T data) {
+        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
+        List<String> pks = new ArrayList<>(modelConfig.getPk());
+        Collections.sort(pks);
+        List<Object> pkValues = new ArrayList<>(pks.size());
+        for (String pk : pks) {
+            Object pkValue;
+            if (data != null) {
+                pkValue = FieldUtils.getFieldValue(data, pk);
+            } else {
+                pkValue = null;
+            }
+            pkValues.add(pkValue);
+        }
+
+        return JsonUtils.toJSONString(pkValues);
     }
 
     protected String generatorDefaultDraftIdentifier(String model, Long userId, String dataPks, String path) {
