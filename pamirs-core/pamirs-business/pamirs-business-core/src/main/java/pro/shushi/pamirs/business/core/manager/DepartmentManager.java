@@ -109,7 +109,7 @@ public class DepartmentManager {
         String deptTreeCodes = employeeList.stream().map(PamirsEmployee::getDepartmentTreeCode).filter(Objects::nonNull).distinct().map(i -> "'" + i + "'").collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
         log.info("userCurrent deptTreeCode:{}", deptTreeCodes);
 
-        return deptTreeCodes;
+        return StringUtils.isNotBlank(deptTreeCodes) ? "(" + deptTreeCodes + ")" : "";
     }
 
     /**
@@ -141,7 +141,7 @@ public class DepartmentManager {
         String deptWithChildTreeCodes =
                 departmentList.stream().map(PamirsDepartment::getTreeCode).filter(StringUtils::isNotBlank).distinct().map(i -> "'" + i + "'").collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
         log.info("userCurrent deptWithChildTreeCode:{}", deptWithChildTreeCodes);
-        return deptWithChildTreeCodes;
+        return StringUtils.isNotBlank(deptWithChildTreeCodes) ? "(" + deptWithChildTreeCodes + ")" : "";
     }
 
 
