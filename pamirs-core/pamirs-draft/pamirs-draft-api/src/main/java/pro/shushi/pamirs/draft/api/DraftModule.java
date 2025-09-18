@@ -3,7 +3,6 @@ package pro.shushi.pamirs.draft.api;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.CommonModule;
 import pro.shushi.pamirs.meta.annotation.Module;
-import pro.shushi.pamirs.meta.annotation.sys.Boot;
 import pro.shushi.pamirs.meta.base.PamirsModule;
 import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
 
@@ -13,7 +12,6 @@ import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
  * @author Gesi at 15:30 on 2025/9/17
  */
 @Component
-@Boot
 @Module(
         name = DraftModule.MODULE_NAME,
         displayName = "草稿",
@@ -24,6 +22,7 @@ import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
         }
 )
 @Module.module(DraftModule.MODULE_MODULE)
+@Module.Advanced(selfBuilt = true, application = false)
 public class DraftModule implements PamirsModule {
 
     public static final String MODULE_MODULE = "draft";

@@ -1,9 +1,7 @@
 package pro.shushi.pamirs.draft.core.api;
 
-import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.draft.api.utils.DraftDeleteFunction;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.systems.DraftApi;
@@ -15,12 +13,6 @@ import pro.shushi.pamirs.meta.base.BaseModel;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
-import pro.shushi.pamirs.meta.util.JsonUtils;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author Gesi at 14:55 on 2025/9/17
@@ -77,14 +69,6 @@ public class DefaultDraftApi implements DraftApi {
         Draft<T> draft = draftContextApi.loadDraftContext(data);
         Draft<T> dbDraft = queryDbDraft(draft);
         if (dbDraft == null) {
-            return null;
-        }
-        String callDeleteFunctionName =
-                Optional.ofNullable(DraftDeleteFunction.get()).map(pro.shushi.pamirs.meta.api.dto.fun.Function::getName).orElse(null);
-
-        // 删除方法调用且找不到主键不删除草稿
-        if (StringUtils.isNotBlank(callDeleteFunctionName) && callDeleteFunctionName.startsWith("delete") && JsonUtils.parseObject(dbDraft.getDataPks(), new TypeReference<List<Object>>() {
-        }).stream().noneMatch(Objects::nonNull)) {
             return null;
         }
 
