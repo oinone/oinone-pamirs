@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.business.core.service;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +16,8 @@ import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
 import pro.shushi.pamirs.business.api.tmodel.PamirsEmployeeQuery;
+import pro.shushi.pamirs.business.core.manager.DepartmentManager;
+import pro.shushi.pamirs.business.core.manager.EmployeeManager;
 import pro.shushi.pamirs.business.util.DepartmentRelEmployeeHelper;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -50,6 +51,10 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     private UserService userService;
     @Autowired
     private DepartmentRelEmployeeService departmentRelEmployeeService;
+    @Autowired
+    private EmployeeManager employeeManager;
+    @Autowired
+    private DepartmentManager departmentManager;
 
     @Function
     @Override
@@ -319,6 +324,10 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         List<String> empCodes = query.getEmpCodes();
         List<String> deptCodes = query.getDeptCodes();
         List<String> roleCodes = query.getRoleCodes();
+        Boolean userEmployee = query.getUserEmployee();
+        Boolean userDept = query.getUserDept();
+        Boolean userDeptAndChildren = query.getUserDeptAndChildren();
+
         if (CollectionUtils.isEmpty(empCodes) && CollectionUtils.isEmpty(deptCodes) && CollectionUtils.isEmpty(roleCodes)) {
             return new ArrayList<>();
         }
@@ -330,6 +339,24 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
         queryWrapper.and(andWrapper -> {
             andWrapper.from(PamirsEmployee.MODEL_MODEL);
+
+            if (Boolean.TRUE.equals(userEmployee) || Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren)) {
+                String childRsql = "";
+                if (Boolean.TRUE.equals(userEmployee)) {
+                    childRsql = LambdaUtil.fetchFieldName(PamirsEmployee::getCode) + "=in=" + employeeManager.currentUserEmpCodes();
+                }
+                if (Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren)) {
+                    childRsql = StringUtils.isNotBlank(childRsql) ? childRsql + " or " : "";
+                    if (Boolean.TRUE.equals(userDeptAndChildren)) {
+                        childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "=in=" + departmentManager.currentUserDeptCodes());
+                    } else {
+                        childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "=in=" + departmentManager.currentUserDeptWithChildCodes());
+                    }
+                }
+                andWrapper.setRsql(childRsql);
+                RsqlParseHelper.parseQueryWrapper(andWrapper, PamirsEmployee.MODEL_MODEL);
+            }
+
             if (CollectionUtils.isNotEmpty(empCodes)) {
                 andWrapper.or().in(PamirsEmployee::getCode, empCodes);
             }
