@@ -17,6 +17,7 @@ import pro.shushi.pamirs.draft.api.service.DraftService;
 import pro.shushi.pamirs.draft.api.spi.DraftStoreStrategyApi;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
+import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
  * @author Gesi at 16:34 on 2025/9/19
  */
 @Service
+@Fun(Draft.MODEL_MODEL)
 public class DraftServiceImpl implements DraftService {
 
     @Override

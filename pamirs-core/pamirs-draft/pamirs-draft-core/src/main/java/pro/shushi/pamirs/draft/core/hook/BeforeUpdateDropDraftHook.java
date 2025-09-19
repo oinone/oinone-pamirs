@@ -7,9 +7,11 @@ import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.faas.HookBefore;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.BaseModel;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
+import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
 import java.util.Collection;
@@ -33,7 +35,10 @@ public class BeforeUpdateDropDraftHook implements HookBefore {
             if (data != null && !(data instanceof Collection)) {
                 String model = Models.api().getDataModel(data);
                 if (StringUtils.isNotBlank(model)) {
-                    Fun.run(model, "deleteDraft", FieldUtils.getFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode)));
+                    ModelTypeEnum modelType = PamirsSession.getContext().getModelConfig(model).getType();
+                    if (!ModelTypeEnum.TRANSIENT.equals(modelType)) {
+                        Fun.run(model, "deleteDraft", FieldUtils.getFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode)));
+                    }
                 }
             }
         }
