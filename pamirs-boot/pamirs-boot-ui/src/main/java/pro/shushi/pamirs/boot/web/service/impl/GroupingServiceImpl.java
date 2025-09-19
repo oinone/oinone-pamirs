@@ -54,7 +54,7 @@ public class GroupingServiceImpl implements GroupingService {
         long groupLazyLoadDataLimit = GROUP_LAZY_LOAD_DATA_LIMIT;
         try {
             RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-            String groupLimit = ((ServletRequestAttributes) requestAttributes).getRequest().getHeader("groupLimit");
+            String groupLimit = ((ServletRequestAttributes) requestAttributes).getRequest().getHeader("GROUP-LIMIT");
             if (StringUtils.isNotBlank(groupLimit))
                 groupLazyLoadDataLimit = Long.parseLong(groupLimit);
         } catch (Exception e) {
