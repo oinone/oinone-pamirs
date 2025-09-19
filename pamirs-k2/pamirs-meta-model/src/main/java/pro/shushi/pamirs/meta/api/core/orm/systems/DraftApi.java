@@ -11,6 +11,6 @@ public interface DraftApi {
 
     <T> T createOrUpdateDraft(T data);
 
-    <T> T deleteDraft(T data);
+    Boolean deleteDraft(String draftCode);
 
 }

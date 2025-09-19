@@ -13,7 +13,7 @@ import pro.shushi.pamirs.meta.base.IdModel;
 @Model(displayName = "草稿")
 @Model.Advanced(unique = {"code"})
 @Model.Persistence(logicDelete = false)
-public class Draft<T> extends IdModel {
+public class Draft extends IdModel {
 
     public static final String MODEL_MODEL = "draft.Draft";
 

@@ -1,8 +1,8 @@
-package pro.shushi.pamirs.draft.core.spi;
+package pro.shushi.pamirs.draft.core.service.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.boot.base.enmu.ActionTypeEnum;
 import pro.shushi.pamirs.boot.base.model.ServerAction;
 import pro.shushi.pamirs.boot.web.loader.path.AccessResourceInfo;
@@ -12,33 +12,84 @@ import pro.shushi.pamirs.boot.web.session.AccessResourceInfoSession;
 import pro.shushi.pamirs.core.common.EncryptHelper;
 import pro.shushi.pamirs.draft.api.enums.DraftExpEnumerate;
 import pro.shushi.pamirs.draft.api.model.Draft;
-import pro.shushi.pamirs.draft.api.spi.DraftContextApi;
+import pro.shushi.pamirs.draft.api.service.DraftService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.base.BaseModel;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
-import pro.shushi.pamirs.meta.common.spi.SPI;
+import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * 草稿上下文API默认实现
- *
- * @author Gesi at 14:13 on 2025/9/17
+ * @author Gesi at 16:34 on 2025/9/19
  */
-@Component
-@SPI.Service("defaultDraftContextApi")
-public class DefaultDraftContextApi implements DraftContextApi {
+@Service
+public class DraftServiceImpl implements DraftService {
 
     @Override
-    public <T> Draft<T> loadDraftContext(T data) {
-        Draft<T> draft = new Draft<>();
+    public <T> T queryDraft(T data) {
+        Draft draft = loadDraftContext(data);
+        Draft dbDraft = queryDbDraft(draft);
+        if (dbDraft != null) {
+            data = deserializationDraftData(dbDraft);
+            FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), dbDraft.getCode());
+            return data;
+        }
+        return null;
+    }
+
+    @Override
+    public <T> T createOrUpdateDraft(T data) {
+        Draft draft = loadDraftContext(data);
+        Draft dbDraft = queryDbDraft(draft);
+        boolean isCreate = true;
+        if (dbDraft != null) {
+            draft = dbDraft;
+            isCreate = false;
+        }
+        serializationDraftData(draft, data);
+        if (isCreate) {
+            draft = draft.create();
+        } else {
+            draft.updateById();
+        }
+        FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), draft.getCode());
+
+        return data;
+    }
+
+    @Override
+    public Boolean deleteDraft(String draftCode) {
+        if (StringUtils.isBlank(draftCode)) {
+            return false;
+        }
+        Integer deleted = new Draft().deleteByWrapper(
+                Pops.<Draft>lambdaQuery().from(Draft.MODEL_MODEL)
+                        .eq(Draft::getCode, draftCode)
+        );
+        return deleted > 0;
+    }
+
+    private <T> Draft queryDbDraft(Draft draft) {
+        if (StringUtils.isBlank(draft.getCode())) {
+            return null;
+        }
+        return new Draft().queryOneByWrapper(Pops.<Draft>lambdaQuery().from(Draft.MODEL_MODEL).eq(Draft::getCode, draft.getCode()));
+    }
+
+    private <T> Draft loadDraftContext(T data) {
+        Draft draft = new Draft();
         String model = Models.api().getDataModel(data);
         draft.setUserId(PamirsSession.getUserId());
         draft.setModel(model);
@@ -58,8 +109,7 @@ public class DefaultDraftContextApi implements DraftContextApi {
         return draft;
     }
 
-    @Override
-    public <T> void serializationDraftData(Draft<T> draft, T data) {
+    private <T> void serializationDraftData(Draft draft, T data) {
         if (data == null) {
             draft.setDraftData(null);
         } else {
@@ -67,8 +117,7 @@ public class DefaultDraftContextApi implements DraftContextApi {
         }
     }
 
-    @Override
-    public <T> T deserializationDraftData(Draft<T> draft) {
+    private <T> T deserializationDraftData(Draft draft) {
         if (StringUtils.isBlank(draft.getDraftData())) {
             return null;
         } else {
@@ -76,7 +125,7 @@ public class DefaultDraftContextApi implements DraftContextApi {
         }
     }
 
-    protected String getPath(String model) {
+    private String getPath(String model) {
         List<ResourcePath> paths = Optional.ofNullable(AccessResourceInfoSession.getInfo()).map(AccessResourceInfo::getPaths).orElse(null);
         if (CollectionUtils.isEmpty(paths)) {
             return "[]";
@@ -110,7 +159,7 @@ public class DefaultDraftContextApi implements DraftContextApi {
         return "[" + pagePaths.stream().map(ResourcePath::toString).collect(Collectors.joining(ResourcePath.PATH_SPLIT)) + "]";
     }
 
-    protected <T> String getDataPks(String model, T data) {
+    private <T> String getDataPks(String model, T data) {
         ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
         List<String> pks = new ArrayList<>(modelConfig.getPk());
         Collections.sort(pks);
@@ -128,7 +177,7 @@ public class DefaultDraftContextApi implements DraftContextApi {
         return JsonUtils.toJSONString(pkValues);
     }
 
-    protected String generatorDefaultDraftIdentifier(Draft<?> draft) {
+    private String generatorDefaultDraftIdentifier(Draft draft) {
         String model = draft.getModel();
         Long userId = draft.getUserId();
         String dataPks = draft.getDataPks();
@@ -142,7 +191,7 @@ public class DefaultDraftContextApi implements DraftContextApi {
         return builder.toString();
     }
 
-    protected String generatorCode(String draftIdentifier) {
+    private String generatorCode(String draftIdentifier) {
         return EncryptHelper.shortCode(draftIdentifier);
     }
 

@@ -7,7 +7,10 @@ import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.faas.HookBefore;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
-import pro.shushi.pamirs.meta.constant.FunctionConstants;
+import pro.shushi.pamirs.meta.base.BaseModel;
+import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
+import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
+import pro.shushi.pamirs.meta.util.FieldUtils;
 
 import java.util.Collection;
 
@@ -19,22 +22,19 @@ import java.util.Collection;
 @Component
 public class BeforeUpdateDropDraftHook implements HookBefore {
 
-    @Hook(fun = {
-            FunctionConstants.create, FunctionConstants.update,
-            FunctionConstants.createOne, FunctionConstants.createOrUpdate,
-            FunctionConstants.createOrUpdateWithResult,
-            FunctionConstants.updateByPk, FunctionConstants.updateByEntity
-    })
+    @Hook
     @Override
     public Object run(Function function, Object... args) {
         if (args.length == 0) {
             return args;
         }
-        Object data = args[0];
-        if (data != null && !(data instanceof Collection)) {
-            String model = Models.api().getDataModel(data);
-            if (StringUtils.isNotBlank(model)) {
-                Fun.run(model, "deleteDraft", data);
+        if (function.getType() != null && (function.getType().contains(FunctionTypeEnum.CREATE) || function.getType().contains(FunctionTypeEnum.UPDATE) || function.getType().contains(FunctionTypeEnum.DELETE))) {
+            Object data = args[0];
+            if (data != null && !(data instanceof Collection)) {
+                String model = Models.api().getDataModel(data);
+                if (StringUtils.isNotBlank(model)) {
+                    Fun.run(model, "deleteDraft", FieldUtils.getFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode)));
+                }
             }
         }
         return args;
