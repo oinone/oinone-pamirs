@@ -44,7 +44,10 @@ public class DraftServiceImpl implements DraftService {
     @Override
     public <T> T queryDraft(T data) {
         Draft draft = loadDraftContext(data);
-        Draft dbDraft = queryDbDraft(draft);
+        if (StringUtils.isBlank(draft.getCode())) {
+            return null;
+        }
+        Draft dbDraft = Spider.getDefaultExtension(DraftStoreStrategyApi.class).queryDraft(draft.getCode());
         if (dbDraft != null) {
             data = deserializationDraftData(dbDraft);
             FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), dbDraft.getCode());
@@ -84,13 +87,6 @@ public class DraftServiceImpl implements DraftService {
     @Override
     public Boolean deleteDraft(String draftCode) {
         return Spider.getDefaultExtension(DraftStoreStrategyApi.class).deleteDraft(draftCode);
-    }
-
-    private <T> Draft queryDbDraft(Draft draft) {
-        if (StringUtils.isBlank(draft.getCode())) {
-            return null;
-        }
-        return Spider.getDefaultExtension(DraftStoreStrategyApi.class).queryDraft(draft.getCode());
     }
 
     private <T> Draft loadDraftContext(T data) {
