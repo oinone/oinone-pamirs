@@ -11,11 +11,9 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 @SPI
 public interface DraftStoreStrategyApi {
 
-    Draft queryDraft(String draftCode);
+    Draft queryDraft(Draft draft);
 
-    Draft createDraft(Draft draft);
-
-    Draft updateDraft(Draft draft);
+    Draft createOrUpdateDraft(Draft draft);
 
     Boolean deleteDraft(String draftCode);
 

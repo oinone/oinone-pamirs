@@ -16,26 +16,18 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 public class DraftDBStoreStrategyApi implements DraftStoreStrategyApi {
 
     @Override
-    public Draft queryDraft(String draftCode) {
-        return new Draft().queryOneByWrapper(Pops.<Draft>lambdaQuery().from(Draft.MODEL_MODEL).eq(Draft::getCode, draftCode));
+    public Draft queryDraft(Draft draft) {
+        return new Draft().queryOneByWrapper(Pops.<Draft>lambdaQuery().from(Draft.MODEL_MODEL).eq(Draft::getCode, draft.getCode()));
     }
 
     @Override
-    public Draft createDraft(Draft draft) {
-        return draft.create();
-    }
-
-    @Override
-    public Draft updateDraft(Draft draft) {
-        draft.updateById();
+    public Draft createOrUpdateDraft(Draft draft) {
+        draft.createOrUpdate();
         return draft;
     }
 
     @Override
     public Boolean deleteDraft(String draftCode) {
-        if (StringUtils.isBlank(draftCode)) {
-            return false;
-        }
         Integer deleted = new Draft().deleteByWrapper(
                 Pops.<Draft>lambdaQuery().from(Draft.MODEL_MODEL)
                         .eq(Draft::getCode, draftCode)

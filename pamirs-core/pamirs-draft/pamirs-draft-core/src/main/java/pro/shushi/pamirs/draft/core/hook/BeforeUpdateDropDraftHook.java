@@ -30,7 +30,11 @@ public class BeforeUpdateDropDraftHook implements HookBefore {
         if (args.length == 0) {
             return args;
         }
-        if (function.getType() != null && (function.getType().contains(FunctionTypeEnum.CREATE) || function.getType().contains(FunctionTypeEnum.UPDATE) || function.getType().contains(FunctionTypeEnum.DELETE))) {
+        if (
+                function.getType() != null &&
+                        !StringUtils.equals(function.getName(), "createDraft") && !StringUtils.equals(function.getName(), "updateDraft") &&
+                        (function.getType().contains(FunctionTypeEnum.CREATE) || function.getType().contains(FunctionTypeEnum.UPDATE) || function.getType().contains(FunctionTypeEnum.DELETE))
+        ) {
             Object data = args[0];
             if (data != null && !(data instanceof Collection)) {
                 String model = Models.api().getDataModel(data);

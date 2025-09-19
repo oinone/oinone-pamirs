@@ -15,7 +15,6 @@ import pro.shushi.pamirs.draft.api.enums.DraftExpEnumerate;
 import pro.shushi.pamirs.draft.api.model.Draft;
 import pro.shushi.pamirs.draft.api.service.DraftService;
 import pro.shushi.pamirs.draft.api.spi.DraftStoreStrategyApi;
-import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.api.Models;
@@ -49,7 +48,7 @@ public class DraftServiceImpl implements DraftService {
         if (StringUtils.isBlank(draft.getCode())) {
             return null;
         }
-        Draft dbDraft = Spider.getDefaultExtension(DraftStoreStrategyApi.class).queryDraft(draft.getCode());
+        Draft dbDraft = Spider.getDefaultExtension(DraftStoreStrategyApi.class).queryDraft(draft);
         if (dbDraft != null) {
             data = deserializationDraftData(dbDraft);
             FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), dbDraft.getCode());
@@ -66,28 +65,37 @@ public class DraftServiceImpl implements DraftService {
 
     @Override
     public <T> T createDraft(T data) {
+        DraftStoreStrategyApi draftStoreStrategyApi = Spider.getDefaultExtension(DraftStoreStrategyApi.class);
         Draft draft = loadDraftContext(data);
+        Draft dbDraft = draftStoreStrategyApi.queryDraft(draft);
+        if (dbDraft != null) {
+            throw PamirsException.construct(DraftExpEnumerate.DRAFT_EXIST).errThrow();
+        }
         serializationDraftData(draft, data);
-        draft = Spider.getDefaultExtension(DraftStoreStrategyApi.class).createDraft(draft);
+        draft = draftStoreStrategyApi.createOrUpdateDraft(draft);
         FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), draft.getCode());
         return data;
     }
 
     @Override
     public <T> T updateDraft(T data) {
+        DraftStoreStrategyApi draftStoreStrategyApi = Spider.getDefaultExtension(DraftStoreStrategyApi.class);
         String draftCode = (String) FieldUtils.getFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode));
-        Draft dbDraft = new Draft().queryOneByWrapper(
-                Pops.<Draft>lambdaQuery().from(Draft.MODEL_MODEL)
-                        .eq(Draft::getCode, draftCode)
-        );
+        Draft draft = new Draft().setCode(draftCode).setData(data);
+        Draft dbDraft = draftStoreStrategyApi.queryDraft(draft);
+        if (dbDraft == null) {
+            throw PamirsException.construct(DraftExpEnumerate.DRAFT_NOT_EXIST).errThrow();
+        }
         serializationDraftData(dbDraft, data);
-        dbDraft = Spider.getDefaultExtension(DraftStoreStrategyApi.class).updateDraft(dbDraft);
-        FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), dbDraft.getCode());
+        dbDraft = draftStoreStrategyApi.createOrUpdateDraft(dbDraft);
         return data;
     }
 
     @Override
     public Boolean deleteDraft(String draftCode) {
+        if (StringUtils.isBlank(draftCode)) {
+            return false;
+        }
         return Spider.getDefaultExtension(DraftStoreStrategyApi.class).deleteDraft(draftCode);
     }
 
@@ -105,6 +113,8 @@ public class DraftServiceImpl implements DraftService {
         draft.setPath(getPath(model));
         draft.setDataPks(getDataPks(model, data));
         draft.setCode(generatorCode(generatorDefaultDraftIdentifier(draft)));
+
+        draft.setData(data);
 
         return draft;
     }

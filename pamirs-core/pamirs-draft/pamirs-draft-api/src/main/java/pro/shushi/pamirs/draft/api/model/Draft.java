@@ -38,4 +38,6 @@ public class Draft extends IdModel {
     @Field.Advanced(columnDefinition = "LONGTEXT")
     private String draftData;
 
+    private Object data;
+
 }

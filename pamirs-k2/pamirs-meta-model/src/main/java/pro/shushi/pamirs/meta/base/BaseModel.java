@@ -32,7 +32,7 @@ public class BaseModel extends AbstractModel {
 
     @Field.String(size = 64)
     @Field(displayName = "草稿编码", store = NullableBoolEnum.FALSE)
-    private String draftCode;
+    private transient String draftCode;
 
     /**
      * 为模型数据列表填充默认值

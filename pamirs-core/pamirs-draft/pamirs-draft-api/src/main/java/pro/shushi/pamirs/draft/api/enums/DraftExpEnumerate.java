@@ -12,6 +12,8 @@ public enum DraftExpEnumerate implements ExpBaseEnum {
     SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10065000, "系统异常"),
     USER_NOT_FIND(ERROR_TYPE.SYSTEM_ERROR, 10065001, "未找到用户信息"),
     MODEL_NOT_FIND(ERROR_TYPE.SYSTEM_ERROR, 10065002, "未找到模型信息"),
+    DRAFT_EXIST(ERROR_TYPE.SYSTEM_ERROR, 10065003, "草稿已存在"),
+    DRAFT_NOT_EXIST(ERROR_TYPE.SYSTEM_ERROR, 10065004, "草稿不存在"),
     ;
 
     private final ERROR_TYPE type;
