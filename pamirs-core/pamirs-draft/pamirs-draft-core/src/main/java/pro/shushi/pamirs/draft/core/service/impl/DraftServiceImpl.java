@@ -17,6 +17,7 @@ import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
+import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.BaseModel;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
@@ -50,22 +51,30 @@ public class DraftServiceImpl implements DraftService {
     }
 
     @Override
-    public <T> T createOrUpdateDraft(T data) {
-        Draft draft = loadDraftContext(data);
-        Draft dbDraft = queryDbDraft(draft);
-        boolean isCreate = true;
-        if (dbDraft != null) {
-            draft = dbDraft;
-            isCreate = false;
-        }
-        serializationDraftData(draft, data);
-        if (isCreate) {
-            draft = draft.create();
-        } else {
-            draft.updateById();
-        }
-        FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), draft.getCode());
+    public <T> T queryDraftByWrapper(IWrapper<T> queryWrapper) {
+        T data = Models.origin().queryOneByWrapper(queryWrapper);
+        return queryDraft(data);
+    }
 
+    @Override
+    public <T> T createDraft(T data) {
+        Draft draft = loadDraftContext(data);
+        serializationDraftData(draft, data);
+        draft = draft.create();
+        FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), draft.getCode());
+        return data;
+    }
+
+    @Override
+    public <T> T updateDraft(T data) {
+        String draftCode = (String) FieldUtils.getFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode));
+        Draft dbDraft = new Draft().queryOneByWrapper(
+                Pops.<Draft>lambdaQuery().from(Draft.MODEL_MODEL)
+                        .eq(Draft::getCode, draftCode)
+        );
+        serializationDraftData(dbDraft, data);
+        dbDraft.updateById();
+        FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), dbDraft.getCode());
         return data;
     }
 
@@ -100,11 +109,8 @@ public class DraftServiceImpl implements DraftService {
             throw PamirsException.construct(DraftExpEnumerate.MODEL_NOT_FIND).errThrow();
         }
         draft.setPath(getPath(model));
-
         draft.setDataPks(getDataPks(model, data));
-
-        draft.setDraftIdentifier(generatorDefaultDraftIdentifier(draft));
-        draft.setCode(generatorCode(draft.getDraftIdentifier()));
+        draft.setCode(generatorCode(generatorDefaultDraftIdentifier(draft)));
 
         return draft;
     }

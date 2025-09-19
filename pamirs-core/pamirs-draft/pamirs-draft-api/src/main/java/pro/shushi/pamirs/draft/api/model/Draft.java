@@ -21,10 +21,6 @@ public class Draft extends IdModel {
     @Field(displayName = "草稿编码", required = true)
     private String code;
 
-    @Field(displayName = "草稿唯一标识", required = true)
-    @Field.String(size = 512)
-    private String draftIdentifier;
-
     @Field(displayName = "草稿所属模型", required = true)
     private String model;
 

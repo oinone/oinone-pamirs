@@ -6,6 +6,7 @@ import pro.shushi.pamirs.draft.api.service.DraftService;
 import pro.shushi.pamirs.meta.api.core.orm.systems.DraftApi;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
+import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.base.BaseModel;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
@@ -27,11 +28,25 @@ public class DefaultDraftApi implements DraftApi {
         return draftService.queryDraft(data);
     }
 
+    @Function.Advanced(displayName = "查询草稿", type = FunctionTypeEnum.QUERY, managed = true)
+    @Function(summary = "查询草稿", openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.API, FunctionOpenEnum.REMOTE})
+    @Override
+    public <T> T queryDraftByWrapper(IWrapper<T> queryWrapper) {
+        return draftService.queryDraftByWrapper(queryWrapper);
+    }
+
     @Function.Advanced(displayName = "创建或更新草稿", type = {FunctionTypeEnum.CREATE, FunctionTypeEnum.UPDATE}, managed = true)
     @Function(summary = "创建或更新草稿", openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.API, FunctionOpenEnum.REMOTE})
     @Override
-    public <T> T createOrUpdateDraft(T data) {
-        return draftService.createOrUpdateDraft(data);
+    public <T> T createDraft(T data) {
+        return draftService.createDraft(data);
+    }
+
+    @Function.Advanced(displayName = "更新草稿", type = {FunctionTypeEnum.CREATE, FunctionTypeEnum.UPDATE}, managed = true)
+    @Function(summary = "草稿", openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.API, FunctionOpenEnum.REMOTE})
+    @Override
+    public <T> T updateDraft(T data) {
+        return draftService.updateDraft(data);
     }
 
     @Function.Advanced(displayName = "删除草稿", type = FunctionTypeEnum.DELETE, managed = true)
