@@ -48,9 +48,9 @@ public class DefaultDraftContextApi implements DraftContextApi {
         if (StringUtils.isBlank(model)) {
             throw PamirsException.construct(DraftExpEnumerate.MODEL_NOT_FIND).errThrow();
         }
-        draft.setPath(getPath(model, Optional.ofNullable(AccessResourceInfoSession.getInfo()).map(AccessResourceInfo::getPaths).orElse(null)));
+        draft.setPath(getPath(model));
 
-        draft.setDataPks(getDataPks(model, draft));
+        draft.setDataPks(getDataPks(model, data));
 
         draft.setDraftIdentifier(generatorDefaultDraftIdentifier(draft));
         draft.setCode(generatorCode(draft.getDraftIdentifier()));
@@ -76,7 +76,8 @@ public class DefaultDraftContextApi implements DraftContextApi {
         }
     }
 
-    protected String getPath(String model, List<ResourcePath> paths) {
+    protected String getPath(String model) {
+        List<ResourcePath> paths = Optional.ofNullable(AccessResourceInfoSession.getInfo()).map(AccessResourceInfo::getPaths).orElse(null);
         if (CollectionUtils.isEmpty(paths)) {
             return "[]";
         }
@@ -85,14 +86,19 @@ public class DefaultDraftContextApi implements DraftContextApi {
         for (int i = 0; i < paths.size(); i++) {
             ResourcePath path = paths.get(i);
             if (i == paths.size() - 1) {
-                if (ResourcePathMetadataType.ACTION.equals(path.getType()) && StringUtils.equals(path.getModel(), model)) {
-                    List<ServerAction> serverActions = new ServerAction().queryList(
-                            Pops.<ServerAction>lambdaQuery().from(ServerAction.MODEL_MODEL)
-                                    .eq(ServerAction::getActionType, ActionTypeEnum.SERVER.value())
-                                    .eq(ServerAction::getModel, model)
-                                    .eq(ServerAction::getName, path.getName())
-                    );
-                    if (CollectionUtils.isNotEmpty(serverActions)) {
+                if (ResourcePathMetadataType.ACTION.equals(path.getType())) {
+                    if (StringUtils.equals(path.getModel(), model)) {
+                        List<ServerAction> serverActions = new ServerAction().queryList(
+                                Pops.<ServerAction>lambdaQuery().from(ServerAction.MODEL_MODEL)
+                                        .eq(ServerAction::getActionType, ActionTypeEnum.SERVER.value())
+                                        .eq(ServerAction::getModel, model)
+                                        .eq(ServerAction::getName, path.getName())
+                        );
+                        if (CollectionUtils.isNotEmpty(serverActions)) {
+                            break;
+                        }
+                    }
+                    if (path.getName().startsWith("uiClient")) {
                         break;
                     }
                 }
