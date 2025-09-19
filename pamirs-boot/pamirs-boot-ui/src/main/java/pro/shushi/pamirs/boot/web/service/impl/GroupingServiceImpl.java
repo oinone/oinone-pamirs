@@ -2,8 +2,12 @@ package pro.shushi.pamirs.boot.web.service.impl;
 
 import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.web.enmu.GroupingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
@@ -46,7 +50,17 @@ public class GroupingServiceImpl implements GroupingService {
         countPage.setSortable(false);
         countPage = Models.origin().queryPage(countPage, parseQueryWrapper(buildPageQueryWrapper(group)));
         group.setTotalDataCount(countPage.getTotalElements());
-        group.setNeedLazyLoad((page.getSize() == null || page.getSize() < 0) && group.getTotalDataCount() > GROUP_LAZY_LOAD_DATA_LIMIT);
+        // 测试时可以修改的限制数量
+        long groupLazyLoadDataLimit = GROUP_LAZY_LOAD_DATA_LIMIT;
+        try {
+            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+            String groupLimit = ((ServletRequestAttributes) requestAttributes).getRequest().getHeader("groupLimit");
+            if (StringUtils.isNotBlank(groupLimit))
+                groupLazyLoadDataLimit = Long.parseLong(groupLimit);
+        } catch (Exception e) {
+            groupLazyLoadDataLimit = GROUP_LAZY_LOAD_DATA_LIMIT;
+        }
+        group.setNeedLazyLoad((page.getSize() == null || page.getSize() < 0) && group.getTotalDataCount() > groupLazyLoadDataLimit);
         return queryGroupInfo(group, page);
     }
 
