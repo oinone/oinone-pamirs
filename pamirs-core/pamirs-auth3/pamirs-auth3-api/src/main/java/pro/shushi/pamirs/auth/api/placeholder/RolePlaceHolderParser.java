@@ -15,8 +15,8 @@ public class RolePlaceHolderParser extends AbstractPlaceHolderParser implements 
     @Override
     protected String value() {
         Set<Long> roles = AuthRoleSession.getCurrentRoles();
-        if (roles == null) {
-            return CharacterConstants.SEPARATOR_EMPTY;
+        if (roles == null || roles.isEmpty()) {
+            return "''";
         }
         return CharacterConstants.LEFT_BRACKET +
                 roles.stream().map(String::valueOf).collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA)) +
