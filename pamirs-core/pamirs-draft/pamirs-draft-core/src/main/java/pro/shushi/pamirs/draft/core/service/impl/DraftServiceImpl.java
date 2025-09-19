@@ -4,7 +4,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.boot.base.enmu.ActionTypeEnum;
-import pro.shushi.pamirs.boot.base.model.ServerAction;
+import pro.shushi.pamirs.boot.base.model.Action;
+import pro.shushi.pamirs.boot.base.ux.cache.api.ActionCacheApi;
 import pro.shushi.pamirs.boot.web.loader.path.AccessResourceInfo;
 import pro.shushi.pamirs.boot.web.loader.path.ResourcePath;
 import pro.shushi.pamirs.boot.web.loader.path.ResourcePathMetadataType;
@@ -13,6 +14,7 @@ import pro.shushi.pamirs.core.common.EncryptHelper;
 import pro.shushi.pamirs.draft.api.enums.DraftExpEnumerate;
 import pro.shushi.pamirs.draft.api.model.Draft;
 import pro.shushi.pamirs.draft.api.service.DraftService;
+import pro.shushi.pamirs.draft.api.spi.DraftStoreStrategyApi;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.api.Models;
@@ -23,6 +25,7 @@ import pro.shushi.pamirs.meta.base.BaseModel;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
@@ -52,7 +55,7 @@ public class DraftServiceImpl implements DraftService {
 
     @Override
     public <T> T queryDraftByWrapper(IWrapper<T> queryWrapper) {
-        T data = Models.origin().queryOneByWrapper(queryWrapper);
+        T data = Models.data().queryOneByWrapper(queryWrapper);
         return queryDraft(data);
     }
 
@@ -60,7 +63,7 @@ public class DraftServiceImpl implements DraftService {
     public <T> T createDraft(T data) {
         Draft draft = loadDraftContext(data);
         serializationDraftData(draft, data);
-        draft = draft.create();
+        draft = Spider.getDefaultExtension(DraftStoreStrategyApi.class).createDraft(draft);
         FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), draft.getCode());
         return data;
     }
@@ -73,28 +76,21 @@ public class DraftServiceImpl implements DraftService {
                         .eq(Draft::getCode, draftCode)
         );
         serializationDraftData(dbDraft, data);
-        dbDraft.updateById();
+        dbDraft = Spider.getDefaultExtension(DraftStoreStrategyApi.class).updateDraft(dbDraft);
         FieldUtils.setFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode), dbDraft.getCode());
         return data;
     }
 
     @Override
     public Boolean deleteDraft(String draftCode) {
-        if (StringUtils.isBlank(draftCode)) {
-            return false;
-        }
-        Integer deleted = new Draft().deleteByWrapper(
-                Pops.<Draft>lambdaQuery().from(Draft.MODEL_MODEL)
-                        .eq(Draft::getCode, draftCode)
-        );
-        return deleted > 0;
+        return Spider.getDefaultExtension(DraftStoreStrategyApi.class).deleteDraft(draftCode);
     }
 
     private <T> Draft queryDbDraft(Draft draft) {
         if (StringUtils.isBlank(draft.getCode())) {
             return null;
         }
-        return new Draft().queryOneByWrapper(Pops.<Draft>lambdaQuery().from(Draft.MODEL_MODEL).eq(Draft::getCode, draft.getCode()));
+        return Spider.getDefaultExtension(DraftStoreStrategyApi.class).queryDraft(draft.getCode());
     }
 
     private <T> Draft loadDraftContext(T data) {
@@ -143,13 +139,8 @@ public class DraftServiceImpl implements DraftService {
             if (i == paths.size() - 1) {
                 if (ResourcePathMetadataType.ACTION.equals(path.getType())) {
                     if (StringUtils.equals(path.getModel(), model)) {
-                        List<ServerAction> serverActions = new ServerAction().queryList(
-                                Pops.<ServerAction>lambdaQuery().from(ServerAction.MODEL_MODEL)
-                                        .eq(ServerAction::getActionType, ActionTypeEnum.SERVER.value())
-                                        .eq(ServerAction::getModel, model)
-                                        .eq(ServerAction::getName, path.getName())
-                        );
-                        if (CollectionUtils.isNotEmpty(serverActions)) {
+                        Action action = PamirsSession.getContext().getExtendCache(ActionCacheApi.class).get(model, path.getName());
+                        if (action != null && ActionTypeEnum.SERVER.equals(action.getActionType())) {
                             break;
                         }
                     }
