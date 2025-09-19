@@ -2,7 +2,7 @@ package pro.shushi.pamirs.business.api.service;
 
 import pro.shushi.pamirs.auth.api.model.AuthRole;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
-import pro.shushi.pamirs.business.api.tmodel.PamirsEmployeeQuery;
+import pro.shushi.pamirs.business.api.tmodel.PamirsEmployeeQueryFilter;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
@@ -71,6 +71,6 @@ public interface PamirsEmployeeService {
     Pagination<PamirsEmployee> queryPageImmediateSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper);
 
     @Function
-    List<PamirsEmployee> queryListByDslFilter(PamirsEmployeeQuery query);
+    List<PamirsEmployee> queryListByDslFilter(PamirsEmployeeQueryFilter query);
 
 }

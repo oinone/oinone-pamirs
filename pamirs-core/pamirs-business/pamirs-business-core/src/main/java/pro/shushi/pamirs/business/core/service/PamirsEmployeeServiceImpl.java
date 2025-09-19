@@ -15,7 +15,7 @@ import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
-import pro.shushi.pamirs.business.api.tmodel.PamirsEmployeeQuery;
+import pro.shushi.pamirs.business.api.tmodel.PamirsEmployeeQueryFilter;
 import pro.shushi.pamirs.business.core.manager.DepartmentManager;
 import pro.shushi.pamirs.business.core.manager.EmployeeManager;
 import pro.shushi.pamirs.business.util.DepartmentRelEmployeeHelper;
@@ -319,8 +319,8 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
     @Function
     @Override
-    public List<PamirsEmployee> queryListByDslFilter(PamirsEmployeeQuery query) {
-        String domainRsql = query.getDomainRsql();
+    public List<PamirsEmployee> queryListByDslFilter(PamirsEmployeeQueryFilter query) {
+        String domainRsql = query.getDomain();
         List<String> empCodes = query.getEmpCodes();
         List<String> deptCodes = query.getDeptCodes();
         List<String> roleCodes = query.getRoleCodes();

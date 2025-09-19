@@ -13,14 +13,14 @@ import java.util.List;
  * @author Gesi at 20:26 on 2025/9/18
  */
 @Model(displayName = "员工查询条件模型")
-@Model.model(PamirsEmployeeQuery.MODEL_MODEL)
+@Model.model(PamirsEmployeeQueryFilter.MODEL_MODEL)
 @Model.Advanced(type = ModelTypeEnum.TRANSIENT)
-public class PamirsEmployeeQuery extends TransientModel {
+public class PamirsEmployeeQueryFilter extends TransientModel {
 
-    public static final String MODEL_MODEL = "business.PamirsEmployeeQuery";
+    public static final String MODEL_MODEL = "business.PamirsEmployeeQueryFilter";
 
-    @Field(displayName = "domain rsql")
-    private String domainRsql;
+    @Field(displayName = "员工组件domain")
+    private String domain;
 
     @Field(displayName = "员工编码")
     private List<String> empCodes;
