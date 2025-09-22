@@ -28,4 +28,7 @@ public class ConnDbType extends CodeModel {
     @Field(displayName = "驱动")
     @Field.String
     private String driver;
+
+    @Field(displayName = "基础类型", defaultValue = "false")
+    private Boolean basic;
 }

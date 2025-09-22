@@ -7,6 +7,7 @@ import pro.shushi.pamirs.boot.base.model.tree.UiTreeNode;
 import pro.shushi.pamirs.boot.base.model.tree.UiTreeNodeMetadata;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
@@ -16,7 +17,6 @@ import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
-import pro.shushi.pamirs.meta.common.util.PStringUtils;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.util.*;
@@ -170,9 +170,13 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
         if (queryWrapper == null) {
             return;
         }
+        List<String> childQueryColumns = new ArrayList<>(relationQueryContext.childColumns.size());
+        for (int i = 0; i < relationQueryContext.childColumns.size(); i++) {
+            childQueryColumns.add(relationQueryContext.childColumns.get(i) + " as " + relationQueryContext.childFields.get(i));
+        }
         // 增加分组条件
-        queryWrapper.select(relationQueryContext.childFields.stream().map(i -> PStringUtils.fieldName2Column(i) + " as " + i).toArray(String[]::new));
-        queryWrapper.groupBy(relationQueryContext.childFields.stream().map(PStringUtils::fieldName2Column).toArray(String[]::new));
+        queryWrapper.select(childQueryColumns.toArray(new String[0]));
+        queryWrapper.groupBy(relationQueryContext.childColumns.toArray(new String[0]));
         queryWrapper.setBatchSize(-1);
 
         List<Object> children = Models.data().queryListByWrapper(queryWrapper);
@@ -221,7 +225,7 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
         if (TtypeEnum.M2M.value().equals(relationQueryContext.relFieldConfig.getTtype())) {
             QueryWrapper<Object> m2mRelQueryWrapper = Pops.query().from(relationQueryContext.relFieldConfig.getThrough());
             m2mRelQueryWrapper.in(
-                    relationQueryContext.throughParentFields.stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                    relationQueryContext.throughParentColumns,
                     relationQueryContext.parentFields.stream().map(i -> currentNodes.stream().map(m -> m.get(i)).collect(Collectors.toList())).toArray(List[]::new)
             );
             List<Object> throughList = Models.data().queryListByWrapper(m2mRelQueryWrapper);
@@ -233,13 +237,13 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
                 // 记录中间表数据
                 relationQueryContext.setThroughMapList(throughMapList);
                 queryWrapper.in(
-                        relationQueryContext.childFields.stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                        relationQueryContext.childColumns,
                         relationQueryContext.throughChildFields.stream().map(i -> throughMapList.stream().map(through -> through.get(i)).collect(Collectors.toList())).toArray(List[]::new)
                 );
             }
         } else {
             queryWrapper.in(
-                    relationQueryContext.childFields.stream().map(PStringUtils::fieldName2Column).collect(Collectors.toList()),
+                    relationQueryContext.childColumns,
                     relationQueryContext.parentFields.stream().map(i -> currentNodes.stream().map(m -> m.get(i)).collect(Collectors.toList())).toArray(List[]::new)
             );
         }
@@ -318,10 +322,14 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
         Boolean fieldInParent;
 
         List<String> childFields;
+        List<String> childColumns;
+
         List<String> parentFields;
 
         List<String> throughChildFields;
+
         List<String> throughParentFields;
+        List<String> throughParentColumns;
 
         private List<Map<String, Object>> throughMapList;
 
@@ -369,18 +377,26 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
             }
 
             if (Boolean.TRUE.equals(fieldInParent)) {
+                String references = relFieldConfig.getReferences();
                 childFields = relFieldConfig.getReferenceFields();
+                childColumns = childFields.stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(references, field)).getColumn()).collect(Collectors.toList());
                 parentFields = relFieldConfig.getRelationFields();
                 if (TtypeEnum.M2M.value().equals(relFieldConfig.getTtype())) {
+                    String through = relFieldConfig.getThrough();
                     throughChildFields = relFieldConfig.getThroughReferenceFields();
                     throughParentFields = relFieldConfig.getThroughRelationFields();
+                    throughParentColumns = throughParentFields.stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(through, field)).getColumn()).collect(Collectors.toList());
                 }
             } else {
+                String model = relFieldConfig.getModel();
                 childFields = relFieldConfig.getRelationFields();
+                childColumns = childFields.stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(model, field)).getColumn()).collect(Collectors.toList());
                 parentFields = relFieldConfig.getReferenceFields();
                 if (TtypeEnum.M2M.value().equals(relFieldConfig.getTtype())) {
+                    String through = relFieldConfig.getThrough();
                     throughChildFields = relFieldConfig.getThroughRelationFields();
                     throughParentFields = relFieldConfig.getThroughReferenceFields();
+                    throughParentColumns = throughParentFields.stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(through, field)).getColumn()).collect(Collectors.toList());
                 }
             }
         }

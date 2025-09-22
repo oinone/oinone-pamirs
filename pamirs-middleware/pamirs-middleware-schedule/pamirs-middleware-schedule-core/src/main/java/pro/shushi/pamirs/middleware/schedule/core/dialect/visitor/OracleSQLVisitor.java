@@ -1,11 +1,9 @@
 package pro.shushi.pamirs.middleware.schedule.core.dialect.visitor;
 
 import com.alibaba.druid.sql.ast.SQLExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.expr.SQLMethodInvokeExpr;
+import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.ast.statement.SQLSelectItem;
+import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitorAdapter;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
@@ -67,6 +65,17 @@ public class OracleSQLVisitor extends MySqlASTVisitorAdapter {
                     x.getChildren().set(i, mod);
                 }
             }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean visit(MySqlInsertStatement x) {
+        String tableName = x.getTableName().getSimpleName().toUpperCase();
+        if (tableName.startsWith("PAMIRS_SCHEDULE")) {
+            String sequenceName = tableName + "_ID";
+            x.getColumns().add(new SQLIdentifierExpr("id"));
+            x.getValues().addValue(new SQLSequenceExpr(new SQLIdentifierExpr(sequenceName), SQLSequenceExpr.Function.NextVal));
         }
         return true;
     }

@@ -15,7 +15,6 @@ public class DefaultEipInterfaceBuilder extends AbstractEipInterfaceBuilder<Supe
         return new DefaultEipInterfaceBuilder(EipCamelContext.getContext(), interfaceName, uri);
     }
 
-    @Deprecated
     public static DefaultEipInterfaceBuilder newInstance(EipCamelContext context, String interfaceName, String uri) {
         return new DefaultEipInterfaceBuilder(context, interfaceName, uri);
     }

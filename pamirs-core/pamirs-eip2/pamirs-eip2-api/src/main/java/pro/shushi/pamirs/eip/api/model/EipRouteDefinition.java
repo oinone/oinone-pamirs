@@ -2,6 +2,7 @@ package pro.shushi.pamirs.eip.api.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import pro.shushi.pamirs.eip.api.IEipApi;
+import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
@@ -30,6 +31,12 @@ public class EipRouteDefinition extends AbstractEipApi implements IEipApi {
     @Field(displayName = "组件定义列表", store = NullableBoolEnum.TRUE, serialize = Field.serialize.JSON)
     @Field.Advanced(columnDefinition = "text")
     private List<EipComponentDefinition> definitions;
+
+    @JSONField(serialize = false)
+    @Override
+    public InterfaceTypeEnum getType() {
+        return InterfaceTypeEnum.ROUTE;
+    }
 
     @JSONField(serialize = false)
     @Override

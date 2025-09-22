@@ -31,7 +31,7 @@ public class Slf4jPrinter implements Printer {
         try {
             Method isEnabledMethod = log.getClass().getMethod(isEnabledMethodName);
             return (boolean) isEnabledMethod.invoke(log);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
+        } catch (NoClassDefFoundError | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
         }
         return true;
     }

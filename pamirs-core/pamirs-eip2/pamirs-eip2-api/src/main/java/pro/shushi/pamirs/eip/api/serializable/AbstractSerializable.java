@@ -51,7 +51,7 @@ public abstract class AbstractSerializable implements IEipSerializable<SuperMap>
                 result = new SuperMap();
             }
         } else {
-            return stringToSuperMap(JSON.toJSONString(inObject));
+            result = stringToSuperMap(JSON.toJSONString(inObject));
         }
         return result;
     }

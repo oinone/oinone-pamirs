@@ -8,10 +8,10 @@ import pro.shushi.pamirs.core.common.entry.InitializationBody;
 import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
-import pro.shushi.pamirs.eip.api.model.EipLog;
+import pro.shushi.pamirs.eip.api.strategy.spi.EipLogStrategyHandler;
 import pro.shushi.pamirs.eip.api.util.EipHelper;
-import pro.shushi.pamirs.eip.api.util.EipLogUtil;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 
 import java.util.List;
 
@@ -82,16 +82,14 @@ public class DefaultResponseProcessor extends AbstractEipIntegrationInterfacePro
         //响应结果处理
         body = responseResultProcessor(context, exchange, body);
 
-        EipLog eipLog = EipLogUtil.getEipLog(context);
+        EipLogStrategyHandler logStrategyHandler = Spider.getDefaultExtension(EipLogStrategyHandler.class);
 
         //分页自动中断处理
         Boolean isNeedPaging = (Boolean) context.getExecutorContextValue(pagingEnabledKey);
         if (isNeedPaging != null && isNeedPaging && body instanceof List) {
             if (pagingProcessor(context, exchange, ((List<?>) body).size())) {
                 //当需要分页时，对单次接口调用日志进行成功处理
-                if (eipLog != null) {
-                    EipLogUtil.success(context, eipLog);
-                }
+                logStrategyHandler.success(context, exchange);
                 return;
             }
         } else {
@@ -105,9 +103,7 @@ public class DefaultResponseProcessor extends AbstractEipIntegrationInterfacePro
         message.setBody(body);
 
         //成功响应，并成功处理
-        if (eipLog != null) {
-            EipLogUtil.success(context, eipLog);
-        }
+        logStrategyHandler.success(context, exchange);
     }
 
     protected boolean pagingProcessor(IEipContext<SuperMap> context, ExtendedExchange exchange, Integer listSize) {

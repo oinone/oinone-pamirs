@@ -1,8 +1,10 @@
 package pro.shushi.pamirs.boot.base.ux.service;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.rpc.RpcException;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.ux.entity.UxModelEntity;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
@@ -25,6 +27,7 @@ import static pro.shushi.pamirs.meta.constant.ModuleFunctionConstants.ClassMetad
  *
  * @author Adamancy Zhang at 15:10 on 2025-06-16
  */
+@Slf4j
 @Component(BEAN_NAME)
 public class UxClassMetadataFetcher {
 
@@ -51,7 +54,12 @@ public class UxClassMetadataFetcher {
         if (function == null) {
             return getClassMetadata(className);
         }
-        return Fun.run(function, className);
+        try {
+            return Fun.run(function, className);
+        } catch (RpcException e) {
+            log.warn("fetch remote class metadata error, using metadata cache. {}", className);
+            return UxModelEntity.wrap(modelConfig);
+        }
     }
 
     public UxModelEntity getClassMetadata(String className) {

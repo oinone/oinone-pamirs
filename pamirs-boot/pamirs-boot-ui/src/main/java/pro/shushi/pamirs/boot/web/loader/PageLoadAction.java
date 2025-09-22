@@ -301,7 +301,8 @@ public class PageLoadAction {
     private void fillViewModel(View view, String model) {
         ModelConfig mainViewModelConfig = PamirsSession.getContext().getModelConfig(model);
         if (mainViewModelConfig == null) {
-            throw PamirsException.construct(BootUxdExpEnumerate.BASE_VIEW_ACTION_MODEL_CONFIG_ERROR).errThrow();
+            throw PamirsException.construct(BootUxdExpEnumerate.BASE_VIEW_ACTION_MODEL_CONFIG_ERROR)
+                    .appendMsg("model: " + model).errThrow();
         }
         ModelDefinition modelDefinition = new ModelDefinition();
         modelDefinition.setModel(mainViewModelConfig.getModel());

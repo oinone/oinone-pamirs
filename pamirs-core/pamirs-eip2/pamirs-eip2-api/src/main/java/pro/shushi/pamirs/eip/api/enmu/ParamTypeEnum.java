@@ -10,6 +10,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 public enum ParamTypeEnum implements IEnum<String> {
 
     OBJECT("OBJECT", "Object", "对象"),
+    Map("Map", "Map", "map"),
     ENUMERATION("ENUMERATION", "枚举", "枚举"),
 //    MULTI_ENUMERATION("MULTI_ENUMERATION", "多选枚举", "多选枚举")
 
@@ -26,11 +27,11 @@ public enum ParamTypeEnum implements IEnum<String> {
 
     public static final String dictionary = "pamirs.eip.EipParamTypeEnum";
 
-    private String value;
+    private final String value;
 
-    private String displayName;
+    private final String displayName;
 
-    private String help;
+    private final String help;
 
     ParamTypeEnum(String value, String displayName, String help) {
         this.value = value;

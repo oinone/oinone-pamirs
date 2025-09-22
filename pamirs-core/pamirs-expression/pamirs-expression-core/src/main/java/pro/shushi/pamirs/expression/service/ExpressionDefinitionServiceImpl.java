@@ -14,6 +14,7 @@ import pro.shushi.pamirs.expression.tmodel.ExpressionCell;
 import pro.shushi.pamirs.expression.tmodel.ExpressionDisplay;
 import pro.shushi.pamirs.expression.tmodel.ExpressionRow;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.Models;
@@ -24,11 +25,11 @@ import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -224,6 +225,22 @@ public class ExpressionDefinitionServiceImpl implements ExpressionDefinitionServ
         );
     }
 
+    @pro.shushi.pamirs.meta.annotation.Function
+    @Override
+    public List<ExpressionDefine> queryByKeyPrefixes(List<String> keyPrefixes) {
+        if (CollectionUtils.isEmpty(keyPrefixes)) {
+            return new ArrayList<>();
+        }
+
+        LambdaQueryWrapper<ExpressionDefine> query = Pops.<ExpressionDefine>lambdaQuery()
+                .from(ExpressionDefine.MODEL_MODEL);
+        for (int i = 0; i < keyPrefixes.size() - 1; i++) {
+            query.likeRight(ExpressionDefine::getKey, keyPrefixes.get(i)).or();
+        }
+        query.likeRight(ExpressionDefine::getKey, keyPrefixes.get(keyPrefixes.size() - 1));
+        return queryList(query);
+    }
+
     @Override
     @pro.shushi.pamirs.meta.annotation.Function
     public List<ExpressionDefine> copyByKeyPrefix(String searchKeyPrefix, String copiedKeyPrefix) {
@@ -302,5 +319,93 @@ public class ExpressionDefinitionServiceImpl implements ExpressionDefinitionServ
             data.setKey(id.toString());
         }
         return data.queryOne();
+    }
+
+    @Override
+    @pro.shushi.pamirs.meta.annotation.Function
+    public List<ExpressionDefine> cloneWithNodeIdRemap(Map<String, String> nodeIdRemap) {
+        if (nodeIdRemap == null || nodeIdRemap.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<ExpressionDefine> expressions = queryByKeyPrefixes(new ArrayList<>(nodeIdRemap.keySet()));
+        if (expressions == null || expressions.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        final Pattern keysPattern = Pattern.compile(String.join("|", nodeIdRemap.keySet()));
+        for (ExpressionDefine def : expressions) {
+            def.unsetId();
+            def.unsetCode();
+
+            def.setKey(updateNodeReferences(def.getKey(), keysPattern, nodeIdRemap));
+            if (CollectionUtils.isEmpty(def.getRowList())) {
+                continue;
+            }
+
+            for (ExpressionRow row : def.getRowList()) {
+                if (row == null) {
+                    continue;
+                }
+                row.setOriginal(updateNodeReferences(row.getOriginal(), keysPattern, nodeIdRemap));
+
+                if (CollectionUtils.isEmpty(row.getBlockList())) {
+                    continue;
+                }
+                for (ExpressionBlock block : row.getBlockList()) {
+                    if (block == null) {
+                        continue;
+                    }
+                    block.setOriginal(updateNodeReferences(block.getOriginal(), keysPattern, nodeIdRemap));
+                    if (CollectionUtils.isEmpty(block.getCellList())) {
+                        continue;
+                    }
+                    for (ExpressionCell cell : block.getCellList()) {
+                        if (cell != null && ExpressionCellType.VARIABLE.equals(cell.getCellType())) {
+                            cell.setOriginal(updateNodeReferences(cell.getOriginal(), keysPattern, nodeIdRemap));
+                            cell.setValue(updateNodeReferences(cell.getValue(), keysPattern, nodeIdRemap));
+                        }
+                    }
+                }
+            }
+            def.setCode(buildCode0(def));
+        }
+        Models.origin().createBatch(expressions);
+        return expressions;
+    }
+
+    /**
+     * 替换表达式中的旧nodeId
+     *
+     * @param expressionText 表达式
+     * @param nodePattern 节点ID匹配正则表达式
+     * @param nodeIdMapping 旧节点ID-新节点ID
+     * @return 替换后的表达式
+     */
+    private static String updateNodeReferences(String expressionText, Pattern nodePattern, Map<String, String> nodeIdMapping) {
+        if (expressionText == null || expressionText.isEmpty()) {
+            return expressionText;
+        }
+
+        Matcher matcher = nodePattern.matcher(expressionText);
+        StringBuffer result = null;
+        boolean hasMatch = false;
+
+        while (matcher.find()) {
+            if (result == null) {
+                result = new StringBuffer(expressionText.length());
+            }
+            String matchedNodeId = matcher.group();
+            String newNodeId = nodeIdMapping.get(matchedNodeId);
+            matcher.appendReplacement(result, Matcher.quoteReplacement(newNodeId));
+            hasMatch = true;
+        }
+
+        if (!hasMatch) {
+            return expressionText;
+        }
+
+        matcher.appendTail(result);
+        return result.toString();
     }
 }

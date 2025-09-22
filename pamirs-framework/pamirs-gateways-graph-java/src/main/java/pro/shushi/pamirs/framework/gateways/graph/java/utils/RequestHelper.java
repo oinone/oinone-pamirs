@@ -7,8 +7,8 @@ import pro.shushi.pamirs.framework.common.spi.SessionAfterApi;
 import pro.shushi.pamirs.framework.common.spi.SessionPrepareApi;
 import pro.shushi.pamirs.framework.gateways.graph.error.ClientGraphQLError;
 import pro.shushi.pamirs.framework.gateways.graph.java.HealthCheckController;
+import pro.shushi.pamirs.framework.gateways.graph.java.session.RequestService;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.api.PamirsLic;
 import pro.shushi.pamirs.meta.api.dto.common.Message;
 import pro.shushi.pamirs.meta.api.dto.protocol.PamirsClientRequestParam;
 import pro.shushi.pamirs.meta.api.dto.protocol.PamirsRequestParam;
@@ -40,12 +40,18 @@ public class RequestHelper {
 
     private static final HoldKeeper<SessionAfterApi> sessionAfterApiHoldKeeper = new HoldKeeper<>();
 
+    private static final HoldKeeper<RequestService> requestServiceHoldKeeper = new HoldKeeper<>();
+
     public static SessionPrepareApi getSessionPrepareApi() {
         return sessionPrepareApiHoldKeeper.supply(() -> Spider.getDefaultExtension(SessionPrepareApi.class));
     }
 
     public static SessionAfterApi getSessionAfterApi() {
         return sessionAfterApiHoldKeeper.supply(() -> Spider.getDefaultExtension(SessionAfterApi.class));
+    }
+
+    private static RequestService getRequestService() {
+        return requestServiceHoldKeeper.supply(() -> Spider.getDefaultExtension(RequestService.class));
     }
 
     public static PamirsRequestParam preparePamirsRequestParam(String moduleName, HttpServletRequest request, PamirsClientRequestParam gql) {
@@ -56,6 +62,7 @@ public class RequestHelper {
         try {
             getSessionPrepareApi().prepare(request, moduleName, requestParam);
         } catch (Throwable e) {
+            log.error("request session prepare error.", e);
             PamirsRequestResult result = new PamirsRequestResult();
             result.setErrors(JsonUtils.parseObjectList2MapList(Collections.singletonList(Message.init().setLevel(InformationLevelEnum.ERROR).setCode("Oops!").setMessage(e.getMessage()))));
             requestParam.setResult(result);
@@ -69,14 +76,14 @@ public class RequestHelper {
 
     public static PamirsRequestResult handleModuleAccess(String moduleName, String resolvedModuleName,
                                                          Supplier<PamirsRequestResult> executeFunction) {
-        // 系统模块访问控制
-
-        PamirsRequestResult requestResult = Spider.getLoader(PamirsLic.class).getExtension().check(resolvedModuleName);
-        ;
-        if (requestResult != null) {
-            return requestResult;
+        try {
+            return getRequestService().handle(moduleName, resolvedModuleName, executeFunction);
+        } catch (Throwable e) {
+            log.error("request handle error.", e);
+            PamirsRequestResult result = new PamirsRequestResult();
+            result.setErrors(JsonUtils.parseObjectList2MapList(Collections.singletonList(Message.init().setLevel(InformationLevelEnum.ERROR).setCode("Oops!").setMessage(e.getMessage()))));
+            return result;
         }
-        return executeFunction.get();
     }
 
     public static PamirsRequestResult beforeRequestExecute() {

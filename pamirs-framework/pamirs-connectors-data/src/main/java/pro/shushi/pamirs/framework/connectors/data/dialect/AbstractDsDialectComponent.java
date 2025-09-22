@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.framework.connectors.data.dialect;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.framework.connectors.data.configure.datasource.DataSourceConfiguration;
@@ -222,6 +223,9 @@ public abstract class AbstractDsDialectComponent implements DsDialectComponent {
         info.put(ALLOW_PUBLIC_KEY_RETRIEVAL, "true");
         info.put(SSLMODE, SSLMODE_DISABLED);
         Conn conn = new Conn();
+        if (log.isDebugEnabled()) {
+            log.debug("dsKey: {}, connect url: {}, properties: {}", dsKey, DB_URL, JSON.toJSONString(info));
+        }
         conn.setConnection(DriverManager.getConnection(DB_URL, info));
         conn.setDatabase(database);
         return conn;

@@ -7,9 +7,11 @@ import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipConverter;
 import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
 import pro.shushi.pamirs.eip.api.util.EipOpenFunctionHelper;
+import pro.shushi.pamirs.framework.gateways.hook.RsqlParseHook;
 import pro.shushi.pamirs.meta.api.core.orm.convert.ClientDataConverter;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 /**
@@ -30,10 +32,12 @@ public class DefaultOpenFunctionConverterFunction<T> extends AbstractExecuteFunc
         // 根据函数定义,从上下文中获取入参
         Object[] argObjs = EipOpenFunctionHelper.convertArguments(function, (SuperMap) context.getInterfaceContextValue(OPEN_FUNCTION_CONVERTER_ARGS));
         Object result;
+        RsqlParseHook rsqlParseHook = BeanDefinitionUtils.getBean(RsqlParseHook.class);
+        rsqlParseHook.run(function, argObjs);
         if (argObjs == null) {
-            result = ignoreHookCall();
+            result = call();
         } else {
-            result = ignoreHookCall(argObjs);
+            result = call(argObjs);
         }
         String returnModel = function.getReturnType().getModel();
         if (result != null && StringUtils.isNotBlank(returnModel)) {

@@ -3,6 +3,7 @@ package pro.shushi.pamirs.eip.api.model.connector;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.MetaOrigin;
 import pro.shushi.pamirs.eip.api.enmu.connector.*;
+import pro.shushi.pamirs.eip.api.tmodel.EipExcelTypeTransform;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
@@ -135,8 +136,9 @@ public class EipConnectorResource extends IdModel {
     @Field(displayName = "是否为单个结果集")
     private Boolean isSingleResultSet;
 
-    @Field(displayName = "sql", summary = "sql，当connector为db时才使用")
-    @Field.String(size = 4096)
+    @Field(displayName = "SQL", summary = "sql，当connector为db时才使用")
+    @Field.Text
+    @Field.Advanced(columnDefinition = "MEDIUMTEXT")
     private String sql;
 
     @Field(displayName = "是否授权Api")
@@ -165,4 +167,20 @@ public class EipConnectorResource extends IdModel {
     @Field.Relation(store = false)
     @Field(displayName = "元数据字段")
     private List<ModelField> fields;
+
+    @Field.one2many
+    @Field.Relation(store = false)
+    @Field(displayName = "excel类型转换")
+    private EipExcelTypeTransform excelTypeTransform;
+
+    @Field.Text
+    @Field(displayName = "数据", store = NullableBoolEnum.FALSE)
+    private String dataList;
+
+    @Field(displayName = "是否发布为开放接口")
+    private Boolean isPublishOpenInterface;
+
+    @Field(displayName = "是否发布为MCP工具", store = NullableBoolEnum.FALSE)
+    private Boolean isPublishMcpTool;
+
 }

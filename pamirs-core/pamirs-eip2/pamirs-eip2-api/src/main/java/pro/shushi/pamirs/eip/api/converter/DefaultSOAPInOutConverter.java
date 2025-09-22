@@ -15,7 +15,9 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import javax.xml.namespace.QName;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
 
 import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.*;
 
@@ -27,6 +29,8 @@ import static pro.shushi.pamirs.eip.api.constant.WebServicePrefix.*;
 @Fun(EipFunctionConstant.FUNCTION_NAMESPACE)
 @Slf4j
 public class DefaultSOAPInOutConverter implements IEipInOutConverter {
+
+    private static final String NS = "ns";
 
     @Function.fun(EipFunctionConstant.DEFAULT_SOAP_IN_OUT_CONVERTER_FUN)
     @Function.Advanced(displayName = "默认SOAP输入输出转换器")
@@ -88,24 +92,12 @@ public class DefaultSOAPInOutConverter implements IEipInOutConverter {
                 .map(String::valueOf)
                 .orElse("");
 
-        SuperMap body = Optional.of(inObject)
+        Object requestBody = Optional.of(inObject)
                 .map(_in -> (SuperMap) _in)
                 .map(_in -> _in.get(PAMIRS_WEBSERVICE_PREFIX))
-                .map(_body -> (SuperMap) _body)
                 .orElse(new SuperMap());
 
-        SOAPBodyElement payload = null;
-        if (isV2) {
-            payload = soapMessage.getSOAPBody().addBodyElement(new QName(wsNs, wsOp));
-        } else {
-            payload = soapMessage.getSOAPBody().addBodyElement(new QName(wsNs, wsOp, "ns"));
-        }
-
-        for (Map.Entry<String, ?> entry : body.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            soapElement(payload, key, value);
-        }
+        soapElement(soapMessage.getSOAPBody(), isV2, wsNs, wsOp, null, requestBody);
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
             soapMessage.writeTo(baos);
@@ -115,29 +107,55 @@ public class DefaultSOAPInOutConverter implements IEipInOutConverter {
         }
     }
 
-    private static void soapElement(SOAPElement element, String key, Object value) throws SOAPException {
-        if (key.contains(".")) {
-            String[] arr = key.split("\\.", 2);
-            Iterator<Node> iterator = element.getChildElements();
-            Map<String, SOAPElement> childs = new HashMap<>();
-            while (iterator.hasNext()) {
-                SOAPElement e = (SOAPElement) iterator.next();
-                childs.put(e.getLocalName(), e);
-            }
-            boolean flag = false;
-            for (Map.Entry<String, SOAPElement> entry : childs.entrySet()) {
-                if (entry.getKey().equals(arr[0])) {
-                    flag = true;
-                    soapElement(entry.getValue(), arr[1], value);
-                }
-            }
-            if (!flag) {
-                SOAPElement soapElement = element.addChildElement(arr[0]);
-                soapElement(soapElement, arr[1], value);
-            }
+    private static SOAPBodyElement createPayload(SOAPBody soapBody, boolean isV2, String wsNs, String wsOp) throws SOAPException {
+        if (isV2) {
+            return soapBody.addBodyElement(new QName(wsNs, wsOp));
         } else {
-            element.addChildElement(key).addTextNode(String.valueOf(value));
+            return soapBody.addBodyElement(new QName(wsNs, wsOp, NS));
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public static void soapElement(SOAPBody soapBody, boolean isV2, String wsNs, String wsOp, SOAPBodyElement payload, Object requestBody) throws SOAPException {
+        if (requestBody instanceof Map) {
+            if (payload == null) {
+                payload = createPayload(soapBody, isV2, wsNs, wsOp);
+            }
+            Map<String, ?> body = (Map<String, ?>) requestBody;
+            for (Map.Entry<String, ?> entry : body.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                soapElement(payload, key, value);
+            }
+        } else if (requestBody instanceof Collection<?> body) {
+            if (payload != null) {
+                throw new UnsupportedOperationException("无效的二维数组");
+            }
+            for (Object item : body) {
+                payload = createPayload(soapBody, isV2, wsNs, wsOp);
+                soapElement(soapBody, isV2, wsNs, wsOp, payload, item);
+            }
+        } else {
+            throw new UnsupportedOperationException("无效的数据类型");
+        }
+    }
+
+    public static void soapElement(SOAPElement parent, String key, Object value) throws SOAPException {
+        if (value instanceof Map<?, ?> map) {
+            // 嵌套 Map，递归处理
+            SOAPElement element = parent.addChildElement(key);
+            for (Map.Entry<?, ?> entry : map.entrySet()) {
+                soapElement(element, entry.getKey().toString(), entry.getValue());
+            }
+        } else if (value instanceof Collection<?> collection) {
+            // Collection：每个元素都复用 key 作为 element 名
+            for (Object item : collection) {
+                soapElement(parent, key, item);  // 注意复用当前 key
+            }
+        } else {
+            // 基础类型或字符串
+            SOAPElement element = parent.addChildElement(key);
+            element.addTextNode(value == null ? "" : value.toString());
+        }
+    }
 }

@@ -13,6 +13,9 @@ public final class EmbedTestingServer {
 
     private static volatile TestingServer testingServer;
 
+    private EmbedTestingServer() {
+    }
+
     public static void start() {
         if (null != testingServer) {
             return;

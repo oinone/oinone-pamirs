@@ -786,8 +786,10 @@ public class FetchUtil {
             for (int i = 0; i < relationFieldSize; i++) {
                 String relationField = relationFields.get(i);
                 Object value;
+                boolean isStaticRelationField = false;
                 if (relationField.startsWith(CharacterConstants.SEPARATOR_OCTOTHORPE) && relationField.endsWith(CharacterConstants.SEPARATOR_OCTOTHORPE)) {
                     value = relationField.substring(1, relationField.length() - 1);
+                    isStaticRelationField = true;
                 } else {
                     value = FieldUtils.getFieldValue(item, relationField);
                 }
@@ -797,6 +799,9 @@ public class FetchUtil {
                     String referenceField = referenceFields.get(i);
                     if (referenceField.startsWith(CharacterConstants.SEPARATOR_OCTOTHORPE) && referenceField.endsWith(CharacterConstants.SEPARATOR_OCTOTHORPE)) {
                         isAddValue = referenceField.substring(1, referenceField.length() - 1).equals(value);
+                        if (!isStaticRelationField) {
+                            referenceFieldValueItem.put(relationField, value);
+                        }
                     } else {
                         referenceFieldValueItem.put(referenceField, value);
                     }

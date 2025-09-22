@@ -12,15 +12,16 @@
     <template slot="actions">
         <!--    <action name="delete" label="删除" model="pamirs.eip.EipIntegrationInterface" text="删除"/>-->
         <!--    <action name="集成接口创建form" label="创建" model="pamirs.eip.EipIntegrationInterface" text="创建"/>-->
-        <!--    <action name="集成接口测试form" label="测试" model="pamirs.eip.EipIntegrationInterface" rule="activeRecord.dataStatus &amp;&amp; activeRecord.dataStatus==&apos;ENABLED&apos;" action.config.nextConstructField="integrationInterface" text="测试"/>-->
+
     </template>
-    <template slot="rowActions" invisible="true">
+    <template slot="rowActions">
         <action name="dataStatusEnable" invisible="true"/>
         <action name="dataStatusDisable" invisible="true"/>
         <action name="ignoreLogFrequency" invisible="true"/>
         <action name="cancelIgnoreLogFrequency" invisible="true"/>
         <!--    <action name="集成接口详情detail" label="详情" model="pamirs.eip.EipIntegrationInterface"/>-->
         <!--    <action name="集成接口复制form" label="复制" model="pamirs.eip.EipIntegrationInterface"/>-->
+        <action name="redirectTestPage" invisible="activeRecord.dataStatus!=&apos;ENABLED&apos;"/>
     </template>
     <template slot="fields">
         <field data="id" invisible="true"/>

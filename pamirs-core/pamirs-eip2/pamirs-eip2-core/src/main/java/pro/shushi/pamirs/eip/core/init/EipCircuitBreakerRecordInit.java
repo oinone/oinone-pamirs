@@ -5,7 +5,7 @@ import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.InstallDataInit;
 import pro.shushi.pamirs.boot.common.api.init.UpgradeDataInit;
 import pro.shushi.pamirs.eip.api.EipModule;
-import pro.shushi.pamirs.eip.api.service.EipCircuitBreakerRuleService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipCircuitBreakerRuleService;
 
 import jakarta.annotation.Resource;
 import java.util.Collections;

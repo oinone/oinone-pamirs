@@ -8,7 +8,8 @@ import pro.shushi.pamirs.eip.api.IEipOpenInterface;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.model.EipRouteDefinition;
-import pro.shushi.pamirs.eip.api.service.EipDistributionSupport;
+import pro.shushi.pamirs.eip.api.service.EipAsyncService;
+import pro.shushi.pamirs.eip.api.service.distribution.EipDistributionSupport;
 import pro.shushi.pamirs.eip.api.service.EipInterfaceService;
 import pro.shushi.pamirs.eip.api.service.EipService;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -25,6 +26,9 @@ public class EipServiceImpl implements EipService {
 
     @Autowired(required = false)
     private EipDistributionSupport distributionSupport;
+
+    @Autowired
+    private EipAsyncService eipAsyncService;
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -84,85 +88,85 @@ public class EipServiceImpl implements EipService {
 
     @Override
     public void registerInterface(EipIntegrationInterface eipInterface) {
-        Result<String> result = interfaceService.registerInterface(eipInterface);
+        Result<String> result;
+        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+            eipAsyncService.registerInterface(eipInterface.getInterfaceName());
+            result = new Result<>();
+        } else {
+            result = interfaceService.registerInterface(eipInterface);
+        }
         if (!result.isSuccess()) {
             throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-        }
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
-            result = distributionSupport.refreshInterface(eipInterface);
-            if (!result.isSuccess()) {
-                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-            }
         }
     }
 
     @Override
     public void cancellationInterface(EipIntegrationInterface eipInterface) {
-        Result<String> result = interfaceService.cancellationInterface(eipInterface);
+        Result<String> result;
+        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+            eipAsyncService.cancellationInterface(eipInterface.getInterfaceName());
+            result = new Result<>();
+        } else {
+            result = interfaceService.cancellationInterface(eipInterface);
+        }
         if (!result.isSuccess()) {
             throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-        }
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
-            result = distributionSupport.refreshInterface(eipInterface);
-            if (!result.isSuccess()) {
-                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-            }
         }
     }
 
     @Override
     public void registerRouteDefinition(EipRouteDefinition eipInterface) {
-        Result<String> result = interfaceService.registerRouteDefinition(eipInterface);
+        Result<String> result;
+        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+            eipAsyncService.registerRouteDefinition(eipInterface.getInterfaceName());
+            result = new Result<>();
+        } else {
+            result = interfaceService.registerRouteDefinition(eipInterface);
+        }
         if (!result.isSuccess()) {
             throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-        }
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
-            result = distributionSupport.refreshRouteDefinition(eipInterface);
-            if (!result.isSuccess()) {
-                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-            }
         }
     }
 
     @Override
     public void cancellationRouteDefinition(EipRouteDefinition eipInterface) {
-        Result<String> result = interfaceService.cancellationRouteDefinition(eipInterface);
+        Result<String> result;
+        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+            eipAsyncService.cancellationRouteDefinition(eipInterface.getInterfaceName());
+            result = new Result<>();
+        } else {
+            result = interfaceService.cancellationRouteDefinition(eipInterface);
+        }
         if (!result.isSuccess()) {
             throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-        }
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
-            result = distributionSupport.refreshRouteDefinition(eipInterface);
-            if (!result.isSuccess()) {
-                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-            }
         }
     }
 
     @Override
     public void registerOpenInterface(EipOpenInterface eipInterface) {
-        Result<String> result = interfaceService.registerOpenInterface(eipInterface);
+        Result<String> result;
+        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+            eipAsyncService.registerOpenInterface(eipInterface.getInterfaceName());
+            result = new Result<>();
+        } else {
+            result = interfaceService.registerOpenInterface(eipInterface);
+        }
         if (!result.isSuccess()) {
             throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-        }
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
-            result = distributionSupport.refreshOpenInterface(eipInterface);
-            if (!result.isSuccess()) {
-                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-            }
         }
     }
 
     @Override
     public void cancellationOpenInterface(EipOpenInterface eipInterface) {
-        Result<String> result = interfaceService.cancellationOpenInterface(eipInterface);
+        Result<String> result;
+        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+            eipAsyncService.cancellationOpenInterface(eipInterface.getInterfaceName());
+            result = new Result<>();
+        } else {
+            result = interfaceService.cancellationOpenInterface(eipInterface);
+        }
         if (!result.isSuccess()) {
             throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-        }
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
-            result = distributionSupport.refreshOpenInterface(eipInterface);
-            if (!result.isSuccess()) {
-                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(result.getData()).errThrow();
-            }
         }
     }
 }

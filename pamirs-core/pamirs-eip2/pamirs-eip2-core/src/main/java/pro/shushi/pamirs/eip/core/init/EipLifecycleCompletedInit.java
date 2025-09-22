@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.core.init;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -12,28 +11,24 @@ import pro.shushi.pamirs.eip.api.EipModule;
 import pro.shushi.pamirs.eip.api.config.PamirsEipOpenApiProperties;
 import pro.shushi.pamirs.eip.api.context.EipCamelContext;
 import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
-import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
-import pro.shushi.pamirs.eip.api.model.AbstractEipApi;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.model.EipRouteDefinition;
-import pro.shushi.pamirs.eip.api.service.EipDistributionSupport;
 import pro.shushi.pamirs.eip.api.service.EipInterfaceService;
-import pro.shushi.pamirs.eip.api.service.EipLogStrategyService;
+import pro.shushi.pamirs.eip.api.service.distribution.EipDistributionService;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author Adamancy Zhang
  * @date 2021-01-06 14:15
  */
 @Slf4j
-@Component
 @Order(0)
+@Component
 public class EipLifecycleCompletedInit implements LifecycleCompletedInit {
 
     @Autowired(required = false)
@@ -42,22 +37,17 @@ public class EipLifecycleCompletedInit implements LifecycleCompletedInit {
     @Autowired
     private EipInterfaceService interfaceService;
 
-    @Autowired(required = false)
-    private EipDistributionSupport distributorSupport;
-
-    @Autowired
-    private EipLogStrategyService eipLogStrategyService;
-
     @Override
     public void process(AppLifecycleCommand command, List<ModuleDefinition> installModules, List<ModuleDefinition> upgradeModules, List<ModuleDefinition> reloadModules) {
         InitializationUtil.lifecycleCompletedInit(installModules, upgradeModules, reloadModules, (lifecycle, module) -> {
             init();
-            if (distributorSupport != null) {
+            List<EipDistributionService> services = BeanDefinitionUtils.getBeansOfTypeByOrdered(EipDistributionService.class);
+            for (EipDistributionService distributionService : services) {
                 try {
-                    distributorSupport.start();
-                    log.info("eip distribution supported.");
+                    distributionService.start();
+                    log.info("eip distribution supported. {}", distributionService.getClass().getName());
                 } catch (Exception e) {
-                    log.error("eip distribution unsupported.", e);
+                    log.error("eip distribution unsupported. {}", distributionService.getClass().getName(), e);
                 }
             }
         }, EipModule.MODULE_MODULE);
@@ -85,9 +75,7 @@ public class EipLifecycleCompletedInit implements LifecycleCompletedInit {
         List<EipIntegrationInterface> integrationInterfaceList = new EipIntegrationInterface()
                 .setDataStatus(DataStatusEnum.ENABLED)
                 .queryList();
-        Set<String> ignoreFrequencyInterfaceNames = fetchIgnoreLogFrequencyInterfaceNames(integrationInterfaceList, InterfaceTypeEnum.INTEGRATION);
         for (EipIntegrationInterface integrationInterface : integrationInterfaceList) {
-            integrationInterface.setIsIgnoreLogFrequency(ignoreFrequencyInterfaceNames.contains(integrationInterface.getInterfaceName()));
             interfaceService.registerInterface(integrationInterface);
         }
     }
@@ -96,9 +84,7 @@ public class EipLifecycleCompletedInit implements LifecycleCompletedInit {
         List<EipRouteDefinition> routeDefinitionList = new EipRouteDefinition()
                 .setDataStatus(DataStatusEnum.ENABLED)
                 .queryList();
-        Set<String> ignoreFrequencyInterfaceNames = fetchIgnoreLogFrequencyInterfaceNames(routeDefinitionList, InterfaceTypeEnum.ROUTE);
         for (EipRouteDefinition routeDefinition : routeDefinitionList) {
-            routeDefinition.setIsIgnoreLogFrequency(ignoreFrequencyInterfaceNames.contains(routeDefinition.getInterfaceName()));
             interfaceService.registerRouteDefinition(routeDefinition);
         }
     }
@@ -107,21 +93,8 @@ public class EipLifecycleCompletedInit implements LifecycleCompletedInit {
         List<EipOpenInterface> openInterfaceList = new EipOpenInterface()
                 .setDataStatus(DataStatusEnum.ENABLED)
                 .queryList();
-        Set<String> ignoreFrequencyInterfaceNames = fetchIgnoreLogFrequencyInterfaceNames(openInterfaceList, InterfaceTypeEnum.OPEN);
         for (EipOpenInterface openInterface : openInterfaceList) {
-            openInterface.setIsIgnoreLogFrequency(ignoreFrequencyInterfaceNames.contains(openInterface.getInterfaceName()));
             interfaceService.registerOpenInterface(openInterface);
         }
-    }
-
-    /**
-     * 获取忽略日志频率限制的接口技术名称
-     */
-    private <T extends AbstractEipApi> Set<String> fetchIgnoreLogFrequencyInterfaceNames(List<T> interfaceList, InterfaceTypeEnum interfaceTypeEnum) {
-        List<String> interfaceNames = interfaceList.stream()
-                .map(T::getInterfaceName)
-                .filter(StringUtils::isNotBlank)
-                .collect(Collectors.toList());
-        return eipLogStrategyService.queryIgnoreFrequencyList(interfaceNames, interfaceTypeEnum);
     }
 }

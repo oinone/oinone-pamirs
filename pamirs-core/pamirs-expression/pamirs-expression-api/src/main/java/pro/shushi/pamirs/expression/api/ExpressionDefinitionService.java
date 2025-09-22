@@ -7,6 +7,7 @@ import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * DesignerFunctionDefinition
@@ -37,6 +38,9 @@ public interface ExpressionDefinitionService {
     @Function
     List<ExpressionDefine> queryByKeyPrefix(String searchKeyPrefix);
 
+    @Function
+    List<ExpressionDefine> queryByKeyPrefixes(List<String> keyPrefixes);
+
     /**
      * 根据key的前缀,复制数据
      *
@@ -52,4 +56,7 @@ public interface ExpressionDefinitionService {
 
     @Function
     ExpressionDefine queryModelLabelExpByModel(ExpressionDefine data);
+
+    @Function
+    List<ExpressionDefine> cloneWithNodeIdRemap(Map<String/*oldKey*/, String/*newKey*/> keyMappings);
 }

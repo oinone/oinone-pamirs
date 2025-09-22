@@ -43,6 +43,10 @@ public class SuperMap extends LinkedHashMap<String, Object> implements Map<Strin
         return MapHelper.putAllIteration(this, map);
     }
 
+    public Object removeIteration(String key) {
+        return MapHelper.removeIteration(this, key);
+    }
+
     public String getString(String key) {
         return getString0(key, this::get);
     }

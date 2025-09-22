@@ -4,7 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.SuperMap;
 import pro.shushi.pamirs.eip.api.*;
-import pro.shushi.pamirs.eip.api.entity.impl.DefaultEipParamConverter;
+import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.eip.api.pamirs.DefaultConverterFunction;
 import pro.shushi.pamirs.eip.api.pamirs.DefaultParamConverterCallbackFunction;
 import pro.shushi.pamirs.eip.api.pamirs.DefaultParamConverterFunction;
@@ -123,7 +123,7 @@ public abstract class AbstractEipParamConverterProcessor extends TransientModel 
         if (StringUtils.isNotBlank(namespace) && StringUtils.isNotBlank(fun)) {
             return new DefaultParamConverterFunction<>(namespace, fun);
         }
-        return new DefaultEipParamConverter<>();
+        return EipFunctionConstant.DEFAULT_PARAM_CONVERTER;
     }
 
     @Override

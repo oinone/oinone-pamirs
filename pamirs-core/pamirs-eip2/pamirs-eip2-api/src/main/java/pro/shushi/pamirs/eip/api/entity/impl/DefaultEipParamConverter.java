@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.api.entity.impl;
 
-import org.apache.commons.collections4.CollectionUtils;
 import pro.shushi.pamirs.core.common.TreeHelper;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipConvertParam;
@@ -20,12 +19,14 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
     @Override
     public void convert(IEipContext<T> context, List<IEipConvertParam<T>> convertParamList, IEipParamConverterCallback<T> callback) {
         Set<String> convertInParamKeySet = new HashSet<>();
-        List<IEipConvertParam<T>> listConvertInParamList = new ArrayList<>();
+        List<ParameterGroup<T>> groups = new ArrayList<>();
         for (IEipConvertParam<T> convertParam : convertParamList) {
+            String inParam = convertParam.getInParam();
+            List<IEipConvertParam<T>> inParamList = getValidGroup(groups, inParam);
             //判断入参定义是否存在数组标记
-            if (convertParam.getInParam().contains(IEipContext.DEFAULT_LIST_FLAG_KEY)) {
+            if (inParam.contains(IEipContext.DEFAULT_LIST_FLAG_KEY)) {
                 //留存根参数
-                listConvertInParamList.add(convertParam);
+                inParamList.add(convertParam);
                 //根据数组标记进行分割，形成树结构所需的中间节点
                 String paramKey = convertParam.getInParam();
                 int flagIndex = paramKey.lastIndexOf(IEipContext.DEFAULT_LIST_FLAG_KEY);
@@ -38,17 +39,23 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
                     if (convertInParamKeySet.contains(paramKey)) {
                         break;
                     } else {
-                        listConvertInParamList.add(convertParam.clone(paramKey, convertParam.getOutParam()));
+                        inParamList.add(convertParam.clone(paramKey, convertParam.getOutParam()));
                         convertInParamKeySet.add(paramKey);
                     }
                     flagIndex = paramKey.lastIndexOf(IEipContext.DEFAULT_LIST_FLAG_KEY, flagIndex - 1);
                 }
-                continue;
+            } else {
+                inParamList.add(convertParam);
             }
-            getAndPutValue(context, convertParam, null, convertParam.getInParam(), convertParam.getOutParam(), callback);
         }
-        if (CollectionUtils.isNotEmpty(listConvertInParamList)) {
-            listParamReadyConverter(context, listConvertInParamList, callback);
+        for (ParameterGroup<T> group : groups) {
+            if (group.prefix == null) {
+                for (IEipConvertParam<T> parameter : group.parameters) {
+                    getAndPutValue(context, parameter, null, parameter.getInParam(), parameter.getOutParam(), callback);
+                }
+            } else {
+                listParamReadyConverter(context, group.parameters, callback);
+            }
         }
     }
 
@@ -160,11 +167,13 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
     private void getAndPutValue(IEipContext<T> context, IEipConvertParam<T> convertParam, List<AtomicInteger> inParamCounterList,
                                 String inParam, String outParam,
                                 IEipParamConverterCallback<T> callback, Object inValue) {
-
         Object value = convertValue(context, convertParam, inParamCounterList, callback, inValue);
         if (value == null) {
             if (Boolean.TRUE.equals(convertParam.getRequired())) {
                 throw PamirsException.construct(EipExpEnumerate.PARAM_REQUIRED).appendMsg(inParam).errThrow();
+            }
+            if (Boolean.TRUE.equals(convertParam.getIsKeepNull())) {
+                EipParamConverterHelper.putContextValue(convertParam.getTargetContextType(), context, EipParamConverterHelper.getFinalParameter(outParam, inParamCounterList), null);
             }
             return;
         }
@@ -183,5 +192,50 @@ public class DefaultEipParamConverter<T> implements IEipParamConverter<T> {
             return null;
         }
         return EipParamConverterHelper.callback(callback, context, convertParam, inParamCounterList, value);
+    }
+
+    private List<IEipConvertParam<T>> getValidGroup(List<ParameterGroup<T>> groups, String key) {
+        int index = key.indexOf(IEipContext.DEFAULT_LIST_FLAG_KEY);
+        if (index == -1) {
+            ParameterGroup<T> group;
+            if (groups.isEmpty()) {
+                group = new ParameterGroup<>();
+                groups.add(group);
+            } else {
+                group = groups.get(groups.size() - 1);
+                if (group.prefix != null) {
+                    group = new ParameterGroup<>();
+                    groups.add(group);
+                }
+            }
+            return group.parameters;
+        }
+        String prefix = key.substring(0, index);
+        for (ParameterGroup<T> group : groups) {
+            if (group.prefix == null) {
+                continue;
+            }
+            if (group.prefix.equals(prefix)) {
+                return group.parameters;
+            }
+        }
+        ParameterGroup<T> group = new ParameterGroup<>(prefix);
+        groups.add(group);
+        return group.parameters;
+    }
+
+    private static class ParameterGroup<T> {
+
+        private final String prefix;
+
+        private final List<IEipConvertParam<T>> parameters = new ArrayList<>();
+
+        public ParameterGroup() {
+            this(null);
+        }
+
+        public ParameterGroup(String prefix) {
+            this.prefix = prefix;
+        }
     }
 }

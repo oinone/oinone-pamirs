@@ -10,6 +10,9 @@ import com.alibaba.excel.read.metadata.holder.ReadRowHolder;
 import com.alibaba.excel.read.metadata.holder.ReadSheetHolder;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.eip.api.excel.type.converter.ExcelTTypeBoolConverter;
+import pro.shushi.pamirs.eip.api.excel.type.converter.ExcelTTypeDateTimeConverter;
+import pro.shushi.pamirs.eip.api.excel.type.converter.ExcelTTypeMoneyConverter;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
@@ -93,25 +96,26 @@ public class EipExcelReadListener extends AnalysisEventListener<Map<Integer, Str
                 ReadCellData<?> cellData = (ReadCellData<?>) entry.getValue();
                 int cellIndex = cellData.getColumnIndex();
                 CellDataTypeEnum cellType = cellData.getType();
-                String ttype = ttype(cellType);
+
                 EipExcelHead excelHead = excel.getSheet(sheetName).getHead(cellIndex);
+                String format = null;
                 if (null != excelHead) {
-                    excelHead.setType(ttype);
                     DataFormatData fmtData = cellData.getDataFormatData();
                     if (null == fmtData) {
                         continue;
                     }
-                    String format = fmtData.getFormat();
+                    format = fmtData.getFormat();
                     excelHead.setFormat(format);
-                    if (StringUtils.isBlank(format)) {
-                        continue;
-                    }
-                    for (String st : sets) {
-                        if (format.contains(st)) {
-                            excelHead.setType(TtypeEnum.STRING.value());
-                            break;
-                        }
-                    }
+                }
+
+                String ttype = ttype(rowData.get(cellIndex), cellType, format);
+                if (TtypeEnum.HTML.value().equals(ttype)) {
+                    ttype = TtypeEnum.STRING.value();
+                } else if (TtypeEnum.MONEY.value().equals(ttype)) {
+                    ttype = TtypeEnum.FLOAT.value();
+                }
+                if (excelHead != null) {
+                    excelHead.setType(ttype);
                 }
             }
             excel.getSheet(sheetName).setHeadReady();
@@ -225,25 +229,58 @@ public class EipExcelReadListener extends AnalysisEventListener<Map<Integer, Str
 
     }
 
-    private String ttype(CellDataTypeEnum cellType) {
+    private String ttype(String value, CellDataTypeEnum cellType, String format) {
+        if (StringUtils.isBlank(value)) {
+            return ttype(cellType, format);
+        }
+        if (ExcelTTypeMoneyConverter.originIsNumber(value)) {
+            return TtypeEnum.MONEY.value();
+        }
+        if (ExcelTTypeBoolConverter.originIsBool(value)) {
+            return TtypeEnum.BOOLEAN.value();
+        }
+        if (ExcelTTypeDateTimeConverter.originIsDate(value)) {
+            return TtypeEnum.DATETIME.value();
+        }
+        return ttype(cellType, format);
+    }
+
+    private String ttype(CellDataTypeEnum cellType, String format) {
+        String ttype;
         switch (cellType) {
             case STRING:
             case DIRECT_STRING:
             case EMPTY:
             case ERROR:
-                return TtypeEnum.STRING.value();
+                ttype = TtypeEnum.STRING.value();
+                break;
             case NUMBER:
-                return TtypeEnum.MONEY.value();
+                ttype = TtypeEnum.MONEY.value();
+                break;
             case DATE:
-                return TtypeEnum.DATETIME.value();
+                ttype = TtypeEnum.DATETIME.value();
+                break;
             case BOOLEAN:
-                return TtypeEnum.BOOLEAN.value();
+                ttype = TtypeEnum.BOOLEAN.value();
+                break;
             case RICH_TEXT_STRING:
-                return TtypeEnum.HTML.value();
+                ttype = TtypeEnum.HTML.value();
+                break;
             default:
-                log.warn("未匹配CellType:{}", cellType);
-                return TtypeEnum.STRING.value();
+                log.debug("未匹配CellType:{}", cellType);
+                ttype = TtypeEnum.STRING.value();
         }
+
+        if (StringUtils.isBlank(format)) {
+            return ttype;
+        }
+        for (String st : sets) {
+            if (format.contains(st)) {
+                ttype = TtypeEnum.STRING.value();
+                return ttype;
+            }
+        }
+        return ttype;
     }
 
     public EipExcel getExcel() {

@@ -80,15 +80,4 @@ public class Oracle11gSQLVisitor extends OracleSQLVisitor {
 
         return new SQLSelect(outerQuery);
     }
-
-    @Override
-    public boolean visit(MySqlInsertStatement x) {
-        String tableName = x.getTableName().getSimpleName().toUpperCase();
-        if (tableName.startsWith("PAMIRS_SCHEDULE")) {
-            String sequenceName = x.getTableName().getSimpleName().toUpperCase() + "_ID";
-            x.getColumns().add(new SQLIdentifierExpr("id"));
-            x.getValues().addValue(new SQLSequenceExpr(new SQLIdentifierExpr(sequenceName), SQLSequenceExpr.Function.NextVal));
-        }
-        return true;
-    }
 }

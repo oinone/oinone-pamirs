@@ -483,7 +483,7 @@ public class DateFunctions {
     )
     @Function.fun("DATE_EQUALS")
     @Function(name = "DATE_EQUALS", scene = {EXPRESSION}, openLevel = LOCAL,
-            summary = "函数示例: EQUALS(date1,date2)\n函数说明: 比较两个日期的大小，date1 == date2时返回true"
+            summary = "函数示例: DATE_EQUALS(date1,date2)\n函数说明: 比较两个日期的大小，date1 == date2时返回true"
     )
     public static Boolean dateEquals(Date date1, Date date2) {
         if (date1 == null && date2 == null) {
@@ -530,6 +530,39 @@ public class DateFunctions {
 
     public static Boolean dateEquals(String dateStr1, String dateStr2) {
         return compareDateStr(dateStr1, dateStr2, "equal");
+    }
+
+    public static Boolean dateEquals(java.sql.Date date1, String date2) {
+        Date convertedDate1 = convertToStandardDate(date1);
+        Date convertedDate2 = convertStringToDate(date2);
+        return dateEquals(convertedDate1, convertedDate2);
+    }
+
+    public static Boolean dateEquals(Date date1, String date2) {
+        Date convertedDate2 = convertStringToDate(date2);
+        return dateEquals(date1, convertedDate2);
+    }
+
+    public static Boolean dateEquals(String date1, java.sql.Date date2) {
+        Date convertedDate1 = convertStringToDate(date1);
+        Date convertedDate2 = convertToStandardDate(date2);
+        return dateEquals(convertedDate1, convertedDate2);
+    }
+
+    public static Boolean dateEquals(String date1, Date date2) {
+        Date convertedDate1 = convertStringToDate(date1);
+        return dateEquals(convertedDate1, date2);
+    }
+
+    private static Date convertStringToDate(String dateStr) {
+        if (StringUtils.isBlank(dateStr) || "null".equalsIgnoreCase(dateStr)) {
+            return null;
+        }
+        return DateUtils.convertToDate(dateStr);
+    }
+
+    private static Date convertToStandardDate(java.sql.Date sqlDate) {
+        return sqlDate != null ? new Date(sqlDate.getTime()) : new Date(0);
     }
 
     @Function.Advanced(

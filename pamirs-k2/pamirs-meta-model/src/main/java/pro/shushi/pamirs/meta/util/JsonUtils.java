@@ -1,11 +1,15 @@
 package pro.shushi.pamirs.meta.util;
 
+import com.alibaba.fastjson.JSONValidator;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializeFilter;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import pro.shushi.pamirs.meta.api.core.orm.serialize.KernelJsonUtils;
 import pro.shushi.pamirs.meta.api.core.orm.serialize.config.PamirsParserConfig;
 import pro.shushi.pamirs.meta.api.core.orm.serialize.config.PamirsSerializerConfig;
@@ -13,6 +17,7 @@ import pro.shushi.pamirs.meta.api.core.orm.serialize.filter.BigDecimalSerializeF
 import pro.shushi.pamirs.meta.api.core.orm.serialize.type.EnumUsingValueDeserializer;
 import pro.shushi.pamirs.meta.api.core.orm.serialize.type.EnumUsingValueSerializer;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -117,5 +122,57 @@ public class JsonUtils {
         return KernelJsonUtils.toJSONString(object, serializeConfig, defaultFilters, filters, features);
     }
 
+    private static final JsonFactory JSON_FACTORY;
+
+    static {
+        JSON_FACTORY = new JsonFactory();
+        JSON_FACTORY.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+        JSON_FACTORY.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+    }
+
+    public static boolean isJSONString(String json) {
+        return validateJSONType(json) != null;
+    }
+
+    public static boolean isJSONObject(String json) {
+        return JSONValidator.Type.Object.equals(validateJSONType(json));
+    }
+
+    public static boolean isJSONArray(String json) {
+        return JSONValidator.Type.Array.equals(validateJSONType(json));
+    }
+
+    public static JSONValidator.Type validateJSONType(String json) {
+        try (JsonParser parser = JSON_FACTORY.createParser(json)) {
+            JsonToken firstToken = parser.nextToken();
+            if (JsonToken.START_OBJECT.equals(firstToken)) {
+                JsonToken lastToken = null;
+                while (true) {
+                    JsonToken t = parser.nextToken();
+                    if (t == null) {
+                        break;
+                    }
+                    lastToken = t;
+                }
+                if (JsonToken.END_OBJECT.equals(lastToken)) {
+                    return JSONValidator.Type.Object;
+                }
+            } else if (JsonToken.START_ARRAY.equals(firstToken)) {
+                JsonToken lastToken = null;
+                while (true) {
+                    JsonToken t = parser.nextToken();
+                    if (t == null) {
+                        break;
+                    }
+                    lastToken = t;
+                }
+                if (JsonToken.END_ARRAY.equals(lastToken)) {
+                    return JSONValidator.Type.Array;
+                }
+            }
+        } catch (IOException ignored) {
+        }
+        return null;
+    }
 }
 

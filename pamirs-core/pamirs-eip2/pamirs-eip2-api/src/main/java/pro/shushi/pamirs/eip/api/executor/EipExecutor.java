@@ -1,9 +1,7 @@
 package pro.shushi.pamirs.eip.api.executor;
 
 import pro.shushi.pamirs.core.common.SuperMap;
-import pro.shushi.pamirs.eip.api.IEipContext;
-import pro.shushi.pamirs.eip.api.IEipIdempotentProcessor;
-import pro.shushi.pamirs.eip.api.IEipProcessCallback;
+import pro.shushi.pamirs.eip.api.*;
 import pro.shushi.pamirs.eip.api.entity.EipResult;
 import pro.shushi.pamirs.eip.api.service.EipExecuteService;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
@@ -12,6 +10,8 @@ import java.lang.reflect.Type;
 
 /**
  * 默认SuperMap上下文执行器
+ *
+ * @author Adamancy Zhang at 16:51 on 2025-08-16
  */
 public class EipExecutor {
 
@@ -72,8 +72,7 @@ public class EipExecutor {
      * @return 结果集
      */
     public EipResult<SuperMap> call(String interfaceName) {
-        return CommonApiFactory.getApi(EipExecuteService.class).callByInterfaceName(interfaceName, executorContext, null);
-//        return Models.directive().run(() -> Fun.run(EipExecuteService.FUN_NAMESPACE, "callByInterfaceName", interfaceName, executorContext, null));
+        return call(interfaceName, null);
     }
 
     /**
@@ -83,9 +82,9 @@ public class EipExecutor {
      * @param body          入参
      * @return 结果集
      */
+    @SuppressWarnings("unchecked")
     public EipResult<SuperMap> call(String interfaceName, Object body) {
         return CommonApiFactory.getApi(EipExecuteService.class).callByInterfaceName(interfaceName, executorContext, body);
-//        return Models.directive().run(() -> Fun.run(EipExecuteService.FUN_NAMESPACE, "callByInterfaceName", interfaceName, executorContext, body));
     }
 
     /**
@@ -109,6 +108,16 @@ public class EipExecutor {
          */
         public EipExecutor and() {
             return this.executor;
+        }
+
+        public EipInterfaceSetting setRequestConvertFunction(IEipConverter<SuperMap> converter) {
+            executor.executorContext.putIteration(IEipContext.REQUEST_CONVERT_PREFIX + interfaceName, converter);
+            return this;
+        }
+
+        public EipInterfaceSetting setRequestParamConvertFunction(IEipParamConverter<SuperMap> converter) {
+            executor.executorContext.putIteration(IEipContext.REQUEST_PARAM_CONVERT_PREFIX + interfaceName, converter);
+            return this;
         }
 
         /**

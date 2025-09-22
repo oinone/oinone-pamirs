@@ -1,17 +1,21 @@
 package pro.shushi.pamirs.eip.jdbc.init;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.SystemBootAfterInit;
 import pro.shushi.pamirs.eip.api.config.EipSwitchCondition;
+import pro.shushi.pamirs.eip.api.constant.EipSystemDataSourceType;
 import pro.shushi.pamirs.eip.api.enmu.connector.ConnType;
 import pro.shushi.pamirs.eip.api.enmu.connector.TestConnStatus;
 import pro.shushi.pamirs.eip.api.model.connector.ConnDbType;
 import pro.shushi.pamirs.eip.api.model.connector.EipConnector;
+import pro.shushi.pamirs.eip.jdbc.config.EipJdbcProperties;
 import pro.shushi.pamirs.eip.jdbc.helper.EipConnectorHelper;
+import pro.shushi.pamirs.eip.jdbc.service.EipJdbcDistributionSupport;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
@@ -29,10 +33,26 @@ import java.util.List;
 @Conditional(EipSwitchCondition.class)
 public class EipJdbcDataSourceInit implements SystemBootAfterInit {
 
+    @Autowired(required = false)
+    private EipJdbcProperties eipJdbcProperties;
+
+    @Autowired(required = false)
+    private EipJdbcDistributionSupport jdbcDistributionSupport;
+
     @Override
     public boolean init(AppLifecycleCommand command) {
         initDbTypes();
-        initConnector();
+        if (eipJdbcProperties != null) {
+            initConnector();
+            if (jdbcDistributionSupport != null) {
+                try {
+                    jdbcDistributionSupport.start();
+                    log.info("eip jdbc distribution supported.");
+                } catch (Exception e) {
+                    log.info("eip jdbc distribution unsupported.", e);
+                }
+            }
+        }
         return true;
     }
 
@@ -42,55 +62,33 @@ public class EipJdbcDataSourceInit implements SystemBootAfterInit {
     }
 
     private void initDbTypes() {
-
         List<ConnDbType> types = new ArrayList<>();
-
-        ConnDbType mysql = new ConnDbType();
-        mysql.setCode("MySQL");
-        mysql.setDisplayName("MySQL");
-        mysql.setHelp("MySQL");
-        mysql.setDriver("com.mysql.jdbc.Driver");
-
-        ConnDbType sqlServer = new ConnDbType();
-        sqlServer.setCode("SQLServer");
-        sqlServer.setDisplayName("SQL Server");
-        sqlServer.setHelp("SQL Server");
-        sqlServer.setDriver("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-        ConnDbType oracle = new ConnDbType();
-        oracle.setCode("Oracle");
-        oracle.setDisplayName("Oracle");
-        oracle.setHelp("Oracle");
-        oracle.setDriver("oracle.jdbc.OracleDriver");
-
-        ConnDbType postgreSQL = new ConnDbType();
-        postgreSQL.setCode("PostgreSQL");
-        postgreSQL.setDisplayName("PostgreSQL");
-        postgreSQL.setHelp("PostgreSQL");
-        postgreSQL.setDriver("org.postgresql.Driver");
 
         ConnDbType kingbase8v9 = new ConnDbType();
         kingbase8v9.setCode("Kingbase");
         kingbase8v9.setDisplayName("Kingbase");
         kingbase8v9.setHelp("Kingbase");
         kingbase8v9.setDriver("com.kingbase8.Driver");
+        kingbase8v9.setBasic(false);
 
         ConnDbType dmv8 = new ConnDbType();
         dmv8.setCode("DM");
         dmv8.setDisplayName("DM");
         dmv8.setHelp("DM");
         dmv8.setDriver("dm.jdbc.driver.DmDriver");
+        dmv8.setBasic(false);
 
         ConnDbType hana = new ConnDbType();
         hana.setCode("HANA");
         hana.setDisplayName("HANA");
         hana.setHelp("HANA");
         hana.setDriver("com.sap.db.jdbc.Driver");
+        hana.setBasic(false);
 
-        types.add(mysql);
-        types.add(sqlServer);
-        types.add(oracle);
-        types.add(postgreSQL);
+        types.add(EipSystemDataSourceType.mysql());
+        types.add(EipSystemDataSourceType.mssql());
+        types.add(EipSystemDataSourceType.oracle());
+        types.add(EipSystemDataSourceType.pgsql());
         types.add(kingbase8v9);
         types.add(dmv8);
         types.add(hana);
