@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.web.enmu.GroupingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
+import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
+import pro.shushi.pamirs.framework.connectors.data.sql.config.ModelFieldConfigWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.gateways.hook.RsqlParseHook;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
@@ -113,14 +115,14 @@ public class GroupingServiceImpl implements GroupingService {
         for (GroupField groupField : group.getGroupFields()) {
             ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
             SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
-            queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
+            queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
         }
         Sort sort = page.getSort();
         if (!Boolean.FALSE.equals(page.getSortable()) && sort != null && sort.getOrders() != null) {
             for (Order order : sort.getOrders()) {
                 ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(order.getField());
                 SortDirectionEnum orderType = Optional.ofNullable(order.getDirection()).orElse(SortDirectionEnum.ASC);
-                queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), modelFieldConfig.getColumn());
+                queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
             }
         }
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, group.getTotalDataCount()), parseQueryWrapper(queryWrapper));
@@ -139,10 +141,11 @@ public class GroupingServiceImpl implements GroupingService {
         pagination.setSortable(false);
         SortDirectionEnum orderType = Optional.ofNullable(firstGroupField.getOrderType()).orElse(SortDirectionEnum.ASC);
         QueryWrapper<T> groupQueryWrapper = buildPageQueryWrapper(group);
-        groupQueryWrapper.isNotNull(firstModelFieldConfig.getColumn());
-        groupQueryWrapper.select(firstModelFieldConfig.getColumn() + " " + firstModelFieldConfig.getField());
-        groupQueryWrapper.groupBy(firstModelFieldConfig.getColumn());
-        groupQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), firstModelFieldConfig.getColumn());
+        ModelFieldConfigWrapper firstModelFieldConfigWrapper = Configs.wrap(firstModelFieldConfig);
+        groupQueryWrapper.isNotNull(firstModelFieldConfigWrapper.getColumn());
+        groupQueryWrapper.select(firstModelFieldConfigWrapper.getColumn() + " " + firstModelFieldConfig.getField());
+        groupQueryWrapper.groupBy(firstModelFieldConfigWrapper.getColumn());
+        groupQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), firstModelFieldConfigWrapper.getColumn());
         pagination = Models.origin().queryPage(pagination, parseQueryWrapper(groupQueryWrapper));
         boolean needGroupNullValue;
         if (pagination.getContent() == null) {
@@ -152,8 +155,8 @@ public class GroupingServiceImpl implements GroupingService {
         QueryWrapper<T> groupNullQueryWrapper = buildPageQueryWrapper(group);
         Pagination<T> nullPagination = new Pagination<>(1, 1);
         nullPagination.setSortable(false);
-        groupNullQueryWrapper.isNull(firstModelFieldConfig.getColumn());
-        groupNullQueryWrapper.select(firstModelFieldConfig.getColumn() + " " + firstModelFieldConfig.getField());
+        groupNullQueryWrapper.isNull(firstModelFieldConfigWrapper.getColumn());
+        groupNullQueryWrapper.select(firstModelFieldConfigWrapper.getColumn() + " " + firstModelFieldConfig.getField());
         nullPagination = Models.origin().queryPage(nullPagination, parseQueryWrapper(groupNullQueryWrapper));
         if (nullPagination.getTotalElements() > 0) {
             pagination.setTotalElements(pagination.getTotalElements() + 1);
@@ -166,10 +169,10 @@ public class GroupingServiceImpl implements GroupingService {
                 List<Object> groupValueList =
                         finalPagination.getContent().stream().map(data -> FieldUtils.getFieldValue(data, firstGroupField.getField())).collect(Collectors.toList());
                 if (CollectionUtils.isNotEmpty(groupValueList)) {
-                    andWrapper.in(firstModelFieldConfig.getColumn(), groupValueList);
+                    andWrapper.in(firstModelFieldConfigWrapper.getColumn(), groupValueList);
                 }
                 if (needGroupNullValue) {
-                    andWrapper.or().isNull(firstModelFieldConfig.getColumn());
+                    andWrapper.or().isNull(firstModelFieldConfigWrapper.getColumn());
                 }
             });
         } else {
@@ -184,7 +187,7 @@ public class GroupingServiceImpl implements GroupingService {
             for (GroupPath<T> expandGroupPath : expandGroupPaths) {
                 andWrapper.or().and(pathAndWrapper -> {
                     for (GroupPathNode<T> pathNode : expandGroupPath.getNodeList()) {
-                        String column = group.getModelFieldConfig(pathNode.getField()).getColumn();
+                        String column = Configs.wrap(group.getModelFieldConfig(pathNode.getField())).getColumn();
                         Object value = pathNode.getValue();
                         if (value != null) {
                             pathAndWrapper.eq(column, value);
