@@ -1,0 +1,58 @@
+<view name="formView" type="FORM" cols="2" model="channel.ChannelModel">
+    <template slot="actions" autoFill="true"/>
+    <template slot="fields">
+        <pack widget="group" title="基础信息">
+            <field span="1" invisible="true" data="id" label="ID" readonly="true"/>
+            <field span="1" data="tenant" label="租户"/>
+            <field span="1" data="module" label="增强模型所在模块"/>
+            <field span="1" data="model" label="增强模型名称"/>
+            <field span="1" data="origin" label="被增强模型"/>
+            <field span="1" data="displayName" label="增强模型显示名称"/>
+            <field span="1" data="naming" label="增强模型标识"/>
+            <field span="1" data="alias" label="别名"/>
+            <field span="1" data="index" label="索引"/>
+            <field span="1" data="reAlias" label="迁移别名"/>
+            <field span="1" data="pos" label="索引后缀"/>
+            <field data="mapping" label="索引映射"/>
+            <field span="1" data="batchSize" label="全量单批次容量"/>
+            <field span="1" data="shards" label="分片数"/>
+            <field span="1" data="replicas" label="副本数"/>
+            <field span="1" data="lastSync" label="全量同步成功时间"/>
+            <field span="1" data="systemSource" label="增强模型创建方式">
+                <options>
+                    <option name="KERNEL" displayName="内核" value="KERNEL" state="ACTIVE"/>
+                    <option name="BASE" displayName="系统原生" value="BASE" state="ACTIVE"/>
+                    <option name="ABSTRACT_INHERITED" displayName="抽象继承" value="ABSTRACT_INHERITED" state="ACTIVE"/>
+                    <option name="TRANSIENT_INHERITED" displayName="临时继承" value="TRANSIENT_INHERITED" state="ACTIVE"/>
+                    <option name="EXTEND_INHERITED" displayName="同表继承" value="EXTEND_INHERITED" state="ACTIVE"/>
+                    <option name="MULTI_TABLE_INHERITED" displayName="多表继承" value="MULTI_TABLE_INHERITED" state="ACTIVE"/>
+                    <option name="PROXY_INHERITED" displayName="代理继承" value="PROXY_INHERITED" state="ACTIVE"/>
+                    <option name="RELATION" displayName="关联关系生成" value="RELATION" state="ACTIVE"/>
+                    <option name="SYSTEM" displayName="系统生成" value="SYSTEM" state="ACTIVE"/>
+                    <option name="MANUAL" displayName="手工新增" value="MANUAL" state="ACTIVE"/>
+                    <option name="UI" displayName="界面新增" value="UI" state="ACTIVE"/>
+                    <option name="UPSTREAM" displayName="上游继承" value="UPSTREAM" state="ACTIVE"/>
+                </options>
+            </field>
+            <field span="1" data="dumpState" label="同步状态">
+                <options>
+                    <option name="INIT" displayName="INIT" value="INIT" state="ACTIVE"/>
+                    <option name="SUCCESS" displayName="SUCCESS" value="SUCCESS" state="ACTIVE"/>
+                    <option name="PENDING" displayName="PENDING" value="PENDING" state="ACTIVE"/>
+                    <option name="ERROR" displayName="ERROR" value="ERROR" state="ACTIVE"/>
+                </options>
+            </field>
+            <field span="1" data="increment" label="是否开启增量同步">
+                <options>
+                    <option name="OPEN" displayName="已开启" value="OPEN" state="ACTIVE"/>
+                    <option name="CLOSE" displayName="已关闭" value="CLOSE" state="ACTIVE"/>
+                </options>
+            </field>
+            <field span="1" data="analyzers" label="分词器"/>
+            <field span="1" invisible="true" data="createDate" label="创建时间" readonly="true"/>
+            <field span="1" invisible="true" data="writeDate" label="更新时间" readonly="true"/>
+            <field span="1" data="createUid" label="创建人ID"/>
+            <field span="1" data="writeUid" label="更新人ID"/>
+        </pack>
+    </template>
+</view>
