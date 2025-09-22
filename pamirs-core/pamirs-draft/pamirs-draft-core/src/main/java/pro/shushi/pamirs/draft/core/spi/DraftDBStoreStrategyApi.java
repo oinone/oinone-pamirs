@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.draft.core.spi;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.draft.api.model.Draft;
 import pro.shushi.pamirs.draft.api.spi.DraftStoreStrategyApi;
