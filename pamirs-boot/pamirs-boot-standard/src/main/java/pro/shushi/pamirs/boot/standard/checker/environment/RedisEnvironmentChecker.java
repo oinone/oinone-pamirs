@@ -18,10 +18,10 @@ public class RedisEnvironmentChecker extends AbstractPlatformEnvironmentChecker 
     @Override
     protected EnvironmentKeySet propertyKeys() {
         return newEnvironmentKeySet(EnvironmentKey.Level.IMMUTABLE,
-                EnvironmentKey.immutable("spring.redis.host", new StrictChecker(EnvironmentProtectedConfig.isStrict())),
-                EnvironmentKey.immutable("spring.redis.port", new StrictChecker(EnvironmentProtectedConfig.isStrict())),
-                "spring.redis.prefix",
-                "spring.redis.database"
+                EnvironmentKey.immutable("spring.data.redis.host", new StrictChecker(EnvironmentProtectedConfig.isStrict())),
+                EnvironmentKey.immutable("spring.data.redis.port", new StrictChecker(EnvironmentProtectedConfig.isStrict())),
+                "spring.data.redis.prefix",
+                "spring.data.redis.database"
         );
     }
 }

@@ -14,7 +14,7 @@ public class RedisSimpleModeCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 
-        String redisHost = context.getEnvironment().getProperty("spring.redis.host");
+        String redisHost = context.getEnvironment().getProperty("spring.data.redis.host");
         return StringUtils.isNotBlank(redisHost);
     }
 }

@@ -76,7 +76,7 @@ public class InstanceEnvironmentChecker extends AbstractPlatformEnvironmentCheck
 
     private String tip() {
         return "解决方案: (任选其一即可)\n" +
-                "1. 使用Redis的[spring.redis.database]或[spring.redis.prefix]进行Redis隔离。\n" +
+                "1. 使用Redis的[spring.data.redis.database]或[spring.data.redis.prefix]进行Redis隔离。\n" +
                 "2. 若确定现有Redis仅当前环境中使用，请使用FLUSHALL命令清空当前Redis再尝试启动。\n" +
                 "3. 若现有Redis过度使用，请尝试使用新的Redis服务。\n\n";
     }

@@ -29,7 +29,7 @@ public class RedisSimpleConfig {
     @Autowired
     private PamirsFrameworkSystemConfiguration systemConfiguration;
 
-    @Value("${spring.redis.prefix:}")
+    @Value("${spring.data.redis.prefix:}")
     private String prefix;
 
     @Bean(name = "pamirsStringRedisSerializer")

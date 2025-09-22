@@ -10,25 +10,25 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 @Conditional(RedisSimpleModeCondition.class)
 public class RedisConfig {
 
-    //    @Value("${spring.redis.host}")
+    //    @Value("${spring.data.redis.host}")
     private String host;
 
-    //    @Value("${spring.redis.port}")
+    //    @Value("${spring.data.redis.port}")
     private int port;
 
-    //    @Value("${spring.redis.timeout:2000}")
+    //    @Value("${spring.data.redis.timeout:2000}")
     private int timeout;
 
-    //    @Value("${spring.redis.jedis.pool.max-idle:}")
+    //    @Value("${spring.data.redis.jedis.pool.max-idle:}")
     private int maxIdle;
 
-    //    @Value("${spring.redis.jedis.pool.max-wait:}")
+    //    @Value("${spring.data.redis.jedis.pool.max-wait:}")
     private long maxWaitMillis;
 
-    //    @Value("${spring.redis.password:}")
+    //    @Value("${spring.data.redis.password:}")
     private String password;
 
-    //    @Value("${spring.redis.block-when-exhausted:true}")
+    //    @Value("${spring.data.redis.block-when-exhausted:true}")
     private boolean blockWhenExhausted;
 
 //    @Bean

@@ -49,10 +49,10 @@ public class FrontRequestExceptionDeal4Configure implements FrontRequestExceptio
             "server.tomcat.max-threads",
 
             // redis
-            "spring.redis.host",
-            "spring.redis.port",
-            "spring.redis.timeout",
-            "spring.redis.database",
+            "spring.data.redis.host",
+            "spring.data.redis.port",
+            "spring.data.redis.timeout",
+            "spring.data.redis.database",
 
             // rocketmq
             "spring.rocketmq.name-server",

@@ -45,7 +45,7 @@ public class RedisClusterConfig {
     @Autowired
     private PamirsFrameworkSystemConfiguration systemConfiguration;
 
-    @Value("${spring.redis.prefix:}")
+    @Value("${spring.data.redis.prefix:}")
     private String prefix;
 
     @Bean(name = "pamirsStringRedisSerializer")
@@ -93,9 +93,9 @@ public class RedisClusterConfig {
      */
     public RedisClusterConfiguration getClusterConfiguration(List<String> clusterNodes, Long timeout, int redirects, String password) {
         Map<String, Object> source = new HashMap<>();
-        source.put("spring.redis.cluster.nodes", String.join(",", clusterNodes));
-        source.put("spring.redis.cluster.timeout", timeout);
-        source.put("spring.redis.cluster.max-redirects", redirects);
+        source.put("spring.data.redis.cluster.nodes", String.join(",", clusterNodes));
+        source.put("spring.data.redis.cluster.timeout", timeout);
+        source.put("spring.data.redis.cluster.max-redirects", redirects);
         RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(new MapPropertySource("RedisClusterConfiguration", source));
         redisClusterConfiguration.setPassword(RedisPassword.of(password));
         return redisClusterConfiguration;
@@ -109,7 +109,7 @@ public class RedisClusterConfig {
      * @return 连接工厂
      */
     @Bean
-    public RedisConnectionFactory connectionFactory(@Autowired RedisClusterProperty redisClusterProperty, @Value("${spring.redis.password}") String password) {
+    public RedisConnectionFactory connectionFactory(@Autowired RedisClusterProperty redisClusterProperty, @Value("${spring.data.redis.password}") String password) {
         RedisClusterConfiguration configuration = getClusterConfiguration(redisClusterProperty.getNodes(), redisClusterProperty.getTimeout(), redisClusterProperty.getMaxRedirects(), password);
         JedisConnectionFactory connectionFactory = new JedisConnectionFactory(configuration);
         connectionFactory.afterPropertiesSet();

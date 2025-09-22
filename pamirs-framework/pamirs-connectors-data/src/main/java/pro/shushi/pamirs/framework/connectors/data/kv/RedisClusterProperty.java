@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Configuration
 @Conditional(RedisClusterModeCondition.class)
-@ConfigurationProperties(prefix = "spring.redis.cluster")
+@ConfigurationProperties(prefix = "spring.data.redis.cluster")
 public class RedisClusterProperty {
 
     private List<String> nodes;
