@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.meta.common.lambda;
 
-import org.apache.commons.lang3.ClassUtils;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.util.ConcurrentReferenceHashMap;
@@ -94,7 +93,7 @@ public class LambdaUtil {
     private static Class<?> fetchClazz(SerializedLambda lambda) {
         String instantiatedTypeName = normalizedName(lambda.getInstantiatedMethodType().substring(2, lambda.getInstantiatedMethodType().indexOf(59)));
         try {
-            return ClassUtils.getClass(instantiatedTypeName);
+            return Class.forName(instantiatedTypeName);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
