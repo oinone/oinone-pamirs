@@ -3,15 +3,15 @@ package pro.shushi.pamirs.boot.web.enmu;
 import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
 
 /**
- * 分组异常
+ * 快速填报异常
  *
  * @author Gesi at 10:44 on 2025/9/1
  */
-public enum GroupingExpEnumerate implements ExpBaseEnum {
+public enum QuickFillingExpEnumerate implements ExpBaseEnum {
 
-    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10067000, "系统异常"),
-    MODEL_NOT_FIND(ERROR_TYPE.SYSTEM_ERROR, 10067001, "模型找不到"),
-    LAZY_LOAD_PATHS_IS_NULL(ERROR_TYPE.SYSTEM_ERROR, 10067002, "懒加载路径为空"),
+    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10068000, "系统异常"),
+    MODEL_NOT_FIND(ERROR_TYPE.SYSTEM_ERROR, 10068001, "模型找不到"),
+    FIELD_NOT_FIND(ERROR_TYPE.SYSTEM_ERROR, 10068002, "字段找不到"),
     ;
 
     private final ERROR_TYPE type;
@@ -20,7 +20,7 @@ public enum GroupingExpEnumerate implements ExpBaseEnum {
 
     private final String msg;
 
-    GroupingExpEnumerate(ERROR_TYPE type, int code, String msg) {
+    QuickFillingExpEnumerate(ERROR_TYPE type, int code, String msg) {
         this.type = type;
         this.code = code;
         this.msg = msg;

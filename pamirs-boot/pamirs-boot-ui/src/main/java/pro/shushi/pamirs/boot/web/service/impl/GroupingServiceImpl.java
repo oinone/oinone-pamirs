@@ -80,7 +80,7 @@ public class GroupingServiceImpl implements GroupingService {
         String model = group.getModel();
         ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
         if (modelConfig == null) {
-            throw PamirsException.construct(GroupingExpEnumerate.MODEL_NOT_FIND).errThrow();
+            throw PamirsException.construct(GroupingExpEnumerate.MODEL_NOT_FIND).appendMsg("模型" + model + "找不到").errThrow();
         }
         group.setModelConfig(modelConfig);
         ConditionQueryWrapper queryWrapper = group.getQueryWrapper();

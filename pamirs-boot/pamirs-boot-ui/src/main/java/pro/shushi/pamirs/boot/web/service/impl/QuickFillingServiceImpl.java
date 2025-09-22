@@ -12,6 +12,7 @@ import pro.shushi.pamirs.boot.base.tmodel.QuickFilling;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailure;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
+import pro.shushi.pamirs.boot.web.enmu.QuickFillingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.QuickFillingService;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
@@ -19,6 +20,7 @@ import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
@@ -92,7 +94,7 @@ public class QuickFillingServiceImpl implements QuickFillingService {
         String model = quickFilling.getModel();
         ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
         if (modelConfig == null) {
-            throw new RuntimeException();
+            throw PamirsException.construct(QuickFillingExpEnumerate.MODEL_NOT_FIND).appendMsg("模型" + model + "找不到").errThrow();
         }
         quickFilling.setModelConfig(modelConfig);
         Map<String, QuickFillingField> fields = new HashMap<>();
@@ -100,7 +102,7 @@ public class QuickFillingServiceImpl implements QuickFillingService {
             String field = fieldHeader.getField();
             ModelFieldConfig modelFieldConfig = modelConfig.getModelFieldConfigList().stream().filter(fieldConfig -> StringUtils.equals(fieldConfig.getField(), field)).findFirst().orElse(null);
             if (modelFieldConfig == null) {
-                throw new RuntimeException();
+                throw PamirsException.construct(QuickFillingExpEnumerate.FIELD_NOT_FIND).appendMsg(field + "字段在模型" + model + "内找不到").errThrow();
             }
             fieldHeader.setModelConfigField(modelFieldConfig);
             fields.put(field, fieldHeader);
@@ -109,7 +111,6 @@ public class QuickFillingServiceImpl implements QuickFillingService {
     }
 
     private void loadParamValues(QuickFilling quickFilling) {
-        Map<String, QuickFillingField> fields = quickFilling.getFields();
         String valuesStr = quickFilling.getValuesStr();
         List<Map<String, String>> values = JsonUtils.parseObject(valuesStr, PARAM_VALUE_TYPE_REFERENCE);
         values.removeIf(value -> {
@@ -118,7 +119,6 @@ public class QuickFillingServiceImpl implements QuickFillingService {
             }
             boolean isEmpty = true;
             for (Map.Entry<String, String> entry : value.entrySet()) {
-                QuickFillingField fieldHeader = fields.get(entry.getKey());
                 if (StringUtils.isNotBlank(entry.getValue())) {
                     isEmpty = false;
                     break;
