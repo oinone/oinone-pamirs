@@ -7,7 +7,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-sql-record</artifactId>
-        <version>6.3.0</version>
+        <version>7.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pamirs-sql-record-core</artifactId>

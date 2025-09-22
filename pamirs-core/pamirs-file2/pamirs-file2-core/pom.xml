@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-file2</artifactId>
-        <version>6.3.0</version>
+        <version>7.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>pamirs-file2-core</artifactId>
     <name>pamirs-file2-core</name>

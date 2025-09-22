@@ -7,7 +7,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-boot</artifactId>
-        <version>6.3.0</version>
+        <version>7.0.0-SNAPSHOT</version>
     </parent>
 
     <groupId>pro.shushi.pamirs.boot</groupId>
