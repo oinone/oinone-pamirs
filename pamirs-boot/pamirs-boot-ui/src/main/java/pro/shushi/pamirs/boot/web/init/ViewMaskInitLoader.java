@@ -43,7 +43,7 @@ public class ViewMaskInitLoader {
 
     private static final Pattern FIX_PATTERN = Pattern.compile("host");
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private MetaConfiguration metaConfiguration;
 
     public void init(String module, MetaData metaData) {

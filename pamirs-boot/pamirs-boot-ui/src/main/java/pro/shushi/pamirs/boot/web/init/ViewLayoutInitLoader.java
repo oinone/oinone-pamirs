@@ -39,7 +39,7 @@ import java.util.Optional;
 @Component
 public class ViewLayoutInitLoader {
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private MetaConfiguration metaConfiguration;
 
     public void init(String module, MetaData metaData) {

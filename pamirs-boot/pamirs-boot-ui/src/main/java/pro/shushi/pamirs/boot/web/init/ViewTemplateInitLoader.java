@@ -40,7 +40,7 @@ import java.util.Optional;
 @Component
 public class ViewTemplateInitLoader {
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private MetaConfiguration metaConfiguration;
 
     public void init(String module, MetaData metaData) {
