@@ -55,6 +55,7 @@ public class BaseModule implements PamirsModule {
                 "pro.shushi.pamirs.sid",
                 "pro.shushi.pamirs.sequence",
                 "pro.shushi.pamirs.metadata.manager",
+                "pro.shushi.pamirs.draft",
         };
     }
 
