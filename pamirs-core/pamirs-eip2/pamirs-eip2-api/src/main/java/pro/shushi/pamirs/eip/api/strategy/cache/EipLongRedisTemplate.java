@@ -23,8 +23,7 @@ public class EipLongRedisTemplate extends RedisTemplate<String, Long> {
         this.setKeySerializer(stringSerializer);
         this.setHashKeySerializer(stringSerializer);
 
-        Jackson2JsonRedisSerializer<Long> valueSerializer = new Jackson2JsonRedisSerializer<>(Long.class);
-        valueSerializer.setObjectMapper(new ObjectMapper());
+        Jackson2JsonRedisSerializer<Long> valueSerializer = new Jackson2JsonRedisSerializer<>(new ObjectMapper(), Long.class);
         this.setValueSerializer(valueSerializer);
         this.setHashValueSerializer(valueSerializer);
 

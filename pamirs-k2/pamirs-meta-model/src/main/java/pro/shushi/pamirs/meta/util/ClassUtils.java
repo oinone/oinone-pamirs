@@ -2,6 +2,8 @@ package pro.shushi.pamirs.meta.util;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -9,18 +11,11 @@ import pro.shushi.pamirs.meta.base.BaseModel;
 import pro.shushi.pamirs.meta.base.IdModel;
 import pro.shushi.pamirs.meta.base.TransientModel;
 import pro.shushi.pamirs.meta.common.util.AppClassLoader;
-import pro.shushi.pamirs.meta.enmu.MetaExpEnumerate;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Modifier;
-import java.net.JarURLConnection;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 import static pro.shushi.pamirs.meta.enmu.MetaExpEnumerate.BASE_CLASS_NOT_FOUNT_ERROR;
@@ -46,7 +41,7 @@ public class ClassUtils {
         }
 
         if (itf.isInterface()) {
-            Set<Class<?>> clazzs = ClassUtils.getClasses(packageName);
+            Collection<Class<?>> clazzs = ClassUtils.getClasses(packageName);
             if (CollectionUtils.isNotEmpty(clazzs)) {
                 for (Class<?> clazz : clazzs) {
                     if (itf.isAssignableFrom(clazz)) {
@@ -117,93 +112,14 @@ public class ClassUtils {
         return roots.values().stream().map(MergedPackage::toPackages).flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    public static Set<Class<?>> getClasses(String pack) {
-        // 第一个class类的集合
-        Set<Class<?>> classes = new LinkedHashSet<>();
-        // 过滤掉com.sum包的类
-        if (pack.startsWith(EXCLUDE_PACK_PREFIX)) {
-            return classes;
-        }
-        // 是否循环迭代
-        boolean recursive = true;
-        // 获取包的名字 并进行替换
-        String packageName = pack;
-        String packageDirName = packageName.replace('.', '/');
-        // 定义一个枚举的集合 并进行循环来处理这个目录下的things
-        Enumeration<URL> dirs;
-        try {
-            dirs = AppClassLoader.getClassLoader(ClassUtils.class).getResources(packageDirName);
-            // 循环迭代下去
-            while (dirs.hasMoreElements()) {
-                packageName = pack;
-                // 获取下一个元素
-                URL url = dirs.nextElement();
-                // 得到协议的名称
-                String protocol = url.getProtocol();
-                // 如果是以文件的形式保存在服务器上
-                if ("file".equals(protocol)) {
-                    // System.err.println("file类型的扫描");
-                    // 获取包的物理路径
-                    String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
-                    // 以文件的方式扫描整个包下的文件 并添加到集合中
-                    findAndAddClassesInPackageByFile(packageName, filePath, recursive, classes);
-                } else if ("jar".equals(protocol)) {
-                    // 如果是jar包文件.定义一个JarFile
-                    // System.err.println("jar类型的扫描");
-                    JarFile jar;
-                    try {
-                        // 获取jar
-                        jar = ((JarURLConnection) url.openConnection()).getJarFile();
-                        // 从此jar包 得到一个枚举类
-                        Enumeration<JarEntry> entries = jar.entries();
-                        // 同样的进行循环迭代
-                        while (entries.hasMoreElements()) {
-                            // 获取jar里的一个实体 可以是目录 和一些jar包里的其他文件 如META-INF等文件
-                            JarEntry entry = entries.nextElement();
-                            String name = entry.getName();
-                            // 如果是以/开头的
-                            if (name.charAt(0) == '/') {
-                                // 获取后面的字符串
-                                name = name.substring(1);
-                            }
-                            // 如果前半部分和定义的包名相同
-                            if (name.startsWith(packageDirName)) {
-                                int idx = name.lastIndexOf('/');
-                                // 如果以"/"结尾 是一个包
-                                if (idx != -1) {
-                                    // 获取包名 把"/"替换成"."
-                                    packageName = name.substring(0, idx).replace('/', '.');
-                                }
-                                // 忽略jdk依赖类所在包
-                                if (packageName.startsWith(EXCLUDE_FUN_PACK_PREFIX)) {
-                                    continue;
-                                }
-                                // 如果可以迭代下去 并且是一个包
-                                // 如果是一个.class文件 而且不是目录
-                                if (name.endsWith(".class") && !entry.isDirectory()) {
-                                    // 去掉后面的".class" 获取真正的类名
-                                    String className = name.substring(packageName.length() + 1, name.length() - 6);
-                                    try {
-                                        // 添加到classes
-                                        classes.add(Class.forName(packageName + '.' + className, false, AppClassLoader.getClassLoader(ClassUtils.class)));
-                                    } catch (ClassNotFoundException e) {
-                                        // log.error("添加用户自定义视图类错误 找不到此类的.class文件");
-                                        log.error(BASE_CLASS_NOT_FOUNT_ERROR.msg(), e);
-                                    }
-                                }
-                            }
-                        }
-                    } catch (IOException e) {
-                        // log.error("在扫描用户定义视图时从jar包获取文件出错");
-                        log.error(MetaExpEnumerate.BASE_IO_ERROR.msg(), e);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            log.error(MetaExpEnumerate.BASE_IO_ERROR.msg(), e);
-        }
+    public static Collection<Class<?>> getClasses(String pack) {
 
-        return classes;
+        try (ScanResult scan = new ClassGraph()
+                .enableAllInfo()
+                .acceptPackages(pack)
+                .scan()) {
+            return scan.getAllClasses().loadClasses();
+        }
     }
 
     /**

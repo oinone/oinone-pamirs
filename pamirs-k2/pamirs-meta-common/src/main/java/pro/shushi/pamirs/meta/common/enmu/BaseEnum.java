@@ -204,7 +204,7 @@ public abstract class BaseEnum<E extends BaseEnum<E, T>, T extends Serializable>
     public static <E extends BaseEnum> E ref(BaseEnum refEnum) {
         Class<E> currentEnumClass;
         try {
-            currentEnumClass = (Class<E>) ClassUtils.getClass(AppClassLoader.getClassLoader(BaseEnum.class), getCallerClassName());
+            currentEnumClass = (Class<E>) Class.forName(getCallerClassName());
             if (currentEnumClass == null) {
                 throw new IllegalArgumentException("EnumClass must not be null");
             }
@@ -225,7 +225,7 @@ public abstract class BaseEnum<E extends BaseEnum<E, T>, T extends Serializable>
     private static <E extends BaseEnum> E init(String name) {
         Class<E> enumClass;
         try {
-            enumClass = (Class<E>) ClassUtils.getClass(AppClassLoader.getClassLoader(BaseEnum.class), getCallerClassName());
+            enumClass = (Class<E>) Class.forName(getCallerClassName());
             if (enumClass == null) {
                 throw new IllegalArgumentException("EnumClass must not be null");
             }

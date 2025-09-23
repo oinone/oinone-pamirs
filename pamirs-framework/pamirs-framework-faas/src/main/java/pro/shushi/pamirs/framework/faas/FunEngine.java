@@ -34,7 +34,7 @@ public class FunEngine<R> {
 
     static {
         computers = new ArrayList<>();
-        Set<Class<?>> classes = ClassUtils.getClasses(FunEngine.class.getPackage().getName());
+        Collection<Class<?>> classes = ClassUtils.getClasses(FunEngine.class.getPackage().getName());
         for (Class clazz : classes) {
             if (!clazz.isInterface() && FunctionComputer.class.isAssignableFrom(clazz)) {
                 try {

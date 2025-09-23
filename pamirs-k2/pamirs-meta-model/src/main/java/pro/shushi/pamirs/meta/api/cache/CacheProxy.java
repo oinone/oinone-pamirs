@@ -4,9 +4,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Policy;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import com.google.errorprone.annotations.CompatibleWith;
-import org.checkerframework.checker.index.qual.NonNegative;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 
 import java.util.Map;
@@ -37,17 +34,17 @@ public class CacheProxy<K, V> implements Cache<K, V> {
     }
 
     @Override
-    public @Nullable V getIfPresent(@CompatibleWith("K") @NonNull K o) {
+    public V getIfPresent(@CompatibleWith("K") K o) {
         return cache.getIfPresent(CACHE_PREFIX_API.prefix(o));
     }
 
     @Override
-    public @Nullable V get(@NonNull K k, @NonNull Function<? super K, ? extends V> function) {
+    public V get(K k, Function<? super K, ? extends V> function) {
         return cache.get(CACHE_PREFIX_API.prefix(k), function);
     }
 
     @Override
-    public @NonNull Map<K, V> getAllPresent(@NonNull Iterable<? extends K> iterable) {
+    public Map<K, V> getAllPresent(Iterable<? extends K> iterable) {
         throw new UnsupportedOperationException();
     }
 
@@ -57,24 +54,24 @@ public class CacheProxy<K, V> implements Cache<K, V> {
     }
 
     @Override
-    public void put(@NonNull K k, @NonNull V v) {
+    public void put(K k, V v) {
         cache.put(CACHE_PREFIX_API.prefix(k), v);
     }
 
     @Override
-    public void putAll(@NonNull Map<? extends K, ? extends V> map) {
+    public void putAll(Map<? extends K, ? extends V> map) {
         for (K k : map.keySet()) {
             put(CACHE_PREFIX_API.prefix(k), map.get(k));
         }
     }
 
     @Override
-    public void invalidate(@NonNull K o) {
+    public void invalidate(K o) {
         cache.invalidate(CACHE_PREFIX_API.prefix(o));
     }
 
     @Override
-    public void invalidateAll(@NonNull Iterable<? extends K> iterable) {
+    public void invalidateAll(Iterable<? extends K> iterable) {
         throw new UnsupportedOperationException();
     }
 
@@ -84,17 +81,17 @@ public class CacheProxy<K, V> implements Cache<K, V> {
     }
 
     @Override
-    public @NonNegative long estimatedSize() {
+    public long estimatedSize() {
         return cache.estimatedSize();
     }
 
     @Override
-    public @NonNull CacheStats stats() {
+    public CacheStats stats() {
         return cache.stats();
     }
 
     @Override
-    public @NonNull ConcurrentMap<K, V> asMap() {
+    public ConcurrentMap<K, V> asMap() {
         return cache.asMap();
     }
 
@@ -104,7 +101,7 @@ public class CacheProxy<K, V> implements Cache<K, V> {
     }
 
     @Override
-    public @NonNull Policy<K, V> policy() {
+    public Policy<K, V> policy() {
         return cache.policy();
     }
 

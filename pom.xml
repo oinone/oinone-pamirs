@@ -42,6 +42,7 @@
         <commons.collections4.version>4.5.0</commons.collections4.version>
         <commons.beanutils.version>1.11.0</commons.beanutils.version>
         <gson.version>2.13.1</gson.version>
+        <classgraph.version>4.8.181</classgraph.version>
         <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.2.25</druid.version>
         <mybatis.version>3.5.19</mybatis.version>
@@ -59,7 +60,7 @@
         <caffeine.version>3.2.2</caffeine.version>
         <xpp3.version>1.1.4c</xpp3.version>
 
-        <groovy.version>3.0.25</groovy.version>
+        <groovy.version>4.0.28</groovy.version>
         <kryo.version>5.6.2</kryo.version>
         <kryo-serializers.version>0.45</kryo-serializers.version>
 
@@ -351,6 +352,11 @@
                 <version>${commons.lang3.version}</version>
             </dependency>
             <dependency>
+                <groupId>io.github.classgraph</groupId>
+                <artifactId>classgraph</artifactId>
+                <version>${classgraph.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons.beanutils.version}</version>
@@ -422,12 +428,12 @@
 
             <!-- groovy -->
             <dependency>
-                <groupId>org.codehaus.groovy</groupId>
+                <groupId>org.apache.groovy</groupId>
                 <artifactId>groovy</artifactId>
                 <version>${groovy.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.codehaus.groovy</groupId>
+                <groupId>org.apache.groovy</groupId>
                 <artifactId>groovy-jsr223</artifactId>
                 <version>${groovy.version}</version>
             </dependency>
@@ -464,13 +470,6 @@
                 <version>33.4.8-jre</version>
             </dependency>
 
-            <!-- jedis -->
-            <dependency>
-                <groupId>redis.clients</groupId>
-                <artifactId>jedis</artifactId>
-                <version>${jedis.version}</version>
-            </dependency>
-
             <!-- cache -->
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
@@ -481,7 +480,7 @@
             <dependency>
                 <groupId>org.javassist</groupId>
                 <artifactId>javassist</artifactId>
-                <version>3.23.1-GA</version>
+                <version>3.30.2-GA</version>
                 <scope>compile</scope>
             </dependency>
 

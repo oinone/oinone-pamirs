@@ -50,7 +50,7 @@ public class DslConverter {
     public final static String X_STREAM_TYPE = "view-xml-v2";
 
     static {
-        Set<Class<?>> annotationClassSet = ClassUtils.getClasses(UdView.class.getPackage().getName());
+        Collection<Class<?>> annotationClassSet = ClassUtils.getClasses(UdView.class.getPackage().getName());
         if (!CollectionUtils.isEmpty(annotationClassSet)) {
             Class<?>[] annotationClasses = annotationClassSet.toArray(new Class[0]);
             PamirsXmlUtils.register(X_STREAM_TYPE, annotationClasses);

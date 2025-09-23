@@ -30,7 +30,7 @@ public class MethodUtils {
     @SuppressWarnings("unused")
     public static <A extends Annotation> List<Class<?>> getClasses4MethodWithAnnotationType(String packageName, Class<A> annotationType) {
         List<Class<?>> result = new ArrayList<>();
-        Set<Class<?>> clazzs = ClassUtils.getClasses(packageName);
+        Collection<Class<?>> clazzs = ClassUtils.getClasses(packageName);
         xxx:
         for (Class<?> clazz : clazzs) {
 
@@ -49,7 +49,7 @@ public class MethodUtils {
     @SuppressWarnings("unused")
     public static <A extends Annotation> List<Class<?>> getClasses4MethodWithAnnotationTypeForFun(String packageName, Class<A> annotationType) {
         List<Class<?>> result = new ArrayList<>();
-        Set<Class<?>> clazzs = ClassUtils.getClasses(packageName);
+        Collection<Class<?>> clazzs = ClassUtils.getClasses(packageName);
         xxx:
         for (Class<?> clazz : clazzs) {
 

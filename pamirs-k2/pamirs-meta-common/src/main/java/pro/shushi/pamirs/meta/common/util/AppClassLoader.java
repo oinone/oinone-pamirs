@@ -1,6 +1,8 @@
 package pro.shushi.pamirs.meta.common.util;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author d@shushi.pro
@@ -71,28 +73,22 @@ public class AppClassLoader extends ClassLoader {
      * @param clazz 类
      * @return class loader
      */
-    @SuppressWarnings("unused")
     public static ClassLoader getClassLoader(Class<?> clazz) {
-        ClassLoader cl = null;
-        try {
-            cl = Thread.currentThread().getContextClassLoader();
-        } catch (Throwable ex) {
-            // Cannot access thread context ClassLoader - falling back to system class loader...
-        }
-        if (cl == null) {
-            // No thread context class loader -> use class loader of this class.
-            cl = clazz.getClassLoader();
-            if (cl == null) {
-                // getClassLoader() returning null indicates the bootstrap ClassLoader
-                try {
-                    cl = ClassLoader.getSystemClassLoader();
-                } catch (Throwable ex) {
-                    // Cannot access system ClassLoader - oh well, maybe the caller can live with null...
+        List<ClassLoader> candidates = new ArrayList<>();
+        candidates.add(AppClassLoader.class.getClassLoader());
+        candidates.add(Thread.currentThread().getContextClassLoader());
+        candidates.add(ClassLoader.getPlatformClassLoader());
+        candidates.add(ClassLoader.getSystemClassLoader());
+        for (ClassLoader cl : candidates) {
+            if (cl == null) continue;
+            try {
+                if (cl.getResource(clazz.getCanonicalName().replaceAll("\\.", "/") + ".class") != null) {
+                    return cl;
                 }
-            }
+            } catch (Throwable ignored) {}
         }
-
-        return cl;
+        return null != Thread.currentThread().getContextClassLoader()
+                ? Thread.currentThread().getContextClassLoader()
+                : ClassLoader.getSystemClassLoader();
     }
-
 }

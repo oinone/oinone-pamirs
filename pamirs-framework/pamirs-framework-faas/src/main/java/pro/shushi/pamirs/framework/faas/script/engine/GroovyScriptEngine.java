@@ -16,9 +16,10 @@ import pro.shushi.pamirs.meta.enmu.FunctionLanguageEnum;
 import pro.shushi.pamirs.meta.util.ExpressionUtils;
 
 import javax.script.ScriptEngine;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Groovy脚本引擎
@@ -37,12 +38,9 @@ public class GroovyScriptEngine extends AbstractScriptEngine implements PamirsSc
 
     @Override
     protected ScriptEngine generatorDefaultScriptEngine() {
-        return new GroovyScriptEngineImpl(AccessController.doPrivileged(new PrivilegedAction<GroovyClassLoader>() {
-            @Override
-            public GroovyClassLoader run() {
-                return new GroovyClassLoader(AppClassLoader.getClassLoader(PamirsScriptEngine.class), new CompilerConfiguration(CompilerConfiguration.DEFAULT));
-            }
-        }));
+        return new GroovyScriptEngineImpl(
+                new GroovyClassLoader(AppClassLoader.getClassLoader(PamirsScriptEngine.class),
+                        new CompilerConfiguration(CompilerConfiguration.DEFAULT)));
     }
 
     @Override

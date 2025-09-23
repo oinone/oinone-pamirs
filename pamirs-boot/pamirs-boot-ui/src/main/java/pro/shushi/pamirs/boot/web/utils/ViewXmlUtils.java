@@ -6,7 +6,7 @@ import pro.shushi.pamirs.framework.orm.xml.PamirsXmlUtils;
 import pro.shushi.pamirs.framework.orm.xml.feature.PamirsXmlParserFeature;
 import pro.shushi.pamirs.meta.util.ClassUtils;
 
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * 视图XML工具
@@ -21,7 +21,7 @@ public class ViewXmlUtils {
     public final static String X_STREAM_TYPE = "view-xml";
 
     static {
-        Set<Class<?>> annotationClassSet = ClassUtils.getClasses(UIView.class.getPackage().getName());
+        Collection<Class<?>> annotationClassSet = ClassUtils.getClasses(UIView.class.getPackage().getName());
         if (!CollectionUtils.isEmpty(annotationClassSet)) {
             Class<?>[] annotationClasses = annotationClassSet.toArray(new Class[0]);
             PamirsXmlUtils.register(X_STREAM_TYPE, annotationClasses, PamirsXmlParserFeature.FillTagToObject);
