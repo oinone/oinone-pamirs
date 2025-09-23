@@ -13,7 +13,10 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
 @Dict(dictionary = OpenAuthType.dictionary, displayName = "开放接口认证方式", summary = "开放接口认证方式")
 public enum OpenAuthType implements IEnum<String> {
 
-    OCA("OCA", "Oinone Common Authentication", "Oinone Common Authentication"),
+    NONE("NONE", "无访问认证", "无访问认证"),
+    OCA("OCA", "非加密访问认证", "非加密访问认证"),
+    MD5("MD5", "MD5加密访问认证", "MD5加密访问认证"),
+    CUSTOM("CUSTOM", "自定义认证", "自定义认证"),
     ;
 
     public static final String dictionary = "designer.OpenAuthType";
