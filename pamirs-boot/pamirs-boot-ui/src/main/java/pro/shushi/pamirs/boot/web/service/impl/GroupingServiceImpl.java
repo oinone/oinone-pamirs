@@ -100,10 +100,10 @@ public class GroupingServiceImpl implements GroupingService {
             fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
         }
 
-        groupResult.setExpandGroupStatisticStr(new ArrayList<>(expandGroupPaths.size()));
+        groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
         for (GroupPath<T> expandGroupPath : expandGroupPaths) {
             Map<String, Object> statisticValues = groupResult.getExpandGroupStatistic().get(expandGroupPath);
-            groupResult.getExpandGroupStatisticStr().add(statisticValues != null ? JsonUtils.toJSONString(statisticValues) : null);
+            groupResult.getExpandGroupDataStr().add(statisticValues != null ? JsonUtils.toJSONString(statisticValues) : null);
         }
         groupResult.unsetGroups();
         return groupResult;

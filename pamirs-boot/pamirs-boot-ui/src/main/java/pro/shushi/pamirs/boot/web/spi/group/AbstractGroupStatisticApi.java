@@ -2,6 +2,7 @@ package pro.shushi.pamirs.boot.web.spi.group;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
 
 import java.math.BigDecimal;
@@ -35,6 +36,21 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
             return 0;
         }
         return total(dataList) - filled(dataList);
+    }
+
+    protected long unique(List<?> dataList) {
+        if (CollectionUtils.isEmpty(dataList)) {
+            return 0;
+        }
+        return dataList.stream().distinct().count();
+    }
+
+    protected Pair<Object, Object> earliestTimeAndLatestTime(List<?> dataList) {
+        if (CollectionUtils.isEmpty(dataList)) {
+            return Pair.of(null, null);
+        }
+        dataList = dataList.stream().sorted().collect(Collectors.toList());
+        return Pair.of(dataList.get(0), dataList.get(dataList.size() - 1));
     }
 
     protected List<BigDecimal> formatNumber(List<?> dataList) {

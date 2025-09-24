@@ -31,14 +31,11 @@ public class GroupResult<T> extends TransientModel {
     @Field(displayName = "返回的分组信息")
     private List<GroupInfo<T>> groups;
 
-    private Map<GroupPath<T>, String> expandGroupData;
-
     @Field(displayName = "展开的分组数据")
     private List<String> expandGroupDataStr;
 
-    private Map<GroupPath<T>, Map<String, Object>> expandGroupStatistic;
+    private Map<GroupPath<T>, String> expandGroupData;
 
-    @Field(displayName = "返回的分组统计数据")
-    private List<String> expandGroupStatisticStr;
+    private Map<GroupPath<T>, Map<String, Object>> expandGroupStatistic;
 
 }
