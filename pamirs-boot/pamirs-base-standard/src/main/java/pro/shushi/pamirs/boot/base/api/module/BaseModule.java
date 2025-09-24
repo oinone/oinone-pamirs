@@ -25,7 +25,7 @@ import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
         exclusions = {}
 )
 @Module.module(ModuleConstants.MODULE_BASE)
-@Module.Advanced(application = false, web = false, selfBuilt = true, author = "pamirs", contributors = "huidao", maintainer = "huidao")
+@Module.Advanced(application = false, web = false, selfBuilt = true, core = true, author = "pamirs", contributors = "huidao", maintainer = "huidao")
 public class BaseModule implements PamirsModule {
 
     @Override
@@ -54,8 +54,7 @@ public class BaseModule implements PamirsModule {
                 "pro.shushi.pamirs.boot.modules",
                 "pro.shushi.pamirs.sid",
                 "pro.shushi.pamirs.sequence",
-                "pro.shushi.pamirs.metadata.manager",
-                "pro.shushi.pamirs.draft",
+                "pro.shushi.pamirs.metadata.manager"
         };
     }
 
