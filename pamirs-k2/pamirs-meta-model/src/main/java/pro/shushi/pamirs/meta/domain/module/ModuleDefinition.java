@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.meta.domain.module;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -268,6 +269,9 @@ public class ModuleDefinition extends MetaBaseModel implements MetaCheckConstant
     private String[] packagePrefix;
 
     private Map<String, String[]> dependentPackagePrefix;
+
+    @JSONField(serialize = false)
+    private transient Boolean core;
 
     public String getCategory() {
         String category = (String) _d.get("category");
