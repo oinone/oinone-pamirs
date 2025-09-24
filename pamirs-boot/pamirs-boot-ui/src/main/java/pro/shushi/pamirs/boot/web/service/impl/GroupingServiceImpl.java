@@ -90,11 +90,12 @@ public class GroupingServiceImpl implements GroupingService {
         groupResult.setCurrentDataCount(null);
 
         // 先试着不查数据处理统计函数（纯sql进行统计）
-        expandGroupPaths.removeIf(groupPath -> sqlQueryStatisticDataValues(group, groupResult.getExpandGroupStatistic(), groupPath));
+        List<GroupPath<T>> queryExpandGroupPaths = new ArrayList<>(group.getExpandGroupPaths());
+        queryExpandGroupPaths.removeIf(groupPath -> sqlQueryStatisticDataValues(group, groupResult.getExpandGroupStatistic(), groupPath));
 
-        if (CollectionUtils.isNotEmpty(expandGroupPaths)) {
+        if (CollectionUtils.isNotEmpty(queryExpandGroupPaths)) {
             QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-            addGroupExpandCondition(group, queryWrapper, expandGroupPaths);
+            addGroupExpandCondition(group, queryWrapper, queryExpandGroupPaths);
             Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
             fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
         }
@@ -270,9 +271,9 @@ public class GroupingServiceImpl implements GroupingService {
     private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, BiConsumer<Grouping<T>, GroupInfo<T>> statisticConsumer) {
         List<GroupField> groupFields = group.getGroupFields();
 
-        Map<GroupPath<T>, Map<String, GroupStatisticTypeEnum>> statisticPathMap;
+        Map<GroupPath<T>, Map<String, String>> statisticPathMap;
         if (CollectionUtils.isNotEmpty(group.getExpandGroupPaths())) {
-            statisticPathMap = group.getExpandGroupPaths().stream().collect(Collectors.toMap(i -> i, GroupPath::getStatisticFieldMap, (a, b) -> a));
+            statisticPathMap = group.getExpandGroupPaths().stream().collect(Collectors.toMap(i -> i, i -> Optional.ofNullable(i.getStatisticFieldMap()).orElse(new HashMap<>()), (a, b) -> a));
         } else {
             statisticPathMap = new HashMap<>();
         }
@@ -377,8 +378,8 @@ public class GroupingServiceImpl implements GroupingService {
                 }
 
                 // 计算统计函数
-                Map<String, GroupStatisticTypeEnum> statisticFieldMap = statisticPathMap.get(groupPath);
-                if (statisticFieldMap != null && groupResult.getExpandGroupStatistic() != null) {
+                Map<String, String> statisticFieldMap = statisticPathMap.get(groupPath);
+                if (MapUtils.isNotEmpty(statisticFieldMap) && groupResult.getExpandGroupStatistic() != null) {
                     groupPath.setStatisticFieldMap(statisticFieldMap);
                     Map<String, Object> beforeStatisticValues = groupResult.getExpandGroupStatistic().computeIfAbsent(groupPath, k -> new HashMap<>());
                     groupInfo.setDataStatistic(beforeStatisticValues);
@@ -406,9 +407,10 @@ public class GroupingServiceImpl implements GroupingService {
         return (group, groupInfo) -> {
             Map<String, Object> dataStatistic = groupInfo.getDataStatistic();
             GroupPath<T> groupPath = groupInfo.getGroupPath();
-            Map<String, GroupStatisticTypeEnum> statisticFieldMap = groupPath.getStatisticFieldMap();
+            Map<String, String> statisticFieldMap = groupPath.getStatisticFieldMap();
             if (MapUtils.isNotEmpty(statisticFieldMap)) {
                 statisticFieldMap.forEach((statisticField, statisticType) -> {
+                    GroupStatisticTypeEnum statisticTypeEnum = valueOf(statisticType);
                     List<T> dataList = groupInfo.getDataList();
                     List<?> fieldDataList;
                     if (dataList != null) {
@@ -423,9 +425,9 @@ public class GroupingServiceImpl implements GroupingService {
                     }
                     GroupStatisticApi statisticApi = null;
                     try {
-                        statisticApi = Spider.getExtension(GroupStatisticApi.class, statisticType.getValue());
+                        statisticApi = Spider.getExtension(GroupStatisticApi.class, statisticTypeEnum.getValue());
                     } catch (Exception e) {
-                        log.warn(statisticType.getDisplayName() + "分组统计函数没有对应的api实现");
+                        log.warn(statisticType + "分组统计函数没有对应的api实现");
                     }
                     if (statisticApi != null) {
                         Object statisticValue = statisticApi
@@ -447,13 +449,13 @@ public class GroupingServiceImpl implements GroupingService {
      * 去数据库查询统计函数
      */
     private <T> boolean sqlQueryStatisticDataValues(Grouping<T> group, Map<GroupPath<T>, Map<String, Object>> resultMap, GroupPath<T> groupPath) {
-        Map<String, GroupStatisticTypeEnum> statisticFieldMap = groupPath.getStatisticFieldMap();
-        statisticFieldMap.entrySet().removeIf(e -> e.getValue() == null || GroupStatisticTypeEnum.NONE.equals(e.getValue()));
+        Map<String, String> statisticFieldMap = groupPath.getStatisticFieldMap();
+        statisticFieldMap.entrySet().removeIf(e -> e.getValue() == null || GroupStatisticTypeEnum.NONE.getValue().equals(e.getValue()));
         if (MapUtils.isEmpty(statisticFieldMap)) {
             return true;
         }
         // 以下为sql可以处理的统计函数
-        Set<GroupStatisticTypeEnum> totalStatisticTypes = new HashSet<>(statisticFieldMap.values());
+        Set<GroupStatisticTypeEnum> totalStatisticTypes = statisticFieldMap.values().stream().map(GroupStatisticTypeEnum::valueOf).collect(Collectors.toSet());
         totalStatisticTypes.remove(COUNT);
         totalStatisticTypes.remove(GroupStatisticTypeEnum.EARLIEST_TIME);
         totalStatisticTypes.remove(GroupStatisticTypeEnum.LATEST_TIME);
@@ -480,36 +482,37 @@ public class GroupingServiceImpl implements GroupingService {
 
         // 构建分组查询函数 select 内容
         statisticFieldMap.forEach((field, statisticType) -> {
+            GroupStatisticTypeEnum statisticTypeEnum = valueOf(statisticType);
             ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(field);
             String column = Configs.wrap(modelFieldConfig).getColumn();
-            String columnUpperCase = column.toUpperCase();
-            switch (statisticType) {
+            String fieldUpperCase = field.toUpperCase();
+            switch (statisticTypeEnum) {
                 case COUNT:
-                    selectList.add("COUNT(" + column + ") AS " + columnUpperCase + "_COUNT");
+                    selectList.add("COUNT(" + column + ") AS " + fieldUpperCase + "_COUNT");
                     break;
                 case EARLIEST_TIME:
-                    selectList.add("MIN(" + column + ") AS " + columnUpperCase + "_EARLIEST_TIME");
+                    selectList.add("MIN(" + column + ") AS " + fieldUpperCase + "_EARLIEST_TIME");
                     break;
                 case LATEST_TIME:
-                    selectList.add("MAX(" + column + ") AS " + columnUpperCase + "_LATEST_TIME");
+                    selectList.add("MAX(" + column + ") AS " + fieldUpperCase + "_LATEST_TIME");
                     break;
                 case TIME_RANGE_DAY:
                 case TIME_RANGE_MONTH:
                 case TIME_RANGE_YEAR:
-                    selectList.add("MIN(" + column + ") AS " + columnUpperCase + "_EARLIEST_TIME");
-                    selectList.add("MAX(" + column + ") AS " + columnUpperCase + "_LATEST_TIME");
+                    selectList.add("MIN(" + column + ") AS " + fieldUpperCase + "_EARLIEST_TIME");
+                    selectList.add("MAX(" + column + ") AS " + fieldUpperCase + "_LATEST_TIME");
                     break;
                 case SUM:
-                    selectList.add("SUM(" + column + ") AS " + columnUpperCase + "_SUM");
+                    selectList.add("SUM(" + column + ") AS " + fieldUpperCase + "_SUM");
                     break;
                 case AVERAGE:
-                    selectList.add("AVG(" + column + ") AS " + columnUpperCase + "_AVERAGE");
+                    selectList.add("AVG(" + column + ") AS " + fieldUpperCase + "_AVERAGE");
                     break;
                 case MIN:
-                    selectList.add("MIN(" + column + ") AS " + columnUpperCase + "_MIN");
+                    selectList.add("MIN(" + column + ") AS " + fieldUpperCase + "_MIN");
                     break;
                 case MAX:
-                    selectList.add("MAX(" + column + ") AS " + columnUpperCase + "_MAX");
+                    selectList.add("MAX(" + column + ") AS " + fieldUpperCase + "_MAX");
                     break;
             }
         });
@@ -520,38 +523,39 @@ public class GroupingServiceImpl implements GroupingService {
 
         // 获取查询结果
         statisticFieldMap.forEach((field, statisticType) -> {
+            GroupStatisticTypeEnum statisticTypeEnum = valueOf(statisticType);
             ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(field);
             String column = Configs.wrap(modelFieldConfig).getColumn();
-            String columnUpperCase = column.toUpperCase();
+            String fieldUpperCase = field.toUpperCase();
             Object statisticValue = null;
-            switch (statisticType) {
+            switch (statisticTypeEnum) {
                 case COUNT:
-                    statisticValue = FieldUtils.getFieldValue(data, columnUpperCase + "_COUNT");
+                    statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_COUNT");
                     break;
                 case EARLIEST_TIME:
-                    statisticValue = FieldUtils.getFieldValue(data, column + "_EARLIEST_TIME");
+                    statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_EARLIEST_TIME");
                     break;
                 case LATEST_TIME:
-                    statisticValue = FieldUtils.getFieldValue(data, column + "_LATEST_TIME");
+                    statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_LATEST_TIME");
                     break;
                 case TIME_RANGE_DAY:
                 case TIME_RANGE_MONTH:
                 case TIME_RANGE_YEAR:
-                    Object earliestTime = FieldUtils.getFieldValue(data, column + "_EARLIEST_TIME");
-                    Object latestTime = FieldUtils.getFieldValue(data, column + "_LATEST_TIME");
+                    Object earliestTime = FieldUtils.getFieldValue(data, fieldUpperCase + "_EARLIEST_TIME");
+                    Object latestTime = FieldUtils.getFieldValue(data, fieldUpperCase + "_LATEST_TIME");
                     statisticValue = JsonUtils.toJSONString(earliestTime) + " - " + JsonUtils.toJSONString(latestTime);
                     break;
                 case SUM:
-                    statisticValue = FieldUtils.getFieldValue(data, column + "_SUM");
+                    statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_SUM");
                     break;
                 case AVERAGE:
-                    statisticValue = FieldUtils.getFieldValue(data, column + "_AVERAGE");
+                    statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_AVERAGE");
                     break;
                 case MIN:
-                    statisticValue = FieldUtils.getFieldValue(data, column + "_MIN");
+                    statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_MIN");
                     break;
                 case MAX:
-                    statisticValue = FieldUtils.getFieldValue(data, column + "_MAX");
+                    statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_MAX");
                     break;
             }
 

@@ -23,7 +23,7 @@ public class GroupPath<T> extends TransientModel {
     private List<GroupPathNode<T>> nodeList;
 
     @Field(displayName = "统计字段")
-    private Map<String, GroupStatisticTypeEnum> statisticFieldMap;
+    private Map<String, String> statisticFieldMap;
 
     public GroupPath() {
         setNodeList(new ArrayList<>());
