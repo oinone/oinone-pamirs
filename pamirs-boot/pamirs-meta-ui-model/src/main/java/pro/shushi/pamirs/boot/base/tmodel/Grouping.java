@@ -26,14 +26,13 @@ public class Grouping<T> extends TransientModel {
     @Field(displayName = "查询条件")
     private ConditionQueryWrapper queryWrapper;
 
-    @Field(displayName = "当前所有一级分组下的总数据量")
-    private Long totalDataCount;
-
     @Field(displayName = "所有分组字段")
     private List<GroupField> groupFields;
 
     @Field(displayName = "展开的分组路径")
     private List<GroupPath<T>> expandGroupPaths;
+
+    private Long totalDataCount;
 
     private ModelConfig modelConfig;
 
