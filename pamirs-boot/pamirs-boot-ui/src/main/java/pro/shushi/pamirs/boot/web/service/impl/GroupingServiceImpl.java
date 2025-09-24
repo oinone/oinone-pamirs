@@ -524,8 +524,6 @@ public class GroupingServiceImpl implements GroupingService {
         // 获取查询结果
         statisticFieldMap.forEach((field, statisticType) -> {
             GroupStatisticTypeEnum statisticTypeEnum = valueOf(statisticType);
-            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(field);
-            String column = Configs.wrap(modelFieldConfig).getColumn();
             String fieldUpperCase = field.toUpperCase();
             Object statisticValue = null;
             switch (statisticTypeEnum) {
@@ -541,9 +539,21 @@ public class GroupingServiceImpl implements GroupingService {
                 case TIME_RANGE_DAY:
                 case TIME_RANGE_MONTH:
                 case TIME_RANGE_YEAR:
-                    Object earliestTime = FieldUtils.getFieldValue(data, fieldUpperCase + "_EARLIEST_TIME");
-                    Object latestTime = FieldUtils.getFieldValue(data, fieldUpperCase + "_LATEST_TIME");
-                    statisticValue = JsonUtils.toJSONString(earliestTime) + " - " + JsonUtils.toJSONString(latestTime);
+                    String earliestTime = JsonUtils.toJSONString(FieldUtils.getFieldValue(data, fieldUpperCase + "_EARLIEST_TIME"));
+                    String latestTime = JsonUtils.toJSONString(FieldUtils.getFieldValue(data, fieldUpperCase + "_LATEST_TIME"));
+                    if (earliestTime.startsWith("\"")) {
+                        earliestTime = earliestTime.substring(1, earliestTime.length() - 1);
+                    }
+                    if (earliestTime.endsWith("\"")) {
+                        earliestTime = earliestTime.substring(0, earliestTime.length() - 1);
+                    }
+                    if (latestTime.startsWith("\"")) {
+                        latestTime = latestTime.substring(1, latestTime.length() - 1);
+                    }
+                    if (latestTime.endsWith("\"")) {
+                        latestTime = latestTime.substring(0, latestTime.length() - 1);
+                    }
+                    statisticValue = earliestTime + " - " + latestTime;
                     break;
                 case SUM:
                     statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_SUM");
