@@ -50,10 +50,6 @@ public class GroupingServiceImpl implements GroupingService {
     @Override
     public <T> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
         loadGroupBaseInfo(group);
-        Pagination<T> countPage = new Pagination<>(1, 1);
-        countPage.setSortable(false);
-        countPage = Models.origin().queryPage(countPage, parseQueryWrapper(buildPageQueryWrapper(group)));
-        group.setTotalDataCount(countPage.getTotalElements());
         return queryGroupInfo(group, page);
     }
 
@@ -72,7 +68,6 @@ public class GroupingServiceImpl implements GroupingService {
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupData(new HashMap<>());
         group.setTotalDataCount(0L);
-        group.setCurrentDataCount(0L);
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
         for (GroupPath<T> expandGroupPath : expandGroupPaths) {
@@ -92,7 +87,6 @@ public class GroupingServiceImpl implements GroupingService {
 
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupStatistic(new HashMap<>());
-        group.setTotalDataCount(null);
         groupResult.setCurrentDataCount(null);
 
         // 先试着不查数据处理统计函数（纯sql进行统计）
@@ -144,7 +138,6 @@ public class GroupingServiceImpl implements GroupingService {
      */
     private <T> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
         GroupResult<T> groupResult = new GroupResult<>();
-        groupResult.setTotalDataCount(group.getTotalDataCount());
 
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
         boolean needPagination = page.getSize() != null && page.getSize() >= 0;
@@ -169,10 +162,10 @@ public class GroupingServiceImpl implements GroupingService {
                 queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
             }
         }
-        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, group.getTotalDataCount()), parseQueryWrapper(queryWrapper));
-        group.setCurrentDataCount((long) paginationResult.getContent().size());
+        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
+        group.setTotalDataCount((long) paginationResult.getContent().size());
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
-        groupResult.setCurrentDataCount(group.getCurrentDataCount());
+        groupResult.setCurrentDataCount(group.getTotalDataCount());
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
         }
@@ -400,7 +393,7 @@ public class GroupingServiceImpl implements GroupingService {
         for (GroupPath<T> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             lastGroupInfo.setIsLeaf(true);
-            if (lastGroupInfo.getDataList() != null && group.getCurrentDataCount() != null && group.getCurrentDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT) {
+            if (lastGroupInfo.getDataList() != null && group.getTotalDataCount() != null && group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT) {
                 lastGroupInfo.setDataListStr(lastGroupInfo.getDataList() != null ? PamirsDataUtils.toJSONString(group.getModel(), lastGroupInfo.getDataList()) : null);
             }
         }
