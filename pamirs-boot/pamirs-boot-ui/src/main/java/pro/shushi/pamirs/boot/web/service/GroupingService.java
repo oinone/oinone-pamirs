@@ -15,4 +15,6 @@ public interface GroupingService {
 
     <T> GroupResult<T> fetchGroupData(Grouping<T> group);
 
+    <T> GroupResult<T> fetchGroupStatistic(Grouping<T> group);
+
 }

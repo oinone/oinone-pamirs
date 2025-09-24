@@ -1,11 +1,13 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
+import pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -19,6 +21,9 @@ public class GroupPath<T> extends TransientModel {
 
     @Field
     private List<GroupPathNode<T>> nodeList;
+
+    @Field(displayName = "统计字段")
+    private Map<String, GroupStatisticTypeEnum> statisticFieldMap;
 
     public GroupPath() {
         setNodeList(new ArrayList<>());

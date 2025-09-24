@@ -37,4 +37,10 @@ public class GroupingAction {
         return groupingService.fetchGroupData(group);
     }
 
+    @Function.Advanced(displayName = "查询分组统计", type = FunctionTypeEnum.QUERY)
+    @Function(openLevel = FunctionOpenEnum.API)
+    public <T> GroupResult<T> fetchGroupStatistic(Grouping<T> group) {
+        return groupingService.fetchGroupStatistic(group);
+    }
+
 }

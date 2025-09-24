@@ -29,9 +29,6 @@ public class GroupInfo<T> extends TransientModel {
     @Field(displayName = "当前分组下数据总数")
     private Long dataCount;
 
-    @Field(displayName = "当前分组数据统计值", summary = "转换成Json字符串")
-    private String dataStatisticStr;
-
     @Field(displayName = "当前分组值", summary = "转换成字符串")
     private String valueStr;
 

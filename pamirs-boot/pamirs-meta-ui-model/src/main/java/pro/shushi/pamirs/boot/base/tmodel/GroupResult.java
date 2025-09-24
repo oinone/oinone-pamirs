@@ -25,6 +25,9 @@ public class GroupResult<T> extends TransientModel {
     @Field(displayName = "总数据量")
     private Long totalDataCount;
 
+    @Field(displayName = "当前所有一级分组下的总数据量")
+    private Long currentDataCount;
+
     @Field(displayName = "返回的分组信息")
     private List<GroupInfo<T>> groups;
 
@@ -32,5 +35,10 @@ public class GroupResult<T> extends TransientModel {
 
     @Field(displayName = "展开的分组数据")
     private List<String> expandGroupDataStr;
+
+    private Map<GroupPath<T>, Map<String, Object>> expandGroupStatistic;
+
+    @Field(displayName = "返回的分组统计数据")
+    private List<String> expandGroupStatisticStr;
 
 }

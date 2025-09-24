@@ -1,17 +1,21 @@
 package pro.shushi.pamirs.boot.web.service.impl;
 
 import com.alibaba.fastjson.TypeReference;
+import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
+import pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.web.enmu.GroupingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
+import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.ModelFieldConfigWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
-import pro.shushi.pamirs.framework.gateways.hook.RsqlParseHook;
+import pro.shushi.pamirs.framework.gateways.rsql.RsqlParseHelper;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Order;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
@@ -20,26 +24,28 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
+
+import static pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum.*;
 
 /**
  * @author Gesi at 17:10 on 2025/9/1
  */
 @Service
+@Slf4j
 public class GroupingServiceImpl implements GroupingService {
 
     private static final long GROUP_LAZY_LOAD_DATA_LIMIT = 300;
 
     private static final TypeReference<Map<String, Object>> QUERY_DATA_TYPE_REF = new TypeReference<Map<String, Object>>() {
     };
-
-    @Autowired
-    private RsqlParseHook rsqlParseHook;
 
     @Override
     public <T> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
@@ -48,7 +54,6 @@ public class GroupingServiceImpl implements GroupingService {
         countPage.setSortable(false);
         countPage = Models.origin().queryPage(countPage, parseQueryWrapper(buildPageQueryWrapper(group)));
         group.setTotalDataCount(countPage.getTotalElements());
-        group.setNeedLazyLoad((page.getSize() == null || page.getSize() < 0) && group.getTotalDataCount() > GROUP_LAZY_LOAD_DATA_LIMIT);
         return queryGroupInfo(group, page);
     }
 
@@ -67,7 +72,8 @@ public class GroupingServiceImpl implements GroupingService {
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupData(new HashMap<>());
         group.setTotalDataCount(0L);
-        fullGroupInfo(group, groupResult, paginationResult.getContent());
+        group.setCurrentDataCount(0L);
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
         for (GroupPath<T> expandGroupPath : expandGroupPaths) {
             groupResult.getExpandGroupDataStr().add(groupResult.getExpandGroupData().get(expandGroupPath));
@@ -76,6 +82,41 @@ public class GroupingServiceImpl implements GroupingService {
         return groupResult;
     }
 
+    @Override
+    public <T> GroupResult<T> fetchGroupStatistic(Grouping<T> group) {
+        List<GroupPath<T>> expandGroupPaths = group.getExpandGroupPaths();
+        if (CollectionUtils.isEmpty(expandGroupPaths)) {
+            throw PamirsException.construct(GroupingExpEnumerate.LAZY_LOAD_PATHS_IS_NULL).errThrow();
+        }
+        loadGroupBaseInfo(group);
+
+        GroupResult<T> groupResult = new GroupResult<>();
+        groupResult.setExpandGroupStatistic(new HashMap<>());
+        group.setTotalDataCount(null);
+        groupResult.setCurrentDataCount(null);
+
+        // 先试着不查数据处理统计函数（纯sql进行统计）
+        expandGroupPaths.removeIf(groupPath -> sqlQueryStatisticDataValues(group, groupResult.getExpandGroupStatistic(), groupPath));
+
+        if (CollectionUtils.isNotEmpty(expandGroupPaths)) {
+            QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
+            addGroupExpandCondition(group, queryWrapper, expandGroupPaths);
+            Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
+            fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
+        }
+
+        groupResult.setExpandGroupStatisticStr(new ArrayList<>(expandGroupPaths.size()));
+        for (GroupPath<T> expandGroupPath : expandGroupPaths) {
+            Map<String, Object> statisticValues = groupResult.getExpandGroupStatistic().get(expandGroupPath);
+            groupResult.getExpandGroupStatisticStr().add(statisticValues != null ? JsonUtils.toJSONString(statisticValues) : null);
+        }
+        groupResult.unsetGroups();
+        return groupResult;
+    }
+
+    /**
+     * 加载分组基本信息
+     */
     private <T> void loadGroupBaseInfo(Grouping<T> group) {
         String model = group.getModel();
         ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
@@ -98,6 +139,9 @@ public class GroupingServiceImpl implements GroupingService {
         }
     }
 
+    /**
+     * 查询分组信息
+     */
     private <T> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setTotalDataCount(group.getTotalDataCount());
@@ -126,13 +170,18 @@ public class GroupingServiceImpl implements GroupingService {
             }
         }
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, group.getTotalDataCount()), parseQueryWrapper(queryWrapper));
-        fullGroupInfo(group, groupResult, paginationResult.getContent());
+        group.setCurrentDataCount((long) paginationResult.getContent().size());
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
+        groupResult.setCurrentDataCount(group.getCurrentDataCount());
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
         }
         return groupResult;
     }
 
+    /**
+     * 构建一级分组的分页查询条件
+     */
     private <T> Pagination<T> addGroupPaginationCondition(Grouping<T> group, QueryWrapper<T> queryWrapper, int pageNo, long pageSize) {
         GroupField firstGroupField = group.getGroupFields().get(0);
         ModelFieldConfig firstModelFieldConfig = group.getModelFieldConfig(firstGroupField.getField());
@@ -182,6 +231,9 @@ public class GroupingServiceImpl implements GroupingService {
         return pagination;
     }
 
+    /**
+     * 添加指定分组路径的查询条件
+     */
     private <T> void addGroupExpandCondition(Grouping<T> group, QueryWrapper<T> queryWrapper, List<GroupPath<T>> expandGroupPaths) {
         queryWrapper.and(andWrapper -> {
             for (GroupPath<T> expandGroupPath : expandGroupPaths) {
@@ -200,6 +252,9 @@ public class GroupingServiceImpl implements GroupingService {
         });
     }
 
+    /**
+     * 构建页面传递过来的查询条件（分组拼接条件与该条件做and）
+     */
     private <T> QueryWrapper<T> buildPageQueryWrapper(Grouping<T> group) {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         queryWrapper.from(group.getModel())
@@ -208,13 +263,26 @@ public class GroupingServiceImpl implements GroupingService {
         return queryWrapper;
     }
 
+    /**
+     * 将queryWrapper里的rsql部分解析
+     */
     private <T> QueryWrapper<T> parseQueryWrapper(final QueryWrapper<T> queryWrapper) {
-        rsqlParseHook.parse(queryWrapper, queryWrapper.getModel());
+        RsqlParseHelper.parseQueryWrapper(queryWrapper, queryWrapper.getModel());
         return queryWrapper;
     }
 
-    private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList) {
+    /**
+     * 根据分组数据填充分组信息
+     */
+    private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, BiConsumer<Grouping<T>, GroupInfo<T>> statisticConsumer) {
         List<GroupField> groupFields = group.getGroupFields();
+
+        Map<GroupPath<T>, Map<String, GroupStatisticTypeEnum>> statisticPathMap;
+        if (CollectionUtils.isNotEmpty(group.getExpandGroupPaths())) {
+            statisticPathMap = group.getExpandGroupPaths().stream().collect(Collectors.toMap(i -> i, GroupPath::getStatisticFieldMap, (a, b) -> a));
+        } else {
+            statisticPathMap = new HashMap<>();
+        }
 
         Map<GroupPath<T>, GroupInfo<T>> groupPathMap = new LinkedHashMap<>();
         Set<GroupPath<T>> firstGroupPathList = new LinkedHashSet<>();
@@ -314,6 +382,17 @@ public class GroupingServiceImpl implements GroupingService {
                 if (groupResult.getExpandGroupData() != null) {
                     groupResult.getExpandGroupData().put(groupPath, groupInfo.getDataList() != null ? PamirsDataUtils.toJSONString(group.getModel(), groupInfo.getDataList()) : null);
                 }
+
+                // 计算统计函数
+                Map<String, GroupStatisticTypeEnum> statisticFieldMap = statisticPathMap.get(groupPath);
+                if (statisticFieldMap != null && groupResult.getExpandGroupStatistic() != null) {
+                    groupPath.setStatisticFieldMap(statisticFieldMap);
+                    Map<String, Object> beforeStatisticValues = groupResult.getExpandGroupStatistic().computeIfAbsent(groupPath, k -> new HashMap<>());
+                    groupInfo.setDataStatistic(beforeStatisticValues);
+                    if (statisticConsumer != null) {
+                        statisticConsumer.accept(group, groupInfo);
+                    }
+                }
             }
         }
 
@@ -321,7 +400,7 @@ public class GroupingServiceImpl implements GroupingService {
         for (GroupPath<T> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             lastGroupInfo.setIsLeaf(true);
-            if (lastGroupInfo.getDataList() != null && !group.isNeedLazyLoad()) {
+            if (lastGroupInfo.getDataList() != null && group.getCurrentDataCount() != null && group.getCurrentDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT) {
                 lastGroupInfo.setDataListStr(lastGroupInfo.getDataList() != null ? PamirsDataUtils.toJSONString(group.getModel(), lastGroupInfo.getDataList()) : null);
             }
         }
@@ -330,10 +409,164 @@ public class GroupingServiceImpl implements GroupingService {
         moveGroupNullValueToLast(groupResult.getGroups());
     }
 
+    private <T> BiConsumer<Grouping<T>, GroupInfo<T>> statisticFunction() {
+        return (group, groupInfo) -> {
+            Map<String, Object> dataStatistic = groupInfo.getDataStatistic();
+            GroupPath<T> groupPath = groupInfo.getGroupPath();
+            Map<String, GroupStatisticTypeEnum> statisticFieldMap = groupPath.getStatisticFieldMap();
+            if (MapUtils.isNotEmpty(statisticFieldMap)) {
+                statisticFieldMap.forEach((statisticField, statisticType) -> {
+                    List<T> dataList = groupInfo.getDataList();
+                    List<?> fieldDataList;
+                    if (dataList != null) {
+                        fieldDataList = dataList.stream().map(data -> {
+                            if (data == null) {
+                                return null;
+                            }
+                            return FieldUtils.getFieldValue(data, statisticField);
+                        }).collect(Collectors.toList());
+                    } else {
+                        fieldDataList = null;
+                    }
+                    GroupStatisticApi statisticApi = null;
+                    try {
+                        statisticApi = Spider.getExtension(GroupStatisticApi.class, statisticType.getValue());
+                    } catch (Exception e) {
+                        log.warn(statisticType.getDisplayName() + "分组统计函数没有对应的api实现");
+                    }
+                    if (statisticApi != null) {
+                        Object statisticValue = statisticApi
+                                .statistic(group, groupInfo, statisticField, fieldDataList);
+                        dataStatistic.put(statisticField, statisticValue);
+                    }
+                });
+            }
+        };
+    }
+
     private <T> void moveGroupNullValueToLast(List<GroupInfo<T>> groups) {
         if (CollectionUtils.isNotEmpty(groups) && groups.get(0).getValue() == null) {
             groups.add(groups.remove(0));
         }
+    }
+
+    /**
+     * 去数据库查询统计函数
+     */
+    private <T> boolean sqlQueryStatisticDataValues(Grouping<T> group, Map<GroupPath<T>, Map<String, Object>> resultMap, GroupPath<T> groupPath) {
+        Map<String, GroupStatisticTypeEnum> statisticFieldMap = groupPath.getStatisticFieldMap();
+        statisticFieldMap.entrySet().removeIf(e -> e.getValue() == null || GroupStatisticTypeEnum.NONE.equals(e.getValue()));
+        if (MapUtils.isEmpty(statisticFieldMap)) {
+            return true;
+        }
+        // 以下为sql可以处理的统计函数
+        Set<GroupStatisticTypeEnum> totalStatisticTypes = new HashSet<>(statisticFieldMap.values());
+        totalStatisticTypes.remove(COUNT);
+        totalStatisticTypes.remove(GroupStatisticTypeEnum.EARLIEST_TIME);
+        totalStatisticTypes.remove(GroupStatisticTypeEnum.LATEST_TIME);
+        totalStatisticTypes.remove(GroupStatisticTypeEnum.TIME_RANGE_DAY);
+        totalStatisticTypes.remove(GroupStatisticTypeEnum.TIME_RANGE_MONTH);
+        totalStatisticTypes.remove(GroupStatisticTypeEnum.TIME_RANGE_YEAR);
+        totalStatisticTypes.remove(GroupStatisticTypeEnum.SUM);
+        totalStatisticTypes.remove(GroupStatisticTypeEnum.AVERAGE);
+        totalStatisticTypes.remove(GroupStatisticTypeEnum.MIN);
+        totalStatisticTypes.remove(GroupStatisticTypeEnum.MAX);
+        if (CollectionUtils.isNotEmpty(totalStatisticTypes)) {
+            return false;
+        }
+
+        Map<String, Object> statisticValues = new HashMap<>();
+        QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
+        addGroupExpandCondition(group, queryWrapper, Lists.newArrayList(groupPath));
+        List<String> groupFieldColumnList = group.getGroupFields().stream().map(groupField -> Configs.wrap(group.getModelFieldConfig(groupField.getField())).getColumn()).collect(Collectors.toList());
+        for (String groupFieldColumn : groupFieldColumnList) {
+            queryWrapper.groupBy(groupFieldColumn);
+        }
+
+        List<String> selectList = new ArrayList<>();
+
+        // 构建分组查询函数 select 内容
+        statisticFieldMap.forEach((field, statisticType) -> {
+            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(field);
+            String column = Configs.wrap(modelFieldConfig).getColumn();
+            String columnUpperCase = column.toUpperCase();
+            switch (statisticType) {
+                case COUNT:
+                    selectList.add("COUNT(" + column + ") AS " + columnUpperCase + "_COUNT");
+                    break;
+                case EARLIEST_TIME:
+                    selectList.add("MIN(" + column + ") AS " + columnUpperCase + "_EARLIEST_TIME");
+                    break;
+                case LATEST_TIME:
+                    selectList.add("MAX(" + column + ") AS " + columnUpperCase + "_LATEST_TIME");
+                    break;
+                case TIME_RANGE_DAY:
+                case TIME_RANGE_MONTH:
+                case TIME_RANGE_YEAR:
+                    selectList.add("MIN(" + column + ") AS " + columnUpperCase + "_EARLIEST_TIME");
+                    selectList.add("MAX(" + column + ") AS " + columnUpperCase + "_LATEST_TIME");
+                    break;
+                case SUM:
+                    selectList.add("SUM(" + column + ") AS " + columnUpperCase + "_SUM");
+                    break;
+                case AVERAGE:
+                    selectList.add("AVG(" + column + ") AS " + columnUpperCase + "_AVERAGE");
+                    break;
+                case MIN:
+                    selectList.add("MIN(" + column + ") AS " + columnUpperCase + "_MIN");
+                    break;
+                case MAX:
+                    selectList.add("MAX(" + column + ") AS " + columnUpperCase + "_MAX");
+                    break;
+            }
+        });
+
+        queryWrapper.select(selectList.toArray(new String[0]));
+        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
+        T data = paginationResult.getContent().get(0);
+
+        // 获取查询结果
+        statisticFieldMap.forEach((field, statisticType) -> {
+            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(field);
+            String column = Configs.wrap(modelFieldConfig).getColumn();
+            String columnUpperCase = column.toUpperCase();
+            Object statisticValue = null;
+            switch (statisticType) {
+                case COUNT:
+                    statisticValue = FieldUtils.getFieldValue(data, columnUpperCase + "_COUNT");
+                    break;
+                case EARLIEST_TIME:
+                    statisticValue = FieldUtils.getFieldValue(data, column + "_EARLIEST_TIME");
+                    break;
+                case LATEST_TIME:
+                    statisticValue = FieldUtils.getFieldValue(data, column + "_LATEST_TIME");
+                    break;
+                case TIME_RANGE_DAY:
+                case TIME_RANGE_MONTH:
+                case TIME_RANGE_YEAR:
+                    Object earliestTime = FieldUtils.getFieldValue(data, column + "_EARLIEST_TIME");
+                    Object latestTime = FieldUtils.getFieldValue(data, column + "_LATEST_TIME");
+                    statisticValue = JsonUtils.toJSONString(earliestTime) + " - " + JsonUtils.toJSONString(latestTime);
+                    break;
+                case SUM:
+                    statisticValue = FieldUtils.getFieldValue(data, column + "_SUM");
+                    break;
+                case AVERAGE:
+                    statisticValue = FieldUtils.getFieldValue(data, column + "_AVERAGE");
+                    break;
+                case MIN:
+                    statisticValue = FieldUtils.getFieldValue(data, column + "_MIN");
+                    break;
+                case MAX:
+                    statisticValue = FieldUtils.getFieldValue(data, column + "_MAX");
+                    break;
+            }
+
+            statisticValues.put(field, statisticValue);
+        });
+
+        resultMap.put(groupPath, statisticValues);
+        return true;
     }
 
 }
