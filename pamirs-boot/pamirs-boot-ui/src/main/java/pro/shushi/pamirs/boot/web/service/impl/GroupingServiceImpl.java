@@ -522,7 +522,7 @@ public class GroupingServiceImpl implements GroupingService {
         });
 
         queryWrapper.select(selectList.toArray(new String[0]));
-        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
+        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper).setSortable(false));
         T data = paginationResult.getContent().get(0);
 
         // 获取查询结果
