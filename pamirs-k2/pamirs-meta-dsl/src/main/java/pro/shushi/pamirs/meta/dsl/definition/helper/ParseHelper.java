@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import pro.shushi.pamirs.meta.dsl.definition.exception.DefinitionException;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class ParseHelper {
 
@@ -64,7 +65,7 @@ public class ParseHelper {
         try {
             //解码
             if (StringUtils.isNotBlank(encodeStr)) {
-                decodeStr = java.net.URLDecoder.decode(encodeStr, "UTF-8");
+                decodeStr = java.net.URLDecoder.decode(encodeStr, StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
             logger.error("decode error", e);

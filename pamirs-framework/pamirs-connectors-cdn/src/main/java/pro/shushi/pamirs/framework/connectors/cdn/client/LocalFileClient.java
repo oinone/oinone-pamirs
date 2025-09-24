@@ -28,6 +28,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -87,7 +88,7 @@ public class LocalFileClient extends AbstractFileClient implements FileConstants
         // 读取内容
         byte[] content = FileUtils.readFileToByteArray(localFile);
         // 设置 header 和 contentType
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(uniqueFileName, "UTF-8"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(uniqueFileName, StandardCharsets.UTF_8));
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         // 输出附件
         IOUtils.write(content, response.getOutputStream());
