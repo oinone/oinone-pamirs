@@ -395,7 +395,7 @@ public class GroupingServiceImpl implements GroupingService {
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
                 groupInfo.setValueStr(GroupInfo.stringifyValue(group.getModelFieldConfig(groupInfo.getField()), groupInfo.getValue()));
                 List<GroupInfo<T>> childGroups = groupInfo.getGroups();
-                moveGroupNullValueToLast(childGroups);
+                moveGroupNullValueToLast(group, childGroups);
                 if (CollectionUtils.isNotEmpty(childGroups)) {
                     List<T> groupDataList = new ArrayList<>();
                     for (GroupInfo<T> childGroup : childGroups) {
@@ -432,7 +432,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
 
         groupResult.setGroups(firstGroupPathList.stream().map(groupPathMap::get).collect(Collectors.toList()));
-        moveGroupNullValueToLast(groupResult.getGroups());
+        moveGroupNullValueToLast(group, groupResult.getGroups());
     }
 
     private <T> BiConsumer<Grouping<T>, GroupInfo<T>> statisticFunction() {
@@ -471,9 +471,16 @@ public class GroupingServiceImpl implements GroupingService {
         };
     }
 
-    private <T> void moveGroupNullValueToLast(List<GroupInfo<T>> groups) {
-        if (CollectionUtils.isNotEmpty(groups) && groups.get(0).getValue() == null) {
-            groups.add(groups.remove(0));
+    private <T> void moveGroupNullValueToLast(Grouping<T> group, List<GroupInfo<T>> groups) {
+        if (CollectionUtils.isNotEmpty(groups)) {
+            GroupInfo<T> groupInfo = groups.get(0);
+            if (groupInfo.getValue() == null) {
+                groups.add(groups.remove(0));
+            }
+            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupInfo.getField());
+            if (TtypeEnum.isStringType(modelFieldConfig.getTtype()) && groupInfo.getValue().equals("")) {
+                groups.add(groups.remove(0));
+            }
         }
     }
 
