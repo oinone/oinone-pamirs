@@ -485,6 +485,7 @@ public class GroupingServiceImpl implements GroupingService {
 
         Map<String, Object> statisticValues = new HashMap<>();
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
+        queryWrapper.setSortable(false);
         addGroupExpandCondition(group, queryWrapper, Lists.newArrayList(groupPath));
         List<String> groupFieldColumnList = group.getGroupFields().stream().map(groupField -> Configs.wrap(group.getModelFieldConfig(groupField.getField())).getColumn()).collect(Collectors.toList());
         for (String groupFieldColumn : groupFieldColumnList) {

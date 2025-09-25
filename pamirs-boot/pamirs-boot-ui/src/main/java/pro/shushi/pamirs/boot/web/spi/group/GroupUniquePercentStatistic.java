@@ -26,7 +26,7 @@ public class GroupUniquePercentStatistic extends AbstractGroupStatisticApi imple
         if (total == 0) {
             return 0;
         }
-        return unique(dataList) / total;
+        return unique(dataList) / total * 100;
     }
 
 }
