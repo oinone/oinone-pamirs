@@ -22,11 +22,8 @@ public class GroupResult<T> extends TransientModel {
     @Field(displayName = "一级分组总页数", defaultValue = "0", invisible = true)
     private Integer totalPages;
 
-    @Field(displayName = "总数据量")
-    private Long totalDataCount;
-
     @Field(displayName = "当前所有一级分组下的总数据量")
-    private Long currentDataCount;
+    private Long totalDataCount;
 
     @Field(displayName = "返回的分组信息")
     private List<GroupInfo<T>> groups;

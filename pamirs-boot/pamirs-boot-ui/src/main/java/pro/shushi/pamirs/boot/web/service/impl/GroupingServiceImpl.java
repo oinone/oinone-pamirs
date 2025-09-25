@@ -6,6 +6,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.web.enmu.GroupingExpEnumerate;
@@ -70,7 +74,7 @@ public class GroupingServiceImpl implements GroupingService {
 
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupData(new HashMap<>());
-        group.setTotalDataCount(0L);
+        group.setTotalDataCount(null);
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
         for (GroupPath<T> expandGroupPath : expandGroupPaths) {
@@ -87,10 +91,10 @@ public class GroupingServiceImpl implements GroupingService {
             throw PamirsException.construct(GroupingExpEnumerate.LAZY_LOAD_PATHS_IS_NULL).errThrow();
         }
         loadGroupBaseInfo(group);
+        group.setTotalDataCount(null);
 
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupStatistic(new HashMap<>());
-        groupResult.setCurrentDataCount(null);
 
         // 先试着不查数据处理统计函数（纯sql进行统计）
         List<GroupPath<T>> queryExpandGroupPaths = new ArrayList<>(group.getExpandGroupPaths());
@@ -168,11 +172,20 @@ public class GroupingServiceImpl implements GroupingService {
         }
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
         group.setTotalDataCount((long) paginationResult.getContent().size());
+        try {
+            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+            String groupTotal = ((ServletRequestAttributes) requestAttributes).getRequest().getHeader("Group-Total");
+            if (groupTotal != null && !StringUtils.isEmpty(groupTotal))
+                group.setTotalDataCount(Long.parseLong(groupTotal));
+        } catch (Exception e) {
+            group.setTotalDataCount((long) paginationResult.getContent().size());
+        }
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
-        groupResult.setCurrentDataCount(group.getTotalDataCount());
+        groupResult.setTotalDataCount(group.getTotalDataCount());
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
         }
+
         return groupResult;
     }
 
