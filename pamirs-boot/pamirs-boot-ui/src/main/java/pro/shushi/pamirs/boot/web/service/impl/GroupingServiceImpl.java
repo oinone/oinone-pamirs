@@ -28,6 +28,7 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
+import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
@@ -212,7 +213,13 @@ public class GroupingServiceImpl implements GroupingService {
             Pagination<T> finalPagination = pagination;
             queryWrapper.and(andWrapper -> {
                 List<Object> groupValueList =
-                        finalPagination.getContent().stream().map(data -> FieldUtils.getFieldValue(data, firstGroupField.getField())).collect(Collectors.toList());
+                        finalPagination.getContent().stream().map(data -> FieldUtils.getFieldValue(data, firstGroupField.getField()))
+                                .map(v -> {
+                                    if (TtypeEnum.MAP.value().equals(firstModelFieldConfig.getTtype())) {
+                                        return JsonUtils.toJSONString(v);
+                                    }
+                                    return v;
+                                }).collect(Collectors.toList());
                 if (CollectionUtils.isNotEmpty(groupValueList)) {
                     andWrapper.in(firstModelFieldConfigWrapper.getColumn(), groupValueList);
                 }
