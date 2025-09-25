@@ -4,7 +4,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
+import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.base.TransientModel;
+import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import javax.validation.constraints.NotNull;
@@ -64,9 +66,12 @@ public class GroupPathNode<T> extends TransientModel {
 
     @Override
     public int hashCode() {
+        ModelFieldConfig modelFieldConfig = getGroup().getModelFieldConfig(getField());
         int valueHashCode = getValue() != null ? getValue().hashCode() : 0;
-        if (getValue() instanceof Map) {
-            valueHashCode = JsonUtils.toJSONString(getValue()).hashCode();
+        if (getValue() != null && !(value instanceof String)) {
+            if (TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype())) {
+                valueHashCode = JsonUtils.toJSONString(getValue()).hashCode();
+            }
         }
         return Objects.hash(getField().hashCode(), valueHashCode);
     }
@@ -79,19 +84,35 @@ public class GroupPathNode<T> extends TransientModel {
         } else {
             return false;
         }
-        if (!StringUtils.equals(other.field, field)) {
+        if (!StringUtils.equals(other.getField(), getField())) {
             return false;
         }
-        if (getValue() instanceof Map || other.getValue() instanceof Map) {
-            if (getValue() instanceof Map && other.getValue() instanceof Map) {
-                return Objects.equals(JsonUtils.toJSONString(getValue()), JsonUtils.toJSONString(other.getValue()));
-            } else if (getValue() instanceof Map) {
-                return Objects.equals(JsonUtils.toJSONString(getValue()), other.getValue());
-            } else {
-                return Objects.equals(getValue(), JsonUtils.toJSONString(other.getValue()));
-            }
+
+        ModelFieldConfig modelFieldConfig = getGroup().getModelFieldConfig(getField());
+        Object thisValue = getValue();
+        Object otherValue = other.getValue();
+
+        thisValue = handleMapOrRelationValue(modelFieldConfig, thisValue);
+        otherValue = handleMapOrRelationValue(modelFieldConfig, otherValue);
+        return Objects.equals(thisValue, otherValue);
+    }
+
+    private Object handleMapOrRelationValue(ModelFieldConfig modelFieldConfig, Object value) {
+        if (value == null || value instanceof String) {
+            return value;
         }
-        return Objects.equals(getValue(), other.getValue());
+        if (
+                !TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype()) &&
+                        !TtypeEnum.O2O.value().equals(modelFieldConfig.getTtype()) &&
+                        !TtypeEnum.O2M.value().equals(modelFieldConfig.getTtype()) &&
+                        !TtypeEnum.M2O.value().equals(modelFieldConfig.getTtype()) &&
+                        !TtypeEnum.M2M.value().equals(modelFieldConfig.getTtype()) &&
+                        !TtypeEnum.OBJ.value().equals(modelFieldConfig.getTtype())
+        ) {
+            return value;
+        }
+
+        return JsonUtils.toJSONString(value);
     }
 
 }

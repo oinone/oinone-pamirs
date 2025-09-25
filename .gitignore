@@ -8,4 +8,15 @@ gradle
 .classpath
 .vscode/
 logs/
+.lh.log
 pamirs-emtransfer/conf/
+
+pamirs-designer
+oinone-backend-starter
+pamirs-framework/pamirs-framework-ee
+pamirs-ui-designer
+pamirs-ui-designer/pamirs-ui-designer-ee
+
+*.log
+*.pid
+.lock

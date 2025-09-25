@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.collections4.CollectionUtils;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -9,8 +10,8 @@ import pro.shushi.pamirs.meta.base.TransientModel;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Gesi at 15:46 on 2025/9/1
@@ -83,6 +84,36 @@ public class GroupInfo<T> extends TransientModel {
         }
         if (value instanceof Map) {
             return JsonUtils.toJSONString(value);
+        } else if (value instanceof List) {
+            if (CollectionUtils.isEmpty((List<?>) value)) {
+                return JsonUtils.toJSONString(new ArrayList<>());
+            } else {
+                List<Object> valueList = ((List<?>) value).stream().map(i -> {
+                    if (i == null) {
+                        return null;
+                    } else if (i instanceof Map) {
+                        return JsonUtils.toJSONString(i);
+                    } else {
+                        return i;
+                    }
+                }).collect(Collectors.toList());
+                return JsonUtils.toJSONString(valueList);
+            }
+        } else if (value instanceof Set) {
+            if (CollectionUtils.isEmpty((Set<?>) value)) {
+                return JsonUtils.toJSONString(new HashSet<>());
+            } else {
+                Set<Object> valueList = ((Set<?>) value).stream().map(i -> {
+                    if (i == null) {
+                        return null;
+                    } else if (i instanceof Map) {
+                        return JsonUtils.toJSONString(i);
+                    } else {
+                        return i;
+                    }
+                }).collect(Collectors.toSet());
+                return JsonUtils.toJSONString(valueList);
+            }
         }
         return value.toString();
     }
@@ -94,8 +125,9 @@ public class GroupInfo<T> extends TransientModel {
         String model = fieldConfig.getModel();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(fieldConfig.getField(), valueStr);
-        Object modelObject = PamirsDataUtils.jsonObjectToModelObject(model, jsonObject);
-        return FieldUtils.getFieldValue(modelObject, fieldConfig.getField());
+        Object modelObject = PamirsDataUtils.parseModelObject(model, JsonUtils.toJSONString(jsonObject));
+        Object value = FieldUtils.getFieldValue(modelObject, fieldConfig.getField());
+        return value;
     }
 
 }

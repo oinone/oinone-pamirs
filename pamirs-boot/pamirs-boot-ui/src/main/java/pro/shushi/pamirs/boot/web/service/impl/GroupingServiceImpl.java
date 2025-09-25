@@ -68,6 +68,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
         loadGroupBaseInfo(group);
 
+        // 构建查询条件查询数据
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
         addGroupExpandCondition(group, queryWrapper, expandGroupPaths);
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
@@ -99,7 +100,6 @@ public class GroupingServiceImpl implements GroupingService {
         // 先试着不查数据处理统计函数（纯sql进行统计）
         List<GroupPath<T>> queryExpandGroupPaths = new ArrayList<>(group.getExpandGroupPaths());
         queryExpandGroupPaths.removeIf(groupPath -> sqlQueryStatisticDataValues(group, groupResult.getExpandGroupStatistic(), groupPath));
-
         if (CollectionUtils.isNotEmpty(queryExpandGroupPaths)) {
             QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
             addGroupExpandCondition(group, queryWrapper, queryExpandGroupPaths);
@@ -147,6 +147,7 @@ public class GroupingServiceImpl implements GroupingService {
     private <T> GroupResult<T> queryGroupInfo(final Grouping<T> group, Pagination<?> page) {
         GroupResult<T> groupResult = new GroupResult<>();
 
+        // 构建查询条件
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
         boolean needPagination = page.getSize() != null && page.getSize() >= 0;
         if (needPagination) {
@@ -170,8 +171,10 @@ public class GroupingServiceImpl implements GroupingService {
                 queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
             }
         }
+        // 查询数据
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
         group.setTotalDataCount((long) paginationResult.getContent().size());
+
         try { // todo
             RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
             String groupTotal = ((ServletRequestAttributes) requestAttributes).getRequest().getHeader("Group-Total");
@@ -595,6 +598,13 @@ public class GroupingServiceImpl implements GroupingService {
 
         resultMap.put(groupPath, statisticValues);
         return true;
+    }
+
+    /**
+     * 内存加载按分组排序好的数据
+     */
+    private <T> List<T> loadDataListByMemory() {
+        return new ArrayList<>();
     }
 
 }
