@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.boot.web.spi.group;
 
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.boot.base.tmodel.GroupField;
 import pro.shushi.pamirs.boot.base.tmodel.GroupInfo;
 import pro.shushi.pamirs.boot.base.tmodel.Grouping;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
@@ -26,7 +25,7 @@ public class GroupUniquePercentStatistic extends AbstractGroupStatisticApi imple
         if (total == 0) {
             return 0;
         }
-        return unique(dataList) / total * 100;
+        return String.format("%.2f", ((double) unique(dataList)) / total * 100);
     }
 
 }

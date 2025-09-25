@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.boot.web.spi.group;
 
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.boot.base.tmodel.GroupField;
 import pro.shushi.pamirs.boot.base.tmodel.GroupInfo;
 import pro.shushi.pamirs.boot.base.tmodel.Grouping;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
@@ -26,7 +25,7 @@ public class GroupNotNullPercentStatistic extends AbstractGroupStatisticApi impl
         if (total == 0) {
             return 100;
         }
-        return filled(dataList) / total * 100;
+        return String.format("%.2f", ((double) filled(dataList)) / total * 100);
     }
 
 }
