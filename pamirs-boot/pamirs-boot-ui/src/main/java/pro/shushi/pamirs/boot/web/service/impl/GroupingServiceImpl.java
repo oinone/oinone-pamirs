@@ -167,8 +167,7 @@ public class GroupingServiceImpl implements GroupingService {
             }
         }
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
-//        group.setTotalDataCount((long) paginationResult.getContent().size()); todo
-        group.setTotalDataCount(301L);
+        group.setTotalDataCount((long) paginationResult.getContent().size());
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
         groupResult.setCurrentDataCount(group.getTotalDataCount());
         if (!needPagination) {
