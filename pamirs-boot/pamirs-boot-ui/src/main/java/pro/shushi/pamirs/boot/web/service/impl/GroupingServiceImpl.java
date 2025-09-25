@@ -242,9 +242,13 @@ public class GroupingServiceImpl implements GroupingService {
             for (GroupPath<T> expandGroupPath : expandGroupPaths) {
                 andWrapper.or().and(pathAndWrapper -> {
                     for (GroupPathNode<T> pathNode : expandGroupPath.getNodeList()) {
-                        String column = Configs.wrap(group.getModelFieldConfig(pathNode.getField())).getColumn();
+                        ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(pathNode.getField());
+                        String column = Configs.wrap(modelFieldConfig).getColumn();
                         Object value = pathNode.getValue();
                         if (value != null) {
+                            if (TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype())) {
+                                value = JsonUtils.toJSONString(value);
+                            }
                             pathAndWrapper.eq(column, value);
                         } else {
                             pathAndWrapper.isNull(column);
