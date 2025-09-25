@@ -205,6 +205,9 @@ public class GroupingServiceImpl implements GroupingService {
         QueryWrapper<T> groupQueryWrapper = buildPageQueryWrapper(group);
         ModelFieldConfigWrapper firstModelFieldConfigWrapper = Configs.wrap(firstModelFieldConfig);
         groupQueryWrapper.isNotNull(firstModelFieldConfigWrapper.getColumn());
+        if (TtypeEnum.isStringType(firstModelFieldConfig.getTtype())) {
+            groupQueryWrapper.ne(firstModelFieldConfigWrapper.getColumn(), "");
+        }
         groupQueryWrapper.select(firstModelFieldConfigWrapper.getColumn() + " " + firstModelFieldConfig.getField());
         groupQueryWrapper.groupBy(firstModelFieldConfigWrapper.getColumn());
         groupQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), firstModelFieldConfigWrapper.getColumn());
@@ -241,6 +244,9 @@ public class GroupingServiceImpl implements GroupingService {
                 }
                 if (needGroupNullValue) {
                     andWrapper.or().isNull(firstModelFieldConfigWrapper.getColumn());
+                    if (TtypeEnum.isStringType(firstModelFieldConfig.getTtype())) {
+                        andWrapper.or().eq(firstModelFieldConfigWrapper.getColumn(), "");
+                    }
                 }
             });
         } else {

@@ -68,6 +68,9 @@ public class GroupPathNode<T> extends TransientModel {
     public int hashCode() {
         ModelFieldConfig modelFieldConfig = getGroup().getModelFieldConfig(getField());
         int valueHashCode = getValue() != null ? getValue().hashCode() : 0;
+        if (TtypeEnum.isStringType(modelFieldConfig.getTtype()) && getValue() == null) {
+            valueHashCode = "".hashCode();
+        }
         if (getValue() != null && !(value instanceof String)) {
             if (TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype())) {
                 valueHashCode = JsonUtils.toJSONString(getValue()).hashCode();
@@ -98,6 +101,9 @@ public class GroupPathNode<T> extends TransientModel {
     }
 
     private Object handleMapOrRelationValue(ModelFieldConfig modelFieldConfig, Object value) {
+        if (value == null && TtypeEnum.isStringType(modelFieldConfig.getTtype())) {
+            value = "";
+        }
         if (value == null || value instanceof String) {
             return value;
         }
