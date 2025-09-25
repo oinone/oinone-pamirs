@@ -172,7 +172,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
         group.setTotalDataCount((long) paginationResult.getContent().size());
-        try {
+        try { // todo
             RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
             String groupTotal = ((ServletRequestAttributes) requestAttributes).getRequest().getHeader("Group-Total");
             if (groupTotal != null && !StringUtils.isEmpty(groupTotal))
