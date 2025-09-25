@@ -25,7 +25,7 @@ public class GroupNullPercentStatistic extends AbstractGroupStatisticApi impleme
         if (total == 0) {
             return 100;
         }
-        return String.format("%.2f", ((double) notFilled(dataList)) / total * 100;
+        return String.format("%.2f", ((double) notFilled(dataList)) / total * 100);
     }
 
 }
