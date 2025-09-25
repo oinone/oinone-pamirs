@@ -7,6 +7,7 @@ import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.base.TransientModel;
 import pro.shushi.pamirs.meta.util.FieldUtils;
+import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -79,6 +80,9 @@ public class GroupInfo<T> extends TransientModel {
         value = jsonObject.get(fieldConfig.getField());
         if (value == null) {
             return null;
+        }
+        if (value instanceof Map) {
+            return JsonUtils.toJSONString(value);
         }
         return value.toString();
     }

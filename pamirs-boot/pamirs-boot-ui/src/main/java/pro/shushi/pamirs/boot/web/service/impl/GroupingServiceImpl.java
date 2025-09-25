@@ -167,7 +167,8 @@ public class GroupingServiceImpl implements GroupingService {
             }
         }
         Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
-        group.setTotalDataCount((long) paginationResult.getContent().size());
+//        group.setTotalDataCount((long) paginationResult.getContent().size()); todo
+        group.setTotalDataCount(301L);
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
         groupResult.setCurrentDataCount(group.getTotalDataCount());
         if (!needPagination) {
@@ -246,9 +247,6 @@ public class GroupingServiceImpl implements GroupingService {
                         String column = Configs.wrap(modelFieldConfig).getColumn();
                         Object value = pathNode.getValue();
                         if (value != null) {
-                            if (TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype())) {
-                                value = JsonUtils.toJSONString(value);
-                            }
                             pathAndWrapper.eq(column, value);
                         } else {
                             pathAndWrapper.isNull(column);
@@ -485,7 +483,6 @@ public class GroupingServiceImpl implements GroupingService {
 
         Map<String, Object> statisticValues = new HashMap<>();
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        queryWrapper.setSortable(false);
         addGroupExpandCondition(group, queryWrapper, Lists.newArrayList(groupPath));
         List<String> groupFieldColumnList = group.getGroupFields().stream().map(groupField -> Configs.wrap(group.getModelFieldConfig(groupField.getField())).getColumn()).collect(Collectors.toList());
         for (String groupFieldColumn : groupFieldColumnList) {
@@ -532,7 +529,9 @@ public class GroupingServiceImpl implements GroupingService {
         });
 
         queryWrapper.select(selectList.toArray(new String[0]));
-        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper).setSortable(false));
+        Pagination<T> pagination = new Pagination<>(1, -1);
+        pagination.setSortable(false);
+        Pagination<T> paginationResult = Models.origin().queryPage(pagination, parseQueryWrapper(queryWrapper));
         T data = paginationResult.getContent().get(0);
 
         // 获取查询结果
