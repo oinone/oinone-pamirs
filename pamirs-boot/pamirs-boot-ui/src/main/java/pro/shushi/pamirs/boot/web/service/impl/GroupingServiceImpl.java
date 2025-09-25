@@ -4,12 +4,14 @@ import com.alibaba.fastjson.TypeReference;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.web.enmu.GroupingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
+import pro.shushi.pamirs.boot.web.utils.GroupStatisticUtils;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.ModelFieldConfigWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -536,25 +538,21 @@ public class GroupingServiceImpl implements GroupingService {
                 case LATEST_TIME:
                     statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_LATEST_TIME");
                     break;
-                case TIME_RANGE_DAY:
-                case TIME_RANGE_MONTH:
-                case TIME_RANGE_YEAR:
-                    String earliestTime = JsonUtils.toJSONString(FieldUtils.getFieldValue(data, fieldUpperCase + "_EARLIEST_TIME"));
-                    String latestTime = JsonUtils.toJSONString(FieldUtils.getFieldValue(data, fieldUpperCase + "_LATEST_TIME"));
-                    if (earliestTime.startsWith("\"")) {
-                        earliestTime = earliestTime.substring(1, earliestTime.length() - 1);
-                    }
-                    if (earliestTime.endsWith("\"")) {
-                        earliestTime = earliestTime.substring(0, earliestTime.length() - 1);
-                    }
-                    if (latestTime.startsWith("\"")) {
-                        latestTime = latestTime.substring(1, latestTime.length() - 1);
-                    }
-                    if (latestTime.endsWith("\"")) {
-                        latestTime = latestTime.substring(0, latestTime.length() - 1);
-                    }
-                    statisticValue = earliestTime + " - " + latestTime;
+                case TIME_RANGE_DAY: {
+                    Pair<Date, Date> dateRange = GroupStatisticUtils.earliestTimeAndLatestTime(Lists.newArrayList(FieldUtils.getFieldValue(data, fieldUpperCase + "_EARLIEST_TIME"), FieldUtils.getFieldValue(data, fieldUpperCase + "_LATEST_TIME")));
+                    statisticValue = GroupStatisticUtils.timeRangeDay(dateRange.getLeft(), dateRange.getRight());
                     break;
+                }
+                case TIME_RANGE_MONTH: {
+                    Pair<Date, Date> dateRange = GroupStatisticUtils.earliestTimeAndLatestTime(Lists.newArrayList(FieldUtils.getFieldValue(data, fieldUpperCase + "_EARLIEST_TIME"), FieldUtils.getFieldValue(data, fieldUpperCase + "_LATEST_TIME")));
+                    statisticValue = GroupStatisticUtils.timeRangeMonth(dateRange.getLeft(), dateRange.getRight());
+                    break;
+                }
+                case TIME_RANGE_YEAR: {
+                    Pair<Date, Date> dateRange = GroupStatisticUtils.earliestTimeAndLatestTime(Lists.newArrayList(FieldUtils.getFieldValue(data, fieldUpperCase + "_EARLIEST_TIME"), FieldUtils.getFieldValue(data, fieldUpperCase + "_LATEST_TIME")));
+                    statisticValue = GroupStatisticUtils.timeRangeYear(dateRange.getLeft(), dateRange.getRight());
+                    break;
+                }
                 case SUM:
                     statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_SUM");
                     break;

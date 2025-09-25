@@ -22,7 +22,11 @@ public class GroupNotNullPercentStatistic extends AbstractGroupStatisticApi impl
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, String statisticField, List<?> dataList) {
-        return "mock NOT_NULL_PERCENT";
+        long total = total(dataList);
+        if (total == 0) {
+            return 100;
+        }
+        return filled(dataList) / total * 100;
     }
 
 }

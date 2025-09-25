@@ -4,10 +4,12 @@ import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
+import pro.shushi.pamirs.boot.web.utils.GroupStatisticUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -45,12 +47,8 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
         return dataList.stream().distinct().count();
     }
 
-    protected Pair<Object, Object> earliestTimeAndLatestTime(List<?> dataList) {
-        if (CollectionUtils.isEmpty(dataList)) {
-            return Pair.of(null, null);
-        }
-        dataList = dataList.stream().sorted().collect(Collectors.toList());
-        return Pair.of(dataList.get(0), dataList.get(dataList.size() - 1));
+    protected Pair<Date, Date> earliestTimeAndLatestTime(List<?> dataList) {
+        return GroupStatisticUtils.earliestTimeAndLatestTime(dataList);
     }
 
     protected List<BigDecimal> formatNumber(List<?> dataList) {

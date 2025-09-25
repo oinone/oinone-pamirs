@@ -22,7 +22,11 @@ public class GroupUniquePercentStatistic extends AbstractGroupStatisticApi imple
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, String statisticField, List<?> dataList) {
-        return unique(dataList) / total(dataList);
+        long total = total(dataList);
+        if (total == 0) {
+            return 0;
+        }
+        return unique(dataList) / total;
     }
 
 }

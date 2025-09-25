@@ -1,13 +1,16 @@
 package pro.shushi.pamirs.boot.web.spi.group;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.tmodel.GroupField;
 import pro.shushi.pamirs.boot.base.tmodel.GroupInfo;
 import pro.shushi.pamirs.boot.base.tmodel.Grouping;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
+import pro.shushi.pamirs.boot.web.utils.GroupStatisticUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +25,8 @@ public class GroupTimeRangeDayStatistic extends AbstractGroupStatisticApi implem
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, String statisticField, List<?> dataList) {
-        return "mock TIME_RANGE_DAY";
+        Pair<Date, Date> dateRange = earliestTimeAndLatestTime(dataList);
+        return GroupStatisticUtils.timeRangeDay(dateRange.getLeft(), dateRange.getRight());
     }
 
 }
