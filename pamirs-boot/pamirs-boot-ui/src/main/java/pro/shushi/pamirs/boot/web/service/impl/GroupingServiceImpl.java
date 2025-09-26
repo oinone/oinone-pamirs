@@ -70,8 +70,9 @@ public class GroupingServiceImpl implements GroupingService {
 
         // 构建查询条件查询数据
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        addGroupExpandCondition(group, queryWrapper, expandGroupPaths);
-        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
+        addGroupExpandCondition(group, queryWrapper, expandGroupPaths, true);
+        Pagination<T> paginationResult = new Pagination<>(1, -1);
+        paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
 
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupData(new HashMap<>());
@@ -102,8 +103,10 @@ public class GroupingServiceImpl implements GroupingService {
         queryExpandGroupPaths.removeIf(groupPath -> sqlQueryStatisticDataValues(group, groupResult.getExpandGroupStatistic(), groupPath));
         if (CollectionUtils.isNotEmpty(queryExpandGroupPaths)) {
             QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-            addGroupExpandCondition(group, queryWrapper, queryExpandGroupPaths);
-            Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
+            addGroupExpandCondition(group, queryWrapper, queryExpandGroupPaths, false);
+            Pagination<T> paginationResult = new Pagination<>(1, -1);
+            paginationResult.setSortable(false);
+            paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
             fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
         }
 
@@ -261,7 +264,7 @@ public class GroupingServiceImpl implements GroupingService {
     /**
      * 添加指定分组路径的查询条件
      */
-    private <T> void addGroupExpandCondition(Grouping<T> group, QueryWrapper<T> queryWrapper, List<GroupPath<T>> expandGroupPaths) {
+    private <T> void addGroupExpandCondition(Grouping<T> group, QueryWrapper<T> queryWrapper, List<GroupPath<T>> expandGroupPaths, boolean needSort) {
         queryWrapper.and(andWrapper -> {
             for (GroupPath<T> expandGroupPath : expandGroupPaths) {
                 andWrapper.or().and(pathAndWrapper -> {
@@ -290,6 +293,19 @@ public class GroupingServiceImpl implements GroupingService {
                 });
             }
         });
+
+        if (needSort) {
+            if (group.getQueryWrapper() != null && group.getQueryWrapper().getSort() != null && CollectionUtils.isNotEmpty(group.getQueryWrapper().getSort().getOrders())) {
+                for (Order order : group.getQueryWrapper().getSort().getOrders()) {
+                    ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(order.getField());
+                    if (SortDirectionEnum.DESC.equals(order.getDirection())) {
+                        queryWrapper.orderByDesc(Configs.wrap(modelFieldConfig).getColumn());
+                    } else {
+                        queryWrapper.orderByAsc(Configs.wrap(modelFieldConfig).getColumn());
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -525,7 +541,7 @@ public class GroupingServiceImpl implements GroupingService {
 
         Map<String, Object> statisticValues = new HashMap<>();
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        addGroupExpandCondition(group, queryWrapper, Lists.newArrayList(groupPath));
+        addGroupExpandCondition(group, queryWrapper, Lists.newArrayList(groupPath), false);
         List<String> groupFieldColumnList = group.getGroupFields().stream().map(groupField -> Configs.wrap(group.getModelFieldConfig(groupField.getField())).getColumn()).collect(Collectors.toList());
         for (String groupFieldColumn : groupFieldColumnList) {
             queryWrapper.groupBy(groupFieldColumn);
