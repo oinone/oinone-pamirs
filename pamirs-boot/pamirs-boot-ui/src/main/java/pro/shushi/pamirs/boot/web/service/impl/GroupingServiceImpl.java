@@ -506,9 +506,12 @@ public class GroupingServiceImpl implements GroupingService {
             GroupInfo<T> groupInfo = groups.get(0);
             if (groupInfo.getRealValue() == null) {
                 groups.add(groups.remove(0));
+                return;
             }
             ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupInfo.getField());
             if (TtypeEnum.isStringType(modelFieldConfig.getTtype()) && groupInfo.getRealValue().equals("")) {
+                groups.add(groups.remove(0));
+            } else if (TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype()) && (groupInfo.getRealValue().equals("") || groupInfo.getRealValue().equals(JsonUtils.toJSONString(new LinkedHashMap<>())))) {
                 groups.add(groups.remove(0));
             }
         }
