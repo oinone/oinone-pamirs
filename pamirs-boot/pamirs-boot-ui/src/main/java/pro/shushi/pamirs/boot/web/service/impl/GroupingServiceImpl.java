@@ -246,6 +246,8 @@ public class GroupingServiceImpl implements GroupingService {
                     andWrapper.or().isNull(firstModelFieldConfigWrapper.getColumn());
                     if (TtypeEnum.isStringType(firstModelFieldConfig.getTtype())) {
                         andWrapper.or().eq(firstModelFieldConfigWrapper.getColumn(), "");
+                    } else if (TtypeEnum.MAP.value().equals(firstModelFieldConfig.getTtype())) {
+                        andWrapper.or().eq(firstModelFieldConfigWrapper.getColumn(), "").or().eq(firstModelFieldConfigWrapper.getColumn(), JsonUtils.toJSONString(new LinkedHashMap<>()));
                     }
                 }
             });
@@ -268,7 +270,15 @@ public class GroupingServiceImpl implements GroupingService {
                         String column = Configs.wrap(modelFieldConfig).getColumn();
                         Object value = pathNode.getRealValue();
                         if (value != null) {
-                            if (value instanceof Map || value instanceof Collection) {
+                            if (value instanceof Map) {
+                                if (MapUtils.isNotEmpty((Map<?, ?>) value)) {
+                                    pathAndWrapper.eq(column, JsonUtils.toJSONString(value));
+                                } else {
+                                    pathAndWrapper.and(mapAndWrapper -> {
+                                        mapAndWrapper.isNull(column).or().eq(column, "").or().eq(column, JsonUtils.toJSONString(new LinkedHashMap<>()));
+                                    });
+                                }
+                            } else if (value instanceof Collection) {
                                 pathAndWrapper.eq(column, JsonUtils.toJSONString(value));
                             } else {
                                 pathAndWrapper.eq(column, value);

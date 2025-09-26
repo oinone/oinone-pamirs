@@ -10,6 +10,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import javax.validation.constraints.NotNull;
+import java.util.LinkedHashMap;
 import java.util.Objects;
 
 /**
@@ -99,6 +100,9 @@ public class GroupPathNode<T> extends TransientModel {
     private Object handleMapOrRelationEqualsValue(ModelFieldConfig modelFieldConfig, Object realValue) {
         if (realValue == null && TtypeEnum.isStringType(modelFieldConfig.getTtype())) {
             realValue = "";
+        }
+        if (realValue == null && TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype())) {
+            realValue = JsonUtils.toJSONString(new LinkedHashMap<>());
         }
         if (realValue == null || realValue instanceof String) {
             return realValue;
