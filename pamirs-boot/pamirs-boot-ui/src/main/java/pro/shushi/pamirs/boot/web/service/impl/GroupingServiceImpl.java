@@ -618,10 +618,10 @@ public class GroupingServiceImpl implements GroupingService {
     }
 
     /**
-     * 内存加载按分组排序好的数据
+     * 内存加载按分组数据
      */
-    private <T> List<T> loadDataListByMemory() {
-        return new ArrayList<>();
+    private <T> Pagination<T> loadDataListByMemory(Grouping<T> group, Pagination<T> pagination, QueryWrapper<T> pageQueryWrapper, List<GroupPath<T>> expandGroupPaths) {
+        return pagination;
     }
 
 }
