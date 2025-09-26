@@ -102,7 +102,16 @@ public class GroupInfo<T> extends TransientModel {
                 return enumValue.toString();
             }
         }
-        return JsonUtils.toJSONString(value);
+        String jsonValue = JsonUtils.toJSONString(value);
+        if (TtypeEnum.isDateType(fieldConfig.getTtype())) {
+            if (jsonValue.startsWith("\"")) {
+                jsonValue = jsonValue.substring(1, jsonValue.length() - 1);
+            }
+            if (jsonValue.endsWith("\"")) {
+                jsonValue = jsonValue.substring(0, jsonValue.length() - 1);
+            }
+        }
+        return jsonValue;
     }
 
     /**
