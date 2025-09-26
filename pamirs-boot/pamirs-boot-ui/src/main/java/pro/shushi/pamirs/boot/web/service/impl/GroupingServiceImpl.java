@@ -266,7 +266,7 @@ public class GroupingServiceImpl implements GroupingService {
                     for (GroupPathNode<T> pathNode : expandGroupPath.getNodeList()) {
                         ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(pathNode.getField());
                         String column = Configs.wrap(modelFieldConfig).getColumn();
-                        Object value = pathNode.getValue();
+                        Object value = pathNode.getRealValue();
                         if (value != null) {
                             if (value instanceof Map || value instanceof Collection) {
                                 pathAndWrapper.eq(column, JsonUtils.toJSONString(value));
@@ -354,7 +354,7 @@ public class GroupingServiceImpl implements GroupingService {
                     groupInfo.setIsLeaf(false);
                     groupInfo.setGroupPath(groupPath);
                     groupInfo.setField(groupField.getField());
-                    groupInfo.setValue(value);
+                    groupInfo.setRealValue(value);
                     groupInfo.setGroupField(groupField);
                     groupPathMap.put(groupPath, groupInfo);
                     isCreateGroup = true;
@@ -397,7 +397,7 @@ public class GroupingServiceImpl implements GroupingService {
             for (GroupPath<T> groupPath : groupPathList) {
                 // 这里的子级groupInfo一定是都填充完成的
                 GroupInfo<T> groupInfo = groupPathMap.get(groupPath);
-                groupInfo.setValueStr(GroupInfo.stringifyValue(group.getModelFieldConfig(groupInfo.getField()), groupInfo.getValue()));
+                groupInfo.storeValue(group);
                 List<GroupInfo<T>> childGroups = groupInfo.getGroups();
                 moveGroupNullValueToLast(group, childGroups);
                 if (CollectionUtils.isNotEmpty(childGroups)) {
@@ -478,11 +478,11 @@ public class GroupingServiceImpl implements GroupingService {
     private <T> void moveGroupNullValueToLast(Grouping<T> group, List<GroupInfo<T>> groups) {
         if (CollectionUtils.isNotEmpty(groups)) {
             GroupInfo<T> groupInfo = groups.get(0);
-            if (groupInfo.getValue() == null) {
+            if (groupInfo.getRealValue() == null) {
                 groups.add(groups.remove(0));
             }
             ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupInfo.getField());
-            if (TtypeEnum.isStringType(modelFieldConfig.getTtype()) && groupInfo.getValue().equals("")) {
+            if (TtypeEnum.isStringType(modelFieldConfig.getTtype()) && groupInfo.getRealValue().equals("")) {
                 groups.add(groups.remove(0));
             }
         }

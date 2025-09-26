@@ -34,8 +34,8 @@ public class GroupInfo<T> extends TransientModel {
     @Field(displayName = "当前分组下数据总数")
     private Long dataCount;
 
-    @Field(displayName = "当前分组值", summary = "转换成字符串")
-    private String valueStr;
+    @Field(displayName = "当前分组值", summary = "前端使用的value值，需要转换后设置为realValue")
+    private Object value;
 
     @Field(displayName = "当前分组数据", summary = "转换成Json字符串")
     private String dataListStr;
@@ -51,7 +51,7 @@ public class GroupInfo<T> extends TransientModel {
     /**
      * 当前分组的值
      */
-    private Object value;
+    private Object realValue;
 
     /**
      * 当前分组的数据
@@ -72,6 +72,15 @@ public class GroupInfo<T> extends TransientModel {
      * 分组路径
      */
     private GroupPath<T> groupPath;
+
+    public void storeValue(Grouping<T> group) {
+        ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(getField());
+        if (TtypeEnum.ENUM.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.isNumericType(modelFieldConfig.getTtype()) || TtypeEnum.isDateType(modelFieldConfig.getTtype())) {
+            setValue(GroupInfo.stringifyValue(modelFieldConfig, getRealValue()));
+        } else {
+            setValue(getRealValue());
+        }
+    }
 
     /**
      * 序列化分组值放到valueStr里返回
@@ -99,8 +108,8 @@ public class GroupInfo<T> extends TransientModel {
     /**
      * 从valueStr里反序列化分组值放value
      */
-    public static Object valueFromString(ModelFieldConfig fieldConfig, String valueStr) {
-        if (valueStr == null) {
+    public static Object valueFromString(ModelFieldConfig fieldConfig, Object value) {
+        if (value == null) {
             return null;
         }
         String model = fieldConfig.getModel();
@@ -108,9 +117,9 @@ public class GroupInfo<T> extends TransientModel {
         if (TtypeEnum.ENUM.value().equals(fieldConfig.getTtype())) {
             JSONObject jsonObject = new JSONObject();
             if (Boolean.TRUE.equals(fieldConfig.getMulti())) {
-                jsonObject.put(fieldConfig.getField(), JsonUtils.parseObject(valueStr));
+                jsonObject.put(fieldConfig.getField(), JsonUtils.parseObject(JsonUtils.toJSONString(value)));
             } else {
-                jsonObject.put(fieldConfig.getField(), valueStr);
+                jsonObject.put(fieldConfig.getField(), value);
             }
             Object modelObject = PamirsDataUtils.jsonObjectToModelObject(model, jsonObject);
             return FieldUtils.getFieldValue(modelObject, fieldConfig.getField());
@@ -131,18 +140,18 @@ public class GroupInfo<T> extends TransientModel {
             }
         }
 
-        Object value;
+        Object realValue;
         if (generics.isEmpty()) {
-            value = JsonUtils.parseObject(valueStr, clazz);
+            realValue = JsonUtils.parseObject(JsonUtils.toJSONString(value), clazz);
         } else {
             Type type = new ParameterizedTypeImpl(
                     generics.toArray(new Type[0]),
                     null,
                     clazz
             );
-            value = JsonUtils.parseObject(valueStr, type);
+            realValue = JsonUtils.parseObject(JsonUtils.toJSONString(value), type);
         }
-        return value;
+        return realValue;
     }
 
 }

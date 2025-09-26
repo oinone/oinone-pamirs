@@ -25,7 +25,7 @@ public class GroupPathNode<T> extends TransientModel {
     private String field;
 
     @Field
-    private String valueStr;
+    private Object value;
 
     @JSONField(serialize = false)
     private transient Grouping<T> group;
@@ -34,39 +34,44 @@ public class GroupPathNode<T> extends TransientModel {
     private transient boolean fromClient = true;
 
     @JSONField(serialize = false)
-    private transient Object value;
+    private transient Object realValue;
 
     public GroupPathNode() {
         fromClient = true;
     }
 
-    public GroupPathNode(@NotNull Grouping<T> group, @NotNull String field, Object value) {
+    public GroupPathNode(@NotNull Grouping<T> group, @NotNull String field, Object realValue) {
         setGroup(group);
         setField(field);
-        setValue(value);
+        setRealValue(realValue);
         fromClient = false;
     }
 
-    public Object getValue() {
+    public Object getRealValue() {
         if (fromClient) {
-            setValue(GroupInfo.valueFromString(getGroup().getModelFieldConfig(getField()), getValueStr()));
+            ModelFieldConfig modelFieldConfig = getGroup().getModelFieldConfig(getField());
+            if (TtypeEnum.ENUM.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.isNumericType(modelFieldConfig.getTtype()) || TtypeEnum.isDateType(modelFieldConfig.getTtype())) {
+                setRealValue(GroupInfo.valueFromString(modelFieldConfig, getValue()));
+            } else {
+                setRealValue(getValue());
+            }
             fromClient = false;
         }
-        return value;
+        return realValue;
     }
 
     @Override
     public String toString() {
-        if (getValue() == null) {
+        if (getRealValue() == null) {
             return getField() + " - null";
         }
-        return getField() + " - " + getValue();
+        return getField() + " - " + getRealValue();
     }
 
     @Override
     public int hashCode() {
         ModelFieldConfig modelFieldConfig = getGroup().getModelFieldConfig(getField());
-        Object value = handleMapOrRelationEqualsValue(modelFieldConfig, getValue());
+        Object value = handleMapOrRelationEqualsValue(modelFieldConfig, getRealValue());
         return Objects.hash(getField().hashCode(), value != null ? value.hashCode() : 0);
     }
 
@@ -83,20 +88,20 @@ public class GroupPathNode<T> extends TransientModel {
         }
 
         ModelFieldConfig modelFieldConfig = getGroup().getModelFieldConfig(getField());
-        Object thisValue = getValue();
-        Object otherValue = other.getValue();
+        Object thisValue = getRealValue();
+        Object otherValue = other.getRealValue();
 
         thisValue = handleMapOrRelationEqualsValue(modelFieldConfig, thisValue);
         otherValue = handleMapOrRelationEqualsValue(modelFieldConfig, otherValue);
         return Objects.equals(thisValue, otherValue);
     }
 
-    private Object handleMapOrRelationEqualsValue(ModelFieldConfig modelFieldConfig, Object value) {
-        if (value == null && TtypeEnum.isStringType(modelFieldConfig.getTtype())) {
-            value = "";
+    private Object handleMapOrRelationEqualsValue(ModelFieldConfig modelFieldConfig, Object realValue) {
+        if (realValue == null && TtypeEnum.isStringType(modelFieldConfig.getTtype())) {
+            realValue = "";
         }
-        if (value == null || value instanceof String) {
-            return value;
+        if (realValue == null || realValue instanceof String) {
+            return realValue;
         }
         if (
                 !Boolean.TRUE.equals(modelFieldConfig.getMulti()) &&
@@ -107,10 +112,10 @@ public class GroupPathNode<T> extends TransientModel {
                         !TtypeEnum.M2M.value().equals(modelFieldConfig.getTtype()) &&
                         !TtypeEnum.OBJ.value().equals(modelFieldConfig.getTtype())
         ) {
-            return value;
+            return realValue;
         }
 
-        return JsonUtils.toJSONString(value);
+        return JsonUtils.toJSONString(realValue);
     }
 
 }
