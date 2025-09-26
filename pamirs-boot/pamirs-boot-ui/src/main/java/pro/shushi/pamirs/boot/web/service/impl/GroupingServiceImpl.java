@@ -268,7 +268,7 @@ public class GroupingServiceImpl implements GroupingService {
                         String column = Configs.wrap(modelFieldConfig).getColumn();
                         Object value = pathNode.getValue();
                         if (value != null) {
-                            if (value instanceof Map) {
+                            if (value instanceof Map || value instanceof Collection) {
                                 pathAndWrapper.eq(column, JsonUtils.toJSONString(value));
                             } else {
                                 pathAndWrapper.eq(column, value);
