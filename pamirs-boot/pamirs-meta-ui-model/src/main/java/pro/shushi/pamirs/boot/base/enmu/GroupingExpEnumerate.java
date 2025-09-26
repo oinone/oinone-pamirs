@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.boot.web.enmu;
+package pro.shushi.pamirs.boot.base.enmu;
 
 import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
 

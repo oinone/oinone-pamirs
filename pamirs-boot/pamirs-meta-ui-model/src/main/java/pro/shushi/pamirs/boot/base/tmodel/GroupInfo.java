@@ -1,18 +1,16 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.collections4.CollectionUtils;
-import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
+import com.alibaba.fastjson.util.ParameterizedTypeImpl;
+import pro.shushi.pamirs.boot.base.enmu.GroupingExpEnumerate;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.base.TransientModel;
-import pro.shushi.pamirs.meta.enmu.TtypeEnum;
-import pro.shushi.pamirs.meta.util.FieldUtils;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
+import java.lang.reflect.Type;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Gesi at 15:46 on 2025/9/1
@@ -78,48 +76,7 @@ public class GroupInfo<T> extends TransientModel {
         if (value == null) {
             return null;
         }
-        String model = fieldConfig.getModel();
-        Object modelObject = PamirsDataUtils.jsonObjectToModelObject(model, new JSONObject());
-        FieldUtils.setFieldValue(modelObject, fieldConfig.getField(), value);
-        Map<String, Object> jsonObject = PamirsDataUtils.modelObjectToJsonObject(model, modelObject);
-        value = jsonObject.get(fieldConfig.getField());
-        if (value == null) {
-            return null;
-        }
-        if (value instanceof Map) {
-            return JsonUtils.toJSONString(value);
-        } else if (value instanceof List) {
-            if (CollectionUtils.isEmpty((List<?>) value)) {
-                return JsonUtils.toJSONString(new ArrayList<>());
-            } else {
-                List<Object> valueList = ((List<?>) value).stream().map(i -> {
-                    if (i == null) {
-                        return null;
-                    } else if (i instanceof Map) {
-                        return JsonUtils.toJSONString(i);
-                    } else {
-                        return i;
-                    }
-                }).collect(Collectors.toList());
-                return JsonUtils.toJSONString(valueList);
-            }
-        } else if (value instanceof Set) {
-            if (CollectionUtils.isEmpty((Set<?>) value)) {
-                return JsonUtils.toJSONString(new HashSet<>());
-            } else {
-                Set<Object> valueList = ((Set<?>) value).stream().map(i -> {
-                    if (i == null) {
-                        return null;
-                    } else if (i instanceof Map) {
-                        return JsonUtils.toJSONString(i);
-                    } else {
-                        return i;
-                    }
-                }).collect(Collectors.toSet());
-                return JsonUtils.toJSONString(valueList);
-            }
-        }
-        return value.toString();
+        return JsonUtils.toJSONString(value);
     }
 
     /**
@@ -130,10 +87,33 @@ public class GroupInfo<T> extends TransientModel {
             return null;
         }
         String model = fieldConfig.getModel();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(fieldConfig.getField(), valueStr);
-        Object modelObject = PamirsDataUtils.parseModelObject(model, JsonUtils.toJSONString(jsonObject));
-        Object value = FieldUtils.getFieldValue(modelObject, fieldConfig.getField());
+        Class<?> clazz;
+        List<Type> generics = new ArrayList<>();
+        try {
+            clazz = Class.forName(fieldConfig.getLtype());
+        } catch (ClassNotFoundException e) {
+            throw PamirsException.construct(GroupingExpEnumerate.SYSTEM_ERROR, e).appendMsg(model + "." + fieldConfig.getField() + "的类型" + fieldConfig.getLtype() + "找不到").errThrow();
+        }
+
+        if (fieldConfig.getLtypeT() != null) {
+            try {
+                generics.add(Class.forName(fieldConfig.getLtypeT()));
+            } catch (ClassNotFoundException e) {
+                throw PamirsException.construct(GroupingExpEnumerate.SYSTEM_ERROR, e).appendMsg(model + "." + fieldConfig.getField() + "的类型泛型" + fieldConfig.getLtypeT() + "找不到").errThrow();
+            }
+        }
+
+        Object value;
+        if (generics.isEmpty()) {
+            value = JsonUtils.parseObject(valueStr, clazz);
+        } else {
+            Type type = new ParameterizedTypeImpl(
+                    generics.toArray(new Type[0]),
+                    null,
+                    List.class
+            );
+            value = JsonUtils.parseObject(valueStr, type);
+        }
         return value;
     }
 

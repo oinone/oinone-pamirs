@@ -12,7 +12,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.*;
-import pro.shushi.pamirs.boot.web.enmu.GroupingExpEnumerate;
+import pro.shushi.pamirs.boot.base.enmu.GroupingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
 import pro.shushi.pamirs.boot.web.utils.GroupStatisticUtils;
@@ -268,7 +268,11 @@ public class GroupingServiceImpl implements GroupingService {
                         String column = Configs.wrap(modelFieldConfig).getColumn();
                         Object value = pathNode.getValue();
                         if (value != null) {
-                            pathAndWrapper.eq(column, value);
+                            if (value instanceof Map) {
+                                pathAndWrapper.eq(column, JsonUtils.toJSONString(value));
+                            } else {
+                                pathAndWrapper.eq(column, value);
+                            }
                         } else {
                             pathAndWrapper.isNull(column);
                         }
