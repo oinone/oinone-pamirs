@@ -71,6 +71,9 @@ public class GroupInfo<T> extends TransientModel {
      */
     private GroupPath<T> groupPath;
 
+    /**
+     * 序列化分组值放到valueStr里返回
+     */
     public static String stringifyValue(ModelFieldConfig fieldConfig, Object value) {
         if (value == null) {
             return null;
@@ -119,6 +122,9 @@ public class GroupInfo<T> extends TransientModel {
         return value.toString();
     }
 
+    /**
+     * 从valueStr里反序列化分组值放value
+     */
     public static Object valueFromString(ModelFieldConfig fieldConfig, String valueStr) {
         if (valueStr == null) {
             return null;

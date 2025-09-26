@@ -11,10 +11,19 @@ import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
  */
 public interface GroupingService {
 
+    /**
+     * 获取分组结构（当前页数据量低于某值时同时返回数据）
+     */
     <T> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page);
 
+    /**
+     * 根据请求分组路径获取分组数据
+     */
     <T> GroupResult<T> fetchGroupData(Grouping<T> group);
 
+    /**
+     * 根据请求分组路径获取分组统计函数结果
+     */
     <T> GroupResult<T> fetchGroupStatistic(Grouping<T> group);
 
 }

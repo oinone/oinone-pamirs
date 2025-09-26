@@ -108,7 +108,8 @@ public class GroupPathNode<T> extends TransientModel {
             return value;
         }
         if (
-                !TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype()) &&
+                !Boolean.TRUE.equals(modelFieldConfig.getMulti()) &&
+                        !TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype()) &&
                         !TtypeEnum.O2O.value().equals(modelFieldConfig.getTtype()) &&
                         !TtypeEnum.O2M.value().equals(modelFieldConfig.getTtype()) &&
                         !TtypeEnum.M2O.value().equals(modelFieldConfig.getTtype()) &&
