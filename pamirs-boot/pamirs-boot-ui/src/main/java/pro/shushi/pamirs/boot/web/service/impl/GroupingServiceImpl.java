@@ -560,7 +560,7 @@ public class GroupingServiceImpl implements GroupingService {
             String fieldUpperCase = field.toUpperCase();
             switch (statisticTypeEnum) {
                 case COUNT:
-                    selectList.add("COUNT(" + column + ") AS " + fieldUpperCase + "_COUNT");
+                    selectList.add("COUNT(1) AS " + fieldUpperCase + "_COUNT");
                     break;
                 case EARLIEST_TIME:
                     selectList.add("MIN(" + column + ") AS " + fieldUpperCase + "_EARLIEST_TIME");
