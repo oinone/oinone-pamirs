@@ -10,7 +10,6 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import javax.validation.constraints.NotNull;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -67,16 +66,8 @@ public class GroupPathNode<T> extends TransientModel {
     @Override
     public int hashCode() {
         ModelFieldConfig modelFieldConfig = getGroup().getModelFieldConfig(getField());
-        int valueHashCode = getValue() != null ? getValue().hashCode() : 0;
-        if (TtypeEnum.isStringType(modelFieldConfig.getTtype()) && getValue() == null) {
-            valueHashCode = "".hashCode();
-        }
-        if (getValue() != null && !(value instanceof String)) {
-            if (TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype())) {
-                valueHashCode = JsonUtils.toJSONString(getValue()).hashCode();
-            }
-        }
-        return Objects.hash(getField().hashCode(), valueHashCode);
+        Object value = handleMapOrRelationEqualsValue(modelFieldConfig, getValue());
+        return Objects.hash(getField().hashCode(), value != null ? value.hashCode() : 0);
     }
 
     @Override
@@ -95,12 +86,12 @@ public class GroupPathNode<T> extends TransientModel {
         Object thisValue = getValue();
         Object otherValue = other.getValue();
 
-        thisValue = handleMapOrRelationValue(modelFieldConfig, thisValue);
-        otherValue = handleMapOrRelationValue(modelFieldConfig, otherValue);
+        thisValue = handleMapOrRelationEqualsValue(modelFieldConfig, thisValue);
+        otherValue = handleMapOrRelationEqualsValue(modelFieldConfig, otherValue);
         return Objects.equals(thisValue, otherValue);
     }
 
-    private Object handleMapOrRelationValue(ModelFieldConfig modelFieldConfig, Object value) {
+    private Object handleMapOrRelationEqualsValue(ModelFieldConfig modelFieldConfig, Object value) {
         if (value == null && TtypeEnum.isStringType(modelFieldConfig.getTtype())) {
             value = "";
         }
