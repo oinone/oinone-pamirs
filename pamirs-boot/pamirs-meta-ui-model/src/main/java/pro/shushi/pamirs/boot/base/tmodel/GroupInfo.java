@@ -1,12 +1,16 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.util.ParameterizedTypeImpl;
 import pro.shushi.pamirs.boot.base.enmu.GroupingExpEnumerate;
+import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.base.TransientModel;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.enmu.TtypeEnum;
+import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.lang.reflect.Type;
@@ -76,6 +80,19 @@ public class GroupInfo<T> extends TransientModel {
         if (value == null) {
             return null;
         }
+
+        String model = fieldConfig.getModel();
+        if (TtypeEnum.ENUM.value().equals(fieldConfig.getTtype())) {
+            Object modelObject = PamirsDataUtils.jsonObjectToModelObject(model, new JSONObject());
+            FieldUtils.setFieldValue(modelObject, fieldConfig.getField(), value);
+            Map<String, Object> jsonObject = PamirsDataUtils.modelObjectToJsonObject(model, modelObject);
+            Object enumValue = jsonObject.get(fieldConfig.getField());
+            if (Boolean.TRUE.equals(fieldConfig.getMulti())) {
+                return JsonUtils.toJSONString(enumValue);
+            } else {
+                return enumValue.toString();
+            }
+        }
         return JsonUtils.toJSONString(value);
     }
 
@@ -87,6 +104,17 @@ public class GroupInfo<T> extends TransientModel {
             return null;
         }
         String model = fieldConfig.getModel();
+
+        if (TtypeEnum.ENUM.value().equals(fieldConfig.getTtype())) {
+            JSONObject jsonObject = new JSONObject();
+            if (Boolean.TRUE.equals(fieldConfig.getMulti())) {
+                jsonObject.put(fieldConfig.getField(), JsonUtils.parseObject(valueStr));
+            } else {
+                jsonObject.put(fieldConfig.getField(), valueStr);
+            }
+            Object modelObject = PamirsDataUtils.jsonObjectToModelObject(model, jsonObject);
+            return FieldUtils.getFieldValue(modelObject, fieldConfig.getField());
+        }
         Class<?> clazz;
         List<Type> generics = new ArrayList<>();
         try {
