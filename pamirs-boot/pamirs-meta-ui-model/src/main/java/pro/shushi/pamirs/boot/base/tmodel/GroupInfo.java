@@ -110,7 +110,7 @@ public class GroupInfo<T> extends TransientModel {
             Type type = new ParameterizedTypeImpl(
                     generics.toArray(new Type[0]),
                     null,
-                    List.class
+                    clazz
             );
             value = JsonUtils.parseObject(valueStr, type);
         }
