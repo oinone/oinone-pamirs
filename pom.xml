@@ -75,6 +75,7 @@
         <spring.version>6.1.21</spring.version>
         <atomikos.version>6.0.0</atomikos.version>
         <jedis.version>5.0.2</jedis.version>
+        <httpclient.version>4.5.13</httpclient.version>
 
         <!--aliyun-->
         <aliyun.oss.version>3.4.2</aliyun.oss.version>
@@ -564,11 +565,23 @@
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp.version}</version>
             </dependency>
-            <!--aliyun-->
+            <!-- httpclient -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            <!-- aliyun -->
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun.oss.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.httpcomponents</groupId>
+                        <artifactId>httpclient</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!--qcloud-->
