@@ -19,6 +19,7 @@ import pro.shushi.pamirs.framework.connectors.data.mapper.context.MapperContext;
 import pro.shushi.pamirs.framework.connectors.data.sql.AbstractWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
+import pro.shushi.pamirs.framework.connectors.data.sql.config.ModelFieldConfigWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -154,8 +155,15 @@ public class SQLUpdateInterceptor implements Interceptor {
             }
             break;
             case UPDATE: {
-                QueryWrapper<DataMap> queryWrapper = null;
-                String idColumn = Configs.wrap(PamirsSession.getContext().getModelField(model, ID)).getColumn();
+                QueryWrapper<DataMap> queryWrapper;
+                String idColumn = Optional.ofNullable(PamirsSession.getContext().getModelField(model, ID))
+                        .map(Configs::wrap)
+                        .map(ModelFieldConfigWrapper::getColumn)
+                        .orElse(null);
+                if (StringUtils.isBlank(idColumn)) {
+                    log.warn("没有ID列");
+                    return invocation.proceed();
+                }
                 if (map.containsKey("param2")) {
                     queryWrapper = Pops.<DataMap>query().from(model);
                     AbstractWrapper luw = (AbstractWrapper) map.get("param2");
@@ -233,7 +241,14 @@ public class SQLUpdateInterceptor implements Interceptor {
                 Object ccDel = map.getOrDefault(CONDITION_COLLECTION, null);
                 Object et = map.getOrDefault(ENTITY, null);
                 Object ew = map.getOrDefault(WRAPPER, null);
-                String idColumn = Configs.wrap(PamirsSession.getContext().getModelField(model, ID)).getColumn();
+                String idColumn = Optional.ofNullable(PamirsSession.getContext().getModelField(model, ID))
+                        .map(Configs::wrap)
+                        .map(ModelFieldConfigWrapper::getColumn)
+                        .orElse(null);
+                if (StringUtils.isBlank(idColumn)) {
+                    log.warn("没有ID列");
+                    return invocation.proceed();
+                }
                 if (null != collDel) {
                     for (Object item : (List) collDel) {
                         Map dataMap = (Map) item;

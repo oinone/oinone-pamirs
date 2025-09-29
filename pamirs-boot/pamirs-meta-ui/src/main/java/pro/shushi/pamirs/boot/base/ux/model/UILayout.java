@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.boot.base.ux.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import pro.shushi.pamirs.boot.base.ux.enmu.layout.AlignTypeEnum;
 import pro.shushi.pamirs.boot.base.ux.enmu.layout.LayoutTypeEnum;
@@ -92,4 +93,8 @@ public abstract class UILayout extends UIWidget {
     @Field(displayName = "垂直方向对齐方式")
     private AlignTypeEnum rowAlign;
 
+    @XStreamAsAttribute
+    @Field(displayName = "优先级")
+    @JSONField(serialize = false)
+    private Integer priority;
 }
