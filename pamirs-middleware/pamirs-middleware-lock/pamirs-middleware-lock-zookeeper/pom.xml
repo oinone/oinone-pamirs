@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.middleware.lock</groupId>
         <artifactId>pamirs-middleware-lock</artifactId>
-        <version>6.2.18</version>
+        <version>6.2.19</version>
     </parent>
     <artifactId>pamirs-middleware-lock-zookeeper</artifactId>
     <name>pamirs-middleware-lock-zookeeper</name>
