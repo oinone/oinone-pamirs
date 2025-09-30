@@ -1,8 +1,8 @@
 package pro.shushi.pamirs.message.engine.sms;
 
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.impl.classic.BasicHttpClientResponseHandler;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import pro.shushi.pamirs.message.enmu.SMSActionEnum;
 import pro.shushi.pamirs.message.enmu.SMSTemplateStatusEnum;
 import pro.shushi.pamirs.message.model.SmsChannelConfig;
@@ -80,14 +80,12 @@ public class AliyunSmsHelper {
 
         HttpPost req = new HttpPost(requestUrl);
         try {
-            String responseJson = BeanDefinitionUtils.getBean(HTTP_CLIENTS, CloseableHttpClient.class).execute(req, new BasicResponseHandler());
+            String responseJson = BeanDefinitionUtils.getBean(HTTP_CLIENTS, CloseableHttpClient.class).execute(req, new BasicHttpClientResponseHandler());
             log.info("Response: {}", responseJson);
             return responseJson;
         } catch (Throwable throwable) {
             log.error("请求发送短信失败", throwable);
             throw throwable;
-        } finally {
-            req.releaseConnection();
         }
     }
 

@@ -2,17 +2,14 @@ package pro.shushi.pamirs.user.core.base.util;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.AbstractResponseHandler;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.classic.BasicHttpClientResponseHandler;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.user.api.enmu.UserExpEnumerate;
@@ -39,22 +36,10 @@ public class WxWorkUtil {
     public static String executeGetRequest(String url) {
         HttpGet request = new HttpGet(url);
         try {
-            String rt = BeanDefinitionUtils.getBean(HTTP_CLIENTS, CloseableHttpClient.class).execute(new HttpGet(url), new AbstractResponseHandler<String>() {
-                @Override
-                public String handleResponse(HttpResponse response) throws IOException {
-                    return super.handleResponse(response);
-                }
-
-                @Override
-                public String handleEntity(HttpEntity entity) throws IOException {
-                    return EntityUtils.toString(entity, StandardCharsets.UTF_8);
-                }
-            });
+            String rt = BeanDefinitionUtils.getBean(HTTP_CLIENTS, CloseableHttpClient.class).execute(new HttpGet(url), new BasicHttpClientResponseHandler());
             return rt;
         } catch (IOException e) {
             log.error("{}", UserExpEnumerate.SYSTEM_ERROR.msg(), e);
-        } finally {
-            request.releaseConnection();
         }
         return null;
     }
@@ -72,24 +57,12 @@ public class WxWorkUtil {
     public static String executePostRequest(String url, Map<String, Object> param) {
         HttpPost postRequest = new HttpPost(url);
         try {
-            HttpEntity httpEntity = new UrlEncodedFormEntity(createParam(param), Consts.UTF_8);
+            HttpEntity httpEntity = new UrlEncodedFormEntity(createParam(param), StandardCharsets.UTF_8);
             postRequest.setEntity(httpEntity);
-            String rt = BeanDefinitionUtils.getBean(HTTP_CLIENTS, CloseableHttpClient.class).execute(postRequest, new AbstractResponseHandler<String>() {
-                @Override
-                public String handleResponse(HttpResponse response) throws IOException {
-                    return super.handleResponse(response);
-                }
-
-                @Override
-                public String handleEntity(HttpEntity entity) throws IOException {
-                    return EntityUtils.toString(entity, StandardCharsets.UTF_8);
-                }
-            });
+            String rt = BeanDefinitionUtils.getBean(HTTP_CLIENTS, CloseableHttpClient.class).execute(postRequest, new BasicHttpClientResponseHandler());
             return rt;
         } catch (IOException e) {
             log.error("{}", UserExpEnumerate.SYSTEM_ERROR.msg(), e);
-        } finally {
-            postRequest.releaseConnection();
         }
         return null;
     }
