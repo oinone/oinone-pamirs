@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.parser.JsqlParserGlobal;
 import com.baomidou.mybatisplus.extension.toolkit.SqlParserUtils;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.*;
@@ -28,6 +29,17 @@ public class JSqlParserCountOptimize implements ISqlParser {
     private static final List<SelectItem<?>> COUNT_SELECT_ITEM = Collections.singletonList(defaultCountSelectItem());
 
     private boolean optimizeJoin = false;
+
+    static {
+        JsqlParserGlobal.setParserMultiFunc((sql)-> {
+            String formatSql = CCJSqlParserUtil.sanitizeSingleSql(sql);
+            return CCJSqlParserUtil.parseStatements(formatSql, JsqlParserGlobal.getExecutorService(), null);
+        });
+        JsqlParserGlobal.setParserSingleFunc((sql)-> {
+            String formatSql = CCJSqlParserUtil.sanitizeSingleSql(sql);
+            return CCJSqlParserUtil.parse(formatSql, JsqlParserGlobal.getExecutorService(), null);
+        });
+    }
 
     public JSqlParserCountOptimize() {
         this.optimizeJoin = true;
