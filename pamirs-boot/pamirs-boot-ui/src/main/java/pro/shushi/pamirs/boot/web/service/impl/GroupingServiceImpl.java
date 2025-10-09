@@ -6,13 +6,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.base.enmu.GroupingExpEnumerate;
+import pro.shushi.pamirs.boot.base.utils.GroupingUtils;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
 import pro.shushi.pamirs.boot.web.utils.GroupStatisticUtils;
@@ -152,42 +149,52 @@ public class GroupingServiceImpl implements GroupingService {
 
         // 构建查询条件
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        boolean needPagination = page.getSize() != null && page.getSize() >= 0;
-        if (needPagination) {
-            Pagination<T> pagination = addGroupPaginationCondition(group, queryWrapper, page.getCurrentPage(), page.getSize());
-            groupResult.setTotalPages(pagination.getTotalPages());
-            groupResult.setTotalElements(pagination.getTotalElements());
-        } else {
-            groupResult.setTotalPages(1);
-        }
 
+        boolean hasRelationGroupField = false;
         for (GroupField groupField : group.getGroupFields()) {
             ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
-            SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
-            queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
-        }
-        Sort sort = page.getSort();
-        if (!Boolean.FALSE.equals(page.getSortable()) && sort != null && sort.getOrders() != null) {
-            for (Order order : sort.getOrders()) {
-                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(order.getField());
-                SortDirectionEnum orderType = Optional.ofNullable(order.getDirection()).orElse(SortDirectionEnum.ASC);
-                queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
+            if (GroupingUtils.isRelationGroupField(modelFieldConfig)) {
+                hasRelationGroupField = true;
+                break;
             }
         }
-        // 查询数据
-        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
-        group.setTotalDataCount((long) paginationResult.getContent().size());
 
-        try { // todo
-            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-            String groupTotal = ((ServletRequestAttributes) requestAttributes).getRequest().getHeader("Group-Total");
-            if (groupTotal != null && !StringUtils.isEmpty(groupTotal))
-                group.setTotalDataCount(Long.parseLong(groupTotal));
-        } catch (Exception e) {
+        boolean needPagination = !hasRelationGroupField && page.getSize() != null && page.getSize() >= 0;
+        Pagination<T> paginationResult;
+
+        if (hasRelationGroupField) {
+            // 有关联字段直接查全量数据走关联字段分组处理
+            paginationResult = loadDataListByMemory(group, new Pagination<>(1, -1), queryWrapper);
+            group.setTotalDataCount(null);
+            groupResult.setTotalDataCount((long) paginationResult.getContent().size());
+        } else {
+            if (needPagination) {
+                Pagination<T> pagination = addGroupPaginationCondition(group, queryWrapper, page.getCurrentPage(), page.getSize());
+                groupResult.setTotalPages(pagination.getTotalPages());
+                groupResult.setTotalElements(pagination.getTotalElements());
+            } else {
+                groupResult.setTotalPages(1);
+            }
+
+            for (GroupField groupField : group.getGroupFields()) {
+                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
+                SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
+                queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
+            }
+            Sort sort = page.getSort();
+            if (!Boolean.FALSE.equals(page.getSortable()) && sort != null && sort.getOrders() != null) {
+                for (Order order : sort.getOrders()) {
+                    ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(order.getField());
+                    SortDirectionEnum orderType = Optional.ofNullable(order.getDirection()).orElse(SortDirectionEnum.ASC);
+                    queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
+                }
+            }
+            // 查询数据
+            paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
             group.setTotalDataCount((long) paginationResult.getContent().size());
+            groupResult.setTotalDataCount(group.getTotalDataCount());
         }
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
-        groupResult.setTotalDataCount(group.getTotalDataCount());
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
         }
@@ -650,10 +657,26 @@ public class GroupingServiceImpl implements GroupingService {
     }
 
     /**
-     * 内存加载按分组数据
+     * 内存加载所有数据
      */
-    private <T> Pagination<T> loadDataListByMemory(Grouping<T> group, Pagination<T> pagination, QueryWrapper<T> pageQueryWrapper, List<GroupPath<T>> expandGroupPaths) {
-        return pagination;
+    private <T> Pagination<T> loadDataListByMemory(Grouping<T> group, Pagination<T> page, QueryWrapper<T> pageQueryWrapper) {
+        for (GroupField groupField : group.getGroupFields()) {
+            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
+            if (!GroupingUtils.isRelationGroupField(modelFieldConfig)) {
+                SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
+                pageQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
+            }
+        }
+        Sort sort = page.getSort();
+        if (!Boolean.FALSE.equals(page.getSortable()) && sort != null && sort.getOrders() != null) {
+            for (Order order : sort.getOrders()) {
+                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(order.getField());
+                SortDirectionEnum orderType = Optional.ofNullable(order.getDirection()).orElse(SortDirectionEnum.ASC);
+                pageQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
+            }
+        }
+
+        return Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(pageQueryWrapper));
     }
 
 }

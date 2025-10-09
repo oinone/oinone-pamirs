@@ -2,16 +2,17 @@ package pro.shushi.pamirs.boot.base.tmodel;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.boot.base.utils.GroupingUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.base.TransientModel;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
+import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import javax.validation.constraints.NotNull;
-import java.util.LinkedHashMap;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Gesi at 14:31 on 2025/9/8
@@ -52,7 +53,7 @@ public class GroupPathNode<T> extends TransientModel {
         if (fromClient) {
             ModelFieldConfig modelFieldConfig = getGroup().getModelFieldConfig(getField());
             if (TtypeEnum.ENUM.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.isNumericType(modelFieldConfig.getTtype()) || TtypeEnum.isDateType(modelFieldConfig.getTtype())) {
-                setRealValue(GroupInfo.valueFromString(modelFieldConfig, getValue()));
+                setRealValue(GroupingUtils.valueFromString(modelFieldConfig, getValue()));
             } else {
                 setRealValue(getValue());
             }
@@ -97,6 +98,7 @@ public class GroupPathNode<T> extends TransientModel {
         return Objects.equals(thisValue, otherValue);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private Object handleMapOrRelationEqualsValue(ModelFieldConfig modelFieldConfig, Object realValue) {
         if (realValue == null && TtypeEnum.isStringType(modelFieldConfig.getTtype())) {
             realValue = "";
@@ -117,6 +119,41 @@ public class GroupPathNode<T> extends TransientModel {
                         !TtypeEnum.OBJ.value().equals(modelFieldConfig.getTtype())
         ) {
             return realValue;
+        }
+        if (GroupingUtils.isRelationGroupField(modelFieldConfig)) {
+            List<String> referenceFields = modelFieldConfig.getReferenceFields();
+            String referenceField = referenceFields.get(0);
+            if (TtypeEnum.O2O.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2O.value().equals(modelFieldConfig.getTtype())) {
+                realValue = FieldUtils.getFieldValue(realValue, referenceField);
+            } else if (TtypeEnum.O2M.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2M.value().equals(modelFieldConfig.getTtype())) {
+                List<Object> relationList = new ArrayList<>((Collection) realValue);
+                List<Object> relationFieldList = new ArrayList<>(relationList.size());
+                for (Object o : relationList) {
+                    if (o == null) {
+                        relationFieldList.add(null);
+                    } else {
+                        relationFieldList.add(FieldUtils.getFieldValue(o, referenceField));
+                    }
+                }
+                realValue = relationFieldList;
+            }
+        }
+
+        if (Boolean.TRUE.equals(modelFieldConfig.getMulti())) {
+            if (realValue instanceof Collection) {
+                List<Object> list = new ArrayList<>((Collection<?>) realValue);
+                boolean isCanSort = false;
+                for (Object o : list) {
+                    if (o instanceof Comparable) {
+                        isCanSort = true;
+                        break;
+                    }
+                }
+                if (isCanSort) {
+                    Collections.sort((List) list);
+                }
+                realValue = list;
+            }
         }
 
         return JsonUtils.toJSONString(realValue);
