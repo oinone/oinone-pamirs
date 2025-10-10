@@ -3,6 +3,8 @@ package pro.shushi.pamirs.boot.web.utils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -19,6 +21,25 @@ import java.util.stream.Collectors;
  * @author Gesi at 9:34 on 2025/9/25
  */
 public class GroupStatisticUtils {
+
+    public static Object formatNumber(Object number, int scale) {
+        if (!(number instanceof Number)) {
+            return number;
+        }
+        if (number instanceof BigDecimal) {
+            BigDecimal bigDecimal = (BigDecimal) number;
+            if (bigDecimal.stripTrailingZeros().scale() > 0) {
+                return bigDecimal.setScale(scale, RoundingMode.HALF_UP);
+            }
+        } else if (number instanceof Float) {
+            float scalePow = (float) Math.pow(10, scale);
+            return Math.round(((float) number) * scalePow) / scalePow;
+        } else if (number instanceof Double) {
+            double scalePow = Math.pow(10, scale);
+            return Math.round(((double) number) * scalePow) / scalePow;
+        }
+        return number;
+    }
 
     public static Pair<Date, Date> earliestTimeAndLatestTime(List<?> dataList) {
         dataList = dataList.stream().filter(Objects::nonNull).collect(Collectors.toList());

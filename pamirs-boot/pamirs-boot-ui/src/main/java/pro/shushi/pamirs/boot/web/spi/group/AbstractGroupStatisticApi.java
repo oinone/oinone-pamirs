@@ -73,8 +73,11 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
     }
 
     protected BigDecimal avg(List<BigDecimal> list) {
-        return sum(list).divide(
-                BigDecimal.valueOf(list.size()), RoundingMode.HALF_UP);
+        return (BigDecimal) GroupStatisticUtils.formatNumber(
+                sum(list).divide(
+                        BigDecimal.valueOf(list.size()), RoundingMode.HALF_UP),
+                2
+        );
     }
 
     protected BigDecimal max(List<BigDecimal> list) {
@@ -98,11 +101,11 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
         int mid = size / 2;
 
         if (size % 2 == 1) {
-            return values.get(mid);
+            return (BigDecimal) GroupStatisticUtils.formatNumber(values.get(mid), 2);
         } else {
             BigDecimal a = values.get(mid - 1);
             BigDecimal b = values.get(mid);
-            return a.add(b).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+            return (BigDecimal) GroupStatisticUtils.formatNumber(a.add(b).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP), 2);
         }
     }
 

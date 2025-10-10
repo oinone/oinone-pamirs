@@ -22,9 +22,9 @@ import java.util.Map;
  */
 public class GroupingUtils {
 
-    public static boolean isRelationGroupField(ModelFieldConfig modelFieldConfig) {
+    public static boolean isMemoryGroupField(ModelFieldConfig modelFieldConfig) {
         String ttype = modelFieldConfig.getTtype();
-        return !TtypeEnum.isBasicType(ttype) && !TtypeEnum.MONEY.value().equals(ttype) && !TtypeEnum.ENUM.value().equals(ttype) && !Boolean.TRUE.equals(modelFieldConfig.getStore());
+        return !TtypeEnum.isBasicType(ttype) && !TtypeEnum.MONEY.value().equals(ttype) && !TtypeEnum.MAP.value().equals(ttype) && !TtypeEnum.OBJ.value().equals(ttype) && !TtypeEnum.ENUM.value().equals(ttype) || Boolean.TRUE.equals(modelFieldConfig.getMulti());
     }
 
     /**

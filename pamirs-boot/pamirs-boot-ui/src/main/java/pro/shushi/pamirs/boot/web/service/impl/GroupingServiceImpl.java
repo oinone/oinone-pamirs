@@ -154,7 +154,7 @@ public class GroupingServiceImpl implements GroupingService {
         boolean hasRelationGroupField = false;
         for (GroupField groupField : group.getGroupFields()) {
             ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
-            if (GroupingUtils.isRelationGroupField(modelFieldConfig)) {
+            if (GroupingUtils.isMemoryGroupField(modelFieldConfig)) {
                 hasRelationGroupField = true;
                 break;
             }
@@ -648,9 +648,11 @@ public class GroupingServiceImpl implements GroupingService {
                 }
                 case SUM:
                     statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_SUM");
+                    statisticValue = GroupStatisticUtils.formatNumber(statisticValue, 2);
                     break;
                 case AVERAGE:
                     statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_AVERAGE");
+                    statisticValue = GroupStatisticUtils.formatNumber(statisticValue, 2);
                     break;
                 case MIN:
                     statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_MIN");
@@ -673,7 +675,7 @@ public class GroupingServiceImpl implements GroupingService {
     private <T> Pagination<T> loadDataListByMemory(Grouping<T> group, Pagination<T> page, QueryWrapper<T> pageQueryWrapper) {
         for (GroupField groupField : group.getGroupFields()) {
             ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
-            if (!GroupingUtils.isRelationGroupField(modelFieldConfig)) {
+            if (!GroupingUtils.isMemoryGroupField(modelFieldConfig)) {
                 SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
                 pageQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
             }
@@ -691,7 +693,7 @@ public class GroupingServiceImpl implements GroupingService {
         if (CollectionUtils.isNotEmpty(pagination.getContent())) {
             for (GroupField groupField : group.getGroupFields()) {
                 ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
-                if (GroupingUtils.isRelationGroupField(modelFieldConfig)) {
+                if (GroupingUtils.isMemoryGroupField(modelFieldConfig) && !Boolean.TRUE.equals(modelFieldConfig.getStore())) {
                     List<T> dataList = Models.origin().listFieldQuery(pagination.getContent(), modelFieldConfig.getField());
                     pagination.setContent(dataList);
                 }
