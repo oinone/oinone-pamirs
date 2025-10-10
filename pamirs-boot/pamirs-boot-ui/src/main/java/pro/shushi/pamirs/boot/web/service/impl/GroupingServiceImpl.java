@@ -503,6 +503,13 @@ public class GroupingServiceImpl implements GroupingService {
                 statisticFieldMap.forEach((statisticField, statisticType) -> {
                     GroupStatisticTypeEnum statisticTypeEnum = valueOf(statisticType);
                     List<T> dataList = groupInfo.getDataList();
+                    ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(statisticField);
+                    if (GroupingUtils.isMemoryGroupField(modelFieldConfig) && !Boolean.TRUE.equals(modelFieldConfig.getStore())) {
+                        List<T> notNullDataList = dataList.stream().filter(Objects::nonNull).collect(Collectors.toList());
+                        if (CollectionUtils.isNotEmpty(notNullDataList)) {
+                            Models.origin().listFieldQuery(notNullDataList, modelFieldConfig.getField());
+                        }
+                    }
                     List<?> fieldDataList;
                     if (dataList != null) {
                         fieldDataList = dataList.stream().map(data -> {
@@ -554,6 +561,9 @@ public class GroupingServiceImpl implements GroupingService {
         statisticFieldMap.entrySet().removeIf(e -> e.getValue() == null || GroupStatisticTypeEnum.NONE.getValue().equals(e.getValue()));
         if (MapUtils.isEmpty(statisticFieldMap)) {
             return true;
+        }
+        if (statisticFieldMap.keySet().stream().map(group::getModelFieldConfig).anyMatch(GroupingUtils::isMemoryGroupField)) {
+            return false;
         }
         // 以下为sql可以处理的统计函数
         Set<GroupStatisticTypeEnum> totalStatisticTypes = statisticFieldMap.values().stream().map(GroupStatisticTypeEnum::valueOf).collect(Collectors.toSet());
