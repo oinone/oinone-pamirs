@@ -75,7 +75,7 @@ public class GroupingServiceImpl implements GroupingService {
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupData(new HashMap<>());
         group.setTotalDataCount(null);
-        fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), null, true);
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
         for (GroupPath<T> expandGroupPath : expandGroupPaths) {
             groupResult.getExpandGroupDataStr().add(groupResult.getExpandGroupData().get(expandGroupPath));
@@ -105,7 +105,7 @@ public class GroupingServiceImpl implements GroupingService {
             Pagination<T> paginationResult = new Pagination<>(1, -1);
             paginationResult.setSortable(false);
             paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
-            fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
+            fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction(), false);
         }
 
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
@@ -162,12 +162,12 @@ public class GroupingServiceImpl implements GroupingService {
 
         boolean needPagination = !hasRelationGroupField && page.getSize() != null && page.getSize() >= 0;
         Pagination<T> paginationResult;
+        boolean loadData;
 
         if (hasRelationGroupField) {
             // 有关联字段直接查全量数据走关联字段分组处理
             paginationResult = loadDataListByMemory(group, new Pagination<>(1, -1), queryWrapper);
-            group.setTotalDataCount(0L);
-            groupResult.setTotalDataCount((long) paginationResult.getContent().size());
+            loadData = true;
         } else {
             if (needPagination) {
                 Pagination<T> pagination = addGroupPaginationCondition(group, queryWrapper, page.getCurrentPage(), page.getSize());
@@ -192,10 +192,12 @@ public class GroupingServiceImpl implements GroupingService {
             }
             // 查询数据
             paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
-            group.setTotalDataCount((long) paginationResult.getContent().size());
-            groupResult.setTotalDataCount(group.getTotalDataCount());
+            loadData = paginationResult.getContent().size() <= GROUP_LAZY_LOAD_DATA_LIMIT;
         }
-        fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
+        group.setTotalDataCount((long) paginationResult.getContent().size());
+        groupResult.setTotalDataCount(group.getTotalDataCount());
+        groupResult.setTotalDataCount(301L);
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), null, false);
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
         }
@@ -247,6 +249,12 @@ public class GroupingServiceImpl implements GroupingService {
                                 .map(v -> {
                                     if (TtypeEnum.MAP.value().equals(firstModelFieldConfig.getTtype())) {
                                         return JsonUtils.toJSONString(v);
+                                    } else if (TtypeEnum.YEAR.value().equals(firstModelFieldConfig.getTtype())) {
+                                        if (v instanceof Date) {
+                                            Calendar calendar = Calendar.getInstance();
+                                            calendar.setTime((Date) v);
+                                            return calendar.get(Calendar.YEAR);
+                                        }
                                     }
                                     return v;
                                 }).collect(Collectors.toList());
@@ -301,6 +309,10 @@ public class GroupingServiceImpl implements GroupingService {
                                 }
                             } else if (value instanceof Collection) {
                                 pathAndWrapper.eq(column, JsonUtils.toJSONString(value));
+                            } else if (TtypeEnum.YEAR.value().equals(modelFieldConfig.getTtype()) && value instanceof Date) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTime((Date) value);
+                                pathAndWrapper.eq(column, calendar.get(Calendar.YEAR));
                             } else {
                                 pathAndWrapper.eq(column, value);
                             }
@@ -348,7 +360,7 @@ public class GroupingServiceImpl implements GroupingService {
     /**
      * 根据分组数据填充分组信息
      */
-    private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, BiConsumer<Grouping<T>, GroupInfo<T>> statisticConsumer) {
+    private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, BiConsumer<Grouping<T>, GroupInfo<T>> statisticConsumer, boolean loadData) {
         List<GroupField> groupFields = group.getGroupFields();
 
         Map<GroupPath<T>, Map<String, String>> statisticPathMap;
@@ -474,7 +486,7 @@ public class GroupingServiceImpl implements GroupingService {
         for (GroupPath<T> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             lastGroupInfo.setIsLeaf(true);
-            if (lastGroupInfo.getDataList() != null && group.getTotalDataCount() != null && group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT) {
+            if (lastGroupInfo.getDataList() != null && loadData) {
                 lastGroupInfo.setDataListStr(lastGroupInfo.getDataList() != null ? PamirsDataUtils.toJSONString(group.getModel(), lastGroupInfo.getDataList()) : null);
             }
         }

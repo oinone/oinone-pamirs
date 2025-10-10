@@ -122,9 +122,12 @@ public class GroupPathNode<T> extends TransientModel {
         }
         if (GroupingUtils.isMemoryGroupField(modelFieldConfig) && !Boolean.TRUE.equals(modelFieldConfig.getStore())) {
             List<String> referenceFields = modelFieldConfig.getReferenceFields();
-            String referenceField = referenceFields.get(0);
             if (TtypeEnum.O2O.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2O.value().equals(modelFieldConfig.getTtype())) {
-                realValue = FieldUtils.getFieldValue(realValue, referenceField);
+                List<Object> referenceFieldValues = new ArrayList<>(referenceFields.size());
+                for (String referenceField : referenceFields) {
+                    referenceFieldValues.add(FieldUtils.getFieldValue(realValue, referenceField));
+                }
+                realValue = referenceFieldValues;
             } else if (TtypeEnum.O2M.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2M.value().equals(modelFieldConfig.getTtype())) {
                 List<Object> relationList = new ArrayList<>((Collection) realValue);
                 List<Object> relationFieldList = new ArrayList<>(relationList.size());
@@ -132,7 +135,11 @@ public class GroupPathNode<T> extends TransientModel {
                     if (o == null) {
                         relationFieldList.add(null);
                     } else {
-                        relationFieldList.add(FieldUtils.getFieldValue(o, referenceField));
+                        List<Object> referenceFieldValues = new ArrayList<>(referenceFields.size());
+                        for (String referenceField : referenceFields) {
+                            referenceFieldValues.add(FieldUtils.getFieldValue(o, referenceField));
+                        }
+                        relationFieldList.add(referenceFieldValues);
                     }
                 }
                 realValue = relationFieldList;
@@ -141,19 +148,9 @@ public class GroupPathNode<T> extends TransientModel {
 
         if (Boolean.TRUE.equals(modelFieldConfig.getMulti())) {
             if (realValue instanceof Collection) {
-                List<Object> list = new ArrayList<>((Collection<?>) realValue);
-                boolean isCanSort = false;
-                for (Object o : list) {
-                    if (o instanceof Comparable) {
-                        isCanSort = true;
-                        break;
-                    }
-                }
-                if (isCanSort) {
-                    Collections.sort((List) list);
-                }
-                realValue = list;
+                realValue = new HashSet<>((Collection<?>) realValue);
             }
+            return realValue;
         }
 
         return JsonUtils.toJSONString(realValue);
