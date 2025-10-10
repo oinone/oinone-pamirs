@@ -687,7 +687,17 @@ public class GroupingServiceImpl implements GroupingService {
             }
         }
 
-        return Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(pageQueryWrapper));
+        Pagination<T> pagination = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(pageQueryWrapper));
+        if (CollectionUtils.isNotEmpty(pagination.getContent())) {
+            for (GroupField groupField : group.getGroupFields()) {
+                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
+                if (GroupingUtils.isRelationGroupField(modelFieldConfig)) {
+                    List<T> dataList = Models.origin().listFieldQuery(pagination.getContent(), modelFieldConfig.getField());
+                    pagination.setContent(dataList);
+                }
+            }
+        }
+        return pagination;
     }
 
 }
