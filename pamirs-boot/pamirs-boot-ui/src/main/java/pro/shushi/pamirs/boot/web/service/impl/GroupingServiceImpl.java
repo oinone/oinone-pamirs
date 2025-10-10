@@ -20,6 +20,7 @@ import pro.shushi.pamirs.framework.gateways.rsql.RsqlParseHelper;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
+import pro.shushi.pamirs.meta.api.core.orm.serialize.SerializeProcessor;
 import pro.shushi.pamirs.meta.api.dto.condition.Order;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.condition.Sort;
@@ -165,7 +166,7 @@ public class GroupingServiceImpl implements GroupingService {
         if (hasRelationGroupField) {
             // 有关联字段直接查全量数据走关联字段分组处理
             paginationResult = loadDataListByMemory(group, new Pagination<>(1, -1), queryWrapper);
-            group.setTotalDataCount(null);
+            group.setTotalDataCount(0L);
             groupResult.setTotalDataCount((long) paginationResult.getContent().size());
         } else {
             if (needPagination) {
@@ -250,6 +251,16 @@ public class GroupingServiceImpl implements GroupingService {
                                     return v;
                                 }).collect(Collectors.toList());
                 if (CollectionUtils.isNotEmpty(groupValueList)) {
+                    if (Boolean.TRUE.equals(firstModelFieldConfig.getMulti())) {
+                        List<Object> inValList = new ArrayList<>(groupValueList.size());
+                        for (Object groupValue : groupValueList) {
+                            if (groupValue instanceof Collection) {
+                                groupValue = Spider.getDefaultExtension(SerializeProcessor.class).serialize(firstModelFieldConfig.getStoreSerialize(), firstModelFieldConfig.getLtype(), groupValue);
+                            }
+                            inValList.add(groupValue);
+                        }
+                        groupValueList = inValList;
+                    }
                     andWrapper.in(firstModelFieldConfigWrapper.getColumn(), groupValueList);
                 }
                 if (needGroupNullValue) {
