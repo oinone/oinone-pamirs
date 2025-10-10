@@ -8,10 +8,7 @@ import pro.shushi.pamirs.boot.web.utils.GroupStatisticUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,7 +27,11 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
         if (CollectionUtils.isEmpty(dataList)) {
             return 0;
         }
-        return dataList.stream().filter(Objects::nonNull).count();
+        return dataList.stream()
+                .filter(Objects::nonNull)
+                .filter(i -> !i.equals(""))
+                .filter(i -> (!(i instanceof Map) || !((Map<?, ?>) i).isEmpty()))
+                .count();
     }
 
     protected long notFilled(List<?> dataList) {
