@@ -610,7 +610,7 @@ public class GroupingServiceImpl implements GroupingService {
                     selectList.add("SUM(" + column + ") AS " + fieldUpperCase + "_SUM");
                     break;
                 case AVERAGE:
-                    selectList.add("AVG(" + column + ") AS " + fieldUpperCase + "_AVERAGE");
+                    selectList.add("SUM(" + column + ") / COUNT(1) AS " + fieldUpperCase + "_AVERAGE");
                     break;
                 case MIN:
                     selectList.add("MIN(" + column + ") AS " + fieldUpperCase + "_MIN");
