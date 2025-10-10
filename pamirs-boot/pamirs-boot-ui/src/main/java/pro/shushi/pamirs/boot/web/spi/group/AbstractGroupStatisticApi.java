@@ -45,7 +45,14 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
         if (CollectionUtils.isEmpty(dataList)) {
             return 0;
         }
-        return dataList.stream().distinct().count();
+        return dataList.stream().map(i -> {
+            if ("".equals(i)) {
+                return null;
+            } else if (i instanceof Map && ((Map<?, ?>) i).isEmpty()) {
+                return null;
+            }
+            return i;
+        }).distinct().count();
     }
 
     protected Pair<Date, Date> earliestTimeAndLatestTime(List<?> dataList) {
