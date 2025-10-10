@@ -196,8 +196,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
         group.setTotalDataCount((long) paginationResult.getContent().size());
         groupResult.setTotalDataCount(group.getTotalDataCount());
-        groupResult.setTotalDataCount(301L);
-        fullGroupInfo(group, groupResult, paginationResult.getContent(), null, false);
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), null, loadData);
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
         }
