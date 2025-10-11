@@ -52,7 +52,9 @@ public class GroupPathNode<T> extends TransientModel {
     public Object getRealValue() {
         if (fromClient) {
             ModelFieldConfig modelFieldConfig = getGroup().getModelFieldConfig(getField());
-            if (TtypeEnum.ENUM.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.isNumericType(modelFieldConfig.getTtype()) || TtypeEnum.isDateType(modelFieldConfig.getTtype())) {
+            if (TtypeEnum.ENUM.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.isNumericType(modelFieldConfig.getTtype()) || TtypeEnum.isDateType(modelFieldConfig.getTtype()) /*||
+                    TtypeEnum.O2O.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.O2M.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2O.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2M.value().equals(modelFieldConfig.getTtype())*/
+            ) {
                 setRealValue(GroupingUtils.valueFromString(modelFieldConfig, getValue()));
             } else {
                 setRealValue(getValue());
@@ -125,7 +127,11 @@ public class GroupPathNode<T> extends TransientModel {
             if (TtypeEnum.O2O.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2O.value().equals(modelFieldConfig.getTtype())) {
                 List<Object> referenceFieldValues = new ArrayList<>(referenceFields.size());
                 for (String referenceField : referenceFields) {
-                    referenceFieldValues.add(FieldUtils.getFieldValue(realValue, referenceField));
+                    Object fieldValue = FieldUtils.getFieldValue(realValue, referenceField);
+                    if (fieldValue instanceof Number) {
+                        fieldValue = fieldValue.toString();
+                    }
+                    referenceFieldValues.add(fieldValue);
                 }
                 realValue = referenceFieldValues;
             } else if (TtypeEnum.O2M.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2M.value().equals(modelFieldConfig.getTtype())) {
@@ -137,7 +143,11 @@ public class GroupPathNode<T> extends TransientModel {
                     } else {
                         List<Object> referenceFieldValues = new ArrayList<>(referenceFields.size());
                         for (String referenceField : referenceFields) {
-                            referenceFieldValues.add(FieldUtils.getFieldValue(o, referenceField));
+                            Object fieldValue = FieldUtils.getFieldValue(o, referenceField);
+                            if (fieldValue instanceof Number) {
+                                fieldValue = fieldValue.toString();
+                            }
+                            referenceFieldValues.add(fieldValue);
                         }
                         relationFieldList.add(referenceFieldValues);
                     }

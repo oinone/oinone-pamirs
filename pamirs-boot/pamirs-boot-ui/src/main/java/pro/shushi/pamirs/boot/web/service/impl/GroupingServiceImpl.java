@@ -66,19 +66,25 @@ public class GroupingServiceImpl implements GroupingService {
         }
         loadGroupBaseInfo(group);
 
-        // 构建查询条件查询数据
-        QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        addGroupExpandCondition(group, queryWrapper, expandGroupPaths, true);
         Pagination<T> paginationResult = new Pagination<>(1, -1);
-        paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
+        QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
+        // 构建查询条件查询数据
+        if (hasRelationGroupField(group)) {
+            paginationResult = loadDataListByMemory(group, new Pagination<>(1, -1), queryWrapper);
+        } else {
+            addGroupExpandCondition(group, queryWrapper, expandGroupPaths, true);
+            paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
+        }
 
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupData(new HashMap<>());
         group.setTotalDataCount(null);
+
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null, true);
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
         for (GroupPath<T> expandGroupPath : expandGroupPaths) {
             groupResult.getExpandGroupDataStr().add(groupResult.getExpandGroupData().get(expandGroupPath));
+            new ArrayList<>(groupResult.getExpandGroupData().entrySet()).get(3).getKey().equals(expandGroupPath);
         }
         groupResult.unsetGroups();
         return groupResult;
@@ -96,16 +102,23 @@ public class GroupingServiceImpl implements GroupingService {
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupStatistic(new HashMap<>());
 
-        // 先试着不查数据处理统计函数（纯sql进行统计）
-        List<GroupPath<T>> queryExpandGroupPaths = new ArrayList<>(group.getExpandGroupPaths());
-        queryExpandGroupPaths.removeIf(groupPath -> sqlQueryStatisticDataValues(group, groupResult.getExpandGroupStatistic(), groupPath));
-        if (CollectionUtils.isNotEmpty(queryExpandGroupPaths)) {
+        if (hasRelationGroupField(group)) {
             QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-            addGroupExpandCondition(group, queryWrapper, queryExpandGroupPaths, false);
             Pagination<T> paginationResult = new Pagination<>(1, -1);
-            paginationResult.setSortable(false);
             paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
             fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction(), false);
+        } else {
+            // 先试着不查数据处理统计函数（纯sql进行统计）
+            List<GroupPath<T>> queryExpandGroupPaths = new ArrayList<>(group.getExpandGroupPaths());
+            queryExpandGroupPaths.removeIf(groupPath -> sqlQueryStatisticDataValues(group, groupResult.getExpandGroupStatistic(), groupPath));
+            if (CollectionUtils.isNotEmpty(queryExpandGroupPaths)) {
+                QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
+                addGroupExpandCondition(group, queryWrapper, queryExpandGroupPaths, false);
+                Pagination<T> paginationResult = new Pagination<>(1, -1);
+                paginationResult.setSortable(false);
+                paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
+                fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction(), false);
+            }
         }
 
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
@@ -188,7 +201,8 @@ public class GroupingServiceImpl implements GroupingService {
         }
         group.setTotalDataCount((long) paginationResult.getContent().size());
         groupResult.setTotalDataCount(group.getTotalDataCount());
-        fullGroupInfo(group, groupResult, paginationResult.getContent(), null, loadData);
+        groupResult.setTotalDataCount(301L);
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), null, false);
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
         }

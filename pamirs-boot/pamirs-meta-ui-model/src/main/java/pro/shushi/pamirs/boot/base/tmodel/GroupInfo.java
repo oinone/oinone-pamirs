@@ -4,6 +4,7 @@ import pro.shushi.pamirs.boot.base.utils.GroupingUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
+import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.base.TransientModel;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
@@ -70,8 +71,45 @@ public class GroupInfo<T> extends TransientModel {
         ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(getField());
         if (TtypeEnum.ENUM.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.isNumericType(modelFieldConfig.getTtype()) || TtypeEnum.isDateType(modelFieldConfig.getTtype())) {
             setValue(GroupingUtils.stringifyValue(modelFieldConfig, getRealValue()));
+        } else if (TtypeEnum.O2O.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.O2M.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2O.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2M.value().equals(modelFieldConfig.getTtype())) {
+            Object value = getRealValue();
+            if (value instanceof Collection) {
+                List<Object> values = new ArrayList<>();
+                for (Object valueObj : ((Collection<?>) value)) {
+                    values.add(replaceObjectValue(valueObj));
+                }
+                value = values;
+            } else {
+                value = replaceObjectValue(value);
+            }
+            setValue(value);
         } else {
             setValue(getRealValue());
+        }
+    }
+
+    private Object replaceObjectValue(Object value) {
+        if (value == null) {
+            return null;
+        }
+        Map<String, Object> _dMap = null;
+        if (value instanceof Map) {
+            _dMap = (Map) value;
+        } else if (D.class.isAssignableFrom(value.getClass())) {
+            _dMap = ((D) value).get_d();
+        }
+        if (_dMap != null) {
+            Map<String, Object> replaceMap = new HashMap<>(_dMap.size());
+            _dMap.forEach((k, v) -> {
+                if (v instanceof Long) {
+                    replaceMap.put(k, v.toString());
+                } else {
+                    replaceMap.put(k, v);
+                }
+            });
+            return replaceMap;
+        } else {
+            return value;
         }
     }
 
