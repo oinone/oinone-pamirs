@@ -151,15 +151,7 @@ public class GroupingServiceImpl implements GroupingService {
         // 构建查询条件
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
 
-        boolean hasRelationGroupField = false;
-        for (GroupField groupField : group.getGroupFields()) {
-            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
-            if (GroupingUtils.isMemoryGroupField(modelFieldConfig)) {
-                hasRelationGroupField = true;
-                break;
-            }
-        }
-
+        boolean hasRelationGroupField = hasRelationGroupField(group);
         boolean needPagination = !hasRelationGroupField && page.getSize() != null && page.getSize() >= 0;
         Pagination<T> paginationResult;
         boolean loadData;
@@ -721,6 +713,18 @@ public class GroupingServiceImpl implements GroupingService {
             }
         }
         return pagination;
+    }
+
+    private boolean hasRelationGroupField(Grouping<?> group) {
+        boolean hasRelationGroupField = false;
+        for (GroupField groupField : group.getGroupFields()) {
+            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
+            if (GroupingUtils.isMemoryGroupField(modelFieldConfig)) {
+                hasRelationGroupField = true;
+                break;
+            }
+        }
+        return hasRelationGroupField;
     }
 
 }
