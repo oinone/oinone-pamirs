@@ -120,7 +120,7 @@ public class GroupPathNode<T> extends TransientModel {
         ) {
             return realValue;
         }
-        if (GroupingUtils.isMemoryGroupField(modelFieldConfig) && !Boolean.TRUE.equals(modelFieldConfig.getStore())) {
+        if (GroupingUtils.isMemoryGroupField(modelFieldConfig)) {
             List<String> referenceFields = modelFieldConfig.getReferenceFields();
             if (TtypeEnum.O2O.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2O.value().equals(modelFieldConfig.getTtype())) {
                 List<Object> referenceFieldValues = new ArrayList<>(referenceFields.size());
