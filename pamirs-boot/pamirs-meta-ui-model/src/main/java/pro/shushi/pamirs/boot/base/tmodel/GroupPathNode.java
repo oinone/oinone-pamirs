@@ -155,15 +155,15 @@ public class GroupPathNode<T> extends TransientModel {
                         relationFieldList.add(referenceFieldValues);
                     }
                 }
-                if (relationFieldList.isEmpty()) {
-                    return null;
-                }
                 realValue = relationFieldList;
             }
         }
 
         if (Boolean.TRUE.equals(modelFieldConfig.getMulti())) {
             if (realValue instanceof Collection) {
+                if (((Collection<?>) realValue).isEmpty()) {
+                    return null;
+                }
                 realValue = new HashSet<>((Collection<?>) realValue);
             }
             return realValue;
