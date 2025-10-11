@@ -17,7 +17,7 @@ import java.util.List;
 @SPI.Service("UNIQUE_PERCENT")
 @Component
 @Slf4j
-public class GroupUniquePercentStatistic extends AbstractGroupStatisticApi implements GroupStatisticApi {
+public class GroupUniquePercentStatistic extends GroupUniqueStatistic implements GroupStatisticApi {
 
     @Override
     public <T> Object statistic(Grouping<T> group, GroupInfo<T> groupInfo, String statisticField, List<?> dataList) {
@@ -25,7 +25,7 @@ public class GroupUniquePercentStatistic extends AbstractGroupStatisticApi imple
         if (total == 0) {
             return 0;
         }
-        return String.format("%.2f", ((double) unique(dataList)) / total * 100);
+        return String.format("%.2f", ((double) super.statistic(group, groupInfo, statisticField, dataList)) / total * 100);
     }
 
 }

@@ -31,6 +31,7 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
                 .filter(Objects::nonNull)
                 .filter(i -> !i.equals(""))
                 .filter(i -> (!(i instanceof Map) || !((Map<?, ?>) i).isEmpty()))
+                .filter(i -> (!(i instanceof Collection) || !((Collection<?>) i).isEmpty()))
                 .count();
     }
 
@@ -50,6 +51,12 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
                 return null;
             } else if (i instanceof Map && ((Map<?, ?>) i).isEmpty()) {
                 return null;
+            } else if (i instanceof Collection) {
+                if (((Collection<?>) i).isEmpty()) {
+                    return null;
+                } else {
+                    return new HashSet<>((Collection<?>) i);
+                }
             }
             return i;
         }).filter(Objects::nonNull).distinct().count();
