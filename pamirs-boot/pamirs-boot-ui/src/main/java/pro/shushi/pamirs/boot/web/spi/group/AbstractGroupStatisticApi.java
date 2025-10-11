@@ -52,7 +52,7 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
                 return null;
             }
             return i;
-        }).distinct().count();
+        }).filter(Objects::nonNull).distinct().count();
     }
 
     protected Pair<Date, Date> earliestTimeAndLatestTime(List<?> dataList) {
