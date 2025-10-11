@@ -1,5 +1,7 @@
 package pro.shushi.pamirs.meta.util;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.github.classgraph.ClassGraph;
@@ -16,6 +18,7 @@ import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static pro.shushi.pamirs.meta.enmu.MetaExpEnumerate.BASE_CLASS_NOT_FOUNT_ERROR;
@@ -32,6 +35,11 @@ public class ClassUtils {
     private static final String PROTOCOL_FILE = "file";
 
     private static final String PROTOCOL_JAR = "jar";
+
+    private static final Cache<String, List<Class<?>>> packageCache = Caffeine.newBuilder()
+            .initialCapacity(50)
+            .expireAfterWrite(20, TimeUnit.SECONDS)
+            .build();
 
     public static List<Class<?>> getAllClassByInterface(String packageName, Class<?> itf) {
         List<Class<?>> result = new ArrayList<>();
@@ -113,13 +121,14 @@ public class ClassUtils {
     }
 
     public static Collection<Class<?>> getClasses(String pack) {
-
-        try (ScanResult scan = new ClassGraph()
-                .enableAllInfo()
-                .acceptPackages(pack)
-                .scan()) {
-            return scan.getAllClasses().loadClasses();
-        }
+        return packageCache.get(pack, _pack -> {
+            try (ScanResult scan = new ClassGraph()
+                    .enableAllInfo()
+                    .acceptPackages(_pack)
+                    .scan()) {
+                return scan.getAllClasses().loadClasses();
+            }
+        });
     }
 
     /**

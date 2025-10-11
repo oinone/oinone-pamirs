@@ -4,12 +4,13 @@ import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("restriction")
 public class UnsafeUtil {
 
     private static final Unsafe unsafe;
-    private static Map<Class<?>, Map<String, FieldInfo>> clazzFieldOffsetMap = new HashMap<>();
+    private static final Map<Class<?>, Map<String, FieldInfo>> clazzFieldOffsetMap = new ConcurrentHashMap<>();
 
     static {
         Field field;
