@@ -133,6 +133,9 @@ public class GroupPathNode<T> extends TransientModel {
                     }
                     referenceFieldValues.add(fieldValue);
                 }
+                if (referenceFieldValues.stream().noneMatch(Objects::nonNull)) {
+                    return null;
+                }
                 realValue = referenceFieldValues;
             } else if (TtypeEnum.O2M.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2M.value().equals(modelFieldConfig.getTtype())) {
                 List<Object> relationList = new ArrayList<>((Collection) realValue);
@@ -151,6 +154,9 @@ public class GroupPathNode<T> extends TransientModel {
                         }
                         relationFieldList.add(referenceFieldValues);
                     }
+                }
+                if (relationFieldList.isEmpty()) {
+                    return null;
                 }
                 realValue = relationFieldList;
             }
