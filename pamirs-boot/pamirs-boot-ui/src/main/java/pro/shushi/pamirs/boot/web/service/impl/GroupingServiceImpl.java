@@ -84,7 +84,6 @@ public class GroupingServiceImpl implements GroupingService {
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
         for (GroupPath<T> expandGroupPath : expandGroupPaths) {
             groupResult.getExpandGroupDataStr().add(groupResult.getExpandGroupData().get(expandGroupPath));
-            new ArrayList<>(groupResult.getExpandGroupData().entrySet()).get(3).getKey().equals(expandGroupPath);
         }
         groupResult.unsetGroups();
         return groupResult;
