@@ -52,9 +52,7 @@ public class GroupPathNode<T> extends TransientModel {
     public Object getRealValue() {
         if (fromClient) {
             ModelFieldConfig modelFieldConfig = getGroup().getModelFieldConfig(getField());
-            if (TtypeEnum.ENUM.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.isNumericType(modelFieldConfig.getTtype()) || TtypeEnum.isDateType(modelFieldConfig.getTtype()) /*||
-                    TtypeEnum.O2O.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.O2M.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2O.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.M2M.value().equals(modelFieldConfig.getTtype())*/
-            ) {
+            if (TtypeEnum.ENUM.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.isNumericType(modelFieldConfig.getTtype()) || TtypeEnum.isDateType(modelFieldConfig.getTtype())) {
                 setRealValue(GroupingUtils.valueFromString(modelFieldConfig, getValue()));
             } else {
                 setRealValue(getValue());
