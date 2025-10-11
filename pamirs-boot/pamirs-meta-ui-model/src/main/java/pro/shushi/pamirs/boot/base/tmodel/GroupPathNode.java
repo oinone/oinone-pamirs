@@ -100,11 +100,11 @@ public class GroupPathNode<T> extends TransientModel {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Object handleMapOrRelationEqualsValue(ModelFieldConfig modelFieldConfig, Object realValue) {
-        if (realValue == null && TtypeEnum.isStringType(modelFieldConfig.getTtype())) {
-            realValue = "";
+        if ("".equals(realValue)) {
+            realValue = null;
         }
-        if (realValue == null && TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype())) {
-            realValue = JsonUtils.toJSONString(new LinkedHashMap<>());
+        if ((TtypeEnum.OBJ.value().equals(modelFieldConfig.getTtype()) || TtypeEnum.MAP.value().equals(modelFieldConfig.getTtype())) && realValue instanceof Map && ((Map) realValue).isEmpty()) {
+            realValue = null;
         }
         if (realValue == null || realValue instanceof String) {
             return realValue;

@@ -200,8 +200,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
         group.setTotalDataCount((long) paginationResult.getContent().size());
         groupResult.setTotalDataCount(group.getTotalDataCount());
-        groupResult.setTotalDataCount(301L);
-        fullGroupInfo(group, groupResult, paginationResult.getContent(), null, false);
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), null, loadData);
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
         }
@@ -279,7 +278,7 @@ public class GroupingServiceImpl implements GroupingService {
                     andWrapper.or().isNull(firstModelFieldConfigWrapper.getColumn());
                     if (TtypeEnum.isStringType(firstModelFieldConfig.getTtype())) {
                         andWrapper.or().eq(firstModelFieldConfigWrapper.getColumn(), "");
-                    } else if (TtypeEnum.MAP.value().equals(firstModelFieldConfig.getTtype())) {
+                    } else if (TtypeEnum.OBJ.value().equals(firstModelFieldConfig.getTtype()) || TtypeEnum.MAP.value().equals(firstModelFieldConfig.getTtype())) {
                         andWrapper.or().eq(firstModelFieldConfigWrapper.getColumn(), "").or().eq(firstModelFieldConfigWrapper.getColumn(), JsonUtils.toJSONString(new LinkedHashMap<>()));
                     }
                 }
