@@ -134,7 +134,11 @@ public class GroupPathNode<T> extends TransientModel {
                 for (String referenceField : referenceFields) {
                     Object fieldValue = FieldUtils.getFieldValue(realValue, referenceField);
                     if (fieldValue instanceof Number) {
-                        fieldValue = fieldValue.toString();
+                        if (fieldValue instanceof BigDecimal) {
+                            fieldValue = ((BigDecimal) fieldValue).stripTrailingZeros().toPlainString();
+                        } else {
+                            fieldValue = fieldValue.toString();
+                        }
                     }
                     referenceFieldValues.add(fieldValue);
                 }
@@ -153,7 +157,11 @@ public class GroupPathNode<T> extends TransientModel {
                         for (String referenceField : referenceFields) {
                             Object fieldValue = FieldUtils.getFieldValue(o, referenceField);
                             if (fieldValue instanceof Number) {
-                                fieldValue = fieldValue.toString();
+                                if (fieldValue instanceof BigDecimal) {
+                                    fieldValue = ((BigDecimal) fieldValue).stripTrailingZeros().toPlainString();
+                                } else {
+                                    fieldValue = fieldValue.toString();
+                                }
                             }
                             referenceFieldValues.add(fieldValue);
                         }
