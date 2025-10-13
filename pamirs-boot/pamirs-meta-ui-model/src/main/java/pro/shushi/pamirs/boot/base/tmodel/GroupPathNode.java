@@ -12,6 +12,7 @@ import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -118,6 +119,12 @@ public class GroupPathNode<T> extends TransientModel {
                         !TtypeEnum.M2M.value().equals(modelFieldConfig.getTtype()) &&
                         !TtypeEnum.OBJ.value().equals(modelFieldConfig.getTtype())
         ) {
+            if (realValue instanceof Number) {
+                if (realValue instanceof BigDecimal) {
+                    return ((BigDecimal) realValue).stripTrailingZeros().toPlainString();
+                }
+                return realValue.toString();
+            }
             return realValue;
         }
         if (GroupingUtils.isMemoryGroupField(modelFieldConfig)) {
