@@ -27,6 +27,7 @@ import pro.shushi.pamirs.meta.api.dto.condition.Sort;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
@@ -203,6 +204,42 @@ public class GroupingServiceImpl implements GroupingService {
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null, loadData);
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
+        }
+
+        // 处理分组值防止前端报错
+        List<GroupInfo<T>> groups = groupResult.getGroups();
+        while (CollectionUtils.isNotEmpty(groups)) {
+            List<GroupInfo<T>> nextGroups = new ArrayList<>();
+            for (GroupInfo<T> groupInfo : groups) {
+                Object value = groupInfo.getValue();
+                if (value instanceof Collection) {
+                    for (Object o : ((Collection<?>) value)) {
+                        Map<?, ?> _d = null;
+                        if (o instanceof Map) {
+                            _d = (Map<?, ?>) o;
+                        } else if (o instanceof D) {
+                            _d = ((D) o).get_d();
+                        }
+                        if (_d != null) {
+                            _d.entrySet().removeIf(entry -> entry.getValue() instanceof Collection || entry.getValue() instanceof Map || entry.getValue() instanceof D);
+                        }
+                    }
+                } else if (value instanceof Map || value instanceof D) {
+                    Map<?, ?> _d;
+                    if (value instanceof Map) {
+                        _d = (Map<?, ?>) value;
+                    } else {
+                        _d = ((D) value).get_d();
+                    }
+                    if (_d != null) {
+                        _d.entrySet().removeIf(entry -> entry.getValue() instanceof Collection || entry.getValue() instanceof Map || entry.getValue() instanceof D);
+                    }
+                }
+                if (!Boolean.TRUE.equals(groupInfo.getIsLeaf()) && CollectionUtils.isNotEmpty(groupInfo.getGroups())) {
+                    nextGroups.addAll(groupInfo.getGroups());
+                }
+            }
+            groups = nextGroups;
         }
 
         return groupResult;
