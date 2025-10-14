@@ -40,8 +40,8 @@ public class DefaultModuleDataUpgrade implements ModuleDataUpgradeApi {
         }
         for (ModuleDefinition upgradeModule : modules) {
             for (UpgradeDataInit upgradeDataInit : upgradeDataInits) {
-                if (!CollectionUtils.isEmpty(upgradeDataInit.modules())
-                        && !upgradeDataInit.modules().contains(upgradeModule.getModule())) {
+                List<String> targetModules = upgradeDataInit.modules();
+                if (!CollectionUtils.isEmpty(targetModules) && !targetModules.contains(upgradeModule.getModule())) {
                     continue;
                 }
                 String currentInstallVersion = Optional.ofNullable(installedModuleMap.get(upgradeModule.getModule()))

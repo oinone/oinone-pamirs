@@ -36,8 +36,8 @@ public class DefaultModuleDataInstall implements ModuleDataInstallApi {
         }
         for (ModuleDefinition installModule : modules) {
             for (InstallDataInit installDataInit : installDataInits) {
-                if (!CollectionUtils.isEmpty(installDataInit.modules())
-                        && !installDataInit.modules().contains(installModule.getModule())) {
+                List<String> targetModules = installDataInit.modules();
+                if (!CollectionUtils.isEmpty(targetModules) && !targetModules.contains(installModule.getModule())) {
                     continue;
                 }
                 long start = System.currentTimeMillis();
