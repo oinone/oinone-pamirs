@@ -36,8 +36,8 @@ public class DefaultModuleDataReload implements ModuleDataReloadApi {
         }
         for (ModuleDefinition reloadModule : modules) {
             for (ReloadDataInit reloadDataInit : reloadDataInits) {
-                if (!CollectionUtils.isEmpty(reloadDataInit.modules())
-                        && !reloadDataInit.modules().contains(reloadModule.getModule())) {
+                List<String> targetModules = reloadDataInit.modules();
+                if (!CollectionUtils.isEmpty(targetModules) && !targetModules.contains(reloadModule.getModule())) {
                     continue;
                 }
                 long start = System.currentTimeMillis();
