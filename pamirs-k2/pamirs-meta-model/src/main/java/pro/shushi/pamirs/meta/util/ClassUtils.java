@@ -128,7 +128,7 @@ public class ClassUtils {
     }
 
     public static Collection<Class<?>> getClasses(String pack) {
-        if ("io.xjar.boot.XBootClassLoader".equals(Thread.currentThread().getContextClassLoader().getClass().getName())) {
+        if ("io.xjar.boot.XBootClassLoader".equals(AppClassLoader.getClassLoader(ClassUtils.class).getClass().getName())) {
             return packageCache.get(pack, ClassUtils::getClasses0);
         }
         return packageCache.get(pack, _pack -> {
@@ -165,19 +165,17 @@ public class ClassUtils {
                 // 得到协议的名称
                 String protocol = url.getProtocol();
                 // 如果是以文件的形式保存在服务器上
-                if ("file".equals(protocol)) {
+                if (PROTOCOL_FILE.equals(protocol)) {
                     // System.err.println("file类型的扫描");
                     // 获取包的物理路径
                     String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
                     // 以文件的方式扫描整个包下的文件 并添加到集合中
                     findAndAddClassesInPackageByFile(packageName, filePath, recursive, classes);
-                } else if ("jar".equals(protocol)) {
+                } else if (PROTOCOL_JAR.equals(protocol)) {
                     // 如果是jar包文件.定义一个JarFile
                     // System.err.println("jar类型的扫描");
-                    JarFile jar;
-                    try {
-                        // 获取jar
-                        jar = ((JarURLConnection) url.openConnection()).getJarFile();
+                    // 获取jar
+                    try (JarFile jar = ((JarURLConnection) url.openConnection()).getJarFile()) {
                         // 从此jar包 得到一个枚举类
                         Enumeration<JarEntry> entries = jar.entries();
                         // 同样的进行循环迭代
