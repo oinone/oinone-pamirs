@@ -21,6 +21,7 @@ import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -43,10 +44,16 @@ public class ClassUtils {
 
     private static final String PROTOCOL_JAR = "jar";
 
+    private static boolean isXbc = false;
+
     private static final Cache<String, Collection<Class<?>>> packageCache = Caffeine.newBuilder()
             .initialCapacity(50)
-            .expireAfterWrite(20, TimeUnit.SECONDS)
+            .expireAfterWrite(60, TimeUnit.SECONDS)
             .build();
+
+    static {
+        isXbc = "io.xjar.boot.XBootClassLoader".equals(AppClassLoader.getClassLoader(ClassUtils.class).getClass().getName());
+    }
 
     public static List<Class<?>> getAllClassByInterface(String packageName, Class<?> itf) {
         List<Class<?>> result = new ArrayList<>();
@@ -128,7 +135,7 @@ public class ClassUtils {
     }
 
     public static Collection<Class<?>> getClasses(String pack) {
-        if ("io.xjar.boot.XBootClassLoader".equals(AppClassLoader.getClassLoader(ClassUtils.class).getClass().getName())) {
+        if (isXbc) {
             return packageCache.get(pack, ClassUtils::getClasses0);
         }
         return packageCache.get(pack, _pack -> {
@@ -168,7 +175,7 @@ public class ClassUtils {
                 if (PROTOCOL_FILE.equals(protocol)) {
                     // System.err.println("file类型的扫描");
                     // 获取包的物理路径
-                    String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
+                    String filePath = URLDecoder.decode(url.getFile(), StandardCharsets.UTF_8);
                     // 以文件的方式扫描整个包下的文件 并添加到集合中
                     findAndAddClassesInPackageByFile(packageName, filePath, recursive, classes);
                 } else if (PROTOCOL_JAR.equals(protocol)) {
