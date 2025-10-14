@@ -164,8 +164,8 @@ public class GroupPathNode<T> extends TransientModel {
                             } else {
                                 fieldValue = fieldValue.toString();
                             }
-                            fieldValues.add(fieldValue);
                         }
+                        fieldValues.add(fieldValue);
                     }
                     relationFieldValues.add(fieldValues);
                 }
@@ -199,8 +199,8 @@ public class GroupPathNode<T> extends TransientModel {
                                     } else {
                                         fieldValue = fieldValue.toString();
                                     }
-                                    fieldValues.add(fieldValue);
                                 }
+                                fieldValues.add(fieldValue);
                             }
                             referenceFieldValues.add(fieldValues);
                         }
