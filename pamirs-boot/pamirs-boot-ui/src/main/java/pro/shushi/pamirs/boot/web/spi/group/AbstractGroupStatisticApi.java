@@ -49,6 +49,12 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
         return dataList.stream().map(i -> {
             if ("".equals(i)) {
                 return null;
+            } else if (i instanceof Number) {
+                if (i instanceof BigDecimal) {
+                    return ((BigDecimal) i).stripTrailingZeros().toPlainString();
+                } else {
+                    return i.toString();
+                }
             } else if (i instanceof Map && ((Map<?, ?>) i).isEmpty()) {
                 return null;
             } else if (i instanceof Collection) {

@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static pro.shushi.pamirs.meta.enmu.FunctionCategoryEnum.TIME;
 import static pro.shushi.pamirs.meta.enmu.FunctionLanguageEnum.JAVA;
@@ -890,6 +891,33 @@ public class DateFunctions {
         return instant
                 .atZone(ZoneId.systemDefault())
                 .getDayOfMonth();
+    }
+
+    @Function.Advanced(
+            displayName = "范围", language = JAVA,
+            builtin = true, category = TIME
+    )
+    @Function.fun("BETWEEN_AND")
+    @Function(name = "BETWEEN_AND", scene = {EXPRESSION}, openLevel = LOCAL,
+            summary = "函数示例: BETWEEN_AND(arg, [a,b])\n函数说明: 判断arg是否在a到b之间（左闭右闭）"
+    )
+    public static Boolean betweenAnd(String arg, List<String> scope) {
+        if (arg == null || scope == null || scope.size() != 2) {
+            return null;
+        }
+
+        Date dataObj = DateUtils.convertFormatDate(arg, DateFormatEnum.DATETIME.value());
+        if (dataObj == null) {
+            return null;
+        }
+        Date leftDate = DateUtils.convertFormatDate(scope.get(0), DateFormatEnum.DATETIME.value());
+        Date rightDate = DateUtils.convertFormatDate(scope.get(1), DateFormatEnum.DATETIME.value());
+        if (leftDate == null || rightDate == null) {
+            return null;
+        }
+        int compareLeft = dataObj.compareTo(leftDate);
+        int compareRight = dataObj.compareTo(rightDate);
+        return compareLeft >= 0 && compareRight <= 0;
     }
 
 }

@@ -57,8 +57,8 @@ public class GroupUniqueStatistic extends AbstractGroupStatisticApi implements G
                                 } else {
                                     fieldValue = fieldValue.toString();
                                 }
-                                fieldValues.add(fieldValue);
                             }
+                            fieldValues.add(fieldValue);
                         }
                         relationFieldValues.add(fieldValues);
                     }
@@ -93,8 +93,8 @@ public class GroupUniqueStatistic extends AbstractGroupStatisticApi implements G
                                         } else {
                                             fieldValue = fieldValue.toString();
                                         }
-                                        fieldValues.add(fieldValue);
                                     }
+                                    fieldValues.add(fieldValue);
                                 }
                                 referenceFieldValues.add(fieldValues);
                             }
