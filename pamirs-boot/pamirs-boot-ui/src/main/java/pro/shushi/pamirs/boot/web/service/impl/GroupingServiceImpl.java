@@ -48,7 +48,7 @@ import static pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum.*;
 @Slf4j
 public class GroupingServiceImpl implements GroupingService {
 
-    private static final long GROUP_LAZY_LOAD_DATA_LIMIT = 300;
+    private static final long GROUP_LAZY_LOAD_DATA_LIMIT = 200;
 
     private static final TypeReference<Map<String, Object>> QUERY_DATA_TYPE_REF = new TypeReference<Map<String, Object>>() {
     };
