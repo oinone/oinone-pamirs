@@ -29,6 +29,10 @@ The "O" symbolizes open source while phonetically resonating with "All in one," 
 | QR Code | Steps                                                                                                                                                                                                                                                                                                        |
 |-----|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/Oinone%E5%B0%8F%E5%8A%A9%E6%89%8B.png" alt="Assistant" width="150"><br>| 1. ⭐ Star this project<br>2. Scan the QR code on the left to add the assistant<br>3. Send a screenshot (proof of starring) to the assistant<br>4. The assistant will invite the Star user to the exclusive communication group<br>5. Limited-time application for the enterprise edition trial authorization |
+#### 6.2 Codelab 城市站
+<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/codelab/2025-10-25-%E5%90%88%E8%82%A5%E7%AB%99.jpg">
+
+[⚡ Join the activity](https://3253996746017.huodongxing.com/event/7830404121400)
 
 ### 7. Quickstart
 - [Installation or Upgrade](https://guide.oinone.top/en/InstallOrUpgrade/)
