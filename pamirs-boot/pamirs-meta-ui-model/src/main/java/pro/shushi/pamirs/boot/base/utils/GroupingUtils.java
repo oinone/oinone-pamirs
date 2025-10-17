@@ -30,7 +30,7 @@ public class GroupingUtils {
     /**
      * 序列化分组值放到valueStr里返回
      */
-    public static String stringifyValue(ModelFieldConfig fieldConfig, Object value) {
+    public static Object stringifyValue(ModelFieldConfig fieldConfig, Object value) {
         if (value == null) {
             return null;
         }
@@ -42,7 +42,7 @@ public class GroupingUtils {
             Map<String, Object> jsonObject = PamirsDataUtils.modelObjectToJsonObject(model, modelObject);
             Object enumValue = jsonObject.get(fieldConfig.getField());
             if (Boolean.TRUE.equals(fieldConfig.getMulti())) {
-                return JsonUtils.toJSONString(enumValue);
+                return enumValue;
             } else {
                 return enumValue.toString();
             }
