@@ -201,12 +201,10 @@ public class GroupingServiceImpl implements GroupingService {
             paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
             loadData = paginationResult.getContent().size() <= GROUP_LAZY_LOAD_DATA_LIMIT;
         }
-        loadData = false;
         if (loadData) {
             listQueryRelationFields(group, paginationResult.getContent());
         }
         group.setTotalDataCount((long) paginationResult.getContent().size());
-        group.setTotalDataCount(301L);
         groupResult.setTotalDataCount(group.getTotalDataCount());
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null, loadData);
         if (!needPagination) {
@@ -542,6 +540,9 @@ public class GroupingServiceImpl implements GroupingService {
         moveGroupNullValueToLast(group, groupResult.getGroups());
     }
 
+    /**
+     * 统计函数
+     */
     private <T> BiConsumer<Grouping<T>, GroupInfo<T>> statisticFunction() {
         return (group, groupInfo) -> {
             Map<String, Object> dataStatistic = groupInfo.getDataStatistic();
@@ -585,6 +586,9 @@ public class GroupingServiceImpl implements GroupingService {
         };
     }
 
+    /**
+     * 将空分组值放在当前分组最后面
+     */
     private <T> void moveGroupNullValueToLast(Grouping<T> group, List<GroupInfo<T>> groups) {
         if (CollectionUtils.isNotEmpty(groups)) {
             GroupInfo<T> groupInfo = groups.get(0);
