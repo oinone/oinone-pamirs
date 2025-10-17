@@ -81,6 +81,8 @@ public class GroupingServiceImpl implements GroupingService {
         groupResult.setExpandGroupData(new HashMap<>());
         group.setTotalDataCount(null);
 
+        listQueryRelationFields(group, paginationResult.getContent());
+
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null, true);
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
         for (GroupPath<T> expandGroupPath : expandGroupPaths) {
@@ -199,7 +201,12 @@ public class GroupingServiceImpl implements GroupingService {
             paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
             loadData = paginationResult.getContent().size() <= GROUP_LAZY_LOAD_DATA_LIMIT;
         }
+        loadData = false;
+        if (loadData) {
+            listQueryRelationFields(group, paginationResult.getContent());
+        }
         group.setTotalDataCount((long) paginationResult.getContent().size());
+        group.setTotalDataCount(301L);
         groupResult.setTotalDataCount(group.getTotalDataCount());
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null, loadData);
         if (!needPagination) {
@@ -774,6 +781,25 @@ public class GroupingServiceImpl implements GroupingService {
             }
         }
         return hasRelationGroupField;
+    }
+
+    /**
+     * 填充dataList里的引用字段
+     */
+    private void listQueryRelationFields(Grouping<?> group, List<?> dataList) {
+        if (CollectionUtils.isEmpty(dataList)) {
+            return;
+        }
+        for (ModelFieldConfig modelFieldConfig : group.getModelConfig().getModelFieldConfigList()) {
+            String ttype = modelFieldConfig.getTtype();
+            if (
+                    (TtypeEnum.O2O.value().equals(ttype) || TtypeEnum.M2O.value().equals(ttype) || TtypeEnum.O2M.value().equals(ttype) || TtypeEnum.M2M.value().equals(ttype)) &&
+                            !Boolean.TRUE.equals(modelFieldConfig.getStore()) &&
+                            (CollectionUtils.isNotEmpty(modelFieldConfig.getRelationFields()) || CollectionUtils.isNotEmpty(modelFieldConfig.getReferenceFields()))
+            ) {
+                Models.origin().listFieldQuery(dataList, modelFieldConfig.getField());
+            }
+        }
     }
 
 }

@@ -30,7 +30,7 @@ public class GroupingUtils {
     /**
      * 序列化分组值放到valueStr里返回
      */
-    public static String stringifyValue(ModelFieldConfig fieldConfig, Object value) {
+    public static Object stringifyValue(ModelFieldConfig fieldConfig, Object value) {
         if (value == null) {
             return null;
         }
@@ -42,7 +42,7 @@ public class GroupingUtils {
             Map<String, Object> jsonObject = PamirsDataUtils.modelObjectToJsonObject(model, modelObject);
             Object enumValue = jsonObject.get(fieldConfig.getField());
             if (Boolean.TRUE.equals(fieldConfig.getMulti())) {
-                return JsonUtils.toJSONString(enumValue);
+                return enumValue;
             } else {
                 return enumValue.toString();
             }
@@ -70,13 +70,23 @@ public class GroupingUtils {
 
         if (TtypeEnum.ENUM.value().equals(fieldConfig.getTtype())) {
             JSONObject jsonObject = new JSONObject();
-            if (Boolean.TRUE.equals(fieldConfig.getMulti())) {
-                jsonObject.put(fieldConfig.getField(), JsonUtils.parseObject(JsonUtils.toJSONString(value)));
-            } else {
-                jsonObject.put(fieldConfig.getField(), value);
-            }
+            jsonObject.put(fieldConfig.getField(), value);
             Object modelObject = PamirsDataUtils.jsonObjectToModelObject(model, jsonObject);
-            return FieldUtils.getFieldValue(modelObject, fieldConfig.getField());
+            Object enumValue = FieldUtils.getFieldValue(modelObject, fieldConfig.getField());
+            if (Boolean.TRUE.equals(fieldConfig.getMulti()) && Boolean.TRUE.equals(fieldConfig.getModelField().getSelection().getBit()) && (enumValue instanceof Integer || enumValue instanceof Long)) {
+                long enumLongValue = (long) enumValue;
+                List<Long> enumValueList = new ArrayList<>();
+                long bit = 1L;
+                while (enumLongValue > 0) {
+                    if ((enumLongValue & 1) == 1) {
+                        enumValueList.add(bit);
+                    }
+                    enumLongValue >>= 1;
+                    bit <<= 1;
+                }
+                return enumValueList;
+            }
+            return enumValue;
         }
         Class<?> clazz;
         List<Type> generics = new ArrayList<>();
