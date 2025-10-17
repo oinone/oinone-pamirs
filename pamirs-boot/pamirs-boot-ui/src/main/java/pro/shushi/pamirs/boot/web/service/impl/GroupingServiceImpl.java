@@ -201,10 +201,12 @@ public class GroupingServiceImpl implements GroupingService {
             paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
             loadData = paginationResult.getContent().size() <= GROUP_LAZY_LOAD_DATA_LIMIT;
         }
+        loadData = false;
         if (loadData) {
             listQueryRelationFields(group, paginationResult.getContent());
         }
         group.setTotalDataCount((long) paginationResult.getContent().size());
+        group.setTotalDataCount(301L);
         groupResult.setTotalDataCount(group.getTotalDataCount());
         fullGroupInfo(group, groupResult, paginationResult.getContent(), null, loadData);
         if (!needPagination) {
