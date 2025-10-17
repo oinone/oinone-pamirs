@@ -11,9 +11,12 @@ import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 分组工具类
@@ -46,6 +49,11 @@ public class GroupingUtils {
             } else {
                 return enumValue.toString();
             }
+        } else if (TtypeEnum.isNumericType(fieldConfig.getTtype()) && Boolean.TRUE.equals(fieldConfig.getMulti()) && value instanceof Collection) {
+            return ((Collection<?>) value).stream().map(i -> i != null ? (i instanceof BigDecimal ? ((BigDecimal) i).stripTrailingZeros().toPlainString() : i.toString()) : null).collect(Collectors.toList());
+        }
+        if (Boolean.TRUE.equals(fieldConfig.getMulti())) {
+            return value;
         }
         String jsonValue = JsonUtils.toJSONString(value);
         if (TtypeEnum.isDateType(fieldConfig.getTtype())) {
