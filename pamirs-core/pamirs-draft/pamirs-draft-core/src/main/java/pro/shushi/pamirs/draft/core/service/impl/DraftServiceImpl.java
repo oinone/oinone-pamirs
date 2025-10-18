@@ -66,6 +66,10 @@ public class DraftServiceImpl implements DraftService {
     @Override
     public <T> T createDraft(T data) {
         DraftStoreStrategyApi draftStoreStrategyApi = Spider.getDefaultExtension(DraftStoreStrategyApi.class);
+        String draftCode = (String) FieldUtils.getFieldValue(data, LambdaUtil.fetchFieldName(BaseModel::getDraftCode));
+        if (StringUtils.isNotBlank(draftCode)) {
+            return updateDraft(data);
+        }
         Draft draft = loadDraftContext(data);
         Draft dbDraft = draftStoreStrategyApi.queryDraft(draft);
         if (dbDraft != null) {
