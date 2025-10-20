@@ -940,17 +940,31 @@ public class RegisterViewEditor implements MetaDataEditor {
         if (StringUtils.isBlank(businessModel)) {
             return null;
         }
-        switch (businessModel) {
-            case BusinessModelConstants.RESOURCE_ADDRESS:
-                return "Address";
-            case BusinessModelConstants.COMPANY:
-                return "Company";
-            case BusinessModelConstants.DEPARTMENT:
-                return "Department";
-            case BusinessModelConstants.EMPLOYEE:
-                return "Employee";
-            case BusinessModelConstants.ROLE:
-                return "Role";
+        TtypeEnum ttype = modelField.getTtype();
+        if (TtypeEnum.M2O.equals(ttype)) {
+            switch (businessModel) {
+                case BusinessModelConstants.RESOURCE_ADDRESS:
+                    return BusinessModelConstants.RESOURCE_ADDRESS_WIDGET;
+                case BusinessModelConstants.COMPANY:
+                    return BusinessModelConstants.COMPANY_WIDGET;
+                case BusinessModelConstants.DEPARTMENT:
+                    return BusinessModelConstants.DEPARTMENT_WIDGET;
+                case BusinessModelConstants.EMPLOYEE:
+                    return BusinessModelConstants.EMPLOYEE_WIDGET;
+                case BusinessModelConstants.ROLE:
+                    return BusinessModelConstants.ROLE_WIDGET;
+            }
+        } else if (TtypeEnum.M2M.equals(ttype)) {
+            switch (businessModel) {
+                case BusinessModelConstants.COMPANY:
+                    return BusinessModelConstants.COMPANY_WIDGET;
+                case BusinessModelConstants.DEPARTMENT:
+                    return BusinessModelConstants.DEPARTMENT_WIDGET;
+                case BusinessModelConstants.EMPLOYEE:
+                    return BusinessModelConstants.EMPLOYEE_WIDGET;
+                case BusinessModelConstants.ROLE:
+                    return BusinessModelConstants.ROLE_WIDGET;
+            }
         }
         return null;
     }

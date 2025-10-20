@@ -9,11 +9,21 @@ public interface BusinessModelConstants {
 
     String RESOURCE_ADDRESS = "resource.ResourceAddress";
 
+    String RESOURCE_ADDRESS_WIDGET = "Address";
+
     String COMPANY = "business.PamirsCompany";
+
+    String COMPANY_WIDGET = "Company";
 
     String DEPARTMENT = "business.PamirsDepartment";
 
+    String DEPARTMENT_WIDGET = "Department";
+
     String EMPLOYEE = "business.PamirsEmployee";
 
+    String EMPLOYEE_WIDGET = "Employee";
+
     String ROLE = "auth.AuthRole";
+
+    String ROLE_WIDGET = "Role";
 }
