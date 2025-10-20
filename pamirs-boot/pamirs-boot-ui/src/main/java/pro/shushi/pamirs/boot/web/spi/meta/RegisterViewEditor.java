@@ -37,6 +37,7 @@ import pro.shushi.pamirs.boot.base.ux.model.view.UITemplate;
 import pro.shushi.pamirs.boot.base.ux.spi.ViewTemplateStrategyApi;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
+import pro.shushi.pamirs.boot.web.constants.BusinessModelConstants;
 import pro.shushi.pamirs.boot.web.constants.GroupConstants;
 import pro.shushi.pamirs.boot.web.spi.domain.RegisterViewContext;
 import pro.shushi.pamirs.boot.web.utils.*;
@@ -889,7 +890,7 @@ public class RegisterViewEditor implements MetaDataEditor {
         UIField uiField = new UIField();
         uiField.setData(modelField.getField())
                 .setLabel(Optional.ofNullable(uxWidget).map(UxWidget::label).filter(StringUtils::isNotBlank).orElse(modelField.getDisplayName()))
-                .setWidget(Optional.ofNullable(uxWidget).map(UxWidget::widget).filter(StringUtils::isNotBlank).orElse(null))
+                .setWidget(Optional.ofNullable(uxWidget).map(UxWidget::widget).filter(StringUtils::isNotBlank).orElseGet(() -> fetchDefaultWidget(viewType, modelField)))
                 .setPropList(PropUtils.convertPropListFromAnnotation(Optional.ofNullable(uxWidget).map(UxWidget::config).orElse(null)))
                 .setContext(PropUtils.convertPropMapFromAnnotation(Optional.ofNullable(uxWidget).map(UxWidget::context).orElse(null)));
         uiField.setMapping(PropUtils.convertPropMapFromAnnotation(Optional.ofNullable(uxWidget).map(UxWidget::context).orElse(null)))
@@ -928,6 +929,30 @@ public class RegisterViewEditor implements MetaDataEditor {
         compileAbstractFields(viewType, uiField);
 
         return uiField;
+    }
+
+    private static String fetchDefaultWidget(ViewTypeEnum viewType, ModelField modelField) {
+        String references = modelField.getReferences();
+        if (StringUtils.isBlank(references)) {
+            return null;
+        }
+        String businessModel = BusinessModelHelper.isInheritedBusinessModel(references);
+        if (StringUtils.isBlank(businessModel)) {
+            return null;
+        }
+        switch (businessModel) {
+            case BusinessModelConstants.RESOURCE_ADDRESS:
+                return "Address";
+            case BusinessModelConstants.COMPANY:
+                return "Company";
+            case BusinessModelConstants.DEPARTMENT:
+                return "Department";
+            case BusinessModelConstants.EMPLOYEE:
+                return "Employee";
+            case BusinessModelConstants.ROLE:
+                return "Role";
+        }
+        return null;
     }
 
     /**

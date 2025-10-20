@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Service
 public class M2OConverter extends AbstractValueConverter implements QuickFillingValueConverter {
 
-    private static final TypeReference<List<Map<String, String>>> ADDRESS_VALUE_TYPE_REFERENCE = new TypeReference<List<Map<String, String>>>() {
+    private static final TypeReference<Map<String, String>> ADDRESS_VALUE_TYPE_REFERENCE = new TypeReference<Map<String, String>>() {
     };
 
     private static final String ADDRESS_MODEL = "resource.ResourceAddress";
@@ -42,9 +42,8 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
 
     @Override
     public Object transformObjectValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
         if (StringUtils.isBlank(value)) {
-            return getFieldCollection(modelFieldConfig);
+            return null;
         }
         QueryWrapper<Object> relationQueryWrapper = getRelationQueryWrapper(quickFillingField, false);
         String relationModel = relationQueryWrapper.getModel();
@@ -104,27 +103,12 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
     }
 
     private Object getResourceAddress(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        List<Map<String, String>> addressValueList = JsonUtils.parseObject(value, ADDRESS_VALUE_TYPE_REFERENCE);
-        String countryName = null;
-        String provinceName = null;
-        String cityName = null;
-        String districtName = null;
-        String streetName = null;
-        for (Map<String, String> addressMap : addressValueList) {
-            String addressField = addressMap.get("field");
-            String addressValue = addressMap.get("value");
-            if (StringUtils.equals(addressField, "country")) {
-                countryName = addressValue;
-            } else if (StringUtils.equals(addressField, "province")) {
-                provinceName = addressValue;
-            } else if (StringUtils.equals(addressField, "city")) {
-                cityName = addressValue;
-            } else if (StringUtils.equals(addressField, "district")) {
-                districtName = addressValue;
-            } else if (StringUtils.equals(addressField, "originStreet")) {
-                streetName = addressValue;
-            }
-        }
+        Map<String, String> addressValue = JsonUtils.parseObject(value, ADDRESS_VALUE_TYPE_REFERENCE);
+        String countryName = addressValue.get("countryName");
+        String provinceName = addressValue.get("provinceName");
+        String cityName = addressValue.get("cityName");
+        String districtName = addressValue.get("districtName");
+        String streetName = addressValue.get("streetName");
         D address = Spider.getLoader(ResourceModelQueryService.class).getExtension().queryResourceAddressByName(null, countryName, provinceName, cityName, districtName, streetName);
         if (address == null) {
             return null;

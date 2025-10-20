@@ -26,10 +26,12 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- *
  * @author Gesi at 18:02 on 2025/9/10
  */
 @Service
@@ -60,19 +62,20 @@ public class QuickFillingServiceImpl implements QuickFillingService {
             QuickFillingFailure quickFillingFailure = new QuickFillingFailure();
             quickFillingFailure.setRowNumber(rowIndex);
             quickFillingFailure.setDetailList(new ArrayList<>(paramValue.size()));
-            quickFilling.getFields().forEach((field, header) -> {
+            Map<String, QuickFillingField> fields = quickFilling.getFields();
+            for (Map.Entry<String, QuickFillingField> entry : fields.entrySet()) {
+                String field = entry.getKey();
+                QuickFillingField header = entry.getValue();
                 String value = paramValue.get(field);
-                QuickFillingField quickFillingField = quickFilling.getFields().get(field);
+
                 QuickFillingFailureDetail failureDetail = new QuickFillingFailureDetail(field, value);
-
-                Object transformedValue = transformObjectValue(quickFillingField, value, failureDetail);
-
+                Object transformedValue = transformObjectValue(header, value, failureDetail);
                 if (failureDetail.isFailed()) {
                     quickFillingFailure.getDetailList().add(failureDetail);
                 } else {
                     FieldUtils.setFieldValue(finalModelObject, field, transformedValue);
                 }
-            });
+            }
 
             if (CollectionUtils.isNotEmpty(quickFillingFailure.getDetailList())) {
                 quickFilling.getFailures().add(quickFillingFailure);
@@ -92,7 +95,7 @@ public class QuickFillingServiceImpl implements QuickFillingService {
 
     private void loadModelConfig(QuickFilling quickFilling) {
         String model = quickFilling.getModel();
-        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
+        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
         if (modelConfig == null) {
             throw PamirsException.construct(QuickFillingExpEnumerate.MODEL_NOT_FIND).appendMsg("模型" + model + "找不到").errThrow();
         }
@@ -131,7 +134,11 @@ public class QuickFillingServiceImpl implements QuickFillingService {
 
     private Object transformObjectValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
-        TtypeEnum ttype = TtypeEnum.getEnumByValue(TtypeEnum.class, modelConfigField.getTtype());
+        String ttypeValue = modelConfigField.getTtype();
+        if (TtypeEnum.RELATED.value().equals(ttypeValue)) {
+            ttypeValue = modelConfigField.getRelatedTtype();
+        }
+        TtypeEnum ttype = TtypeEnum.getEnumByValue(TtypeEnum.class, ttypeValue);
         for (QuickFillingValueConverter valueConverter : valueConverters) {
             if (valueConverter.canTransform(ttype)) {
                 return valueConverter.transformObjectValue(quickFillingField, value, failureDetail);
