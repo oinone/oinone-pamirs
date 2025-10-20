@@ -31,7 +31,7 @@ public class BaseModel extends AbstractModel {
     private static final long serialVersionUID = -6111914084667478752L;
 
     @Field.String(size = 64)
-    @Field(displayName = "草稿编码", store = NullableBoolEnum.FALSE)
+    @Field(displayName = "草稿编码", store = NullableBoolEnum.FALSE, invisible = true, priority = 5)
     private transient String draftCode;
 
     /**
