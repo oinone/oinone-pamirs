@@ -11,26 +11,11 @@
     <groupId>pro.shushi.pamirs.core</groupId>
     <artifactId>pamirs-draft</artifactId>
     <name>pamirs-draft</name>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>pamirs-draft-api</module>
-        <module>pamirs-draft-core</module>
-    </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-draft-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-draft-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
+    <dependencies>
+        <dependency>
+            <groupId>pro.shushi.pamirs.core</groupId>
+            <artifactId>pamirs-core-common</artifactId>
+        </dependency>
+    </dependencies>
 </project>

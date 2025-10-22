@@ -23,6 +23,11 @@
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-draft</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-sequence</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -168,13 +173,6 @@
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-sso</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-draft</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>

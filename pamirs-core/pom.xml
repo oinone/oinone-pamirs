@@ -262,12 +262,7 @@
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-draft-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-draft-core</artifactId>
+                <artifactId>pamirs-draft</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
