@@ -8,13 +8,11 @@ import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
-import pro.shushi.pamirs.meta.common.enmu.BaseEnum;
 import pro.shushi.pamirs.meta.domain.model.DataDictionary;
 import pro.shushi.pamirs.meta.domain.model.DataDictionaryItem;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * @author Gesi at 9:35 on 2025/9/11
@@ -32,37 +30,17 @@ public class EnumConverter extends AbstractValueConverter implements QuickFillin
     @Override
     public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
-        Class<?> valueClass;
-        try {
-            valueClass = Class.forName(Boolean.TRUE.equals(modelFieldConfig.getMulti()) ? modelFieldConfig.getLtypeT() : modelFieldConfig.getLtype());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        if (BaseEnum.class.isAssignableFrom(valueClass)) {
-            List<? extends BaseEnum<?, ?>> enumList = BaseEnum.getEnumList((Class<? extends BaseEnum<?, ?>>) valueClass);
-            for (BaseEnum<?, ?> baseEnum : enumList) {
-                if (StringUtils.equals(baseEnum.displayName(), value)) {
-                    return baseEnum;
-                }
-            }
-        } else if (valueClass.isEnum()) {
-            return resolveJavaEnum(valueClass, value, failureDetail);
-        } else {
-            // 无代码枚举
-            DataDictionary dataDictionary = new DataDictionary().setDictionary(modelFieldConfig.getDictionary()).queryOne();
-            for (DataDictionaryItem option : dataDictionary.getOptions()) {
-                if (StringUtils.equals(value, option.getDisplayName())) {
-                    if (dataDictionary.getBit() || Long.class.equals(valueClass)) {
-                        return Long.parseLong(option.getValue());
-                    } else if (Integer.class.equals(valueClass)) {
-                        return Integer.parseInt(option.getValue());
-                    } else if (TtypeEnum.STRING.equals(dataDictionary.getValueType())) {
-                        return option.getValue();
-                    }
+        DataDictionary dataDictionary = new DataDictionary().setDictionary(modelFieldConfig.getDictionary()).queryOne();
+        TtypeEnum valueType = dataDictionary.getValueType();
+        for (DataDictionaryItem option : dataDictionary.getOptions()) {
+            if (StringUtils.equals(value, option.getDisplayName())) {
+                if (dataDictionary.getBit() || TtypeEnum.INTEGER.equals(valueType)) {
+                    return Long.parseLong(option.getValue());
+                } else if (TtypeEnum.STRING.equals(valueType)) {
+                    return option.getValue();
                 }
             }
         }
-
         failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
         return null;
     }
