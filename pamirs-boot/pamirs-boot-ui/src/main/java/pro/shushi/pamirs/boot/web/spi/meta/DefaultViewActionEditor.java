@@ -39,7 +39,7 @@ public class DefaultViewActionEditor implements MetaDataEditor {
         }
     }
 
-    public void makeDefaultModelViewAction(Meta meta, ModelDefinition data) {
+    private void makeDefaultModelViewAction(Meta meta, ModelDefinition data) {
 
         // 创建 跳转新增页 viewAction
         ViewActionUtils.makeDefaultViewAction(meta, data,
