@@ -33,7 +33,7 @@ public class DraftDBStrategy extends AbstractDraftStrategy implements DraftStrat
         return Models.origin().queryOneByWrapper(Pops.<Draft>lambdaQuery()
                 .from(Draft.MODEL_MODEL)
                 .eq(Draft::getCode, draft.getCode())
-                .and((wrapper -> wrapper.isNull(Draft::getInvalidDate).or().le(Draft::getInvalidDate, System.currentTimeMillis() / 1000))));
+                .and((wrapper -> wrapper.isNull(Draft::getInvalidDate).or().ge(Draft::getInvalidDate, System.currentTimeMillis() / 1000))));
     }
 
     @Override
