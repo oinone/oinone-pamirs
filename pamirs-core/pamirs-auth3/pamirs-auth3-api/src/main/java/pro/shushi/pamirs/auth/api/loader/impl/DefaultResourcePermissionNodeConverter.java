@@ -139,7 +139,7 @@ public class DefaultResourcePermissionNodeConverter implements ResourcePermissio
         node.setCanAllot(Boolean.TRUE);
         node.setNodeType(AuthEnumerationHelper.getActionResourceSubtype(action.getActionType()));
         node.setResourceId(actionId);
-        node.setDisplayValue(AuthHelper.getActionDisplayValue(action, actionNode));
+        node.setDisplayValue(TranslateUtils.translateValues(AuthHelper.getActionDisplayValue(action, actionNode)));
         node.setNodes(new ArrayList<>());
         node.setModule(context.getInfo().getModule());
         node.setModel(model);
@@ -172,7 +172,7 @@ public class DefaultResourcePermissionNodeConverter implements ResourcePermissio
         node.setHasNext(Boolean.FALSE);
         node.setCanAllot(Boolean.TRUE);
         node.setResourceId(AuthConstants.ALL_FLAG_LONG);
-        node.setDisplayValue(AuthConstants.ALL_FLAG_DISPLAY_NAME);
+        node.setDisplayValue(TranslateUtils.translateValues(AuthConstants.ALL_FLAG_DISPLAY_NAME));
         node.setMenuName(currentViewAction.getDisplayName());
         node.setAction("");
         String path = getPathGenerator().generatorAllActionPath(context, node);
