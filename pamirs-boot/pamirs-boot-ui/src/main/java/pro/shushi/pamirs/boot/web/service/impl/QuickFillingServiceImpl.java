@@ -5,9 +5,7 @@ import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFilling;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailure;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
@@ -15,7 +13,9 @@ import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.enmu.QuickFillingExpEnumerate;
 import pro.shushi.pamirs.boot.web.service.QuickFillingService;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
+import pro.shushi.pamirs.boot.web.service.impl.filling.*;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
@@ -34,11 +34,9 @@ import java.util.Map;
 /**
  * @author Gesi at 18:02 on 2025/9/10
  */
+@Slf4j
 @Service
 public class QuickFillingServiceImpl implements QuickFillingService {
-
-    @Autowired
-    private List<QuickFillingValueConverter> valueConverters;
 
     private static final TypeReference<List<Map<String, String>>> PARAM_VALUE_TYPE_REFERENCE = new TypeReference<List<Map<String, String>>>() {
     };
@@ -138,14 +136,70 @@ public class QuickFillingServiceImpl implements QuickFillingService {
         if (TtypeEnum.RELATED.value().equals(ttypeValue)) {
             ttypeValue = modelConfigField.getRelatedTtype();
         }
-        TtypeEnum ttype = TtypeEnum.getEnumByValue(TtypeEnum.class, ttypeValue);
-        for (QuickFillingValueConverter valueConverter : valueConverters) {
-            if (valueConverter.canTransform(ttype)) {
-                return valueConverter.transformObjectValue(quickFillingField, value, failureDetail);
+        QuickFillingValueConverter converter = null;
+        switch (ttypeValue) {
+            case "string":
+            case "text":
+            case "html":
+            case "phone":
+            case "email":
+                converter = StringConverter.INSTANCE;
+                break;
+            case "integer":
+            case "float":
+            case "uid":
+            case "money":
+                converter = NumberConverter.INSTANCE;
+                break;
+            case "bool":
+                converter = BooleanConverter.INSTANCE;
+                break;
+            case "datetime":
+            case "date":
+            case "time":
+            case "year":
+                converter = DateConverter.INSTANCE;
+                break;
+            case "enum":
+                converter = EnumConverter.INSTANCE;
+                break;
+            case "m2o":
+            case "o2o":
+                converter = M2OConverter.INSTANCE;
+                break;
+            case "m2m":
+            case "o2m":
+                converter = M2MConverter.INSTANCE;
+                break;
+            case "map":
+                return transformMapValue(quickFillingField, value, failureDetail);
+        }
+        if (converter != null) {
+            try {
+                return converter.transformObjectValue(quickFillingField, value, failureDetail);
+            } catch (Throwable e) {
+                log.error("quick filling {} value error.", ttypeValue, e);
+                failureDetail.fail();
+                return null;
             }
         }
-        failureDetail.fail(QuickFillingFailCodeEnum.UNSUPPORTED_TYPE, ttype + "类型不支持自动填报");
+        failureDetail.fail(ttypeValue + "类型不支持自动填报");
         return null;
     }
 
+    private Object transformMapValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
+        try {
+            if (JsonUtils.isJSONArray(value)) {
+                return JsonUtils.parseObjectList(value);
+            } else if (JsonUtils.isJSONObject(value)) {
+                return JsonUtils.parseObject(value);
+            }
+            failureDetail.fail();
+            return null;
+        } catch (Throwable e) {
+            log.error("quick filling map value convert error.", e);
+            failureDetail.fail();
+            return null;
+        }
+    }
 }

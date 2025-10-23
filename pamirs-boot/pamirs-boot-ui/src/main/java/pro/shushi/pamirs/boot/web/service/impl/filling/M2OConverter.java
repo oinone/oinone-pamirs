@@ -3,8 +3,6 @@ package pro.shushi.pamirs.boot.web.service.impl.filling;
 import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
@@ -16,7 +14,6 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.common.spi.Spider;
-import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.ArrayList;
@@ -27,18 +24,14 @@ import java.util.stream.Collectors;
 /**
  * @author Gesi at 9:35 on 2025/9/11
  */
-@Service
 public class M2OConverter extends AbstractValueConverter implements QuickFillingValueConverter {
+
+    public static final QuickFillingValueConverter INSTANCE = new M2OConverter();
 
     private static final TypeReference<Map<String, String>> ADDRESS_VALUE_TYPE_REFERENCE = new TypeReference<Map<String, String>>() {
     };
 
     private static final String ADDRESS_MODEL = "resource.ResourceAddress";
-
-    @Override
-    public boolean canTransform(TtypeEnum ttype) {
-        return TtypeEnum.M2O.equals(ttype) || TtypeEnum.O2O.equals(ttype);
-    }
 
     @Override
     public Object transformObjectValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
@@ -61,10 +54,10 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
 
         List<Object> relationList = Models.origin().queryListByWrapper(relationQueryWrapper);
         if (CollectionUtils.isEmpty(relationList)) {
-            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_NUMBER_NOT_MATCH, "查询结果数量与传入数量不匹配");
+            failureDetail.fail("查询结果数量与传入数量不匹配");
             return null;
         } else if (relationList.size() != 1) {
-            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "查询到多条数据");
+            failureDetail.fail("查询到多条数据");
             return null;
         }
         return relationList.get(0);
@@ -83,12 +76,12 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
 
         String[] valueSearchPartList = value.split("-");
         if (StringUtils.isBlank(value) || valueSearchPartList.length == 0) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+            failureDetail.fail();
             return;
         }
 
         if (valueSearchPartList.length > relationSelectFieldConfigs.size()) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+            failureDetail.fail();
             return;
         }
         for (int i = 0; i < valueSearchPartList.length; i++) {
@@ -114,15 +107,15 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
             return null;
         }
         if (StringUtils.isNotBlank(countryName) && address.get_d().get("originCountry") == null) {
-            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "未查询到或查询到多条国家数据");
+            failureDetail.fail("未查询到或查询到多条国家数据");
         } else if (StringUtils.isNotBlank(provinceName) && address.get_d().get("originProvince") == null) {
-            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "未查询到或查询到多条省/州数据");
+            failureDetail.fail("未查询到或查询到多条省/州数据");
         } else if (StringUtils.isNotBlank(cityName) && address.get_d().get("originCity") == null) {
-            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "未查询到或查询到多条城市数据");
+            failureDetail.fail("未查询到或查询到多条城市数据");
         } else if (StringUtils.isNotBlank(districtName) && address.get_d().get("originDistrict") == null) {
-            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "未查询到或查询到多条区/县数据");
+            failureDetail.fail("未查询到或查询到多条区/县数据");
         } else if (StringUtils.isNotBlank(streetName) && address.get_d().get("originStreet") == null) {
-            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_TOO_MANY_NUMBER, "未查询到或查询到多条街道数据");
+            failureDetail.fail("未查询到或查询到多条街道数据");
         }
         return address;
     }

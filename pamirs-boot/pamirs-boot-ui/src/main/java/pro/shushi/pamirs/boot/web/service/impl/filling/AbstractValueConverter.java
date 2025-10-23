@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.boot.web.service.impl.filling;
 
 import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
@@ -36,7 +35,7 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
                     } catch (Exception e) {
                         log.error("自动填报类型转换失败", e);
                         if (!failureDetail.isFailed()) {
-                            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+                            failureDetail.fail();
                         }
                         return null;
                     }
@@ -53,7 +52,7 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
         } catch (Exception e) {
             log.error("自动填报类型转换失败", e);
             if (!failureDetail.isFailed()) {
-                failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+                failureDetail.fail();
             }
             return null;
         }
