@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.boot.base.tmodel;
 
-import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.TransientModel;
@@ -20,9 +19,6 @@ public class QuickFillingFailureDetail extends TransientModel {
     @Field(displayName = "源填写值")
     private String originValue;
 
-    @Field(displayName = "失败原因编码")
-    private QuickFillingFailCodeEnum code;
-
     @Field(displayName = "失败原因")
     private String msg;
 
@@ -34,17 +30,13 @@ public class QuickFillingFailureDetail extends TransientModel {
         setOriginValue(originValue);
     }
 
-    public void fail(QuickFillingFailCodeEnum code) {
+    public void fail() {
         setFailed(true);
-        if (QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE.equals(code)) {
-            fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE, "数据不符合规则，请修改后继续");
-            return;
-        }
+        fail("数据不符合规则，请修改后继续");
     }
 
-    public void fail(QuickFillingFailCodeEnum code, String msg) {
+    public void fail(String msg) {
         setFailed(true);
-        setCode(code);
         setMsg(msg);
     }
 
