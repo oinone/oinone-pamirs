@@ -27,6 +27,7 @@ import pro.shushi.pamirs.boot.base.model.UeModule;
 import pro.shushi.pamirs.boot.base.model.ViewAction;
 import pro.shushi.pamirs.core.common.CollectionHelper;
 import pro.shushi.pamirs.core.common.FetchUtil;
+import pro.shushi.pamirs.core.common.TranslateUtils;
 import pro.shushi.pamirs.core.common.cache.MemoryListSearchCache;
 import pro.shushi.pamirs.core.common.query.QueryActions;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -710,6 +711,7 @@ public class DefaultManagementPermissionNodeLoader extends AbstractResourcePermi
     }
 
     private void loadExtendMetadata(PermissionLoadContext loadContext, PermissionNode node) {
+        node.setDisplayValue(TranslateUtils.translateValues(node.getDisplayValue()));
         if (node instanceof ActionPermissionNode) {
             ActionPermissionNode actionPermissionNode = (ActionPermissionNode) node;
             String model = actionPermissionNode.getModel();
