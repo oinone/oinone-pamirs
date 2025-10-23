@@ -39,7 +39,6 @@ import pro.shushi.pamirs.record.sql.manager.SQLRecordSessionManager;
 import pro.shushi.pamirs.record.sql.pojo.SQLRecord;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -69,8 +68,6 @@ public class SQLUpdateInterceptor implements Interceptor {
     private RecordFilterManager recordFilterManager;
     @Autowired(required = false)
     private ShardingDefineConfiguration shardingDefineConfiguration;
-
-    private final ConcurrentHashMap<String, String> databaseMap = new ConcurrentHashMap<>();
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
