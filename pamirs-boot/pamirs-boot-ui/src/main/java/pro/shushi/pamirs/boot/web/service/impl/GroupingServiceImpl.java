@@ -7,8 +7,8 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum;
-import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.base.enmu.GroupingExpEnumerate;
+import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.base.utils.GroupingUtils;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
@@ -39,7 +39,8 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
-import static pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum.*;
+import static pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum.COUNT;
+import static pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum.valueOf;
 
 /**
  * @author Gesi at 17:10 on 2025/9/1
@@ -796,10 +797,7 @@ public class GroupingServiceImpl implements GroupingService {
         }
         for (ModelFieldConfig modelFieldConfig : group.getModelConfig().getModelFieldConfigList()) {
             String ttype = modelFieldConfig.getTtype();
-            if (
-                    (TtypeEnum.O2O.value().equals(ttype) || TtypeEnum.M2O.value().equals(ttype) || TtypeEnum.O2M.value().equals(ttype) || TtypeEnum.M2M.value().equals(ttype)) &&
-                            !Boolean.TRUE.equals(modelFieldConfig.getStore()) &&
-                            (CollectionUtils.isNotEmpty(modelFieldConfig.getRelationFields()) || CollectionUtils.isNotEmpty(modelFieldConfig.getReferenceFields()))
+            if (TtypeEnum.isRelationType(ttype) && Boolean.TRUE.equals(modelFieldConfig.getRelationStore()) && (CollectionUtils.isNotEmpty(modelFieldConfig.getRelationFields()) || CollectionUtils.isNotEmpty(modelFieldConfig.getReferenceFields()))
             ) {
                 Models.origin().listFieldQuery(dataList, modelFieldConfig.getField());
             }
