@@ -27,7 +27,7 @@ public class DateConverter extends AbstractValueConverter implements QuickFillin
             date = getDate(value, quickFillingField);
         } catch (Exception e) {
             failureDetail.fail();
-            log.error("quick filling date value convert error.", e);
+            log.error("quick filling date value convert error. field: {}, value: {}", quickFillingField.getField(), value, e);
             return null;
         }
         return date;
@@ -35,7 +35,10 @@ public class DateConverter extends AbstractValueConverter implements QuickFillin
 
     private Date getDate(String value, QuickFillingField quickFillingField) {
         ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
-        String ttype = Boolean.TRUE.equals(modelFieldConfig.getMulti()) ? modelFieldConfig.getLtypeT() : modelFieldConfig.getLtype();
+        String ttype = modelFieldConfig.getTtype();
+        if (TtypeEnum.RELATED.value().equals(ttype)) {
+            ttype = modelFieldConfig.getRelatedTtype();
+        }
 
         Date date = null;
         if (TtypeEnum.YEAR.value().equals(ttype)) {
