@@ -795,11 +795,24 @@ public class GroupingServiceImpl implements GroupingService {
         if (CollectionUtils.isEmpty(dataList)) {
             return;
         }
-        for (ModelFieldConfig modelFieldConfig : group.getModelConfig().getModelFieldConfigList()) {
-            String ttype = modelFieldConfig.getTtype();
-            if (TtypeEnum.isRelationType(ttype) && Boolean.TRUE.equals(modelFieldConfig.getRelationStore()) && (CollectionUtils.isNotEmpty(modelFieldConfig.getRelationFields()) || CollectionUtils.isNotEmpty(modelFieldConfig.getReferenceFields()))
-            ) {
-                Models.origin().listFieldQuery(dataList, modelFieldConfig.getField());
+        if (log.isDebugEnabled()) {
+            for (ModelFieldConfig modelFieldConfig : group.getModelConfig().getModelFieldConfigList()) {
+                String ttype = modelFieldConfig.getTtype();
+                if (TtypeEnum.isRelationType(ttype) && Boolean.TRUE.equals(modelFieldConfig.getRelationStore()) && (CollectionUtils.isNotEmpty(modelFieldConfig.getRelationFields()) || CollectionUtils.isNotEmpty(modelFieldConfig.getReferenceFields()))
+                ) {
+                    String field = modelFieldConfig.getField();
+                    log.debug("grouping service list field query before. field: {}, values: {}", field, dataList.stream().map(v -> FieldUtils.getFieldValue(v, field)).collect(Collectors.toList()));
+                    Models.origin().listFieldQuery(dataList, modelFieldConfig.getField());
+                    log.debug("grouping service list field query after. field: {}, values: {}", field, dataList.stream().map(v -> FieldUtils.getFieldValue(v, field)).collect(Collectors.toList()));
+                }
+            }
+        } else {
+            for (ModelFieldConfig modelFieldConfig : group.getModelConfig().getModelFieldConfigList()) {
+                String ttype = modelFieldConfig.getTtype();
+                if (TtypeEnum.isRelationType(ttype) && Boolean.TRUE.equals(modelFieldConfig.getRelationStore()) && (CollectionUtils.isNotEmpty(modelFieldConfig.getRelationFields()) || CollectionUtils.isNotEmpty(modelFieldConfig.getReferenceFields()))
+                ) {
+                    Models.origin().listFieldQuery(dataList, modelFieldConfig.getField());
+                }
             }
         }
     }
