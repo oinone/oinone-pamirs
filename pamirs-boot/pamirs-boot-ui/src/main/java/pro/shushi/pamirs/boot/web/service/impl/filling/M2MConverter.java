@@ -11,7 +11,6 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -25,9 +24,8 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
 
     @Override
     public Object transformObjectValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
         if (StringUtils.isBlank(value)) {
-            return getFieldCollection(modelFieldConfig);
+            return new ArrayList<>();
         }
         QueryWrapper<Object> relationQueryWrapper = getRelationQueryWrapper(quickFillingField, true);
         String relationModel = relationQueryWrapper.getModel();
@@ -46,9 +44,7 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
             failureDetail.fail("查询结果数量与传入数量不匹配");
             return null;
         }
-        Collection<Object> relationCollection = getFieldCollection(modelFieldConfig);
-        relationCollection.addAll(relationList);
-        return relationCollection;
+        return relationList;
     }
 
     private int fillQueryWrapperCondition(String relationModel, QueryWrapper<Object> queryWrapper, QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {

@@ -8,8 +8,8 @@ import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 
-import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Gesi at 16:36 on 2025/9/11
@@ -25,27 +25,25 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
 
         ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
         if (Boolean.TRUE.equals(modelFieldConfig.getMulti())) {
-            Collection<Object> multiCollection = getFieldCollection(modelFieldConfig);
-            if (multiCollection != null) {
-                String[] valueList = value.split(",");
-                for (String valueItem : valueList) {
-                    Object transformValue;
-                    try {
-                        transformValue = transform(quickFillingField, valueItem, failureDetail);
-                    } catch (Exception e) {
-                        log.error("自动填报类型转换失败", e);
-                        if (!failureDetail.isFailed()) {
-                            failureDetail.fail();
-                        }
-                        return null;
+            List<Object> results = new ArrayList<>();
+            String[] valueList = value.split(",");
+            for (String valueItem : valueList) {
+                Object transformValue;
+                try {
+                    transformValue = transform(quickFillingField, valueItem, failureDetail);
+                } catch (Exception e) {
+                    log.error("自动填报类型转换失败", e);
+                    if (!failureDetail.isFailed()) {
+                        failureDetail.fail();
                     }
-                    if (failureDetail.isFailed()) {
-                        return null;
-                    }
-                    multiCollection.add(transformValue);
+                    return null;
                 }
-                return multiCollection;
+                if (failureDetail.isFailed()) {
+                    return null;
+                }
+                results.add(transformValue);
             }
+            return results;
         }
         try {
             return transform(quickFillingField, value, failureDetail);
@@ -60,28 +58,6 @@ public abstract class AbstractValueConverter implements QuickFillingValueConvert
 
     protected Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         return null;
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    protected Collection<Object> getFieldCollection(ModelFieldConfig modelFieldConfig) {
-        Collection<Object> multiCollection = null;
-        try {
-            Class<?> collectionClass = Class.forName(modelFieldConfig.getLtype());
-            if (Collection.class.isAssignableFrom(collectionClass)) {
-                if (!collectionClass.isInterface() && Modifier.isAbstract(collectionClass.getModifiers())) {
-                    multiCollection = (Collection) collectionClass.newInstance();
-                } else {
-                    if (List.class.isAssignableFrom(collectionClass)) {
-                        multiCollection = new ArrayList<>();
-                    } else if (Set.class.isAssignableFrom(collectionClass)) {
-                        multiCollection = new HashSet<>();
-                    }
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-        return multiCollection;
     }
 
     protected <T> QueryWrapper<T> getRelationQueryWrapper(QuickFillingField quickFillingField, boolean isMulti) {
