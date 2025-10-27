@@ -77,6 +77,7 @@ public class AuthSharedPageRecord extends IdModel {
     private String linkText;
 
     @Field.Text
+    @Field.Advanced(columnDefinition = "LONGTEXT")
     @Field(displayName = "资源路径")
     private String paths;
 }
