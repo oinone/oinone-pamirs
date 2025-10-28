@@ -1,13 +1,14 @@
 package pro.shushi.pamirs.auth.core.service;
 
 import org.springframework.stereotype.Service;
-import pro.shushi.pamirs.auth.api.model.AuthSharedPageRecord;
+import pro.shushi.pamirs.auth.api.model.shared.AuthSharedPageRecord;
 import pro.shushi.pamirs.auth.api.service.AuthSharedPageRecordService;
 import pro.shushi.pamirs.core.common.standard.service.impl.AbstractStandardModelService;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.update.LambdaUpdateWrapper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
+import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 
 import java.util.List;
@@ -24,7 +25,9 @@ public class AuthSharedPageRecordServiceImpl extends AbstractStandardModelServic
     @Function
     @Override
     public AuthSharedPageRecord create(AuthSharedPageRecord data) {
-        return super.create(data);
+        data = super.create(data);
+        data = Models.origin().fieldSaveOnCascade(data, AuthSharedPageRecord::getSharedPaths);
+        return data;
     }
 
     @Function
