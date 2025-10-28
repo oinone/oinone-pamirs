@@ -10,6 +10,8 @@ public class TypefaceDefinitionBuilder<T> extends AbstractBaseBuilder<T> impleme
 
     private ExcelTypefaceEnum typeface = ExcelTypefaceEnum.SONG;
 
+    private String typefaceName;
+
     private Integer size;
 
     private Boolean italic = Boolean.FALSE;
@@ -34,6 +36,11 @@ public class TypefaceDefinitionBuilder<T> extends AbstractBaseBuilder<T> impleme
 
     public TypefaceDefinitionBuilder<T> setTypeface(ExcelTypefaceEnum typeface) {
         this.typeface = typeface;
+        return this;
+    }
+
+    public TypefaceDefinitionBuilder<T> setTypefaceName(String typefaceName) {
+        this.typefaceName = typefaceName;
         return this;
     }
 
@@ -76,6 +83,7 @@ public class TypefaceDefinitionBuilder<T> extends AbstractBaseBuilder<T> impleme
     public ExcelTypefaceDefinition build() {
         return new ExcelTypefaceDefinition()
                 .setTypeface(typeface)
+                .setTypefaceName(typefaceName)
                 .setSize(size)
                 .setItalic(italic)
                 .setStrikeout(strikeout)

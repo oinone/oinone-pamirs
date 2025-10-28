@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.file.api.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import pro.shushi.pamirs.file.api.enmu.*;
@@ -81,6 +82,7 @@ public class ExcelDefinitionConverter {
             Optional.ofNullable(newCellStyle.getHeight()).ifPresent(mergedCellStyle::setHeight);
             Optional.ofNullable(newCellStyle.getTypefaceDefinition()).ifPresent(v -> {
                 Optional.ofNullable(v.getTypeface()).ifPresent(v::setTypeface);
+                Optional.ofNullable(v.getTypefaceName()).ifPresent(v::setTypefaceName);
                 Optional.ofNullable(v.getSize()).ifPresent(v::setSize);
                 Optional.ofNullable(v.getItalic()).ifPresent(v::setItalic);
                 Optional.ofNullable(v.getStrikeout()).ifPresent(v::setStrikeout);
@@ -143,7 +145,13 @@ public class ExcelDefinitionConverter {
             return null;
         }
         Font font = workbook.createFont();
-        Optional.ofNullable(typefaceDefinition.getTypeface()).map(ExcelTypefaceEnum::getDisplayName).ifPresent(font::setFontName);
+        String typefaceName = typefaceDefinition.getTypefaceName();
+        if (StringUtils.isBlank(typefaceName)) {
+            typefaceName = Optional.ofNullable(typefaceDefinition.getTypeface()).map(ExcelTypefaceEnum::getDisplayName).orElse(null);
+        }
+        if (StringUtils.isNotBlank(typefaceName)) {
+            font.setFontName(typefaceName);
+        }
         Optional.ofNullable(typefaceDefinition.getSize()).map(Integer::shortValue).ifPresent(font::setFontHeightInPoints);
         Optional.ofNullable(typefaceDefinition.getItalic()).ifPresent(font::setItalic);
         Optional.ofNullable(typefaceDefinition.getStrikeout()).ifPresent(font::setStrikeout);
