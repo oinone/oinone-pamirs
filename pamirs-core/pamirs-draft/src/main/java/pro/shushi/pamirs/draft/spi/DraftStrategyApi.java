@@ -20,8 +20,6 @@ import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 @SPI(factory = SpringServiceLoaderFactory.class)
 public interface DraftStrategyApi {
 
-    String DRAFT_CODE_FILED = LambdaUtil.fetchFieldName(BaseModel::getDraftCode);
-
     DraftSessionContext loadSession(Function function, Object... args);
 
     Draft load(String draftCode, Object data);

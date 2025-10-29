@@ -44,7 +44,7 @@ public class AbstractMapperProvider {
         if (!ArrayUtils.isEmpty(appendix)) {
             method = method + CharacterConstants.SEPARATOR_COLON + StringUtils.join(appendix, CharacterConstants.SEPARATOR_COMMA);
         }
-        return scriptCache.get(Objects.requireNonNull(cacheKey(modelConfig.getModule(), modelConfig.getModel(), method)), fetchFunction);
+        return scriptCache.get(cacheKey(modelConfig.getModule(), modelConfig.getModel(), method), fetchFunction);
     }
 
     protected static String script(String sql) {

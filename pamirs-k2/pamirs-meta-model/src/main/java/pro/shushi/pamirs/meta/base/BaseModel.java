@@ -1,12 +1,10 @@
 package pro.shushi.pamirs.meta.base;
 
-import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.annotation.sys.MetaSimulator;
 import pro.shushi.pamirs.meta.api.core.orm.clone.ReferenceUtils;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
-import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 
 import java.util.List;
 
@@ -30,8 +28,6 @@ public class BaseModel extends AbstractModel {
 
     private static final long serialVersionUID = -6111914084667478752L;
 
-    @Field.String(size = 64)
-    @Field(displayName = "草稿编码", store = NullableBoolEnum.FALSE, invisible = true, priority = 5)
     private transient String draftCode;
 
     /**

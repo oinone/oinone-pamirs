@@ -2,6 +2,7 @@ package pro.shushi.pamirs.draft.api;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.draft.constant.DraftConstants;
 import pro.shushi.pamirs.draft.enums.DraftExpEnumerate;
 import pro.shushi.pamirs.draft.model.Draft;
 import pro.shushi.pamirs.draft.spi.DraftStrategyApi;
@@ -13,8 +14,6 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
-
-import static pro.shushi.pamirs.draft.spi.DraftStrategyApi.DRAFT_CODE_FILED;
 
 /**
  * @author Gesi at 14:55 on 2025/9/17
@@ -33,7 +32,7 @@ public class DefaultDraftApi {
         }
         verify(draft);
         data = api.deserialization(draft.getModel(), draft.getDraftData());
-        FieldUtils.setFieldValue(data, DRAFT_CODE_FILED, draft.getCode());
+        FieldUtils.setFieldValue(data, DraftConstants.DRAFT_CODE_FILED, draft.getCode());
         return data;
     }
 
@@ -47,7 +46,7 @@ public class DefaultDraftApi {
         }
         verify(draft);
         T data = api.deserialization(draft.getModel(), draft.getDraftData());
-        FieldUtils.setFieldValue(data, DRAFT_CODE_FILED, draft.getCode());
+        FieldUtils.setFieldValue(data, DraftConstants.DRAFT_CODE_FILED, draft.getCode());
         return data;
     }
 
@@ -62,7 +61,7 @@ public class DefaultDraftApi {
         verify(draft);
         draft.setDraftData(api.serialization(draft.getModel(), data));
         api.create(draft);
-        FieldUtils.setFieldValue(data, DRAFT_CODE_FILED, draft.getCode());
+        FieldUtils.setFieldValue(data, DraftConstants.DRAFT_CODE_FILED, draft.getCode());
         return data;
     }
 
@@ -77,7 +76,7 @@ public class DefaultDraftApi {
         verify(draft);
         draft.setDraftData(api.serialization(draft.getModel(), data));
         api.update(draft);
-        FieldUtils.setFieldValue(data, DRAFT_CODE_FILED, draft.getCode());
+        FieldUtils.setFieldValue(data, DraftConstants.DRAFT_CODE_FILED, draft.getCode());
         return data;
     }
 

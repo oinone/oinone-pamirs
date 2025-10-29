@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.boot.web.session.AccessResourceInfoSession;
 import pro.shushi.pamirs.core.common.EncryptHelper;
 import pro.shushi.pamirs.draft.config.DraftConfigure;
+import pro.shushi.pamirs.draft.constant.DraftConstants;
 import pro.shushi.pamirs.draft.model.Draft;
 import pro.shushi.pamirs.draft.session.DraftSessionContext;
 import pro.shushi.pamirs.draft.spi.DraftStrategyApi;
@@ -68,7 +69,7 @@ public abstract class AbstractDraftStrategy implements DraftStrategyApi {
         if (validData == null) {
             return null;
         }
-        String draftCode = (String) validMapData.get(DRAFT_CODE_FILED);
+        String draftCode = (String) validMapData.get(DraftConstants.DRAFT_CODE_FILED);
         if (draftCode == null) {
             return null;
         }
