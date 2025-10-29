@@ -37,7 +37,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
