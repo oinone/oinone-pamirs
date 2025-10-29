@@ -811,7 +811,8 @@ public class GroupingServiceImpl implements GroupingService {
                     }
                 }
                 if (!relationQueryDataList.isEmpty()) {
-                    DataShardingHelper.build().sharding(relationQueryDataList, (sublist) -> Models.origin().listFieldQuery(sublist, modelFieldConfig.getField()));
+                    String field = modelFieldConfig.getField();
+                    DataShardingHelper.build().sharding(relationQueryDataList, (sublist) -> Models.origin().listFieldQuery(sublist, field));
                 }
             }
         }
