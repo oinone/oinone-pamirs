@@ -13,6 +13,7 @@ import pro.shushi.pamirs.boot.base.utils.GroupingUtils;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
 import pro.shushi.pamirs.boot.web.utils.GroupStatisticUtils;
+import pro.shushi.pamirs.framework.common.utils.DataShardingHelper;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.ModelFieldConfigWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -21,6 +22,7 @@ import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.serialize.SerializeProcessor;
+import pro.shushi.pamirs.meta.api.core.orm.systems.relation.RelationReadApi;
 import pro.shushi.pamirs.meta.api.dto.condition.Order;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.condition.Sort;
@@ -35,6 +37,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
+import javax.annotation.Resource;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
@@ -53,6 +56,9 @@ public class GroupingServiceImpl implements GroupingService {
 
     private static final TypeReference<Map<String, Object>> QUERY_DATA_TYPE_REF = new TypeReference<Map<String, Object>>() {
     };
+
+    @Resource
+    private RelationReadApi relationReadApi;
 
     @Override
     public <T> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
@@ -795,23 +801,17 @@ public class GroupingServiceImpl implements GroupingService {
         if (CollectionUtils.isEmpty(dataList)) {
             return;
         }
-        if (log.isDebugEnabled()) {
-            for (ModelFieldConfig modelFieldConfig : group.getModelConfig().getModelFieldConfigList()) {
-                String ttype = modelFieldConfig.getTtype();
-                if (TtypeEnum.isRelationType(ttype) && Boolean.TRUE.equals(modelFieldConfig.getRelationStore()) && (CollectionUtils.isNotEmpty(modelFieldConfig.getRelationFields()) || CollectionUtils.isNotEmpty(modelFieldConfig.getReferenceFields()))
-                ) {
-                    String field = modelFieldConfig.getField();
-                    log.debug("grouping service list field query before. field: {}, values: {}", field, dataList.stream().map(v -> FieldUtils.getFieldValue(v, field)).collect(Collectors.toList()));
-                    Models.origin().listFieldQuery(dataList, modelFieldConfig.getField());
-                    log.debug("grouping service list field query after. field: {}, values: {}", field, dataList.stream().map(v -> FieldUtils.getFieldValue(v, field)).collect(Collectors.toList()));
+        for (ModelFieldConfig modelFieldConfig : group.getModelConfig().getModelFieldConfigList()) {
+            String ttype = modelFieldConfig.getTtype();
+            if (TtypeEnum.isRelationType(ttype)) {
+                List<Object> relationQueryDataList = new ArrayList<>();
+                for (Object item : dataList) {
+                    if (relationReadApi.isNeedQueryRelation(modelFieldConfig, item)) {
+                        relationQueryDataList.add(item);
+                    }
                 }
-            }
-        } else {
-            for (ModelFieldConfig modelFieldConfig : group.getModelConfig().getModelFieldConfigList()) {
-                String ttype = modelFieldConfig.getTtype();
-                if (TtypeEnum.isRelationType(ttype) && Boolean.TRUE.equals(modelFieldConfig.getRelationStore()) && (CollectionUtils.isNotEmpty(modelFieldConfig.getRelationFields()) || CollectionUtils.isNotEmpty(modelFieldConfig.getReferenceFields()))
-                ) {
-                    Models.origin().listFieldQuery(dataList, modelFieldConfig.getField());
+                if (!relationQueryDataList.isEmpty()) {
+                    DataShardingHelper.build().sharding(relationQueryDataList, (sublist) -> Models.origin().listFieldQuery(sublist, modelFieldConfig.getField()));
                 }
             }
         }

@@ -189,6 +189,9 @@ public class QuickFillingServiceImpl implements QuickFillingService {
 
     private Object transformMapValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         try {
+            if (value == null) {
+                return null;
+            }
             if (JsonUtils.isJSONArray(value)) {
                 return JsonUtils.parseObjectList(value);
             } else if (JsonUtils.isJSONObject(value)) {
