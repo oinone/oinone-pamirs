@@ -2,6 +2,7 @@ package pro.shushi.pamirs.draft;
 
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.annotation.Module;
+import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.base.PamirsModule;
 
 /**
@@ -9,6 +10,7 @@ import pro.shushi.pamirs.meta.base.PamirsModule;
  *
  * @author Gesi at 15:30 on 2025/9/17
  */
+@Base
 @Component
 @Module(
         name = DraftModule.MODULE_NAME,
