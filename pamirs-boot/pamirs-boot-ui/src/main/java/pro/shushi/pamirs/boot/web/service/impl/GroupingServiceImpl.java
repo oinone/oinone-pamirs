@@ -6,16 +6,14 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum;
-import pro.shushi.pamirs.boot.base.tmodel.*;
 import pro.shushi.pamirs.boot.base.enmu.GroupingExpEnumerate;
+import pro.shushi.pamirs.boot.base.tmodel.*;
+import pro.shushi.pamirs.boot.base.utils.GroupingUtils;
 import pro.shushi.pamirs.boot.web.service.GroupingService;
 import pro.shushi.pamirs.boot.web.spi.api.GroupStatisticApi;
 import pro.shushi.pamirs.boot.web.utils.GroupStatisticUtils;
+import pro.shushi.pamirs.framework.common.utils.DataShardingHelper;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.ModelFieldConfigWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -23,12 +21,15 @@ import pro.shushi.pamirs.framework.gateways.rsql.RsqlParseHelper;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
+import pro.shushi.pamirs.meta.api.core.orm.serialize.SerializeProcessor;
+import pro.shushi.pamirs.meta.api.core.orm.systems.relation.RelationReadApi;
 import pro.shushi.pamirs.meta.api.dto.condition.Order;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.condition.Sort;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
@@ -36,11 +37,13 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
+import javax.annotation.Resource;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
-import static pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum.*;
+import static pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum.COUNT;
+import static pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum.valueOf;
 
 /**
  * @author Gesi at 17:10 on 2025/9/1
@@ -49,10 +52,13 @@ import static pro.shushi.pamirs.boot.base.enmu.GroupStatisticTypeEnum.*;
 @Slf4j
 public class GroupingServiceImpl implements GroupingService {
 
-    private static final long GROUP_LAZY_LOAD_DATA_LIMIT = 300;
+    private static final long GROUP_LAZY_LOAD_DATA_LIMIT = 200;
 
     private static final TypeReference<Map<String, Object>> QUERY_DATA_TYPE_REF = new TypeReference<Map<String, Object>>() {
     };
+
+    @Resource
+    private RelationReadApi relationReadApi;
 
     @Override
     public <T> GroupResult<T> fetchGroupPage(Grouping<T> group, Pagination<T> page) {
@@ -68,16 +74,23 @@ public class GroupingServiceImpl implements GroupingService {
         }
         loadGroupBaseInfo(group);
 
-        // 构建查询条件查询数据
-        QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        addGroupExpandCondition(group, queryWrapper, expandGroupPaths, true);
         Pagination<T> paginationResult = new Pagination<>(1, -1);
-        paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
+        QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
+        // 构建查询条件查询数据
+        if (hasRelationGroupField(group)) {
+            paginationResult = loadDataListByMemory(group, new Pagination<>(1, -1), queryWrapper);
+        } else {
+            addGroupExpandCondition(group, queryWrapper, expandGroupPaths, true);
+            paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
+        }
 
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupData(new HashMap<>());
         group.setTotalDataCount(null);
-        fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
+
+        listQueryRelationFields(group, paginationResult.getContent());
+
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), null, true);
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
         for (GroupPath<T> expandGroupPath : expandGroupPaths) {
             groupResult.getExpandGroupDataStr().add(groupResult.getExpandGroupData().get(expandGroupPath));
@@ -98,16 +111,23 @@ public class GroupingServiceImpl implements GroupingService {
         GroupResult<T> groupResult = new GroupResult<>();
         groupResult.setExpandGroupStatistic(new HashMap<>());
 
-        // 先试着不查数据处理统计函数（纯sql进行统计）
-        List<GroupPath<T>> queryExpandGroupPaths = new ArrayList<>(group.getExpandGroupPaths());
-        queryExpandGroupPaths.removeIf(groupPath -> sqlQueryStatisticDataValues(group, groupResult.getExpandGroupStatistic(), groupPath));
-        if (CollectionUtils.isNotEmpty(queryExpandGroupPaths)) {
+        if (hasRelationGroupField(group)) {
             QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-            addGroupExpandCondition(group, queryWrapper, queryExpandGroupPaths, false);
             Pagination<T> paginationResult = new Pagination<>(1, -1);
-            paginationResult.setSortable(false);
             paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
-            fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction());
+            fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction(), false);
+        } else {
+            // 先试着不查数据处理统计函数（纯sql进行统计）
+            List<GroupPath<T>> queryExpandGroupPaths = new ArrayList<>(group.getExpandGroupPaths());
+            queryExpandGroupPaths.removeIf(groupPath -> sqlQueryStatisticDataValues(group, groupResult.getExpandGroupStatistic(), groupPath));
+            if (CollectionUtils.isNotEmpty(queryExpandGroupPaths)) {
+                QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
+                addGroupExpandCondition(group, queryWrapper, queryExpandGroupPaths, false);
+                Pagination<T> paginationResult = new Pagination<>(1, -1);
+                paginationResult.setSortable(false);
+                paginationResult = Models.origin().queryPage(paginationResult, parseQueryWrapper(queryWrapper));
+                fullGroupInfo(group, groupResult, paginationResult.getContent(), statisticFunction(), false);
+            }
         }
 
         groupResult.setExpandGroupDataStr(new ArrayList<>(expandGroupPaths.size()));
@@ -152,44 +172,86 @@ public class GroupingServiceImpl implements GroupingService {
 
         // 构建查询条件
         QueryWrapper<T> queryWrapper = buildPageQueryWrapper(group);
-        boolean needPagination = page.getSize() != null && page.getSize() >= 0;
-        if (needPagination) {
-            Pagination<T> pagination = addGroupPaginationCondition(group, queryWrapper, page.getCurrentPage(), page.getSize());
-            groupResult.setTotalPages(pagination.getTotalPages());
-            groupResult.setTotalElements(pagination.getTotalElements());
-        } else {
-            groupResult.setTotalPages(1);
-        }
 
-        for (GroupField groupField : group.getGroupFields()) {
-            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
-            SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
-            queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
-        }
-        Sort sort = page.getSort();
-        if (!Boolean.FALSE.equals(page.getSortable()) && sort != null && sort.getOrders() != null) {
-            for (Order order : sort.getOrders()) {
-                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(order.getField());
-                SortDirectionEnum orderType = Optional.ofNullable(order.getDirection()).orElse(SortDirectionEnum.ASC);
+        boolean hasRelationGroupField = hasRelationGroupField(group);
+        boolean needPagination = !hasRelationGroupField && page.getSize() != null && page.getSize() >= 0;
+        Pagination<T> paginationResult;
+        boolean loadData;
+
+        if (hasRelationGroupField) {
+            // 有关联字段直接查全量数据走关联字段分组处理
+            paginationResult = loadDataListByMemory(group, new Pagination<>(1, -1), queryWrapper);
+            loadData = true;
+        } else {
+            if (needPagination) {
+                Pagination<T> pagination = addGroupPaginationCondition(group, queryWrapper, page.getCurrentPage(), page.getSize());
+                groupResult.setTotalPages(pagination.getTotalPages());
+                groupResult.setTotalElements(pagination.getTotalElements());
+            } else {
+                groupResult.setTotalPages(1);
+            }
+
+            for (GroupField groupField : group.getGroupFields()) {
+                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
+                SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
                 queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
             }
+            Sort sort = page.getSort();
+            if (!Boolean.FALSE.equals(page.getSortable()) && sort != null && sort.getOrders() != null) {
+                for (Order order : sort.getOrders()) {
+                    ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(order.getField());
+                    SortDirectionEnum orderType = Optional.ofNullable(order.getDirection()).orElse(SortDirectionEnum.ASC);
+                    queryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
+                }
+            }
+            // 查询数据
+            paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
+            loadData = paginationResult.getContent().size() <= GROUP_LAZY_LOAD_DATA_LIMIT;
         }
-        // 查询数据
-        Pagination<T> paginationResult = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(queryWrapper));
+        if (loadData) {
+            listQueryRelationFields(group, paginationResult.getContent());
+        }
         group.setTotalDataCount((long) paginationResult.getContent().size());
-
-        try { // todo
-            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-            String groupTotal = ((ServletRequestAttributes) requestAttributes).getRequest().getHeader("Group-Total");
-            if (groupTotal != null && !StringUtils.isEmpty(groupTotal))
-                group.setTotalDataCount(Long.parseLong(groupTotal));
-        } catch (Exception e) {
-            group.setTotalDataCount((long) paginationResult.getContent().size());
-        }
-        fullGroupInfo(group, groupResult, paginationResult.getContent(), null);
         groupResult.setTotalDataCount(group.getTotalDataCount());
+        fullGroupInfo(group, groupResult, paginationResult.getContent(), null, loadData);
         if (!needPagination) {
             groupResult.setTotalElements(groupResult.getGroups() != null ? groupResult.getGroups().size() : 0L);
+        }
+
+        // 处理分组值防止前端报错
+        List<GroupInfo<T>> groups = groupResult.getGroups();
+        while (CollectionUtils.isNotEmpty(groups)) {
+            List<GroupInfo<T>> nextGroups = new ArrayList<>();
+            for (GroupInfo<T> groupInfo : groups) {
+                Object value = groupInfo.getValue();
+                if (value instanceof Collection) {
+                    for (Object o : ((Collection<?>) value)) {
+                        Map<?, ?> _d = null;
+                        if (o instanceof Map) {
+                            _d = (Map<?, ?>) o;
+                        } else if (o instanceof D) {
+                            _d = ((D) o).get_d();
+                        }
+                        if (_d != null) {
+                            _d.entrySet().removeIf(entry -> entry.getValue() instanceof Collection || entry.getValue() instanceof Map || entry.getValue() instanceof D);
+                        }
+                    }
+                } else if (value instanceof Map || value instanceof D) {
+                    Map<?, ?> _d;
+                    if (value instanceof Map) {
+                        _d = (Map<?, ?>) value;
+                    } else {
+                        _d = ((D) value).get_d();
+                    }
+                    if (_d != null) {
+                        _d.entrySet().removeIf(entry -> entry.getValue() instanceof Collection || entry.getValue() instanceof Map || entry.getValue() instanceof D);
+                    }
+                }
+                if (!Boolean.TRUE.equals(groupInfo.getIsLeaf()) && CollectionUtils.isNotEmpty(groupInfo.getGroups())) {
+                    nextGroups.addAll(groupInfo.getGroups());
+                }
+            }
+            groups = nextGroups;
         }
 
         return groupResult;
@@ -239,17 +301,33 @@ public class GroupingServiceImpl implements GroupingService {
                                 .map(v -> {
                                     if (TtypeEnum.MAP.value().equals(firstModelFieldConfig.getTtype())) {
                                         return JsonUtils.toJSONString(v);
+                                    } else if (TtypeEnum.YEAR.value().equals(firstModelFieldConfig.getTtype())) {
+                                        if (v instanceof Date) {
+                                            Calendar calendar = Calendar.getInstance();
+                                            calendar.setTime((Date) v);
+                                            return calendar.get(Calendar.YEAR);
+                                        }
                                     }
                                     return v;
                                 }).collect(Collectors.toList());
                 if (CollectionUtils.isNotEmpty(groupValueList)) {
+                    if (Boolean.TRUE.equals(firstModelFieldConfig.getMulti())) {
+                        List<Object> inValList = new ArrayList<>(groupValueList.size());
+                        for (Object groupValue : groupValueList) {
+                            if (groupValue instanceof Collection) {
+                                groupValue = Spider.getDefaultExtension(SerializeProcessor.class).serialize(firstModelFieldConfig.getStoreSerialize(), firstModelFieldConfig.getLtype(), groupValue);
+                            }
+                            inValList.add(groupValue);
+                        }
+                        groupValueList = inValList;
+                    }
                     andWrapper.in(firstModelFieldConfigWrapper.getColumn(), groupValueList);
                 }
                 if (needGroupNullValue) {
                     andWrapper.or().isNull(firstModelFieldConfigWrapper.getColumn());
                     if (TtypeEnum.isStringType(firstModelFieldConfig.getTtype())) {
                         andWrapper.or().eq(firstModelFieldConfigWrapper.getColumn(), "");
-                    } else if (TtypeEnum.MAP.value().equals(firstModelFieldConfig.getTtype())) {
+                    } else if (TtypeEnum.OBJ.value().equals(firstModelFieldConfig.getTtype()) || TtypeEnum.MAP.value().equals(firstModelFieldConfig.getTtype())) {
                         andWrapper.or().eq(firstModelFieldConfigWrapper.getColumn(), "").or().eq(firstModelFieldConfigWrapper.getColumn(), JsonUtils.toJSONString(new LinkedHashMap<>()));
                     }
                 }
@@ -283,6 +361,10 @@ public class GroupingServiceImpl implements GroupingService {
                                 }
                             } else if (value instanceof Collection) {
                                 pathAndWrapper.eq(column, JsonUtils.toJSONString(value));
+                            } else if (TtypeEnum.YEAR.value().equals(modelFieldConfig.getTtype()) && value instanceof Date) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTime((Date) value);
+                                pathAndWrapper.eq(column, calendar.get(Calendar.YEAR));
                             } else {
                                 pathAndWrapper.eq(column, value);
                             }
@@ -330,7 +412,7 @@ public class GroupingServiceImpl implements GroupingService {
     /**
      * 根据分组数据填充分组信息
      */
-    private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, BiConsumer<Grouping<T>, GroupInfo<T>> statisticConsumer) {
+    private <T> void fullGroupInfo(Grouping<T> group, GroupResult<T> groupResult, List<T> dataList, BiConsumer<Grouping<T>, GroupInfo<T>> statisticConsumer, boolean loadData) {
         List<GroupField> groupFields = group.getGroupFields();
 
         Map<GroupPath<T>, Map<String, String>> statisticPathMap;
@@ -456,7 +538,7 @@ public class GroupingServiceImpl implements GroupingService {
         for (GroupPath<T> lastGroupPath : lastGroupPathList) {
             GroupInfo<T> lastGroupInfo = groupPathMap.get(lastGroupPath);
             lastGroupInfo.setIsLeaf(true);
-            if (lastGroupInfo.getDataList() != null && group.getTotalDataCount() != null && group.getTotalDataCount() <= GROUP_LAZY_LOAD_DATA_LIMIT) {
+            if (lastGroupInfo.getDataList() != null && loadData) {
                 lastGroupInfo.setDataListStr(lastGroupInfo.getDataList() != null ? PamirsDataUtils.toJSONString(group.getModel(), lastGroupInfo.getDataList()) : null);
             }
         }
@@ -465,6 +547,9 @@ public class GroupingServiceImpl implements GroupingService {
         moveGroupNullValueToLast(group, groupResult.getGroups());
     }
 
+    /**
+     * 统计函数
+     */
     private <T> BiConsumer<Grouping<T>, GroupInfo<T>> statisticFunction() {
         return (group, groupInfo) -> {
             Map<String, Object> dataStatistic = groupInfo.getDataStatistic();
@@ -474,6 +559,13 @@ public class GroupingServiceImpl implements GroupingService {
                 statisticFieldMap.forEach((statisticField, statisticType) -> {
                     GroupStatisticTypeEnum statisticTypeEnum = valueOf(statisticType);
                     List<T> dataList = groupInfo.getDataList();
+                    ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(statisticField);
+                    if (GroupingUtils.isMemoryGroupField(modelFieldConfig) && !Boolean.TRUE.equals(modelFieldConfig.getStore())) {
+                        List<T> notNullDataList = dataList.stream().filter(Objects::nonNull).collect(Collectors.toList());
+                        if (CollectionUtils.isNotEmpty(notNullDataList)) {
+                            Models.origin().listFieldQuery(notNullDataList, modelFieldConfig.getField());
+                        }
+                    }
                     List<?> fieldDataList;
                     if (dataList != null) {
                         fieldDataList = dataList.stream().map(data -> {
@@ -501,6 +593,9 @@ public class GroupingServiceImpl implements GroupingService {
         };
     }
 
+    /**
+     * 将空分组值放在当前分组最后面
+     */
     private <T> void moveGroupNullValueToLast(Grouping<T> group, List<GroupInfo<T>> groups) {
         if (CollectionUtils.isNotEmpty(groups)) {
             GroupInfo<T> groupInfo = groups.get(0);
@@ -525,6 +620,9 @@ public class GroupingServiceImpl implements GroupingService {
         statisticFieldMap.entrySet().removeIf(e -> e.getValue() == null || GroupStatisticTypeEnum.NONE.getValue().equals(e.getValue()));
         if (MapUtils.isEmpty(statisticFieldMap)) {
             return true;
+        }
+        if (statisticFieldMap.keySet().stream().map(group::getModelFieldConfig).anyMatch(GroupingUtils::isMemoryGroupField)) {
+            return false;
         }
         // 以下为sql可以处理的统计函数
         Set<GroupStatisticTypeEnum> totalStatisticTypes = statisticFieldMap.values().stream().map(GroupStatisticTypeEnum::valueOf).collect(Collectors.toSet());
@@ -581,7 +679,7 @@ public class GroupingServiceImpl implements GroupingService {
                     selectList.add("SUM(" + column + ") AS " + fieldUpperCase + "_SUM");
                     break;
                 case AVERAGE:
-                    selectList.add("AVG(" + column + ") AS " + fieldUpperCase + "_AVERAGE");
+                    selectList.add("SUM(" + column + ") / COUNT(1) AS " + fieldUpperCase + "_AVERAGE");
                     break;
                 case MIN:
                     selectList.add("MIN(" + column + ") AS " + fieldUpperCase + "_MIN");
@@ -630,9 +728,11 @@ public class GroupingServiceImpl implements GroupingService {
                 }
                 case SUM:
                     statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_SUM");
+                    statisticValue = GroupStatisticUtils.formatNumber(statisticValue, 2);
                     break;
                 case AVERAGE:
                     statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_AVERAGE");
+                    statisticValue = GroupStatisticUtils.formatNumber(statisticValue, 2);
                     break;
                 case MIN:
                     statisticValue = FieldUtils.getFieldValue(data, fieldUpperCase + "_MIN");
@@ -650,10 +750,72 @@ public class GroupingServiceImpl implements GroupingService {
     }
 
     /**
-     * 内存加载按分组数据
+     * 内存加载所有数据
      */
-    private <T> Pagination<T> loadDataListByMemory(Grouping<T> group, Pagination<T> pagination, QueryWrapper<T> pageQueryWrapper, List<GroupPath<T>> expandGroupPaths) {
+    private <T> Pagination<T> loadDataListByMemory(Grouping<T> group, Pagination<T> page, QueryWrapper<T> pageQueryWrapper) {
+        for (GroupField groupField : group.getGroupFields()) {
+            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
+            if (!GroupingUtils.isMemoryGroupField(modelFieldConfig)) {
+                SortDirectionEnum orderType = Optional.ofNullable(groupField.getOrderType()).orElse(SortDirectionEnum.ASC);
+                pageQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
+            }
+        }
+        Sort sort = page.getSort();
+        if (!Boolean.FALSE.equals(page.getSortable()) && sort != null && sort.getOrders() != null) {
+            for (Order order : sort.getOrders()) {
+                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(order.getField());
+                SortDirectionEnum orderType = Optional.ofNullable(order.getDirection()).orElse(SortDirectionEnum.ASC);
+                pageQueryWrapper.orderBy(true, SortDirectionEnum.ASC.equals(orderType), Configs.wrap(modelFieldConfig).getColumn());
+            }
+        }
+
+        Pagination<T> pagination = Models.origin().queryPage(new Pagination<>(1, -1), parseQueryWrapper(pageQueryWrapper));
+        if (CollectionUtils.isNotEmpty(pagination.getContent())) {
+            for (GroupField groupField : group.getGroupFields()) {
+                ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
+                if (GroupingUtils.isMemoryGroupField(modelFieldConfig) && !Boolean.TRUE.equals(modelFieldConfig.getStore())) {
+                    List<T> dataList = Models.origin().listFieldQuery(pagination.getContent(), modelFieldConfig.getField());
+                    pagination.setContent(dataList);
+                }
+            }
+        }
         return pagination;
+    }
+
+    private boolean hasRelationGroupField(Grouping<?> group) {
+        boolean hasRelationGroupField = false;
+        for (GroupField groupField : group.getGroupFields()) {
+            ModelFieldConfig modelFieldConfig = group.getModelFieldConfig(groupField.getField());
+            if (GroupingUtils.isMemoryGroupField(modelFieldConfig)) {
+                hasRelationGroupField = true;
+                break;
+            }
+        }
+        return hasRelationGroupField;
+    }
+
+    /**
+     * 填充dataList里的引用字段
+     */
+    private void listQueryRelationFields(Grouping<?> group, List<?> dataList) {
+        if (CollectionUtils.isEmpty(dataList)) {
+            return;
+        }
+        for (ModelFieldConfig modelFieldConfig : group.getModelConfig().getModelFieldConfigList()) {
+            String ttype = modelFieldConfig.getTtype();
+            if (TtypeEnum.isRelationType(ttype)) {
+                List<Object> relationQueryDataList = new ArrayList<>();
+                for (Object item : dataList) {
+                    if (relationReadApi.isNeedQueryRelation(modelFieldConfig, item)) {
+                        relationQueryDataList.add(item);
+                    }
+                }
+                if (!relationQueryDataList.isEmpty()) {
+                    String field = modelFieldConfig.getField();
+                    DataShardingHelper.build().sharding(relationQueryDataList, (sublist) -> Models.origin().listFieldQuery(sublist, field));
+                }
+            }
+        }
     }
 
 }

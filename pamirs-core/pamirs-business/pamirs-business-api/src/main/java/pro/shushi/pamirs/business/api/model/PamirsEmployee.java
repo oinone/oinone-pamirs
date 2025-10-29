@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.business.api.model;
 
 import pro.shushi.pamirs.auth.api.model.AuthRole;
+import pro.shushi.pamirs.boot.web.constants.BusinessModelConstants;
 import pro.shushi.pamirs.business.api.entity.PamirsCompany;
 import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
 import pro.shushi.pamirs.business.api.model.relation.EmployeeRelRole;
@@ -25,7 +26,7 @@ public class PamirsEmployee extends BizCodeModel implements IDataStatus {
 
     private static final long serialVersionUID = 8113683057737732596L;
 
-    public static final String MODEL_MODEL = "business.PamirsEmployee";
+    public static final String MODEL_MODEL = BusinessModelConstants.EMPLOYEE;
 
     public static final UniqueKeyGenerator<PamirsEmployee, String> UNIQUE_KEY_GENERATOR = PamirsEmployee::getCode;
 

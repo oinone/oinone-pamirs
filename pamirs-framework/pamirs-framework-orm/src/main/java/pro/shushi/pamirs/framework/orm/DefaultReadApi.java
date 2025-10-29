@@ -10,7 +10,6 @@ import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.orm.helper.QueryFieldColumnsHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
-import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.PamirsMapperConfigurationProxy;
 import pro.shushi.pamirs.meta.api.core.orm.ReadApi;
@@ -46,7 +45,6 @@ import static pro.shushi.pamirs.meta.enmu.FunctionOpenEnum.*;
  * @version 1.0.0
  * date 2020/1/18 2:11 下午
  */
-@Slf4j
 @Fun(BaseModel.MODEL_MODEL)
 @Component
 public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, FunctionConstants {

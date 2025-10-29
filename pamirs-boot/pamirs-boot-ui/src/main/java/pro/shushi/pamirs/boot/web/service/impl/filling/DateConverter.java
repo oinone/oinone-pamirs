@@ -1,10 +1,9 @@
 package pro.shushi.pamirs.boot.web.service.impl.filling;
 
-import org.springframework.stereotype.Service;
-import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.DateUtils;
@@ -16,40 +15,30 @@ import java.util.Date;
 /**
  * @author Gesi at 9:35 on 2025/9/11
  */
-@Service
+@Slf4j
 public class DateConverter extends AbstractValueConverter implements QuickFillingValueConverter {
 
-    @Override
-    public boolean canTransform(TtypeEnum ttype) {
-        return TtypeEnum.isDateType(ttype.value());
-    }
+    public static final QuickFillingValueConverter INSTANCE = new DateConverter();
 
     @Override
     public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
         Date date;
         try {
             date = getDate(value, quickFillingField);
         } catch (Exception e) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+            failureDetail.fail();
+            log.error("quick filling date value convert error. field: {}, value: {}", quickFillingField.getField(), value, e);
             return null;
-        }
-
-        String ltype = Boolean.TRUE.equals(modelFieldConfig.getMulti()) ? modelFieldConfig.getLtypeT() : modelFieldConfig.getLtype();
-        if (java.sql.Date.class.getName().equals(ltype)) {
-            return new java.sql.Date(date.getTime());
-        } else if (java.sql.Timestamp.class.getName().equals(ltype)) {
-            return new java.sql.Timestamp(date.getTime());
-        } else if (java.sql.Time.class.getName().equals(ltype)) {
-            return new java.sql.Time(date.getTime());
         }
         return date;
     }
 
-
     private Date getDate(String value, QuickFillingField quickFillingField) {
         ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
-        String ttype = Boolean.TRUE.equals(modelFieldConfig.getMulti()) ? modelFieldConfig.getLtypeT() : modelFieldConfig.getLtype();
+        String ttype = modelFieldConfig.getTtype();
+        if (TtypeEnum.RELATED.value().equals(ttype)) {
+            ttype = modelFieldConfig.getRelatedTtype();
+        }
 
         Date date = null;
         if (TtypeEnum.YEAR.value().equals(ttype)) {

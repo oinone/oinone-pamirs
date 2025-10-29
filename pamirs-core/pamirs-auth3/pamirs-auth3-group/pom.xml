@@ -6,7 +6,7 @@
     <parent>
         <artifactId>pamirs-auth3</artifactId>
         <groupId>pro.shushi.pamirs.core</groupId>
-        <version>6.3.2</version>
+        <version>6.3.3</version>
     </parent>
 
     <artifactId>pamirs-auth3-group</artifactId>

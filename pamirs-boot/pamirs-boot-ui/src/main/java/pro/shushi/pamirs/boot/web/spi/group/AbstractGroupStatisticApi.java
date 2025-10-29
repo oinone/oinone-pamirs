@@ -8,10 +8,7 @@ import pro.shushi.pamirs.boot.web.utils.GroupStatisticUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,7 +27,12 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
         if (CollectionUtils.isEmpty(dataList)) {
             return 0;
         }
-        return dataList.stream().filter(Objects::nonNull).count();
+        return dataList.stream()
+                .filter(Objects::nonNull)
+                .filter(i -> !i.equals(""))
+                .filter(i -> (!(i instanceof Map) || !((Map<?, ?>) i).isEmpty()))
+                .filter(i -> (!(i instanceof Collection) || !((Collection<?>) i).isEmpty()))
+                .count();
     }
 
     protected long notFilled(List<?> dataList) {
@@ -44,7 +46,26 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
         if (CollectionUtils.isEmpty(dataList)) {
             return 0;
         }
-        return dataList.stream().distinct().count();
+        return dataList.stream().map(i -> {
+            if ("".equals(i)) {
+                return null;
+            } else if (i instanceof Number) {
+                if (i instanceof BigDecimal) {
+                    return ((BigDecimal) i).stripTrailingZeros().toPlainString();
+                } else {
+                    return i.toString();
+                }
+            } else if (i instanceof Map && ((Map<?, ?>) i).isEmpty()) {
+                return null;
+            } else if (i instanceof Collection) {
+                if (((Collection<?>) i).isEmpty()) {
+                    return null;
+                } else {
+                    return new HashSet<>((Collection<?>) i);
+                }
+            }
+            return i;
+        }).filter(Objects::nonNull).distinct().count();
     }
 
     protected Pair<Date, Date> earliestTimeAndLatestTime(List<?> dataList) {
@@ -73,8 +94,11 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
     }
 
     protected BigDecimal avg(List<BigDecimal> list) {
-        return sum(list).divide(
-                BigDecimal.valueOf(list.size()), RoundingMode.HALF_UP);
+        return (BigDecimal) GroupStatisticUtils.formatNumber(
+                sum(list).divide(
+                        BigDecimal.valueOf(list.size()), RoundingMode.HALF_UP),
+                2
+        );
     }
 
     protected BigDecimal max(List<BigDecimal> list) {
@@ -98,11 +122,11 @@ public abstract class AbstractGroupStatisticApi implements GroupStatisticApi {
         int mid = size / 2;
 
         if (size % 2 == 1) {
-            return values.get(mid);
+            return (BigDecimal) GroupStatisticUtils.formatNumber(values.get(mid), 2);
         } else {
             BigDecimal a = values.get(mid - 1);
             BigDecimal b = values.get(mid);
-            return a.add(b).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+            return (BigDecimal) GroupStatisticUtils.formatNumber(a.add(b).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP), 2);
         }
     }
 

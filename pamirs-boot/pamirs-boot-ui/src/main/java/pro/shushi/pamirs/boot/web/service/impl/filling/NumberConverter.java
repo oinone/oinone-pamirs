@@ -1,8 +1,6 @@
 package pro.shushi.pamirs.boot.web.service.impl.filling;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
@@ -16,18 +14,14 @@ import java.math.RoundingMode;
 /**
  * @author Gesi at 9:35 on 2025/9/11
  */
-@Service
 public class NumberConverter extends AbstractValueConverter implements QuickFillingValueConverter {
 
-    @Override
-    public boolean canTransform(TtypeEnum ttype) {
-        return TtypeEnum.isNumericType(ttype.value()) || TtypeEnum.MONEY.equals(ttype);
-    }
+    public static final QuickFillingValueConverter INSTANCE = new NumberConverter();
 
     @Override
     public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
         if (!originIsNumber(value)) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+            failureDetail.fail();
             return null;
         }
 
@@ -36,7 +30,7 @@ public class NumberConverter extends AbstractValueConverter implements QuickFill
 
         Object returnValue = numberCaseModelValue(number, modelConfigField);
         if (returnValue == null) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+            failureDetail.fail();
         }
         return returnValue;
     }

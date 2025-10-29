@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
+import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.base.BaseModel;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
@@ -22,7 +23,11 @@ public interface SingletonModel<T extends BaseModel> {
         }
         if (t == null) {
             QueryWrapper<T> wrapper = Pops.<T>query().from(this.getClass());
-            List<T> tList = new BaseModel().queryList(wrapper);
+            Pagination<T> pagination = new Pagination<>();
+            pagination.setModel(wrapper.getModel())
+                    .setSize(1L)
+                    .setCurrentPage(1);
+            List<T> tList = new BaseModel().queryListByWrapper(pagination, wrapper);
             if (tList == null || tList.size() == 0) {
                 return null;
             } else {

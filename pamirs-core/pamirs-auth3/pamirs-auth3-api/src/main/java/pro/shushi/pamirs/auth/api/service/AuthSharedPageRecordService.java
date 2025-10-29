@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.auth.api.service;
 
-import pro.shushi.pamirs.auth.api.model.AuthSharedPageRecord;
+import pro.shushi.pamirs.auth.api.model.shared.AuthSharedPageRecord;
 import pro.shushi.pamirs.core.common.standard.service.StandardModelService;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.update.LambdaUpdateWrapper;

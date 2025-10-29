@@ -300,7 +300,7 @@ public class MetaData {
         if (null == functionDefinition) {
             return;
         }
-        ModelDefinition modelDefinition = (ModelDefinition) Optional.of(data.get(ModelDefinition.MODEL_MODEL))
+        ModelDefinition modelDefinition = (ModelDefinition) Optional.ofNullable(data.get(ModelDefinition.MODEL_MODEL))
                 .map(v -> v.get(namespace)).orElse(null);
         if (null != modelDefinition) {
             if (null == modelDefinition.getFunctions()) {

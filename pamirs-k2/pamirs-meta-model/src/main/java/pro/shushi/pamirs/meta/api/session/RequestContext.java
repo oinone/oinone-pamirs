@@ -327,14 +327,19 @@ public class RequestContext implements Serializable {
                 excludeHooksForModule = moduleDefinition.getExcludeHooks();
             }
         }
+        boolean predictFunctionType = !CollectionUtils.isEmpty(functionType);
         for (Hook hook : allHooks) {
+            if (null != type && !hook.getHookType().equals(type)) {
+                continue;
+            }
             if (null != excludeHooks && excludeHooks.contains(hook.getExecuteNamespace())) {
                 continue;
             }
-            if (!CollectionUtils.isEmpty(functionType) && !CollectionUtils.isEmpty(hook.getFunctionTypes())) {
-                Set<FunctionTypeEnum> typeSet = new HashSet<>(hook.getFunctionTypes());
+            List<FunctionTypeEnum> hookFunctionTypes = hook.getFunctionTypes();
+            if (predictFunctionType && !CollectionUtils.isEmpty(hookFunctionTypes)) {
+                Set<FunctionTypeEnum> typeSet = new HashSet<>(hookFunctionTypes);
                 typeSet.retainAll(functionType);
-                if (typeSet.size() == hook.getFunctionTypes().size()) {
+                if (typeSet.isEmpty()) {
                     continue;
                 }
             }
@@ -342,9 +347,6 @@ public class RequestContext implements Serializable {
                 continue;
             }
             if (hasCurrentModule && !CollectionUtils.isEmpty(hook.getModule()) && !hook.getModule().contains(module)) {
-                continue;
-            }
-            if (null != type && !hook.getHookType().equals(type)) {
                 continue;
             }
             if (StringUtils.isNotBlank(model) && !CollectionUtils.isEmpty(hook.getModel()) && !hook.getModel().contains(model)) {

@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.business.api.entity;
 
 import pro.shushi.pamirs.boot.base.resource.PamirsFile;
+import pro.shushi.pamirs.boot.web.constants.BusinessModelConstants;
 import pro.shushi.pamirs.business.api.enumeration.StaffSizeEnum;
 import pro.shushi.pamirs.business.api.enumeration.TeamAuthEnum;
 import pro.shushi.pamirs.business.api.enumeration.TeamType;
@@ -30,7 +31,7 @@ public class PamirsCompany extends PamirsPartner implements IDataStatus {
 
     private static final long serialVersionUID = -4241435982340928124L;
 
-    public static final String MODEL_MODEL = "business.PamirsCompany";
+    public static final String MODEL_MODEL = BusinessModelConstants.COMPANY;
 
     @Field.many2one
     @Field.Relation(relationFields = {"parentCode"}, referenceFields = {"code"})

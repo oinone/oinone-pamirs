@@ -1,8 +1,6 @@
 package pro.shushi.pamirs.boot.web.service.impl.filling;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import pro.shushi.pamirs.boot.base.enmu.QuickFillingFailCodeEnum;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
 import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
 import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
@@ -11,10 +9,8 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
-import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -22,19 +18,14 @@ import java.util.stream.Collectors;
 /**
  * @author Gesi at 9:35 on 2025/9/11
  */
-@Service
 public class M2MConverter extends AbstractValueConverter implements QuickFillingValueConverter {
 
-    @Override
-    public boolean canTransform(TtypeEnum ttype) {
-        return TtypeEnum.M2M.equals(ttype) || TtypeEnum.O2M.equals(ttype);
-    }
+    public static final QuickFillingValueConverter INSTANCE = new M2MConverter();
 
     @Override
     public Object transformObjectValue(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
         if (StringUtils.isBlank(value)) {
-            return getFieldCollection(modelFieldConfig);
+            return new ArrayList<>();
         }
         QueryWrapper<Object> relationQueryWrapper = getRelationQueryWrapper(quickFillingField, true);
         String relationModel = relationQueryWrapper.getModel();
@@ -50,12 +41,10 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
 
         List<Object> relationList = Models.origin().queryListByWrapper(relationQueryWrapper);
         if (relationQueryNum.get() != relationList.size()) {
-            failureDetail.fail(QuickFillingFailCodeEnum.QUERY_NUMBER_NOT_MATCH, "查询结果数量与传入数量不匹配");
+            failureDetail.fail("查询结果数量与传入数量不匹配");
             return null;
         }
-        Collection<Object> relationCollection = getFieldCollection(modelFieldConfig);
-        relationCollection.addAll(relationList);
-        return relationCollection;
+        return relationList;
     }
 
     private int fillQueryWrapperCondition(String relationModel, QueryWrapper<Object> queryWrapper, QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
@@ -79,7 +68,7 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
             }
 
             if (valueSearchPartList.length > relationSelectFieldConfigs.size()) {
-                failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+                failureDetail.fail();
                 return 0;
             }
             queryWrapper.or(orWrapper -> {
@@ -97,7 +86,7 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
         }
 
         if (relationQueryNum == 0) {
-            failureDetail.fail(QuickFillingFailCodeEnum.TYPE_INCOMPATIBLE);
+            failureDetail.fail();
             return 0;
         }
 

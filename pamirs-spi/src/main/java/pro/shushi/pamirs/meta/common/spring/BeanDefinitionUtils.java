@@ -60,6 +60,9 @@ public class BeanDefinitionUtils implements ApplicationContextAware {
     }
 
     public static <T> T getBean(Class<T> clazz) {
+        if (null == applicationContext) {
+            return null;
+        }
         return applicationContext.getBean(clazz);
     }
 

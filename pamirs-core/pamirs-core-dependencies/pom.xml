@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-core</artifactId>
-        <version>6.3.2</version>
+        <version>6.3.3</version>
     </parent>
     <groupId>pro.shushi.pamirs.core</groupId>
     <artifactId>pamirs-core-dependencies</artifactId>
@@ -19,6 +19,11 @@
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-core-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-draft</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -168,13 +173,6 @@
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-sso</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-draft</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
