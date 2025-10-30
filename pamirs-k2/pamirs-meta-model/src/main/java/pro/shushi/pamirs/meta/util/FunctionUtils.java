@@ -113,11 +113,21 @@ public class FunctionUtils {
                 log.warn(EnumUtils.error(BASE_FETCH_METHOD_ERROR) + ", method: {}", methodSign);
             }
             if (null == method) {
+                Method firstMatchMethod = null;
+                int argCount = argClasses.length;
                 for (Method tempMethod : clazz.getMethods()) {
                     if (tempMethod.getName().equals(methodName)) {
-                        method = tempMethod;
-                        break;
+                        if (tempMethod.getParameterTypes().length == argCount) {
+                            method = tempMethod;
+                            break;
+                        }
+                        if (firstMatchMethod == null) {
+                            firstMatchMethod = tempMethod;
+                        }
                     }
+                }
+                if (method == null) {
+                    method = firstMatchMethod;
                 }
             }
             if (null != method) {
