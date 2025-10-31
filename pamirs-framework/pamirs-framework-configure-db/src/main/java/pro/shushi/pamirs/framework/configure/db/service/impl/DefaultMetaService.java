@@ -143,7 +143,7 @@ public class DefaultMetaService implements MetaService {
         }
         // 装载元数据
         for (String model : sortModelSet(resIdMap.keySet())) {
-            loadMetaDataForModel(metaData, model, resIdMap, modelDataMap.get(model), directive);
+            loadMetaDataForModel(metaData, module, model, resIdMap, modelDataMap.get(model), directive);
         }
         return metaData;
     }
@@ -161,6 +161,7 @@ public class DefaultMetaService implements MetaService {
     }
 
     protected void loadMetaDataForModel(MetaData metaData,
+                                        String module,
                                         String model,
                                         Map<String, List<Long>> resIdMap,
                                         Map<Long, ModelData> modelDataMap,
@@ -173,9 +174,8 @@ public class DefaultMetaService implements MetaService {
         List<DataMap> dataMapList;
         if (log.isDebugEnabled()) {
             long start = System.currentTimeMillis();
-            log.debug("loadMetaDataMapList model: {}, size: {}", model, ids.size());
             dataMapList = loadMetaDataMapList(model, ids);
-            log.debug("loadMetaDataMapList cost time: {}ms", System.currentTimeMillis() - start);
+            log.debug("[{}] load metadata model: {}, size: {}, cost time: {}ms", module, model, ids.size(), System.currentTimeMillis() - start);
         } else {
             dataMapList = loadMetaDataMapList(model, ids);
         }
