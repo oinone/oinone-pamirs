@@ -6,6 +6,11 @@ package pro.shushi.pamirs.eip.api.service.distribution;
 public interface EipDistributionService {
 
     /**
+     * 是否启动分布式
+     */
+    boolean isStart();
+
+    /**
      * 开启分布式支持
      */
     void start() throws Exception;

@@ -29,6 +29,7 @@ import pro.shushi.pamirs.middleware.zookeeper.service.ZookeeperService;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * EIP 分布式支持
@@ -49,6 +50,13 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
 
     private final Map<String, TreeCache> treeCacheMap = new ConcurrentHashMap<>();
 
+    private final AtomicBoolean isStart = new AtomicBoolean(false);
+
+    @Override
+    public boolean isStart() {
+        return isStart.get();
+    }
+
     @Override
     public synchronized void start() throws Exception {
         zookeeperService.start();
@@ -56,6 +64,7 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
             close();
         }
         registerListeners();
+        isStart.set(true);
     }
 
     @Override
@@ -64,6 +73,7 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
             entry.getValue().close();
         }
         treeCacheMap.clear();
+        isStart.set(false);
     }
 
     @Override
