@@ -117,7 +117,14 @@ public class DefaultMetaService implements MetaService {
     public MetaData loadMetaData(String module, Consumer<MetaBaseModel> directive) {
         MetaData metaData = new MetaData();
         List<String> metaModels = metaModelFetcher.fetchMetaModels();
-        List<ModelDataStatic> modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
+        List<ModelDataStatic> modelDataList;
+        if (log.isDebugEnabled()) {
+            long start = System.currentTimeMillis();
+            modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
+            log.debug("query {} metadata [{}] cost time: {}ms", module, modelDataList.size(), System.currentTimeMillis() - start);
+        } else {
+            modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
+        }
         Map<String, List<Long>> resIdMap = new HashMap<>();
         Map<String, Map<Long, ModelData>> modelDataMap = new HashMap<>();
         for (ModelData modelData : modelDataList) {
