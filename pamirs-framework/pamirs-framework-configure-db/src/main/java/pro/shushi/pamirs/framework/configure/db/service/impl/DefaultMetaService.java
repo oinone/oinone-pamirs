@@ -40,14 +40,12 @@ import pro.shushi.pamirs.meta.domain.ModelData;
 import pro.shushi.pamirs.meta.domain.module.ModuleCategory;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
-import pro.shushi.pamirs.meta.util.ParallelStreamHelper;
 
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static pro.shushi.pamirs.meta.annotation.sys.MetaSimulator.SIMULATE_PREFIX;
 
@@ -197,9 +195,11 @@ public class DefaultMetaService implements MetaService {
             return genericMapper.selectList(Pops.<DataMap>query().from(model).in(FieldConstants.ID, ids));
         }
         List<List<Long>> idsGroups = DataShardingHelper.build(eachShardMax).sharding(ids);
-        return ParallelStreamHelper.parallelStream(idsGroups)
-                .flatMap(sublist -> genericMapper.selectList(Pops.<DataMap>query().from(model).in(FieldConstants.ID, sublist)).stream())
-                .collect(Collectors.toList());
+        List<DataMap> results = new ArrayList<>();
+        for (List<Long> idsGroup : idsGroups) {
+            results.addAll(genericMapper.selectList(Pops.<DataMap>query().from(model).in(FieldConstants.ID, idsGroup)));
+        }
+        return results;
     }
 
     private void crossingLoadMetaData(Map<String, MetaData> metaDataMap, Set<String> runModuleSet, String module) {
