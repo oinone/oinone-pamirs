@@ -142,7 +142,11 @@ public class DefaultMetaService implements MetaService {
 
         // 装载元数据
         start = System.currentTimeMillis();
-        for (String model : sortModelSet(resIdMap.keySet())) {
+        Set<String> sortedModels = sortModelSet(resIdMap.keySet());
+        log.debug("[{}] get sorted models set cost time: {}", module, System.currentTimeMillis() - start);
+
+        start = System.currentTimeMillis();
+        for (String model : sortedModels) {
             long start1 = System.currentTimeMillis();
             loadMetaDataForModel(metaData, module, model, resIdMap, modelDataMap.get(model), directive);
             log.debug("[{}] load metadata model: {}, cost time: {}ms", module, model, System.currentTimeMillis() - start1);
