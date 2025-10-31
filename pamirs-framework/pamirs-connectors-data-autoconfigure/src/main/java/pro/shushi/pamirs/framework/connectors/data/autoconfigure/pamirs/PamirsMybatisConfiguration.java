@@ -2,7 +2,6 @@ package pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisMapperRegistry;
-import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.executor.MybatisBatchExecutor;
 import com.baomidou.mybatisplus.core.executor.MybatisCachingExecutor;
@@ -27,6 +26,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.Transaction;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.debug.MybatisDebugSimpleExecutor;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.dialect.StatementHandlerGeneratorDialect;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsModelBeanWrapper;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsModelMapWrapper;
@@ -183,7 +183,11 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
         } else if (ExecutorType.REUSE == executorType) {
             executor = new MybatisReuseExecutor(this, transaction);
         } else {
-            executor = new MybatisSimpleExecutor(this, transaction);
+            if (logger.isDebugEnabled()) {
+                executor = new MybatisDebugSimpleExecutor(this, transaction);
+            } else {
+                executor = new MybatisSimpleExecutor(this, transaction);
+            }
         }
         if (cacheEnabled) {
             executor = new MybatisCachingExecutor(executor);

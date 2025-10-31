@@ -117,7 +117,7 @@ public class DefaultMetaService implements MetaService {
         if (log.isDebugEnabled()) {
             long start = System.currentTimeMillis();
             modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
-            log.debug("query {} metadata [{}] cost time: {}ms", module, modelDataList.size(), System.currentTimeMillis() - start);
+            log.debug("[{}] query model data. size: {}, cost time: {}ms", module, modelDataList.size(), System.currentTimeMillis() - start);
         } else {
             modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
         }
@@ -176,6 +176,7 @@ public class DefaultMetaService implements MetaService {
             dataMapList = loadMetaDataMapList(model, ids);
         }
 
+        long start = System.currentTimeMillis();
         List<MetaBaseModel> dataList = persistenceDataConverter.out(model, dataMapList);
         MetaDataLoadExtend metaDataLoadExtend = Spider.getDefaultExtension(MetaDataLoadExtend.class);
         DiffService diffService = Spider.getDefaultExtension(DiffService.class);
@@ -187,6 +188,7 @@ public class DefaultMetaService implements MetaService {
             diffService.hash(data);
             metaData.addData(data);
         }
+        log.debug("[{}] load metadata model after: {}, cost time: {}ms", module, model, System.currentTimeMillis() - start);
     }
 
     protected List<DataMap> loadMetaDataMapList(String model, List<Long> ids) {
