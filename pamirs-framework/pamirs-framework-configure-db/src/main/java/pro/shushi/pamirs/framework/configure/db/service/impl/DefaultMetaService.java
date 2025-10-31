@@ -83,7 +83,7 @@ public class DefaultMetaService implements MetaService {
     @Override
     public Map<String, MetaData> loadMetaDataMap(Set<String> modules, Consumer<MetaBaseModel> directive, Supplier<Boolean> preAction) {
         return metaSimulateService.transientStaticExecute(MetaSimulator.simulate(), () -> {
-            Map<String, MetaData> metaDataMap = new ConcurrentHashMap<>(modules.size());
+            Map<String, MetaData> metaDataMap = new HashMap<>(modules.size());
 
             String dsKey = DsApi.get().baseDsKey(ModelData.MODEL_MODEL);
             String modelDataTableName = DataPrefixManager.tablePrefix(ModuleConstants.MODULE_BASE, ModelData.MODEL_MODEL, ModelData.TABLE_NAME);
@@ -98,11 +98,11 @@ public class DefaultMetaService implements MetaService {
             for (String module : modules) {
                 long start = System.currentTimeMillis();
                 MetaData metaData = loadMetaData(module, directive);
+                long end = System.currentTimeMillis();
+                log.info("[{}]模块,装载元数据,time:[{}]ms", module, end - start);
                 if (null != metaData) {
                     metaDataMap.putIfAbsent(module, metaData);
                 }
-                long end = System.currentTimeMillis();
-                log.info("[{}]模块,装载元数据,time:[{}]ms", module, end - start);
             }
 
             return metaDataMap;
@@ -121,6 +121,8 @@ public class DefaultMetaService implements MetaService {
         } else {
             modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
         }
+
+        long start = System.currentTimeMillis();
         Map<String, List<Long>> resIdMap = new HashMap<>();
         Map<String, Map<Long, ModelData>> modelDataMap = new HashMap<>();
         for (ModelData modelData : modelDataList) {
@@ -137,10 +139,14 @@ public class DefaultMetaService implements MetaService {
                 metaData.addCrossingExtendData(model, sign, modelData.getModule());
             }
         }
+        log.debug("[{}] compute modelDataMap cost time: {}", module, System.currentTimeMillis() - start);
+
         // 装载元数据
+        start = System.currentTimeMillis();
         for (String model : sortModelSet(resIdMap.keySet())) {
             loadMetaDataForModel(metaData, module, model, resIdMap, modelDataMap.get(model), directive);
         }
+        log.debug("[{}] load metadata model all cost time: {}", module, System.currentTimeMillis() - start);
         return metaData;
     }
 
