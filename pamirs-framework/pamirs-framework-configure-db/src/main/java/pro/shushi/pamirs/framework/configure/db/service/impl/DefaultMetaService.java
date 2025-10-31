@@ -43,7 +43,6 @@ import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -144,7 +143,9 @@ public class DefaultMetaService implements MetaService {
         // 装载元数据
         start = System.currentTimeMillis();
         for (String model : sortModelSet(resIdMap.keySet())) {
+            long start1 = System.currentTimeMillis();
             loadMetaDataForModel(metaData, module, model, resIdMap, modelDataMap.get(model), directive);
+            log.debug("[{}] load metadata model: {}, cost time: {}ms", module, model, System.currentTimeMillis() - start1);
         }
         log.debug("[{}] load metadata model all cost time: {}", module, System.currentTimeMillis() - start);
         return metaData;
@@ -172,17 +173,7 @@ public class DefaultMetaService implements MetaService {
         if (CollectionUtils.isEmpty(ids) || MapUtils.isEmpty(modelDataMap)) {
             return;
         }
-
-        List<DataMap> dataMapList;
-        if (log.isDebugEnabled()) {
-            long start = System.currentTimeMillis();
-            dataMapList = loadMetaDataMapList(model, ids);
-            log.debug("[{}] load metadata model: {}, size: {}, cost time: {}ms", module, model, ids.size(), System.currentTimeMillis() - start);
-        } else {
-            dataMapList = loadMetaDataMapList(model, ids);
-        }
-
-        long start = System.currentTimeMillis();
+        List<DataMap> dataMapList = loadMetaDataMapList(model, ids);
         List<MetaBaseModel> dataList = persistenceDataConverter.out(model, dataMapList);
         MetaDataLoadExtend metaDataLoadExtend = Spider.getDefaultExtension(MetaDataLoadExtend.class);
         DiffService diffService = Spider.getDefaultExtension(DiffService.class);
@@ -194,7 +185,6 @@ public class DefaultMetaService implements MetaService {
             diffService.hash(data);
             metaData.addData(data);
         }
-        log.debug("[{}] load metadata model after: {}, cost time: {}ms", module, model, System.currentTimeMillis() - start);
     }
 
     protected List<DataMap> loadMetaDataMapList(String model, List<Long> ids) {
