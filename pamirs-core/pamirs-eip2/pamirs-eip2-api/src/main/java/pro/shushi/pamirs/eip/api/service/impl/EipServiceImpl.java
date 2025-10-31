@@ -9,9 +9,9 @@ import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.model.EipRouteDefinition;
 import pro.shushi.pamirs.eip.api.service.EipAsyncService;
-import pro.shushi.pamirs.eip.api.service.distribution.EipDistributionSupport;
 import pro.shushi.pamirs.eip.api.service.EipInterfaceService;
 import pro.shushi.pamirs.eip.api.service.EipService;
+import pro.shushi.pamirs.eip.api.service.distribution.EipDistributionSupport;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
@@ -89,7 +89,7 @@ public class EipServiceImpl implements EipService {
     @Override
     public void registerInterface(EipIntegrationInterface eipInterface) {
         Result<String> result;
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+        if (distributionSupport != null && distributionSupport.isStart() && eipInterface.getIsDBManaged()) {
             eipAsyncService.registerInterface(eipInterface.getInterfaceName());
             result = new Result<>();
         } else {
@@ -103,7 +103,7 @@ public class EipServiceImpl implements EipService {
     @Override
     public void cancellationInterface(EipIntegrationInterface eipInterface) {
         Result<String> result;
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+        if (distributionSupport != null && distributionSupport.isStart() && eipInterface.getIsDBManaged()) {
             eipAsyncService.cancellationInterface(eipInterface.getInterfaceName());
             result = new Result<>();
         } else {
@@ -117,7 +117,7 @@ public class EipServiceImpl implements EipService {
     @Override
     public void registerRouteDefinition(EipRouteDefinition eipInterface) {
         Result<String> result;
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+        if (distributionSupport != null && distributionSupport.isStart() && eipInterface.getIsDBManaged()) {
             eipAsyncService.registerRouteDefinition(eipInterface.getInterfaceName());
             result = new Result<>();
         } else {
@@ -131,7 +131,7 @@ public class EipServiceImpl implements EipService {
     @Override
     public void cancellationRouteDefinition(EipRouteDefinition eipInterface) {
         Result<String> result;
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+        if (distributionSupport != null && distributionSupport.isStart() && eipInterface.getIsDBManaged()) {
             eipAsyncService.cancellationRouteDefinition(eipInterface.getInterfaceName());
             result = new Result<>();
         } else {
@@ -145,7 +145,7 @@ public class EipServiceImpl implements EipService {
     @Override
     public void registerOpenInterface(EipOpenInterface eipInterface) {
         Result<String> result;
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+        if (distributionSupport != null && distributionSupport.isStart() && eipInterface.getIsDBManaged()) {
             eipAsyncService.registerOpenInterface(eipInterface.getInterfaceName());
             result = new Result<>();
         } else {
@@ -159,7 +159,7 @@ public class EipServiceImpl implements EipService {
     @Override
     public void cancellationOpenInterface(EipOpenInterface eipInterface) {
         Result<String> result;
-        if (distributionSupport != null && eipInterface.getIsDBManaged()) {
+        if (distributionSupport != null && distributionSupport.isStart() && eipInterface.getIsDBManaged()) {
             eipAsyncService.cancellationOpenInterface(eipInterface.getInterfaceName());
             result = new Result<>();
         } else {
