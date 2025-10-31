@@ -110,18 +110,10 @@ public class DefaultMetaService implements MetaService {
 
     @Override
     public MetaData loadMetaData(String module, Consumer<MetaBaseModel> directive) {
+        long start = System.currentTimeMillis();
         MetaData metaData = new MetaData();
         List<String> metaModels = metaModelFetcher.fetchMetaModels();
-        List<ModelDataStatic> modelDataList;
-        if (log.isDebugEnabled()) {
-            long start = System.currentTimeMillis();
-            modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
-            log.debug("[{}] query model data. size: {}, cost time: {}ms", module, modelDataList.size(), System.currentTimeMillis() - start);
-        } else {
-            modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
-        }
-
-        long start = System.currentTimeMillis();
+        List<ModelDataStatic> modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
         Map<String, List<Long>> resIdMap = new HashMap<>();
         Map<String, Map<Long, ModelData>> modelDataMap = new HashMap<>();
         for (ModelData modelData : modelDataList) {
@@ -138,18 +130,16 @@ public class DefaultMetaService implements MetaService {
                 metaData.addCrossingExtendData(model, sign, modelData.getModule());
             }
         }
-        log.debug("[{}] compute modelDataMap cost time: {}", module, System.currentTimeMillis() - start);
 
         // 装载元数据
-        start = System.currentTimeMillis();
+        long start1 = System.currentTimeMillis();
         Set<String> sortedModels = sortModelSet(resIdMap.keySet());
-        log.debug("[{}] get sorted models set cost time: {}", module, System.currentTimeMillis() - start);
+        log.debug("[{}] get sorted models set cost time: {}", module, System.currentTimeMillis() - start1);
 
-        start = System.currentTimeMillis();
         for (String model : sortedModels) {
-            long start1 = System.currentTimeMillis();
+            long start2 = System.currentTimeMillis();
             loadMetaDataForModel(metaData, module, model, resIdMap, modelDataMap.get(model), directive);
-            log.debug("[{}] load metadata model: {}, cost time: {}ms", module, model, System.currentTimeMillis() - start1);
+            log.debug("[{}] load metadata model: {}, cost time: {}ms", module, model, System.currentTimeMillis() - start2);
         }
         log.debug("[{}] load metadata model all cost time: {}", module, System.currentTimeMillis() - start);
         return metaData;

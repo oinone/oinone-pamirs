@@ -33,27 +33,35 @@ public class DefaultMetaModelFetcher implements MetaModelFetcher {
     @Resource
     private MetaConfiguration metaConfiguration;
 
-    private static final HoldKeeper<Set<Class<?>>> holder = new HoldKeeper<>();
+    private static final HoldKeeper<List<MetaModel>> fetchMetaModelListHolder = new HoldKeeper<>();
 
     @Override
     public List<MetaModel> fetchMetaModelList() {
-        List<MetaModel> metaModels = new ArrayList<>();
-        collectMetaList(metaModels,
-                (t, e, m) -> t.add(new MetaModel().setGroup(m.value()).setCore(Sets.newHashSet(e.core())).setPriority(e.priority())),
-                t -> t.sort(Comparator.comparing(MetaModel::getPriority)));
-        return metaModels;
+        return fetchMetaModelListHolder.supply(() -> {
+            List<MetaModel> metaModels = new ArrayList<>();
+            collectMetaList(metaModels,
+                    (t, e, m) -> t.add(new MetaModel().setGroup(m.value()).setCore(Sets.newHashSet(e.core())).setPriority(e.priority())),
+                    t -> t.sort(Comparator.comparing(MetaModel::getPriority)));
+            return metaModels;
+        });
     }
+
+    private static final HoldKeeper<List<String>> fetchMetaModelsHolder = new HoldKeeper<>();
 
     @Override
     public List<String/*model*/> fetchMetaModels() {
-        List<String> metaModels = new ArrayList<>();
-        collectMetaList(metaModels, (t, e, m) -> t.add(m.value()), null);
-        return metaModels;
+        return fetchMetaModelsHolder.supply(() -> {
+            List<String> metaModels = new ArrayList<>();
+            collectMetaList(metaModels, (t, e, m) -> t.add(m.value()), null);
+            return metaModels;
+        });
     }
+
+    private static final HoldKeeper<Set<Class<?>>> fetchMetaClassesHolder = new HoldKeeper<>();
 
     @Override
     public Set<Class<?>> fetchMetaClasses() {
-        return holder.supply(() -> {
+        return fetchMetaClassesHolder.supply(() -> {
             List<String> metaPackages = new ArrayList<>();
             if (!CollectionUtils.isEmpty(metaConfiguration.getMetaPackages())) {
                 metaPackages.addAll(metaConfiguration.getMetaPackages());
@@ -67,14 +75,18 @@ public class DefaultMetaModelFetcher implements MetaModelFetcher {
         });
     }
 
+    private static final HoldKeeper<Map<String, Integer>> fetchMetaModelPriorityMapHolder = new HoldKeeper<>();
+
     @Override
     public Map<String/*model*/, Integer> fetchMetaModelPriorityMap() {
-        Map<String, Integer> metaModelPriorityMap = new HashMap<>();
-        collectMetaList(metaModelPriorityMap, (t, e, m) -> t.put(m.value(), e.priority()), null);
-        return metaModelPriorityMap;
+        return fetchMetaModelPriorityMapHolder.supply(() -> {
+            Map<String, Integer> metaModelPriorityMap = new HashMap<>();
+            collectMetaList(metaModelPriorityMap, (t, e, m) -> t.put(m.value(), e.priority()), null);
+            return metaModelPriorityMap;
+        });
     }
 
-    public <T> T collectMetaList(T container, AnnotationConsumer<T> consumer, Consumer<T> listConsumer) {
+    private <T> void collectMetaList(T container, AnnotationConsumer<T> consumer, Consumer<T> listConsumer) {
         Set<Class<?>> metaClasses = fetchMetaClasses();
         for (Class<?> clazz : metaClasses) {
             pro.shushi.pamirs.meta.annotation.sys.MetaModel metaModelAnnotation = AnnotationUtils.getAnnotation(clazz, pro.shushi.pamirs.meta.annotation.sys.MetaModel.class);
@@ -86,7 +98,6 @@ public class DefaultMetaModelFetcher implements MetaModelFetcher {
         if (null != listConsumer) {
             listConsumer.accept(container);
         }
-        return container;
     }
 
     interface AnnotationConsumer<T> {
