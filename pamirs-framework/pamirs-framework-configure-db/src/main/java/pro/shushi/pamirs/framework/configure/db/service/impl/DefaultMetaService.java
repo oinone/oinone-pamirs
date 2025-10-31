@@ -5,10 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import pro.shushi.pamirs.framework.common.config.TtlAsyncTaskExecutor;
 import pro.shushi.pamirs.framework.common.utils.DataShardingHelper;
 import pro.shushi.pamirs.framework.common.utils.ObjectUtils;
 import pro.shushi.pamirs.framework.compare.DiffService;
 import pro.shushi.pamirs.framework.compare.MetaDataLoadExtend;
+import pro.shushi.pamirs.framework.configure.db.exception.LoadMetaDataException;
 import pro.shushi.pamirs.framework.configure.db.mapper.ModelDataMapper;
 import pro.shushi.pamirs.framework.configure.db.model.ModelDataStatic;
 import pro.shushi.pamirs.framework.configure.db.service.MetaService;
@@ -42,6 +44,8 @@ import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -96,11 +100,10 @@ public class DefaultMetaService implements MetaService {
             for (String module : modules) {
                 long start = System.currentTimeMillis();
                 MetaData metaData = loadMetaData(module, directive);
-                long end = System.currentTimeMillis();
-                log.info("[{}]模块,装载元数据,time:[{}]ms", module, end - start);
                 if (null != metaData) {
                     metaDataMap.putIfAbsent(module, metaData);
                 }
+                log.info("[{}]模块,装载元数据,time:[{}]ms", module, System.currentTimeMillis() - start);
             }
 
             return metaDataMap;
@@ -110,11 +113,7 @@ public class DefaultMetaService implements MetaService {
     @Override
     public MetaData loadMetaData(String module, Consumer<MetaBaseModel> directive) {
         MetaData metaData = new MetaData();
-
-        long start3 = System.currentTimeMillis();
         List<String> metaModels = metaModelFetcher.fetchMetaModels();
-        log.debug("[{}] fetch meta models cost time: {}ms", module, System.currentTimeMillis() - start3);
-
         List<ModelDataStatic> modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
         Map<String, List<Long>> resIdMap = new HashMap<>();
         Map<String, Map<Long, ModelData>> modelDataMap = new HashMap<>();
@@ -132,19 +131,9 @@ public class DefaultMetaService implements MetaService {
                 metaData.addCrossingExtendData(model, sign, modelData.getModule());
             }
         }
-
-        // 装载元数据
-        long start1 = System.currentTimeMillis();
-        Set<String> sortedModels = sortModelSet(resIdMap.keySet());
-        log.debug("[{}] get sorted models set cost time: {}ms", module, System.currentTimeMillis() - start1);
-
-        long start = System.currentTimeMillis();
-        for (String model : sortedModels) {
-            long start2 = System.currentTimeMillis();
+        for (String model : sortModelSet(resIdMap.keySet())) {
             loadMetaDataForModel(metaData, module, model, resIdMap, modelDataMap.get(model), directive);
-            log.debug("[{}] load metadata model: {}, cost time: {}ms", module, model, System.currentTimeMillis() - start2);
         }
-        log.debug("[{}] load metadata model all cost time: {}ms", module, System.currentTimeMillis() - start);
         return metaData;
     }
 
@@ -191,8 +180,16 @@ public class DefaultMetaService implements MetaService {
         }
         List<List<Long>> idsGroups = DataShardingHelper.build(eachShardMax).sharding(ids);
         List<DataMap> results = new ArrayList<>();
+        List<Future<List<DataMap>>> futures = new ArrayList<>();
         for (List<Long> idsGroup : idsGroups) {
-            results.addAll(genericMapper.selectList(Pops.<DataMap>query().from(model).in(FieldConstants.ID, idsGroup)));
+            futures.add(TtlAsyncTaskExecutor.getExecutorService().submit(() -> genericMapper.selectList(Pops.<DataMap>query().from(model).in(FieldConstants.ID, idsGroup))));
+        }
+        for (Future<List<DataMap>> future : futures) {
+            try {
+                results.addAll(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                throw new LoadMetaDataException(e);
+            }
         }
         return results;
     }
