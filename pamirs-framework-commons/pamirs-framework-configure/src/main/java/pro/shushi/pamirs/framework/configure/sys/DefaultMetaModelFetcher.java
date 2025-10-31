@@ -34,42 +34,50 @@ public class DefaultMetaModelFetcher implements MetaModelFetcher {
 
     @Override
     public List<MetaModel> fetchMetaModelList() {
-        List<MetaModel> metaModels = new ArrayList<>();
-        collectMetaList(metaModels,
-                (t, e, m) -> t.add(new MetaModel().setGroup(m.value()).setCore(Sets.newHashSet(e.core())).setPriority(e.priority())),
-                t -> t.sort(Comparator.comparing(MetaModel::getPriority)));
-        return metaModels;
+        return MetaModelFetcherCache.get("fetchMetaModelList", () -> {
+            List<MetaModel> metaModels = new ArrayList<>();
+            collectMetaList(metaModels,
+                    (t, e, m) -> t.add(new MetaModel().setGroup(m.value()).setCore(Sets.newHashSet(e.core())).setPriority(e.priority())),
+                    t -> t.sort(Comparator.comparing(MetaModel::getPriority)));
+            return metaModels;
+        });
     }
 
     @Override
     public List<String/*model*/> fetchMetaModels() {
-        List<String> metaModels = new ArrayList<>();
-        collectMetaList(metaModels, (t, e, m) -> t.add(m.value()), null);
-        return metaModels;
+        return MetaModelFetcherCache.get("fetchMetaModels", () -> {
+            List<String> metaModels = new ArrayList<>();
+            collectMetaList(metaModels, (t, e, m) -> t.add(m.value()), null);
+            return metaModels;
+        });
     }
 
     @Override
     public Set<Class<?>> fetchMetaClasses() {
-        List<String> metaPackages = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(metaConfiguration.getMetaPackages())) {
-            metaPackages.addAll(metaConfiguration.getMetaPackages());
-        }
-        metaPackages.add(0, PackageConstants.PACKAGE_META);
-        metaPackages.add(PACKAGE_META_ABSTRACT);
-        metaPackages.add(PACKAGE_META_BASE);
-        metaPackages.add(PACKAGE_META_BASE_RES);
-        metaPackages.add(PACKAGE_SID_MODEL);
-        return ClassUtils.getClassesByPacks(metaPackages.toArray(new String[0]));
+        return MetaModelFetcherCache.get("fetchMetaClasses", () -> {
+            List<String> metaPackages = new ArrayList<>();
+            if (!CollectionUtils.isEmpty(metaConfiguration.getMetaPackages())) {
+                metaPackages.addAll(metaConfiguration.getMetaPackages());
+            }
+            metaPackages.add(0, PackageConstants.PACKAGE_META);
+            metaPackages.add(PACKAGE_META_ABSTRACT);
+            metaPackages.add(PACKAGE_META_BASE);
+            metaPackages.add(PACKAGE_META_BASE_RES);
+            metaPackages.add(PACKAGE_SID_MODEL);
+            return ClassUtils.getClassesByPacks(metaPackages.toArray(new String[0]));
+        });
     }
 
     @Override
     public Map<String/*model*/, Integer> fetchMetaModelPriorityMap() {
-        Map<String, Integer> metaModelPriorityMap = new HashMap<>();
-        collectMetaList(metaModelPriorityMap, (t, e, m) -> t.put(m.value(), e.priority()), null);
-        return metaModelPriorityMap;
+        return MetaModelFetcherCache.get("fetchMetaModelPriorityMap", () -> {
+            Map<String, Integer> metaModelPriorityMap = new HashMap<>();
+            collectMetaList(metaModelPriorityMap, (t, e, m) -> t.put(m.value(), e.priority()), null);
+            return metaModelPriorityMap;
+        });
     }
 
-    public <T> T collectMetaList(T container, AnnotationConsumer<T> consumer, Consumer<T> listConsumer) {
+    private <T> void collectMetaList(T container, AnnotationConsumer<T> consumer, Consumer<T> listConsumer) {
         Set<Class<?>> metaClasses = fetchMetaClasses();
         for (Class<?> clazz : metaClasses) {
             pro.shushi.pamirs.meta.annotation.sys.MetaModel metaModelAnnotation = AnnotationUtils.getAnnotation(clazz, pro.shushi.pamirs.meta.annotation.sys.MetaModel.class);
@@ -81,7 +89,6 @@ public class DefaultMetaModelFetcher implements MetaModelFetcher {
         if (null != listConsumer) {
             listConsumer.accept(container);
         }
-        return container;
     }
 
     interface AnnotationConsumer<T> {

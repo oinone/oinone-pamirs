@@ -21,6 +21,7 @@ import pro.shushi.pamirs.boot.common.spi.api.meta.*;
 import pro.shushi.pamirs.boot.common.supplier.MetaDataSupplier;
 import pro.shushi.pamirs.boot.common.util.ApplicationArgUtils;
 import pro.shushi.pamirs.boot.common.util.MetaBootCountDown;
+import pro.shushi.pamirs.framework.configure.sys.MetaModelFetcherCache;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.compute.Prioritized;
@@ -216,6 +217,7 @@ public class PamirsBootMainProcessor implements PamirsBootMainProcessApi {
             // 元数据是否执行完成的标识(Redis完成标识，需要等待并发全部完成)
             MetaBootCountDown.judge();
             MetaDataSupplier.clear();
+            MetaModelFetcherCache.clear();
         });
 
         Spider.getDefaultExtension(BootModuleLifecycleCompletedAllApi.class).run(command, setupModuleMap);
