@@ -10,6 +10,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.MetaModelFetcher;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaModel;
 import pro.shushi.pamirs.meta.common.constants.PackageConstants;
+import pro.shushi.pamirs.meta.common.spi.HoldKeeper;
 import pro.shushi.pamirs.meta.util.ClassUtils;
 
 import javax.annotation.Resource;
@@ -32,6 +33,8 @@ public class DefaultMetaModelFetcher implements MetaModelFetcher {
     @Resource
     private MetaConfiguration metaConfiguration;
 
+    private static final HoldKeeper<Set<Class<?>>> holder = new HoldKeeper<>();
+
     @Override
     public List<MetaModel> fetchMetaModelList() {
         List<MetaModel> metaModels = new ArrayList<>();
@@ -50,16 +53,18 @@ public class DefaultMetaModelFetcher implements MetaModelFetcher {
 
     @Override
     public Set<Class<?>> fetchMetaClasses() {
-        List<String> metaPackages = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(metaConfiguration.getMetaPackages())) {
-            metaPackages.addAll(metaConfiguration.getMetaPackages());
-        }
-        metaPackages.add(0, PackageConstants.PACKAGE_META);
-        metaPackages.add(PACKAGE_META_ABSTRACT);
-        metaPackages.add(PACKAGE_META_BASE);
-        metaPackages.add(PACKAGE_META_BASE_RES);
-        metaPackages.add(PACKAGE_SID_MODEL);
-        return ClassUtils.getClassesByPacks(metaPackages.toArray(new String[0]));
+        return holder.supply(() -> {
+            List<String> metaPackages = new ArrayList<>();
+            if (!CollectionUtils.isEmpty(metaConfiguration.getMetaPackages())) {
+                metaPackages.addAll(metaConfiguration.getMetaPackages());
+            }
+            metaPackages.add(0, PackageConstants.PACKAGE_META);
+            metaPackages.add(PACKAGE_META_ABSTRACT);
+            metaPackages.add(PACKAGE_META_BASE);
+            metaPackages.add(PACKAGE_META_BASE_RES);
+            metaPackages.add(PACKAGE_SID_MODEL);
+            return ClassUtils.getClassesByPacks(metaPackages.toArray(new String[0]));
+        });
     }
 
     @Override
