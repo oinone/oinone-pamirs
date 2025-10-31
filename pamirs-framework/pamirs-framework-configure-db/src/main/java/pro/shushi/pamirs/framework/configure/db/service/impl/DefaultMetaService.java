@@ -5,12 +5,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import pro.shushi.pamirs.framework.common.config.TtlAsyncTaskExecutor;
 import pro.shushi.pamirs.framework.common.utils.DataShardingHelper;
 import pro.shushi.pamirs.framework.common.utils.ObjectUtils;
 import pro.shushi.pamirs.framework.compare.DiffService;
 import pro.shushi.pamirs.framework.compare.MetaDataLoadExtend;
-import pro.shushi.pamirs.framework.configure.db.exception.LoadMetaDataException;
 import pro.shushi.pamirs.framework.configure.db.mapper.ModelDataMapper;
 import pro.shushi.pamirs.framework.configure.db.model.ModelDataStatic;
 import pro.shushi.pamirs.framework.configure.db.service.MetaService;
@@ -42,14 +40,14 @@ import pro.shushi.pamirs.meta.domain.ModelData;
 import pro.shushi.pamirs.meta.domain.module.ModuleCategory;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
+import pro.shushi.pamirs.meta.util.ParallelStreamHelper;
 
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static pro.shushi.pamirs.meta.annotation.sys.MetaSimulator.SIMULATE_PREFIX;
 
@@ -199,22 +197,9 @@ public class DefaultMetaService implements MetaService {
             return genericMapper.selectList(Pops.<DataMap>query().from(model).in(FieldConstants.ID, ids));
         }
         List<List<Long>> idsGroups = DataShardingHelper.build(eachShardMax).sharding(ids);
-        List<DataMap> results = new ArrayList<>();
-        List<Future<List<DataMap>>> futures = new ArrayList<>();
-        for (List<Long> idsGroup : idsGroups) {
-            futures.add(TtlAsyncTaskExecutor.getExecutorService().submit(() -> genericMapper.selectList(Pops.<DataMap>query().from(model).in(FieldConstants.ID, idsGroup))));
-        }
-        for (Future<List<DataMap>> future : futures) {
-            try {
-                results.addAll(future.get());
-            } catch (InterruptedException | ExecutionException e) {
-                throw new LoadMetaDataException(e);
-            }
-        }
-        return results;
-//        return ParallelStreamHelper.parallelStream(idsGroups)
-//                .flatMap(sublist -> genericMapper.selectList(Pops.<DataMap>query().from(model).in(FieldConstants.ID, sublist)).stream())
-//                .collect(Collectors.toList());
+        return ParallelStreamHelper.parallelStream(idsGroups)
+                .flatMap(sublist -> genericMapper.selectList(Pops.<DataMap>query().from(model).in(FieldConstants.ID, sublist)).stream())
+                .collect(Collectors.toList());
     }
 
     private void crossingLoadMetaData(Map<String, MetaData> metaDataMap, Set<String> runModuleSet, String module) {
