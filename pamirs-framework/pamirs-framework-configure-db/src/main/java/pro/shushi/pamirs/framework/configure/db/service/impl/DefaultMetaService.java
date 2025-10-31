@@ -28,7 +28,6 @@ import pro.shushi.pamirs.meta.api.core.faas.boot.ModulesApi;
 import pro.shushi.pamirs.meta.api.core.orm.convert.DataConverter;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
-import pro.shushi.pamirs.meta.api.dto.meta.MetaModel;
 import pro.shushi.pamirs.meta.api.prefix.DataPrefixManager;
 import pro.shushi.pamirs.meta.base.common.MetaBaseModel;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
@@ -110,9 +109,12 @@ public class DefaultMetaService implements MetaService {
 
     @Override
     public MetaData loadMetaData(String module, Consumer<MetaBaseModel> directive) {
-        long start = System.currentTimeMillis();
         MetaData metaData = new MetaData();
+
+        long start3 = System.currentTimeMillis();
         List<String> metaModels = metaModelFetcher.fetchMetaModels();
+        log.debug("[{}] fetch meta models cost time: {}ms", module, System.currentTimeMillis() - start3);
+
         List<ModelDataStatic> modelDataList = modelDataMapper.selectListByEntity((ModelDataStatic) new ModelDataStatic().setLoadModule(module));
         Map<String, List<Long>> resIdMap = new HashMap<>();
         Map<String, Map<Long, ModelData>> modelDataMap = new HashMap<>();
@@ -134,14 +136,15 @@ public class DefaultMetaService implements MetaService {
         // 装载元数据
         long start1 = System.currentTimeMillis();
         Set<String> sortedModels = sortModelSet(resIdMap.keySet());
-        log.debug("[{}] get sorted models set cost time: {}", module, System.currentTimeMillis() - start1);
+        log.debug("[{}] get sorted models set cost time: {}ms", module, System.currentTimeMillis() - start1);
 
+        long start = System.currentTimeMillis();
         for (String model : sortedModels) {
             long start2 = System.currentTimeMillis();
             loadMetaDataForModel(metaData, module, model, resIdMap, modelDataMap.get(model), directive);
             log.debug("[{}] load metadata model: {}, cost time: {}ms", module, model, System.currentTimeMillis() - start2);
         }
-        log.debug("[{}] load metadata model all cost time: {}", module, System.currentTimeMillis() - start);
+        log.debug("[{}] load metadata model all cost time: {}ms", module, System.currentTimeMillis() - start);
         return metaData;
     }
 
@@ -257,15 +260,9 @@ public class DefaultMetaService implements MetaService {
 
     @Override
     public Set<String> sortModelSet(Set<String> modelSet, Map<String, Integer> metaModelPriorityMap) {
-        Set<String> sortedModelSet = new LinkedHashSet<>();
-        List<MetaModel> models = new ArrayList<>();
-        for (String model : modelSet) {
-            Integer priority = Optional.ofNullable(metaModelPriorityMap.get(model)).orElse(50);
-            models.add(new MetaModel().setGroup(model).setPriority(priority));
-        }
-        models.sort(Comparator.comparing(MetaModel::getPriority));
-        models.stream().map(MetaModel::getGroup).forEachOrdered(sortedModelSet::add);
-        return sortedModelSet;
+        List<String> sortedModels = new ArrayList<>(modelSet);
+        sortedModels.sort(Comparator.comparingInt(model -> Optional.ofNullable(metaModelPriorityMap.get(model)).orElse(50)));
+        return new LinkedHashSet<>(sortedModels);
     }
 
 }
