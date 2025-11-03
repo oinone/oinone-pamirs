@@ -25,6 +25,11 @@ public class PamirsEipProperties {
 
     private Http http = new Http();
 
+    /**
+     * 定时任务单次同步最大数量
+     */
+    private Long logCountMaxPageSize = 1000L;
+
     public Boolean getEnabled() {
         return enabled;
     }
@@ -39,6 +44,14 @@ public class PamirsEipProperties {
 
     public void setHttp(Http http) {
         this.http = http;
+    }
+
+    public Long getLogCountMaxPageSize() {
+        return logCountMaxPageSize;
+    }
+
+    public void setLogCountMaxPageSize(Long logCountMaxPageSize) {
+        this.logCountMaxPageSize = logCountMaxPageSize;
     }
 
     public static class Http {
