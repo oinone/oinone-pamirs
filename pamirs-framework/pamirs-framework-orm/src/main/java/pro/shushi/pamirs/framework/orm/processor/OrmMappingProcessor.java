@@ -5,7 +5,6 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.template.function.FieldRecursionComputeApi;
 import pro.shushi.pamirs.meta.api.core.orm.template.function.ModelAfterComputeApi;
 import pro.shushi.pamirs.meta.api.core.orm.template.function.ModelBeforeComputeApi;
-import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.base.D;
 
 import java.util.Map;
@@ -30,12 +29,12 @@ public class OrmMappingProcessor implements ModelBeforeComputeApi, ModelAfterCom
 
     @Override
     public Object after(String model, Object obj) {
-        DataMap dMap;
+        Map<String, Object> dMap;
         if (Map.class.isAssignableFrom(obj.getClass())) {
             //noinspection unchecked
-            dMap = new DataMap((Map<String, Object>) obj);
+            dMap = (Map<String, Object>) obj;
         } else {
-            dMap = new DataMap(((D) obj).get_d());
+            dMap = ((D) obj).get_d();
         }
         return dMap;
     }
