@@ -1,5 +1,7 @@
 package pro.shushi.pamirs.sequence.utils;
 
+import pro.shushi.pamirs.framework.common.config.PamirsThreadFactory;
+
 import java.security.AccessController;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -17,7 +19,9 @@ public class ThreadFactorys {
 
         @Override
         public Thread newThread(Runnable r) {
-            return new Thread(r, "leaf-segment-update" + THREA_NUM.getAndIncrement());
+            Thread t = new Thread(r, "leaf-segment-update" + THREA_NUM.getAndIncrement());
+            t.setUncaughtExceptionHandler(PamirsThreadFactory.COMMON_UNCAUGHT_EXCEPTION_HANDLER_INSTANCE);
+            return t;
         }
     }
 
@@ -27,6 +31,7 @@ public class ThreadFactorys {
             Thread t = sun.misc.SharedSecrets.getJavaLangAccess().newThreadWithAcc(r, AccessController.getContext());
             t.setName("leaf-check-idCache");
             t.setDaemon(true);
+            t.setUncaughtExceptionHandler(PamirsThreadFactory.COMMON_UNCAUGHT_EXCEPTION_HANDLER_INSTANCE);
             return t;
         }
     }
