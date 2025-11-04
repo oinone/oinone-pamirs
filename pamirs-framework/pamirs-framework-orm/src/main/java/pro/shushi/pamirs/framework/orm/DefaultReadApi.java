@@ -69,8 +69,9 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
             return null;
         }
         String model = getModel(query);
+        DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, query)).getDataMap();
         try {
-            DataMap result = genericMapper.selectByPk(persistenceDataConverter.in(model, query));
+            DataMap result = genericMapper.selectByPk(map);
             return persistenceDataConverter.out(model, result);
         } finally {
             persistenceDataConverter.out(model, query);
@@ -86,8 +87,9 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
             return null;
         }
         String model = getModel(query);
+        DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, query)).getDataMap();
         try {
-            DataMap result = genericMapper.selectOneByEntity(persistenceDataConverter.in(model, query));
+            DataMap result = genericMapper.selectOneByEntity(map);
             return persistenceDataConverter.out(model, result);
         } finally {
             persistenceDataConverter.out(model, query);
@@ -133,8 +135,9 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
             batchSize = fetchReadBatchSize(model);
         }
         if (batchSize < 0) {
+            DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, query)).getDataMap();
             try {
-                List<DataMap> result = genericMapper.selectListByEntity(persistenceDataConverter.in(model, query));
+                List<DataMap> result = genericMapper.selectListByEntity(map);
                 return persistenceDataConverter.out(model, result);
             } finally {
                 persistenceDataConverter.out(model, query);
@@ -272,8 +275,9 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
             return null;
         }
         String model = getModel(query);
+        DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, query)).getDataMap();
         try {
-            return genericMapper.selectCountByEntity(persistenceDataConverter.in(model, query));
+            return genericMapper.selectCountByEntity(map);
         } finally {
             persistenceDataConverter.out(model, query);
         }

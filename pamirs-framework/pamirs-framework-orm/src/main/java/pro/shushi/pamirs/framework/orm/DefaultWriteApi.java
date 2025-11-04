@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.framework.orm;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import pro.shushi.pamirs.framework.common.utils.header.ExceptionHelper;
@@ -24,9 +25,7 @@ import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.domain.model.RelationDataModel;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 
-import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 函数API实现
@@ -57,9 +56,10 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return null;
         }
         String model = getModel(data);
+        DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, data)).getDataMap();
         int count;
         try {
-            count = genericMapper.insert(persistenceDataConverter.in(model, data));
+            count = genericMapper.insert(map);
         } catch (Throwable e) {
             if (ExceptionHelper.isDuplicateKeyException(e)) {
                 throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
@@ -133,9 +133,10 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return 0;
         }
         String model = getModel(data);
+        DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, data)).getDataMap();
         int count;
         try {
-            count = genericMapper.updateByPk(persistenceDataConverter.in(model, data));
+            count = genericMapper.updateByPk(map);
         } catch (Throwable e) {
             if (ExceptionHelper.isDuplicateKeyException(e)) {
                 throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
@@ -156,8 +157,9 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return 0;
         }
         String model = getModel(data);
+        DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, data)).getDataMap();
         try {
-            return genericMapper.updateByUniqueKey(persistenceDataConverter.in(model, data));
+            return genericMapper.updateByUniqueKey(map);
         } finally {
             persistenceDataConverter.out(model, data);
         }
@@ -173,11 +175,17 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         }
         String model = getModel(data);
         DataMap updateEntity = MapWrapper.wrap(persistenceDataConverter.in(model, data)).getDataMap();
+        DataMap queryEntity;
         try {
-            DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, query)).getDataMap();
+            queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, query)).getDataMap();
+        } catch (Throwable e) {
+            persistenceDataConverter.out(model, data);
+            throw e;
+        }
+        try {
             return genericMapper.update(updateEntity, Pops.query(queryEntity).setModel(model));
         } finally {
-            persistenceDataConverter.out(model, updateEntity);
+            persistenceDataConverter.out(model, data);
             persistenceDataConverter.out(model, query);
         }
     }
@@ -192,11 +200,17 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         }
         String model = updateWrapper.getModel();
         DataMap updateEntity = MapWrapper.wrap(persistenceDataConverter.in(model, data)).getDataMap();
+        DataMap queryEntity;
         try {
-            DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, updateWrapper.getEntity())).getDataMap();
+            queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, updateWrapper.getEntity())).getDataMap();
+        } catch (Throwable e) {
+            persistenceDataConverter.out(model, data);
+            throw e;
+        }
+        try {
             return genericMapper.update(updateEntity, updateWrapper.generic(model, queryEntity));
         } finally {
-            persistenceDataConverter.out(model, updateEntity);
+            persistenceDataConverter.out(model, data);
             persistenceDataConverter.out(model, updateWrapper.getEntity());
         }
     }
@@ -221,6 +235,7 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         if (null == batchSize || batchSize == 0) {
             batchSize = fetchWriteBatchSize(model);
         }
+//        List<DataMap> mapList = persistenceDataConverter.<List<Map<String, Object>>>in(model, dataList).stream().map(v -> MapWrapper.wrap(v).getDataMap()).collect(Collectors.toList());
         try {
             genericMapper.insertBatchWithSize(persistenceDataConverter.in(model, dataList), batchSize);
         } catch (Throwable e) {
@@ -326,8 +341,9 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return false;
         }
         String model = getModel(data);
+        DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, data)).getDataMap();
         try {
-            int count = genericMapper.deleteByPk(persistenceDataConverter.in(model, data));
+            int count = genericMapper.deleteByPk(map);
             return 1 == count;
         } finally {
             persistenceDataConverter.out(model, data);
@@ -360,8 +376,9 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return false;
         }
         String model = getModel(data);
+        DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, data)).getDataMap();
         try {
-            int count = genericMapper.deleteByUniqueKey(persistenceDataConverter.in(model, data));
+            int count = genericMapper.deleteByUniqueKey(map);
             return 1 == count;
         } finally {
             persistenceDataConverter.out(model, data);
@@ -394,9 +411,9 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return 0;
         }
         String model = getModel(query);
+        DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, query)).getDataMap();
         try {
-            Map<String, Object> queryEntity = persistenceDataConverter.in(model, query);
-            return genericMapper.delete(Pops.query(MapWrapper.wrap(queryEntity).getDataMap()));
+            return genericMapper.delete(Pops.query(map));
         } finally {
             persistenceDataConverter.out(model, query);
         }
@@ -411,9 +428,9 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             return 0;
         }
         String model = queryWrapper.getModel();
+        DataMap map = MapWrapper.wrap(persistenceDataConverter.in(model, queryWrapper.getEntity())).getDataMap();
         try {
-            Map<String, Object> queryEntity = persistenceDataConverter.in(model, queryWrapper.getEntity());
-            return genericMapper.delete(queryWrapper.generic(model, MapWrapper.wrap(queryEntity).getDataMap()));
+            return genericMapper.delete(queryWrapper.generic(model, map));
         } finally {
             persistenceDataConverter.out(model, queryWrapper.getEntity());
         }
