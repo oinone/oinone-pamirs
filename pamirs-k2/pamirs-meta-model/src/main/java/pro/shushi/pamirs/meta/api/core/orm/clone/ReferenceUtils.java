@@ -13,6 +13,10 @@ public class ReferenceUtils {
     public static <T> void deal(T origin, T target) {
         Map<String, Object> originDMap = Models.d(origin);
         Map<String, Object> targetDMap = Models.d(target);
+        if (originDMap == targetDMap) {
+            // same reference
+            return;
+        }
         for (Map.Entry<String, Object> entry : originDMap.entrySet()) {
             String entryKey = entry.getKey();
             Object entryValue = entry.getValue();
@@ -27,6 +31,10 @@ public class ReferenceUtils {
     }
 
     public static <T> void dealList(List<T> originList, List<T> targetList) {
+        if (originList == targetList) {
+            // same reference
+            return;
+        }
         //序列化不改变list的顺序
         for (int i = 0; i < targetList.size(); i++) {
             deal(originList.get(i), targetList.get(i));
