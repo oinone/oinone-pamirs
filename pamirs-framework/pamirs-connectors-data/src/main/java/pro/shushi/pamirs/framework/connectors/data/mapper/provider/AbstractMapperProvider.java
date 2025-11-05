@@ -14,12 +14,12 @@ import pro.shushi.pamirs.framework.connectors.data.mapper.method.api.SelectMetho
 import pro.shushi.pamirs.framework.connectors.data.mapper.method.api.UpdateMethod;
 import pro.shushi.pamirs.framework.connectors.data.mapper.template.ScriptTemplate;
 import pro.shushi.pamirs.framework.connectors.data.mapper.template.SqlTemplate;
+import pro.shushi.pamirs.framework.connectors.data.util.DataConfigurationHelper;
 import pro.shushi.pamirs.meta.api.cache.CacheProxy;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.prefix.DataPrefixManager;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -33,8 +33,10 @@ import java.util.function.Function;
  */
 public class AbstractMapperProvider {
 
-    private static final Cache<String, String> scriptCache = CacheProxy.getInstance(Caffeine.newBuilder()
-            .maximumSize(100_000).expireAfterWrite(1, TimeUnit.MINUTES).build());
+    private static final class ScriptCacheHolder {
+        private static final Cache<String, String> scriptCache = CacheProxy.getInstance(Caffeine.newBuilder()
+                .maximumSize(100_000).expireAfterWrite(1, TimeUnit.MINUTES).build());
+    }
 
     private static String cacheKey(String module, String model, String method) {
         return DataPrefixManager.keyPrefix(module, model, model + CharacterConstants.SEPARATOR_UNDERLINE + method);
@@ -44,7 +46,10 @@ public class AbstractMapperProvider {
         if (!ArrayUtils.isEmpty(appendix)) {
             method = method + CharacterConstants.SEPARATOR_COLON + StringUtils.join(appendix, CharacterConstants.SEPARATOR_COMMA);
         }
-        return scriptCache.get(cacheKey(modelConfig.getModule(), modelConfig.getModel(), method), fetchFunction);
+        if (DataConfigurationHelper.getMapperConfiguration().isScriptCache()) {
+            return ScriptCacheHolder.scriptCache.get(cacheKey(modelConfig.getModule(), modelConfig.getModel(), method), fetchFunction);
+        }
+        return fetchFunction.apply(null);
     }
 
     protected static String script(String sql) {
