@@ -165,9 +165,14 @@ public class ActionUtils {
         Optional.ofNullable(viewAction.getResModuleDefinition()).ifPresent(v -> v.setModule(viewAction.getResModule()));
         Optional.ofNullable(viewAction.getMaskDefinition()).ifPresent(v -> v.setName(viewAction.getMask()));
         Optional.ofNullable(viewAction.getThemeDefinition()).ifPresent(v -> v.setName(viewAction.getTheme()));
-        Optional.ofNullable(viewAction.getLoadFunction()).ifPresent(v -> v.setNamespace(viewAction.getModel()));
-        Optional.ofNullable(viewAction.getLoadFunction()).ifPresent(v -> v.setFun(viewAction.getLoad()));
-        Optional.ofNullable(viewAction.getResView()).ifPresent(v -> v.setName(viewAction.getResViewName()));
+        Optional.ofNullable(viewAction.getLoadFunction()).ifPresent(v -> {
+            v.setNamespace(viewAction.getModel());
+            v.setFun(viewAction.getLoad());
+        });
+        Optional.ofNullable(viewAction.getResView()).ifPresent(v -> {
+            v.setModel(viewAction.getResModel());
+            v.setName(viewAction.getResViewName());
+        });
     }
 
 }
