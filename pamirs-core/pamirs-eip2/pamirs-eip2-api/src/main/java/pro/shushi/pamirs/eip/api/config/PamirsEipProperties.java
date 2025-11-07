@@ -30,6 +30,11 @@ public class PamirsEipProperties {
      */
     private Long logCountMaxPageSize = 1000L;
 
+    /**
+     * 是否启用日志统计功能
+     */
+    private Boolean enableLogCount = true;
+
     public Boolean getEnabled() {
         return enabled;
     }
@@ -48,6 +53,14 @@ public class PamirsEipProperties {
 
     public Long getLogCountMaxPageSize() {
         return logCountMaxPageSize;
+    }
+
+    public Boolean getEnableLogCount() {
+        return enableLogCount;
+    }
+
+    public void setEnableLogCount(Boolean enableLogCount) {
+        this.enableLogCount = enableLogCount;
     }
 
     public void setLogCountMaxPageSize(Long logCountMaxPageSize) {

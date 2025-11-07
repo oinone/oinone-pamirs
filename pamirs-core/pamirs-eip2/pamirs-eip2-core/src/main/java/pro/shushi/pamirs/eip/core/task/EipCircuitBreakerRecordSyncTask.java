@@ -9,9 +9,11 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 /**
- * 熔断记录定时落库-每12小时同步一次
+ * 熔断记录定时落库-每日凌晨1点15同步
  *
  * @author yeshenyue on 2025/4/17 11:18.
  */
@@ -33,12 +35,23 @@ public class EipCircuitBreakerRecordSyncTask extends EipAbstractScheduledJob {
 
     @Override
     protected Integer getPeriodTime() {
-        return 12;
+        return 24;
     }
 
     @Override
     protected TimeUnitEnum getTimeUnit() {
         return TimeUnitEnum.HOUR_OF_DAY;
+    }
+
+    @Override
+    protected Long getFirstExecuteTime() {
+        ZoneId zone = ZoneId.systemDefault();
+        return LocalDate.now(zone)
+                .plusDays(1)
+                .atTime(1, 15)
+                .atZone(zone)
+                .toInstant()
+                .toEpochMilli();
     }
 
     @Override
