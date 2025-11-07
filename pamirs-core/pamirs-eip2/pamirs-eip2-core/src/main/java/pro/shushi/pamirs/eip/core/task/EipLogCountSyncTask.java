@@ -62,7 +62,6 @@ public class EipLogCountSyncTask extends EipAbstractScheduledJob {
 
     @Override
     public void doExecute(ScheduleItem scheduleItem) {
-        // eipLogDailyCountService.syncYesterday();
         log.error("接口日志汇总统计定时任务已废弃");
     }
 

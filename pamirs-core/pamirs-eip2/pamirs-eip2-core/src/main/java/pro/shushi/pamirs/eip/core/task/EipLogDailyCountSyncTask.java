@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.core.task;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
 import pro.shushi.pamirs.eip.api.config.PamirsEipProperties;
@@ -10,7 +11,6 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 import pro.shushi.pamirs.trigger.model.ScheduleTaskAction;
 
-import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -25,10 +25,10 @@ public class EipLogDailyCountSyncTask extends EipAbstractScheduledJob {
     public static final String FUN_NAMESPACE = "eip.EipLogDailyCountSyncTask";
     public static final String TASK_DISPLAY_NAME = "接口日志每日汇总统计定时任务";
 
-    @Resource
+    @Autowired
     private EipLogDailyCountService eipLogDailyCountService;
 
-    @Resource
+    @Autowired
     private PamirsEipProperties pamirsEipProperties;
 
     @Override
