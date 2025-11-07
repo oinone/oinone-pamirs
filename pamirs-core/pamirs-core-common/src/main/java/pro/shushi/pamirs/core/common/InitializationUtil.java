@@ -950,11 +950,21 @@ public class InitializationUtil {
      */
     @Deprecated
     public Menu getMenu(String name) {
-        Menu menu = finder(Menu.MODEL_MODEL, fetchMenuSign(module, name));
+        Menu menu = getMenuOfNullable(name);
         if (menu == null) {
             throw new IllegalArgumentException("Menu is not found. module: " + module + ", name: " + name);
         }
         return menu;
+    }
+
+    /**
+     * 获取菜单项
+     *
+     * @param name 菜单名称
+     * @return 菜单项
+     */
+    public Menu getMenuOfNullable(String name) {
+        return finder(Menu.MODEL_MODEL, fetchMenuSign(module, name));
     }
 
     /**
@@ -978,18 +988,10 @@ public class InitializationUtil {
         push(Menu.MODEL_MODEL, menu);
     }
 
-    /**
-     * @deprecated please using @UxMenus and @UxMenu create menu and view action
-     */
-    @Deprecated
     private String fetchMenuSign(String module, String name) {
         return module + CharacterConstants.SEPARATOR_OCTOTHORPE + name;
     }
 
-    /**
-     * @deprecated please using @UxMenus and @UxMenu create menu and view action
-     */
-    @Deprecated
     private String fetchMenuSign(Menu menu) {
         return fetchMenuSign(menu.getModule(), menu.getName());
     }
