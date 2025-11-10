@@ -13,7 +13,7 @@ import java.util.List;
 @Fun(EipLogDailyCountService.FUN_NAMESPACE)
 public interface EipLogDailyCountService {
 
-    String FUN_NAMESPACE = "eip.api.EipLogDailyCountService";
+    String FUN_NAMESPACE = "eip.EipLogDailyCountService";
 
     /**
      * 同步昨日日志统计数据
