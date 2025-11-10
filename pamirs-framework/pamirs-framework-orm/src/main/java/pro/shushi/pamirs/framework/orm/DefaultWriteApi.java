@@ -119,6 +119,11 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             result.setEffectRows(count);
             result.setData(data);
             return result;
+        } catch (Throwable e) {
+            if (ExceptionHelper.isDuplicateKeyException(e)) {
+                throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
+            }
+            throw e;
         } finally {
             persistenceDataConverter.out(model, data);
         }
@@ -158,6 +163,11 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         String model = getModel(data);
         try {
             return genericMapper.updateByUniqueKey(persistenceDataConverter.in(model, data));
+        } catch (Throwable e) {
+            if (ExceptionHelper.isDuplicateKeyException(e)) {
+                throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
+            }
+            throw e;
         } finally {
             persistenceDataConverter.out(model, data);
         }
@@ -176,6 +186,11 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         try {
             DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, query)).getDataMap();
             return genericMapper.update(updateEntity, Pops.query(queryEntity).setModel(model));
+        } catch (Throwable e) {
+            if (ExceptionHelper.isDuplicateKeyException(e)) {
+                throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
+            }
+            throw e;
         } finally {
             persistenceDataConverter.out(model, updateEntity);
             persistenceDataConverter.out(model, query);
@@ -195,6 +210,11 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
         try {
             DataMap queryEntity = MapWrapper.wrap(persistenceDataConverter.in(model, updateWrapper.getEntity())).getDataMap();
             return genericMapper.update(updateEntity, updateWrapper.generic(model, queryEntity));
+        } catch (Throwable e) {
+            if (ExceptionHelper.isDuplicateKeyException(e)) {
+                throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
+            }
+            throw e;
         } finally {
             persistenceDataConverter.out(model, updateEntity);
             persistenceDataConverter.out(model, updateWrapper.getEntity());
@@ -278,6 +298,11 @@ public class DefaultWriteApi extends AbstractReadWriteApi implements WriteApi, F
             result.setEffectRows(count);
             result.setData(dataList);
             return result;
+        } catch (Throwable e) {
+            if (ExceptionHelper.isDuplicateKeyException(e)) {
+                throw PamirsException.construct(OrmExpEnumerate.BASE_DATA_DUPLICATION_ERROR, e).errThrow();
+            }
+            throw e;
         } finally {
             persistenceDataConverter.out(model, dataList);
         }
