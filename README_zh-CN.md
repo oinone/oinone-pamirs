@@ -27,6 +27,10 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 | 二维码 | 领取步骤                                                                                                   |
 |-----|--------------------------------------------------------------------------------------------------------|
 |<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/Oinone%E5%B0%8F%E5%8A%A9%E6%89%8B.png" alt="Assistant" width="150"><br>| 1. ⭐ Star 本项目<br>2. 扫码左侧二维码添加小助手<br>3. 截图（已 Star 凭证）发给小助手<br>4. 小助手邀请 Star 用户进入专属交流群<br>5. 限时申请企业版试用授权 |
+#### 6.2 Codelab 城市站
+<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/codelab/2025-10-25-%E5%90%88%E8%82%A5%E7%AB%99.jpg">
+
+[⚡ 前往报名](https://3253996746017.huodongxing.com/event/7830404121400)
 
 ### 7、快速入门
 - [安装与升级](https://guide.oinone.top/zh-cn/InstallOrUpgrade/)
