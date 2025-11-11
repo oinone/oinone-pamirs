@@ -98,11 +98,6 @@
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-grouping</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-quick-filling</artifactId>
                 <version>${project.version}</version>
             </dependency>
