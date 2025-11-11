@@ -1,9 +1,9 @@
-package pro.shushi.pamirs.boot.web.action;
+package pro.shushi.pamirs.filling.action;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.boot.base.tmodel.QuickFilling;
-import pro.shushi.pamirs.boot.web.service.QuickFillingService;
+import pro.shushi.pamirs.filling.service.QuickFillingService;
+import pro.shushi.pamirs.filling.model.QuickFilling;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;

@@ -40,6 +40,7 @@
         <module>pamirs-international</module>
         <module>pamirs-timezone</module>
         <module>pamirs-draft</module>
+        <module>pamirs-quick-filling</module>
 
         <!-- extension capability -->
         <module>pamirs-apps</module>
@@ -92,9 +93,25 @@
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-draft</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-grouping</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-quick-filling</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-sequence</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-resource-api</artifactId>
@@ -258,11 +275,6 @@
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-management-center</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-draft</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

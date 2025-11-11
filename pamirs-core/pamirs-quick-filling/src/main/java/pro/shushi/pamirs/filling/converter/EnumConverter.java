@@ -1,9 +1,6 @@
-package pro.shushi.pamirs.boot.web.service.impl.filling;
+package pro.shushi.pamirs.filling.converter;
 
 import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
-import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
-import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
@@ -20,13 +17,13 @@ public class EnumConverter extends AbstractValueConverter implements QuickFillin
     public static final QuickFillingValueConverter INSTANCE = new EnumConverter();
 
     @Override
-    public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
+    public Object singleValueConvert(QuickFillingContext context, String value) {
+        ModelFieldConfig modelFieldConfig = context.getModelFieldConfig();
         String dictionary = modelFieldConfig.getDictionary();
         DataDictionary dataDictionary = PamirsSession.getContext().getDictionary(dictionary);
         if (dataDictionary == null) {
             log.error("quick filling enumeration value convert error. cause: dictionary is not found. {}", dictionary);
-            failureDetail.fail();
+            context.fail();
             return null;
         }
         TtypeEnum valueType = dataDictionary.getValueType();
@@ -39,7 +36,7 @@ public class EnumConverter extends AbstractValueConverter implements QuickFillin
                 }
             }
         }
-        failureDetail.fail();
+        context.fail();
         return null;
     }
 }

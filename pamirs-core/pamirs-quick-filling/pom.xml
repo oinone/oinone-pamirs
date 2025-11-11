@@ -9,13 +9,17 @@
         <version>6.3.4</version>
     </parent>
     <groupId>pro.shushi.pamirs.core</groupId>
-    <artifactId>pamirs-draft</artifactId>
-    <name>pamirs-draft</name>
+    <artifactId>pamirs-quick-filling</artifactId>
+    <name>pamirs-quick-filling</name>
 
     <dependencies>
         <dependency>
             <groupId>pro.shushi.pamirs.core</groupId>
             <artifactId>pamirs-core-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pro.shushi.pamirs.core</groupId>
+            <artifactId>pamirs-resource-api</artifactId>
         </dependency>
     </dependencies>
 </project>

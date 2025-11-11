@@ -692,7 +692,9 @@ public class RegisterViewEditor implements MetaDataEditor {
                     }
                 }
                 // 设置为下拉控件
-                uiField.setWidget(WidgetEnum.SELECT.value());
+                if (StringUtils.isBlank(uiField.getWidget())) {
+                    uiField.setWidget(WidgetEnum.SELECT.value());
+                }
             }
 
             // 可选项配置

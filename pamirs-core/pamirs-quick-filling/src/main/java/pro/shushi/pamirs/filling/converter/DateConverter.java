@@ -1,8 +1,5 @@
-package pro.shushi.pamirs.boot.web.service.impl.filling;
+package pro.shushi.pamirs.filling.converter;
 
-import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
-import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
-import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
@@ -21,20 +18,8 @@ public class DateConverter extends AbstractValueConverter implements QuickFillin
     public static final QuickFillingValueConverter INSTANCE = new DateConverter();
 
     @Override
-    public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
-        Date date;
-        try {
-            date = getDate(value, quickFillingField);
-        } catch (Exception e) {
-            failureDetail.fail();
-            log.error("quick filling date value convert error. field: {}, value: {}", quickFillingField.getField(), value, e);
-            return null;
-        }
-        return date;
-    }
-
-    private Date getDate(String value, QuickFillingField quickFillingField) {
-        ModelFieldConfig modelFieldConfig = quickFillingField.getModelConfigField();
+    public Object singleValueConvert(QuickFillingContext context, String value) {
+        ModelFieldConfig modelFieldConfig = context.getModelFieldConfig();
         String ttype = modelFieldConfig.getTtype();
         if (TtypeEnum.RELATED.value().equals(ttype)) {
             ttype = modelFieldConfig.getRelatedTtype();

@@ -1,6 +1,6 @@
-package pro.shushi.pamirs.boot.web.service;
+package pro.shushi.pamirs.filling.service;
 
-import pro.shushi.pamirs.boot.base.tmodel.QuickFilling;
+import pro.shushi.pamirs.filling.model.QuickFilling;
 
 /**
  * 快速填报service

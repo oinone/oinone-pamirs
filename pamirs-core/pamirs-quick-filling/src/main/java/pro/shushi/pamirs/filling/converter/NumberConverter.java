@@ -1,15 +1,12 @@
-package pro.shushi.pamirs.boot.web.service.impl.filling;
+package pro.shushi.pamirs.filling.converter;
 
-import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.boot.base.tmodel.QuickFillingFailureDetail;
-import pro.shushi.pamirs.boot.base.tmodel.QuickFillingField;
-import pro.shushi.pamirs.boot.web.service.QuickFillingValueConverter;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.regex.Pattern;
 
 /**
  * @author Gesi at 9:35 on 2025/9/11
@@ -18,26 +15,24 @@ public class NumberConverter extends AbstractValueConverter implements QuickFill
 
     public static final QuickFillingValueConverter INSTANCE = new NumberConverter();
 
+    private static final Pattern PATTERN = Pattern.compile("^-?(\\d+(\\.\\d+)?|\\.\\d+)$");
+
     @Override
-    public Object transform(QuickFillingField quickFillingField, String value, QuickFillingFailureDetail failureDetail) {
+    public Object singleValueConvert(QuickFillingContext context, String value) {
         if (!originIsNumber(value)) {
-            failureDetail.fail();
+            context.fail();
             return null;
         }
-
         BigDecimal number = new BigDecimal(value);
-        ModelFieldConfig modelConfigField = quickFillingField.getModelConfigField();
-
-        Object returnValue = numberCaseModelValue(number, modelConfigField);
+        Object returnValue = numberCaseModelValue(context, number);
         if (returnValue == null) {
-            failureDetail.fail();
+            context.fail();
         }
         return returnValue;
     }
 
-    private Object numberCaseModelValue(BigDecimal number, ModelFieldConfig modelFieldConfig) {
-        String ltype = Boolean.TRUE.equals(modelFieldConfig.getMulti()) ? modelFieldConfig.getLtypeT() : modelFieldConfig.getLtype();
-
+    private Object numberCaseModelValue(QuickFillingContext context, BigDecimal number) {
+        String ltype = context.getLtype();
         if (Integer.class.getName().equals(ltype)) {
             return number.intValue();
         } else if (Long.class.getName().equals(ltype)) {
@@ -46,26 +41,21 @@ public class NumberConverter extends AbstractValueConverter implements QuickFill
             return number.doubleValue();
         } else if (Float.class.getName().equals(ltype)) {
             return number.floatValue();
-        } else if (Short.class.getName().equals(ltype)) {
-            return number.shortValue();
-        } else if (Byte.class.getName().equals(ltype)) {
-            return number.byteValue();
         } else if (java.math.BigDecimal.class.getName().equals(ltype)) {
             if (TtypeEnum.MONEY.value().equals(ltype)) {
+                ModelFieldConfig modelFieldConfig = context.getModelFieldConfig();
                 if (modelFieldConfig.getDecimal() != null) {
-                    return number.setScale(modelFieldConfig.getDecimal(), RoundingMode.DOWN);
+                    return number.setScale(modelFieldConfig.getDecimal(), RoundingMode.HALF_UP);
                 }
             }
             return number;
         } else if (java.math.BigInteger.class.getName().equals(ltype)) {
             return new BigInteger(number.intValue() + "");
         }
-
         return number.toPlainString();
     }
 
     private boolean originIsNumber(String value) {
-        if (StringUtils.isBlank(value)) return false;
-        return value.matches("^-?(\\d+(\\.\\d+)?|\\.\\d+)$");
+        return PATTERN.matcher(value).matches();
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Fun(ResourcePartnerAddressService.FUN_NAMESPACE)
 public interface ResourcePartnerAddressService {
 
-    String FUN_NAMESPACE = "libra.resource.ResourcePartnerAddressService";
+    String FUN_NAMESPACE = "resource.ResourcePartnerAddressService";
 
     /**
      * 分页查询接口
