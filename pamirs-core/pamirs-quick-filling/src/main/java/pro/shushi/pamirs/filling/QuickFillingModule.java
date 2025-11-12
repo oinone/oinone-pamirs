@@ -1,9 +1,14 @@
 package pro.shushi.pamirs.filling;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.boot.orm.configure.BootConfiguration;
 import pro.shushi.pamirs.meta.annotation.Module;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.base.PamirsModule;
+
+import java.util.Set;
 
 /**
  * 快速填报
@@ -19,10 +24,19 @@ import pro.shushi.pamirs.meta.base.PamirsModule;
 )
 @Module.module(QuickFillingModule.MODULE_MODULE)
 @Module.Advanced(selfBuilt = true, application = false, core = true)
-public class QuickFillingModule implements PamirsModule {
+public class QuickFillingModule implements PamirsModule, InitializingBean {
 
     public static final String MODULE_MODULE = "quick_filling";
 
     public static final String MODULE_NAME = "quickFilling";
 
+    @Autowired
+    private BootConfiguration bootConfiguration;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        // 自启动
+        Set<String> modules = bootConfiguration.getModules();
+        modules.add(QuickFillingModule.MODULE_MODULE);
+    }
 }

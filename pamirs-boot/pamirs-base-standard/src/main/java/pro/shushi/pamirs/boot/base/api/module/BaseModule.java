@@ -1,11 +1,16 @@
 package pro.shushi.pamirs.boot.base.api.module;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.boot.orm.configure.BootConfiguration;
 import pro.shushi.pamirs.meta.annotation.Module;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.annotation.sys.Boot;
 import pro.shushi.pamirs.meta.base.PamirsModule;
 import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
+
+import java.util.Set;
 
 /**
  * base module配置类
@@ -26,7 +31,7 @@ import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
 )
 @Module.module(ModuleConstants.MODULE_BASE)
 @Module.Advanced(application = false, web = false, selfBuilt = true, core = true, author = "pamirs", contributors = "huidao", maintainer = "huidao")
-public class BaseModule implements PamirsModule {
+public class BaseModule implements PamirsModule, InitializingBean {
 
     @Override
     public String[] packagePrefix() {
@@ -58,4 +63,13 @@ public class BaseModule implements PamirsModule {
         };
     }
 
+    @Autowired
+    private BootConfiguration bootConfiguration;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        // 自启动
+        Set<String> modules = bootConfiguration.getModules();
+        modules.add(ModuleConstants.MODULE_BASE);
+    }
 }
