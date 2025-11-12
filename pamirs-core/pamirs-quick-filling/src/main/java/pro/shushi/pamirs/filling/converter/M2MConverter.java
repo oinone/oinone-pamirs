@@ -9,10 +9,13 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.api.session.RequestContext;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Gesi at 9:35 on 2025/9/11
@@ -59,37 +62,14 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
             labelFieldConfigs.add(modelFieldConfig);
         }
 
-        String[] valueList = value.split(",");
-        int relationQueryNum = 0;
-
-        for (String valueItem : valueList) {
-            if (StringUtils.isBlank(valueItem)) {
-                continue;
-            }
-            String[] valueSearchPartList = valueItem.split("-");
-            if (valueSearchPartList.length == 0) {
-                continue;
-            }
-            if (valueSearchPartList.length > labelFieldConfigs.size()) {
-                continue;
-            }
-            queryWrapper.or(orWrapper -> {
-                for (int i = 0; i < valueSearchPartList.length; i++) {
-                    ModelFieldConfig relationModelFieldConfig = labelFieldConfigs.get(i);
-                    String searchPart = valueSearchPartList[i];
-                    if (StringUtils.isNotBlank(searchPart)) {
-                        orWrapper.eq(relationModelFieldConfig.getColumn(), searchPart);
-                    } else {
-                        orWrapper.isNull(relationModelFieldConfig.getColumn());
-                    }
-                }
-            });
-            relationQueryNum++;
-        }
-        if (relationQueryNum == 0) {
-            context.fail();
+        List<String> valueList = Arrays.stream(value.split(CharacterConstants.SEPARATOR_COMMA)).map(String::trim).filter(StringUtils::isNotBlank).collect(Collectors.toList());
+        if (valueList.isEmpty()) {
+            context.fail("没有有效值可以进行匹配");
             return 0;
         }
-        return relationQueryNum;
+        // FIXME: zbh 20251112 此处不允许使用 or 拼接，后续需要改成多次匹配查询
+        ModelFieldConfig labelFieldConfig = labelFieldConfigs.get(0);
+        queryWrapper.in(labelFieldConfig.getColumn(), valueList);
+        return valueList.size();
     }
 }
