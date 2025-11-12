@@ -47,6 +47,7 @@ public class QuickFillingServiceImpl implements QuickFillingService {
         for (int i = 0; i < values.size(); i++) {
             Map<String, String> rowData = values.get(i);
             Object modelObject = PamirsDataUtils.jsonObjectToModelObject(model, new HashMap<>());
+            modelObject = Fun.run(model, FunctionConstants.construct, modelObject);
             QuickFillingFailure quickFillingFailure = new QuickFillingFailure();
             quickFillingFailure.setRowNumber(i);
             List<QuickFillingFailureDetail> detailList = new ArrayList<>(rowData.size());
@@ -58,6 +59,10 @@ public class QuickFillingServiceImpl implements QuickFillingService {
                 String field = fieldContext.getField();
                 String origin = rowData.get(field);
                 if (StringUtils.isBlank(origin)) {
+                    if (fieldContext.isRequired()) {
+                        fieldContext.fail(QuickFillingExpEnumerate.FIELD_VALIDATE_REQUIRED_ERROR.msg());
+                        detailList.addAll(fieldContext.getFailures());
+                    }
                     continue;
                 }
                 origin = origin.trim();
@@ -70,14 +75,11 @@ public class QuickFillingServiceImpl implements QuickFillingService {
                     FieldUtils.setFieldValue(modelObject, field, target);
                 }
             }
-            if (CollectionUtils.isNotEmpty(detailList)) {
-                failures.add(quickFillingFailure);
-            }
             if (isResolved) {
-                modelObject = Fun.run(model, FunctionConstants.construct, modelObject);
-                if (modelObject != null) {
-                    modelObject = PamirsDataUtils.modelObjectToJsonObject(model, modelObject);
+                if (CollectionUtils.isNotEmpty(detailList)) {
+                    failures.add(quickFillingFailure);
                 }
+                modelObject = PamirsDataUtils.modelObjectToJsonObject(model, modelObject);
                 results.add(modelObject);
             }
         }

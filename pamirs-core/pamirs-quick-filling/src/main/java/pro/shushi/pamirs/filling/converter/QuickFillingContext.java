@@ -25,6 +25,8 @@ public class QuickFillingContext {
 
     private final String field;
 
+    private final boolean required;
+
     private final List<String> labelFields;
 
     private Object target;
@@ -42,6 +44,7 @@ public class QuickFillingContext {
             this.ltype = modelFieldConfig.getLtypeT();
         }
         this.field = field.getField();
+        this.required = Boolean.TRUE.equals(field.getRequired());
         this.labelFields = field.getLabelFields();
         this.failureFields = new HashSet<>();
         this.failures = new ArrayList<>();
@@ -61,6 +64,10 @@ public class QuickFillingContext {
 
     public String getField() {
         return field;
+    }
+
+    public boolean isRequired() {
+        return required;
     }
 
     public List<String> getLabelFields() {
