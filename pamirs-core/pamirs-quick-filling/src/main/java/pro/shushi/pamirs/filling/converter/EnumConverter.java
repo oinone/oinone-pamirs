@@ -28,7 +28,7 @@ public class EnumConverter extends AbstractValueConverter implements QuickFillin
         }
         TtypeEnum valueType = dataDictionary.getValueType();
         for (DataDictionaryItem option : dataDictionary.getOptions()) {
-            if (StringUtils.equals(value, option.getDisplayName())) {
+            if (StringUtils.equals(value, option.getDisplayName()) || StringUtils.equals(value, option.getName())) {
                 if (dataDictionary.getBit() || TtypeEnum.INTEGER.equals(valueType)) {
                     return Long.parseLong(option.getValue());
                 } else if (TtypeEnum.STRING.equals(valueType)) {
