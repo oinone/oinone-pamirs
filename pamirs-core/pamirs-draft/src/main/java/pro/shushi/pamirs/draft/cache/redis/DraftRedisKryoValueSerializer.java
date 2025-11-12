@@ -5,7 +5,7 @@ import org.springframework.data.redis.serializer.SerializationException;
 import pro.shushi.pamirs.framework.common.serialize.KryoSerializer;
 
 /**
- * 权限缓存Kryo值序列化
+ * 草稿缓存Kryo值序列化
  *
  * @author Adamancy Zhang at 20:03 on 2024-01-06
  */
