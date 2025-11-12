@@ -40,6 +40,7 @@
         <module>pamirs-international</module>
         <module>pamirs-timezone</module>
         <module>pamirs-draft</module>
+        <module>pamirs-grouping</module>
         <module>pamirs-quick-filling</module>
 
         <!-- extension capability -->
@@ -94,6 +95,11 @@
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-draft</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-grouping</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
