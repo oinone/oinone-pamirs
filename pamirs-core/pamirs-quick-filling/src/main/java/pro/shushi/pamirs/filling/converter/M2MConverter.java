@@ -8,11 +8,9 @@ import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
-import pro.shushi.pamirs.meta.api.session.RequestContext;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,28 +45,22 @@ public class M2MConverter extends AbstractValueConverter implements QuickFilling
     }
 
     private int fillQueryWrapperCondition(QuickFillingContext context, String model, QueryWrapper<?> queryWrapper, String value) {
-        RequestContext requestContext = PamirsSession.getContext();
         List<String> labelFields = context.getLabelFields();
         if (CollectionUtils.isEmpty(labelFields)) {
             context.fail("未指定选项字段无法进行匹配");
             return 0;
         }
-        List<ModelFieldConfig> labelFieldConfigs = new ArrayList<>(labelFields.size());
-        for (String labelField : labelFields) {
-            ModelFieldConfig modelFieldConfig = requestContext.getModelField(model, labelField);
-            if (modelFieldConfig == null) {
-                throw PamirsException.construct(QuickFillingExpEnumerate.FIELD_NOT_FIND).appendMsg(labelField + "字段在模型" + model + "内找不到").errThrow();
-            }
-            labelFieldConfigs.add(modelFieldConfig);
+        String labelField = labelFields.get(0);
+        ModelFieldConfig labelFieldConfig = PamirsSession.getContext().getModelField(model, labelField);
+        if (labelFieldConfig == null) {
+            throw PamirsException.construct(QuickFillingExpEnumerate.FIELD_NOT_FIND).appendMsg(labelField + "字段在模型" + model + "内找不到").errThrow();
         }
-
         List<String> valueList = Arrays.stream(value.split(CharacterConstants.SEPARATOR_COMMA)).map(String::trim).filter(StringUtils::isNotBlank).collect(Collectors.toList());
         if (valueList.isEmpty()) {
             context.fail("没有有效值可以进行匹配");
             return 0;
         }
         // FIXME: zbh 20251112 此处不允许使用 or 拼接，后续需要改成多次匹配查询
-        ModelFieldConfig labelFieldConfig = labelFieldConfigs.get(0);
         queryWrapper.in(labelFieldConfig.getColumn(), valueList);
         return valueList.size();
     }

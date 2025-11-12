@@ -10,14 +10,12 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
-import pro.shushi.pamirs.meta.api.session.RequestContext;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 import pro.shushi.pamirs.resource.api.model.*;
 import pro.shushi.pamirs.resource.api.service.ResourceAddressService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -60,34 +58,18 @@ public class M2OConverter extends AbstractValueConverter implements QuickFilling
     }
 
     private void fillQueryWrapperCondition(QuickFillingContext context, String model, QueryWrapper<?> queryWrapper, String value) {
-        RequestContext requestContext = PamirsSession.getContext();
         List<String> labelFields = context.getLabelFields();
-        List<ModelFieldConfig> labelFieldConfigs = new ArrayList<>(labelFields.size());
-        for (String labelField : labelFields) {
-            ModelFieldConfig modelFieldConfig = requestContext.getModelField(model, labelField);
-            if (modelFieldConfig == null) {
-                throw PamirsException.construct(QuickFillingExpEnumerate.FIELD_NOT_FIND).appendMsg(labelField + "字段在模型" + model + "内找不到").errThrow();
-            }
-            labelFieldConfigs.add(modelFieldConfig);
-        }
-        String[] valueSearchPartList = value.split("-");
-        if (StringUtils.isBlank(value) || valueSearchPartList.length == 0) {
-            context.fail();
+        if (CollectionUtils.isEmpty(labelFields)) {
+            context.fail("未指定选项字段无法进行匹配");
             return;
         }
-        if (valueSearchPartList.length > labelFieldConfigs.size()) {
-            context.fail();
-            return;
+        // FIXME: zbh 20251112 此处不允许使用 or 拼接，后续需要改成多次匹配查询
+        String labelField = labelFields.get(0);
+        ModelFieldConfig labelFieldConfig = PamirsSession.getContext().getModelField(model, labelField);
+        if (labelFieldConfig == null) {
+            throw PamirsException.construct(QuickFillingExpEnumerate.FIELD_NOT_FIND).appendMsg(labelField + "字段在模型" + model + "内找不到").errThrow();
         }
-        for (int i = 0; i < valueSearchPartList.length; i++) {
-            ModelFieldConfig relationModelFieldConfig = labelFieldConfigs.get(i);
-            String searchPart = valueSearchPartList[i];
-            if (StringUtils.isNotBlank(searchPart)) {
-                queryWrapper.eq(relationModelFieldConfig.getColumn(), searchPart);
-            } else {
-                queryWrapper.isNull(relationModelFieldConfig.getColumn());
-            }
-        }
+        queryWrapper.eq(labelFieldConfig.getColumn(), value);
     }
 
     private ResourceAddress convertResourceAddress(QuickFillingContext context, String value) {
