@@ -6,19 +6,22 @@ import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.IdModel;
 import pro.shushi.pamirs.meta.common.lambda.Getter;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
+import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
+import pro.shushi.pamirs.meta.enmu.DateTypeEnum;
+
+import java.util.Date;
 
 /**
- * @author yeshenyue on 2025/4/10 09:23.
- * @deprecated 改用每日同步 {@link EipLogDailyCount}
+ * @author yeshenyue on 2025/11/6 10:42.
  */
-@Deprecated
-@Model.Advanced(unique = {"interfaceName,interfaceType"})
-@Model(displayName = "集成/开放接口调用统计")
-@Model.model(EipLogCount.MODEL_MODEL)
-public class EipLogCount extends IdModel {
+@Model(displayName = "EIP日志按天调用统计")
+@Model.model(EipLogDailyCount.MODEL_MODEL)
+@Model.Advanced(unique = {"interfaceName,interfaceType,countDate"})
+public class EipLogDailyCount extends IdModel {
 
-    public static final String MODEL_MODEL = "eip.api.EipLogCount";
-    private static final long serialVersionUID = -5238133156930582749L;
+    public static final String MODEL_MODEL = "pamirs.eip.EipLogDailyCount";
+
+    private static final long serialVersionUID = 324205313492284139L;
 
     @Field.String
     @Field(displayName = "接口技术名称")
@@ -27,6 +30,10 @@ public class EipLogCount extends IdModel {
     @Field.Enum
     @Field(displayName = "接口类型", required = true)
     private InterfaceTypeEnum interfaceType;
+
+    @Field.Date(type = DateTypeEnum.DATE, format = DateFormatEnum.DATE)
+    @Field(displayName = "统计日期")
+    private Date countDate;
 
     @Field.Integer
     @Field(displayName = "成功调用次数")
@@ -69,43 +76,43 @@ public class EipLogCount extends IdModel {
     private Long timeoutCall;
 
     public Long getSuccessCallCount() {
-        return getCountValue(EipLogCount::getSuccessCallCount);
+        return getCountValue(EipLogDailyCount::getSuccessCallCount);
     }
 
     public Long getFailCallCount() {
-        return getCountValue(EipLogCount::getFailCallCount);
+        return getCountValue(EipLogDailyCount::getFailCallCount);
     }
 
     public Long getUltraFastCall() {
-        return getCountValue(EipLogCount::getUltraFastCall);
+        return getCountValue(EipLogDailyCount::getUltraFastCall);
     }
 
     public Long getVeryFastCall() {
-        return getCountValue(EipLogCount::getVeryFastCall);
+        return getCountValue(EipLogDailyCount::getVeryFastCall);
     }
 
     public Long getFastCall() {
-        return getCountValue(EipLogCount::getFastCall);
+        return getCountValue(EipLogDailyCount::getFastCall);
     }
 
     public Long getModerateCall() {
-        return getCountValue(EipLogCount::getModerateCall);
+        return getCountValue(EipLogDailyCount::getModerateCall);
     }
 
     public Long getSlowCall() {
-        return getCountValue(EipLogCount::getSlowCall);
+        return getCountValue(EipLogDailyCount::getSlowCall);
     }
 
     public Long getVerySlowCall() {
-        return getCountValue(EipLogCount::getVerySlowCall);
+        return getCountValue(EipLogDailyCount::getVerySlowCall);
     }
 
     public Long getTimeoutCall() {
-        return getCountValue(EipLogCount::getTimeoutCall);
+        return getCountValue(EipLogDailyCount::getTimeoutCall);
     }
 
     public Long getSlowestCall() {
-        return getCountValue(EipLogCount::getSlowestCall);
+        return getCountValue(EipLogDailyCount::getSlowestCall);
     }
 
     private <T, R> Long getCountValue(Getter<T, R> methodReference) {
