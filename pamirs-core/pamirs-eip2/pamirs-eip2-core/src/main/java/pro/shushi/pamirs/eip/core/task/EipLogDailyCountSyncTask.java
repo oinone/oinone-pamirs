@@ -3,34 +3,37 @@ package pro.shushi.pamirs.eip.core.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
-import pro.shushi.pamirs.eip.api.strategy.service.EipCircuitBreakerRecordService;
+import pro.shushi.pamirs.eip.api.config.PamirsEipProperties;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
 import pro.shushi.pamirs.eip.core.task.abs.EipAbstractScheduledJob;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
+import pro.shushi.pamirs.trigger.model.ScheduleTaskAction;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 
 /**
- * 熔断记录定时落库-每日凌晨1点15同步
- *
- * @author yeshenyue on 2025/4/17 11:18.
+ * 接口日志每日汇总统计定时任务，每日凌晨1点45执行统计次日
  */
 @Slf4j
 @Component
-@Fun(EipCircuitBreakerRecordSyncTask.FUN_NAMESPACE)
-public class EipCircuitBreakerRecordSyncTask extends EipAbstractScheduledJob {
+@Fun(EipLogDailyCountSyncTask.FUN_NAMESPACE)
+public class EipLogDailyCountSyncTask extends EipAbstractScheduledJob {
 
-    public static final String FUN_NAMESPACE = "eip.EipCircuitBreakerRecordSyncTask";
-    public static final String TASK_DISPLAY_NAME = "熔断记录定时同步";
+    public static final String FUN_NAMESPACE = "eip.EipLogDailyCountSyncTask";
+    public static final String TASK_DISPLAY_NAME = "接口日志每日汇总统计定时任务";
 
     @Autowired
-    private EipCircuitBreakerRecordService eipCircuitBreakerRecordService;
+    private EipLogDailyCountService eipLogDailyCountService;
+
+    @Autowired
+    private PamirsEipProperties pamirsEipProperties;
 
     @Override
     protected String getDisplayName() {
-        return EipCircuitBreakerRecordSyncTask.TASK_DISPLAY_NAME;
+        return TASK_DISPLAY_NAME;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class EipCircuitBreakerRecordSyncTask extends EipAbstractScheduledJob {
         ZoneId zone = ZoneId.systemDefault();
         return LocalDate.now(zone)
                 .plusDays(1)
-                .atTime(1, 15)
+                .atTime(1, 45)
                 .atZone(zone)
                 .toInstant()
                 .toEpochMilli();
@@ -56,11 +59,20 @@ public class EipCircuitBreakerRecordSyncTask extends EipAbstractScheduledJob {
 
     @Override
     public String getInterfaceName() {
-        return EipCircuitBreakerRecordSyncTask.FUN_NAMESPACE;
+        return EipLogDailyCountSyncTask.FUN_NAMESPACE;
     }
 
     @Override
     public void doExecute(ScheduleItem scheduleItem) {
-        eipCircuitBreakerRecordService.saveRecord();
+        eipLogDailyCountService.syncYesterday();
+    }
+
+    @Override
+    protected void doSubmit(ScheduleTaskAction task) {
+        if (Boolean.FALSE.equals(pamirsEipProperties.getEnableLogCount())) {
+            scheduleTaskActionService.cancel(task.getTechnicalName());
+        } else {
+            super.doSubmit(task);
+        }
     }
 }
