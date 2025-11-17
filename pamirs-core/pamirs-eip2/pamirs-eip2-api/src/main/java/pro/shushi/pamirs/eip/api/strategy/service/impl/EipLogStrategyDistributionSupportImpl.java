@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Adamancy Zhang at 10:16 on 2025-08-18
@@ -53,6 +54,13 @@ public class EipLogStrategyDistributionSupportImpl implements EipLogStrategyDist
 
     private final Map<String, TreeCache> treeCacheMap = new ConcurrentHashMap<>();
 
+    private final AtomicBoolean isStart = new AtomicBoolean(false);
+
+    @Override
+    public boolean isStart() {
+        return isStart.get();
+    }
+
     @Override
     public void start() throws Exception {
         zookeeperService.start();
@@ -60,6 +68,7 @@ public class EipLogStrategyDistributionSupportImpl implements EipLogStrategyDist
             close();
         }
         registerListeners();
+        isStart.set(true);
     }
 
     @Override
@@ -68,6 +77,7 @@ public class EipLogStrategyDistributionSupportImpl implements EipLogStrategyDist
             entry.getValue().close();
         }
         treeCacheMap.clear();
+        isStart.set(false);
     }
 
     @Override

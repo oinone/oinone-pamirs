@@ -8,6 +8,7 @@ import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.strategy.EipLogStrategy;
 import pro.shushi.pamirs.eip.api.strategy.context.EipLogStrategyContext;
 import pro.shushi.pamirs.eip.api.strategy.entity.EipLogStrategyEntity;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyAsyncService;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyDistributionSupport;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.eip.api.util.EipInitializationUtil;
@@ -18,7 +19,6 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
-import pro.shushi.pamirs.trigger.annotation.XAsync;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -32,6 +32,9 @@ import java.util.stream.Collectors;
 @Service
 @Fun(EipLogStrategyService.FUN_NAMESPACE)
 public class EipLogStrategyServiceImpl implements EipLogStrategyService {
+
+    @Autowired
+    private EipLogStrategyAsyncService eipLogStrategyAsyncService;
 
     @Autowired(required = false)
     private EipLogStrategyDistributionSupport eipLogStrategyDistributionSupport;
@@ -102,14 +105,13 @@ public class EipLogStrategyServiceImpl implements EipLogStrategyService {
         return fetchInterfaceNames(eipLogStrategyList);
     }
 
-    @XAsync(displayName = "刷新日志策略")
     @Function
     @Override
     public void refreshLogStrategy(EipLogStrategyEntity logStrategy) {
-        if (eipLogStrategyDistributionSupport == null) {
-            EipLogStrategyContext.put(logStrategy.getInterfaceType(), logStrategy.getInterfaceName(), logStrategy);
+        if (eipLogStrategyDistributionSupport != null && eipLogStrategyDistributionSupport.isStart()) {
+            eipLogStrategyAsyncService.refreshLogStrategy(logStrategy);
         } else {
-            eipLogStrategyDistributionSupport.refreshLogStrategy(logStrategy);
+            EipLogStrategyContext.put(logStrategy.getInterfaceType(), logStrategy.getInterfaceName(), logStrategy);
         }
     }
 

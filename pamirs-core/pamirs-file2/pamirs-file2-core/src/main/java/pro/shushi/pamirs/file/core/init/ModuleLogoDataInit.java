@@ -14,6 +14,7 @@ import pro.shushi.pamirs.framework.connectors.cdn.client.FileClient;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
+import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,10 +52,10 @@ public class ModuleLogoDataInit implements MetaDataEditor {
         FileClient fileClient = FileClientFactory.getClient();
         try {
             Map<String, String> uploadResult = ResourceFileHelper.uploadByResources(fileClient, RESOURCE_PATTERN, FILENAME_GENERATOR);
-            List<UeModule> modules = new ArrayList<>();
+            List<ModuleDefinition> modules = new ArrayList<>();
             metaMap.values().stream()
                     .map(Meta::getCurrentModuleData)
-                    .forEach(v -> Optional.ofNullable(v.<UeModule>getDataMap(UeModule.MODEL_MODEL))
+                    .forEach(v -> Optional.ofNullable(v.<ModuleDefinition>getDataMap(ModuleDefinition.MODEL_MODEL))
                             .map(Map::values)
                             .ifPresent(modules::addAll));
             moduleLogoInit(modules, uploadResult);
@@ -63,8 +64,8 @@ public class ModuleLogoDataInit implements MetaDataEditor {
         }
     }
 
-    private void moduleLogoInit(List<UeModule> modules, Map<String, String> uploadResult) {
-        for (UeModule module : modules) {
+    private void moduleLogoInit(List<ModuleDefinition> modules, Map<String, String> uploadResult) {
+        for (ModuleDefinition module : modules) {
             if (StringUtils.isNotBlank(module.getLogo())) {
                 continue;
             }

@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.auth.api.model;
+package pro.shushi.pamirs.auth.api.model.shared;
 
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -6,6 +6,7 @@ import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.base.IdModel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 分享页面记录
@@ -21,7 +22,6 @@ public class AuthSharedPageRecord extends IdModel {
     private static final long serialVersionUID = -3067000193485321333L;
 
     public static final String MODEL_MODEL = "auth.SharedPageRecord";
-
 
     @Field.String(size = 64)
     @Field(displayName = "分享码")
@@ -76,7 +76,8 @@ public class AuthSharedPageRecord extends IdModel {
     @Field(displayName = "链接文本")
     private String linkText;
 
-    @Field.Text
+    @Field.one2many
+    @Field.Relation(relationFields = {"sharedCode"}, referenceFields = {"sharedCode"})
     @Field(displayName = "资源路径")
-    private String paths;
+    private List<AuthSharedPagePath> sharedPaths;
 }

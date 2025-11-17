@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 抽象脚本执行引擎
@@ -39,7 +40,7 @@ public abstract class AbstractScriptEngine implements PamirsScriptEngine {
         this.scriptEngine = scriptEngine;
         if (scriptEngine instanceof Compilable) {
             this.compilableEngine = (Compilable) scriptEngine;
-            this.compiledScriptCache = Caffeine.newBuilder().maximumSize(10_000).build();
+            this.compiledScriptCache = Caffeine.newBuilder().maximumSize(10_000).expireAfterWrite(5, TimeUnit.MINUTES).build();
         } else {
             this.compilableEngine = null;
             this.compiledScriptCache = null;

@@ -21,6 +21,10 @@ public class ExcelTypefaceDefinition extends TransientModel {
     @Field(displayName = "字体", defaultValue = "SONG")
     private ExcelTypefaceEnum typeface;
 
+    @Field.String
+    @Field(displayName = "自定义字体")
+    private String typefaceName;
+
     @Field.Integer
     @Field(displayName = "大小", defaultValue = "11")
     private Integer size;
@@ -54,6 +58,7 @@ public class ExcelTypefaceDefinition extends TransientModel {
     public ExcelTypefaceDefinition clone() {
         return new ExcelTypefaceDefinition()
                 .setTypeface(getTypeface())
+                .setTypefaceName(getTypefaceName())
                 .setSize(getSize())
                 .setItalic(getItalic())
                 .setStrikeout(getStrikeout())

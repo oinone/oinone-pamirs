@@ -40,6 +40,7 @@ public class ModuleResolver {
         // 计算启动模块
         for (PamirsModule pamirsModule : Objects.requireNonNull(pamirsModuleBeanMap).values()) {
             Module moduleAnnotation = AnnotationUtils.getAnnotation(pamirsModule.getClass(), Module.class);
+            Module.Advanced moduleAdvancedAnnotation = AnnotationUtils.getAnnotation(pamirsModule.getClass(), Module.Advanced.class);
             @SuppressWarnings("unchecked")
             String module = Spider.getExtension(ModelReflectSigner.class, ModuleDefinition.MODEL_MODEL).sign(null, pamirsModule.getClass());
             String moduleName = Optional.ofNullable(moduleAnnotation).map(Module::name).filter(StringUtils::isNotBlank).orElse(PStringUtils.dotName2ShortName(module));
@@ -59,7 +60,9 @@ public class ModuleResolver {
             ModuleDefinition moduleDefinition = new ModuleDefinition().setModule(module).setName(moduleName).setLatestVersion(version)
                     .setModuleDependencies(moduleDependencies)
                     .setModuleExclusions(moduleExclusions)
-                    .setModuleClazz(moduleClazz).setPackagePrefix(packagePrefix).setDependentPackagePrefix(dependentPackagePrefix);
+                    .setModuleClazz(moduleClazz).setPackagePrefix(packagePrefix)
+                    .setDependentPackagePrefix(dependentPackagePrefix)
+                    .setCore(Optional.ofNullable(moduleAdvancedAnnotation).map(Module.Advanced::core).orElse(false));
             if (null != moduleDefinition.getModuleDependencies()
                     && !moduleDefinition.getModuleDependencies().containsAll(pamirsModule.dependentPackagePrefix().keySet())) {
                 throw PamirsException.construct(AnnotationExpEnumerate.BASE_ERROR_DEPENDENCY_PACKAGE_PREFIX_ERROR)

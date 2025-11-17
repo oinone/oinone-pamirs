@@ -26,7 +26,7 @@ public class AsyncTaskExecutorConfiguration extends AsyncConfigurerSupport {
     @Override
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setThreadFactory(new PamirsThreadFactory("fixed", false));
+        executor.setThreadFactory(new PamirsThreadFactory("fixed"));
         int nThreads = PamirsThreadFactory.getAvailableProcessors();
         executor.setCorePoolSize(nThreads);
         executor.setMaxPoolSize(nThreads * 2);
