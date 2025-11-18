@@ -4,6 +4,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.orm.configure.BootConfiguration;
+import pro.shushi.pamirs.core.common.CommonModule;
 import pro.shushi.pamirs.meta.annotation.Module;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.base.PamirsModule;
@@ -20,7 +21,10 @@ import java.util.Set;
 @Module(
         name = GroupingModule.MODULE_NAME,
         displayName = "分组",
-        version = "6.3.0"
+        version = "6.3.0",
+        dependencies = {
+                CommonModule.MODULE_MODULE
+        }
 )
 @Module.module(GroupingModule.MODULE_MODULE)
 @Module.Advanced(selfBuilt = true, application = false, core = true)

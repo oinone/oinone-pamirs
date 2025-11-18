@@ -17,5 +17,9 @@
             <groupId>pro.shushi.pamirs.core</groupId>
             <artifactId>pamirs-core-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>pro.shushi.pamirs.core</groupId>
+            <artifactId>pamirs-auth3-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

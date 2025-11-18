@@ -3,7 +3,7 @@ package pro.shushi.pamirs.grouping.statistic;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import pro.shushi.pamirs.boot.web.utils.GroupStatisticUtils;
+import pro.shushi.pamirs.grouping.utils.GroupStatisticUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

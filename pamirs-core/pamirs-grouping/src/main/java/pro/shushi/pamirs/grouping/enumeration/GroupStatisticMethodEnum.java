@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.boot.base.enmu;
+package pro.shushi.pamirs.grouping.enumeration;
 
 import pro.shushi.pamirs.meta.annotation.Dict;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
@@ -8,8 +8,8 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
  * @author Gesi at 15:50 on 2025/9/1
  */
 @Base
-@Dict(dictionary = GroupStatisticTypeEnum.DICTIONARY, displayName = "统计类型")
-public enum GroupStatisticTypeEnum implements IEnum<String> {
+@Dict(dictionary = GroupStatisticMethodEnum.DICTIONARY, displayName = "统计方式")
+public enum GroupStatisticMethodEnum implements IEnum<String> {
 
     NONE("NONE", "不展示", "不展示"),
     COUNT("COUNT", "记录总数", "记录总数"),
@@ -31,13 +31,13 @@ public enum GroupStatisticTypeEnum implements IEnum<String> {
     MIN("MIN", "最小值", "最小值"),
     ;
 
-    public static final String DICTIONARY = "base.GroupStatisticTypeEnum";
+    public static final String DICTIONARY = "grouping.GroupStatisticMethodEnum";
 
     private final String value;
     private final String displayName;
     private final String help;
 
-    GroupStatisticTypeEnum(String value, String displayName, String help) {
+    GroupStatisticMethodEnum(String value, String displayName, String help) {
         this.value = value;
         this.displayName = displayName;
         this.help = help;

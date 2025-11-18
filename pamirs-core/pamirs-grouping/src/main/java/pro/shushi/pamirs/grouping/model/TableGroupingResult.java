@@ -2,19 +2,24 @@ package pro.shushi.pamirs.grouping.model;
 
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
+import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.base.TransientModel;
 
 import java.util.List;
-import java.util.Map;
 
 /**
+ * 表格分组结果
+ *
  * @author Gesi at 15:46 on 2025/9/1
  */
-@Model(displayName = "分组结果")
-@Model.model(GroupResult.MODEL_MODEL)
-public class GroupResult<T> extends TransientModel {
+@Base
+@Model(displayName = "表格分组结果")
+@Model.model(TableGroupingResult.MODEL_MODEL)
+public class TableGroupingResult extends TransientModel {
 
-    public static final String MODEL_MODEL = "base.GroupResult";
+    private static final long serialVersionUID = 8412195160011406354L;
+
+    public static final String MODEL_MODEL = "grouping.TableGroupingResult";
 
     @Field(displayName = "一级分组总记录数", defaultValue = "0", invisible = true)
     private Long totalElements;
@@ -25,14 +30,7 @@ public class GroupResult<T> extends TransientModel {
     @Field(displayName = "当前所有一级分组下的总数据量")
     private Long totalDataCount;
 
-    @Field(displayName = "返回的分组信息")
-    private List<GroupInfo<T>> groups;
-
-    @Field(displayName = "展开的分组数据")
-    private List<String> expandGroupDataStr;
-
-    private Map<GroupPath<T>, String> expandGroupData;
-
-    private Map<GroupPath<T>, Map<String, Object>> expandGroupStatistic;
+    @Field(displayName = "分组数据")
+    private List<GroupingData> groups;
 
 }

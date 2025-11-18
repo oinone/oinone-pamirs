@@ -1,5 +1,6 @@
-package pro.shushi.pamirs.boot.base.enmu;
+package pro.shushi.pamirs.grouping.enumeration;
 
+import pro.shushi.pamirs.meta.annotation.Errors;
 import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
 
 /**
@@ -7,11 +8,11 @@ import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
  *
  * @author Gesi at 10:44 on 2025/9/1
  */
+@Errors(displayName = "分组模块错误枚举")
 public enum GroupingExpEnumerate implements ExpBaseEnum {
 
+    QUERY_RELATION_FIELD_IS_NOT_FOUND(ERROR_TYPE.BIZ_ERROR, 10067001, "关联关系查询字段找不到 {}"),
     SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10067000, "系统异常"),
-    MODEL_NOT_FIND(ERROR_TYPE.SYSTEM_ERROR, 10067001, "模型找不到"),
-    LAZY_LOAD_PATHS_IS_NULL(ERROR_TYPE.SYSTEM_ERROR, 10067002, "懒加载路径为空"),
     ;
 
     private final ERROR_TYPE type;
