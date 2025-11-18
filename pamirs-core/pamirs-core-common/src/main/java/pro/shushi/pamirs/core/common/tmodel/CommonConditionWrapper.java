@@ -1,9 +1,8 @@
-package pro.shushi.pamirs.resource.api.tmodel;
+package pro.shushi.pamirs.core.common.tmodel;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
-import pro.shushi.pamirs.core.common.tmodel.CommonConditionWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -25,17 +24,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @deprecated 6.x please using {@link CommonConditionWrapper}
+ * 查询条件
+ *
+ * @author Adamancy Zhang at 19:03 on 2025-11-18
  */
 @Slf4j
 @Base
-@Model.model(ConditionWrapper.MODEL_MODEL)
+@Model.model(CommonConditionWrapper.MODEL_MODEL)
 @Model(displayName = "查询条件")
-public class ConditionWrapper extends TransientModel {
+public class CommonConditionWrapper extends TransientModel {
 
-    private static final long serialVersionUID = 278057274151246951L;
+    private static final long serialVersionUID = 8483736574402915828L;
 
-    public static final String MODEL_MODEL = "resource.ConditionWrapper";
+    public static final String MODEL_MODEL = "core.common.CommonConditionWrapper";
 
     @Field.String
     @Field(displayName = "模型编码")

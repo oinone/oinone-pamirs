@@ -3,6 +3,7 @@ package pro.shushi.pamirs.file.api;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxRoute;
 import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxHomepage;
+import pro.shushi.pamirs.core.common.CommonModule;
 import pro.shushi.pamirs.file.api.model.ExcelImportTask;
 import pro.shushi.pamirs.meta.annotation.Module;
 import pro.shushi.pamirs.meta.annotation.sys.Boot;
@@ -16,7 +17,10 @@ import pro.shushi.pamirs.resource.api.ResourceModule;
         name = FileModule.MODULE_NAME,
         displayName = "文件",
         version = "5.0.0",
-        dependencies = {ResourceModule.MODULE_MODULE}
+        dependencies = {
+                CommonModule.MODULE_MODULE,
+                ResourceModule.MODULE_MODULE
+        }
 )
 @Module.module(FileModule.MODULE_MODULE)
 @Module.Advanced(selfBuilt = true)
