@@ -1,4 +1,4 @@
-<view model="sso.SsoOauth2ClientDetails" type="form" name="ssoOauth2ClientDetailsForm">
+<view model="sso.SsoClient" type="form" name="ssoClientForm">
     <template slot="actionBar">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="update" disabled="IS_NULL(activeRecord.id)" goBack="true"/>

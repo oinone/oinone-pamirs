@@ -16,10 +16,10 @@ import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
 import pro.shushi.pamirs.sso.api.dto.SsoRequestParameters;
 import pro.shushi.pamirs.sso.api.enmu.SsoExpEnumerate;
 import pro.shushi.pamirs.sso.api.enmu.SsoGranTypeEnum;
-import pro.shushi.pamirs.sso.api.model.SsoOauth2ClientDetails;
+import pro.shushi.pamirs.sso.api.model.SsoClient;
 import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
 import pro.shushi.pamirs.sso.api.utils.OAuthTokenResponse;
-import pro.shushi.pamirs.sso.oauth2.server.model.SsoOauth2ClientDetailsService;
+import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IUserLoginOAuth2GrantType;
 import pro.shushi.pamirs.sso.oauth2.server.utils.TokenCache;
 import pro.shushi.pamirs.user.api.utils.JwtTokenUtil;
@@ -36,9 +36,8 @@ public class Oauth2CodeGrantType implements IUserLoginOAuth2GrantType {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
-
     @Autowired
-    private SsoOauth2ClientDetailsService ssoOauth2ClientDetailsService;
+    private SsoClientService ssoClientService;
     @Autowired
     private PamirsSsoProperties pamirsSsoProperties;
 
@@ -59,19 +58,19 @@ public class Oauth2CodeGrantType implements IUserLoginOAuth2GrantType {
             String clientId = ssoRequestParameters.getClient_id();
             String clientSecret = ssoRequestParameters.getClient_secret();
             if (StringUtils.isNotBlank(clientId) && StringUtils.isNotBlank(clientSecret)) {
-                SsoOauth2ClientDetails ssoOauth2ClientDetails = ssoOauth2ClientDetailsService.getOauth2ClientDetailsInfoByClientId(clientId);
-                String clientIdEn = EncryptionHandler.decryptSecret(ssoOauth2ClientDetails.getPrivateKey(), clientSecret);
+                SsoClient ssoClient = ssoClientService.getSsoClientInfoByClientId(clientId);
+                String clientIdEn = EncryptionHandler.decryptSecret(ssoClient.getPrivateKey(), clientSecret);
                 if (clientId.equals(clientIdEn)) {
                     Long expiresIn = Optional
-                            .ofNullable(ssoOauth2ClientDetails.getExpiresIn())
+                            .ofNullable(ssoClient.getExpiresIn())
                             .orElse(pamirsSsoProperties.getServer().getDefaultExpires().getExpiresIn());
 
                     Long refreshTokenExpiresIn = Optional
-                            .ofNullable(ssoOauth2ClientDetails.getRefreshTokenExpiresIn())
+                            .ofNullable(ssoClient.getRefreshTokenExpiresIn())
                             .orElse(pamirsSsoProperties.getServer().getDefaultExpires().getRefreshTokenExpiresIn());
 
                     Long codeExpiresIn = Optional
-                            .ofNullable(ssoOauth2ClientDetails.getCodeExpiresIn())
+                            .ofNullable(ssoClient.getCodeExpiresIn())
                             .orElse(pamirsSsoProperties.getServer().getDefaultExpires().getCodeExpiresIn());
 
                     String redisKey = EncryptionHandler.decrypt(clientId, code);

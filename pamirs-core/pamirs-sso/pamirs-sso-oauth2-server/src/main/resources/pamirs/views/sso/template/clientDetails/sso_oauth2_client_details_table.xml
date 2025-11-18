@@ -1,7 +1,7 @@
-<view name="tableView" type="TABLE" cols="2" model="sso.SsoOauth2ClientDetails" enableSequence="false">
+<view name="tableView" type="TABLE" cols="2" model="sso.SsoClient" enableSequence="false">
     <template slot="actions">
-        <action name="saveSsoOauth2ClientDetails" priority="3" label="生成客户端密钥" model="sso.SsoOauth2ClientDetails" displayName="生成客户端密钥" tag="contextFreeAction"/>
-        <action name="deleteMultipleOrSingleIds" priority="3" label="删除" model="sso.SsoOauth2ClientDetails" displayName="删除" tag="contextFreeAction"/>
+        <action name="saveSsoOauth2ClientDetails" priority="3" label="生成客户端密钥" model="sso.SsoClient" displayName="生成客户端密钥" tag="contextFreeAction"/>
+        <action name="deleteMultipleOrSingleIds" priority="3" label="删除" model="sso.SsoClient" displayName="删除" tag="contextFreeAction"/>
     </template>
     <template slot="rowActions" autoFill="true">
         <action name="clientDetail"/>

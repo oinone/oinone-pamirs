@@ -11,7 +11,7 @@ import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 import pro.shushi.pamirs.sso.api.SsoModule;
-import pro.shushi.pamirs.sso.api.model.SsoOauth2ClientDetails;
+import pro.shushi.pamirs.sso.api.model.SsoClient;
 
 import java.util.Map;
 
@@ -25,6 +25,6 @@ public class SsoMetadataEdit implements MetaDataEditor {
         if (util == null) {
             return;
         }
-        util.createUrlAction("redirectHomePage", "跳转首页", "${activeRecord.homepageUrl}", SsoOauth2ClientDetails.MODEL_MODEL, Lists.newArrayList(ViewTypeEnum.TABLE), ActionContextTypeEnum.SINGLE, ActionTargetEnum.OPEN_WINDOW, "");
+        util.createUrlAction("redirectHomePage", "跳转首页", "${activeRecord.homepageUrl}", SsoClient.MODEL_MODEL, Lists.newArrayList(ViewTypeEnum.TABLE), ActionContextTypeEnum.SINGLE, ActionTargetEnum.OPEN_WINDOW, "");
     }
 }

@@ -16,7 +16,7 @@ import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
 import pro.shushi.pamirs.sso.api.enmu.SsoExpEnumerate;
-import pro.shushi.pamirs.sso.oauth2.server.model.SsoOauth2ClientDetailsService;
+import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.utils.TokenCache;
 import pro.shushi.pamirs.user.api.model.tmodel.PamirsUserTransient;
 import pro.shushi.pamirs.user.api.utils.CookieUtil;
@@ -30,7 +30,7 @@ import java.util.HashMap;
 public class SsoUserLoginAfterHook implements HookAfter {
 
     @Autowired
-    private SsoOauth2ClientDetailsService ssoOauth2ClientDetailsService;
+    private SsoClientService ssoClientService;
 
     @Autowired
     private StringRedisTemplate redisTemplate;

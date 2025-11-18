@@ -9,26 +9,30 @@ import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.IdModel;
 import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
+import pro.shushi.pamirs.sso.api.enmu.SsoAuthTypeEnum;
 
 
 /**
  * sso 客户端信息表
  */
-@Model.model(SsoOauth2ClientDetails.MODEL_MODEL)
+@Model.model(SsoClient.MODEL_MODEL)
 @Model(displayName = "客户端信息表", summary = "客户端信息表", labelFields = "name")
 @UxRouteButton(
         action = @UxAction(name = "clientDetail", label = "详情", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = SsoOauth2ClientDetails.MODEL_MODEL, viewName = "ssoOauth2ClientDetailsForm", viewType = ViewTypeEnum.DETAIL, openType = ActionTargetEnum.ROUTER)
+        value = @UxRoute(model = SsoClient.MODEL_MODEL, viewName = "ssoClientForm", viewType = ViewTypeEnum.DETAIL, openType = ActionTargetEnum.ROUTER)
 )
 @UxRouteButton(
         action = @UxAction(name = "clientEdit", label = "编辑", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = SsoOauth2ClientDetails.MODEL_MODEL, viewName = "ssoOauth2ClientDetailsForm", viewType = ViewTypeEnum.FORM, openType = ActionTargetEnum.ROUTER)
+        value = @UxRoute(model = SsoClient.MODEL_MODEL, viewName = "ssoClientForm", viewType = ViewTypeEnum.FORM, openType = ActionTargetEnum.ROUTER)
 )
-public class SsoOauth2ClientDetails extends IdModel {
+public class SsoClient extends IdModel {
 
     private static final long serialVersionUID = 4416200429553155392L;
 
-    public static final String MODEL_MODEL = "sso.SsoOauth2ClientDetails";
+    public static final String MODEL_MODEL = "sso.SsoClient";
+    @Field.String
+    @Field(displayName = "客户端名称", required = true)
+    private String name;
 
     @Field.String
     @Field(displayName = "应用唯一标识", required = true)
@@ -46,6 +50,9 @@ public class SsoOauth2ClientDetails extends IdModel {
     @Field(displayName = "设置授权回调地址", required = true)
     private String callbackUrl;
 
+    @Field.Enum
+    @Field(displayName = "认证类型", required = true)
+    private SsoAuthTypeEnum authType;
 
     @Field.Integer
     @Field(displayName = "Access_token 超时时间", defaultValue = "7200L", required = true)

@@ -19,9 +19,9 @@ import pro.shushi.pamirs.sso.api.dto.SsoRequestParameters;
 import pro.shushi.pamirs.sso.api.dto.SsoUserVo;
 import pro.shushi.pamirs.sso.api.enmu.SsoExpEnumerate;
 import pro.shushi.pamirs.sso.api.enmu.SsoGranTypeEnum;
-import pro.shushi.pamirs.sso.api.model.SsoOauth2ClientDetails;
+import pro.shushi.pamirs.sso.api.model.SsoClient;
 import pro.shushi.pamirs.sso.api.utils.OAuthTokenResponse;
-import pro.shushi.pamirs.sso.oauth2.server.model.SsoOauth2ClientDetailsService;
+import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IUserLoginOAuth2GrantType;
 import pro.shushi.pamirs.sso.oauth2.server.utils.TokenCache;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
@@ -42,7 +42,7 @@ public class Oauth2PasswordGrantType implements IUserLoginOAuth2GrantType {
     private SsoUserLoginChecker loginChecker = BeanDefinitionUtils.getBean(SsoUserLoginChecker.class);
 
     @Autowired
-    private SsoOauth2ClientDetailsService ssoOauth2ClientDetailsService;
+    private SsoClientService ssoClientService;
     @Autowired
     private PamirsSsoProperties pamirsSsoProperties;
 
@@ -63,17 +63,17 @@ public class Oauth2PasswordGrantType implements IUserLoginOAuth2GrantType {
         if (pamirsUser != null) {
             String clientId = ssoRequestParameters.getClient_id();
             if (StringUtils.isNotBlank(clientId)) {
-                SsoOauth2ClientDetails ssoOauth2ClientDetails = ssoOauth2ClientDetailsService.getOauth2ClientDetailsInfoByClientId(clientId);
-                if (ssoOauth2ClientDetails == null) {
+                SsoClient ssoClient = ssoClientService.getSsoClientInfoByClientId(clientId);
+                if (ssoClient == null) {
                     throw PamirsException.construct(SsoExpEnumerate.SSO_PAMIRS_CLIENT_NOT_FONT_ERROR).errThrow();
                 }
 
                 Long expiresIn = Optional
-                        .ofNullable(ssoOauth2ClientDetails.getExpiresIn())
+                        .ofNullable(ssoClient.getExpiresIn())
                         .orElse(pamirsSsoProperties.getServer().getDefaultExpires().getExpiresIn());
 
                 Long refreshTokenExpiresIn = Optional
-                        .ofNullable(ssoOauth2ClientDetails.getRefreshTokenExpiresIn())
+                        .ofNullable(ssoClient.getRefreshTokenExpiresIn())
                         .orElse(pamirsSsoProperties.getServer().getDefaultExpires().getRefreshTokenExpiresIn());
 
                 String openId = pamirsUser.getId().toString();

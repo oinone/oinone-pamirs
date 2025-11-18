@@ -13,10 +13,10 @@ import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
 import pro.shushi.pamirs.sso.api.dto.SsoRequestParameters;
-import pro.shushi.pamirs.sso.api.model.SsoOauth2ClientDetails;
+import pro.shushi.pamirs.sso.api.model.SsoClient;
 import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
 import pro.shushi.pamirs.sso.api.utils.OAuthTokenResponse;
-import pro.shushi.pamirs.sso.oauth2.server.model.SsoOauth2ClientDetailsService;
+import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IOAuth2RefreshToken;
 import pro.shushi.pamirs.sso.oauth2.server.utils.TokenCache;
 import pro.shushi.pamirs.user.api.utils.JwtTokenUtil;
@@ -32,7 +32,7 @@ import java.util.Optional;
 public class OAuth2RefreshToken implements IOAuth2RefreshToken {
 
     @Autowired
-    private SsoOauth2ClientDetailsService ssoOauth2ClientDetailsService;
+    private SsoClientService ssoClientService;
     @Autowired
     private StringRedisTemplate redisTemplate;
     @Autowired
@@ -49,12 +49,12 @@ public class OAuth2RefreshToken implements IOAuth2RefreshToken {
                 String[] clientIdAndSecret = authorization.split(SsoConfigurationConstant.PAMIRS_SSO_TOKEN_DELIMITER);
                 String clientId = clientIdAndSecret[0];
                 String clientSecret = clientIdAndSecret[1];
-                SsoOauth2ClientDetails ssoOauth2ClientDetails = ssoOauth2ClientDetailsService.getOauth2ClientDetailsInfoByClientId(clientId);
-                Long expiresIn = Optional.ofNullable(ssoOauth2ClientDetails.getExpiresIn()).orElse(pamirsSsoProperties.getServer().getDefaultExpires().getExpiresIn());
+                SsoClient ssoClient = ssoClientService.getSsoClientInfoByClientId(clientId);
+                Long expiresIn = Optional.ofNullable(ssoClient.getExpiresIn()).orElse(pamirsSsoProperties.getServer().getDefaultExpires().getExpiresIn());
 
-                Long refreshTokenExpiresIn = Optional.ofNullable(ssoOauth2ClientDetails.getRefreshTokenExpiresIn()).orElse(pamirsSsoProperties.getServer().getDefaultExpires().getRefreshTokenExpiresIn());
+                Long refreshTokenExpiresIn = Optional.ofNullable(ssoClient.getRefreshTokenExpiresIn()).orElse(pamirsSsoProperties.getServer().getDefaultExpires().getRefreshTokenExpiresIn());
 
-                String privateKey = ssoOauth2ClientDetails.getPrivateKey();
+                String privateKey = ssoClient.getPrivateKey();
                 String clientIdEn = EncryptionHandler.decryptSecret(privateKey, clientSecret);
                 if (clientId.equals(clientIdEn)) {
                     String refreshToken = ssoRequestParameters.getRefresh_token();
@@ -80,7 +80,7 @@ public class OAuth2RefreshToken implements IOAuth2RefreshToken {
                                 oAuthTokenResponse.setAccessToken(accessToken);
                                 oAuthTokenResponse.setExpiresIn(expiresIn);
                                 // 标记上一次的AccessToken 10分钟过期 ，
-                                Long cacheTokenExpirationTime = Optional.ofNullable(ssoOauth2ClientDetails.getCacheTokenExpirationTime()).orElse(pamirsSsoProperties.getServer().getDefaultExpires().getCacheTokenExpirationTime());
+                                Long cacheTokenExpirationTime = Optional.ofNullable(ssoClient.getCacheTokenExpirationTime()).orElse(pamirsSsoProperties.getServer().getDefaultExpires().getCacheTokenExpirationTime());
                                 TokenCache.markExpireSoon(clientId, openId, cacheTokenExpirationTime);
                                 //  更新AccessToken
                                 TokenCache.putRefreshAK(accessToken, clientId, openId, expiresIn);

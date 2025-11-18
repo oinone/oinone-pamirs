@@ -6,7 +6,7 @@ import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxHomepage;
 import pro.shushi.pamirs.meta.annotation.Module;
 import pro.shushi.pamirs.meta.base.PamirsModule;
 import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
-import pro.shushi.pamirs.sso.api.model.SsoOauth2ClientDetails;
+import pro.shushi.pamirs.sso.api.model.SsoClient;
 import pro.shushi.pamirs.user.api.UserModule;
 
 @Component
@@ -19,7 +19,7 @@ import pro.shushi.pamirs.user.api.UserModule;
 )
 @Module.module(SsoModule.MODULE_MODULE)
 @Module.Advanced(selfBuilt = true, application = true)
-@UxHomepage(@UxRoute(SsoOauth2ClientDetails.MODEL_MODEL))
+@UxHomepage(@UxRoute(SsoClient.MODEL_MODEL))
 public class SsoModule implements PamirsModule {
 
     public static final String MODULE_MODULE = "sso";

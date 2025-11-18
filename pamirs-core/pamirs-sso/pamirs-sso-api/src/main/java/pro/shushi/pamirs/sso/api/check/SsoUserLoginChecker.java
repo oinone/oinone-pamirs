@@ -29,42 +29,40 @@ public class SsoUserLoginChecker implements ISsoUserLoginChecker {
 
     @Override
     public PamirsUser check4login(SsoUserVo ssoUserVo) {
-        PamirsUserTransient user = new PamirsUserTransient();
-        user.setLogin(ssoUserVo.getUsername());
-        user.setPhone(ssoUserVo.getUsername());
-        user.setEmail(ssoUserVo.getUsername());
-        user.setPassword(ssoUserVo.getPassword());
-
-        String username = ssoUserVo.getUsername();
-        String phone = ssoUserVo.getUsername();
-        String email = ssoUserVo.getUsername();
-        PamirsUser rUser = null;
-        if (StringUtils.isNotBlank(email) && UserInfoChecker.checkEmail(email)) {
-            rUser = dataChecker.checkEmailIsExist(user);
-        } else if (StringUtils.isNotBlank(phone) && UserInfoChecker.checkPhone(phone)) {
-            rUser = dataChecker.checkPhoneExist(user);
-        } else if (StringUtils.isNotBlank(username)) {
-            if (UserInfoChecker.checkPhone(username)) {
-                //手机号也可能是用户名(用手机号作为用户名/手机号为空的情况)
-                user.setPhone(username);
-                user.setLogin(username);
-                rUser = dataChecker.checkPhoneOrLoginExist(user);
-            } else if (UserInfoChecker.checkEmail(username)) {
-                user.setEmail(username);
-                rUser = dataChecker.checkEmailIsExist(user);
-            } else {
-                rUser = dataChecker.checkLoginNameNotExist(user);
-            }
+        // 输入验证
+        if (ssoUserVo == null || StringUtils.isBlank(ssoUserVo.getUsername()) || StringUtils.isBlank(ssoUserVo.getPassword())) {
+            return null;
         }
+        String username = ssoUserVo.getUsername();
+        String password = ssoUserVo.getPassword();
+
+        PamirsUserTransient user = new PamirsUserTransient();
+        user.setLogin(username);
+        user.setPhone(username);
+        user.setEmail(username);
+        user.setPassword(password);
+
+        PamirsUser rUser = findUserByIdentifier(user);
+
         if (rUser == null) {
             return null;
         }
+
+        // 密码验证
         PamirsUserDataChecker.checkPwdWithDbPwd(user, rUser);
         checkPicCode4Login(user);
-        if (user.getBroken()) {
-            return null;
+
+        return user.getBroken() ? null : rUser;
+    }
+
+    private PamirsUser findUserByIdentifier(PamirsUserTransient user) {
+        if (UserInfoChecker.checkEmail(user.getEmail())) {
+            return dataChecker.checkEmailIsExist(user);
+        } else if (UserInfoChecker.checkPhone(user.getPhone())) {
+            return dataChecker.checkPhoneOrLoginExist(user);
+        } else {
+            return dataChecker.checkLoginNameNotExist(user);
         }
-        return rUser;
     }
 
     @Override
