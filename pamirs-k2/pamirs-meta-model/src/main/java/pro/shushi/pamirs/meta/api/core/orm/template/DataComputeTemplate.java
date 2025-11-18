@@ -70,7 +70,7 @@ public class DataComputeTemplate {
                         dMap = ((D) oOrigin).get_d();
                     }
                     oOrigin = (R) modelBeforeComputeProcessor.before(totalContext, oModel, oOrigin);
-                    ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelConfig(oModel);
+                    ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(oModel);
                     if (null == modelConfig) {
                         throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", oModel));
                     }

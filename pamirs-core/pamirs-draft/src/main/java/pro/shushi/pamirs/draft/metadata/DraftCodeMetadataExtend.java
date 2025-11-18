@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.draft.spi.impl;
+package pro.shushi.pamirs.draft.metadata;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
