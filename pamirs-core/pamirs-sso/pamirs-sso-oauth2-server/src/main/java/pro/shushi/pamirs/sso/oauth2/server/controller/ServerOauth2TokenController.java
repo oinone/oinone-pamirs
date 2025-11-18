@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/pamirs/sso")
+@RequestMapping("/pamirs/sso/oauth2")
 public class ServerOauth2TokenController {
     @Autowired
     private SsoOauth2TokenService ssoOauth2TokenService;
