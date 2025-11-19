@@ -255,12 +255,36 @@ public interface Func<Children, R> extends Serializable {
      * 排序：ORDER BY 字段, ...
      * <p>例: orderBy(true, "id", "name")</p>
      *
+     * @param isAsc   是否是 ASC 排序
+     * @param columns 字段数组
+     * @return children
+     */
+    default Children orderBy(boolean isAsc, R... columns) {
+        return orderBy(true, isAsc, columns);
+    }
+
+    /**
+     * 排序：ORDER BY 字段, ...
+     * <p>例: orderBy(true, "id", "name")</p>
+     *
      * @param condition 执行条件
      * @param isAsc     是否是 ASC 排序
      * @param columns   字段数组
      * @return children
      */
     Children orderBy(boolean condition, boolean isAsc, R... columns);
+
+    /**
+     * 排序: ORDER By 字段 <> 字段值
+     * 排序时排除满足条件的数据行
+     *
+     * @param column 字段
+     * @param param  不等于的字段值 " <> 'xxx'"
+     * @return Children
+     */
+    default Children orderByNe(R column, String param) {
+        return orderByNe(true, column, param);
+    }
 
     /**
      * 排序: ORDER By 字段 <> 字段值
