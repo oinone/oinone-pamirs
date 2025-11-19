@@ -33,7 +33,7 @@ import java.util.Map;
 @Model(displayName = "查询条件")
 public class ConditionWrapper extends TransientModel {
 
-    private static final long serialVersionUID = 278057274151246951L;
+    private static final long serialVersionUID = 8483736574402915828L;
 
     public static final String MODEL_MODEL = "resource.ConditionWrapper";
 
@@ -81,7 +81,7 @@ public class ConditionWrapper extends TransientModel {
                     }
                     ModelFieldConfig modelFieldConfig = PamirsSession.getContext().getModelField(model, field);
                     if (modelFieldConfig == null) {
-                        throw PamirsException.construct(CommonExpEnumerate.SORT_FIELD_NOT_FOUND).errThrow();
+                        throw PamirsException.construct(CommonExpEnumerate.SORT_FIELD_NOT_FOUND, model, field).errThrow();
                     }
                     String column = Configs.wrap(modelFieldConfig).getColumn();
                     if (StringUtils.isBlank(column)) {

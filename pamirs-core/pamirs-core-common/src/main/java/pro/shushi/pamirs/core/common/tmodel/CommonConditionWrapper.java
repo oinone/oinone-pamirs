@@ -22,6 +22,7 @@ import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 查询条件
@@ -34,7 +35,7 @@ import java.util.Map;
 @Model(displayName = "查询条件")
 public class CommonConditionWrapper extends TransientModel {
 
-    private static final long serialVersionUID = 8483736574402915828L;
+    private static final long serialVersionUID = 1055911928215414558L;
 
     public static final String MODEL_MODEL = "core.common.CommonConditionWrapper";
 
@@ -82,7 +83,7 @@ public class CommonConditionWrapper extends TransientModel {
                     }
                     ModelFieldConfig modelFieldConfig = PamirsSession.getContext().getModelField(model, field);
                     if (modelFieldConfig == null) {
-                        throw PamirsException.construct(CommonExpEnumerate.SORT_FIELD_NOT_FOUND).errThrow();
+                        throw PamirsException.construct(CommonExpEnumerate.SORT_FIELD_NOT_FOUND, model, field).errThrow();
                     }
                     String column = Configs.wrap(modelFieldConfig).getColumn();
                     if (StringUtils.isBlank(column)) {
@@ -115,5 +116,20 @@ public class CommonConditionWrapper extends TransientModel {
             s = RSqlConstants.LEFT_PARENTHESES + originRSQL + RSqlConstants.RIGHT_PARENTHESES + CharacterConstants.SEPARATOR_BLANK + RSqlConstants.AND + CharacterConstants.SEPARATOR_BLANK + extend;
         }
         return s;
+    }
+
+    public boolean isContainsOrderField(String field) {
+        List<Order> orders = Optional.ofNullable(getSort())
+                .map(Sort::getOrders)
+                .orElse(null);
+        if (CollectionUtils.isEmpty(orders)) {
+            return false;
+        }
+        for (Order order : orders) {
+            if (field.equals(order.getField())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

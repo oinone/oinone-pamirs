@@ -23,6 +23,9 @@ public class GroupingData extends TransientModel {
     @Field(displayName = "分组值")
     private Object value;
 
+    @Field(displayName = "分组值是否为JSON格式")
+    private Boolean isJsonValue;
+
     @Field(displayName = "分组数据")
     private String data;
 

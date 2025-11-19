@@ -1,7 +1,11 @@
-package pro.shushi.pamirs.grouping.query.grouping;
+package pro.shushi.pamirs.grouping.query;
 
+import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.query.GQLFieldsQuery;
+import pro.shushi.pamirs.core.common.tmodel.CommonConditionWrapper;
 import pro.shushi.pamirs.core.common.tmodel.CommonGQLFields;
+import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
@@ -15,7 +19,7 @@ import java.util.List;
  */
 public class TableGroupingQueryContext<T> {
 
-    private final String model;
+    private final CommonConditionWrapper wrapper;
 
     private final List<TableGroupingFieldQuery> queryList;
 
@@ -27,22 +31,22 @@ public class TableGroupingQueryContext<T> {
 
     private Long totalElements;
 
-    public TableGroupingQueryContext(List<TableGroupingFieldQuery> queryList) {
-        this(queryList, null);
+    public TableGroupingQueryContext(List<TableGroupingFieldQuery> queryList, CommonConditionWrapper wrapper) {
+        this(queryList, wrapper, null);
     }
 
-    public TableGroupingQueryContext(List<TableGroupingFieldQuery> queryList, CommonGQLFields gqlFields) {
-        this.model = queryList.get(0).getModel();
+    public TableGroupingQueryContext(List<TableGroupingFieldQuery> queryList, CommonConditionWrapper wrapper, CommonGQLFields gqlFields) {
+        this.wrapper = wrapper;
         this.queryList = queryList;
         if (gqlFields == null) {
             this.gqlFieldsQuery = null;
         } else {
-            this.gqlFieldsQuery = GQLFieldsQuery.resolveGQLFields(this.model, gqlFields);
+            this.gqlFieldsQuery = GQLFieldsQuery.resolveGQLFields(wrapper.getModel(), gqlFields);
         }
     }
 
     public String getModel() {
-        return model;
+        return wrapper.getModel();
     }
 
     public List<TableGroupingFieldQuery> getQueryList() {
@@ -62,38 +66,24 @@ public class TableGroupingQueryContext<T> {
     }
 
     public QueryWrapper<T> generatorQueryWrapper() {
-        return generatorQueryWrapper(queryList.get(0));
-    }
-
-    public QueryWrapper<T> generatorQueryWrapper(TableGroupingFieldQuery query) {
-        QueryWrapper<T> queryWrapper = query.generatorQueryWrapper();
+        String model = getModel();
+        QueryWrapper<T> queryWrapper = Pops.query();
+        queryWrapper.setQueryData(wrapper.getQueryData());
+        queryWrapper.from(model);
+        String rsql = wrapper.getRsql();
+        if (StringUtils.isNotBlank(rsql)) {
+            queryWrapper.apply(FetchUtil.rsqlToSql(model, rsql));
+        }
         if (authSql != null) {
             queryWrapper.apply(authSql);
         }
+        queryWrapper.setBatchSize(-1);
         return queryWrapper;
     }
 
     public QueryWrapper<T> generatorQueryWrapperWithOrderBy() {
-        return generatorQueryWrapperWithOrderBy(queryList.get(0));
-    }
-
-    public QueryWrapper<T> generatorQueryWrapperWithOrderBy(TableGroupingFieldQuery query) {
-        QueryWrapper<T> queryWrapper = query.generatorQueryWrapperWithOrderBy();
-        if (authSql != null) {
-            queryWrapper.apply(authSql);
-        }
-        return queryWrapper;
-    }
-
-    public QueryWrapper<T> generatorQueryWrapperWithGroupBy() {
-        return generatorQueryWrapperWithGroupBy(queryList.get(0));
-    }
-
-    public QueryWrapper<T> generatorQueryWrapperWithGroupBy(TableGroupingFieldQuery query) {
-        QueryWrapper<T> queryWrapper = query.generatorQueryWrapperWithGroupBy();
-        if (authSql != null) {
-            queryWrapper.apply(authSql);
-        }
+        QueryWrapper<T> queryWrapper = generatorQueryWrapper();
+        wrapper.withOrderBy(queryWrapper);
         return queryWrapper;
     }
 

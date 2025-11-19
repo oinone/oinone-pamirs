@@ -1,7 +1,5 @@
 package pro.shushi.pamirs.grouping.query;
 
-import pro.shushi.pamirs.grouping.query.grouping.TableGroupingQueryContext;
-
 /**
  * 表格分组公共查询API
  *

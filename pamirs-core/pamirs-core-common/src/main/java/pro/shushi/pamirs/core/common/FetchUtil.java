@@ -472,15 +472,15 @@ public class FetchUtil {
     }
 
     public static void consumerPkSet(String modelModel, BiConsumer<Set<String>, Set<String>> consumer) {
-        consumerPkSet0(PamirsSession.getContext().getModelConfig(modelModel), consumer);
+        consumerPkSet0(PamirsSession.getContext().getSimpleModelConfig(modelModel), consumer);
     }
 
     public static void consumerUniqueSet(String modelModel, BiConsumer<List<Set<String>>, List<Set<String>>> consumer) {
-        consumerUniqueSet0(PamirsSession.getContext().getModelConfig(modelModel), consumer);
+        consumerUniqueSet0(PamirsSession.getContext().getSimpleModelConfig(modelModel), consumer);
     }
 
     public static void consumerPkAndUniqueSet(String modelModel, BiConsumer<Set<String>, List<Set<String>>> consumer) {
-        consumerPkAndUniqueSet0(PamirsSession.getContext().getModelConfig(modelModel), consumer);
+        consumerPkAndUniqueSet0(PamirsSession.getContext().getSimpleModelConfig(modelModel), consumer);
     }
 
     private static void consumerPkSet0(ModelConfig modelConfig, BiConsumer<Set<String>, Set<String>> consumer) {
@@ -690,7 +690,7 @@ public class FetchUtil {
 
     @SuppressWarnings("unchecked")
     private static <T, V, DM extends ReadApi> List<V> queryReferenceList(DM dataManager, List<T> relationList, String references, List<String> relationFields, List<String> referenceFields, int maxQuerySize) {
-        ModelConfig referenceModelConfig = PamirsSession.getContext().getModelConfig(references);
+        ModelConfig referenceModelConfig = PamirsSession.getContext().getSimpleModelConfig(references);
         MemoryIterableSearchCache<String, ModelFieldConfig> referenceModelFieldConfigCache = new MemoryIterableSearchCache<>(referenceModelConfig.getModelFieldConfigList(), ModelFieldConfig::getName);
         int relationFieldSize = relationFields.size();
         Map<String, List<Object>> referenceFieldValueMap;
@@ -1156,7 +1156,7 @@ public class FetchUtil {
         }
         Map<String, Object> dMap = data.get_d();
         String model = Models.api().getModel(data);
-        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
+        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
         AtomicBoolean predict = new AtomicBoolean(true);
         consumerPkAndUniqueSet0(modelConfig, (pkSet, uniqueSetList) -> predict.set(isNeedQueryOne(dMap, pkSet, uniqueSetList)));
         return predict.get();
@@ -1245,7 +1245,7 @@ public class FetchUtil {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
-        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
+        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
         List<ModelFieldConfig> modelFieldConfigs = modelConfig.getModelFieldConfigList();
         List<ModelFieldConfig> selectModelFieldConfigs = new ArrayList<>();
         boolean isFirst = true;

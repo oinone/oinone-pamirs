@@ -1,7 +1,7 @@
 package pro.shushi.pamirs.grouping.query.data;
 
 import pro.shushi.pamirs.grouping.query.TableGroupingCommonQueryApi;
-import pro.shushi.pamirs.grouping.query.grouping.TableGroupingQueryContext;
+import pro.shushi.pamirs.grouping.query.TableGroupingQueryContext;
 
 import java.util.List;
 

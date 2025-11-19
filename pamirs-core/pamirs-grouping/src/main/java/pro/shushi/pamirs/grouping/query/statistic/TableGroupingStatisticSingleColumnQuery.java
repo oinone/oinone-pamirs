@@ -7,7 +7,7 @@ import pro.shushi.pamirs.framework.connectors.data.mapper.GenericMapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.grouping.enumeration.GroupStatisticMethodEnum;
-import pro.shushi.pamirs.grouping.query.grouping.TableGroupingQueryContext;
+import pro.shushi.pamirs.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 

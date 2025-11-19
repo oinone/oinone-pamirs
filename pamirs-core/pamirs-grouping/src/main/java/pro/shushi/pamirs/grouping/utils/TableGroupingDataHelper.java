@@ -35,27 +35,22 @@ public class TableGroupingDataHelper {
 
     public static List<TableGroupingFieldQuery> prepareGroupingFields(TableGroupingWrapper wrapper) {
         CommonConditionWrapper queryWrapper = wrapper.getQueryWrapper();
+        String model = queryWrapper.getModel();
         List<TableGroupingFieldQuery> queryList = new ArrayList<>();
         List<GroupingField> fields = wrapper.getFields();
         if (fields.size() == 1) {
-            queryList.add(new TableGroupingFieldQuery(queryWrapper, fields.get(0), wrapper.getStatisticField()));
+            queryList.add(new TableGroupingFieldQuery(model, fields.get(0), wrapper.getStatisticField()));
         } else {
             TableGroupingFieldQuery parent = null;
             int lastIndex = fields.size() - 1;
             for (int i = 0; i < lastIndex; i++) {
                 GroupingField field = fields.get(i);
-                parent = new TableGroupingFieldQuery(queryWrapper, field, parent);
+                parent = new TableGroupingFieldQuery(model, field, parent);
                 queryList.add(parent);
             }
-            queryList.add(new TableGroupingFieldQuery(queryWrapper, fields.get(lastIndex), wrapper.getStatisticField(), parent));
+            queryList.add(new TableGroupingFieldQuery(model, fields.get(lastIndex), wrapper.getStatisticField(), parent));
         }
         return queryList;
-    }
-
-    public static Map<String, GroupingDataWrapper> generatorGroupingDataList(List<TableGroupingFieldQuery> queryList, List<?> list) {
-        Map<String, GroupingDataWrapper> groupingDataMap = new LinkedHashMap<>();
-        generatorGroupingDataList(groupingDataMap, queryList, list, true);
-        return groupingDataMap;
     }
 
     public static void generatorGroupingDataList(Map<String, GroupingDataWrapper> groupingDataMap, List<TableGroupingFieldQuery> queryList, List<?> list, boolean addData) {
@@ -77,47 +72,20 @@ public class TableGroupingDataHelper {
         }
     }
 
-    public static GroupingDataWrapper generatorGroupingDataWrapper(TableGroupingFieldQuery query, Object data, boolean isLeaf) {
-        Object value = getGroupValue(query, data);
-        String key = getGroupKeyByValue(query, value);
-        Object serializeValue = serializeGroupValue(query, value);
-        return new GroupingDataWrapper(query, key, generatorGroupingData(query.getField(), serializeValue, isLeaf), value);
-    }
-
     public static GroupingDataWrapper computeIfAbsent(Map<String, GroupingDataWrapper> groupingDataMap, TableGroupingFieldQuery query, Object data, boolean isLeaf) {
         Object value = getGroupValue(query, data);
-        Object serializeValue = serializeGroupValue(query, value);
+        GroupingValueSerializeResult serializeResult = serializeGroupValue(query, value);
         return groupingDataMap.computeIfAbsent(getGroupKeyByValue(query, value),
-                key -> new GroupingDataWrapper(query, key, generatorGroupingData(query.getField(), serializeValue, isLeaf), value));
-    }
-
-    private static GroupingData generatorGroupingData(String field, Object value, Boolean isLeaf) {
-        GroupingData groupingData = new GroupingData();
-        groupingData.setField(field);
-        groupingData.setValue(value);
-        groupingData.setIsLeaf(isLeaf);
-        return groupingData;
-    }
-
-    public static Map<String, GroupingDataWrapper> mergeGroupingDataList(Map<String, GroupingDataWrapper> lastGroupingData, List<GroupingDataWrapper> groupingData) {
-        Map<String, GroupingDataWrapper> nextGroupingData = new LinkedHashMap<>();
-        for (GroupingDataWrapper groupingDataWrapper : groupingData) {
-            String parentKey = groupingDataWrapper.getParentKey();
-            GroupingDataWrapper wrapper = lastGroupingData.get(parentKey);
-            if (wrapper == null) {
-                if (NULL_VALUE.equals(parentKey)) {
-                    wrapper = new GroupingDataWrapper(null, parentKey, generatorGroupingData(groupingDataWrapper.getParentField(), NullValue.INSTANCE, false), NullValue.INSTANCE);
-                    lastGroupingData.put(parentKey, wrapper);
-                } else {
-//                    log.error("Invalid parent grouping data wrapper. field: {}, key: {}, parentKey: {}", groupingDataWrapper.getField(), groupingDataWrapper.getKey(), parentKey);
-                    continue;
-                }
-            }
-            String key = getGroupKeyByValue(groupingDataWrapper.getQuery(), groupingDataWrapper.getValue());
-            wrapper.getGroupings().put(key, groupingDataWrapper);
-            nextGroupingData.put(key, groupingDataWrapper);
-        }
-        return nextGroupingData;
+                key -> {
+                    GroupingData groupingData = new GroupingData();
+                    groupingData.setField(query.getField());
+                    groupingData.setValue(serializeResult.value);
+                    groupingData.setIsLeaf(isLeaf);
+                    if (serializeResult.isJsonValue != null) {
+                        groupingData.setIsJsonValue(serializeResult.isJsonValue);
+                    }
+                    return new GroupingDataWrapper(query, key, groupingData, value);
+                });
     }
 
     public static List<GroupingData> collectionGroupingData(String model, Map<String, GroupingDataWrapper> groupingDataMap, List<TableGroupingFieldQuery> queryList) {
@@ -191,22 +159,15 @@ public class TableGroupingDataHelper {
             Collection<?> coll = (Collection<?>) value;
             if (query.isEnumField()) {
                 return coll.stream().map(v -> convertEnumerationValue(query, v)).map(String::valueOf).collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
+            } else if (query.isRelationManyField()) {
+                List<String> keys = new ArrayList<>();
+                for (Object item : coll) {
+                    keys.add(generatorObjectKey(item, query.getReferenceFields()));
+                }
+                return String.join(CharacterConstants.SEPARATOR_OCTOTHORPE, keys);
             }
         } else if (query.isRelationOneField()) {
-            StringBuilder builder = new StringBuilder();
-            List<String> referenceFields = query.getReferenceFields();
-            for (int i = 0; i < referenceFields.size(); i++) {
-                String referenceField = referenceFields.get(i);
-                if (i != 0) {
-                    builder.append(CharacterConstants.SEPARATOR_COMMA);
-                }
-                Object referenceValue = FieldUtils.getFieldValue(value, referenceField);
-                if (referenceValue == null || (referenceValue instanceof String && StringUtils.isBlank((String) referenceValue))) {
-                    referenceValue = NULL_VALUE;
-                }
-                builder.append(referenceValue);
-            }
-            return builder.toString();
+            return generatorObjectKey(value, query.getReferenceFields());
         }
         return String.valueOf(value);
     }
@@ -221,10 +182,37 @@ public class TableGroupingDataHelper {
                 return NULL_VALUE;
             }
             if (query.isEnumField()) {
-                return coll.stream().map(v -> convertEnumerationValue(query, v)).map(String::valueOf).collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
+                return coll.stream()
+                        .map(v -> convertEnumerationValue(query, v))
+                        .sorted()
+                        .map(String::valueOf)
+                        .collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
+            } else if (query.isRelationManyField()) {
+                return coll.stream()
+                        .sorted(Comparator.comparing(v -> convertPkValue(query, v)))
+                        .map(v -> generatorObjectKey(v, query.getReferenceFields()))
+                        .collect(Collectors.joining(CharacterConstants.SEPARATOR_OCTOTHORPE));
             }
+        } else if (query.isRelationOneField()) {
+            return generatorObjectKey(value, query.getReferenceFields());
         }
         return String.valueOf(value);
+    }
+
+    private static String generatorObjectKey(Object value, List<String> fields) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < fields.size(); i++) {
+            String field = fields.get(i);
+            if (i != 0) {
+                builder.append(CharacterConstants.SEPARATOR_COMMA);
+            }
+            Object targetValue = FieldUtils.getFieldValue(value, field);
+            if (targetValue == null || (targetValue instanceof String && StringUtils.isBlank((String) targetValue))) {
+                targetValue = NULL_VALUE;
+            }
+            builder.append(targetValue);
+        }
+        return builder.toString();
     }
 
     @SuppressWarnings("DataFlowIssue")
@@ -252,6 +240,10 @@ public class TableGroupingDataHelper {
                 value = coll.stream()
                         .sorted(Comparator.comparing(v -> convertEnumerationValue(query, v)))
                         .collect(Collectors.toList());
+            } else if (query.isRelationManyField()) {
+                value = coll.stream()
+                        .sorted(Comparator.comparing(v -> convertPkValue(query, v)))
+                        .collect(Collectors.toList());
             } else {
                 value = coll.stream()
                         .sorted(Comparator.comparing(String::valueOf))
@@ -265,21 +257,25 @@ public class TableGroupingDataHelper {
         return value;
     }
 
-    private static Object serializeGroupValue(TableGroupingFieldQuery query, Object value) {
+    private static GroupingValueSerializeResult serializeGroupValue(TableGroupingFieldQuery query, Object value) {
         if (NullValue.INSTANCE.equals(value)) {
-            return NullValue.INSTANCE;
+            return new GroupingValueSerializeResult(NullValue.INSTANCE);
         }
         if (query.isMulti()) {
             Collection<?> coll = (Collection<?>) value;
             if (query.isEnumField()) {
-                return coll.stream()
+                return new GroupingValueSerializeResult(coll.stream()
                         .map(TableGroupingDataHelper::convertEnumerationName)
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList()));
+            } else if (query.isRelationManyField()) {
+                return new GroupingValueSerializeResult(PamirsDataUtils.toJSONString(query.getReferences(), value), true);
             }
         } else if (query.isEnumField()) {
-            return convertEnumerationName(value);
+            return new GroupingValueSerializeResult(convertEnumerationName(value));
+        } else if (query.isRelationOneField()) {
+            return new GroupingValueSerializeResult(PamirsDataUtils.toJSONString(query.getReferences(), value), true);
         }
-        return value;
+        return new GroupingValueSerializeResult(value);
     }
 
     private static String convertEnumerationName(Object value) {
@@ -312,5 +308,35 @@ public class TableGroupingDataHelper {
             return (U) Long.valueOf(dataDictionaryValue);
         }
         return (U) dataDictionaryValue;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <U extends Comparable<? super U>> U convertPkValue(TableGroupingFieldQuery query, Object v) {
+        List<String> pks = query.getPks();
+        List<String> pkValues = new ArrayList<>();
+        for (String pk : pks) {
+            Object pkValue = FieldUtils.getFieldValue(v, pk);
+            if (pkValue == null) {
+                pkValue = NULL_VALUE;
+            }
+            pkValues.add(String.valueOf(pkValue));
+        }
+        return (U) pkValues.stream().sorted().collect(Collectors.joining(CharacterConstants.SEPARATOR_OCTOTHORPE));
+    }
+
+    private static class GroupingValueSerializeResult {
+
+        private final Object value;
+
+        private final Boolean isJsonValue;
+
+        private GroupingValueSerializeResult(Object value) {
+            this(value, null);
+        }
+
+        private GroupingValueSerializeResult(Object value, Boolean isJsonValue) {
+            this.value = value;
+            this.isJsonValue = isJsonValue;
+        }
     }
 }

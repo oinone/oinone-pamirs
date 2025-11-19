@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.grouping.query.data.TableGroupingDataUniversalQuery;
-import pro.shushi.pamirs.grouping.query.grouping.TableGroupingQueryContext;
+import pro.shushi.pamirs.grouping.query.TableGroupingQueryContext;
 
 import java.util.List;
 

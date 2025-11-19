@@ -7,7 +7,9 @@ import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.entity.GroupingDataWrapper;
 import pro.shushi.pamirs.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.grouping.model.TableGroupingResult;
+import pro.shushi.pamirs.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.grouping.utils.TableGroupingDataHelper;
+import pro.shushi.pamirs.grouping.utils.TableGroupingHelper;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
@@ -25,7 +27,7 @@ import java.util.Map;
  */
 @Order(10)
 @Component
-public class TableGroupingInQuery<T> extends AbstractTableGroupingQuery<T> implements TableGroupingQueryApi<T> {
+public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
 
     @Override
     public boolean match(TableGroupingQueryContext<T> context) {
@@ -37,7 +39,7 @@ public class TableGroupingInQuery<T> extends AbstractTableGroupingQuery<T> imple
         List<TableGroupingFieldQuery> queryList = context.getQueryList();
         TableGroupingFieldQuery firstQuery = queryList.get(0);
         Pagination<T> pagination = context.getPagination();
-        List<T> list = queryFirstGroupingData(context, pagination);
+        List<T> list = TableGroupingHelper.queryFirstGroupingData(context, pagination);
         boolean isContainsNull = false;
         Map<String, GroupingDataWrapper> groupingDataMap = new LinkedHashMap<>();
         List<Object> inValues = new ArrayList<>();
@@ -49,7 +51,7 @@ public class TableGroupingInQuery<T> extends AbstractTableGroupingQuery<T> imple
                 inValues.add(value);
             }
         }
-        QueryWrapper<T> queryWrapper = context.generatorQueryWrapper(firstQuery);
+        QueryWrapper<T> queryWrapper = context.generatorQueryWrapper();
         generatorGroupsWrapper(queryWrapper, queryList);
         if (firstQuery.isRelationOneField()) {
             List<String> relationColumns = firstQuery.getRelationColumns();
@@ -89,7 +91,7 @@ public class TableGroupingInQuery<T> extends AbstractTableGroupingQuery<T> imple
         List<T> others = Models.origin().queryListByWrapper(queryWrapper);
         TableGroupingDataHelper.generatorGroupingDataList(groupingDataMap, queryList, others, false);
         result.setGroups(TableGroupingDataHelper.collectionGroupingData(context.getModel(), groupingDataMap, queryList));
-        computePaging(pagination, result);
+        TableGroupingHelper.computePaging(pagination, result);
     }
 
     private void generatorGroupsWrapper(QueryWrapper<T> queryWrapper, List<TableGroupingFieldQuery> queryList) {

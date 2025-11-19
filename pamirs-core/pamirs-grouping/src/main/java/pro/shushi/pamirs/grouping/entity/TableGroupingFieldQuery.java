@@ -1,11 +1,7 @@
 package pro.shushi.pamirs.grouping.entity;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.WrapperHelper;
-import pro.shushi.pamirs.core.common.tmodel.CommonConditionWrapper;
-import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.enumeration.GroupStatisticMethodEnum;
 import pro.shushi.pamirs.grouping.model.GroupingField;
@@ -32,30 +28,30 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
 
     private final TableGroupingFieldQuery parent;
 
+    private final String model;
+
     private final String valueKey;
 
     private final SortDirectionEnum direction;
 
-    private final CommonConditionWrapper wrapper;
-
     private final TableGroupingStatisticFieldQuery statisticFieldQuery;
 
-    public TableGroupingFieldQuery(CommonConditionWrapper wrapper, GroupingField field, TableGroupingFieldQuery parent) {
-        this(wrapper, field, null, parent);
+    public TableGroupingFieldQuery(String model, GroupingField field, TableGroupingFieldQuery parent) {
+        this(model, field, null, parent);
     }
 
-    public TableGroupingFieldQuery(CommonConditionWrapper wrapper, GroupingField field, GroupingStatisticField statisticField) {
-        this(wrapper, field, statisticField, null);
+    public TableGroupingFieldQuery(String model, GroupingField field, GroupingStatisticField statisticField) {
+        this(model, field, statisticField, null);
     }
 
-    public TableGroupingFieldQuery(CommonConditionWrapper wrapper, GroupingField field, GroupingStatisticField statisticField, TableGroupingFieldQuery parent) {
-        super(wrapper.getModel(), field.getField(), field.getValue());
+    public TableGroupingFieldQuery(String model, GroupingField field, GroupingStatisticField statisticField, TableGroupingFieldQuery parent) {
+        super(model, field.getField(), field.getValue());
         this.parent = parent;
-        this.wrapper = wrapper;
+        this.model = model;
         if (statisticField == null) {
             this.statisticFieldQuery = null;
         } else {
-            this.statisticFieldQuery = new TableGroupingStatisticFieldQuery(wrapper.getModel(), statisticField.getField(), statisticField.getStatisticMethod());
+            this.statisticFieldQuery = new TableGroupingStatisticFieldQuery(model, statisticField.getField(), statisticField.getStatisticMethod());
         }
         SortDirectionEnum direction = field.getDirection();
         if (direction == null) {
@@ -70,7 +66,7 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
     }
 
     public String getModel() {
-        return wrapper.getModel();
+        return model;
     }
 
     public String getValueKey() {
@@ -89,34 +85,6 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
         return statisticFieldQuery.getStatisticMethod();
     }
 
-    public <T> QueryWrapper<T> generatorQueryWrapper() {
-        String model = getModel();
-        QueryWrapper<T> queryWrapper = Pops.query();
-        queryWrapper.setQueryData(wrapper.getQueryData());
-        queryWrapper.from(model);
-        String rsql = wrapper.getRsql();
-        if (StringUtils.isNotBlank(rsql)) {
-            queryWrapper.apply(FetchUtil.rsqlToSql(model, rsql));
-        }
-        queryWrapper.setBatchSize(-1);
-        return queryWrapper;
-    }
-
-    public <T> QueryWrapper<T> generatorQueryWrapperWithOrderBy() {
-        QueryWrapper<T> queryWrapper = generatorQueryWrapper();
-        wrapper.withOrderBy(queryWrapper);
-        return queryWrapper;
-    }
-
-    public <T> QueryWrapper<T> generatorQueryWrapperWithGroupBy() {
-        QueryWrapper<T> queryWrapper = generatorQueryWrapper();
-        if (parent != null) {
-            parent.withGroupBy(queryWrapper);
-        }
-        withGroupBy(queryWrapper);
-        return queryWrapper;
-    }
-
     public <T> void withGroupBy(QueryWrapper<T> queryWrapper) {
         WrapperHelper.withSelect(queryWrapper, getColumnAsField());
         if (isRelationOneField()) {
@@ -132,6 +100,10 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
     }
 
     public <T> void withOrderBy(QueryWrapper<T> queryWrapper) {
+        withOrderBy(queryWrapper, column, direction);
+    }
+
+    public <T> void withOrderBy(QueryWrapper<T> queryWrapper, String column) {
         withOrderBy(queryWrapper, column, direction);
     }
 
@@ -194,21 +166,6 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
                 queryWrapper.eq(column, value);
             }
         }
-    }
-
-    private boolean isNeedOrderBy(String field) {
-        List<Order> orders = Optional.ofNullable(wrapper.getSort())
-                .map(Sort::getOrders)
-                .orElse(null);
-        if (CollectionUtils.isEmpty(orders)) {
-            return true;
-        }
-        for (Order order : orders) {
-            if (field.equals(order.getField())) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public <T> void withStatistic(QueryWrapper<T> queryWrapper) {

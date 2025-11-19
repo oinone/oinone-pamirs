@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.draft.serialize;
+package pro.shushi.pamirs.core.common.serialize;
 
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;

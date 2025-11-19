@@ -1,7 +1,7 @@
 package pro.shushi.pamirs.grouping.query.statistic;
 
 import pro.shushi.pamirs.grouping.query.TableGroupingCommonQueryApi;
-import pro.shushi.pamirs.grouping.query.grouping.TableGroupingQueryContext;
+import pro.shushi.pamirs.grouping.query.TableGroupingQueryContext;
 
 /**
  * 表格分组统计查询API

@@ -4,13 +4,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.auth.api.runtime.executor.FieldPermissionExecutor;
 import pro.shushi.pamirs.core.common.query.GQLFieldsQuery;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
-import pro.shushi.pamirs.grouping.entity.GroupingDataWrapper;
 import pro.shushi.pamirs.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.grouping.model.TableGroupingResult;
+import pro.shushi.pamirs.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.grouping.utils.TableGroupingDataHelper;
+import pro.shushi.pamirs.grouping.utils.TableGroupingHelper;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.convert.ClientDataConverter;
 import pro.shushi.pamirs.meta.api.core.orm.convert.ClientFieldConverter;
@@ -28,7 +28,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 快速表格分组查询
@@ -37,7 +36,7 @@ import java.util.Map;
  */
 @Order(0)
 @Component
-public class TableGroupingFastQuery<T> extends AbstractTableGroupingQuery<T> implements TableGroupingQueryApi<T> {
+public class TableGroupingFastQuery<T> implements TableGroupingQueryApi<T> {
 
     @Resource
     private RelationReadApi relationReadApi;
@@ -55,16 +54,18 @@ public class TableGroupingFastQuery<T> extends AbstractTableGroupingQuery<T> imp
         List<TableGroupingFieldQuery> queryList = context.getQueryList();
         Pagination<T> pagination = context.getPagination();
         if (isFastQuery(context)) {
-            QueryWrapper<T> queryWrapper = context.generatorQueryWrapperWithOrderBy();
-            String model = queryWrapper.getModel();
-            List<T> list = fetchList(context, queryWrapper);
-            Map<String, GroupingDataWrapper> groupingDataWrapperMap = TableGroupingDataHelper.generatorGroupingDataList(queryList, list);
-            FieldPermissionExecutor.filter(model, list);
-            result.setGroups(TableGroupingDataHelper.collectionGroupingData(model, groupingDataWrapperMap, queryList));
+            List<T> list = fetchFullList(context, context.generatorQueryWrapperWithOrderBy());
+            result.setGroups(TableGroupingHelper.fullDataConvertGroups(queryList, context.getModel(), list, true));
         } else {
-            result.setGroups(TableGroupingDataHelper.collectionGroupingData(context.getModel(), queryFirstGroupingDataMap(context, pagination, true), queryList));
+            TableGroupingFieldQuery firstQuery = queryList.get(0);
+            if (firstQuery.isSingleTableQuery()) {
+                result.setGroups(TableGroupingDataHelper.collectionGroupingData(context.getModel(), TableGroupingHelper.queryFirstGroupingDataMap(context, pagination, true), queryList));
+            } else {
+                List<T> list = TableGroupingHelper.fetchGroupingDataList(queryList, context.generatorQueryWrapperWithOrderBy(), false);
+                result.setGroups(TableGroupingHelper.fullDataConvertGroups(queryList, context.getModel(), list));
+            }
         }
-        computePaging(pagination, result);
+        TableGroupingHelper.computePaging(pagination, result);
     }
 
     private boolean isFastQuery(TableGroupingQueryContext<T> context) {
@@ -80,7 +81,7 @@ public class TableGroupingFastQuery<T> extends AbstractTableGroupingQuery<T> imp
     }
 
     @SuppressWarnings("unchecked")
-    private List<T> fetchList(TableGroupingQueryContext<T> context, QueryWrapper<T> queryWrapper) {
+    private List<T> fetchFullList(TableGroupingQueryContext<T> context, QueryWrapper<T> queryWrapper) {
         GQLFieldsQuery gqlFieldsQuery = context.getGqlFieldsQuery();
         String model = context.getModel();
         List<String> columns = gqlFieldsQuery.getColumns(model);
@@ -122,7 +123,6 @@ public class TableGroupingFastQuery<T> extends AbstractTableGroupingQuery<T> imp
         if (relationQueryDataList.isEmpty()) {
             return;
         }
-        // FIXME: zbh 20251119 此处根据 gql 列进行查询
         Models.directive().request(() -> relationReadApi.listFieldQueryByRelation(modelFieldConfig, relationQueryDataList));
         String nextKey = key + CharacterConstants.SEPARATOR_OCTOTHORPE + field;
         String references = modelFieldConfig.getReferences();
