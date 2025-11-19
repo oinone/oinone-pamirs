@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.grouping.model;
 
 import pro.shushi.pamirs.core.common.tmodel.CommonConditionWrapper;
+import pro.shushi.pamirs.core.common.tmodel.CommonGQLFields;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.TransientModel;
@@ -26,8 +27,8 @@ public class TableGroupingWrapper extends TransientModel {
     @Field(displayName = "分组字段")
     private List<GroupingField> fields;
 
-    @Field(displayName = "关联关系查询字段")
-    private List<String> queryRelationFields;
+    @Field(displayName = "GQL查询字段")
+    private CommonGQLFields gqlFields;
 
     @Field(displayName = "统计字段")
     private GroupingStatisticField statisticField;

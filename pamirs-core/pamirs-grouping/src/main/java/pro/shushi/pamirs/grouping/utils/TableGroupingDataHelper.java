@@ -192,6 +192,21 @@ public class TableGroupingDataHelper {
             if (query.isEnumField()) {
                 return coll.stream().map(v -> convertEnumerationValue(query, v)).map(String::valueOf).collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA));
             }
+        } else if (query.isRelationOneField()) {
+            StringBuilder builder = new StringBuilder();
+            List<String> referenceFields = query.getReferenceFields();
+            for (int i = 0; i < referenceFields.size(); i++) {
+                String referenceField = referenceFields.get(i);
+                if (i != 0) {
+                    builder.append(CharacterConstants.SEPARATOR_COMMA);
+                }
+                Object referenceValue = FieldUtils.getFieldValue(value, referenceField);
+                if (referenceValue == null || (referenceValue instanceof String && StringUtils.isBlank((String) referenceValue))) {
+                    referenceValue = NULL_VALUE;
+                }
+                builder.append(referenceValue);
+            }
+            return builder.toString();
         }
         return String.valueOf(value);
     }

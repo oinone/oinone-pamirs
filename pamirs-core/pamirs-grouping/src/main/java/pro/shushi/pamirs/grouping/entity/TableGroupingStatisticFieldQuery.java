@@ -14,7 +14,7 @@ public class TableGroupingStatisticFieldQuery extends BasicTableGroupingFieldQue
     private final GroupStatisticMethodEnum statisticMethod;
 
     TableGroupingStatisticFieldQuery(String model, String field, GroupStatisticMethodEnum statisticMethod) {
-        super(model, field);
+        super(model, field, null);
         this.statisticMethod = statisticMethod;
     }
 

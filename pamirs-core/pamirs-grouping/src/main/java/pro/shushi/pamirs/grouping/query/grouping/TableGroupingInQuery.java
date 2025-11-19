@@ -11,6 +11,7 @@ import pro.shushi.pamirs.grouping.utils.TableGroupingDataHelper;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
+import pro.shushi.pamirs.meta.util.FieldUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -28,11 +29,7 @@ public class TableGroupingInQuery<T> extends AbstractTableGroupingQuery<T> imple
 
     @Override
     public boolean match(TableGroupingQueryContext<T> context) {
-        TableGroupingFieldQuery firstQuery = context.getQueryList().get(0);
-        if (firstQuery.isMulti()) {
-            return firstQuery.isEnumField() && firstQuery.isBitDataDictionary();
-        }
-        return firstQuery.isBasicField() || firstQuery.isEnumField() || firstQuery.isRelationOneField();
+        return context.getQueryList().get(0).isSingleTableQuery();
     }
 
     @Override
@@ -54,13 +51,39 @@ public class TableGroupingInQuery<T> extends AbstractTableGroupingQuery<T> imple
         }
         QueryWrapper<T> queryWrapper = context.generatorQueryWrapper(firstQuery);
         generatorGroupsWrapper(queryWrapper, queryList);
-        String column = firstQuery.getColumn();
-        queryWrapper.in(column, inValues);
-        if (isContainsNull) {
-            if (firstQuery.isStringField()) {
-                queryWrapper.or(w -> w.isNull(column).or().eq(column, CharacterConstants.SEPARATOR_EMPTY));
-            } else {
-                queryWrapper.or(w -> w.isNull(column));
+        if (firstQuery.isRelationOneField()) {
+            List<String> relationColumns = firstQuery.getRelationColumns();
+            List<String> referenceFields = firstQuery.getReferenceFields();
+            List<List<Object>> collInValues = new ArrayList<>(referenceFields.size());
+            for (Object inValue : inValues) {
+                for (int i = 0; i < referenceFields.size(); i++) {
+                    if (collInValues.size() < i + 1) {
+                        collInValues.add(new ArrayList<>());
+                    }
+                    List<Object> newInValues = collInValues.get(i);
+                    String referenceField = referenceFields.get(i);
+                    newInValues.add(FieldUtils.getFieldValue(inValue, referenceField));
+                }
+            }
+            queryWrapper.in(relationColumns, collInValues.toArray(new List[0]));
+            if (isContainsNull) {
+                List<String> relationFields = firstQuery.getRelationFields();
+                queryWrapper.or(w -> {
+                    for (int i = 0; i < relationFields.size(); i++) {
+                        String relationColumn = relationColumns.get(i);
+                        w.isNull(relationColumn);
+                    }
+                });
+            }
+        } else {
+            String column = firstQuery.getColumn();
+            queryWrapper.in(column, inValues);
+            if (isContainsNull) {
+                if (firstQuery.isStringField()) {
+                    queryWrapper.or(w -> w.isNull(column).or().eq(column, CharacterConstants.SEPARATOR_EMPTY));
+                } else {
+                    queryWrapper.or(w -> w.isNull(column));
+                }
             }
         }
         List<T> others = Models.origin().queryListByWrapper(queryWrapper);
@@ -70,14 +93,8 @@ public class TableGroupingInQuery<T> extends AbstractTableGroupingQuery<T> imple
     }
 
     private void generatorGroupsWrapper(QueryWrapper<T> queryWrapper, List<TableGroupingFieldQuery> queryList) {
-        List<String> selects = new ArrayList<>();
-        List<String> groupBys = new ArrayList<>();
         for (TableGroupingFieldQuery query : queryList) {
-            selects.add(query.getColumnAsField());
-            groupBys.add(query.getColumn());
-            query.withOrderBy(queryWrapper);
+            query.withGroupBy(queryWrapper);
         }
-        queryWrapper.select(selects.toArray(new String[0]));
-        queryWrapper.groupBy(groupBys.toArray(new String[0]));
     }
 }

@@ -11,7 +11,7 @@ import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
 @Errors(displayName = "分组模块错误枚举")
 public enum GroupingExpEnumerate implements ExpBaseEnum {
 
-    QUERY_RELATION_FIELD_IS_NOT_FOUND(ERROR_TYPE.BIZ_ERROR, 10067001, "关联关系查询字段找不到 {}"),
+    QUERY_RELATION_FIELD_IS_NOT_FOUND(ERROR_TYPE.BIZ_ERROR, 10067001, "关联关系查询字段找不到 model: {}, field: {}"),
     SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10067000, "系统异常"),
     ;
 

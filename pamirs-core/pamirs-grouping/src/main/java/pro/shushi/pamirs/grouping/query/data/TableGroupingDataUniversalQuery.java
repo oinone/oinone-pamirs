@@ -31,7 +31,7 @@ public class TableGroupingDataUniversalQuery<T> implements TableGroupingDataQuer
         List<TableGroupingFieldQuery> memoryQueryList = new ArrayList<>();
         QueryWrapper<T> queryWrapper = context.generatorQueryWrapperWithOrderBy();
         for (TableGroupingFieldQuery query : queryList) {
-            if (query.isSingleColumnQuery()) {
+            if (query.isSingleTableQuery()) {
                 query.withWhere(queryWrapper);
             } else if (query.isRelationManyField()) {
                 // FIXME: zbh 20251118 X2M 特殊处理逻辑

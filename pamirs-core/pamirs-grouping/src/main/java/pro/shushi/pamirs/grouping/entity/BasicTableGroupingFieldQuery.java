@@ -2,11 +2,11 @@ package pro.shushi.pamirs.grouping.entity;
 
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
-import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.domain.model.DataDictionary;
 import pro.shushi.pamirs.meta.domain.model.DataDictionaryItem;
@@ -29,6 +29,8 @@ class BasicTableGroupingFieldQuery {
 
     protected final String field;
 
+    protected final Object value;
+
     protected final String ttype;
 
     protected final boolean multi;
@@ -49,12 +51,15 @@ class BasicTableGroupingFieldQuery {
 
     protected final List<String> relationFields;
 
+    protected final List<String> referenceFields;
+
     protected final List<String> relationColumns;
 
     protected final List<String> relationAsFields;
 
-    BasicTableGroupingFieldQuery(String model, String field) {
+    BasicTableGroupingFieldQuery(String model, String field, Object value) {
         this.field = field;
+        this.value = value;
         PamirsTableInfo pamirsTableInfo = PamirsTableInfo.fetchPamirsTableInfo(model);
         this.columnFormat = pamirsTableInfo.getColumnFormat();
 
@@ -105,7 +110,7 @@ class BasicTableGroupingFieldQuery {
             List<String> relationAsFields = new ArrayList<>();
             boolean isValidRelationOne = true;
             for (String relationField : relationFields) {
-                String relationColumn = Configs.wrap(PamirsSession.getContext().getModelField(model, relationField)).getColumn();
+                String relationColumn = PamirsSession.getContext().getModelField(model, relationField).getColumn();
                 if (StringUtils.isBlank(relationColumn)) {
                     log.error("relation field is not store field. model: {}, field: {}, relationField: {}", model, field, relationField);
                     isValidRelationOne = false;
@@ -123,17 +128,20 @@ class BasicTableGroupingFieldQuery {
             if (isValidRelationOne) {
                 this.references = modelFieldConfig.getReferences();
                 this.relationFields = relationFields;
+                this.referenceFields = modelFieldConfig.getReferenceFields();
                 this.relationColumns = relationColumns;
                 this.relationAsFields = relationAsFields;
             } else {
                 this.references = null;
                 this.relationFields = null;
+                this.referenceFields = null;
                 this.relationColumns = null;
                 this.relationAsFields = null;
             }
         } else {
             this.references = null;
             this.relationFields = null;
+            this.referenceFields = null;
             this.relationColumns = null;
             this.relationAsFields = null;
         }
@@ -141,6 +149,10 @@ class BasicTableGroupingFieldQuery {
 
     public String getField() {
         return field;
+    }
+
+    public Object getValue() {
+        return value;
     }
 
     public String getTtype() {
@@ -155,8 +167,36 @@ class BasicTableGroupingFieldQuery {
         return column;
     }
 
+    public List<String> getRelationFields() {
+        return relationFields;
+    }
+
+    public List<String> getReferenceFields() {
+        return referenceFields;
+    }
+
+    public List<String> getRelationColumns() {
+        return relationColumns;
+    }
+
+    public boolean isBitDataDictionary() {
+        return isBitDataDictionary;
+    }
+
+    public boolean isNumericDataDictionary() {
+        return isNumericDataDictionary;
+    }
+
+    public String getDataDictionaryValue(String name) {
+        return dataDictionaryOptions.get(name);
+    }
+
     public boolean isBasicField() {
         return TtypeEnum.isBasicType(ttype);
+    }
+
+    public boolean isRelationField() {
+        return TtypeEnum.isRelationType(ttype);
     }
 
     public boolean isRelationOneField() {
@@ -187,7 +227,32 @@ class BasicTableGroupingFieldQuery {
         return TtypeEnum.M2M.value().equals(ttype);
     }
 
+    /**
+     * 是否支持单表查询
+     */
+    public boolean isSingleTableQuery() {
+        if (value == null) {
+            return !isRelationManyField();
+        }
+        if (isMulti()) {
+            return isEnumField() && isBitDataDictionary();
+        }
+        return isBasicField() || isEnumField() || isRelationOneField();
+    }
+
     public String getColumnAsField() {
+        if (isRelationOneField()) {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < relationColumns.size(); i++) {
+                String column = relationColumns.get(i);
+                String asField = relationAsFields.get(i);
+                if (i != 0) {
+                    builder.append(CharacterConstants.SEPARATOR_COMMA);
+                }
+                builder.append(column).append(AS).append(asField);
+            }
+            return builder.toString();
+        }
         return column + AS + asField;
     }
 }

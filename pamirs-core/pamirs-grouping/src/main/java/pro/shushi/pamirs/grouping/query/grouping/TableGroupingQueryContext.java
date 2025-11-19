@@ -1,5 +1,7 @@
 package pro.shushi.pamirs.grouping.query.grouping;
 
+import pro.shushi.pamirs.core.common.query.GQLFieldsQuery;
+import pro.shushi.pamirs.core.common.tmodel.CommonGQLFields;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
@@ -17,7 +19,7 @@ public class TableGroupingQueryContext<T> {
 
     private final List<TableGroupingFieldQuery> queryList;
 
-    private final List<String> queryRelationFields;
+    private final GQLFieldsQuery gqlFieldsQuery;
 
     private Pagination<T> pagination;
 
@@ -25,10 +27,18 @@ public class TableGroupingQueryContext<T> {
 
     private Long totalElements;
 
-    public TableGroupingQueryContext(List<TableGroupingFieldQuery> queryList, List<String> queryRelationFields) {
+    public TableGroupingQueryContext(List<TableGroupingFieldQuery> queryList) {
+        this(queryList, null);
+    }
+
+    public TableGroupingQueryContext(List<TableGroupingFieldQuery> queryList, CommonGQLFields gqlFields) {
         this.model = queryList.get(0).getModel();
         this.queryList = queryList;
-        this.queryRelationFields = queryRelationFields;
+        if (gqlFields == null) {
+            this.gqlFieldsQuery = null;
+        } else {
+            this.gqlFieldsQuery = GQLFieldsQuery.resolveGQLFields(this.model, gqlFields);
+        }
     }
 
     public String getModel() {
@@ -39,8 +49,8 @@ public class TableGroupingQueryContext<T> {
         return queryList;
     }
 
-    public List<String> getQueryRelationFields() {
-        return queryRelationFields;
+    public GQLFieldsQuery getGqlFieldsQuery() {
+        return gqlFieldsQuery;
     }
 
     public Pagination<T> getPagination() {

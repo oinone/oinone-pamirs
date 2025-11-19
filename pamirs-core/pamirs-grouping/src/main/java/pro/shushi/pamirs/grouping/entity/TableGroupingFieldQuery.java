@@ -3,6 +3,7 @@ package pro.shushi.pamirs.grouping.entity;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.FetchUtil;
+import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.core.common.tmodel.CommonConditionWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -33,8 +34,6 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
 
     private final String valueKey;
 
-    private final Object value;
-
     private final SortDirectionEnum direction;
 
     private final CommonConditionWrapper wrapper;
@@ -50,10 +49,9 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
     }
 
     public TableGroupingFieldQuery(CommonConditionWrapper wrapper, GroupingField field, GroupingStatisticField statisticField, TableGroupingFieldQuery parent) {
-        super(wrapper.getModel(), field.getField());
+        super(wrapper.getModel(), field.getField(), field.getValue());
         this.parent = parent;
         this.wrapper = wrapper;
-        this.value = field.getValue();
         if (statisticField == null) {
             this.statisticFieldQuery = null;
         } else {
@@ -79,24 +77,8 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
         return valueKey;
     }
 
-    public Object getValue() {
-        return value;
-    }
-
     public SortDirectionEnum getDirection() {
         return direction;
-    }
-
-    public boolean isBitDataDictionary() {
-        return isBitDataDictionary;
-    }
-
-    public boolean isNumericDataDictionary() {
-        return isNumericDataDictionary;
-    }
-
-    public String getDataDictionaryValue(String name) {
-        return dataDictionaryOptions.get(name);
     }
 
     public String getStatisticField() {
@@ -128,23 +110,26 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
 
     public <T> QueryWrapper<T> generatorQueryWrapperWithGroupBy() {
         QueryWrapper<T> queryWrapper = generatorQueryWrapper();
-        if (parent == null) {
-            queryWrapper.select(getColumnAsField());
-            queryWrapper.groupBy(column);
-            withOrderBy(queryWrapper, column, direction);
-        } else {
-            queryWrapper.select(parent.getColumnAsField(), getColumnAsField());
-            queryWrapper.groupBy(column, parent.column);
-            withOrderBy(queryWrapper, parent.column, parent.direction);
-            withOrderBy(queryWrapper, column, direction);
+        if (parent != null) {
+            parent.withGroupBy(queryWrapper);
         }
+        withGroupBy(queryWrapper);
         return queryWrapper;
     }
 
-//    public <T> void withGroupBy(QueryWrapper<T> queryWrapper) {
-//        withSelect(queryWrapper, getColumnAsField());
-//        queryWrapper.groupBy(column);
-//    }
+    public <T> void withGroupBy(QueryWrapper<T> queryWrapper) {
+        WrapperHelper.withSelect(queryWrapper, getColumnAsField());
+        if (isRelationOneField()) {
+            List<String> relationColumns = getRelationColumns();
+            for (String relationColumn : relationColumns) {
+                queryWrapper.groupBy(relationColumn);
+                withOrderBy(queryWrapper, relationColumn, direction);
+            }
+        } else {
+            queryWrapper.groupBy(column);
+            withOrderBy(queryWrapper, column, direction);
+        }
+    }
 
     public <T> void withOrderBy(QueryWrapper<T> queryWrapper) {
         withOrderBy(queryWrapper, column, direction);
@@ -164,22 +149,9 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
     }
 
     /**
-     * 是否支持单列查询
-     */
-    public boolean isSingleColumnQuery() {
-        if (value == null) {
-            return !isRelationManyField();
-        }
-        if (isMulti()) {
-            return isEnumField() && isBitDataDictionary();
-        }
-        return isBasicField() || isEnumField() || isRelationOneField();
-    }
-
-    /**
      * 追加单表 where 条件到指定 wrapper
      * <p>
-     * 使用前需要使用 isSingleColumnQuery 方法判断是否可用
+     * 使用前需要使用 isSingleTableQuery 方法判断是否可用
      */
     public <T> void withWhere(QueryWrapper<T> queryWrapper) {
         if (value == null) {
@@ -208,11 +180,15 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
             if (isEnumField()) {
                 queryWrapper.eq(column, getDataDictionaryValue(String.valueOf(value)));
             } else if (isRelationOneField()) {
-                for (int i = 0; i < relationFields.size(); i++) {
-                    String relationField = relationFields.get(i);
+                for (int i = 0; i < referenceFields.size(); i++) {
+                    String referenceField = referenceFields.get(i);
                     String relationColumn = relationColumns.get(i);
-                    Object relationValue = FieldUtils.getFieldValue(value, relationField);
-                    queryWrapper.eq(relationColumn, relationValue);
+                    Object referenceValue = FieldUtils.getFieldValue(value, referenceField);
+                    if (referenceValue == null) {
+                        queryWrapper.isNull(relationColumn);
+                    } else {
+                        queryWrapper.eq(relationColumn, referenceValue);
+                    }
                 }
             } else {
                 queryWrapper.eq(column, value);

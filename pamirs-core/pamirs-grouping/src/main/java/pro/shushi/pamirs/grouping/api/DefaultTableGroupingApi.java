@@ -44,7 +44,7 @@ public class DefaultTableGroupingApi {
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public <T> TableGroupingResult queryGroupingPage(Pagination<T> page, TableGroupingWrapper wrapper) {
         List<TableGroupingFieldQuery> queryList = TableGroupingDataHelper.prepareGroupingFields(wrapper);
-        TableGroupingQueryContext<T> context = new TableGroupingQueryContext<>(queryList, wrapper.getQueryRelationFields());
+        TableGroupingQueryContext<T> context = new TableGroupingQueryContext<>(queryList, wrapper.getGqlFields());
         context.setPagination(page);
         context.setAuthSql(DataPermissionExecutor.getFilter(context.getModel(), QUERY_GROUPING_PAGE_FUN));
         Long totalElements = Models.origin().count(context.generatorQueryWrapper());
@@ -59,7 +59,7 @@ public class DefaultTableGroupingApi {
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public <T> List<T> queryGroupingDataByWrapper(TableGroupingWrapper wrapper) {
         List<TableGroupingFieldQuery> queryList = TableGroupingDataHelper.prepareGroupingFields(wrapper);
-        TableGroupingQueryContext<T> context = new TableGroupingQueryContext<>(queryList, wrapper.getQueryRelationFields());
+        TableGroupingQueryContext<T> context = new TableGroupingQueryContext<>(queryList);
         context.setAuthSql(DataPermissionExecutor.getFilter(context.getModel(), QUERY_GROUPING_DATA_BY_WRAPPER_FUN));
         return fetchApi(TableGroupingDataQueryApi.class, context).queryGroupingDataByWrapper(context);
     }
@@ -68,7 +68,7 @@ public class DefaultTableGroupingApi {
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public <T> String queryGroupingStatistic(TableGroupingWrapper wrapper) {
         List<TableGroupingFieldQuery> queryList = TableGroupingDataHelper.prepareGroupingFields(wrapper);
-        TableGroupingQueryContext<T> context = new TableGroupingQueryContext<>(queryList, wrapper.getQueryRelationFields());
+        TableGroupingQueryContext<T> context = new TableGroupingQueryContext<>(queryList);
         context.setAuthSql(DataPermissionExecutor.getFilter(context.getModel(), QUERY_GROUPING_STATISTIC_FUN));
         return fetchApi(TableGroupingStatisticQueryApi.class, context).queryGroupingStatistic(context);
     }

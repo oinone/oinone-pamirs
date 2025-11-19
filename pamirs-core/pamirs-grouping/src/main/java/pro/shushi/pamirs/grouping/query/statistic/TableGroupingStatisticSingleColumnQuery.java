@@ -45,7 +45,7 @@ public class TableGroupingStatisticSingleColumnQuery<T> implements TableGrouping
     public boolean match(TableGroupingQueryContext<T> context) {
         List<TableGroupingFieldQuery> queryList = context.getQueryList();
         for (TableGroupingFieldQuery query : queryList) {
-            if (!query.isSingleColumnQuery()) {
+            if (!query.isSingleTableQuery()) {
                 return false;
             }
         }

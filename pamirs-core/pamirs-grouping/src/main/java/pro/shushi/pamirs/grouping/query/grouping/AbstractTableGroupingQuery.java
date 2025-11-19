@@ -9,11 +9,9 @@ import pro.shushi.pamirs.grouping.utils.TableGroupingDataHelper;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 抽象表格分组查询
@@ -58,13 +56,22 @@ public abstract class AbstractTableGroupingQuery<T> implements TableGroupingQuer
 
     protected List<T> queryFirstGroupingData(TableGroupingQueryContext<T> context, Pagination<T> pagination) {
         TableGroupingFieldQuery firstQuery = context.getQueryList().get(0);
-        QueryWrapper<T> queryWrapper = context.generatorQueryWrapperWithGroupBy();
-        queryWrapper.select(firstQuery.getColumnAsField());
-        Pagination<T> page = new Pagination<>();
-        pagination.to(page);
-        page.setSize(page.getSize() + 2);
-        page.setSortable(false);
-        return Models.origin().queryListByWrapper(page, queryWrapper);
+        if (firstQuery.isSingleTableQuery()) {
+            QueryWrapper<T> queryWrapper = context.generatorQueryWrapperWithGroupBy();
+            queryWrapper.select(firstQuery.getColumnAsField());
+            Pagination<T> page = new Pagination<>();
+            pagination.to(page);
+            page.setSize(page.getSize() + 2);
+            page.setSortable(false);
+            // FIXME: zbh 20251117 此处需使用 queryPage 查询数据
+            List<T> list = Models.origin().queryListByWrapper(page, queryWrapper);
+            if (firstQuery.isRelationOneField()) {
+                Models.origin().listFieldQuery(list.stream().filter(Objects::nonNull).collect(Collectors.toList()), firstQuery.getField());
+            }
+            return list;
+        }
+        // FIXME: zbh 20251118 m2m query
+        return new ArrayList<>();
     }
 
     protected Map<String, GroupingDataWrapper> queryFirstGroupingDataMap(TableGroupingQueryContext<T> context, Pagination<T> pagination, Boolean isLeaf) {
