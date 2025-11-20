@@ -2,7 +2,7 @@ package pro.shushi.pamirs.grouping.statistic.defaults;
 
 import pro.shushi.pamirs.grouping.statistic.StatisticApi;
 import pro.shushi.pamirs.grouping.statistic.StatisticField;
-import pro.shushi.pamirs.grouping.utils.TableGroupingStatisticHelper;
+import pro.shushi.pamirs.grouping.statistic.StatisticHelper;
 
 import java.util.Date;
 
@@ -19,6 +19,6 @@ public class StatisticTimeRangeMonth<T> extends StatisticTimeRangeDay<T> impleme
 
     @Override
     protected long computeResult(Date max, Date min) {
-        return TableGroupingStatisticHelper.timeRangeMonth(max, min);
+        return StatisticHelper.timeRangeMonth(max, min);
     }
 }

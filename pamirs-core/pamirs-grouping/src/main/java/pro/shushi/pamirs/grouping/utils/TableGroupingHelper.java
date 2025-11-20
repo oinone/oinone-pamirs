@@ -48,7 +48,9 @@ public class TableGroupingHelper {
     public static <T> List<T> queryFirstGroupingData(TableGroupingQueryContext<T> context, Pagination<T> pagination) {
         TableGroupingFieldQuery firstQuery = context.getQueryList().get(0);
         QueryWrapper<T> queryWrapper = context.generatorQueryWrapper();
+        firstQuery.withSelect(queryWrapper);
         firstQuery.withGroupBy(queryWrapper);
+        firstQuery.withOrderBy(queryWrapper);
         Pagination<T> page = new Pagination<>();
         pagination.to(page);
         page.setSortable(false);

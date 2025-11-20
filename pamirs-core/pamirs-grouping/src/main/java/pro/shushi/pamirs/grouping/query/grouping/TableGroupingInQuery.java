@@ -30,6 +30,9 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
 
     @Override
     public boolean match(TableGroupingQueryContext<T> context) {
+        if (true) {
+            return false;
+        }
         return context.getQueryList().get(0).isSingleTableQuery();
     }
 
@@ -50,8 +53,16 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
                 inValues.add(value);
             }
         }
+        List<TableGroupingFieldQuery> memoryQueryList = new ArrayList<>();
         QueryWrapper<T> queryWrapper = context.generatorQueryWrapper();
-        generatorGroupsWrapper(queryWrapper, queryList);
+        for (TableGroupingFieldQuery query : queryList) {
+            if (query.isSingleTableQuery()) {
+                query.withSelect(queryWrapper);
+                query.withGroupBy(queryWrapper);
+            } else {
+                memoryQueryList.add(query);
+            }
+        }
         if (firstQuery.isRelationOneField()) {
             List<String> relationColumns = firstQuery.getRelationColumns();
             List<String> referenceFields = firstQuery.getReferenceFields();
@@ -74,14 +85,11 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
             firstQuery.withNullWhere(queryWrapper);
         }
         List<T> others = Models.origin().queryListByWrapper(queryWrapper);
+        if (!memoryQueryList.isEmpty()) {
+            others = TableGroupingHelper.filter(others, memoryQueryList);
+        }
         TableGroupingDataHelper.generatorGroupingDataList(groupingDataMap, queryList, others, false);
         result.setGroups(TableGroupingDataHelper.collectionGroupingData(context.getModel(), groupingDataMap, queryList));
         TableGroupingHelper.computePaging(pagination, result);
-    }
-
-    private void generatorGroupsWrapper(QueryWrapper<T> queryWrapper, List<TableGroupingFieldQuery> queryList) {
-        for (TableGroupingFieldQuery query : queryList) {
-            query.withGroupBy(queryWrapper);
-        }
     }
 }

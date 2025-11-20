@@ -245,7 +245,7 @@ public class BasicTableGroupingFieldQuery {
                     boolean isValidQueryWrapper = true;
                     for (int i = 0; i < referencesPks.size(); i++) {
                         String pk = referencesPks.get(i);
-                        String pkColumn = referenceColumns.get(i);
+                        String pkColumn = referencesPkColumns.get(i);
                         Object pkValue = FieldUtils.getFieldValue(value, pk);
                         if (pkValue == null) {
                             isValidQueryWrapper = false;

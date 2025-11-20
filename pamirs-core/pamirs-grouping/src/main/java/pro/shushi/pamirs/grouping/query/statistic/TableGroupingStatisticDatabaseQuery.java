@@ -11,7 +11,6 @@ import pro.shushi.pamirs.grouping.entity.TableGroupingStatisticFieldQuery;
 import pro.shushi.pamirs.grouping.enumeration.GroupStatisticMethodEnum;
 import pro.shushi.pamirs.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.grouping.statistic.StatisticHelper;
-import pro.shushi.pamirs.grouping.utils.TableGroupingStatisticHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.util.FieldUtils;
@@ -53,11 +52,11 @@ public class TableGroupingStatisticDatabaseQuery<T> implements TableGroupingStat
         int lastIndex = queryList.size() - 1;
         for (int i = 0; i < lastIndex; i++) {
             TableGroupingFieldQuery query = queryList.get(i);
-            queryWrapper.groupBy(query.getColumn());
+            query.withGroupBy(queryWrapper);
             query.withWhere(queryWrapper);
         }
         TableGroupingFieldQuery lastQuery = queryList.get(lastIndex);
-        queryWrapper.groupBy(lastQuery.getColumn());
+        lastQuery.withGroupBy(queryWrapper);
 
         String model = context.getModel();
         TableGroupingStatisticFieldQuery statisticQuery = lastQuery.getStatisticQuery();
@@ -131,11 +130,11 @@ public class TableGroupingStatisticDatabaseQuery<T> implements TableGroupingStat
             }
             switch (query.getInternalStatisticMethod()) {
                 case TIME_RANGE_DAY:
-                    return String.valueOf(TableGroupingStatisticHelper.timeRangeDay(maxDate, minDate));
+                    return String.valueOf(StatisticHelper.timeRangeDay(maxDate, minDate));
                 case TIME_RANGE_MONTH:
-                    return String.valueOf(TableGroupingStatisticHelper.timeRangeMonth(maxDate, minDate));
+                    return String.valueOf(StatisticHelper.timeRangeMonth(maxDate, minDate));
                 case TIME_RANGE_YEAR:
-                    return String.valueOf(TableGroupingStatisticHelper.timeRangeYear(maxDate, minDate));
+                    return String.valueOf(StatisticHelper.timeRangeYear(maxDate, minDate));
                 default:
                     throw new UnsupportedOperationException("Invalid statistic method. statistic: " + statisticMethod);
             }

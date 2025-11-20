@@ -65,22 +65,30 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
         statisticQuery.withStatistic(this, queryWrapper);
     }
 
-    public <T> void withGroupBy(QueryWrapper<T> queryWrapper) {
+    public <T> void withSelect(QueryWrapper<T> queryWrapper) {
         WrapperHelper.withSelect(queryWrapper, getColumnAsField());
+    }
+
+    public <T> void withGroupBy(QueryWrapper<T> queryWrapper) {
         if (isRelationOneField()) {
             List<String> relationColumns = getRelationColumns();
             for (String relationColumn : relationColumns) {
                 queryWrapper.groupBy(relationColumn);
-                withOrderBy(queryWrapper, relationColumn, direction);
             }
         } else {
             queryWrapper.groupBy(column);
-            withOrderBy(queryWrapper, column, direction);
         }
     }
 
     public <T> void withOrderBy(QueryWrapper<T> queryWrapper) {
-        withOrderBy(queryWrapper, column, direction);
+        if (isRelationOneField()) {
+            List<String> relationColumns = getRelationColumns();
+            for (String relationColumn : relationColumns) {
+                withOrderBy(queryWrapper, relationColumn, direction);
+            }
+        } else {
+            withOrderBy(queryWrapper, column, direction);
+        }
     }
 
     public <T> void withOrderBy(QueryWrapper<T> queryWrapper, String column) {
