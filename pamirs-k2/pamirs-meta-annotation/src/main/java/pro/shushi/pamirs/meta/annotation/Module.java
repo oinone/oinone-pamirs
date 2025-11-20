@@ -101,7 +101,7 @@ public @interface Module {
         // 是否是web
         boolean web() default true;
 
-        // 是否核心应用
+        // 是否核心应用，核心应用优先独立计算元数据
         boolean core() default false;
 
         // 是否自建应用

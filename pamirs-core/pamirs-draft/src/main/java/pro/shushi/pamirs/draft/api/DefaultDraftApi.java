@@ -8,6 +8,7 @@ import pro.shushi.pamirs.draft.model.Draft;
 import pro.shushi.pamirs.draft.spi.DraftStrategyApi;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
+import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.base.BaseModel;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
@@ -16,8 +17,11 @@ import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
 /**
+ * 默认草稿API
+ *
  * @author Gesi at 14:55 on 2025/9/17
  */
+@Base
 @Fun(BaseModel.MODEL_MODEL)
 @Component
 public class DefaultDraftApi {

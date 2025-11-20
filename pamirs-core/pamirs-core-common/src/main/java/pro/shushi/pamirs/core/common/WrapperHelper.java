@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.core.common;
 
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -43,5 +44,20 @@ public class WrapperHelper {
             queryWrapper = (QueryWrapper<T>) wrapper;
         }
         return queryWrapper;
+    }
+
+    /**
+     * 追加 select 列
+     */
+    public static <T> void withSelect(QueryWrapper<T> queryWrapper, String... columns) {
+        String sqlSelect = queryWrapper.getSqlSelect();
+        if (StringUtils.isBlank(sqlSelect)) {
+            queryWrapper.select(columns);
+        } else {
+            String[] nextColumns = new String[columns.length + 1];
+            nextColumns[0] = sqlSelect;
+            System.arraycopy(columns, 0, nextColumns, 1, columns.length);
+            queryWrapper.select(nextColumns);
+        }
     }
 }

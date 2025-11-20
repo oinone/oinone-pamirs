@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.draft.model;
 
-import pro.shushi.pamirs.draft.serialize.ToStringSerializeProcessor;
+import pro.shushi.pamirs.core.common.serialize.ToStringSerializeProcessor;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.IdModel;
@@ -46,6 +46,6 @@ public class Draft extends IdModel {
     private Long invalidDate;
 
     @Field.Advanced(columnDefinition = "LONGTEXT")
-    @Field(displayName = "草稿数据", summary = "模型内容序列化", serialize = ToStringSerializeProcessor.TYPE)
+    @Field(displayName = "草稿数据", serialize = ToStringSerializeProcessor.TYPE)
     private Object draftData;
 }

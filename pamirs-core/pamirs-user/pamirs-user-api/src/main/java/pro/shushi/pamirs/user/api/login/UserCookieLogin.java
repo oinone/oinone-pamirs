@@ -37,7 +37,7 @@ public abstract class UserCookieLogin<T extends IdModel> implements IUserLogin<T
 
     @Override
     public PamirsUserDTO fetchUserIdByReq() {
-        String sessionId = PamirsSession.getSessionApi().getSessionId();
+        String sessionId = PamirsSession.getSessionId();
         return UserCache.get(sessionId);
     }
 

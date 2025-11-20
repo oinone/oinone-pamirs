@@ -25,7 +25,7 @@ public class ScheduledTaskExecutorConfiguration {
     @Bean(SCHEDULED_THREAD_POOL_EXECUTOR)
     public ScheduledExecutorService globalScheduledThreadPoolExecutor() {
         int corePoolSize = PamirsThreadFactory.getAvailableProcessors();
-        ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(corePoolSize, new PamirsThreadFactory("scheduled", false));
+        ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(corePoolSize, new PamirsThreadFactory("scheduled"));
         log.info("Register global scheduled executor service [CoreSize {}]", corePoolSize);
         Runnable task = () -> {
             List<ScheduleApi> scheduleApis = BeanDefinitionUtils.getBeansOfTypeByOrdered(ScheduleApi.class);

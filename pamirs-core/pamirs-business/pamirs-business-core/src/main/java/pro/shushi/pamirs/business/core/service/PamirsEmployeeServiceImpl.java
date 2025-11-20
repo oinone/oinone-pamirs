@@ -328,63 +328,58 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         Boolean userDept = query.getUserDept();
         Boolean userDeptAndChildren = query.getUserDeptAndChildren();
 
-        if (CollectionUtils.isEmpty(empCodes) && CollectionUtils.isEmpty(deptCodes) && CollectionUtils.isEmpty(roleCodes)) {
-            return new ArrayList<>();
-        }
         LambdaQueryWrapper<PamirsEmployee> queryWrapper = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL);
         if (StringUtils.isNotBlank(domainRsql)) {
-            queryWrapper.setRsql(domainRsql);
-            RsqlParseHelper.parseQueryWrapper(queryWrapper, PamirsEmployee.MODEL_MODEL);
+            queryWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, domainRsql));
         }
 
-        queryWrapper.and(andWrapper -> {
-            andWrapper.from(PamirsEmployee.MODEL_MODEL);
+        if (Boolean.TRUE.equals(userEmployee) || Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren) || CollectionUtils.isNotEmpty(empCodes) || CollectionUtils.isNotEmpty(deptCodes) || CollectionUtils.isNotEmpty(roleCodes)) {
+            queryWrapper.and(andWrapper -> {
+                andWrapper.from(PamirsEmployee.MODEL_MODEL);
 
-            if (Boolean.TRUE.equals(userEmployee) || Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren)) {
-                String childRsql = "";
-                if (Boolean.TRUE.equals(userEmployee)) {
-                    childRsql = LambdaUtil.fetchFieldName(PamirsEmployee::getCode) + "=in=" + employeeManager.currentUserEmpCodes();
+                if (Boolean.TRUE.equals(userEmployee) || Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren)) {
+                    String childRsql = "";
+                    if (Boolean.TRUE.equals(userEmployee)) {
+                        childRsql = LambdaUtil.fetchFieldName(PamirsEmployee::getCode) + "=in=" + employeeManager.currentUserEmpCodes();
+                    }
+                    if (Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren)) {
+                        childRsql = StringUtils.isNotBlank(childRsql) ? childRsql + " or " : "";
+                        if (Boolean.TRUE.equals(userDeptAndChildren)) {
+                            childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "=in=" + departmentManager.currentUserDeptCodes());
+                        } else {
+                            childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "=in=" + departmentManager.currentUserDeptWithChildCodes());
+                        }
+                    }
+                    queryWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, childRsql));
                 }
-                if (Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren)) {
-                    childRsql = StringUtils.isNotBlank(childRsql) ? childRsql + " or " : "";
-                    if (Boolean.TRUE.equals(userDeptAndChildren)) {
-                        childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "=in=" + departmentManager.currentUserDeptCodes());
-                    } else {
-                        childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "=in=" + departmentManager.currentUserDeptWithChildCodes());
+
+                if (CollectionUtils.isNotEmpty(empCodes)) {
+                    andWrapper.or().in(PamirsEmployee::getCode, empCodes);
+                }
+                if (CollectionUtils.isNotEmpty(deptCodes)) {
+                    andWrapper.or().in(PamirsEmployee::getDepartmentCode, deptCodes);
+                }
+                if (CollectionUtils.isNotEmpty(roleCodes)) {
+                    List<Long> userIds = null;
+                    List<Long> roleIds = new AuthRole().queryList(
+                            Pops.<AuthRole>lambdaQuery().from(AuthRole.MODEL_MODEL)
+                                    .select(AuthRole::getId)
+                                    .in(AuthRole::getCode, roleCodes)
+                    ).stream().map(AuthRole::getId).collect(Collectors.toList());
+                    if (CollectionUtils.isNotEmpty(roleIds)) {
+                        userIds = new AuthUserRoleRel().queryList(
+                                Pops.<AuthUserRoleRel>lambdaQuery().from(AuthUserRoleRel.MODEL_MODEL)
+                                        .select(AuthUserRoleRel::getUserId)
+                                        .in(AuthUserRoleRel::getRoleId, roleIds)
+                        ).stream().map(AuthUserRoleRel::getUserId).distinct().collect(Collectors.toList());
+                    }
+
+                    if (CollectionUtils.isNotEmpty(userIds)) {
+                        andWrapper.or().in(PamirsEmployee::getBindingUserId, userIds);
                     }
                 }
-                andWrapper.setRsql(childRsql);
-                RsqlParseHelper.parseQueryWrapper(andWrapper, PamirsEmployee.MODEL_MODEL);
-            }
-
-            if (CollectionUtils.isNotEmpty(empCodes)) {
-                andWrapper.or().in(PamirsEmployee::getCode, empCodes);
-            }
-            if (CollectionUtils.isNotEmpty(deptCodes)) {
-                andWrapper.or().in(PamirsEmployee::getDepartmentCode, deptCodes);
-            }
-            if (CollectionUtils.isNotEmpty(roleCodes)) {
-                List<Long> userIds = null;
-                List<Long> roleIds = new AuthRole().queryList(
-                        Pops.<AuthRole>lambdaQuery().from(AuthRole.MODEL_MODEL)
-                                .select(AuthRole::getId)
-                                .in(AuthRole::getCode, roleCodes)
-                ).stream().map(AuthRole::getId).collect(Collectors.toList());
-                if (CollectionUtils.isNotEmpty(roleIds)) {
-                    userIds = new AuthUserRoleRel().queryList(
-                            Pops.<AuthUserRoleRel>lambdaQuery().from(AuthUserRoleRel.MODEL_MODEL)
-                                    .select(AuthUserRoleRel::getUserId)
-                                    .in(AuthUserRoleRel::getRoleId, roleIds)
-                    ).stream().map(AuthUserRoleRel::getUserId).distinct().collect(Collectors.toList());
-                }
-
-                if (CollectionUtils.isNotEmpty(userIds)) {
-                    andWrapper.or().in(PamirsEmployee::getBindingUserId, userIds);
-                } else {
-                    andWrapper.or().eq(PamirsEmployee::getBindingUserId, -1L);
-                }
-            }
-        });
+            });
+        }
 
         return new PamirsEmployee().queryList(queryWrapper);
     }

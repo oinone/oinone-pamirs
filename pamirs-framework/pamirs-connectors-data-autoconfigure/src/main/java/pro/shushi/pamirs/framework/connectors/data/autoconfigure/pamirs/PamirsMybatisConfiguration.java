@@ -2,7 +2,6 @@ package pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisMapperRegistry;
-import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.executor.MybatisBatchExecutor;
 import com.baomidou.mybatisplus.core.executor.MybatisCachingExecutor;

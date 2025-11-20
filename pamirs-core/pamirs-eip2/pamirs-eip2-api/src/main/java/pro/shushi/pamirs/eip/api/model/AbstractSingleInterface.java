@@ -24,7 +24,8 @@ public abstract class AbstractSingleInterface extends AbstractEipApi {
     public static final String MODEL_MODEL = "pamirs.eip.AbstractSingleInterface";
 
     @Base
-    @Field.String(size = 2048)
+    @Field.String
+    @Field.Advanced(columnDefinition = "text")
     @Field(displayName = "接口路由", required = true, summary = "Camel内置路由规则")
     private String uri;
 
