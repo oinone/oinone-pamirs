@@ -5,16 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
 import pro.shushi.pamirs.sso.common.dto.Result;
 import pro.shushi.pamirs.sso.common.dto.SsoRequestParameter;
+import pro.shushi.pamirs.sso.common.dto.SsoUserVo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Objects;
 
+@Slf4j
 @RestController
 @RequestMapping("/pamirs/sso/oauth2")
 public class ServerOauth2TokenController {
@@ -61,4 +64,35 @@ public class ServerOauth2TokenController {
         }
     }
 
+    @RequestMapping("/login")
+    public void login(SsoUserVo ssoUserVo) {
+        try {
+            ssoOauth2TokenService.login(ssoUserVo);
+        } catch (Exception e) {
+            log.error("login error", e);
+            String errorMessage;
+            String redirectUri = ssoUserVo.getRedirectUri();
+            try {
+                errorMessage = URLEncoder.encode(e.getMessage(), "UTF-8");
+                redirectUri = URLEncoder.encode(redirectUri, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                errorMessage = "encoding_failed";
+            }
+            //抓所有报错，重定向到登录页面
+            StringBuilder urlBuilder = new StringBuilder(pamirsSsoProperties.getServer().getLoginUrl());
+            urlBuilder.append(";client_id=").append(ssoUserVo.getClientId())
+                    .append(";redirect_uri=").append(redirectUri)
+                    .append(";error=").append(errorMessage);
+            if (StringUtils.isNotEmpty(ssoUserVo.getState())) {
+                urlBuilder.append(";state=").append(ssoUserVo.getState());
+            }
+            String url = urlBuilder.toString();
+            HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(
+                    RequestContextHolder.getRequestAttributes())).getResponse();
+            try {
+                Objects.requireNonNull(response).sendRedirect(url);
+            } catch (Exception ignored) {
+            }
+        }
+    }
 }

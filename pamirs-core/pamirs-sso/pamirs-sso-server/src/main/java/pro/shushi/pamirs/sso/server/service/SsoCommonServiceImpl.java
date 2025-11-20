@@ -18,6 +18,7 @@ import pro.shushi.pamirs.sso.api.model.SsoClient;
 import pro.shushi.pamirs.sso.api.service.SsoCommonService;
 import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
 import pro.shushi.pamirs.sso.server.model.SsoClientService;
+import pro.shushi.pamirs.user.api.cache.UserCache;
 
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
@@ -46,9 +47,9 @@ public class SsoCommonServiceImpl implements SsoCommonService {
         }
         String url = "";
         // 已登录
-        if (null != PamirsSession.getUserId() && null != ssoClient) {
+        if (null != UserCache.get(PamirsSession.getSessionId()) && null != ssoClient) {
             if (SsoAuthTypeEnum.OAUTH2.equals(ssoClient.getAuthType())) {
-                String code = ssoOauth2TokenService.getOauth2Code(ssoClient, PamirsSession.getUserId());
+                String code = ssoOauth2TokenService.getOauth2Code(ssoClient, UserCache.get(PamirsSession.getSessionId()).getUserId());
                 url = redirectUri + "?code=" + code;
                 if (StringUtils.isNotBlank(state)) {
                     url += "&state=" + state;
