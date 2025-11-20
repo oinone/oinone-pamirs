@@ -46,7 +46,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -69,7 +69,7 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
 
     @Autowired(required = false)
     @Qualifier(AsyncTaskExecutorConfiguration.FIXED_THREAD_POOL_EXECUTOR)
-    private ExecutorService globalFixedThreadPoolExecutor;
+    private Executor globalFixedThreadPoolExecutor;
 
 
     /**

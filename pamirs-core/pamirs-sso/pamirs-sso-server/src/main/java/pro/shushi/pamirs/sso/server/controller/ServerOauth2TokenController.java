@@ -52,8 +52,13 @@ public class ServerOauth2TokenController {
     }
 
     @PostMapping("/logout")
-    public void logout(@RequestBody SsoRequestParameter ssoRequestParameter) {
-        ssoOauth2TokenService.logout(ssoRequestParameter);
+    public Result logout(@RequestBody SsoRequestParameter ssoRequestParameter) {
+        try {
+            ssoOauth2TokenService.logout(ssoRequestParameter);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.error("推出登录失败");
+        }
     }
 
 }
