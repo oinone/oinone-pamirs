@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.sso.api.dto.SsoRequestParameters;
 import pro.shushi.pamirs.sso.api.enmu.SsoGranTypeEnum;
-import pro.shushi.pamirs.sso.api.utils.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.api.tmodel.OAuthTokenResponse;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IUserLoginOAuth2GrantType;
 
 @Component

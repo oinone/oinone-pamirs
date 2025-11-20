@@ -9,8 +9,7 @@ import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.dto.SsoRequestParameters;
 import pro.shushi.pamirs.sso.api.dto.SsoUserVo;
 import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
-import pro.shushi.pamirs.sso.api.tmodel.ApiCommonTransient;
-import pro.shushi.pamirs.sso.api.utils.Result;
+import pro.shushi.pamirs.sso.api.tmodel.Result;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
@@ -88,8 +87,8 @@ public class ServerOauth2TokenController {
 
 
     @PostMapping("/logout")
-    public void logout(@RequestBody Map<String, Object> map) {
-        ssoOauth2TokenService.logout(map);
+    public void logout(@RequestBody SsoRequestParameters ssoRequestParameters) {
+        ssoOauth2TokenService.logout(ssoRequestParameters);
     }
 
 }

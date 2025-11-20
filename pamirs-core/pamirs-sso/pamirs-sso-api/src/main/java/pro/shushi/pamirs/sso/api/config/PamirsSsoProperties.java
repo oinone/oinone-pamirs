@@ -29,7 +29,7 @@ public class PamirsSsoProperties {
     public static class Client {
         private String clientId = "*";
         private String clientSecret = "*";
-        private String loginUrl = "http://localhost:9093";
+        private String ssoServerUrl = "*";
         private Expires expires = new Expires();
     }
 

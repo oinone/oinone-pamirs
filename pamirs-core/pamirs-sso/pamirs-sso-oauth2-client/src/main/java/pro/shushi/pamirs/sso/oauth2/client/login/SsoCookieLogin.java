@@ -19,9 +19,10 @@ import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.HttpConstant;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
-import pro.shushi.pamirs.sso.api.tmodel.ApiCommonTransient;
+import pro.shushi.pamirs.sso.api.tmodel.Result;
+import pro.shushi.pamirs.sso.api.tmodel.SsoPamirsUserTransient;
 import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
-import pro.shushi.pamirs.sso.oauth2.client.utils.AuthenticateUtils;
+import pro.shushi.pamirs.sso.oauth2.client.utils.Oauth2AuthenticateUtils;
 import pro.shushi.pamirs.user.api.cache.UserCache;
 import pro.shushi.pamirs.user.api.constants.UserConstant;
 import pro.shushi.pamirs.user.api.enmu.UserExpEnumerate;
@@ -123,8 +124,7 @@ public class SsoCookieLogin extends UserCookieLogin<PamirsUser> {
             accessToken = pamirsRequestVariables.getHeader("authorization");
         }
         if (StringUtils.isNotEmpty(accessToken)) {
-            String loginUrl = pamirsSsoProperties.getClient().getLoginUrl();
-            ApiCommonTransient permissionInfo = AuthenticateUtils.getPermissionInfo(accessToken, loginUrl);
+            Result<SsoPamirsUserTransient> permissionInfo = Oauth2AuthenticateUtils.getPermissionInfo(accessToken);
             // Check for successful login
             if (HttpConstant.SUCCESS.equals(permissionInfo.getCode())) {
                 // SSO user changes to Oinone user
@@ -155,8 +155,8 @@ public class SsoCookieLogin extends UserCookieLogin<PamirsUser> {
      * @param response
      * @return
      */
-    public PamirsUser setUserInfoToCookiesAndSetUserIdToCache(ApiCommonTransient permissionInfo, String accessToken, HttpServletResponse response) {
-        PamirsUser ssoUser = JSON.parseObject(permissionInfo.getData(), PamirsUser.class);
+    public PamirsUser setUserInfoToCookiesAndSetUserIdToCache(Result<SsoPamirsUserTransient> permissionInfo, String accessToken, HttpServletResponse response) {
+        SsoPamirsUserTransient ssoUser = permissionInfo.getData();
         PamirsUser pamirsUser = userService.queryById(ssoUser.getId());
         if (pamirsUser == null) {
             pamirsUser = createOrUpdatePamirsUser(ssoUser);
@@ -178,9 +178,22 @@ public class SsoCookieLogin extends UserCookieLogin<PamirsUser> {
         return pamirsUser;
     }
 
-    private PamirsUser createOrUpdatePamirsUser(PamirsUser ssoUser) {
-        userService.createOrUpdate(ssoUser);
-        return ssoUser;
+    private PamirsUser createOrUpdatePamirsUser(SsoPamirsUserTransient ssoUser) {
+        PamirsUser pamirsUser = buildPamirsUser(ssoUser);
+        userService.createOrUpdate(pamirsUser);
+        return pamirsUser;
+    }
+
+    private PamirsUser buildPamirsUser(SsoPamirsUserTransient ssoUser) {
+        PamirsUser pamirsUser = new PamirsUser();
+        pamirsUser.setId(ssoUser.getId());
+        pamirsUser.setCode(ssoUser.getCode());
+        pamirsUser.setPhone(ssoUser.getPhone());
+        pamirsUser.setEmail(ssoUser.getEmail());
+        pamirsUser.setActive(ssoUser.getActive());
+        pamirsUser.setName(ssoUser.getName());
+        pamirsUser.setNickname(ssoUser.getNickname());
+        return pamirsUser;
     }
 
     /**

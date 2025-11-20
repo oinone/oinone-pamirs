@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.sso.api.utils;
+package pro.shushi.pamirs.sso.api.tmodel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import pro.shushi.pamirs.meta.annotation.fun.Data;

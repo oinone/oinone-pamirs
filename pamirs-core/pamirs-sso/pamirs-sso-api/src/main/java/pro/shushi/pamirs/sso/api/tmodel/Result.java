@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.sso.api.utils;
+package pro.shushi.pamirs.sso.api.tmodel;
 
 
 public class Result<T> {

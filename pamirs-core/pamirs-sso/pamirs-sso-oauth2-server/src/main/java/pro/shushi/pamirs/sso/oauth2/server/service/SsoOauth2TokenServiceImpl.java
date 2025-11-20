@@ -29,7 +29,7 @@ import pro.shushi.pamirs.sso.api.model.UserRelSsoClient;
 import pro.shushi.pamirs.sso.api.service.SsoCommonService;
 import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
 import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
-import pro.shushi.pamirs.sso.api.utils.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.api.tmodel.OAuthTokenResponse;
 import pro.shushi.pamirs.sso.api.utils.SsoCookieUtils;
 import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.model.UserRelSsoClientService;
@@ -121,10 +121,11 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
     }
 
     @Override
-    public void logout(Map<String, Object> map) {
+    public void logout(SsoRequestParameters ssoRequestParameters) {
         String tokenHead = UserConstant.USER_TOKEN_PREFIX;
-        String clientId = (String) map.get("client-id");
-        String authorization = (String) map.get("Authorization");
+        String clientId = ssoRequestParameters.getClient_id();
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        String authorization = request.getHeader("Authorization");
         if (authorization != null && authorization.startsWith(tokenHead)) {
             authorization = authorization.substring(tokenHead.length());
             String resource = JwtTokenUtil.getKeyFromToken(authorization);

@@ -6,8 +6,7 @@ import pro.shushi.pamirs.meta.annotation.Hook;
 import pro.shushi.pamirs.meta.api.core.faas.HookAfter;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
-import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
-import pro.shushi.pamirs.sso.oauth2.client.utils.AuthenticateUtils;
+import pro.shushi.pamirs.sso.oauth2.client.utils.Oauth2AuthenticateUtils;
 import pro.shushi.pamirs.user.api.model.tmodel.PamirsUserTransient;
 import pro.shushi.pamirs.user.api.service.UserBehaviorService;
 
@@ -17,16 +16,12 @@ public class UserBehaviorActionAHookAfter implements HookAfter {
     @Autowired
     private UserBehaviorService userBehaviorService;
 
-    @Autowired
-    private PamirsSsoProperties pamirsSsoProperties;
-
-
     @Override
     @Hook(priority = 10, displayName = "退出登录拦截器")
     public Object run(Function function, Object ret) {
         FunctionDefinition functionDefinition = function.getFunctionDefinition();
         if (PamirsUserTransient.MODEL_MODEL.equals(functionDefinition.getNamespace()) && functionDefinition.getFun().equals("logout")) {
-            AuthenticateUtils.logout(pamirsSsoProperties.getClient().getLoginUrl());
+            Oauth2AuthenticateUtils.logout();
         }
         return function;
     }

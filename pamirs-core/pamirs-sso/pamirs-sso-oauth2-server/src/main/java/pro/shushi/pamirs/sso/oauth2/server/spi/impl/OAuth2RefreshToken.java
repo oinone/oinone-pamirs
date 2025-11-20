@@ -15,7 +15,7 @@ import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
 import pro.shushi.pamirs.sso.api.dto.SsoRequestParameters;
 import pro.shushi.pamirs.sso.api.model.SsoClient;
 import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
-import pro.shushi.pamirs.sso.api.utils.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.api.tmodel.OAuthTokenResponse;
 import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IOAuth2RefreshToken;
 import pro.shushi.pamirs.sso.oauth2.server.utils.TokenCache;

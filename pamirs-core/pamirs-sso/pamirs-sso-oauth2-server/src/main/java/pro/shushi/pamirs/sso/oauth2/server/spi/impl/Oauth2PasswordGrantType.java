@@ -20,7 +20,7 @@ import pro.shushi.pamirs.sso.api.dto.SsoUserVo;
 import pro.shushi.pamirs.sso.api.enmu.SsoExpEnumerate;
 import pro.shushi.pamirs.sso.api.enmu.SsoGranTypeEnum;
 import pro.shushi.pamirs.sso.api.model.SsoClient;
-import pro.shushi.pamirs.sso.api.utils.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.api.tmodel.OAuthTokenResponse;
 import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IUserLoginOAuth2GrantType;
 import pro.shushi.pamirs.sso.oauth2.server.utils.TokenCache;
