@@ -13,10 +13,10 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
-import pro.shushi.pamirs.sso.api.dto.OAuthTokenResponse;
-import pro.shushi.pamirs.sso.api.dto.Result;
-import pro.shushi.pamirs.sso.api.dto.SsoUserInfo;
 import pro.shushi.pamirs.sso.api.utils.SsoCookieUtils;
+import pro.shushi.pamirs.sso.common.dto.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.common.dto.Result;
+import pro.shushi.pamirs.sso.common.dto.SsoUserInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

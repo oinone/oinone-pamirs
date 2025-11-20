@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.sso.api.dto;
+package pro.shushi.pamirs.sso.common.dto;
 
 import java.io.Serializable;
 

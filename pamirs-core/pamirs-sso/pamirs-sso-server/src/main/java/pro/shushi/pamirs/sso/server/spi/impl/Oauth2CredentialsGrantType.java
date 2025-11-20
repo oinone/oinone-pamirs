@@ -3,9 +3,9 @@ package pro.shushi.pamirs.sso.server.spi.impl;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.common.spi.SPI;
-import pro.shushi.pamirs.sso.api.dto.SsoRequestParameter;
 import pro.shushi.pamirs.sso.api.enmu.SsoGranTypeEnum;
-import pro.shushi.pamirs.sso.api.dto.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.common.dto.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.common.dto.SsoRequestParameter;
 import pro.shushi.pamirs.sso.server.spi.IUserLoginOAuth2GrantType;
 
 @Component

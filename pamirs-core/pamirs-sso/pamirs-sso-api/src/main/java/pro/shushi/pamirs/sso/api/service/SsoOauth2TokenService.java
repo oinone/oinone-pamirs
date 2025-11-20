@@ -1,9 +1,9 @@
 package pro.shushi.pamirs.sso.api.service;
 
-import pro.shushi.pamirs.sso.api.dto.SsoRequestParameter;
-import pro.shushi.pamirs.sso.api.dto.SsoUserVo;
 import pro.shushi.pamirs.sso.api.model.SsoClient;
-import pro.shushi.pamirs.sso.api.dto.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.common.dto.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.common.dto.SsoRequestParameter;
+import pro.shushi.pamirs.sso.common.dto.SsoUserVo;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 
 public interface SsoOauth2TokenService {

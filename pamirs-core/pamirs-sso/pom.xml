@@ -17,6 +17,7 @@
         <module>pamirs-sso-api</module>
         <module>pamirs-sso-server</module>
         <module>pamirs-sso-client</module>
+        <module>pamirs-sso-common</module>
         <module>pamirs-sso-client-starter</module>
     </modules>
 
@@ -35,6 +36,16 @@
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-sso-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-sso-client-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-sso-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
