@@ -16,7 +16,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.Date;

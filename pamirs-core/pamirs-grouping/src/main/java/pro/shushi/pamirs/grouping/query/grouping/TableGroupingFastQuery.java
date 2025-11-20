@@ -24,7 +24,7 @@ import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
