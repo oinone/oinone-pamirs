@@ -1,0 +1,15 @@
+package pro.shushi.pamirs.sso.server.spi;
+
+import pro.shushi.pamirs.meta.common.spi.SPI;
+import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
+import pro.shushi.pamirs.sso.api.dto.SsoRequestParameter;
+import pro.shushi.pamirs.sso.api.dto.OAuthTokenResponse;
+
+@SPI(factory = SpringServiceLoaderFactory.class)
+public interface IUserLoginOAuth2GrantType {
+
+    boolean match(SsoRequestParameter ssoRequestParameter);
+
+    OAuthTokenResponse execute(SsoRequestParameter ssoRequestParameter);
+
+}
