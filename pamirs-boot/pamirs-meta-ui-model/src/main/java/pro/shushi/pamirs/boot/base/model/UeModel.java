@@ -76,10 +76,4 @@ public class UeModel extends ModelDefinition {
         }
         return data;
     }
-
-    @Override
-    public String stringify() {
-        return DiffUtils.stringify(this, "functions", "moduleDefinition",
-                "modelFields", "sequenceConfig");
-    }
 }
