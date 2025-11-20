@@ -1,22 +1,16 @@
 package pro.shushi.pamirs.grouping.entity;
 
-import org.apache.commons.collections4.CollectionUtils;
 import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
-import pro.shushi.pamirs.grouping.enumeration.GroupStatisticMethodEnum;
 import pro.shushi.pamirs.grouping.model.GroupingField;
 import pro.shushi.pamirs.grouping.model.GroupingStatisticField;
 import pro.shushi.pamirs.grouping.utils.TableGroupingDataHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.api.dto.condition.Order;
-import pro.shushi.pamirs.meta.api.dto.condition.Sort;
-import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 表格分组字段查询
@@ -26,47 +20,33 @@ import java.util.Optional;
 @Slf4j
 public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
 
-    private final TableGroupingFieldQuery parent;
-
-    private final String model;
+    private final SortDirectionEnum direction;
 
     private final String valueKey;
 
-    private final SortDirectionEnum direction;
+    private final TableGroupingStatisticFieldQuery statisticQuery;
 
-    private final TableGroupingStatisticFieldQuery statisticFieldQuery;
-
-    public TableGroupingFieldQuery(String model, GroupingField field, TableGroupingFieldQuery parent) {
-        this(model, field, null, parent);
+    public TableGroupingFieldQuery(TableGroupingModel model, GroupingField field, boolean grouping) {
+        this(model, field, grouping, null);
     }
 
-    public TableGroupingFieldQuery(String model, GroupingField field, GroupingStatisticField statisticField) {
-        this(model, field, statisticField, null);
+    public TableGroupingFieldQuery(TableGroupingModel model, GroupingField field, boolean grouping, GroupingStatisticField statisticField) {
+        this(model, field, grouping, false, statisticField);
     }
 
-    public TableGroupingFieldQuery(String model, GroupingField field, GroupingStatisticField statisticField, TableGroupingFieldQuery parent) {
-        super(model, field.getField(), field.getValue());
-        this.parent = parent;
-        this.model = model;
-        if (statisticField == null) {
-            this.statisticFieldQuery = null;
-        } else {
-            this.statisticFieldQuery = new TableGroupingStatisticFieldQuery(model, statisticField.getField(), statisticField.getStatisticMethod());
-        }
+    public TableGroupingFieldQuery(TableGroupingModel model, GroupingField field, boolean grouping, boolean basic, GroupingStatisticField statisticField) {
+        super(model, field.getField(), field.getValue(), grouping, basic);
         SortDirectionEnum direction = field.getDirection();
         if (direction == null) {
             direction = SortDirectionEnum.ASC;
         }
         this.direction = direction;
         this.valueKey = TableGroupingDataHelper.getGroupKeyByClientValue(this, this.value);
-    }
-
-    public TableGroupingFieldQuery getParent() {
-        return parent;
-    }
-
-    public String getModel() {
-        return model;
+        if (statisticField == null || grouping) {
+            this.statisticQuery = null;
+        } else {
+            this.statisticQuery = new TableGroupingStatisticFieldQuery(model, statisticField.getField(), statisticField.getStatisticMethod());
+        }
     }
 
     public String getValueKey() {
@@ -77,12 +57,12 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
         return direction;
     }
 
-    public String getStatisticField() {
-        return statisticFieldQuery.getField();
+    public TableGroupingStatisticFieldQuery getStatisticQuery() {
+        return statisticQuery;
     }
 
-    public GroupStatisticMethodEnum getStatisticMethod() {
-        return statisticFieldQuery.getStatisticMethod();
+    public <T> void withStatistic(QueryWrapper<T> queryWrapper) {
+        statisticQuery.withStatistic(this, queryWrapper);
     }
 
     public <T> void withGroupBy(QueryWrapper<T> queryWrapper) {
@@ -116,7 +96,7 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
                 queryWrapper.orderByDesc(column);
                 break;
             default:
-                throw new UnsupportedOperationException("Invalid sort direction enumeration.");
+                throw new UnsupportedOperationException("Invalid sort direction enumeration. direction: " + direction);
         }
     }
 
@@ -127,16 +107,7 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
      */
     public <T> void withWhere(QueryWrapper<T> queryWrapper) {
         if (value == null) {
-            if (isStringField()) {
-                queryWrapper.and(w -> w.isNull(column).or().eq(column, CharacterConstants.SEPARATOR_EMPTY));
-            } else if (isRelationOneField()) {
-                for (int i = 0; i < relationFields.size(); i++) {
-                    String relationColumn = relationColumns.get(i);
-                    queryWrapper.isNull(relationColumn);
-                }
-            } else {
-                queryWrapper.isNull(column);
-            }
+            withNullWhere(queryWrapper);
             return;
         }
         if (isMulti()) {
@@ -166,9 +137,5 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
                 queryWrapper.eq(column, value);
             }
         }
-    }
-
-    public <T> void withStatistic(QueryWrapper<T> queryWrapper) {
-        statisticFieldQuery.withStatistic(queryWrapper);
     }
 }

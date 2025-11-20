@@ -20,7 +20,9 @@ public enum CommonExpEnumerate implements ExpBaseEnum {
     MODEL_FIELD_NOT_FOUND(ERROR_TYPE.SYSTEM_ERROR, 10057009, "未找到模型字段元数据 model: {}, field: {}"),
     SORT_FIELD_NOT_FOUND(ERROR_TYPE.SYSTEM_ERROR, 10057010, "未找到排序字段元数据 model: {}, field: {}"),
     GROUPING_FIELD_NOT_FOUND(ERROR_TYPE.SYSTEM_ERROR, 10057011, "未找到分组字段元数据 model: {}, field: {}"),
-    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10057009, "未处理的系统异常");
+    STATISTIC_API_NOT_FOUND(ERROR_TYPE.SYSTEM_ERROR, 10057012, "不支持的统计方式 statistic: {}"),
+
+    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10057999, "未处理的系统异常");
 
     private final ERROR_TYPE type;
 

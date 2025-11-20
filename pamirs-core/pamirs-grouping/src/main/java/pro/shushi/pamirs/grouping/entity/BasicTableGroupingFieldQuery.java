@@ -5,9 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
+import pro.shushi.pamirs.grouping.utils.TableGroupingHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
-import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
@@ -16,6 +16,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.domain.model.DataDictionary;
 import pro.shushi.pamirs.meta.domain.model.DataDictionaryItem;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
+import pro.shushi.pamirs.meta.util.FieldFix;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
 import java.util.*;
@@ -26,11 +27,16 @@ import java.util.*;
  * @author Adamancy Zhang at 18:05 on 2025-11-18
  */
 @Slf4j
-class BasicTableGroupingFieldQuery {
+public class BasicTableGroupingFieldQuery {
 
-    private static final String AS = " as ";
+    protected final TableGroupingModel model;
 
     protected final String field;
+
+    /**
+     * 是否为仅查询分组场景
+     */
+    protected final boolean grouping;
 
     protected final Object value;
 
@@ -38,17 +44,11 @@ class BasicTableGroupingFieldQuery {
 
     protected final boolean multi;
 
-    protected final String columnFormat;
+    protected final String format;
 
     protected final String column;
 
     protected final String asField;
-
-    protected final List<String> pks;
-
-    protected final List<String> pkColumns;
-
-    protected final List<String> pkAsFields;
 
     protected final Boolean isBitDataDictionary;
 
@@ -90,14 +90,17 @@ class BasicTableGroupingFieldQuery {
 
     protected final List<String> throughReferenceAsFields;
 
-    BasicTableGroupingFieldQuery(String model, String field, Object value) {
+    BasicTableGroupingFieldQuery(TableGroupingModel model, String field, Object value, boolean grouping, boolean basic) {
+        this.model = model;
         this.field = field;
-        PamirsTableInfo pamirsTableInfo = PamirsTableInfo.fetchPamirsTableInfo(model);
-        this.columnFormat = pamirsTableInfo.getColumnFormat();
+        this.grouping = grouping;
 
-        ModelFieldConfig modelFieldConfig = PamirsSession.getContext().getModelField(model, field);
+        String modelModel = model.getModel();
+        String columnFormat = model.getColumnFormat();
+
+        ModelFieldConfig modelFieldConfig = PamirsSession.getContext().getModelField(modelModel, field);
         if (modelFieldConfig == null) {
-            throw PamirsException.construct(CommonExpEnumerate.GROUPING_FIELD_NOT_FOUND, model, field).errThrow();
+            throw PamirsException.construct(CommonExpEnumerate.GROUPING_FIELD_NOT_FOUND, modelModel, field).errThrow();
         }
         String ttype = modelFieldConfig.getTtype();
         if (TtypeEnum.RELATED.value().equals(ttype)) {
@@ -120,25 +123,16 @@ class BasicTableGroupingFieldQuery {
             }
         }
 
-        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
-        List<String> finalPks = modelConfig.getPk();
-        List<String> finalPkColumns = null;
-        List<String> finalPkAsFields = null;
-        if (CollectionUtils.isNotEmpty(finalPks)) {
-            FieldColumnsWrapper pkFieldsWrapper = resolveColumns(model, finalPks, columnFormat);
-            if (pkFieldsWrapper != null) {
-                finalPkColumns = pkFieldsWrapper.columns;
-                finalPkAsFields = pkFieldsWrapper.asFields;
-            }
+        if (isDateField()) {
+            this.format = FieldFix.fixFormat(modelFieldConfig.getModelField());
+        } else {
+            this.format = null;
         }
-        this.pks = finalPks;
-        this.pkColumns = finalPkColumns;
-        this.pkAsFields = finalPkAsFields;
 
         Boolean finalIsBitDataDictionary = null;
         Boolean finalIsNumericDataDictionary = null;
         Map<String, String> finalDataDictionaryOptions = null;
-        if (TtypeEnum.ENUM.value().equals(ttype)) {
+        if (isEnumField()) {
             Map<String, String> dataDictionaryOptions = new HashMap<>();
             DataDictionary dataDictionary = PamirsSession.getContext().getDictionary(modelFieldConfig.getDictionary());
             List<DataDictionaryItem> options = dataDictionary.getOptions();
@@ -163,50 +157,28 @@ class BasicTableGroupingFieldQuery {
         List<String> finalReferenceFields = null;
         List<String> finalReferenceColumns = null;
         List<String> finalReferenceAsFields = null;
-        String finalThrough = null;
-        List<String> finalThroughRelationFields = null;
-        List<String> finalThroughRelationColumns = null;
-        List<String> finalThroughRelationAsFields = null;
-        List<String> finalThroughReferenceFields = null;
-        List<String> finalThroughReferenceColumns = null;
-        List<String> finalThroughReferenceAsFields = null;
-        if (TtypeEnum.isRelationType(ttype)) {
+        if (isRelationField()) {
             finalReferences = modelFieldConfig.getReferences();
             ModelConfig referenceModelConfig = PamirsSession.getContext().getSimpleModelConfig(finalReferences);
             finalReferencesPks = referenceModelConfig.getPk();
             if (CollectionUtils.isNotEmpty(finalReferencesPks)) {
-                FieldColumnsWrapper pkFieldsWrapper = resolveColumns(finalReferences, finalReferencesPks, columnFormat);
+                FieldColumnsWrapper pkFieldsWrapper = FieldColumnsWrapper.resolveColumns(finalReferences, finalReferencesPks, columnFormat);
                 if (pkFieldsWrapper != null) {
-                    finalReferencesPkColumns = pkFieldsWrapper.columns;
-                    finalReferencesPkAsFields = pkFieldsWrapper.asFields;
+                    finalReferencesPkColumns = pkFieldsWrapper.getColumns();
+                    finalReferencesPkAsFields = pkFieldsWrapper.getAsFields();
                 }
             }
             finalRelationFields = modelFieldConfig.getRelationFields();
             finalReferenceFields = modelFieldConfig.getReferenceFields();
-            FieldColumnsWrapper relationFieldsWrapper = resolveColumns(model, finalRelationFields, columnFormat);
+            FieldColumnsWrapper relationFieldsWrapper = FieldColumnsWrapper.resolveColumns(modelModel, finalRelationFields, columnFormat);
             if (relationFieldsWrapper != null) {
-                finalRelationColumns = relationFieldsWrapper.columns;
-                finalRelationAsFields = relationFieldsWrapper.asFields;
+                finalRelationColumns = relationFieldsWrapper.getColumns();
+                finalRelationAsFields = relationFieldsWrapper.getAsFields();
             }
-            FieldColumnsWrapper referenceFieldsWrapper = resolveColumns(finalReferences, finalReferenceFields);
+            FieldColumnsWrapper referenceFieldsWrapper = FieldColumnsWrapper.resolveColumns(finalReferences, finalReferenceFields);
             if (referenceFieldsWrapper != null) {
-                finalReferenceColumns = referenceFieldsWrapper.columns;
-                finalReferenceAsFields = referenceFieldsWrapper.asFields;
-            }
-        }
-        if (TtypeEnum.M2M.value().equals(ttype)) {
-            finalThrough = modelFieldConfig.getThrough();
-            finalThroughRelationFields = modelFieldConfig.getThroughRelationFields();
-            finalThroughReferenceFields = modelFieldConfig.getThroughReferenceFields();
-            FieldColumnsWrapper throughRelationFieldsWrapper = resolveColumns(finalThrough, finalThroughRelationFields);
-            if (throughRelationFieldsWrapper != null) {
-                finalThroughRelationColumns = throughRelationFieldsWrapper.columns;
-                finalThroughRelationAsFields = throughRelationFieldsWrapper.asFields;
-            }
-            FieldColumnsWrapper throughReferenceFieldsWrapper = resolveColumns(finalThrough, finalThroughReferenceFields);
-            if (throughReferenceFieldsWrapper != null) {
-                finalThroughReferenceColumns = throughReferenceFieldsWrapper.columns;
-                finalThroughReferenceAsFields = throughReferenceFieldsWrapper.asFields;
+                finalReferenceColumns = referenceFieldsWrapper.getColumns();
+                finalReferenceAsFields = referenceFieldsWrapper.getAsFields();
             }
         }
         this.references = finalReferences;
@@ -219,6 +191,41 @@ class BasicTableGroupingFieldQuery {
         this.referenceFields = finalReferenceFields;
         this.referenceColumns = finalReferenceColumns;
         this.referenceAsFields = finalReferenceAsFields;
+
+        if (basic) {
+            this.value = null;
+            this.through = null;
+            this.throughRelationFields = null;
+            this.throughRelationColumns = null;
+            this.throughRelationAsFields = null;
+            this.throughReferenceFields = null;
+            this.throughReferenceColumns = null;
+            this.throughReferenceAsFields = null;
+            return;
+        }
+
+        String finalThrough = null;
+        List<String> finalThroughRelationFields = null;
+        List<String> finalThroughRelationColumns = null;
+        List<String> finalThroughRelationAsFields = null;
+        List<String> finalThroughReferenceFields = null;
+        List<String> finalThroughReferenceColumns = null;
+        List<String> finalThroughReferenceAsFields = null;
+        if (isM2MField()) {
+            finalThrough = modelFieldConfig.getThrough();
+            finalThroughRelationFields = modelFieldConfig.getThroughRelationFields();
+            finalThroughReferenceFields = modelFieldConfig.getThroughReferenceFields();
+            FieldColumnsWrapper throughRelationFieldsWrapper = FieldColumnsWrapper.resolveColumns(finalThrough, finalThroughRelationFields);
+            if (throughRelationFieldsWrapper != null) {
+                finalThroughRelationColumns = throughRelationFieldsWrapper.getColumns();
+                finalThroughRelationAsFields = throughRelationFieldsWrapper.getAsFields();
+            }
+            FieldColumnsWrapper throughReferenceFieldsWrapper = FieldColumnsWrapper.resolveColumns(finalThrough, finalThroughReferenceFields);
+            if (throughReferenceFieldsWrapper != null) {
+                finalThroughReferenceColumns = throughReferenceFieldsWrapper.getColumns();
+                finalThroughReferenceAsFields = throughReferenceFieldsWrapper.getAsFields();
+            }
+        }
         this.through = finalThrough;
         this.throughRelationFields = finalThroughRelationFields;
         this.throughRelationColumns = finalThroughRelationColumns;
@@ -227,59 +234,67 @@ class BasicTableGroupingFieldQuery {
         this.throughReferenceColumns = finalThroughReferenceColumns;
         this.throughReferenceAsFields = finalThroughReferenceAsFields;
 
-        Object finalValue = null;
-        if (TtypeEnum.isRelationOne(ttype)) {
-            if (value != null) {
-                QueryWrapper<Object> queryWrapper = Pops.query();
-                queryWrapper.from(references);
-                boolean isValidQueryWrapper = true;
-                for (int i = 0; i < referencesPks.size(); i++) {
-                    String pk = referencesPks.get(i);
-                    String pkColumn = referenceColumns.get(i);
-                    Object pkValue = FieldUtils.getFieldValue(value, pk);
-                    if (pkValue == null) {
-                        isValidQueryWrapper = false;
-                        break;
-                    }
-                    queryWrapper.eq(pkColumn, pkValue);
-                }
-                if (isValidQueryWrapper) {
-                    finalValue = Models.origin().queryOneByWrapper(queryWrapper);
-                }
-            }
-        } else if (TtypeEnum.isRelationMany(ttype)) {
-            if (value != null) {
-                Collection<?> coll = (Collection<?>) value;
-                if (!coll.isEmpty()) {
+        if (grouping) {
+            this.value = null;
+        } else {
+            Object finalValue = null;
+            if (isRelationOneField()) {
+                if (value != null) {
                     QueryWrapper<Object> queryWrapper = Pops.query();
                     queryWrapper.from(references);
-                    List<List<Object>> inValues = new ArrayList<>(referencesPks.size());
                     boolean isValidQueryWrapper = true;
-                    for (Object item : coll) {
-                        for (int i = 0; i < referencesPks.size(); i++) {
-                            if (inValues.size() < i + 1) {
-                                inValues.add(new ArrayList<>());
-                            }
-                            String pk = referencesPks.get(i);
-                            List<Object> inValue = inValues.get(i);
-                            Object pkValue = FieldUtils.getFieldValue(item, pk);
-                            if (pkValue == null) {
-                                isValidQueryWrapper = false;
-                                continue;
-                            }
-                            inValue.add(pkValue);
+                    for (int i = 0; i < referencesPks.size(); i++) {
+                        String pk = referencesPks.get(i);
+                        String pkColumn = referenceColumns.get(i);
+                        Object pkValue = FieldUtils.getFieldValue(value, pk);
+                        if (pkValue == null) {
+                            isValidQueryWrapper = false;
+                            break;
                         }
+                        queryWrapper.eq(pkColumn, pkValue);
                     }
                     if (isValidQueryWrapper) {
-                        queryWrapper.in(referencesPkColumns, inValues.toArray(new List[0]));
-                        finalValue = Models.origin().queryListByWrapper(queryWrapper);
+                        finalValue = Models.origin().queryOneByWrapper(queryWrapper);
                     }
                 }
+            } else if (isRelationManyField()) {
+                if (value != null) {
+                    Collection<?> coll = (Collection<?>) value;
+                    if (!coll.isEmpty()) {
+                        QueryWrapper<Object> queryWrapper = Pops.query();
+                        queryWrapper.from(references);
+                        List<List<Object>> inValues = new ArrayList<>(referencesPks.size());
+                        boolean isValidQueryWrapper = true;
+                        for (Object item : coll) {
+                            for (int i = 0; i < referencesPks.size(); i++) {
+                                if (inValues.size() < i + 1) {
+                                    inValues.add(new ArrayList<>());
+                                }
+                                String pk = referencesPks.get(i);
+                                List<Object> inValue = inValues.get(i);
+                                Object pkValue = FieldUtils.getFieldValue(item, pk);
+                                if (pkValue == null) {
+                                    isValidQueryWrapper = false;
+                                    continue;
+                                }
+                                inValue.add(pkValue);
+                            }
+                        }
+                        if (isValidQueryWrapper) {
+                            queryWrapper.in(referencesPkColumns, inValues.toArray(new List[0]));
+                            finalValue = Models.origin().queryListByWrapper(queryWrapper);
+                        }
+                    }
+                }
+            } else {
+                finalValue = value;
             }
-        } else {
-            finalValue = value;
+            this.value = finalValue;
         }
-        this.value = finalValue;
+    }
+
+    public TableGroupingModel getModel() {
+        return model;
     }
 
     public String getField() {
@@ -298,20 +313,16 @@ class BasicTableGroupingFieldQuery {
         return multi;
     }
 
+    public String getFormat() {
+        return format;
+    }
+
     public String getColumn() {
         return column;
     }
 
-    public List<String> getPks() {
-        return pks;
-    }
-
-    public List<String> getPkColumns() {
-        return pkColumns;
-    }
-
-    public List<String> getPkAsFields() {
-        return pkAsFields;
+    public String getAsField() {
+        return asField;
     }
 
     public boolean isBitDataDictionary() {
@@ -402,6 +413,10 @@ class BasicTableGroupingFieldQuery {
         return TtypeEnum.isRelationType(ttype);
     }
 
+    public boolean isSupportRelationQuery() {
+        return CollectionUtils.isNotEmpty(relationFields) && CollectionUtils.isNotEmpty(referenceFields);
+    }
+
     public boolean isRelationOneField() {
         return TtypeEnum.isRelationOne(ttype);
     }
@@ -422,6 +437,10 @@ class BasicTableGroupingFieldQuery {
         return TtypeEnum.isNumericType(ttype);
     }
 
+    public boolean isDateField() {
+        return TtypeEnum.isDateType(ttype);
+    }
+
     public boolean isO2MField() {
         return TtypeEnum.O2M.value().equals(ttype);
     }
@@ -434,7 +453,11 @@ class BasicTableGroupingFieldQuery {
      * 是否支持单表查询
      */
     public boolean isSingleTableQuery() {
-        if (value == null) {
+        boolean isSupportSingleTableQuery = StringUtils.isNotBlank(column) || (isRelationOneField() && CollectionUtils.isNotEmpty(relationColumns));
+        if (!isSupportSingleTableQuery) {
+            return false;
+        }
+        if (!grouping && value == null) {
             return !isRelationManyField();
         }
         if (isMulti()) {
@@ -443,74 +466,50 @@ class BasicTableGroupingFieldQuery {
         return isBasicField() || isEnumField() || isRelationOneField();
     }
 
+    /**
+     * 是否支持单表分组
+     */
+    public boolean isSingleTableGrouping() {
+        boolean isSupportSingleTableQuery = StringUtils.isNotBlank(column) || (isRelationOneField() && CollectionUtils.isNotEmpty(relationColumns));
+        if (!isSupportSingleTableQuery) {
+            return false;
+        }
+        if (isMulti()) {
+            return !isRelationManyField();
+        }
+        return isBasicField() || isEnumField() || isRelationOneField();
+    }
+
     public String getColumnAsField() {
         if (isRelationOneField()) {
-            return getColumAsField(relationColumns, relationAsFields);
+            return TableGroupingHelper.getColumAsField(relationColumns, relationAsFields);
         }
-        return column + AS + asField;
+        return TableGroupingHelper.getColumAsField(column, asField);
     }
 
-    public String getColumAsField(List<String> relationColumns, List<String> relationAsFields) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < relationColumns.size(); i++) {
-            String column = relationColumns.get(i);
-            String asField = relationAsFields.get(i);
-            if (i != 0) {
-                builder.append(CharacterConstants.SEPARATOR_COMMA);
+    public <T> void withNullWhere(QueryWrapper<T> queryWrapper) {
+        if (isStringField()) {
+            queryWrapper.and(w -> w.isNull(column).or().eq(column, CharacterConstants.SEPARATOR_EMPTY));
+        } else if (isRelationOneField()) {
+            for (int i = 0; i < relationFields.size(); i++) {
+                String relationColumn = relationColumns.get(i);
+                queryWrapper.isNull(relationColumn);
             }
-            builder.append(column).append(AS).append(asField);
+        } else {
+            queryWrapper.isNull(column);
         }
-        return builder.toString();
     }
 
-    private FieldColumnsWrapper resolveColumns(String model, List<String> relationFields) {
-        PamirsTableInfo pamirsTableInfo = PamirsTableInfo.fetchPamirsTableInfo(model);
-        String columnFormat = pamirsTableInfo.getColumnFormat();
-        return resolveColumns(model, relationFields, columnFormat);
-    }
-
-    private FieldColumnsWrapper resolveColumns(String model, List<String> fields, String columnFormat) {
-        if (CollectionUtils.isEmpty(fields)) {
-            return null;
-        }
-        List<String> relationColumns = new ArrayList<>();
-        List<String> relationAsFields = new ArrayList<>();
-        boolean isValidRelationOne = true;
-        for (String relationField : fields) {
-            ModelFieldConfig relationFieldConfig = PamirsSession.getContext().getModelField(model, relationField);
-            if (relationFieldConfig == null) {
-                throw PamirsException.construct(CommonExpEnumerate.MODEL_FIELD_NOT_FOUND, model, relationField).errThrow();
+    public <T> void withNotNullWhere(QueryWrapper<T> queryWrapper) {
+        if (isStringField()) {
+            queryWrapper.isNotNull(column).ne(column, CharacterConstants.SEPARATOR_EMPTY);
+        } else if (isRelationOneField()) {
+            for (int i = 0; i < relationFields.size(); i++) {
+                String relationColumn = relationColumns.get(i);
+                queryWrapper.isNotNull(relationColumn);
             }
-            String relationColumn = relationFieldConfig.getColumn();
-            if (StringUtils.isBlank(relationColumn)) {
-                log.error("relation field is not store field. model: {}, field: {}", model, relationField);
-                isValidRelationOne = false;
-                break;
-            } else {
-                if (StringUtils.isBlank(columnFormat)) {
-                    relationColumns.add(relationColumn);
-                    relationAsFields.add(relationField);
-                } else {
-                    relationColumns.add(String.format(columnFormat, relationColumn));
-                    relationAsFields.add(String.format(columnFormat, relationField));
-                }
-            }
-        }
-        if (isValidRelationOne) {
-            return new FieldColumnsWrapper(relationColumns, relationAsFields);
-        }
-        return null;
-    }
-
-    private static class FieldColumnsWrapper {
-
-        private final List<String> columns;
-
-        private final List<String> asFields;
-
-        private FieldColumnsWrapper(List<String> columns, List<String> asFields) {
-            this.columns = columns;
-            this.asFields = asFields;
+        } else {
+            queryWrapper.isNotNull(column);
         }
     }
 }

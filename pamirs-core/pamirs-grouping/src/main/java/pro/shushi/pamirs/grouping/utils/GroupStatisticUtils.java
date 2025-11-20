@@ -61,31 +61,20 @@ public class GroupStatisticUtils {
         return Pair.of((Date) earliestTime, (Date) latestTime);
     }
 
-    public static Long timeRangeDay(Date d1, Date d2) {
-        if (d1 == null || d2 == null) {
-            return null;
-        }
+    public static long timeRangeDay(Date d1, Date d2) {
         long diffInMillie = d1.getTime() - d2.getTime();
         return TimeUnit.DAYS.convert(Math.abs(diffInMillie), TimeUnit.MILLISECONDS);
     }
 
-    public static Long timeRangeMonth(Date d1, Date d2) {
-        if (d1 == null || d2 == null) {
-            return null;
-        }
+    public static long timeRangeMonth(Date d1, Date d2) {
         LocalDate localDate1 = d1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate localDate2 = d2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
         return Math.abs(ChronoUnit.MONTHS.between(localDate2, localDate1));
     }
 
-    public static Long timeRangeYear(Date d1, Date d2) {
-        if (d1 == null || d2 == null) {
-            return null;
-        }
+    public static long timeRangeYear(Date d1, Date d2) {
         LocalDate localDate1 = d1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate localDate2 = d2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
         return Math.abs(ChronoUnit.YEARS.between(localDate2, localDate1));
     }
 

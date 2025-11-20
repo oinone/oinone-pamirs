@@ -7,6 +7,7 @@ import pro.shushi.pamirs.framework.common.entry.NullValue;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.grouping.entity.GroupingDataWrapper;
 import pro.shushi.pamirs.grouping.entity.TableGroupingFieldQuery;
+import pro.shushi.pamirs.grouping.entity.TableGroupingModel;
 import pro.shushi.pamirs.grouping.model.GroupingData;
 import pro.shushi.pamirs.grouping.model.GroupingField;
 import pro.shushi.pamirs.grouping.model.TableGroupingWrapper;
@@ -27,28 +28,27 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TableGroupingDataHelper {
 
-    private static final String NULL_VALUE = "__null__";
+    public static final String NULL_VALUE = "__null__";
 
     private TableGroupingDataHelper() {
         // reject create object
     }
 
-    public static List<TableGroupingFieldQuery> prepareGroupingFields(TableGroupingWrapper wrapper) {
+    public static List<TableGroupingFieldQuery> prepareGroupingFields(TableGroupingWrapper wrapper, boolean grouping) {
         CommonConditionWrapper queryWrapper = wrapper.getQueryWrapper();
-        String model = queryWrapper.getModel();
+        String modelModel = queryWrapper.getModel();
         List<TableGroupingFieldQuery> queryList = new ArrayList<>();
         List<GroupingField> fields = wrapper.getFields();
+        TableGroupingModel model = new TableGroupingModel(modelModel);
         if (fields.size() == 1) {
-            queryList.add(new TableGroupingFieldQuery(model, fields.get(0), wrapper.getStatisticField()));
+            queryList.add(new TableGroupingFieldQuery(model, fields.get(0), grouping, wrapper.getStatisticField()));
         } else {
-            TableGroupingFieldQuery parent = null;
             int lastIndex = fields.size() - 1;
             for (int i = 0; i < lastIndex; i++) {
                 GroupingField field = fields.get(i);
-                parent = new TableGroupingFieldQuery(model, field, parent);
-                queryList.add(parent);
+                queryList.add(new TableGroupingFieldQuery(model, field, grouping));
             }
-            queryList.add(new TableGroupingFieldQuery(model, fields.get(lastIndex), wrapper.getStatisticField(), parent));
+            queryList.add(new TableGroupingFieldQuery(model, fields.get(lastIndex), grouping, wrapper.getStatisticField()));
         }
         return queryList;
     }
@@ -312,7 +312,7 @@ public class TableGroupingDataHelper {
 
     @SuppressWarnings("unchecked")
     private static <U extends Comparable<? super U>> U convertPkValue(TableGroupingFieldQuery query, Object v) {
-        List<String> pks = query.getPks();
+        List<String> pks = query.getModel().getPks();
         List<String> pkValues = new ArrayList<>();
         for (String pk : pks) {
             Object pkValue = FieldUtils.getFieldValue(v, pk);

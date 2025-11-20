@@ -61,7 +61,7 @@ public class TableGroupingFastQuery<T> implements TableGroupingQueryApi<T> {
             if (firstQuery.isSingleTableQuery()) {
                 result.setGroups(TableGroupingDataHelper.collectionGroupingData(context.getModel(), TableGroupingHelper.queryFirstGroupingDataMap(context, pagination, true), queryList));
             } else {
-                List<T> list = TableGroupingHelper.fetchGroupingDataList(queryList, context.generatorQueryWrapperWithOrderBy(), false);
+                List<T> list = TableGroupingHelper.fetchGroupingDataList(context.getGroupingModel(), queryList, context.generatorQueryWrapper());
                 result.setGroups(TableGroupingHelper.fullDataConvertGroups(queryList, context.getModel(), list));
             }
         }

@@ -1,15 +1,18 @@
 package pro.shushi.pamirs.grouping.utils;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.auth.api.runtime.executor.FieldPermissionExecutor;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.entity.GroupingDataWrapper;
 import pro.shushi.pamirs.grouping.entity.TableGroupingFieldQuery;
+import pro.shushi.pamirs.grouping.entity.TableGroupingModel;
 import pro.shushi.pamirs.grouping.model.GroupingData;
 import pro.shushi.pamirs.grouping.model.TableGroupingResult;
 import pro.shushi.pamirs.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +23,8 @@ import java.util.stream.Collectors;
  * @author Adamancy Zhang at 13:42 on 2025-11-17
  */
 public class TableGroupingHelper {
+
+    private static final String AS = " as ";
 
     private TableGroupingHelper() {
         // reject create object
@@ -51,8 +56,11 @@ public class TableGroupingHelper {
         page.setSortable(false);
         // FIXME: zbh 20251117 此处需使用 queryPage 查询数据
         List<T> list = Models.origin().queryListByWrapper(page, queryWrapper);
-        if (firstQuery.isRelationOneField()) {
-            Models.origin().listFieldQuery(list.stream().filter(Objects::nonNull).collect(Collectors.toList()), firstQuery.getField());
+        if (firstQuery.isSupportRelationQuery()) {
+            List<T> relationDataList = list.stream().filter(Objects::nonNull).collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(relationDataList)) {
+                Models.origin().listFieldQuery(relationDataList, firstQuery.getField());
+            }
         }
         return list;
     }
@@ -101,29 +109,60 @@ public class TableGroupingHelper {
         return results;
     }
 
-    public static <T> List<T> fetchGroupingDataList(List<TableGroupingFieldQuery> queryList, QueryWrapper<T> queryWrapper) {
-        return fetchGroupingDataList(queryList, queryWrapper, true);
-    }
-
-    public static <T> List<T> fetchGroupingDataList(List<TableGroupingFieldQuery> queryList, QueryWrapper<T> queryWrapper, boolean filter) {
-        List<TableGroupingFieldQuery> memoryQueryList = new ArrayList<>();
+    public static <T> List<T> fetchGroupingDataList(TableGroupingModel model, List<TableGroupingFieldQuery> queryList, QueryWrapper<T> queryWrapper) {
+        Set<String> columns = new LinkedHashSet<>();
+        List<String> pkColumns = model.getPkColumns();
+        if (CollectionUtils.isNotEmpty(pkColumns)) {
+            columns.addAll(getColumAsFields(pkColumns, model.getPkAsFields()));
+        }
         for (TableGroupingFieldQuery query : queryList) {
-            if (query.isSingleTableQuery()) {
-                query.withWhere(queryWrapper);
-            } else {
-                memoryQueryList.add(query);
+            String column = query.getColumn();
+            if (StringUtils.isNotBlank(column)) {
+                columns.add(getColumAsField(column, query.getAsField()));
+            }
+            List<String> relationColumns = query.getRelationColumns();
+            if (CollectionUtils.isNotEmpty(relationColumns)) {
+                columns.addAll(getColumAsFields(relationColumns, query.getRelationAsFields()));
             }
         }
+        queryWrapper.select(columns.toArray(new String[0]));
+        // FIXME: zbh 20251120 需处理由于数据量过大导致的内存溢出问题
         List<T> list = Models.origin().queryListByWrapper(queryWrapper);
-        if (CollectionUtils.isEmpty(list) || memoryQueryList.isEmpty()) {
+        if (CollectionUtils.isEmpty(list)) {
             return list;
         }
-        for (TableGroupingFieldQuery memoryQuery : memoryQueryList) {
-            list = Models.origin().listFieldQuery(list, memoryQuery.getField());
-        }
-        if (filter) {
-            list = filter(list, memoryQueryList);
+        for (TableGroupingFieldQuery query : queryList) {
+            if (query.isSupportRelationQuery()) {
+                list = Models.origin().listFieldQuery(list, query.getField());
+            }
         }
         return list;
+    }
+
+    public static String getColumAsField(String column, String asField) {
+        return column + AS + asField;
+    }
+
+    public static String getColumAsField(List<String> relationColumns, List<String> relationAsFields) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < relationColumns.size(); i++) {
+            String column = relationColumns.get(i);
+            String asField = relationAsFields.get(i);
+            if (i != 0) {
+                builder.append(CharacterConstants.SEPARATOR_COMMA);
+            }
+            builder.append(column).append(AS).append(asField);
+        }
+        return builder.toString();
+    }
+
+    public static List<String> getColumAsFields(List<String> columns, List<String> asFields) {
+        List<String> columnsAsFields = new ArrayList<>();
+        for (int i = 0; i < columns.size(); i++) {
+            String column = columns.get(i);
+            String asField = asFields.get(i);
+            columnsAsFields.add(getColumAsField(column, asField));
+        }
+        return columnsAsFields;
     }
 }

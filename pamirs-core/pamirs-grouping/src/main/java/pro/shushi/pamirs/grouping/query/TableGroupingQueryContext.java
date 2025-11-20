@@ -8,6 +8,7 @@ import pro.shushi.pamirs.core.common.tmodel.CommonGQLFields;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.entity.TableGroupingFieldQuery;
+import pro.shushi.pamirs.grouping.entity.TableGroupingModel;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 
 import java.util.List;
@@ -20,6 +21,8 @@ import java.util.List;
 public class TableGroupingQueryContext<T> {
 
     private final CommonConditionWrapper wrapper;
+
+    private final TableGroupingModel model;
 
     private final List<TableGroupingFieldQuery> queryList;
 
@@ -37,6 +40,7 @@ public class TableGroupingQueryContext<T> {
 
     public TableGroupingQueryContext(List<TableGroupingFieldQuery> queryList, CommonConditionWrapper wrapper, CommonGQLFields gqlFields) {
         this.wrapper = wrapper;
+        this.model = queryList.get(0).getModel();
         this.queryList = queryList;
         if (gqlFields == null) {
             this.gqlFieldsQuery = null;
@@ -46,7 +50,11 @@ public class TableGroupingQueryContext<T> {
     }
 
     public String getModel() {
-        return wrapper.getModel();
+        return model.getModel();
+    }
+
+    public TableGroupingModel getGroupingModel() {
+        return model;
     }
 
     public List<TableGroupingFieldQuery> getQueryList() {

@@ -12,7 +12,6 @@ import pro.shushi.pamirs.grouping.utils.TableGroupingDataHelper;
 import pro.shushi.pamirs.grouping.utils.TableGroupingHelper;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
-import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
 import java.util.ArrayList;
@@ -68,25 +67,11 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
                 }
             }
             queryWrapper.in(relationColumns, collInValues.toArray(new List[0]));
-            if (isContainsNull) {
-                List<String> relationFields = firstQuery.getRelationFields();
-                queryWrapper.or(w -> {
-                    for (int i = 0; i < relationFields.size(); i++) {
-                        String relationColumn = relationColumns.get(i);
-                        w.isNull(relationColumn);
-                    }
-                });
-            }
         } else {
-            String column = firstQuery.getColumn();
-            queryWrapper.in(column, inValues);
-            if (isContainsNull) {
-                if (firstQuery.isStringField()) {
-                    queryWrapper.or(w -> w.isNull(column).or().eq(column, CharacterConstants.SEPARATOR_EMPTY));
-                } else {
-                    queryWrapper.or(w -> w.isNull(column));
-                }
-            }
+            queryWrapper.in(firstQuery.getColumn(), inValues);
+        }
+        if (isContainsNull) {
+            firstQuery.withNullWhere(queryWrapper);
         }
         List<T> others = Models.origin().queryListByWrapper(queryWrapper);
         TableGroupingDataHelper.generatorGroupingDataList(groupingDataMap, queryList, others, false);

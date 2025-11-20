@@ -30,7 +30,7 @@ public class TableGroupingUniversalQuery<T> implements TableGroupingQueryApi<T> 
     public void queryGroupingPage(TableGroupingQueryContext<T> context, TableGroupingResult result) {
         List<TableGroupingFieldQuery> queryList = context.getQueryList();
         Pagination<T> pagination = context.getPagination();
-        List<T> list = TableGroupingHelper.fetchGroupingDataList(queryList, context.generatorQueryWrapperWithOrderBy(), false);
+        List<T> list = TableGroupingHelper.fetchGroupingDataList(context.getGroupingModel(), queryList, context.generatorQueryWrapper());
         if (CollectionUtils.isEmpty(list)) {
             result.setGroups(new ArrayList<>());
             TableGroupingHelper.computePaging(pagination, result);

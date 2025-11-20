@@ -15,9 +15,11 @@ public enum GroupStatisticMethodEnum implements IEnum<String> {
     COUNT("COUNT", "记录总数", "记录总数"),
     NULL("NULL", "未填写", "未填写"),
     NOT_NULL("NOT_NULL", "已填写", "已填写"),
-    UNIQUE("UNIQUE", "唯一值", "唯一值"),
     NULL_PERCENT("NULL_PERCENT", "未填写占比", "未填写占比"),
     NOT_NULL_PERCENT("NOT_NULL_PERCENT", "已填写占比", "已填写占比"),
+    MAX("MAX", "最大值", "最大值"),
+    MIN("MIN", "最小值", "最小值"),
+    UNIQUE("UNIQUE", "唯一值", "唯一值"),
     UNIQUE_PERCENT("UNIQUE_PERCENT", "唯一值占比", "唯一值占比"),
     EARLIEST_TIME("EARLIEST_TIME", "最早时间", "最早时间"),
     LATEST_TIME("LATEST_TIME", "最晚时间", "最晚时间"),
@@ -27,8 +29,6 @@ public enum GroupStatisticMethodEnum implements IEnum<String> {
     SUM("SUM", "求和", "求和"),
     AVERAGE("AVERAGE", "平均值", "平均值"),
     MEDIAN("MEDIAN", "中位数", "中位数"),
-    MAX("MAX", "最大值", "最大值"),
-    MIN("MIN", "最小值", "最小值"),
     ;
 
     public static final String DICTIONARY = "grouping.GroupStatisticMethodEnum";
