@@ -55,7 +55,7 @@ public class ServerSsoController {
             String errorMessage;
             String redirectUri = ssoUserVo.getRedirectUri();
             try {
-                errorMessage = URLEncoder.encode(e.getMessage(), "UTF-8");
+                errorMessage = StringUtils.isBlank(e.getMessage()) ? URLEncoder.encode("未知异常", "UTF-8") : URLEncoder.encode(e.getMessage(), "UTF-8");
                 redirectUri = URLEncoder.encode(redirectUri, "UTF-8");
             } catch (UnsupportedEncodingException ex) {
                 errorMessage = "encoding_failed";
