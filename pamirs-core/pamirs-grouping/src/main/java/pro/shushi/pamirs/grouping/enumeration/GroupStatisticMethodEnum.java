@@ -43,16 +43,27 @@ public enum GroupStatisticMethodEnum implements IEnum<String> {
         this.help = help;
     }
 
-    public String getValue() {
+    @Override
+    public String value() {
         return value;
     }
 
-    public String getDisplayName() {
+    @Override
+    public String displayName() {
         return displayName;
     }
 
-    public String getHelp() {
+    @Override
+    public String help() {
         return help;
     }
 
+    public static GroupStatisticMethodEnum valueOfNullable(String value) {
+        for (GroupStatisticMethodEnum item : GroupStatisticMethodEnum.values()) {
+            if (item.value().equals(value)) {
+                return item;
+            }
+        }
+        return null;
+    }
 }

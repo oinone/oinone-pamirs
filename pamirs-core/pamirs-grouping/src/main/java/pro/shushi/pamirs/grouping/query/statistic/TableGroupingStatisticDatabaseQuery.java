@@ -61,7 +61,7 @@ public class TableGroupingStatisticDatabaseQuery<T> implements TableGroupingStat
 
         String model = context.getModel();
         TableGroupingStatisticFieldQuery statisticQuery = lastQuery.getStatisticQuery();
-        GroupStatisticMethodEnum statisticMethod = statisticQuery.getStatisticMethod();
+        GroupStatisticMethodEnum statisticMethod = statisticQuery.getInternalStatisticMethod();
         switch (statisticMethod) {
             case COUNT:
                 lastQuery.withWhere(queryWrapper);
@@ -113,7 +113,7 @@ public class TableGroupingStatisticDatabaseQuery<T> implements TableGroupingStat
     private String diff(TableGroupingStatisticFieldQuery query, DataMap data) {
         Object minObjectValue = FieldUtils.getFieldValue(data, query.getAsMinField());
         Object maxObjectValue = FieldUtils.getFieldValue(data, query.getAsMaxField());
-        GroupStatisticMethodEnum statisticMethod = query.getStatisticMethod();
+        GroupStatisticMethodEnum statisticMethod = query.getInternalStatisticMethod();
         if (query.isNumberField()) {
             return NumberHelper.valueOf(maxObjectValue)
                     .subtract(NumberHelper.valueOf(minObjectValue))
@@ -129,7 +129,7 @@ public class TableGroupingStatisticDatabaseQuery<T> implements TableGroupingStat
             if (minDate == null || maxDate == null) {
                 return query.getInvalidStatisticValue();
             }
-            switch (query.getStatisticMethod()) {
+            switch (query.getInternalStatisticMethod()) {
                 case TIME_RANGE_DAY:
                     return String.valueOf(GroupStatisticUtils.timeRangeDay(maxDate, minDate));
                 case TIME_RANGE_MONTH:

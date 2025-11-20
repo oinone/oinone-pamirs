@@ -14,28 +14,30 @@ import java.util.List;
  */
 public class TableGroupingStatisticFieldQuery extends BasicTableGroupingFieldQuery {
 
-    private static final List<GroupStatisticMethodEnum> DB_STATISTIC_METHODS = Lists.newArrayList(
-            GroupStatisticMethodEnum.COUNT,
-            GroupStatisticMethodEnum.NULL,
-            GroupStatisticMethodEnum.NOT_NULL,
-            GroupStatisticMethodEnum.NULL_PERCENT,
-            GroupStatisticMethodEnum.NOT_NULL_PERCENT,
-            GroupStatisticMethodEnum.MIN,
-            GroupStatisticMethodEnum.MAX,
-            GroupStatisticMethodEnum.EARLIEST_TIME,
-            GroupStatisticMethodEnum.LATEST_TIME,
-            GroupStatisticMethodEnum.TIME_RANGE_DAY,
-            GroupStatisticMethodEnum.TIME_RANGE_MONTH,
-            GroupStatisticMethodEnum.TIME_RANGE_YEAR,
-            GroupStatisticMethodEnum.SUM,
-            GroupStatisticMethodEnum.AVERAGE
+    private static final List<String> DB_STATISTIC_METHODS = Lists.newArrayList(
+            GroupStatisticMethodEnum.COUNT.name(),
+            GroupStatisticMethodEnum.NULL.name(),
+            GroupStatisticMethodEnum.NOT_NULL.name(),
+            GroupStatisticMethodEnum.NULL_PERCENT.name(),
+            GroupStatisticMethodEnum.NOT_NULL_PERCENT.name(),
+            GroupStatisticMethodEnum.MIN.name(),
+            GroupStatisticMethodEnum.MAX.name(),
+            GroupStatisticMethodEnum.EARLIEST_TIME.name(),
+            GroupStatisticMethodEnum.LATEST_TIME.name(),
+            GroupStatisticMethodEnum.TIME_RANGE_DAY.name(),
+            GroupStatisticMethodEnum.TIME_RANGE_MONTH.name(),
+            GroupStatisticMethodEnum.TIME_RANGE_YEAR.name(),
+            GroupStatisticMethodEnum.SUM.name(),
+            GroupStatisticMethodEnum.AVERAGE.name()
     );
 
     private static final String MIN_FIELD_SUFFIX = "_MIN";
 
     private static final String MAX_FIELD_SUFFIX = "_MAX";
 
-    private final GroupStatisticMethodEnum statisticMethod;
+    private final GroupStatisticMethodEnum internalStatisticMethod;
+
+    private final String statisticMethod;
 
     private final String invalidStatisticValue;
 
@@ -43,8 +45,9 @@ public class TableGroupingStatisticFieldQuery extends BasicTableGroupingFieldQue
 
     private final String asMaxField;
 
-    protected TableGroupingStatisticFieldQuery(TableGroupingModel model, String field, GroupStatisticMethodEnum statisticMethod) {
+    protected TableGroupingStatisticFieldQuery(TableGroupingModel model, String field, String statisticMethod) {
         super(model, field, null, false, true);
+        this.internalStatisticMethod = GroupStatisticMethodEnum.valueOfNullable(statisticMethod);
         this.statisticMethod = statisticMethod;
 
         String columnFormat = model.getColumnFormat();
@@ -69,7 +72,11 @@ public class TableGroupingStatisticFieldQuery extends BasicTableGroupingFieldQue
         }
     }
 
-    public GroupStatisticMethodEnum getStatisticMethod() {
+    public GroupStatisticMethodEnum getInternalStatisticMethod() {
+        return internalStatisticMethod;
+    }
+
+    public String getStatisticMethod() {
         return statisticMethod;
     }
 
@@ -82,9 +89,9 @@ public class TableGroupingStatisticFieldQuery extends BasicTableGroupingFieldQue
     }
 
     public boolean isDifferenceStatisticValue() {
-        return GroupStatisticMethodEnum.TIME_RANGE_DAY.equals(statisticMethod)
-                || GroupStatisticMethodEnum.TIME_RANGE_MONTH.equals(statisticMethod)
-                || GroupStatisticMethodEnum.TIME_RANGE_YEAR.equals(statisticMethod);
+        return GroupStatisticMethodEnum.TIME_RANGE_DAY.name().equals(statisticMethod)
+                || GroupStatisticMethodEnum.TIME_RANGE_MONTH.name().equals(statisticMethod)
+                || GroupStatisticMethodEnum.TIME_RANGE_YEAR.name().equals(statisticMethod);
     }
 
     public String getAsMinField() {
@@ -96,7 +103,7 @@ public class TableGroupingStatisticFieldQuery extends BasicTableGroupingFieldQue
     }
 
     protected <T> void withStatistic(TableGroupingFieldQuery query, QueryWrapper<T> queryWrapper) {
-        switch (statisticMethod) {
+        switch (internalStatisticMethod) {
             case MIN:
             case EARLIEST_TIME:
                 queryWrapper.select("MIN(" + column + ") AS " + asField);

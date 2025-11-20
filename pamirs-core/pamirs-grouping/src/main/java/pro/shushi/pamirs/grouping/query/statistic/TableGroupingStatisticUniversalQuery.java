@@ -66,7 +66,7 @@ public class TableGroupingStatisticUniversalQuery<T> implements TableGroupingSta
         appendColumns(columns, statisticQuery);
         queryWrapper.select(columns.toArray(new String[0]));
 
-        String statisticMethod = statisticQuery.getStatisticMethod().name();
+        String statisticMethod = statisticQuery.getStatisticMethod();
         StatisticField statisticField = new StatisticField(
                 model.getModel(),
                 statisticQuery.getField(),

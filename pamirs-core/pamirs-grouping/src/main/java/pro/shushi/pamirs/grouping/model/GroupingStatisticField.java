@@ -24,6 +24,6 @@ public class GroupingStatisticField extends TransientModel {
     private String field;
 
     @Field(displayName = "统计方式")
-    private GroupStatisticMethodEnum statisticMethod;
+    private String statisticMethod;
 
 }
