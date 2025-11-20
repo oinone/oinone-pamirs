@@ -5,12 +5,20 @@ import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.util.UnsafeUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * Wrapper帮助类
+ *
  * @author Adamancy Zhang on 2021-04-27 20:00
  */
 public class WrapperHelper {
+
+    private static final String AS = " as ";
 
     private WrapperHelper() {
         //reject create object
@@ -59,5 +67,32 @@ public class WrapperHelper {
             System.arraycopy(columns, 0, nextColumns, 1, columns.length);
             queryWrapper.select(nextColumns);
         }
+    }
+
+    public static String getColumAsField(String column, String asField) {
+        return column + AS + asField;
+    }
+
+    public static String getColumAsField(List<String> relationColumns, List<String> relationAsFields) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < relationColumns.size(); i++) {
+            String column = relationColumns.get(i);
+            String asField = relationAsFields.get(i);
+            if (i != 0) {
+                builder.append(CharacterConstants.SEPARATOR_COMMA);
+            }
+            builder.append(column).append(AS).append(asField);
+        }
+        return builder.toString();
+    }
+
+    public static List<String> getColumAsFields(List<String> columns, List<String> asFields) {
+        List<String> columnsAsFields = new ArrayList<>();
+        for (int i = 0; i < columns.size(); i++) {
+            String column = columns.get(i);
+            String asField = asFields.get(i);
+            columnsAsFields.add(getColumAsField(column, asField));
+        }
+        return columnsAsFields;
     }
 }

@@ -2,10 +2,10 @@ package pro.shushi.pamirs.grouping.entity;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
-import pro.shushi.pamirs.grouping.utils.TableGroupingHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
@@ -482,9 +482,9 @@ public class BasicTableGroupingFieldQuery {
 
     public String getColumnAsField() {
         if (isRelationOneField()) {
-            return TableGroupingHelper.getColumAsField(relationColumns, relationAsFields);
+            return WrapperHelper.getColumAsField(relationColumns, relationAsFields);
         }
-        return TableGroupingHelper.getColumAsField(column, asField);
+        return WrapperHelper.getColumAsField(column, asField);
     }
 
     public <T> void withNullWhere(QueryWrapper<T> queryWrapper) {

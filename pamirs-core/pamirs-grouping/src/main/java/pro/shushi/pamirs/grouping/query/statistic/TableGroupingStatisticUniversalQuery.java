@@ -4,6 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.entity.BasicTableGroupingFieldQuery;
@@ -52,7 +53,7 @@ public class TableGroupingStatisticUniversalQuery<T> implements TableGroupingSta
         Set<String> columns = new LinkedHashSet<>();
         List<String> pkColumns = model.getPkColumns();
         if (CollectionUtils.isNotEmpty(pkColumns)) {
-            columns.addAll(TableGroupingHelper.getColumAsFields(pkColumns, model.getPkAsFields()));
+            columns.addAll(WrapperHelper.getColumAsFields(pkColumns, model.getPkAsFields()));
         }
         for (TableGroupingFieldQuery query : queryList) {
             appendColumns(columns, query);
@@ -110,11 +111,11 @@ public class TableGroupingStatisticUniversalQuery<T> implements TableGroupingSta
     private void appendColumns(Set<String> columns, BasicTableGroupingFieldQuery query) {
         String column = query.getColumn();
         if (StringUtils.isNotBlank(column)) {
-            columns.add(TableGroupingHelper.getColumAsField(column, query.getAsField()));
+            columns.add(WrapperHelper.getColumAsField(column, query.getAsField()));
         }
         List<String> relationColumns = query.getRelationColumns();
         if (CollectionUtils.isNotEmpty(relationColumns)) {
-            columns.addAll(TableGroupingHelper.getColumAsFields(relationColumns, query.getRelationAsFields()));
+            columns.addAll(WrapperHelper.getColumAsFields(relationColumns, query.getRelationAsFields()));
         }
     }
 

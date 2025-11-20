@@ -3,6 +3,7 @@ package pro.shushi.pamirs.grouping.utils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.auth.api.runtime.executor.FieldPermissionExecutor;
+import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.entity.GroupingDataWrapper;
 import pro.shushi.pamirs.grouping.entity.TableGroupingFieldQuery;
@@ -12,7 +13,6 @@ import pro.shushi.pamirs.grouping.model.TableGroupingResult;
 import pro.shushi.pamirs.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
-import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,8 +23,6 @@ import java.util.stream.Collectors;
  * @author Adamancy Zhang at 13:42 on 2025-11-17
  */
 public class TableGroupingHelper {
-
-    private static final String AS = " as ";
 
     private TableGroupingHelper() {
         // reject create object
@@ -113,16 +111,16 @@ public class TableGroupingHelper {
         Set<String> columns = new LinkedHashSet<>();
         List<String> pkColumns = model.getPkColumns();
         if (CollectionUtils.isNotEmpty(pkColumns)) {
-            columns.addAll(getColumAsFields(pkColumns, model.getPkAsFields()));
+            columns.addAll(WrapperHelper.getColumAsFields(pkColumns, model.getPkAsFields()));
         }
         for (TableGroupingFieldQuery query : queryList) {
             String column = query.getColumn();
             if (StringUtils.isNotBlank(column)) {
-                columns.add(getColumAsField(column, query.getAsField()));
+                columns.add(WrapperHelper.getColumAsField(column, query.getAsField()));
             }
             List<String> relationColumns = query.getRelationColumns();
             if (CollectionUtils.isNotEmpty(relationColumns)) {
-                columns.addAll(getColumAsFields(relationColumns, query.getRelationAsFields()));
+                columns.addAll(WrapperHelper.getColumAsFields(relationColumns, query.getRelationAsFields()));
             }
         }
         queryWrapper.select(columns.toArray(new String[0]));
@@ -137,32 +135,5 @@ public class TableGroupingHelper {
             }
         }
         return list;
-    }
-
-    public static String getColumAsField(String column, String asField) {
-        return column + AS + asField;
-    }
-
-    public static String getColumAsField(List<String> relationColumns, List<String> relationAsFields) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < relationColumns.size(); i++) {
-            String column = relationColumns.get(i);
-            String asField = relationAsFields.get(i);
-            if (i != 0) {
-                builder.append(CharacterConstants.SEPARATOR_COMMA);
-            }
-            builder.append(column).append(AS).append(asField);
-        }
-        return builder.toString();
-    }
-
-    public static List<String> getColumAsFields(List<String> columns, List<String> asFields) {
-        List<String> columnsAsFields = new ArrayList<>();
-        for (int i = 0; i < columns.size(); i++) {
-            String column = columns.get(i);
-            String asField = asFields.get(i);
-            columnsAsFields.add(getColumAsField(column, asField));
-        }
-        return columnsAsFields;
     }
 }

@@ -2,6 +2,7 @@ package pro.shushi.pamirs.core.common.query;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
 import pro.shushi.pamirs.core.common.tmodel.CommonGQLFields;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
@@ -23,6 +24,8 @@ import java.util.function.Function;
  * @author Adamancy Zhang at 10:59 on 2025-11-19
  */
 public class GQLFieldsQuery {
+
+    private Map<String, Function<String, String>> columnFormatCache = new HashMap<>();
 
     private final Map<String, List<String>> columnsMap;
 
@@ -48,6 +51,20 @@ public class GQLFieldsQuery {
         return relatedFieldsMap.get(key);
     }
 
+    private Function<String, String> getColumnFormatConvert(String model) {
+        return columnFormatCache.computeIfAbsent(model, k -> {
+            PamirsTableInfo pamirsTableInfo = PamirsTableInfo.fetchPamirsTableInfo(model);
+            String columnFormat = pamirsTableInfo.getColumnFormat();
+            Function<String, String> convertColumn;
+            if (StringUtils.isBlank(columnFormat)) {
+                convertColumn = (v) -> v;
+            } else {
+                convertColumn = (v) -> String.format(columnFormat, v);
+            }
+            return convertColumn;
+        });
+    }
+
     public static GQLFieldsQuery resolveGQLFields(String model, CommonGQLFields gqlFields) {
         GQLFieldsQuery query = new GQLFieldsQuery(new HashMap<>(), new HashMap<>(), new HashMap<>());
         List<String> normalFields = gqlFields.getFields();
@@ -58,18 +75,12 @@ public class GQLFieldsQuery {
         if (CollectionUtils.isNotEmpty(relationFields)) {
             resolveRelationFields(query, model, relationFields, model);
         }
+        query.columnFormatCache = null;
         return query;
     }
 
     private static void resolveNormalFields(GQLFieldsQuery query, String model, List<String> fields, String key) {
-        PamirsTableInfo pamirsTableInfo = PamirsTableInfo.fetchPamirsTableInfo(model);
-        String columnFormat = pamirsTableInfo.getColumnFormat();
-        Function<String, String> convertColumn;
-        if (StringUtils.isBlank(columnFormat)) {
-            convertColumn = (v) -> v;
-        } else {
-            convertColumn = (v) -> String.format(columnFormat, v);
-        }
+        Function<String, String> columnFormatConvert = query.getColumnFormatConvert(model);
         List<String> columns = new ArrayList<>();
         List<String> relatedFields = new ArrayList<>();
         for (String field : fields) {
@@ -80,9 +91,10 @@ public class GQLFieldsQuery {
             if (TtypeEnum.isRelatedType(modelFieldConfig.getTtype())) {
                 relatedFields.add(field);
             }
+            String lname = modelFieldConfig.getLname();
             String column = modelFieldConfig.getColumn();
             if (StringUtils.isNotBlank(column)) {
-                columns.add(convertColumn.apply(column));
+                columns.add(WrapperHelper.getColumAsField(columnFormatConvert.apply(column), columnFormatConvert.apply(lname)));
             }
         }
         query.columnsMap.put(key, columns);

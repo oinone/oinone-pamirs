@@ -3,7 +3,7 @@ package pro.shushi.pamirs.grouping.statistic.defaults;
 import pro.shushi.pamirs.grouping.statistic.AbstractStatisticApi;
 import pro.shushi.pamirs.grouping.statistic.StatisticApi;
 import pro.shushi.pamirs.grouping.statistic.StatisticField;
-import pro.shushi.pamirs.grouping.utils.GroupStatisticUtils;
+import pro.shushi.pamirs.grouping.utils.TableGroupingStatisticHelper;
 import pro.shushi.pamirs.meta.util.DateUtils;
 
 import java.util.Date;
@@ -58,6 +58,6 @@ public class StatisticTimeRangeDay<T> extends AbstractStatisticApi<T> implements
     }
 
     protected long computeResult(Date max, Date min) {
-        return GroupStatisticUtils.timeRangeDay(max, min);
+        return TableGroupingStatisticHelper.timeRangeDay(max, min);
     }
 }
