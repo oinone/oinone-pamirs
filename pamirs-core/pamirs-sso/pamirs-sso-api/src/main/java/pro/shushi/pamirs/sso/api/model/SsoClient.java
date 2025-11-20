@@ -1,30 +1,15 @@
 package pro.shushi.pamirs.sso.api.model;
 
-import pro.shushi.pamirs.boot.base.enmu.ActionTargetEnum;
-import pro.shushi.pamirs.boot.base.ux.annotation.action.UxAction;
-import pro.shushi.pamirs.boot.base.ux.annotation.action.UxRoute;
-import pro.shushi.pamirs.boot.base.ux.annotation.button.UxRouteButton;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.IdModel;
-import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
-import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 import pro.shushi.pamirs.sso.api.enmu.SsoAuthTypeEnum;
-
 
 /**
  * sso 客户端信息表
  */
 @Model.model(SsoClient.MODEL_MODEL)
 @Model(displayName = "客户端信息表", summary = "客户端信息表", labelFields = "name")
-@UxRouteButton(
-        action = @UxAction(name = "clientDetail", label = "详情", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = SsoClient.MODEL_MODEL, viewName = "ssoClientForm", viewType = ViewTypeEnum.DETAIL, openType = ActionTargetEnum.ROUTER)
-)
-@UxRouteButton(
-        action = @UxAction(name = "clientEdit", label = "编辑", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = SsoClient.MODEL_MODEL, viewName = "ssoClientForm", viewType = ViewTypeEnum.FORM, openType = ActionTargetEnum.ROUTER)
-)
 public class SsoClient extends IdModel {
 
     private static final long serialVersionUID = 4416200429553155392L;

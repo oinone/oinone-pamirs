@@ -6,9 +6,10 @@ public enum SsoGranTypeEnum {
     CODE("authorization_code", "授权码登录"),
     PASSWORD("password", "密码登录"),
     REFRESHTOKEN("refresh_token", "刷新ACCESS TOEKN");
-    private final String type;
-    private final String help;
 
+    private final String type;
+
+    private final String help;
 
     SsoGranTypeEnum(String type, String help) {
         this.type = type;

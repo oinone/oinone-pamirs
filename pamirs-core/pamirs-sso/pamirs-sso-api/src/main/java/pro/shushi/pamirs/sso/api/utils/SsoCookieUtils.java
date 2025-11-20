@@ -7,7 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SsoCookUtils {
+public class SsoCookieUtils {
     public static Cookie get(HttpServletRequest request, String key) {
         Cookie[] arr_cookie = request.getCookies();
         if (arr_cookie != null && arr_cookie.length > 0) {

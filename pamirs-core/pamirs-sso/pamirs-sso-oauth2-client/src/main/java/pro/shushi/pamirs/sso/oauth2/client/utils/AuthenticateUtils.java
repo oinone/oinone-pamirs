@@ -15,7 +15,7 @@ import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
 import pro.shushi.pamirs.sso.api.tmodel.ApiCommonTransient;
-import pro.shushi.pamirs.sso.api.utils.SsoCookUtils;
+import pro.shushi.pamirs.sso.api.utils.SsoCookieUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -116,7 +116,7 @@ public class AuthenticateUtils {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
             redisTemplate.delete(userCodeCacheKey);
-            SsoCookUtils.remove(request, response, SsoConfigurationConstant.PAMIRS_SSO_LOGIN_KEY);
+            SsoCookieUtils.remove(request, response, SsoConfigurationConstant.PAMIRS_SSO_LOGIN_KEY);
         } catch (Exception e) {
             log.error("sso logout error.", e);
         }

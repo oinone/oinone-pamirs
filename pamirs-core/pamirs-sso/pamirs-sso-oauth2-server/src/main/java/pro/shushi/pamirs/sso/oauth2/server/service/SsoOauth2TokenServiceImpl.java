@@ -30,7 +30,7 @@ import pro.shushi.pamirs.sso.api.service.SsoCommonService;
 import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
 import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
 import pro.shushi.pamirs.sso.api.utils.OAuthTokenResponse;
-import pro.shushi.pamirs.sso.api.utils.SsoCookUtils;
+import pro.shushi.pamirs.sso.api.utils.SsoCookieUtils;
 import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.model.UserRelSsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IOAuth2RefreshToken;
@@ -188,7 +188,7 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
         //清空cookie
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        SsoCookUtils.remove(request, response, SsoConfigurationConstant.PAMIRS_SSO_LOGIN_KEY);
+        SsoCookieUtils.remove(request, response, SsoConfigurationConstant.PAMIRS_SSO_LOGIN_KEY);
     }
 
 

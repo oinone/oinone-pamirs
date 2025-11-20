@@ -40,7 +40,7 @@ public class SsoClientAction {
         return new SsoClient();
     }
 
-    @Function.Advanced(displayName = "查询所有SSO应用", type = FunctionTypeEnum.QUERY, category = FunctionCategoryEnum.QUERY_PAGE, managed = true)
+    @Function.Advanced(displayName = "查询列表", type = FunctionTypeEnum.QUERY, category = FunctionCategoryEnum.QUERY_PAGE, managed = true)
     @Function.fun(FunctionConstants.queryPage)
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public Pagination<SsoClient> queryPage(Pagination<SsoClient> page, IWrapper<SsoClient> queryWrapper) {

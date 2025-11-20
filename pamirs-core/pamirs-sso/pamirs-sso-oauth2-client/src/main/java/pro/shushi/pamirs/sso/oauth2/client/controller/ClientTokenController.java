@@ -9,7 +9,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
 import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
-import pro.shushi.pamirs.sso.api.utils.SsoCookUtils;
+import pro.shushi.pamirs.sso.api.utils.SsoCookieUtils;
 import pro.shushi.pamirs.user.api.cache.UserCache;
 import pro.shushi.pamirs.user.api.constants.UserConstant;
 import pro.shushi.pamirs.user.api.utils.CookieUtil;
@@ -46,7 +46,7 @@ public class ClientTokenController {
                 CookieUtil.remove(request, response, UserConstant.USER_SESSION_ID);
                 String userCodeCacheKey = SsoConfigurationConstant.USER_REDIS_CACHE + openId;
                 redisTemplate.delete(userCodeCacheKey);
-                SsoCookUtils.remove(request, response, SsoConfigurationConstant.PAMIRS_SSO_LOGIN_KEY);
+                SsoCookieUtils.remove(request, response, SsoConfigurationConstant.PAMIRS_SSO_LOGIN_KEY);
                 return "SUCCESS";
             } catch (Exception e) {
                 e.printStackTrace();

@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.sso.oauth2.server;
+package pro.shushi.pamirs.sso.oauth2.server.init;
 
 import pro.shushi.pamirs.boot.base.constants.ViewActionConstants;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxRoute;
@@ -12,8 +12,8 @@ public class SsoMenus implements ViewActionConstants {
     @UxMenu("单点登录管理")
     class SsoMenu {
         @UxMenu("客户端信息")
-        @UxRoute(model = SsoClient.MODEL_MODEL, viewName = "ssoClient")
-        class SsoOAuth2ClientDetailsMenu {
+        @UxRoute(model = SsoClient.MODEL_MODEL)
+        class SsoClientMenu {
         }
 
     }
