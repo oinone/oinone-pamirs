@@ -3,6 +3,7 @@ package pro.shushi.pamirs.sso.server.service;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -21,6 +22,7 @@ import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.sso.api.utils.SsoCookieUtils;
 import pro.shushi.pamirs.sso.common.dto.OAuthTokenResponse;
 import pro.shushi.pamirs.sso.common.dto.SsoRequestParameter;
+import pro.shushi.pamirs.sso.common.dto.SsoUserInfo;
 import pro.shushi.pamirs.sso.common.dto.SsoUserVo;
 import pro.shushi.pamirs.sso.server.check.SsoUserLoginChecker;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
@@ -96,7 +98,7 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
 
 
     @Override
-    public PamirsUser getUserInfo(String clientId) {
+    public SsoUserInfo getUserInfo(String clientId) {
         String tokenHead = UserConstant.USER_TOKEN_PREFIX;
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String authorization = request.getHeader("Authorization");
@@ -109,12 +111,18 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
             String randomAkId = mapResource.get("randomAkId");
             String redisAccessToken = TokenCache.getAK(cacheClientId, openId, randomAkId);
             if (clientId.equals(cacheClientId) && !clientId.equals(pamirsSsoProperties.getClient().getClientId()) && authorization.equals(redisAccessToken)) {  // 客户端传过来是小令牌
-                return userService.queryById(Long.parseLong(openId));
+                return buildUserTranslate(userService.queryById(Long.parseLong(openId)));
             } else if (cacheClientId.equals(pamirsSsoProperties.getClient().getClientId()) && authorization.equals(redisAccessToken)) { //大令牌直接登录
-                return userService.queryById(Long.parseLong(openId));
+                return buildUserTranslate(userService.queryById(Long.parseLong(openId)));
             }
         }
         throw PamirsException.construct(SsoExpEnumerate.SSO_INVALID_ACCESS_TOKEN_ERROR).errThrow();
+    }
+
+    private SsoUserInfo buildUserTranslate(PamirsUser pamirsUser) {
+        SsoUserInfo ssoUserInfo = new SsoUserInfo();
+        BeanUtils.copyProperties(pamirsUser, ssoUserInfo);
+        return ssoUserInfo;
     }
 
     @Override

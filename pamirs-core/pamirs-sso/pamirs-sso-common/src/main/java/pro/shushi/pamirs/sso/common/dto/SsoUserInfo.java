@@ -14,6 +14,18 @@ public class SsoUserInfo implements Serializable {
     private Boolean active;
     private String name;
     private String nickname;
+    private String userType;
+    private String login;
+    private String createDate;
+    private String updateDate;
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
     public Long getId() {
         return id;
@@ -25,6 +37,14 @@ public class SsoUserInfo implements Serializable {
 
     public String getCode() {
         return code;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public void setCode(String code) {
