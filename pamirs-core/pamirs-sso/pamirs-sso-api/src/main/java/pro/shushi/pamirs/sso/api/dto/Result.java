@@ -1,7 +1,15 @@
-package pro.shushi.pamirs.sso.api.tmodel;
+package pro.shushi.pamirs.sso.api.dto;
 
 
-public class Result<T> {
+import java.io.Serializable;
+
+public class Result<T> implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    public static final String SUCCESS_CODE = "0";
+    public static final String ERROR_CODE = "1";
+
     private String code;
     private String msg;
     private T data;
@@ -39,21 +47,21 @@ public class Result<T> {
 
     public static Result success() {
         Result result = new Result<>();
-        result.setCode("0");
+        result.setCode(SUCCESS_CODE);
         result.setMsg("成功");
         return result;
     }
 
     public static <T> Result<T> success(T data) {
         Result<T> result = new Result<>(data);
-        result.setCode("0");
+        result.setCode(SUCCESS_CODE);
         result.setMsg("成功");
         return result;
     }
 
     public static <T> Result<T> success(T data, String msg) {
         Result<T> result = new Result<>(data);
-        result.setCode("0");
+        result.setCode(SUCCESS_CODE);
         result.setMsg(msg);
         return result;
     }
@@ -67,7 +75,7 @@ public class Result<T> {
 
     public static Result error(String msg) {
         Result result = new Result();
-        result.setCode("1");
+        result.setCode(ERROR_CODE);
         result.setMsg(msg);
         return result;
     }

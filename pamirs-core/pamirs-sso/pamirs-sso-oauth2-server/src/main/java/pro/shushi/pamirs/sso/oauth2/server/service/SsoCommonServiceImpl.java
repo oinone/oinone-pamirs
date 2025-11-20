@@ -40,7 +40,7 @@ public class SsoCommonServiceImpl implements SsoCommonService {
     @Override
     public void checkAuth(String clientId, String redirectUri, String state) {
         SsoAuthTypeEnum authType = pamirsSsoProperties.getServer().getAuthType();
-        SsoClient ssoClient = ssoClientService.getSsoClientInfoByClientId(clientId);
+        SsoClient ssoClient = ssoClientService.getByClientId(clientId);
         if (Objects.nonNull(ssoClient) && null != ssoClient.getAuthType()) {
             authType = ssoClient.getAuthType();
         }

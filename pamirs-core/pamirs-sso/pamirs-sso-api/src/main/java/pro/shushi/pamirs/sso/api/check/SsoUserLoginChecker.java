@@ -30,7 +30,9 @@ public class SsoUserLoginChecker implements ISsoUserLoginChecker {
     @Override
     public PamirsUser check4login(SsoUserVo ssoUserVo) {
         // 输入验证
-        if (ssoUserVo == null || StringUtils.isBlank(ssoUserVo.getUsername()) || StringUtils.isBlank(ssoUserVo.getPassword())) {
+        if (ssoUserVo == null ||
+                StringUtils.isBlank(ssoUserVo.getUsername()) ||
+                StringUtils.isBlank(ssoUserVo.getPassword())) {
             return null;
         }
         String username = ssoUserVo.getUsername();
@@ -67,6 +69,7 @@ public class SsoUserLoginChecker implements ISsoUserLoginChecker {
 
     @Override
     public void checkPicCode4Login(PamirsUserTransient user) {
+        throw new UnsupportedOperationException();
     }
 
 }

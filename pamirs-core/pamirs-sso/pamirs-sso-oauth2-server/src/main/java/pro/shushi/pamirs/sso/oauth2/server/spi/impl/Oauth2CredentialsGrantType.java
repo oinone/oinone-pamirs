@@ -3,9 +3,9 @@ package pro.shushi.pamirs.sso.oauth2.server.spi.impl;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.common.spi.SPI;
-import pro.shushi.pamirs.sso.api.dto.SsoRequestParameters;
+import pro.shushi.pamirs.sso.api.dto.SsoRequestParameter;
 import pro.shushi.pamirs.sso.api.enmu.SsoGranTypeEnum;
-import pro.shushi.pamirs.sso.api.tmodel.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.api.dto.OAuthTokenResponse;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IUserLoginOAuth2GrantType;
 
 @Component
@@ -14,12 +14,12 @@ import pro.shushi.pamirs.sso.oauth2.server.spi.IUserLoginOAuth2GrantType;
 public class Oauth2CredentialsGrantType implements IUserLoginOAuth2GrantType {
 
     @Override
-    public boolean match(SsoRequestParameters ssoRequestParameters) {
-        return SsoGranTypeEnum.CREDENTIALS.getType().equals(ssoRequestParameters.getGrant_type());
+    public boolean match(SsoRequestParameter ssoRequestParameter) {
+        return SsoGranTypeEnum.CREDENTIALS.getType().equals(ssoRequestParameter.getGrant_type());
     }
 
     @Override
-    public OAuthTokenResponse execute(SsoRequestParameters ssoRequestParameters) {
+    public OAuthTokenResponse execute(SsoRequestParameter ssoRequestParameter) {
         // 处理 CREDENTIALS 授权类型的逻辑
         OAuthTokenResponse oAuthTokenResponse = new OAuthTokenResponse();
         return oAuthTokenResponse;

@@ -21,6 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/pamirs/sso")
 public class ClientTokenController {
+
     @Autowired
     private StringRedisTemplate redisTemplate;
 

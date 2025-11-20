@@ -32,5 +32,4 @@ public class SsoUserTokenLoginSimpleClient extends SsoUserTokenLoginClient<Pamir
         return user.queryOne();
     }
 
-
 }

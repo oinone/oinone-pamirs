@@ -3,16 +3,16 @@ package pro.shushi.pamirs.sso.oauth2.server.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pro.shushi.pamirs.sso.api.service.SsoCommonService;
-import pro.shushi.pamirs.sso.api.tmodel.Result;
+import pro.shushi.pamirs.sso.api.dto.Result;
 
 import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequestMapping("/pamirs/sso")
 public class ServerSsoController {
+
     @Autowired
     private SsoCommonService ssoCommonService;
-
 
     @GetMapping("/auth")
     public void auth(

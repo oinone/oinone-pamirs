@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface SsoClientService {
 
-    SsoClient AutoGenerateClient();
+    SsoClient AutoGenerateClient(SsoClient data);
 
-    SsoClient getSsoClientInfoByClientId(String clientId);
+    SsoClient getByClientId(String clientId);
 
     List<SsoClient> getClientInfos();
 
     void deleteMultipleOrSingleIds(List<SsoClient> ssoClientList);
 
-    Long getOauth2ClientDetailsCount();
+    Long getCount();
 
-    List<SsoClient> queryListByClientIds(List<String> ids);
+    List<SsoClient> queryList(List<String> ids);
 }

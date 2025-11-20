@@ -21,7 +21,7 @@ import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.sso.api.check.SsoUserLoginChecker;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
-import pro.shushi.pamirs.sso.api.dto.SsoRequestParameters;
+import pro.shushi.pamirs.sso.api.dto.SsoRequestParameter;
 import pro.shushi.pamirs.sso.api.dto.SsoUserVo;
 import pro.shushi.pamirs.sso.api.enmu.SsoExpEnumerate;
 import pro.shushi.pamirs.sso.api.model.SsoClient;
@@ -29,10 +29,9 @@ import pro.shushi.pamirs.sso.api.model.UserRelSsoClient;
 import pro.shushi.pamirs.sso.api.service.SsoCommonService;
 import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
 import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
-import pro.shushi.pamirs.sso.api.tmodel.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.api.dto.OAuthTokenResponse;
 import pro.shushi.pamirs.sso.api.utils.SsoCookieUtils;
 import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
-import pro.shushi.pamirs.sso.oauth2.server.model.UserRelSsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IOAuth2RefreshToken;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IUserLoginOAuth2GrantType;
 import pro.shushi.pamirs.sso.oauth2.server.utils.TokenCache;
@@ -65,8 +64,6 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
     private PamirsSsoProperties pamirsSsoProperties;
     @Autowired
     private SsoCommonService ssoCommonService;
-    @Autowired
-    private UserRelSsoClientService userRelSsoClientService;
 
     @Autowired(required = false)
     @Qualifier(AsyncTaskExecutorConfiguration.FIXED_THREAD_POOL_EXECUTOR)
@@ -88,9 +85,9 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
     }
 
     @Override
-    public OAuthTokenResponse refresh(SsoRequestParameters ssoRequestParameters) {
+    public OAuthTokenResponse refresh(SsoRequestParameter ssoRequestParameter) {
         IOAuth2RefreshToken auth2RefreshToken = Spider.getLoader(IOAuth2RefreshToken.class).getOrderedExtensions().get(0);
-        OAuthTokenResponse oAuthTokenResponse = auth2RefreshToken.execute(ssoRequestParameters);
+        OAuthTokenResponse oAuthTokenResponse = auth2RefreshToken.execute(ssoRequestParameter);
         if (oAuthTokenResponse != null) {
             return oAuthTokenResponse;
         }
@@ -121,9 +118,9 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
     }
 
     @Override
-    public void logout(SsoRequestParameters ssoRequestParameters) {
+    public void logout(SsoRequestParameter ssoRequestParameter) {
         String tokenHead = UserConstant.USER_TOKEN_PREFIX;
-        String clientId = ssoRequestParameters.getClient_id();
+        String clientId = ssoRequestParameter.getClient_id();
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String authorization = request.getHeader("Authorization");
         if (authorization != null && authorization.startsWith(tokenHead)) {
@@ -136,16 +133,16 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
 
             String redisAccessToken = TokenCache.getAK(cacheClientId, openId, randomAkId);
             if (clientId.equals(cacheClientId) && !clientId.equals(pamirsSsoProperties.getClient().getClientId()) && authorization.equals(redisAccessToken)) {  // 客户端传过来是小令牌
-                List<UserRelSsoClient> userRelSsoClients = userRelSsoClientService.queryListByUserId(Long.parseLong(openId));
+                List<UserRelSsoClient> userRelSsoClients = new UserRelSsoClient().setUserId(Long.parseLong(openId)).queryList();
                 List<SsoClient> ssoClients = new ArrayList<>();
                 if (CollectionUtils.isNotEmpty(userRelSsoClients)) {
                     List<String> ssoClientIds = userRelSsoClients.stream().map(UserRelSsoClient::getSsoClientId).collect(Collectors.toList());
                     if (!ssoClientIds.contains(clientId)){
                         ssoClientIds.add(clientId);
                     }
-                    ssoClients = ssoClientService.queryListByClientIds(ssoClientIds);
+                    ssoClients = ssoClientService.queryList(ssoClientIds);
                 }else {
-                    ssoClients.add(ssoClientService.getSsoClientInfoByClientId(clientId));
+                    ssoClients.add(ssoClientService.getByClientId(clientId));
                 }
                 try {
                     if (CollectionUtils.isNotEmpty(ssoClients)){
@@ -194,12 +191,12 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
 
 
     @Override
-    public OAuthTokenResponse authorize(SsoRequestParameters ssoRequestParameters) {
+    public OAuthTokenResponse authorize(SsoRequestParameter ssoRequestParameter) {
         List<IUserLoginOAuth2GrantType> orderedExtensions = Spider.getLoader(IUserLoginOAuth2GrantType.class).getOrderedExtensions();
         for (IUserLoginOAuth2GrantType orderedExtension : orderedExtensions) {
-            boolean match = orderedExtension.match(ssoRequestParameters);
+            boolean match = orderedExtension.match(ssoRequestParameter);
             if (match) {
-                OAuthTokenResponse ssoOAuthResponseResult = orderedExtension.execute(ssoRequestParameters);
+                OAuthTokenResponse ssoOAuthResponseResult = orderedExtension.execute(ssoRequestParameter);
                 if (ssoOAuthResponseResult != null) {
                     return ssoOAuthResponseResult;
                 }
@@ -215,7 +212,7 @@ public class SsoOauth2TokenServiceImpl implements SsoOauth2TokenService {
         PamirsUser pamirsUser = checkLogin(ssoUserVo);
         String clientId = ssoUserVo.getClientId();
 
-        SsoClient ssoClient = ssoClientService.getSsoClientInfoByClientId(clientId);
+        SsoClient ssoClient = ssoClientService.getByClientId(clientId);
         String code = getOauth2Code(ssoClient, pamirsUser.getId());
         if (StringUtils.isBlank(code)) {
             throw PamirsException.construct(SsoExpEnumerate.SSO_GET_CODE_ERROR).errThrow();

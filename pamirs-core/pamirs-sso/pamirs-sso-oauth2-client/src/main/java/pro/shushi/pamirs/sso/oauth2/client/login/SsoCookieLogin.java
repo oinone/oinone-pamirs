@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.sso.oauth2.client.login;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -17,10 +16,9 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
-import pro.shushi.pamirs.sso.api.constant.HttpConstant;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
-import pro.shushi.pamirs.sso.api.tmodel.Result;
-import pro.shushi.pamirs.sso.api.tmodel.SsoPamirsUserTransient;
+import pro.shushi.pamirs.sso.api.dto.Result;
+import pro.shushi.pamirs.sso.api.dto.SsoUserInfo;
 import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
 import pro.shushi.pamirs.sso.oauth2.client.utils.Oauth2AuthenticateUtils;
 import pro.shushi.pamirs.user.api.cache.UserCache;
@@ -61,7 +59,6 @@ public class SsoCookieLogin extends UserCookieLogin<PamirsUser> {
 
     @Autowired
     private PamirsSsoProperties pamirsSsoProperties;
-
 
     public String createSessionId(PamirsUser pamirsUser) {
         return EncryptionHandler.encrypt(pamirsSsoProperties.getClient().getClientId(), pamirsUser.getId().toString() + "#" + UUIDUtil.getUUIDNumberString());
@@ -124,9 +121,9 @@ public class SsoCookieLogin extends UserCookieLogin<PamirsUser> {
             accessToken = pamirsRequestVariables.getHeader("authorization");
         }
         if (StringUtils.isNotEmpty(accessToken)) {
-            Result<SsoPamirsUserTransient> permissionInfo = Oauth2AuthenticateUtils.getPermissionInfo(accessToken);
+            Result<SsoUserInfo> permissionInfo = Oauth2AuthenticateUtils.getPermissionInfo(accessToken);
             // Check for successful login
-            if (HttpConstant.SUCCESS.equals(permissionInfo.getCode())) {
+            if (Result.SUCCESS_CODE.equals(permissionInfo.getCode())) {
                 // SSO user changes to Oinone user
                 PamirsUser pamirsUser = setUserInfoToCookiesAndSetUserIdToCache(permissionInfo, accessToken, response);
                 return new PamirsUserDTO().setUserId(pamirsUser.getId()).setPhone(pamirsUser.getPhone()).setUserCode(
@@ -155,8 +152,8 @@ public class SsoCookieLogin extends UserCookieLogin<PamirsUser> {
      * @param response
      * @return
      */
-    public PamirsUser setUserInfoToCookiesAndSetUserIdToCache(Result<SsoPamirsUserTransient> permissionInfo, String accessToken, HttpServletResponse response) {
-        SsoPamirsUserTransient ssoUser = permissionInfo.getData();
+    public PamirsUser setUserInfoToCookiesAndSetUserIdToCache(Result<SsoUserInfo> permissionInfo, String accessToken, HttpServletResponse response) {
+        SsoUserInfo ssoUser = permissionInfo.getData();
         PamirsUser pamirsUser = userService.queryById(ssoUser.getId());
         if (pamirsUser == null) {
             pamirsUser = createOrUpdatePamirsUser(ssoUser);
@@ -178,13 +175,13 @@ public class SsoCookieLogin extends UserCookieLogin<PamirsUser> {
         return pamirsUser;
     }
 
-    private PamirsUser createOrUpdatePamirsUser(SsoPamirsUserTransient ssoUser) {
+    private PamirsUser createOrUpdatePamirsUser(SsoUserInfo ssoUser) {
         PamirsUser pamirsUser = buildPamirsUser(ssoUser);
         userService.createOrUpdate(pamirsUser);
         return pamirsUser;
     }
 
-    private PamirsUser buildPamirsUser(SsoPamirsUserTransient ssoUser) {
+    private PamirsUser buildPamirsUser(SsoUserInfo ssoUser) {
         PamirsUser pamirsUser = new PamirsUser();
         pamirsUser.setId(ssoUser.getId());
         pamirsUser.setCode(ssoUser.getCode());

@@ -1,10 +1,14 @@
-package pro.shushi.pamirs.sso.api.tmodel;
+package pro.shushi.pamirs.sso.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 
+import java.io.Serializable;
+
 @Data
-public class OAuthTokenResponse {
+public class OAuthTokenResponse implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @JsonProperty("access_token")
     private String accessToken;

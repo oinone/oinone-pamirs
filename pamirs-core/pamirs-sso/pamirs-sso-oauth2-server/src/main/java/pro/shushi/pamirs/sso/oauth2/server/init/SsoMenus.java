@@ -6,15 +6,11 @@ import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxMenu;
 import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxMenus;
 import pro.shushi.pamirs.sso.api.model.SsoClient;
 
-@UxMenus
-public class SsoMenus implements ViewActionConstants {
+@UxMenus public class SsoMenus implements ViewActionConstants {
 
     @UxMenu("单点登录管理")
-    class SsoMenu {
-        @UxMenu("客户端信息")
-        @UxRoute(model = SsoClient.MODEL_MODEL)
-        class SsoClientMenu {
-        }
-
+    class SS0PMenu {
+        @UxMenu("客户端信息") @UxRoute(SsoClient.MODEL_MODEL) class SsoClientMenu { }
     }
+
 }

@@ -13,12 +13,12 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
-import pro.shushi.pamirs.sso.api.dto.SsoRequestParameters;
+import pro.shushi.pamirs.sso.api.dto.SsoRequestParameter;
 import pro.shushi.pamirs.sso.api.enmu.SsoExpEnumerate;
 import pro.shushi.pamirs.sso.api.enmu.SsoGranTypeEnum;
 import pro.shushi.pamirs.sso.api.model.SsoClient;
 import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
-import pro.shushi.pamirs.sso.api.tmodel.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.api.dto.OAuthTokenResponse;
 import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IUserLoginOAuth2GrantType;
 import pro.shushi.pamirs.sso.oauth2.server.utils.TokenCache;
@@ -43,22 +43,22 @@ public class Oauth2CodeGrantType implements IUserLoginOAuth2GrantType {
 
 
     @Override
-    public boolean match(SsoRequestParameters ssoRequestParameters) {
-        return SsoGranTypeEnum.CODE.getType().equals(ssoRequestParameters.getGrant_type());
+    public boolean match(SsoRequestParameter ssoRequestParameter) {
+        return SsoGranTypeEnum.CODE.getType().equals(ssoRequestParameter.getGrant_type());
     }
 
     @Override
-    public OAuthTokenResponse execute(SsoRequestParameters ssoRequestParameters) {
+    public OAuthTokenResponse execute(SsoRequestParameter ssoRequestParameter) {
         //TODO 目前只实现从请求体中拿ClientId， 第二版支持从请求头中获取clientId
         try {
-            String code = ssoRequestParameters.getCode();
+            String code = ssoRequestParameter.getCode();
             if (StringUtils.isBlank(code)) {
                 return null;
             }
-            String clientId = ssoRequestParameters.getClient_id();
-            String clientSecret = ssoRequestParameters.getClient_secret();
+            String clientId = ssoRequestParameter.getClient_id();
+            String clientSecret = ssoRequestParameter.getClient_secret();
             if (StringUtils.isNotBlank(clientId) && StringUtils.isNotBlank(clientSecret)) {
-                SsoClient ssoClient = ssoClientService.getSsoClientInfoByClientId(clientId);
+                SsoClient ssoClient = ssoClientService.getByClientId(clientId);
                 String clientIdEn = EncryptionHandler.decryptSecret(ssoClient.getPrivateKey(), clientSecret);
                 if (clientId.equals(clientIdEn)) {
                     Long expiresIn = Optional

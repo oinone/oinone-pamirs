@@ -6,8 +6,11 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
 @Dict(dictionary = SsoAuthTypeEnum.dictionary, displayName = "SSO认证类型")
 public enum SsoAuthTypeEnum implements IEnum<String> {
 
-    OAUTH2("OAUTH2", "OAUTH2", "OAUTH2"),
-    CAS("CAS", "CAS", "CAS");
+    OAUTH2("OAUTH2", "OAuth2", "OAUTH2"),
+    CAS("CAS", "CAS", "CAS"),
+    SAML("SAML", "SAML", "SAML"),
+    AD("AD", "AD", "AD"),
+    KERBEROS("KERBEROS", "Kerberos", "Kerberos");
 
     public static final String dictionary = "sso.SsoAuthTypeEnum";
 

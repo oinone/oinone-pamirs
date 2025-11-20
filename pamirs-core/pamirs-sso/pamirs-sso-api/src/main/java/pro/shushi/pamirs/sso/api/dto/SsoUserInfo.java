@@ -1,6 +1,11 @@
-package pro.shushi.pamirs.sso.api.tmodel;
+package pro.shushi.pamirs.sso.api.dto;
 
-public class SsoPamirsUserTransient {
+import java.io.Serializable;
+
+public class SsoUserInfo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String code;
     private String phoneCode;

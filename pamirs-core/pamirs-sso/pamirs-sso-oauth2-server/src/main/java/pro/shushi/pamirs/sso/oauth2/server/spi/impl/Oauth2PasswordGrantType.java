@@ -15,12 +15,12 @@ import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.sso.api.check.SsoUserLoginChecker;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
-import pro.shushi.pamirs.sso.api.dto.SsoRequestParameters;
+import pro.shushi.pamirs.sso.api.dto.SsoRequestParameter;
 import pro.shushi.pamirs.sso.api.dto.SsoUserVo;
 import pro.shushi.pamirs.sso.api.enmu.SsoExpEnumerate;
 import pro.shushi.pamirs.sso.api.enmu.SsoGranTypeEnum;
 import pro.shushi.pamirs.sso.api.model.SsoClient;
-import pro.shushi.pamirs.sso.api.tmodel.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.api.dto.OAuthTokenResponse;
 import pro.shushi.pamirs.sso.oauth2.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.oauth2.server.spi.IUserLoginOAuth2GrantType;
 import pro.shushi.pamirs.sso.oauth2.server.utils.TokenCache;
@@ -48,22 +48,22 @@ public class Oauth2PasswordGrantType implements IUserLoginOAuth2GrantType {
 
 
     @Override
-    public boolean match(SsoRequestParameters ssoRequestParameters) {
-        String grantType = ssoRequestParameters.getGrant_type();
+    public boolean match(SsoRequestParameter ssoRequestParameter) {
+        String grantType = ssoRequestParameter.getGrant_type();
         return SsoGranTypeEnum.PASSWORD.getType().equals(grantType);
     }
 
     @Override
-    public OAuthTokenResponse execute(SsoRequestParameters ssoRequestParameters) {
+    public OAuthTokenResponse execute(SsoRequestParameter ssoRequestParameter) {
         // 处理 PASSWORD 授权类型的逻辑
         OAuthTokenResponse oAuthTokenResponse = new OAuthTokenResponse();
         SsoUserVo ssoUserVo = new SsoUserVo();
-        BeanUtils.copyProperties(ssoRequestParameters, ssoUserVo);
+        BeanUtils.copyProperties(ssoRequestParameter, ssoUserVo);
         PamirsUser pamirsUser = login(ssoUserVo);
         if (pamirsUser != null) {
-            String clientId = ssoRequestParameters.getClient_id();
+            String clientId = ssoRequestParameter.getClient_id();
             if (StringUtils.isNotBlank(clientId)) {
-                SsoClient ssoClient = ssoClientService.getSsoClientInfoByClientId(clientId);
+                SsoClient ssoClient = ssoClientService.getByClientId(clientId);
                 if (ssoClient == null) {
                     throw PamirsException.construct(SsoExpEnumerate.SSO_PAMIRS_CLIENT_NOT_FONT_ERROR).errThrow();
                 }

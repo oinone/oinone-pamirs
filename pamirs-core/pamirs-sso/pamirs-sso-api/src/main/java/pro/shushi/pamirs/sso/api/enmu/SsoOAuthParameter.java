@@ -4,6 +4,7 @@ package pro.shushi.pamirs.sso.api.enmu;
 /**
  * @author Adamancy Zhang on 2021-02-04 00:31
  */
+@Deprecated
 public enum SsoOAuthParameter {
 
     CLIENT_ID("client_id", "clientId"),

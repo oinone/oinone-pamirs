@@ -31,7 +31,6 @@ public class SsoUserLoginAfterHook implements HookAfter {
 
     @Autowired
     private SsoClientService ssoClientService;
-
     @Autowired
     private StringRedisTemplate redisTemplate;
     @Autowired

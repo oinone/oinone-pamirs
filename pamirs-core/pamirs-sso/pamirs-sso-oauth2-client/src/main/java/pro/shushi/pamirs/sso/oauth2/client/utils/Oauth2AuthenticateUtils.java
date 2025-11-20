@@ -13,14 +13,13 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
-import pro.shushi.pamirs.sso.api.tmodel.OAuthTokenResponse;
-import pro.shushi.pamirs.sso.api.tmodel.Result;
-import pro.shushi.pamirs.sso.api.tmodel.SsoPamirsUserTransient;
+import pro.shushi.pamirs.sso.api.dto.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.api.dto.Result;
+import pro.shushi.pamirs.sso.api.dto.SsoUserInfo;
 import pro.shushi.pamirs.sso.api.utils.SsoCookieUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,22 +55,21 @@ public class Oauth2AuthenticateUtils {
     /**
      * 根据token获取登录用户的权限信息
      */
-    public static Result<SsoPamirsUserTransient> getPermissionInfo(String authorization) {
+    public static Result<SsoUserInfo> getPermissionInfo(String authorization) {
         PamirsSsoProperties pamirsSsoProperties = BeanDefinitionUtils.getBean(PamirsSsoProperties.class);
         Map<String, String> headers = new HashMap<>(1);
         headers.put("Authorization", "Bearer " + authorization);
         Map<String, String> paramMap = new HashMap<>(1);
         paramMap.put("client_id", pamirsSsoProperties.getClient().getClientId());
-        Result<SsoPamirsUserTransient> result = new Result();
+        Result<SsoUserInfo> result = new Result();
         try {
             String responseContent = HttpUtils.doPost(URLHelper.repairDirectoryPath(pamirsSsoProperties.getClient().getSsoServerUrl()) + "/pamirs/sso/oauth2/getUserInfo", headers, null, paramMap);
-            result = JSON.parseObject(responseContent, new TypeReference<Result<SsoPamirsUserTransient>>() {});
+            result = JSON.parseObject(responseContent, new TypeReference<Result<SsoUserInfo>>() {});
         } catch (Exception e) {
             log.error("SSO-获取登录用户的权限信息 出现异常错误信息={}", e.getMessage());
         }
         return result;
     }
-
 
     /**
      * 登出系统
@@ -83,7 +81,7 @@ public class Oauth2AuthenticateUtils {
             log.info("SSO-登出系统 ");
             StringRedisTemplate redisTemplate = BeanDefinitionUtils.getBean(StringRedisTemplate.class);
 
-            Long userId = (Long) PamirsSession.getUserId();
+            Long userId = PamirsSession.getUserId();
             String userCodeCacheKey = SsoConfigurationConstant.USER_REDIS_CACHE + userId;
             String authorization = redisTemplate.opsForValue().get(userCodeCacheKey);
             Map<String, String> headers = new HashMap<>(1);

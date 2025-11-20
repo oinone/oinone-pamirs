@@ -4,8 +4,12 @@ package pro.shushi.pamirs.sso.api.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 
+import java.io.Serializable;
+
 @Data
-public class SsoRequestParameters {
+public class SsoRequestParameter implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @JsonProperty("grant_type")
     private String grant_type;
