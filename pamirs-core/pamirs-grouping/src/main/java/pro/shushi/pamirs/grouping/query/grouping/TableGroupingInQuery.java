@@ -2,6 +2,7 @@ package pro.shushi.pamirs.grouping.query.grouping;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.framework.common.entry.NullValue;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.entity.GroupingDataWrapper;
@@ -24,15 +25,12 @@ import java.util.Map;
  *
  * @author Adamancy Zhang at 17:22 on 2025-11-14
  */
-@Order(10)
+@Order(20)
 @Component
 public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
 
     @Override
     public boolean match(TableGroupingQueryContext<T> context) {
-        if (true) {
-            return false;
-        }
         return context.getQueryList().get(0).isSingleTableQuery();
     }
 
@@ -41,11 +39,11 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
         List<TableGroupingFieldQuery> queryList = context.getQueryList();
         TableGroupingFieldQuery firstQuery = queryList.get(0);
         Pagination<T> pagination = context.getPagination();
-        List<T> list = TableGroupingHelper.queryFirstGroupingData(context, pagination);
+        List<T> firstPageDataList = TableGroupingHelper.queryFirstGroupingData(context, pagination);
         boolean isContainsNull = false;
         Map<String, GroupingDataWrapper> groupingDataMap = new LinkedHashMap<>();
         List<Object> inValues = new ArrayList<>();
-        for (T data : list) {
+        for (T data : firstPageDataList) {
             Object value = TableGroupingDataHelper.computeIfAbsent(groupingDataMap, firstQuery, data, false).getValue();
             if (NullValue.INSTANCE.equals(value)) {
                 isContainsNull = true;
@@ -53,16 +51,7 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
                 inValues.add(value);
             }
         }
-        List<TableGroupingFieldQuery> memoryQueryList = new ArrayList<>();
-        QueryWrapper<T> queryWrapper = context.generatorQueryWrapper();
-        for (TableGroupingFieldQuery query : queryList) {
-            if (query.isSingleTableQuery()) {
-                query.withSelect(queryWrapper);
-                query.withGroupBy(queryWrapper);
-            } else {
-                memoryQueryList.add(query);
-            }
-        }
+        QueryWrapper<T> queryWrapper = context.generatorQueryWrapperWithOrderBy();
         if (firstQuery.isRelationOneField()) {
             List<String> relationColumns = firstQuery.getRelationColumns();
             List<String> referenceFields = firstQuery.getReferenceFields();
@@ -84,12 +73,25 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
         if (isContainsNull) {
             firstQuery.withNullWhere(queryWrapper);
         }
-        List<T> others = Models.origin().queryListByWrapper(queryWrapper);
-        if (!memoryQueryList.isEmpty()) {
-            others = TableGroupingHelper.filter(others, memoryQueryList);
+        List<String> needQueryRelationFields = new ArrayList<>();
+        for (TableGroupingFieldQuery query : queryList) {
+            if (query.isSupportRelationQuery()) {
+                needQueryRelationFields.add(query.getField());
+            }
         }
-        TableGroupingDataHelper.generatorGroupingDataList(groupingDataMap, queryList, others, false);
-        result.setGroups(TableGroupingDataHelper.collectionGroupingData(context.getModel(), groupingDataMap, queryList));
+        String model = context.getModel();
+        if (needQueryRelationFields.isEmpty()) {
+            FetchUtil.fetchDataList(model, queryWrapper, (list) -> TableGroupingDataHelper.generatorGroupingDataList(groupingDataMap, queryList, list, false));
+        } else {
+            FetchUtil.fetchDataList(model, queryWrapper, (list) -> {
+                // FIXME: zbh 20251121 可按需查询关联关系字段
+                for (String field : needQueryRelationFields) {
+                    list = Models.origin().listFieldQuery(list, field);
+                }
+                TableGroupingDataHelper.generatorGroupingDataList(groupingDataMap, queryList, list, false);
+            });
+        }
+        result.setGroups(TableGroupingDataHelper.collectionGroupingData(model, groupingDataMap, queryList));
         TableGroupingHelper.computePaging(pagination, result);
     }
 }

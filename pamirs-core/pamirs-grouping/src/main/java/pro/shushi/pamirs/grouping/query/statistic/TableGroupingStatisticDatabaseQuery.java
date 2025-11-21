@@ -42,7 +42,8 @@ public class TableGroupingStatisticDatabaseQuery<T> implements TableGroupingStat
                 return false;
             }
         }
-        return queryList.get(queryList.size() - 1).getStatisticQuery().isSupportDatabaseStatistic();
+        TableGroupingStatisticFieldQuery statisticQuery = queryList.get(queryList.size() - 1).getStatisticQuery();
+        return statisticQuery.isSingleTableQuery() && statisticQuery.isSupportDatabaseStatistic();
     }
 
     @Override

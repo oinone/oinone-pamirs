@@ -4,6 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -17,14 +18,12 @@ import pro.shushi.pamirs.grouping.statistic.StatisticApiFactory;
 import pro.shushi.pamirs.grouping.statistic.StatisticField;
 import pro.shushi.pamirs.grouping.utils.TableGroupingHelper;
 import pro.shushi.pamirs.meta.api.Models;
-import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * 万能的表格数据统计查询查询
@@ -34,8 +33,6 @@ import java.util.function.Consumer;
 @Order(999)
 @Component
 public class TableGroupingStatisticUniversalQuery<T> implements TableGroupingStatisticQueryApi<T> {
-
-    private static final long DEFAULT_BATCH_SIZE = 200;
 
     @Override
     public boolean match(TableGroupingQueryContext<T> context) {
@@ -88,16 +85,16 @@ public class TableGroupingStatisticUniversalQuery<T> implements TableGroupingSta
             needQueryRelationFields.add(statisticQuery.getField());
         }
         if (needQueryRelationFields.isEmpty() && memoryQueryList.isEmpty()) {
-            fetchDataList(model.getModel(), queryWrapper, api::compute);
+            FetchUtil.fetchDataList(model.getModel(), queryWrapper, api::compute);
         } else if (memoryQueryList.isEmpty()) {
-            fetchDataList(model.getModel(), queryWrapper, (list) -> {
+            FetchUtil.fetchDataList(model.getModel(), queryWrapper, (list) -> {
                 for (String field : needQueryRelationFields) {
                     list = Models.origin().listFieldQuery(list, field);
                 }
                 api.compute(list);
             });
         } else {
-            fetchDataList(model.getModel(), queryWrapper, (list) -> {
+            FetchUtil.fetchDataList(model.getModel(), queryWrapper, (list) -> {
                 for (String field : needQueryRelationFields) {
                     list = Models.origin().listFieldQuery(list, field);
                 }
@@ -116,27 +113,6 @@ public class TableGroupingStatisticUniversalQuery<T> implements TableGroupingSta
         List<String> relationColumns = query.getRelationColumns();
         if (CollectionUtils.isNotEmpty(relationColumns)) {
             columns.addAll(WrapperHelper.getColumAsFields(relationColumns, query.getRelationAsFields()));
-        }
-    }
-
-    private void fetchDataList(String model, QueryWrapper<T> queryWrapper, Consumer<List<T>> consumer) {
-        Pagination<T> pagination = new Pagination<>(1, DEFAULT_BATCH_SIZE);
-        pagination.setModel(model);
-        Pagination<T> firstPage = Models.origin().queryPage(pagination, queryWrapper);
-        List<T> content = firstPage.getContent();
-        if (CollectionUtils.isEmpty(content)) {
-            return;
-        }
-        consumer.accept(content);
-        if (content.size() < DEFAULT_BATCH_SIZE) {
-            return;
-        }
-        int totalPage = firstPage.getTotalPages();
-        for (int currentPage = 2; currentPage <= totalPage; currentPage++) {
-            pagination.setCurrentPage(currentPage);
-            Pagination<T> nextPage = Models.origin().queryPage(pagination, queryWrapper);
-            content = nextPage.getContent();
-            consumer.accept(content);
         }
     }
 }

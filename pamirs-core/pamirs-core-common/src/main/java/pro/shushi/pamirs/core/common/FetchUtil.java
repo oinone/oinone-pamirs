@@ -359,6 +359,31 @@ public class FetchUtil {
         return resultList;
     }
 
+    public static <T> void fetchDataList(String model, QueryWrapper<T> queryWrapper, Consumer<List<T>> consumer) {
+        fetchDataList(model, queryWrapper, 2000, consumer);
+    }
+
+    public static <T> void fetchDataList(String model, QueryWrapper<T> queryWrapper, int pageSize, Consumer<List<T>> consumer) {
+        Pagination<T> pagination = new Pagination<>(1, pageSize);
+        pagination.setModel(model);
+        Pagination<T> firstPage = Models.origin().queryPage(pagination, queryWrapper);
+        List<T> content = firstPage.getContent();
+        if (CollectionUtils.isEmpty(content)) {
+            return;
+        }
+        consumer.accept(content);
+        if (content.size() < pageSize) {
+            return;
+        }
+        int totalPage = firstPage.getTotalPages();
+        for (int currentPage = 2; currentPage <= totalPage; currentPage++) {
+            pagination.setCurrentPage(currentPage);
+            Pagination<T> nextPage = Models.origin().queryPage(pagination, queryWrapper);
+            content = nextPage.getContent();
+            consumer.accept(content);
+        }
+    }
+
     public static <T extends AbstractModel> String fetchColumn(Getter<T, ?> getter) {
         return PStringUtils.fieldName2Column(LambdaUtil.fetchFieldName(getter));
     }

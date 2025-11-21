@@ -54,20 +54,22 @@ public class TableGroupingDataHelper {
     }
 
     public static void generatorGroupingDataList(Map<String, GroupingDataWrapper> groupingDataMap, List<TableGroupingFieldQuery> queryList, List<?> list, boolean addData) {
-        for (Object data : list) {
-            int lastIndex = queryList.size() - 1;
-            GroupingDataWrapper lastWrapper = null;
-            for (int i = 0; i < lastIndex; i++) {
-                TableGroupingFieldQuery query = queryList.get(i);
-                lastWrapper = computeIfAbsent(groupingDataMap, query, data, false);
+        TableGroupingFieldQuery firstQuery = queryList.get(0);
+        int lastIndex = queryList.size() - 1;
+        if (lastIndex == 0) {
+            for (Object data : list) {
+                computeIfAbsent(groupingDataMap, firstQuery, data, true);
             }
-            if (lastWrapper == null) {
-                lastWrapper = computeIfAbsent(groupingDataMap, queryList.get(lastIndex), data, true);
-            } else {
+        } else {
+            for (Object data : list) {
+                GroupingDataWrapper lastWrapper = computeIfAbsent(groupingDataMap, firstQuery, data, false);
+                for (int i = 1; i < lastIndex; i++) {
+                    lastWrapper = computeIfAbsent(lastWrapper.getGroupings(), queryList.get(i), data, false);
+                }
                 lastWrapper = computeIfAbsent(lastWrapper.getGroupings(), queryList.get(lastIndex), data, true);
-            }
-            if (addData) {
-                lastWrapper.addData(data);
+                if (addData) {
+                    lastWrapper.addData(data);
+                }
             }
         }
     }

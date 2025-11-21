@@ -9,7 +9,6 @@ import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.grouping.model.TableGroupingResult;
 import pro.shushi.pamirs.grouping.query.TableGroupingQueryContext;
-import pro.shushi.pamirs.grouping.utils.TableGroupingDataHelper;
 import pro.shushi.pamirs.grouping.utils.TableGroupingHelper;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.convert.ClientDataConverter;
@@ -30,13 +29,17 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 快速表格分组查询
+ * 全量查询分组及分组数据
+ * <ul>
+ *     <li>1. 表格分组不超过配置值时全部展开</li>
+ *     <li>2. 表格数据不分页</li>
+ * </ul>
  *
  * @author Adamancy Zhang at 16:52 on 2025-11-14
  */
 @Order(0)
 @Component
-public class TableGroupingFastQuery<T> implements TableGroupingQueryApi<T> {
+public class TableGroupingFullQuery<T> implements TableGroupingQueryApi<T> {
 
     @Resource
     private RelationReadApi relationReadApi;
@@ -46,29 +49,6 @@ public class TableGroupingFastQuery<T> implements TableGroupingQueryApi<T> {
 
     @Override
     public boolean match(TableGroupingQueryContext<T> context) {
-        return isFastQuery(context) || isOnlySingleGrouping(context);
-    }
-
-    @Override
-    public void queryGroupingPage(TableGroupingQueryContext<T> context, TableGroupingResult result) {
-        List<TableGroupingFieldQuery> queryList = context.getQueryList();
-        Pagination<T> pagination = context.getPagination();
-        if (isFastQuery(context)) {
-            List<T> list = fetchFullList(context, context.generatorQueryWrapperWithOrderBy());
-            result.setGroups(TableGroupingHelper.fullDataConvertGroups(queryList, context.getModel(), list, true));
-        } else {
-            TableGroupingFieldQuery firstQuery = queryList.get(0);
-            if (firstQuery.isSingleTableQuery()) {
-                result.setGroups(TableGroupingDataHelper.collectionGroupingData(context.getModel(), TableGroupingHelper.queryFirstGroupingDataMap(context, pagination, true), queryList));
-            } else {
-                List<T> list = TableGroupingHelper.fetchGroupingDataList(context.getGroupingModel(), queryList, context.generatorQueryWrapper());
-                result.setGroups(TableGroupingHelper.fullDataConvertGroups(queryList, context.getModel(), list));
-            }
-        }
-        TableGroupingHelper.computePaging(pagination, result);
-    }
-
-    private boolean isFastQuery(TableGroupingQueryContext<T> context) {
         long size = context.getPagination().getSize();
         if (size < 0) {
             return true;
@@ -76,8 +56,13 @@ public class TableGroupingFastQuery<T> implements TableGroupingQueryApi<T> {
         return context.getTotalElements().compareTo(200L) <= 0;
     }
 
-    private boolean isOnlySingleGrouping(TableGroupingQueryContext<T> context) {
-        return context.getQueryList().size() == 1;
+    @Override
+    public void queryGroupingPage(TableGroupingQueryContext<T> context, TableGroupingResult result) {
+        List<TableGroupingFieldQuery> queryList = context.getQueryList();
+        Pagination<T> pagination = context.getPagination();
+        List<T> list = fetchFullList(context, context.generatorQueryWrapperWithOrderBy());
+        result.setGroups(TableGroupingHelper.fullDataConvertGroups(queryList, context.getModel(), list, true));
+        TableGroupingHelper.computePaging(pagination, result);
     }
 
     @SuppressWarnings("unchecked")

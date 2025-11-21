@@ -8,6 +8,7 @@ import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.util.FieldUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,9 @@ class FieldColumnsWrapper {
         List<String> relationAsFields = new ArrayList<>();
         boolean isValidRelationOne = true;
         for (String relationField : fields) {
+            if (FieldUtils.isConstantRelationFieldValue(relationField)) {
+                continue;
+            }
             ModelFieldConfig relationFieldConfig = PamirsSession.getContext().getModelField(model, relationField);
             if (relationFieldConfig == null) {
                 throw PamirsException.construct(CommonExpEnumerate.MODEL_FIELD_NOT_FOUND, model, relationField).errThrow();
