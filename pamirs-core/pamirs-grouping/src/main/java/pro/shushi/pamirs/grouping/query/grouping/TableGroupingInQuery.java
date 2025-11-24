@@ -51,7 +51,7 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
                 inValues.add(value);
             }
         }
-        QueryWrapper<T> queryWrapper = context.generatorQueryWrapperWithOrderBy();
+        QueryWrapper<T> queryWrapper = context.generatorQueryWrapper();
         if (firstQuery.isRelationOneField()) {
             List<String> relationColumns = firstQuery.getRelationColumns();
             List<String> referenceFields = firstQuery.getReferenceFields();

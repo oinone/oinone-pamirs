@@ -491,8 +491,7 @@ public class BasicTableGroupingFieldQuery {
         if (isStringField()) {
             queryWrapper.and(w -> w.isNull(column).or().eq(column, CharacterConstants.SEPARATOR_EMPTY));
         } else if (isRelationOneField()) {
-            for (int i = 0; i < relationFields.size(); i++) {
-                String relationColumn = relationColumns.get(i);
+            for (String relationColumn : relationColumns) {
                 queryWrapper.isNull(relationColumn);
             }
         } else {
@@ -504,8 +503,7 @@ public class BasicTableGroupingFieldQuery {
         if (isStringField()) {
             queryWrapper.isNotNull(column).ne(column, CharacterConstants.SEPARATOR_EMPTY);
         } else if (isRelationOneField()) {
-            for (int i = 0; i < relationFields.size(); i++) {
-                String relationColumn = relationColumns.get(i);
+            for (String relationColumn : relationColumns) {
                 queryWrapper.isNotNull(relationColumn);
             }
         } else {

@@ -34,6 +34,8 @@ public class TableGroupingQueryContext<T> {
 
     private Long totalElements;
 
+    private TableGroupingQueryStrategy queryStrategy;
+
     public TableGroupingQueryContext(List<TableGroupingFieldQuery> queryList, CommonConditionWrapper wrapper) {
         this(queryList, wrapper, null);
     }
@@ -109,5 +111,13 @@ public class TableGroupingQueryContext<T> {
 
     public void setTotalElements(Long totalElements) {
         this.totalElements = totalElements;
+    }
+
+    public TableGroupingQueryStrategy getQueryStrategy() {
+        return queryStrategy;
+    }
+
+    public void setQueryStrategy(TableGroupingQueryStrategy queryStrategy) {
+        this.queryStrategy = queryStrategy;
     }
 }

@@ -58,7 +58,10 @@ public class TableGroupingDataHelper {
         int lastIndex = queryList.size() - 1;
         if (lastIndex == 0) {
             for (Object data : list) {
-                computeIfAbsent(groupingDataMap, firstQuery, data, true);
+                GroupingDataWrapper groupingDataWrapper = computeIfAbsent(groupingDataMap, firstQuery, data, true);
+                if (addData) {
+                    groupingDataWrapper.addData(data);
+                }
             }
         } else {
             for (Object data : list) {
@@ -88,6 +91,26 @@ public class TableGroupingDataHelper {
                     }
                     return new GroupingDataWrapper(query, key, groupingData, value);
                 });
+    }
+
+    public static Map<String, GroupingDataWrapper> mergeGroupingDataList(TableGroupingFieldQuery lastQuery, Map<String, GroupingDataWrapper> lastGroupingData, List<GroupingDataWrapper> groupingData) {
+        Map<String, GroupingDataWrapper> nextGroupingData = new LinkedHashMap<>();
+        for (GroupingDataWrapper groupingDataWrapper : groupingData) {
+            String parentKey = groupingDataWrapper.getParentKey();
+            GroupingDataWrapper wrapper = lastGroupingData.get(parentKey);
+            if (wrapper == null) {
+                if (NULL_VALUE.equals(parentKey)) {
+                    wrapper = computeIfAbsent(lastGroupingData, lastQuery, NullValue.INSTANCE, false);
+                } else {
+//                    log.error("Invalid parent grouping data wrapper. field: {}, key: {}, parentKey: {}", groupingDataWrapper.getField(), groupingDataWrapper.getKey(), parentKey);
+                    continue;
+                }
+            }
+            String key = getGroupKeyByValue(groupingDataWrapper.getQuery(), groupingDataWrapper.getValue());
+            wrapper.getGroupings().put(key, groupingDataWrapper);
+            nextGroupingData.put(key, groupingDataWrapper);
+        }
+        return nextGroupingData;
     }
 
     public static List<GroupingData> collectionGroupingData(String model, Map<String, GroupingDataWrapper> groupingDataMap, List<TableGroupingFieldQuery> queryList) {

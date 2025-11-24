@@ -13,8 +13,8 @@ import java.util.List;
  *
  * @author Adamancy Zhang at 22:03 on 2025-11-20
  */
-@Order(30)
-@Component
+//@Order(30)
+//@Component
 public class TableGroupingDatabaseGroupQuery<T> implements TableGroupingQueryApi<T> {
 
     @Override

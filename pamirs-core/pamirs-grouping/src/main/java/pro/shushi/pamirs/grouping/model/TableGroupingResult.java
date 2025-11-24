@@ -27,8 +27,8 @@ public class TableGroupingResult extends TransientModel {
     @Field(displayName = "一级分组总页数", defaultValue = "0", invisible = true)
     private Integer totalPages;
 
-    @Field(displayName = "当前所有一级分组下的总数据量")
-    private Long totalDataCount;
+    @Field(displayName = "是否展开全部")
+    private Boolean expandedAll;
 
     @Field(displayName = "分组数据")
     private List<GroupingData> groups;

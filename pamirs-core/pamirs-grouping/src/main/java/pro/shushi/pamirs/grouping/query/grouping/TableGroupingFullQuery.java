@@ -49,11 +49,7 @@ public class TableGroupingFullQuery<T> implements TableGroupingQueryApi<T> {
 
     @Override
     public boolean match(TableGroupingQueryContext<T> context) {
-        long size = context.getPagination().getSize();
-        if (size < 0) {
-            return true;
-        }
-        return context.getTotalElements().compareTo(200L) <= 0;
+        return context.getQueryStrategy().isFetchAll();
     }
 
     @Override
@@ -62,7 +58,7 @@ public class TableGroupingFullQuery<T> implements TableGroupingQueryApi<T> {
         Pagination<T> pagination = context.getPagination();
         List<T> list = fetchFullList(context, context.generatorQueryWrapperWithOrderBy());
         result.setGroups(TableGroupingHelper.fullDataConvertGroups(queryList, context.getModel(), list, true));
-        TableGroupingHelper.computePaging(pagination, result);
+        TableGroupingHelper.memoryPaging(pagination, result);
     }
 
     @SuppressWarnings("unchecked")

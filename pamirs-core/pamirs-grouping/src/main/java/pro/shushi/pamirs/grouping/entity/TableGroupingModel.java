@@ -1,9 +1,11 @@
 package pro.shushi.pamirs.grouping.entity;
 
 import org.apache.commons.collections4.CollectionUtils;
+import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import java.util.List;
 
@@ -27,10 +29,14 @@ public class TableGroupingModel {
     public TableGroupingModel(String model) {
         this.model = model;
 
+        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
+        if (modelConfig == null) {
+            throw PamirsException.construct(CommonExpEnumerate.MODEL_NOT_FOUND, model).errThrow();
+        }
+
         PamirsTableInfo pamirsTableInfo = PamirsTableInfo.fetchPamirsTableInfo(model);
         this.columnFormat = pamirsTableInfo.getColumnFormat();
 
-        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
         List<String> finalPks = modelConfig.getPk();
         List<String> finalPkColumns = null;
         List<String> finalPkAsFields = null;

@@ -30,12 +30,12 @@ public class TableGroupingSingleGroupQuery<T> implements TableGroupingQueryApi<T
         List<TableGroupingFieldQuery> queryList = context.getQueryList();
         Pagination<T> pagination = context.getPagination();
         TableGroupingFieldQuery firstQuery = queryList.get(0);
-        if (firstQuery.isSingleTableQuery()) {
+        if (firstQuery.isSingleTableQuery() || (firstQuery.isRelationManyField() && !context.getQueryStrategy().isRelationManyShowNull())) {
             result.setGroups(TableGroupingDataHelper.collectionGroupingData(context.getModel(), TableGroupingHelper.queryFirstGroupingDataMap(context, pagination, true), queryList));
+            TableGroupingHelper.computePaging(pagination, result);
         } else {
-            List<T> list = TableGroupingHelper.fetchGroupingDataList(context.getGroupingModel(), queryList, context.generatorQueryWrapper());
-            result.setGroups(TableGroupingHelper.fullDataConvertGroups(queryList, context.getModel(), list));
+            result.setGroups(TableGroupingHelper.fetchGroupingDataList(context.getGroupingModel(), queryList, context.generatorQueryWrapper()));
+            TableGroupingHelper.memoryPaging(pagination, result);
         }
-        TableGroupingHelper.computePaging(pagination, result);
     }
 }
