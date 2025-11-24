@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.business.core.service;
 
+import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -255,66 +256,40 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
     }
 
     private void fullParentDepartment(List<PamirsDepartment> departmentList, Map<String, PamirsDepartment> flatMap) {
+        Set<String> parentCodes = new HashSet<>();
+        for (PamirsDepartment department : departmentList) {
+            flatMap.put(department.getCode(), department);
+            String parentCode = department.getParentCode();
+            if (StringUtils.isNotBlank(parentCode)) {
+                parentCodes.add(parentCode);
+            }
+        }
+        parentCodes = new HashSet<>(Sets.difference(parentCodes, flatMap.keySet()));
+        if (CollectionUtils.isEmpty(parentCodes)) {
+            return;
+        }
+        List<PamirsDepartment> parentDepartmentList = Models.origin().queryListByWrapper(Pops.<PamirsDepartment>lambdaQuery().from(PamirsDepartment.MODEL_MODEL).in(PamirsDepartment::getCode, parentCodes));
         if (CollectionUtils.isEmpty(departmentList)) {
             return;
         }
-
-        for (PamirsDepartment department : departmentList) {
-            if (!flatMap.containsKey(department.getCode())) {
-                flatMap.put(department.getCode(), department);
-            }
-        }
-
-        Map<String, List<PamirsDepartment>> parentCodeMap = departmentList.stream().filter(i -> StringUtils.isNotBlank(i.getParentCode())).collect(Collectors.groupingBy(PamirsDepartment::getParentCode));
-        List<String> parentCodeList = new ArrayList<>(parentCodeMap.keySet());
-        if (CollectionUtils.isEmpty(parentCodeList)) {
-            return;
-        }
-
-        List<PamirsDepartment> parentDepartmentList = Models.origin().queryListByWrapper(
-                Pops.<PamirsDepartment>lambdaQuery().from(PamirsDepartment.MODEL_MODEL)
-                        .in(PamirsDepartment::getCode, parentCodeList)
-        );
-        Map<String, PamirsDepartment> parentMap = parentDepartmentList.stream().collect(Collectors.toMap(PamirsDepartment::getCode, i -> i, (a, b) -> a));
-
-        parentCodeMap.forEach((parentCode, childList) -> {
-            if (StringUtils.isBlank(parentCode) || CollectionUtils.isEmpty(childList)) {
-                return;
-            }
-            PamirsDepartment parent = parentMap.get(parentCode);
-            if (parent == null) {
-                return;
-            }
-            childList.forEach(i -> i.setParent(parent));
-        });
-
         fullParentDepartment(parentDepartmentList, flatMap);
     }
 
     private void fullChildDepartment(List<PamirsDepartment> departmentList, Map<String, PamirsDepartment> flatMap) {
-        if (CollectionUtils.isEmpty(departmentList)) {
+        Set<String> codes = new HashSet<>();
+        for (PamirsDepartment department : departmentList) {
+            String code = department.getCode();
+            flatMap.put(code, department);
+            codes.add(code);
+        }
+        codes = new HashSet<>(Sets.difference(codes, flatMap.keySet()));
+        if (CollectionUtils.isEmpty(codes)) {
             return;
         }
-
-        for (PamirsDepartment department : departmentList) {
-            if (!flatMap.containsKey(department.getCode())) {
-                flatMap.put(department.getCode(), department);
-            }
+        List<PamirsDepartment> childDepartmentList = Models.origin().queryListByWrapper(Pops.<PamirsDepartment>lambdaQuery().from(PamirsDepartment.MODEL_MODEL).in(PamirsDepartment::getParentCode, codes));
+        if (CollectionUtils.isEmpty(childDepartmentList)) {
+            return;
         }
-
-        List<String> codeList = departmentList.stream().map(PamirsDepartment::getCode).distinct().collect(Collectors.toList());
-
-        List<PamirsDepartment> childDepartmentList = Models.origin().queryListByWrapper(
-                Pops.<PamirsDepartment>lambdaQuery().from(PamirsDepartment.MODEL_MODEL)
-                        .in(PamirsDepartment::getParentCode, codeList)
-        );
-        Map<String, List<PamirsDepartment>> childMap = childDepartmentList.stream().collect(Collectors.groupingBy(PamirsDepartment::getCode));
-        departmentList.forEach(parent -> {
-            String parentCode = parent.getCode();
-            List<PamirsDepartment> childDepartments = childMap.get(parentCode);
-            parent.setChildList(childDepartments);
-        });
-
         fullChildDepartment(childDepartmentList, flatMap);
     }
 }
