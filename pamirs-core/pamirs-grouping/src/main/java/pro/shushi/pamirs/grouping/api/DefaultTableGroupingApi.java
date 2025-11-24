@@ -55,7 +55,8 @@ public class DefaultTableGroupingApi {
         if (totalElements == null) {
             totalElements = 0L;
         }
-        boolean isFetchAll = isFetchAll(model, page, totalElements);
+//        boolean isFetchAll = isFetchAll(model, page, totalElements);
+        boolean isFetchAll = false;
         TableGroupingResult result = new TableGroupingResult();
         result.setExpandedAll(isFetchAll);
         context.setTotalElements(totalElements);
@@ -111,7 +112,8 @@ public class DefaultTableGroupingApi {
     }
 
     private boolean isRelationManyShowNull(String model) {
-        return GroupingConfigure.isRelationManyShowNull(model);
+//        return GroupingConfigure.isRelationManyShowNull(model);
+        return true;
     }
 
     private <T, API extends TableGroupingCommonQueryApi<T>> API fetchApi(Class<API> clazz, TableGroupingQueryContext<T> context) {
