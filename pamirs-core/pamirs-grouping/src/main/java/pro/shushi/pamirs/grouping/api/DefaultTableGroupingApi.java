@@ -55,8 +55,7 @@ public class DefaultTableGroupingApi {
         if (totalElements == null) {
             totalElements = 0L;
         }
-//        boolean isFetchAll = isFetchAll(model, page, totalElements);
-        boolean isFetchAll = false;
+        boolean isFetchAll = isFetchAll(model, page, totalElements);
         TableGroupingResult result = new TableGroupingResult();
         result.setExpandedAll(isFetchAll);
         context.setTotalElements(totalElements);
