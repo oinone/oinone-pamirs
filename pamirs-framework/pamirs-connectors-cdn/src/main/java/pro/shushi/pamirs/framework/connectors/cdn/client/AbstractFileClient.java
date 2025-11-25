@@ -8,6 +8,7 @@ import pro.shushi.pamirs.framework.connectors.cdn.configure.CdnConfig;
 import pro.shushi.pamirs.framework.connectors.cdn.constant.FileConstants;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.CdnConfigRouter;
 import pro.shushi.pamirs.framework.connectors.cdn.pojo.*;
+import pro.shushi.pamirs.framework.connectors.cdn.spi.CdnFileMainDirApi;
 import pro.shushi.pamirs.framework.connectors.cdn.spi.CdnFileNameApi;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Exp;
@@ -235,7 +236,7 @@ public abstract class AbstractFileClient implements FileClient, FileConstants {
             }
         }
         String dateStr = DateUtils.formatDate(new Date(), FILE_DATE_FORMAT);
-        return mainDir + dateStr;
+        return Spider.getDefaultExtension(CdnFileMainDirApi.class).getExternalFileDir(mainDir) + dateStr;
     }
 
     protected String getFileKey(String mainDir, String filename) {
