@@ -28,12 +28,12 @@ public class SsoClient extends IdModel {
     @UxTableSearch.FieldWidget(@UxWidget())
     @Field.String
     @UxForm.FieldWidget(@UxWidget(readonly = "true"))
-    @Field(displayName = "应用唯一标识")
+    @Field(displayName = "应用标识(client_id)")
     private String clientId;
 
     @Field.Text
     @UxForm.FieldWidget(@UxWidget(readonly = "true"))
-    @Field(displayName = "应用唯一密钥")
+    @Field(displayName = "应用密钥(client_secret)")
     private String clientSecret;
 
     @Field.Boolean
@@ -47,15 +47,15 @@ public class SsoClient extends IdModel {
     private SsoAuthTypeEnum authType;
 
     @Field.Integer
-    @Field(displayName = "Access_token 超时时间", defaultValue = "7200", required = true)
+    @Field(displayName = "access_token超时时间", defaultValue = "7200", required = true)
     private Long expiresIn;
 
     @Field.Integer
-    @Field(displayName = "Refresh_Token 超时时间", defaultValue = "604800", required = true)
+    @Field(displayName = "refresh_Token超时时间", defaultValue = "604800", required = true)
     private Long refreshTokenExpiresIn;
 
     @Field.Integer
-    @Field(displayName = "设置 code 超时时间", defaultValue = "600", required = true)
+    @Field(displayName = "auth_code超时时间", defaultValue = "600", required = true)
     private Long codeExpiresIn;
 
     @Field.String

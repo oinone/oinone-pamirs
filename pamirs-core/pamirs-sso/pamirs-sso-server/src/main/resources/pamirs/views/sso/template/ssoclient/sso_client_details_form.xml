@@ -4,8 +4,8 @@
         <pack widget="group" title="基础信息">
             <field span="1" invisible="true" data="id" label="ID" readonly="true"/>
             <field span="1" data="name" label="客户端应用名"/>
-            <field span="1" data="clientId" label="应用唯一标识" readonly="true"/>
-            <field span="1" data="clientSecret" label="应用唯一密钥" readonly="true"/>
+            <field span="1" data="clientId" label="应用标识(client_id)" readonly="true"/>
+            <field span="1" data="clientSecret" label="应用密钥(client_secret)" readonly="true"/>
             <field span="1" widget="Switch" data="enabled" label="是否开启SSO"/>
             <field span="1" data="authType" label="认证类型">
                 <options>
@@ -16,9 +16,9 @@
                     <option name="KERBEROS" displayName="Kerberos" value="KERBEROS" state="ACTIVE"/>
                 </options>
             </field>
-            <field span="1" data="expiresIn" label="Access_token 超时时间"/>
-            <field span="1" data="refreshTokenExpiresIn" label="Refresh_Token 超时时间"/>
-            <field span="1" data="codeExpiresIn" label="设置 code 超时时间"/>
+            <field span="1" data="expiresIn" label="access_token超时时间"/>
+            <field span="1" data="refreshTokenExpiresIn" label="refresh_Token超时时间"/>
+            <field span="1" data="codeExpiresIn" label="auth_code超时时间"/>
             <field span="1" data="homepageUrl" label="跳转首页"/>
             <field span="1" data="logoutUrl" label="设置退出地址"/>
             <field span="1" data="privateKey" label="密钥" readonly="true"/>

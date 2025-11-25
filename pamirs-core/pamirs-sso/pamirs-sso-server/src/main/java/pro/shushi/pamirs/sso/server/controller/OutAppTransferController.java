@@ -9,17 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.sso.api.service.SsoCommonService;
 
+/**
+ * 外部系统通过Oinone的应用中心接入，实现免登的中转Controller
+ */
 @Slf4j
 @RestController
-@RequestMapping("/pamirs/sso/apply/trans")
-public class ServerSsoApplicationTransferController {
+@RequestMapping("/pamirs/sso/apply")
+public class OutAppTransferController {
 
     @Autowired
     private SsoCommonService ssoCommonService;
 
     @GetMapping("/transfer")
-    public void transfer(
-            @RequestParam("client_id") String clientId) {
+    public void transfer(@RequestParam("client_id") String clientId) {
         ssoCommonService.ssoServerTransfer(clientId);
     }
 }

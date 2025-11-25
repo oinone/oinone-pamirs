@@ -8,7 +8,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import pro.shushi.pamirs.core.common.EncryptHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.api.dto.model.PamirsUserDTO;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
@@ -21,11 +20,11 @@ import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
 import pro.shushi.pamirs.sso.server.model.SsoClientService;
 import pro.shushi.pamirs.user.api.cache.UserCache;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.security.KeyPair;
-import java.util.*;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Component
