@@ -8,6 +8,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import pro.shushi.pamirs.core.common.EncryptHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.api.dto.model.PamirsUserDTO;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
@@ -20,6 +21,7 @@ import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
 import pro.shushi.pamirs.sso.server.model.SsoClientService;
 import pro.shushi.pamirs.user.api.cache.UserCache;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.security.KeyPair;
@@ -87,6 +89,39 @@ public class SsoCommonServiceImpl implements SsoCommonService {
             return publicKey;
         } catch (Exception e) {
             throw PamirsException.construct(SsoExpEnumerate.SSO_GET_PASSWORD_PUBLIC_ERROR).errThrow();
+        }
+    }
+
+    @Override
+    public void ssoServerTransfer(String clientId) {
+        SsoClient ssoClient = ssoClientService.getByClientId(clientId);
+        if (ssoClient == null) {
+            throw PamirsException.construct(SsoExpEnumerate.SSO_PAMIRS_CLIENT_NOT_FONT_ERROR).errThrow();
+        }
+        if (!Boolean.TRUE.equals(ssoClient.getEnabled())) {
+            throw PamirsException.construct(SsoExpEnumerate.SSO_PAMIRS_CLIENT_NOT_ENABLED_ERROR).errThrow();
+        }
+        String homepageUrl = ssoClient.getHomepageUrl();
+        if (StringUtils.isBlank(homepageUrl)){
+            throw PamirsException.construct(SsoExpEnumerate.SSO_PAMIRS_CLIENT_NOT_HOME_PAGE_URL).errThrow();
+        }
+        Long userId = UserCache.get(PamirsSession.getSessionId()).getUserId();
+        if (null == userId) {
+            throw PamirsException.construct(SsoExpEnumerate.SSO_PAMIRS_CHECK_IF_ONLINE_ERROR).errThrow();
+        }
+        String code = ssoOauth2TokenService.getOauth2Code(ssoClient, userId);
+
+        if (homepageUrl.endsWith("/")) {
+            homepageUrl = homepageUrl.substring(0, homepageUrl.length() - 1);
+        }
+
+        String url = homepageUrl + "?code=" + code + "&state=" + UUID.randomUUID().toString().replace("-", "");
+        HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(
+                RequestContextHolder.getRequestAttributes())).getResponse();
+        try {
+            Objects.requireNonNull(response).sendRedirect(url);
+        } catch (Exception e) {
+            throw PamirsException.construct(SsoExpEnumerate.SSO_REDIRECT_PAGE_ERROR, e).errThrow();
         }
     }
 }
