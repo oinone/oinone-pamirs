@@ -33,6 +33,7 @@ import pro.shushi.pamirs.meta.domain.fun.Type;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.model.SequenceConfig;
+import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
@@ -488,7 +489,15 @@ public class DefaultInheritedProcessor implements InheritedProcessor {
 
         String module;
         String crossingModule = meta.getCrossingModule(FunctionDefinition.MODEL_MODEL, otherFunction.getSign());
-        if (null != crossingModule) {
+        boolean isCrossingModule = false;
+        if (crossingModule != null) {
+            isCrossingModule = true;
+            ModuleDefinition moduleDefinition = meta.getDataItem(ModuleDefinition.MODEL_MODEL, crossingModule);
+            if (moduleDefinition != null && Boolean.TRUE.equals(moduleDefinition.getCore())) {
+                isCrossingModule = false;
+            }
+        }
+        if (isCrossingModule) {
             module = crossingModule;
             currentMetaData.addCrossingExtendData(FunctionDefinition.MODEL_MODEL, newFunction.getSign(), crossingModule);
         } else {
