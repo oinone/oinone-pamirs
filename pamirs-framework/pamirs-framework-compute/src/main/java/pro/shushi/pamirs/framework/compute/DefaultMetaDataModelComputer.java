@@ -48,8 +48,6 @@ public class DefaultMetaDataModelComputer implements MetaDataModelComputer {
     @SuppressWarnings("rawtypes")
     @Override
     public void compute(ComputeContext context, List<Meta> metaList, Set<String> completedModuleSet) {
-        long start = System.currentTimeMillis();
-
         List<MetaDataExtendComputer> extendComputers = BeanDefinitionUtils.getBeansOfTypeByOrdered(MetaDataExtendComputer.class);
         ModelDefinitionComputer modelDefinitionComputer = Spider.getDefaultExtension(ModelDefinitionComputer.class);
         final Set<String> extendComputeModuleSet = new HashSet<>();
@@ -65,8 +63,6 @@ public class DefaultMetaDataModelComputer implements MetaDataModelComputer {
         }
         compute0(context, coreMetaList, modelDefinitionComputer, extendComputers, completedModuleSet, extendComputeModuleSet, crossingComputeModuleSet);
         compute0(context, normalMetaList, modelDefinitionComputer, extendComputers, completedModuleSet, extendComputeModuleSet, crossingComputeModuleSet);
-
-        log.info("完成计算所有元数据 {}ms", System.currentTimeMillis() - start);
     }
 
     @SuppressWarnings("rawtypes")
