@@ -880,8 +880,8 @@ public class InitializationUtil {
                 .setDisplayName(displayName)
                 .setName(menuName)
                 .setParentName(parentMenuName)
-                .setPriority(priority)
                 .setClientTypes(Arrays.asList(ClientTypeEnum.PC, ClientTypeEnum.MOBILE, ClientTypeEnum.PAD))
+                .setDefaultPriority(priority)
                 .setDefaultShow(ActiveEnum.ACTIVE);
         pushMenu(menu);
         if (StringUtils.isNotBlank(model)) {
