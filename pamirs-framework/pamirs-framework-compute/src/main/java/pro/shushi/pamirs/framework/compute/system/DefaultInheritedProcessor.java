@@ -392,7 +392,6 @@ public class DefaultInheritedProcessor implements InheritedProcessor {
             return;
         }
         boolean isChangeTableInherited = ModelUtils.isChangeTableInherited(modelDefinition);
-        String sourceModel;
         if (isChangeTableInherited) {
             String code = modelDefinition.getModel() + CharacterConstants.SEPARATOR_OCTOTHORPE + newField.getField();
             newField.setSequenceCode(code);
