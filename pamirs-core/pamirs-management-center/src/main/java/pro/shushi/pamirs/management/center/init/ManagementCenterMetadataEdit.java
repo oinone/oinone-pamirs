@@ -48,8 +48,8 @@ public class ManagementCenterMetadataEdit implements MetaDataEditor {
         List<Menu> allMenus = new ArrayList<>();
         for (Meta meta : metaMap.values()) {
             Collection<Menu> moduleMenus = Optional.ofNullable(meta.getCurrentModuleData())
-                    .map(v -> v.getDataMap(Menu.MODEL_MODEL))
-                    .map(v -> FetchUtil.<Collection<Menu>>cast(v.values()))
+                    .map(v -> v.<Menu>getDataMap(Menu.MODEL_MODEL))
+                    .map(Map::values)
                     .orElse(null);
             if (CollectionUtils.isNotEmpty(moduleMenus)) {
                 moduleMenus.stream().filter(v -> ManagementCenterModule.MODULE_MODULE.equals(v.getModule())).forEach(allMenus::add);
