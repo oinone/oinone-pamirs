@@ -46,7 +46,7 @@ public class ModuleResolver {
             String moduleName = Optional.ofNullable(moduleAnnotation).map(Module::name).filter(StringUtils::isNotBlank).orElse(PStringUtils.dotName2ShortName(module));
             String version = Optional.ofNullable(moduleAnnotation).map(Module::version).orElse(null);
             List<String> moduleDependencies = Optional.ofNullable(moduleAnnotation).map(Module::dependencies).map(PStringUtils::trim).orElseGet(ArrayList::new);
-            if (!moduleDependencies.contains(ModuleConstants.MODULE_BASE)) {
+            if (!ModuleConstants.MODULE_BASE.equals(module) && !moduleDependencies.contains(ModuleConstants.MODULE_BASE)) {
                 moduleDependencies.add(0, ModuleConstants.MODULE_BASE);
             }
             List<String> moduleExclusions = Optional.ofNullable(moduleAnnotation).map(Module::exclusions).map(PStringUtils::trim).orElse(null);
