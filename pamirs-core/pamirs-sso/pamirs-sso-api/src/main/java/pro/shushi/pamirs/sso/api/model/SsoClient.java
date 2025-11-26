@@ -59,7 +59,7 @@ public class SsoClient extends IdModel {
     private Long codeExpiresIn;
 
     @Field.String
-    @Field(displayName = "跳转首页", required = true)
+    @Field(displayName = "应用回调地址", required = true)
     private String homepageUrl;
 
     @Field.String

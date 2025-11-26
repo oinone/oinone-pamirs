@@ -19,7 +19,7 @@
             <field span="1" data="expiresIn" label="access_token超时时间"/>
             <field span="1" data="refreshTokenExpiresIn" label="refresh_Token超时时间"/>
             <field span="1" data="codeExpiresIn" label="auth_code超时时间"/>
-            <field span="1" data="homepageUrl" label="跳转首页"/>
+            <field span="1" data="homepageUrl" label="应用回调地址"/>
             <field span="1" data="logoutUrl" label="设置退出地址"/>
             <field span="1" data="privateKey" label="密钥" readonly="true"/>
             <field span="1" data="publicKey" label="公钥" readonly="true"/>
