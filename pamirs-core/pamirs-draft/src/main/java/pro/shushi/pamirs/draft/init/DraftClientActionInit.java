@@ -8,7 +8,6 @@ import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
 import pro.shushi.pamirs.boot.web.utils.ClientActionUtils;
 import pro.shushi.pamirs.boot.web.utils.UiActionUtils;
-import pro.shushi.pamirs.draft.DraftModule;
 import pro.shushi.pamirs.draft.constant.DraftConstants;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
@@ -31,7 +30,7 @@ public class DraftClientActionInit implements MetaDataEditor {
     @Override
     public void edit(AppLifecycleCommand command, Map<String, Meta> metaMap) {
         Set<String> modules = metaMap.values().stream()
-                .filter(v -> v.getData().containsKey(DraftModule.MODULE_MODULE))
+//                .filter(v -> v.getData().containsKey(DraftModule.MODULE_MODULE))
                 .map(Meta::getModule)
                 .collect(Collectors.toSet());
         for (String module : modules) {
