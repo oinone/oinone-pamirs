@@ -3,7 +3,6 @@ package pro.shushi.pamirs.draft.model;
 import pro.shushi.pamirs.core.common.serialize.ToStringSerializeProcessor;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
-import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.base.IdModel;
 
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.List;
  *
  * @author Gesi at 10:19 on 2025/9/1
  */
-@Base
 @Model.model(Draft.MODEL_MODEL)
 @Model(displayName = "草稿")
 @Model.Advanced(unique = {"code"})

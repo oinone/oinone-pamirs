@@ -27,7 +27,7 @@ import java.util.Set;
         }
 )
 @Module.module(GroupingModule.MODULE_MODULE)
-@Module.Advanced(selfBuilt = true, application = false)
+@Module.Advanced(selfBuilt = true, application = false, core = true)
 public class GroupingModule implements PamirsModule, InitializingBean {
 
     public static final String MODULE_MODULE = "grouping";

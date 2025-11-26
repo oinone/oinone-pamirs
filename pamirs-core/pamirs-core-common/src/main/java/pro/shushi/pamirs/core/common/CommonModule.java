@@ -25,7 +25,7 @@ import java.util.Set;
         version = "5.0.0"
 )
 @Module.module(CommonModule.MODULE_MODULE)
-@Module.Advanced(selfBuilt = true, application = false)
+@Module.Advanced(selfBuilt = true, application = false, core = true)
 public class CommonModule implements PamirsModule, InitializingBean {
 
     public static final String MODULE_MODULE = "common";
