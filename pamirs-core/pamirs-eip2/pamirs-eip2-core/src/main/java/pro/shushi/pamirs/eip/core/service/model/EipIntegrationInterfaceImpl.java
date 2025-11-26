@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipIntegrate;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
-import pro.shushi.pamirs.eip.api.strategy.service.EipLogCountService;
-import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.eip.api.service.model.EipIntegrationInterfaceService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -28,7 +28,7 @@ public class EipIntegrationInterfaceImpl implements EipIntegrationInterfaceServi
     @Resource
     private EipLogStrategyService eipLogStrategyService;
     @Resource
-    private EipLogCountService eipLogCountService;
+    private EipLogDailyCountService eipLogDailyCountService;
 
 
     @Override
@@ -76,7 +76,7 @@ public class EipIntegrationInterfaceImpl implements EipIntegrationInterfaceServi
         outConvert(resultList);
 
         // 集成接口日志统计
-        eipLogCountService.fillEipIntegrationInterfaceLogCount(resultList);
+        eipLogDailyCountService.fillIntegrationLogCountData(resultList);
 
         // 填充应用名称
         fillEipIntegrate(resultList);
