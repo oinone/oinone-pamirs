@@ -15,6 +15,10 @@ public @interface Hook {
 
     String displayName() default "";
 
+    /**
+     * @deprecated 6.x please using HookBefore/HookAfter interface
+     */
+    @Deprecated
     HookTypeEnum hookType() default HookTypeEnum.BEFORE;
 
     FunctionTypeEnum[] functionTypes() default {};
