@@ -30,7 +30,7 @@ import java.util.Set;
         exclusions = {}
 )
 @Module.module(ModuleConstants.MODULE_BASE)
-@Module.Advanced(application = false, web = false, selfBuilt = true, core = true, author = "pamirs", contributors = "huidao", maintainer = "huidao")
+@Module.Advanced(application = false, web = false, selfBuilt = true, author = "pamirs", contributors = "huidao", maintainer = "huidao")
 public class BaseModule implements PamirsModule, InitializingBean {
 
     @Override
@@ -59,7 +59,10 @@ public class BaseModule implements PamirsModule, InitializingBean {
                 "pro.shushi.pamirs.boot.modules",
                 "pro.shushi.pamirs.sid",
                 "pro.shushi.pamirs.sequence",
-                "pro.shushi.pamirs.metadata.manager"
+                "pro.shushi.pamirs.metadata.manager",
+                "pro.shushi.pamirs.draft",
+                "pro.shushi.pamirs.filling",
+                "pro.shushi.pamirs.grouping"
         };
     }
 

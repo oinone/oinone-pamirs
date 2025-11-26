@@ -52,17 +52,7 @@ public class DefaultMetaDataModelComputer implements MetaDataModelComputer {
         ModelDefinitionComputer modelDefinitionComputer = Spider.getDefaultExtension(ModelDefinitionComputer.class);
         final Set<String> extendComputeModuleSet = new HashSet<>();
         final Set<String> crossingComputeModuleSet = new HashSet<>();
-        List<Meta> coreMetaList = new ArrayList<>();
-        List<Meta> normalMetaList = new ArrayList<>();
-        for (Meta meta : metaList) {
-            if (Optional.ofNullable(meta.getCurrentModule()).map(ModuleDefinition::getCore).orElse(false)) {
-                coreMetaList.add(meta);
-            } else {
-                normalMetaList.add(meta);
-            }
-        }
-        compute0(context, coreMetaList, modelDefinitionComputer, extendComputers, completedModuleSet, extendComputeModuleSet, crossingComputeModuleSet);
-        compute0(context, normalMetaList, modelDefinitionComputer, extendComputers, completedModuleSet, extendComputeModuleSet, crossingComputeModuleSet);
+        compute0(context, metaList, modelDefinitionComputer, extendComputers, completedModuleSet, extendComputeModuleSet, crossingComputeModuleSet);
     }
 
     @SuppressWarnings("rawtypes")

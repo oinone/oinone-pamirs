@@ -489,18 +489,7 @@ public class DefaultInheritedProcessor implements InheritedProcessor {
 
         String module;
         String crossingModule = meta.getCrossingModule(FunctionDefinition.MODEL_MODEL, otherFunction.getSign());
-        boolean isCrossingModule = false;
         if (crossingModule != null) {
-            // 跨模块函数处理
-            isCrossingModule = true;
-            ModuleDefinition moduleDefinition = meta.getDataItem(ModuleDefinition.MODEL_MODEL, crossingModule);
-            if (moduleDefinition != null && Boolean.TRUE.equals(moduleDefinition.getCore())) {
-                // 当外部模块往核心模块追加函数时不做跨模块处理
-                // 例如: draft 向 base.BaseModel 追加默认数据管理器函数时需要其跨模块处理逻辑与 base 保持一致
-                isCrossingModule = false;
-            }
-        }
-        if (isCrossingModule) {
             module = crossingModule;
             currentMetaData.addCrossingExtendData(FunctionDefinition.MODEL_MODEL, newFunction.getSign(), crossingModule);
         } else {
