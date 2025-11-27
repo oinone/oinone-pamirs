@@ -132,6 +132,7 @@ public class RegisterViewEditor implements MetaDataEditor {
             "microflow_designer",
             "eip_designer",
             "data_designer",
+            "ai_x",
             "ai_designer",
             "print_designer"
     );
