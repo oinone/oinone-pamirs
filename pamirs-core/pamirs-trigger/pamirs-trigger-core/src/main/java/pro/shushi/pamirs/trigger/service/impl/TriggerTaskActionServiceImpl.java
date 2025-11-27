@@ -33,6 +33,7 @@ import pro.shushi.pamirs.trigger.model.TriggerTaskAction;
 import pro.shushi.pamirs.trigger.service.AbstractTaskActionService;
 import pro.shushi.pamirs.trigger.service.TriggerTaskActionExecutor;
 import pro.shushi.pamirs.trigger.service.TriggerTaskActionService;
+import pro.shushi.pamirs.user.api.model.PamirsUser;
 
 import java.util.*;
 
@@ -341,6 +342,14 @@ public class TriggerTaskActionServiceImpl extends AbstractTaskActionService<Trig
                 currentDsKey = currentModelConfig.getDsKey();
             } else if ("workflow_workflow_user_task".equals(defaultTable)) {
                 ModelConfig currentModelConfig = PamirsSession.getContext().getModelConfig("workflow.WorkflowUserTask");
+                currentDatabase = Dialects.component(DsDialectComponent.class, currentModelConfig.getDsKey()).getDatabase(currentModelConfig.getDsKey());
+                currentDsKey = currentModelConfig.getDsKey();
+            } else if ("user_pamirs_user".equals(defaultTable)) {
+                ModelConfig currentModelConfig = PamirsSession.getContext().getModelConfig(PamirsUser.MODEL_MODEL);
+                currentDatabase = Dialects.component(DsDialectComponent.class, currentModelConfig.getDsKey()).getDatabase(currentModelConfig.getDsKey());
+                currentDsKey = currentModelConfig.getDsKey();
+            } else if ("business_pamirs_employee".equals(defaultTable)) {
+                ModelConfig currentModelConfig = PamirsSession.getContext().getModelConfig("business.PamirsEmployee");
                 currentDatabase = Dialects.component(DsDialectComponent.class, currentModelConfig.getDsKey()).getDatabase(currentModelConfig.getDsKey());
                 currentDsKey = currentModelConfig.getDsKey();
             }
