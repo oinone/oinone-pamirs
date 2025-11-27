@@ -1,39 +1,16 @@
 package pro.shushi.pamirs.core.common.entry;
 
 /**
- * Value holder
- *
- * @author Adamancy Zhang at 12:21 on 2020-12-25
+ * @deprecated 6.x please using {@link pro.shushi.pamirs.ux.common.entity.Holder}
  */
-public class Holder<T> {
-
-    private volatile boolean isNull;
-
-    private volatile T value;
+@Deprecated
+public class Holder<T> extends pro.shushi.pamirs.ux.common.entity.Holder<T> {
 
     public Holder() {
-        this.isNull = true;
+        super();
     }
 
     public Holder(T value) {
-        this.isNull = false;
-        this.value = value;
-    }
-
-    public T get() {
-        return value;
-    }
-
-    public boolean isNotSetValue() {
-        return isNull;
-    }
-
-    public boolean isSetValue() {
-        return !isNull;
-    }
-
-    public void set(T value) {
-        this.isNull = false;
-        this.value = value;
+        super(value);
     }
 }

@@ -1,7 +1,5 @@
 package pro.shushi.pamirs.core.common;
 
-import cz.jirutka.rsql.parser.RSQLParser;
-import cz.jirutka.rsql.parser.ast.Node;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,16 +14,11 @@ import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.ModelFieldConfigWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.update.UpdateWrapper;
-import pro.shushi.pamirs.framework.faas.hook.builtin.PlaceHolderHook;
-import pro.shushi.pamirs.framework.gateways.rsql.PamirsRsqlVisitor;
-import pro.shushi.pamirs.framework.gateways.rsql.RsqlQuery;
-import pro.shushi.pamirs.framework.gateways.rsql.RsqlSearchOperation;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.PamirsMapperConfigurationProxy;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 import pro.shushi.pamirs.meta.api.core.faas.boot.ModulesApi;
-import pro.shushi.pamirs.meta.api.core.faas.hook.PlaceHolderParser;
 import pro.shushi.pamirs.meta.api.core.orm.ReadApi;
 import pro.shushi.pamirs.meta.api.core.orm.systems.relation.RelatedFieldQueryApi;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
@@ -53,6 +46,7 @@ import pro.shushi.pamirs.meta.constant.SqlConstants;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.TypeUtils;
+import pro.shushi.pamirs.ux.common.utils.QueryHelper;
 
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -359,49 +353,24 @@ public class FetchUtil {
         return resultList;
     }
 
-    public static <T> void fetchDataList(String model, QueryWrapper<T> queryWrapper, Consumer<List<T>> consumer) {
-        fetchDataList(model, queryWrapper, 2000, consumer);
-    }
-
-    public static <T> void fetchDataList(String model, QueryWrapper<T> queryWrapper, int pageSize, Consumer<List<T>> consumer) {
-        Pagination<T> pagination = new Pagination<>(1, pageSize);
-        pagination.setModel(model);
-        Pagination<T> firstPage = Models.origin().queryPage(pagination, queryWrapper);
-        List<T> content = firstPage.getContent();
-        if (CollectionUtils.isEmpty(content)) {
-            return;
-        }
-        consumer.accept(content);
-        if (content.size() < pageSize) {
-            return;
-        }
-        int totalPage = firstPage.getTotalPages();
-        for (int currentPage = 2; currentPage <= totalPage; currentPage++) {
-            pagination.setCurrentPage(currentPage);
-            Pagination<T> nextPage = Models.origin().queryPage(pagination, queryWrapper);
-            content = nextPage.getContent();
-            consumer.accept(content);
-        }
-    }
-
     public static <T extends AbstractModel> String fetchColumn(Getter<T, ?> getter) {
         return PStringUtils.fieldName2Column(LambdaUtil.fetchFieldName(getter));
     }
 
+    /**
+     * @deprecated 6.x please using {@link QueryHelper#replacePlaceholder}
+     */
+    @Deprecated
     public static String replacePlaceholder(String rsql) {
-        Map<String, PlaceHolderParser> placeHolderParserMap = PlaceHolderHook.getPlaceHolderParserMap();
-        IWrapper<?> wrapper = Pops.query().setRsql(rsql);
-        for (String placeHolderParser : placeHolderParserMap.keySet()) {
-            placeHolderParserMap.get(placeHolderParser).parse(wrapper);
-        }
-        return wrapper.getRsql();
+        return QueryHelper.replacePlaceholder(rsql);
     }
 
+    /**
+     * @deprecated 6.x please using {@link QueryHelper#rsqlToSql}
+     */
+    @Deprecated
     public static String rsqlToSql(String model, String rsql) {
-        rsql = replacePlaceholder(rsql);
-        Node parse = new RSQLParser(RsqlSearchOperation.getOperators()).parse(rsql);
-        RsqlQuery query = parse.accept(new PamirsRsqlVisitor(), PamirsSession.getContext().getSimpleModelConfig(model));
-        return query.getWhere().toString();
+        return QueryHelper.rsqlToSql(model, rsql);
     }
 
     public static <T extends AbstractModel> T fetchFirstByEntity(T object) {

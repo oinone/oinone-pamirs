@@ -2,8 +2,7 @@ package pro.shushi.pamirs.resource.api.tmodel;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
-import pro.shushi.pamirs.core.common.tmodel.CommonConditionWrapper;
+import pro.shushi.pamirs.ux.common.model.CommonConditionWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -20,6 +19,7 @@ import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.RSqlConstants;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
+import pro.shushi.pamirs.ux.common.enumeration.UxCommonExpEnumerate;
 
 import java.util.List;
 import java.util.Map;
@@ -81,7 +81,7 @@ public class ConditionWrapper extends TransientModel {
                     }
                     ModelFieldConfig modelFieldConfig = PamirsSession.getContext().getModelField(model, field);
                     if (modelFieldConfig == null) {
-                        throw PamirsException.construct(CommonExpEnumerate.SORT_FIELD_NOT_FOUND, model, field).errThrow();
+                        throw PamirsException.construct(UxCommonExpEnumerate.SORT_FIELD_NOT_FOUND, model, field).errThrow();
                     }
                     String column = Configs.wrap(modelFieldConfig).getColumn();
                     if (StringUtils.isBlank(column)) {

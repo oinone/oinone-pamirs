@@ -19,7 +19,6 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.constant.SqlConstants;
-import pro.shushi.pamirs.core.common.tmodel.CommonConditionWrapper;
 import pro.shushi.pamirs.resource.api.tmodel.ConditionWrapper;
 
 import javax.annotation.Resource;
