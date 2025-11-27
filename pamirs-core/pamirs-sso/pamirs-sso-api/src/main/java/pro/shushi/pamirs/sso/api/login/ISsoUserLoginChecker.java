@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.sso.api.login;
 
-import pro.shushi.pamirs.sso.api.dto.SsoUserVo;
+import pro.shushi.pamirs.sso.common.dto.SsoUserVo;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.model.tmodel.PamirsUserTransient;
 

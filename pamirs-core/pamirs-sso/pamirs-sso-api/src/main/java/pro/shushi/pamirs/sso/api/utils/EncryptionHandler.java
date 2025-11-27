@@ -83,7 +83,7 @@ public class EncryptionHandler {
      * @return
      */
     public static String generateClientId() {
-        return SsoConfigurationConstant.PAMIRS_SSO_CLIENT_ID_PREFIX + UUIDUtil.getUUIDNumberString();
+        return UUIDUtil.getUUIDNumberString();
     }
 
     /**
