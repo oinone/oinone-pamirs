@@ -14,7 +14,7 @@ public class RedisSentinelProperty {
     private String master;
     /** 哨兵节点列表（格式：host:port,host:port） */
     private Set<String> nodes;
-    /** 连接超时时间（毫秒） */
-    private Long timeout;
+    /** sentinel密码 */
+    private String password;
 
 }

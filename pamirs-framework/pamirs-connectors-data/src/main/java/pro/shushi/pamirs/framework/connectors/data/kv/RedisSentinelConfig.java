@@ -61,11 +61,15 @@ public class RedisSentinelConfig {
      * @param password Redis主从节点的密码（非哨兵密码）
      * @return 哨兵配置对象
      */
-    public RedisSentinelConfiguration getSentinelConfiguration(RedisSentinelProperty sentinelProperty, String password) {
+    public RedisSentinelConfiguration getSentinelConfiguration(RedisSentinelProperty sentinelProperty, String password, int database) {
         // 1. 创建哨兵配置，指定主节点名称 与 哨兵节点
         RedisSentinelConfiguration sentinelConfig = new RedisSentinelConfiguration(sentinelProperty.getMaster(), sentinelProperty.getNodes());
         // 2. 设置Redis主从节点的密码（核心：是Redis实例的密码，不是哨兵的）
         sentinelConfig.setPassword(RedisPassword.of(password));
+        sentinelConfig.setDatabase(database);
+        if (sentinelProperty.getPassword() != null) {
+            sentinelConfig.setSentinelPassword(RedisPassword.of(sentinelProperty.getPassword()));
+        }
         return sentinelConfig;
     }
 
@@ -78,10 +82,11 @@ public class RedisSentinelConfig {
     @Bean
     public RedisConnectionFactory connectionFactory(
             RedisSentinelProperty sentinelProperty,
-            @Value("${spring.redis.password}") String password) {
+            @Value("${spring.redis.password}") String password,
+            @Value("${spring.redis.database}") int database) {
 
         // 1. 获取哨兵配置
-        RedisSentinelConfiguration configuration = getSentinelConfiguration(sentinelProperty, password);
+        RedisSentinelConfiguration configuration = getSentinelConfiguration(sentinelProperty, password, database);
 
         // 2. 创建Jedis连接工厂（哨兵模式仍用JedisConnectionFactory，入参为哨兵配置）
         JedisConnectionFactory connectionFactory = new JedisConnectionFactory(configuration);
