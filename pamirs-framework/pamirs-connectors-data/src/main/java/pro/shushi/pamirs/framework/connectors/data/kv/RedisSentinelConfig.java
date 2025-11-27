@@ -62,16 +62,9 @@ public class RedisSentinelConfig {
      * @return 哨兵配置对象
      */
     public RedisSentinelConfiguration getSentinelConfiguration(RedisSentinelProperty sentinelProperty, String password) {
-        // 1. 创建哨兵配置，指定主节点名称
-        RedisSentinelConfiguration sentinelConfig = new RedisSentinelConfiguration();
-        sentinelConfig.setMaster(sentinelProperty.getMaster());
-
-        // 2. 添加所有哨兵节点
-        for (String node : sentinelProperty.getNodes()) {
-            String[] hostAndPort = node.split(":");
-            sentinelConfig.sentinel(hostAndPort[0], Integer.parseInt(hostAndPort[1]));
-        }
-        // 3. 设置Redis主从节点的密码（核心：是Redis实例的密码，不是哨兵的）
+        // 1. 创建哨兵配置，指定主节点名称 与 哨兵节点
+        RedisSentinelConfiguration sentinelConfig = new RedisSentinelConfiguration(sentinelProperty.getMaster(), sentinelProperty.getNodes());
+        // 2. 设置Redis主从节点的密码（核心：是Redis实例的密码，不是哨兵的）
         sentinelConfig.setPassword(RedisPassword.of(password));
         return sentinelConfig;
     }
