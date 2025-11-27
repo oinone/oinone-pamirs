@@ -83,7 +83,7 @@ public class RedisSentinelConfig {
     public RedisConnectionFactory connectionFactory(
             RedisSentinelProperty sentinelProperty,
             @Value("${spring.redis.password}") String password,
-            @Value("${spring.redis.database}") int database) {
+            @Value("${spring.redis.database:0}") int database) {
 
         // 1. 获取哨兵配置
         RedisSentinelConfiguration configuration = getSentinelConfiguration(sentinelProperty, password, database);
