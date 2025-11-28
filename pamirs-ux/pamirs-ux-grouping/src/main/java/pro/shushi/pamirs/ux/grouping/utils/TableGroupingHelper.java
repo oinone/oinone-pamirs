@@ -4,17 +4,17 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
+import pro.shushi.pamirs.meta.api.Models;
+import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
+import pro.shushi.pamirs.meta.util.FieldUtils;
+import pro.shushi.pamirs.ux.common.utils.QueryHelper;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 import pro.shushi.pamirs.ux.grouping.entity.GroupingDataWrapper;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingModel;
 import pro.shushi.pamirs.ux.grouping.model.GroupingData;
 import pro.shushi.pamirs.ux.grouping.model.TableGroupingResult;
 import pro.shushi.pamirs.ux.grouping.query.TableGroupingQueryContext;
-import pro.shushi.pamirs.meta.api.Models;
-import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
-import pro.shushi.pamirs.meta.util.FieldUtils;
-import pro.shushi.pamirs.ux.common.utils.QueryHelper;
-import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -89,14 +89,6 @@ public class TableGroupingHelper {
         QueryWrapper<T> queryWrapper = context.generatorQueryWrapper();
         query.withGroupBy(queryWrapper);
         query.withOrderBy(queryWrapper);
-        Long totalElements = Models.origin().count(queryWrapper);
-        if (totalElements == null) {
-            totalElements = 0L;
-        }
-        if (totalElements.compareTo(0L) <= 0) {
-            pagination.setTotalElements(0L);
-            return new ArrayList<>();
-        }
         query.withSelect(queryWrapper);
         Pagination<T> page = new Pagination<>();
         pagination.to(page);
