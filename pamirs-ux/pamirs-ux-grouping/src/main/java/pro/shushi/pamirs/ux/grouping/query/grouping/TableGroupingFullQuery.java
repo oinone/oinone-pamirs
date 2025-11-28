@@ -4,12 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.ux.common.query.GQLFieldsQuery;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
-import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
-import pro.shushi.pamirs.ux.grouping.model.TableGroupingResult;
-import pro.shushi.pamirs.ux.grouping.query.TableGroupingQueryContext;
-import pro.shushi.pamirs.ux.grouping.utils.TableGroupingHelper;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.faas.hook.HookApi;
 import pro.shushi.pamirs.meta.api.core.orm.convert.ClientDataConverter;
@@ -24,6 +19,12 @@ import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.util.FieldUtils;
+import pro.shushi.pamirs.ux.common.query.GQLFieldsQuery;
+import pro.shushi.pamirs.ux.common.utils.QueryHelper;
+import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
+import pro.shushi.pamirs.ux.grouping.model.TableGroupingResult;
+import pro.shushi.pamirs.ux.grouping.query.TableGroupingQueryContext;
+import pro.shushi.pamirs.ux.grouping.utils.TableGroupingHelper;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class TableGroupingFullQuery<T> implements TableGroupingQueryApi<T> {
     public void queryGroupingPage(TableGroupingQueryContext<T> context, TableGroupingResult result) {
         List<TableGroupingFieldQuery> queryList = context.getQueryList();
         Pagination<T> pagination = context.getPagination();
-        List<T> list = fetchFullList(context, context.generatorQueryWrapperWithOrderBy());
+        List<T> list = fetchFullList(context, context.generatorQueryWrapperWithOrderBy(false));
         result.setGroups(TableGroupingHelper.fullDataConvertGroups(queryList, context.getModel(), list, true));
         Pagination<T> hookAfterResult = new Pagination<>();
         hookAfterResult.setContent(list);
@@ -77,7 +78,8 @@ public class TableGroupingFullQuery<T> implements TableGroupingQueryApi<T> {
         if (CollectionUtils.isNotEmpty(columns)) {
             queryWrapper.select(columns.toArray(new String[0]));
         }
-        List<T> list = Models.origin().queryListByWrapper(queryWrapper);
+        List<T> list = new ArrayList<>();
+        QueryHelper.queryDataListByQueryPage(model, queryWrapper, QueryHelper.Directive.HOOK_BEFORE.value(), list::addAll);
         if (CollectionUtils.isEmpty(list)) {
             return list;
         }

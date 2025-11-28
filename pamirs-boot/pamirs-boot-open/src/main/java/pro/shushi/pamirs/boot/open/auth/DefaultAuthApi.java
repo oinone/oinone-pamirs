@@ -74,6 +74,11 @@ public class DefaultAuthApi implements AuthApi {
     }
 
     @Override
+    public String getDataFilter(String namespace, String fun) {
+        return null;
+    }
+
+    @Override
     public Result<Set<String>> canAccessModules() {
         return new Result<>();
     }

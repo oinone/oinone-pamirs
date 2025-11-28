@@ -50,6 +50,9 @@ public interface AuthAccessService extends AuthApi {
     Result<Set<String>> canWritableFields(String model);
 
     @Override
+    String getDataFilter(String namespace, String fun);
+
+    @Override
     Result<Set<String>> canAccessModules();
 
     @Override

@@ -9,6 +9,7 @@ import pro.shushi.pamirs.auth.api.debug.AuthVerificationDebugTrace;
 import pro.shushi.pamirs.auth.api.entity.AuthResult;
 import pro.shushi.pamirs.auth.api.enumeration.authorized.FieldAuthorizedValueEnum;
 import pro.shushi.pamirs.auth.api.holder.AuthApiHolder;
+import pro.shushi.pamirs.auth.api.runtime.executor.DataPermissionExecutor;
 import pro.shushi.pamirs.auth.api.runtime.spi.DataPermissionApi;
 import pro.shushi.pamirs.auth.api.service.manager.AuthAccessService;
 import pro.shushi.pamirs.auth.api.utils.AuthVerificationHelper;
@@ -96,6 +97,11 @@ public class AuthAccessServiceImpl implements AuthAccessService {
     public Result<Set<String>> canWritableFields(String model) {
         return debug(() -> fetchFieldPermissions(model, FieldAuthorizedValueEnum::writable),
                 result -> AuthVerificationDebugTrace.debugWritableFields(result, model));
+    }
+
+    @Override
+    public String getDataFilter(String namespace, String fun) {
+        return DataPermissionExecutor.getFilter(namespace, fun);
     }
 
     @Override

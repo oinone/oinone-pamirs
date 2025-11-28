@@ -1,6 +1,16 @@
 package pro.shushi.pamirs.ux.grouping.api;
 
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.meta.annotation.Fun;
+import pro.shushi.pamirs.meta.annotation.Function;
+import pro.shushi.pamirs.meta.annotation.sys.Base;
+import pro.shushi.pamirs.meta.api.Models;
+import pro.shushi.pamirs.meta.api.core.auth.AuthApi;
+import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
+import pro.shushi.pamirs.meta.base.BaseModel;
+import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
+import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
+import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.ux.grouping.configure.GroupingConfigure;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.ux.grouping.model.TableGroupingResult;
@@ -12,15 +22,6 @@ import pro.shushi.pamirs.ux.grouping.query.data.TableGroupingDataQueryApi;
 import pro.shushi.pamirs.ux.grouping.query.grouping.TableGroupingQueryApi;
 import pro.shushi.pamirs.ux.grouping.query.statistic.TableGroupingStatisticQueryApi;
 import pro.shushi.pamirs.ux.grouping.utils.TableGroupingDataHelper;
-import pro.shushi.pamirs.meta.annotation.Fun;
-import pro.shushi.pamirs.meta.annotation.Function;
-import pro.shushi.pamirs.meta.annotation.sys.Base;
-import pro.shushi.pamirs.meta.api.Models;
-import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
-import pro.shushi.pamirs.meta.base.BaseModel;
-import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
-import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
-import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 
 import java.util.List;
 
@@ -49,8 +50,7 @@ public class DefaultTableGroupingApi {
         TableGroupingQueryContext<T> context = new TableGroupingQueryContext<>(queryList, wrapper.getQueryWrapper(), wrapper.getGqlFields());
         String model = context.getModel();
         context.setPagination(page);
-        // FIXME: zbh 20251127 此处需要使用 HookApi#before
-//        context.setAuthSql(DataPermissionExecutor.getFilter(model, QUERY_GROUPING_PAGE_FUN));
+        context.setAuthSql(AuthApi.get().getDataFilter(model, QUERY_GROUPING_PAGE_FUN));
         Long totalElements = Models.origin().count(context.generatorQueryWrapper());
         if (totalElements == null) {
             totalElements = 0L;
@@ -72,8 +72,7 @@ public class DefaultTableGroupingApi {
     public <T> List<T> queryGroupingDataByWrapper(TableGroupingWrapper wrapper) {
         List<TableGroupingFieldQuery> queryList = TableGroupingDataHelper.prepareGroupingFields(wrapper, false);
         TableGroupingQueryContext<T> context = new TableGroupingQueryContext<>(queryList, wrapper.getQueryWrapper());
-        // FIXME: zbh 20251127 此处需要使用 HookApi#before
-//        context.setAuthSql(DataPermissionExecutor.getFilter(context.getModel(), QUERY_GROUPING_DATA_BY_WRAPPER_FUN));
+        context.setAuthSql(AuthApi.get().getDataFilter(context.getModel(), QUERY_GROUPING_DATA_BY_WRAPPER_FUN));
         return fetchApi(TableGroupingDataQueryApi.class, context).queryGroupingDataByWrapper(context);
     }
 
@@ -82,8 +81,7 @@ public class DefaultTableGroupingApi {
     public <T> String queryGroupingStatistic(TableGroupingWrapper wrapper) {
         List<TableGroupingFieldQuery> queryList = TableGroupingDataHelper.prepareGroupingFields(wrapper, false);
         TableGroupingQueryContext<T> context = new TableGroupingQueryContext<>(queryList, wrapper.getQueryWrapper());
-        // FIXME: zbh 20251127 此处需要使用 HookApi#before
-//        context.setAuthSql(DataPermissionExecutor.getFilter(context.getModel(), QUERY_GROUPING_STATISTIC_FUN));
+        context.setAuthSql(AuthApi.get().getDataFilter(context.getModel(), QUERY_GROUPING_STATISTIC_FUN));
         return fetchApi(TableGroupingStatisticQueryApi.class, context).queryGroupingStatistic(context);
     }
 

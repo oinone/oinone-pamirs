@@ -3,13 +3,13 @@ package pro.shushi.pamirs.ux.grouping.query;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
-import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
-import pro.shushi.pamirs.ux.grouping.entity.TableGroupingModel;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.ux.common.model.CommonConditionWrapper;
 import pro.shushi.pamirs.ux.common.model.CommonGQLFields;
 import pro.shushi.pamirs.ux.common.query.GQLFieldsQuery;
 import pro.shushi.pamirs.ux.common.utils.QueryHelper;
+import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
+import pro.shushi.pamirs.ux.grouping.entity.TableGroupingModel;
 
 import java.util.List;
 
@@ -77,6 +77,10 @@ public class TableGroupingQueryContext<T> {
     }
 
     public QueryWrapper<T> generatorQueryWrapper() {
+        return generatorQueryWrapper(true);
+    }
+
+    public QueryWrapper<T> generatorQueryWrapper(boolean withAuthSql) {
         String model = getModel();
         QueryWrapper<T> queryWrapper = Pops.query();
         queryWrapper.setQueryData(wrapper.getQueryData());
@@ -85,7 +89,7 @@ public class TableGroupingQueryContext<T> {
         if (StringUtils.isNotBlank(rsql)) {
             queryWrapper.apply(QueryHelper.rsqlToSql(model, rsql));
         }
-        if (authSql != null) {
+        if (withAuthSql && authSql != null) {
             queryWrapper.apply(authSql);
         }
         queryWrapper.setBatchSize(-1);
@@ -93,7 +97,11 @@ public class TableGroupingQueryContext<T> {
     }
 
     public QueryWrapper<T> generatorQueryWrapperWithOrderBy() {
-        QueryWrapper<T> queryWrapper = generatorQueryWrapper();
+        return generatorQueryWrapperWithOrderBy(true);
+    }
+
+    public QueryWrapper<T> generatorQueryWrapperWithOrderBy(boolean withAuthSql) {
+        QueryWrapper<T> queryWrapper = generatorQueryWrapper(withAuthSql);
         wrapper.withOrderBy(queryWrapper);
         return queryWrapper;
     }

@@ -1,6 +1,8 @@
 package pro.shushi.pamirs.ux.common.entity;
 
+import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.common.spi.Spider;
+import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -33,6 +35,14 @@ public class HoldSupplier<T> {
             }
         }
         return value;
+    }
+
+    public static <R> HoldSupplier<R> getApi(Class<R> clazz) {
+        return new HoldSupplier<>(() -> CommonApiFactory.getApi(clazz));
+    }
+
+    public static <R> HoldSupplier<R> getBean(Class<R> clazz) {
+        return new HoldSupplier<>(() -> BeanDefinitionUtils.getBean(clazz));
     }
 
     public static <R> HoldSupplier<R> getDefaultExtension(Class<R> clazz) {
