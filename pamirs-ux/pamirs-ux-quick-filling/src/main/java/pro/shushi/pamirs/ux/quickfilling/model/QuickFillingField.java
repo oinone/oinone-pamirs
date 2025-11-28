@@ -1,9 +1,10 @@
-package pro.shushi.pamirs.ux.filling.model;
+package pro.shushi.pamirs.ux.quickfilling.model;
 
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.base.TransientModel;
+import pro.shushi.pamirs.meta.domain.model.DataDictionaryItem;
 
 import java.util.List;
 
@@ -28,4 +29,6 @@ public class QuickFillingField extends TransientModel {
     @Field(displayName = "关联选项字段名")
     private List<String> labelFields;
 
+    @Field(displayName = "数据字典可选项")
+    private List<DataDictionaryItem> options;
 }

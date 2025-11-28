@@ -11,7 +11,7 @@ import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
 @Errors(displayName = "用户体验包公共错误枚举")
 public enum UxCommonExpEnumerate implements ExpBaseEnum {
 
-    MODEL_NOT_FOUND(ERROR_TYPE.SYSTEM_ERROR, 10180001, "未找到模型字段元数据 model: {}"),
+    MODEL_NOT_FOUND(ERROR_TYPE.SYSTEM_ERROR, 10180001, "未找到模型元数据 model: {}"),
     MODEL_FIELD_NOT_FOUND(ERROR_TYPE.SYSTEM_ERROR, 10180002, "未找到模型字段元数据 model: {}, field: {}"),
     SORT_FIELD_NOT_FOUND(ERROR_TYPE.SYSTEM_ERROR, 10180003, "未找到排序字段元数据 model: {}, field: {}"),
     GROUPING_FIELD_NOT_FOUND(ERROR_TYPE.SYSTEM_ERROR, 10180004, "未找到分组字段元数据 model: {}, field: {}"),

@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.ux.filling.model;
+package pro.shushi.pamirs.ux.quickfilling.model;
 
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;

@@ -98,6 +98,12 @@ public class ResourceAddressServiceImpl implements ResourceAddressService {
         String countryName = data.getCountryName();
         if (StringUtils.isBlank(countryName)) {
             countryCode = DefaultResourceConstants.COUNTRY_CODE;
+            ResourceCountry CN = new ResourceCountry().setCode(DefaultResourceConstants.COUNTRY_CODE).queryByCode();
+            if (CN != null) {
+                address.setOriginCountry(CN);
+                address.setCountryCode(CN.getCode());
+                address.setCountryName(CN.getName());
+            }
         } else {
             List<ResourceCountry> resourceCountries = Models.origin().queryListByWrapper(
                     new Pagination<>(1, 1),

@@ -53,7 +53,7 @@ public class StatisticApiFactory {
 
     private final Map<String, Class<?>> storage;
 
-    public StatisticApiFactory() {
+    private StatisticApiFactory() {
         this.storage = new HashMap<>();
     }
 
