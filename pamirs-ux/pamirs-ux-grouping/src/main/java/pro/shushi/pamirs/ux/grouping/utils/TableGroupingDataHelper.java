@@ -2,20 +2,20 @@ package pro.shushi.pamirs.ux.grouping.utils;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.ux.common.model.CommonConditionWrapper;
 import pro.shushi.pamirs.framework.common.entry.NullValue;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
+import pro.shushi.pamirs.meta.common.enmu.IEnum;
+import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
+import pro.shushi.pamirs.meta.util.FieldUtils;
+import pro.shushi.pamirs.ux.common.model.CommonConditionWrapper;
 import pro.shushi.pamirs.ux.grouping.entity.GroupingDataWrapper;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingModel;
 import pro.shushi.pamirs.ux.grouping.model.GroupingData;
 import pro.shushi.pamirs.ux.grouping.model.GroupingField;
 import pro.shushi.pamirs.ux.grouping.model.TableGroupingWrapper;
-import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
-import pro.shushi.pamirs.meta.common.enmu.IEnum;
-import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
-import pro.shushi.pamirs.meta.util.FieldUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -290,25 +290,31 @@ public class TableGroupingDataHelper {
             Collection<?> coll = (Collection<?>) value;
             if (query.isEnumField()) {
                 return new GroupingValueSerializeResult(coll.stream()
-                        .map(TableGroupingDataHelper::convertEnumerationName)
+                        .map(v -> TableGroupingDataHelper.convertEnumerationName(query, v))
                         .collect(Collectors.toList()));
             } else if (query.isRelationManyField()) {
                 return new GroupingValueSerializeResult(PamirsDataUtils.toJSONString(query.getReferences(), value), true);
             }
         } else if (query.isEnumField()) {
-            return new GroupingValueSerializeResult(convertEnumerationName(value));
+            return new GroupingValueSerializeResult(convertEnumerationName(query, value));
         } else if (query.isRelationOneField()) {
             return new GroupingValueSerializeResult(PamirsDataUtils.toJSONString(query.getReferences(), value), true);
         }
         return new GroupingValueSerializeResult(value);
     }
 
-    private static String convertEnumerationName(Object value) {
+    private static String convertEnumerationName(TableGroupingFieldQuery query, Object value) {
         String name;
         if (value instanceof IEnum) {
             name = ((IEnum<?>) value).name();
-        } else if (value instanceof String) {
-            name = (String) value;
+        } else if (value != null) {
+            // 无代码值转枚举 name
+            String stringValue = String.valueOf(value);
+            name = query.getDataDictionaryName(stringValue);
+            if (name == null) {
+                log.error("Invalid data dictionary name. model: {}, field: {}, value: {}", query.getModel().getModel(), query.getField(), stringValue);
+                return NULL_VALUE;
+            }
         } else {
             return NULL_VALUE;
         }

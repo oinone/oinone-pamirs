@@ -54,7 +54,9 @@ public class BasicTableGroupingFieldQuery {
 
     protected final Boolean isNumericDataDictionary;
 
-    protected final Map<String, String> dataDictionaryOptions;
+    protected final Map<String, String> dictionaryNameMapping;
+
+    protected final Map<String, String> dictionaryValueMapping;
 
     protected final String references;
 
@@ -131,21 +133,26 @@ public class BasicTableGroupingFieldQuery {
 
         Boolean finalIsBitDataDictionary = null;
         Boolean finalIsNumericDataDictionary = null;
-        Map<String, String> finalDataDictionaryOptions = null;
+        Map<String, String> finalDictionaryNameMapping = null;
+        Map<String, String> finalDictionaryValueMapping = null;
         if (isEnumField()) {
-            Map<String, String> dataDictionaryOptions = new HashMap<>();
+            Map<String, String> dictionaryNameMapping = new HashMap<>();
+            Map<String, String> dictionaryValueMapping = new HashMap<>();
             DataDictionary dataDictionary = PamirsSession.getContext().getDictionary(modelFieldConfig.getDictionary());
             List<DataDictionaryItem> options = dataDictionary.getOptions();
             for (DataDictionaryItem option : options) {
-                dataDictionaryOptions.put(option.getName(), option.getValue());
+                dictionaryNameMapping.put(option.getName(), option.getValue());
+                dictionaryValueMapping.put(option.getValue(), option.getName());
             }
             finalIsBitDataDictionary = Boolean.TRUE.equals(dataDictionary.getBit());
             finalIsNumericDataDictionary = TtypeEnum.isNumericType(dataDictionary.getValueType().value());
-            finalDataDictionaryOptions = dataDictionaryOptions;
+            finalDictionaryNameMapping = dictionaryNameMapping;
+            finalDictionaryValueMapping = dictionaryValueMapping;
         }
         this.isBitDataDictionary = finalIsBitDataDictionary;
         this.isNumericDataDictionary = finalIsNumericDataDictionary;
-        this.dataDictionaryOptions = finalDataDictionaryOptions;
+        this.dictionaryNameMapping = finalDictionaryNameMapping;
+        this.dictionaryValueMapping = finalDictionaryValueMapping;
 
         String finalReferences = null;
         List<String> finalReferencesPks = null;
@@ -333,8 +340,12 @@ public class BasicTableGroupingFieldQuery {
         return isNumericDataDictionary;
     }
 
+    public String getDataDictionaryName(String value) {
+        return dictionaryValueMapping.get(value);
+    }
+
     public String getDataDictionaryValue(String name) {
-        return dataDictionaryOptions.get(name);
+        return dictionaryNameMapping.get(name);
     }
 
     public String getReferences() {
