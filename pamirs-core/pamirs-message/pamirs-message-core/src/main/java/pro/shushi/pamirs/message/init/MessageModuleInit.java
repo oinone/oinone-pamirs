@@ -187,7 +187,7 @@ public class MessageModuleInit implements LifecycleCompletedInit {
         messageChannel.setId(99L);
         messageChannel.setName("systemmailbroadcast");
         messageChannel.setChannelType(MessageChannelTypeEnum.SYSTEM_MAIL_BROADCAST);
-        messageChannel.setIconUrl(FileClientFactory.getClient().getStaticUrl() + "/upload/2020/07/01/1593574454241-%E6%B6%88%E6%81%AF.png");
+        messageChannel.setIconUrl(FileClientFactory.getClient().getStaticUrl() + "/oinone/img/channel_default_icon.png");
         messageChannel.setOpenType(MessageChannelOpenTypeEnum.PRIVATE);
         messageChannel.createOrUpdate();
 
@@ -195,7 +195,7 @@ public class MessageModuleInit implements LifecycleCompletedInit {
         testChannel.setId(100L);
         testChannel.setName("channel");
         testChannel.setChannelType(MessageChannelTypeEnum.CHANNEL);
-        testChannel.setIconUrl(FileClientFactory.getClient().getStaticUrl() + "/upload/2020/07/01/1593574454241-%E6%B6%88%E6%81%AF.png");
+        testChannel.setIconUrl(FileClientFactory.getClient().getStaticUrl() + "/oinone/img/channel_default_icon.png");
         testChannel.setOpenType(MessageChannelOpenTypeEnum.PUBLIC);
         testChannel.createOrUpdate();
     }
