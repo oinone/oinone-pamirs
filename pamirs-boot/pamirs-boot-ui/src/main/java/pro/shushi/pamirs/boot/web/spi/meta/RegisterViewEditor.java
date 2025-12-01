@@ -956,17 +956,6 @@ public class RegisterViewEditor implements MetaDataEditor {
                 case BusinessModelConstants.ROLE:
                     return BusinessModelConstants.ROLE_WIDGET;
             }
-        } else if (TtypeEnum.M2M.equals(ttype)) {
-            switch (businessModel) {
-                case BusinessModelConstants.COMPANY:
-                    return BusinessModelConstants.COMPANY_WIDGET;
-                case BusinessModelConstants.DEPARTMENT:
-                    return BusinessModelConstants.DEPARTMENT_WIDGET;
-                case BusinessModelConstants.EMPLOYEE:
-                    return BusinessModelConstants.EMPLOYEE_WIDGET;
-                case BusinessModelConstants.ROLE:
-                    return BusinessModelConstants.ROLE_WIDGET;
-            }
         }
         return null;
     }
