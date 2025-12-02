@@ -319,8 +319,8 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     @Override
     public List<PamirsEmployee> queryListByDslFilter(PamirsEmployeeQueryFilter query) {
         String domainRsql = query.getDomain();
-        List<String> empCodes = query.getEmpCodes();
-        List<String> deptCodes = query.getDeptCodes();
+        List<String> employeeCodes = query.getEmployeeCodes();
+        List<String> departmentCodes = query.getDepartmentCodes();
         List<String> roleCodes = query.getRoleCodes();
         Boolean userEmployee = query.getUserEmployee();
         Boolean userDept = query.getUserDept();
@@ -331,7 +331,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             queryWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, domainRsql));
         }
 
-        if (Boolean.TRUE.equals(userEmployee) || Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren) || CollectionUtils.isNotEmpty(empCodes) || CollectionUtils.isNotEmpty(deptCodes) || CollectionUtils.isNotEmpty(roleCodes)) {
+        if (Boolean.TRUE.equals(userEmployee) || Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren) || CollectionUtils.isNotEmpty(employeeCodes) || CollectionUtils.isNotEmpty(departmentCodes) || CollectionUtils.isNotEmpty(roleCodes)) {
             queryWrapper.and(andWrapper -> {
                 andWrapper.from(PamirsEmployee.MODEL_MODEL);
 
@@ -361,11 +361,11 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
                     queryWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, childRsql));
                 }
 
-                if (CollectionUtils.isNotEmpty(empCodes)) {
-                    andWrapper.or().in(PamirsEmployee::getCode, empCodes);
+                if (CollectionUtils.isNotEmpty(employeeCodes)) {
+                    andWrapper.or().in(PamirsEmployee::getCode, employeeCodes);
                 }
-                if (CollectionUtils.isNotEmpty(deptCodes)) {
-                    andWrapper.or().in(PamirsEmployee::getDepartmentCode, deptCodes);
+                if (CollectionUtils.isNotEmpty(departmentCodes)) {
+                    andWrapper.or().in(PamirsEmployee::getDepartmentCode, departmentCodes);
                 }
                 if (CollectionUtils.isNotEmpty(roleCodes)) {
                     List<Long> userIds = null;

@@ -23,10 +23,10 @@ public class PamirsEmployeeQueryFilter extends TransientModel {
     private String domain;
 
     @Field(displayName = "员工编码")
-    private List<String> empCodes;
+    private List<String> employeeCodes;
 
     @Field(displayName = "部门编码")
-    private List<String> deptCodes;
+    private List<String> departmentCodes;
 
     @Field(displayName = "角色编码")
     private List<String> roleCodes;
