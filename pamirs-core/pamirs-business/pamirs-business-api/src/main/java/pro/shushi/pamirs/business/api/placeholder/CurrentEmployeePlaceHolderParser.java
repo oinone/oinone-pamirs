@@ -8,14 +8,14 @@ import pro.shushi.pamirs.business.api.spi.CurrentEmployeeFetcher;
 import pro.shushi.pamirs.core.common.placeholder.AbstractPlaceHolderParser;
 
 /**
- * 当前用户员工编码占位符 {@code ${currentEmployeeCodes}}
+ * 当前用户员工编码占位符 {@code ${currentEmployee}}
  *
  * @author Gesi at 9:46 on 2025/9/17
  */
 @Component
 public class CurrentEmployeePlaceHolderParser extends AbstractPlaceHolderParser {
 
-    private static final String PLACEHOLDER = "${currentEmployeeCodes}";
+    private static final String PLACEHOLDER = "${currentEmployee}";
 
     @Override
     protected String value() {
