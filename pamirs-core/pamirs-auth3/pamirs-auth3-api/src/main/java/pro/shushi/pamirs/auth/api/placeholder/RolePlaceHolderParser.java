@@ -1,10 +1,12 @@
 package pro.shushi.pamirs.auth.api.placeholder;
 
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.auth.api.enumeration.AuthExpEnumerate;
 import pro.shushi.pamirs.auth.api.runtime.session.AuthRoleSession;
 import pro.shushi.pamirs.core.common.placeholder.AbstractPlaceHolderParser;
 import pro.shushi.pamirs.meta.api.core.faas.hook.PlaceHolderParser;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,8 +17,8 @@ public class RolePlaceHolderParser extends AbstractPlaceHolderParser implements 
     @Override
     protected String value() {
         Set<Long> roles = AuthRoleSession.getCurrentRoles();
-        if (roles == null || roles.isEmpty()) {
-            return "''";
+        if (roles.isEmpty()) {
+            throw PamirsException.construct(AuthExpEnumerate.AUTH_USER_NOT_BINDING_ROLE_ERROR).errThrow();
         }
         return CharacterConstants.LEFT_BRACKET +
                 roles.stream().map(String::valueOf).collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA)) +

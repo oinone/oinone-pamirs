@@ -15,9 +15,9 @@ import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
+import pro.shushi.pamirs.business.api.spi.CurrentDepartmentFetcher;
+import pro.shushi.pamirs.business.api.spi.CurrentEmployeeFetcher;
 import pro.shushi.pamirs.business.api.tmodel.PamirsEmployeeQueryFilter;
-import pro.shushi.pamirs.business.core.manager.DepartmentManager;
-import pro.shushi.pamirs.business.core.manager.EmployeeManager;
 import pro.shushi.pamirs.business.util.DepartmentRelEmployeeHelper;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -34,6 +34,7 @@ import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 import pro.shushi.pamirs.resource.api.enmu.UserSignUpType;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.service.UserService;
+import pro.shushi.pamirs.ux.common.utils.QueryHelper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,12 +50,9 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private DepartmentRelEmployeeService departmentRelEmployeeService;
-    @Autowired
-    private EmployeeManager employeeManager;
-    @Autowired
-    private DepartmentManager departmentManager;
 
     @Function
     @Override
@@ -340,14 +338,24 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
                 if (Boolean.TRUE.equals(userEmployee) || Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren)) {
                     String childRsql = "";
                     if (Boolean.TRUE.equals(userEmployee)) {
-                        childRsql = LambdaUtil.fetchFieldName(PamirsEmployee::getCode) + "=in=" + employeeManager.currentUserEmpCodes();
+                        PamirsEmployee employee = CurrentEmployeeFetcher.get().fetch();
+                        if (employee != null) {
+                            childRsql = LambdaUtil.fetchFieldName(PamirsEmployee::getCode) + "==" + employee.getCode();
+                        }
                     }
                     if (Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren)) {
-                        childRsql = StringUtils.isNotBlank(childRsql) ? childRsql + " or " : "";
                         if (Boolean.TRUE.equals(userDeptAndChildren)) {
-                            childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "=in=" + departmentManager.currentUserDeptCodes());
+                            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchList();
+                            if (CollectionUtils.isNotEmpty(departments)) {
+                                childRsql = StringUtils.isNotBlank(childRsql) ? childRsql + " or " : "";
+                                childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "=in= (\"" + departments.stream().map(PamirsDepartment::getCode).collect(Collectors.joining("\",\"")) + "\")");
+                            }
                         } else {
-                            childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "=in=" + departmentManager.currentUserDeptWithChildCodes());
+                            PamirsDepartment department = CurrentDepartmentFetcher.get().fetch();
+                            if (department != null) {
+                                childRsql = StringUtils.isNotBlank(childRsql) ? childRsql + " or " : "";
+                                childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "==" + department.getCode());
+                            }
                         }
                     }
                     queryWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, childRsql));
@@ -380,8 +388,9 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
                 }
             });
         }
-
-        return new PamirsEmployee().queryList(queryWrapper);
+        List<PamirsEmployee> employeeList = new ArrayList<>();
+        QueryHelper.queryDataListByQueryPage(PamirsEmployee.MODEL_MODEL, queryWrapper, employeeList::addAll);
+        return employeeList;
     }
 
     private Set<String> fetchImmediateSupervisorCode(String departmentCode, String myselfCode) {

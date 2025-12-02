@@ -4,7 +4,6 @@ import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.apache.commons.collections4.CollectionUtils;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
-import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.faas.hook.builtin.PlaceHolderHook;
 import pro.shushi.pamirs.framework.gateways.rsql.PamirsRsqlVisitor;
 import pro.shushi.pamirs.framework.gateways.rsql.RsqlQuery;
@@ -37,15 +36,15 @@ public class QueryHelper {
 
     private static final HoldSupplier<HookApi> hookApi = HoldSupplier.getApi(HookApi.class);
 
-    public static <T> void queryDataListByQueryPage(String model, QueryWrapper<T> queryWrapper, Consumer<List<T>> consumer) {
+    public static <T> void queryDataListByQueryPage(String model, IWrapper<T> queryWrapper, Consumer<List<T>> consumer) {
         queryDataListByQueryPage(model, queryWrapper, DEFAULT_PAGE_SIZE, Directive.NONE, consumer);
     }
 
-    public static <T> void queryDataListByQueryPage(String model, QueryWrapper<T> queryWrapper, int directive, Consumer<List<T>> consumer) {
+    public static <T> void queryDataListByQueryPage(String model, IWrapper<T> queryWrapper, int directive, Consumer<List<T>> consumer) {
         queryDataListByQueryPage(model, queryWrapper, DEFAULT_PAGE_SIZE, directive, consumer);
     }
 
-    public static <T> void queryDataListByQueryPage(String model, QueryWrapper<T> queryWrapper, int pageSize, int directive, Consumer<List<T>> consumer) {
+    public static <T> void queryDataListByQueryPage(String model, IWrapper<T> queryWrapper, int pageSize, int directive, Consumer<List<T>> consumer) {
         Pagination<T> pagination = new Pagination<>(1, pageSize);
         pagination.setModel(model);
         if (Directive.isExecuteHookBefore(directive)) {
