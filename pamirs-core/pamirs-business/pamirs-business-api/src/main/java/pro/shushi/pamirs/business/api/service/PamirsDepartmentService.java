@@ -41,6 +41,4 @@ public interface PamirsDepartmentService {
     @Function
     List<PamirsDepartment> queryDepartmentRootList(IWrapper<PamirsDepartment> queryWrapper);
 
-    @Function
-    List<PamirsDepartment> queryDepartmentChildList(IWrapper<PamirsDepartment> queryWrapper);
 }

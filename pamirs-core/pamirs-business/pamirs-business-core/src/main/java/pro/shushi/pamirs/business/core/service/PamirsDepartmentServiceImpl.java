@@ -243,18 +243,6 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         return new ArrayList<>(flatMap.values());
     }
 
-    @Function
-    @Override
-    public List<PamirsDepartment> queryDepartmentChildList(IWrapper<PamirsDepartment> queryWrapper) {
-        List<PamirsDepartment> departmentList = Models.origin().queryListByWrapper(queryWrapper);
-        if (CollectionUtils.isEmpty(departmentList)) {
-            return new ArrayList<>();
-        }
-        Map<String, PamirsDepartment> flatMap = new LinkedHashMap<>();
-        fullChildDepartment(departmentList, flatMap);
-        return new ArrayList<>(flatMap.values());
-    }
-
     private void fullParentDepartment(List<PamirsDepartment> departmentList, Map<String, PamirsDepartment> flatMap) {
         Set<String> parentCodes = new HashSet<>();
         for (PamirsDepartment department : departmentList) {
@@ -273,23 +261,5 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
             return;
         }
         fullParentDepartment(parentDepartmentList, flatMap);
-    }
-
-    private void fullChildDepartment(List<PamirsDepartment> departmentList, Map<String, PamirsDepartment> flatMap) {
-        Set<String> codes = new HashSet<>();
-        for (PamirsDepartment department : departmentList) {
-            String code = department.getCode();
-            flatMap.put(code, department);
-            codes.add(code);
-        }
-        codes = new HashSet<>(Sets.difference(codes, flatMap.keySet()));
-        if (CollectionUtils.isEmpty(codes)) {
-            return;
-        }
-        List<PamirsDepartment> childDepartmentList = Models.origin().queryListByWrapper(Pops.<PamirsDepartment>lambdaQuery().from(PamirsDepartment.MODEL_MODEL).in(PamirsDepartment::getParentCode, codes));
-        if (CollectionUtils.isEmpty(childDepartmentList)) {
-            return;
-        }
-        fullChildDepartment(childDepartmentList, flatMap);
     }
 }

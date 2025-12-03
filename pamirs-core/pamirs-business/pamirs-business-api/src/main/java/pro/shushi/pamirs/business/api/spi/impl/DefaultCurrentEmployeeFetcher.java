@@ -8,6 +8,7 @@ import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.session.DepartmentSession;
+import pro.shushi.pamirs.business.api.session.EmployeeSession;
 import pro.shushi.pamirs.business.api.spi.CurrentDepartmentFetcher;
 import pro.shushi.pamirs.business.api.spi.CurrentEmployeeFetcher;
 import pro.shushi.pamirs.framework.common.utils.DataShardingHelper;
@@ -34,11 +35,15 @@ public class DefaultCurrentEmployeeFetcher implements CurrentEmployeeFetcher {
 
     @Override
     public PamirsEmployee fetch() {
+        String employeeCode = EmployeeSession.getEmployeeCode();
+        if (StringUtils.isNotBlank(employeeCode)) {
+            return Models.origin().queryOneByWrapper(generatorWrapper().eq(PamirsEmployee::getCode, employeeCode));
+        }
         Long userId = PamirsSession.getUserId();
         if (userId == null) {
             return null;
         }
-        List<PamirsEmployee> employeeList = new PamirsEmployee().queryListByWrapper(
+        List<PamirsEmployee> employeeList = Models.origin().queryListByWrapper(
                 new Pagination<>(1, 1),
                 generatorWrapper().eq(PamirsEmployee::getBindingUserId, userId)
         );
