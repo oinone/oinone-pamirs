@@ -331,10 +331,13 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             queryWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, domainRsql));
         }
 
-        if (Boolean.TRUE.equals(userEmployee) || Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren) || CollectionUtils.isNotEmpty(employeeCodes) || CollectionUtils.isNotEmpty(departmentCodes) || CollectionUtils.isNotEmpty(roleCodes)) {
+        if (Boolean.TRUE.equals(userEmployee) ||
+                Boolean.TRUE.equals(userDept) ||
+                Boolean.TRUE.equals(userDeptAndChildren) ||
+                CollectionUtils.isNotEmpty(employeeCodes) ||
+                CollectionUtils.isNotEmpty(departmentCodes) ||
+                CollectionUtils.isNotEmpty(roleCodes)) {
             queryWrapper.and(andWrapper -> {
-                andWrapper.from(PamirsEmployee.MODEL_MODEL);
-
                 if (Boolean.TRUE.equals(userEmployee) || Boolean.TRUE.equals(userDept) || Boolean.TRUE.equals(userDeptAndChildren)) {
                     String childRsql = "";
                     if (Boolean.TRUE.equals(userEmployee)) {
@@ -348,17 +351,19 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
                             List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchList();
                             if (CollectionUtils.isNotEmpty(departments)) {
                                 childRsql = StringUtils.isNotBlank(childRsql) ? childRsql + " or " : "";
-                                childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "=in= (\"" + departments.stream().map(PamirsDepartment::getCode).collect(Collectors.joining("\",\"")) + "\")");
+                                childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentCode) + "=in= (\"" + departments.stream().map(PamirsDepartment::getCode).collect(Collectors.joining("\",\"")) + "\")");
                             }
                         } else {
                             PamirsDepartment department = CurrentDepartmentFetcher.get().fetch();
                             if (department != null) {
                                 childRsql = StringUtils.isNotBlank(childRsql) ? childRsql + " or " : "";
-                                childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentTreeCode) + "==" + department.getCode());
+                                childRsql += (LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentCode) + "==" + department.getCode());
                             }
                         }
                     }
-                    queryWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, childRsql));
+                    if (StringUtils.isNotBlank(childRsql)) {
+                        andWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, childRsql));
+                    }
                 }
 
                 if (CollectionUtils.isNotEmpty(employeeCodes)) {
