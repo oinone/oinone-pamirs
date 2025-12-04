@@ -210,6 +210,7 @@ public class UiViewUtils {
         optionField.setName(optionModelField.getName());
         optionField.setData(optionModelField.getField());
         optionField.setLabel(optionModelField.getDisplayName());
+        optionField.setMulti(optionModelField.getMulti());
         optionField.setTtype(optionModelField.getTtype());
         optionField.setRelatedTtype(optionModelField.getRelatedTtype());
         if (TtypeEnum.isRelatedType(optionModelField.getTtype().value())) {
