@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.business.api.service;
 
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
+import pro.shushi.pamirs.business.api.tmodel.DepartmentQueryFilter;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
@@ -39,6 +40,6 @@ public interface PamirsDepartmentService {
     PamirsDepartment fillDeptSupervisor(PamirsDepartment department);
 
     @Function
-    List<PamirsDepartment> queryDepartmentRootList(IWrapper<PamirsDepartment> queryWrapper);
+    List<PamirsDepartment> queryListByFilter(DepartmentQueryFilter query);
 
 }

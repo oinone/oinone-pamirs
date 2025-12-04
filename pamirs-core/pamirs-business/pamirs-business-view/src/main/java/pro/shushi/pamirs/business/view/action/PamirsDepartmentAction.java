@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.PamirsDepartmentService;
+import pro.shushi.pamirs.business.api.tmodel.DepartmentQueryFilter;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -20,11 +21,8 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import static pro.shushi.pamirs.meta.enmu.FunctionOpenEnum.*;
 
 /**
  * @author xzf (xzf@shushi.pro)
@@ -95,10 +93,10 @@ public class PamirsDepartmentAction {
         return pamirsDepartmentService.queryPageAndFillSupervisor(page, queryWrapper);
     }
 
-    @Function.Advanced(displayName = "根据条件查询部门列表及结果部门所有的父部门", type = FunctionTypeEnum.QUERY)
-    @Function(openLevel = {LOCAL, REMOTE, API})
-    public List<PamirsDepartment> queryDepartmentRootList(IWrapper<PamirsDepartment> queryWrapper) {
-        return pamirsDepartmentService.queryDepartmentRootList(queryWrapper);
+    @Function(openLevel = {FunctionOpenEnum.API})
+    @Function.Advanced(displayName = "部门组件查询", type = FunctionTypeEnum.QUERY)
+    public List<PamirsDepartment> queryListByFilter(DepartmentQueryFilter query) {
+        return pamirsDepartmentService.queryListByFilter(query);
     }
 
     @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)

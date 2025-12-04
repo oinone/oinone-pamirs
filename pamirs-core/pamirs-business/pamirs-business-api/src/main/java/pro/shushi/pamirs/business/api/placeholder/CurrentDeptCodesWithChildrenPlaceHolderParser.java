@@ -13,20 +13,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 当前用户所属部门编码占位符 {@code ${currentDeptCodes}}
+ * 当前用户所属部门编码及子部门编码占位符 {@code ${currentDeptCodesWithChildren}}
  *
  * @author Adamancy Zhang at 19:14 on 2025-12-01
  */
 @Component
-public class CurrentDeptCodesPlaceHolderParser extends AbstractPlaceHolderParser {
+public class CurrentDeptCodesWithChildrenPlaceHolderParser extends AbstractPlaceHolderParser {
 
-    private static final String PLACEHOLDER = "${currentDeptCodes}";
+    private static final String PLACEHOLDER = "${currentDeptCodesWithChildren}";
 
     @Override
     protected String value() {
-        Set<String> departmentCodes = DepartmentSession.getDepartmentCodes();
+        Set<String> departmentCodes = DepartmentSession.getDepartmentCodesWithChildren();
         if (departmentCodes == null) {
-            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchList();
+            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchListWithChildren();
             if (CollectionUtils.isEmpty(departments)) {
                 return ARRAY_EMPTY_CONDITION;
 //                throw PamirsException.construct(BusinessExpEnumerate.USER_NOT_BINDING_DEPARTMENT_ERROR).errThrow();

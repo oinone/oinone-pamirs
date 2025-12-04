@@ -20,6 +20,8 @@ public class EmployeeSession {
 
     private static final String TYPE_KEY = "CURRENT_EMPLOYEE_TYPE";
 
+    private static final String CODES_KEY = "CURRENT_EMPLOYEE_CODES";
+
     private static final String DEPT_EMPLOYEE_CODES_KEY = "CURRENT_DEPT_EMPLOYEE_CODES";
 
     private static final String DEPT_WITH_CHILDREN_EMPLOYEE_CODES_KEY = "CURRENT_DEPT_WITH_CHILDREN_EMPLOYEE_CODES";
@@ -46,6 +48,21 @@ public class EmployeeSession {
 
     public static void setEmployeeType(String type) {
         PamirsSession.getTransmittableExtend().put(TYPE_KEY, type);
+    }
+
+    public static Set<String> getEmployeeCodes() {
+        String value = PamirsSession.getTransmittableExtend().get(CODES_KEY);
+        if (value == null) {
+            return null;
+        }
+        if (CharacterConstants.SEPARATOR_EMPTY.equals(value)) {
+            return new LinkedHashSet<>();
+        }
+        return new LinkedHashSet<>(Arrays.asList(value.split(CharacterConstants.SEPARATOR_COMMA)));
+    }
+
+    public static void setEmployeeCodes(Set<String> codes) {
+        PamirsSession.getTransmittableExtend().put(CODES_KEY, String.join(CharacterConstants.SEPARATOR_COMMA, codes));
     }
 
     public static Set<String> getDeptEmployeeCodes() {

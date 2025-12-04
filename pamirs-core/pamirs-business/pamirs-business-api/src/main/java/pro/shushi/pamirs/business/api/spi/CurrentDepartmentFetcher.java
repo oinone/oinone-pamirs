@@ -23,11 +23,26 @@ public interface CurrentDepartmentFetcher {
     PamirsDepartment fetch();
 
     /**
-     * 获取当前用户所属部门及子部门
+     * 获取当前用户所属部门
      *
      * @return 当前用户所属部门
      */
     List<PamirsDepartment> fetchList();
+
+    /**
+     * 获取当前用户所属部门及子部门
+     *
+     * @return 当前用户所属部门及子部门
+     */
+    List<PamirsDepartment> fetchListWithChildren();
+
+    /**
+     * 填充指定部门子节点
+     *
+     * @param departments 指定部门列表
+     * @return 包含指定部门及子部门的完整列表
+     */
+    List<PamirsDepartment> fillDepartmentChildren(List<PamirsDepartment> departments);
 
     HoldSupplier<CurrentDepartmentFetcher> holder = HoldSupplier.getDefaultExtension(CurrentDepartmentFetcher.class);
 

@@ -24,6 +24,8 @@ public class DepartmentSession {
 
     private static final String CODES_KEY = "CURRENT_DEPARTMENT_CODES";
 
+    private static final String CODES_WITH_CHILDREN_KEY = "CURRENT_DEPARTMENT_CODES_WITH_CHILDREN";
+
     public static String getDepartmentId() {
         return PamirsSession.getTransmittableExtend().get(ID_KEY);
     }
@@ -69,5 +71,20 @@ public class DepartmentSession {
 
     public static void setDepartmentCodes(Set<String> codes) {
         PamirsSession.getTransmittableExtend().put(CODES_KEY, String.join(CharacterConstants.SEPARATOR_COMMA, codes));
+    }
+
+    public static Set<String> getDepartmentCodesWithChildren() {
+        String value = PamirsSession.getTransmittableExtend().get(CODES_WITH_CHILDREN_KEY);
+        if (value == null) {
+            return null;
+        }
+        if (CharacterConstants.SEPARATOR_EMPTY.equals(value)) {
+            return new LinkedHashSet<>();
+        }
+        return new LinkedHashSet<>(Arrays.asList(value.split(CharacterConstants.SEPARATOR_COMMA)));
+    }
+
+    public static void setDepartmentCodesWithChildren(Set<String> codes) {
+        PamirsSession.getTransmittableExtend().put(CODES_WITH_CHILDREN_KEY, String.join(CharacterConstants.SEPARATOR_COMMA, codes));
     }
 }

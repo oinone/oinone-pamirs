@@ -28,14 +28,14 @@ public class CurrentDeptWithChildrenEmployeeCodesPlaceHolder extends AbstractPla
         if (employeeCodes == null) {
             List<PamirsEmployee> employeeList = CurrentEmployeeFetcher.get().fetchDeptWithChildrenEmployeeList();
             if (CollectionUtils.isEmpty(employeeList)) {
-                return EMPTY_CONDITION;
+                return ARRAY_EMPTY_CONDITION;
             }
             return CharacterConstants.LEFT_BRACKET +
                     employeeList.stream().map(PamirsEmployee::getCode).collect(Collectors.joining(CharacterConstants.SEPARATOR_COMMA)) +
                     CharacterConstants.RIGHT_BRACKET;
         }
         if (CollectionUtils.isEmpty(employeeCodes)) {
-            return EMPTY_CONDITION;
+            return ARRAY_EMPTY_CONDITION;
         }
         return CharacterConstants.LEFT_BRACKET +
                 String.join(CharacterConstants.SEPARATOR_COMMA, employeeCodes) +

@@ -21,6 +21,11 @@ public interface CurrentEmployeeFetcher {
     PamirsEmployee fetch();
 
     /**
+     * 获取当前用户绑定的所有员工
+     */
+    List<PamirsEmployee> fetchList();
+
+    /**
      * 获取当前用户所属部门下的员工列表
      */
     List<PamirsEmployee> fetchDeptEmployeeList();

@@ -6,17 +6,22 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.business.api.BusinessModule;
+import pro.shushi.pamirs.business.api.entity.PamirsCompany;
 import pro.shushi.pamirs.business.api.enumeration.BusinessExpEnumerate;
 import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
-import pro.shushi.pamirs.business.api.model.PamirsPosition;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsDepartmentService;
+import pro.shushi.pamirs.business.api.spi.CurrentCompanyFetcher;
+import pro.shushi.pamirs.business.api.spi.CurrentDepartmentFetcher;
+import pro.shushi.pamirs.business.api.tmodel.DepartmentQueryFilter;
 import pro.shushi.pamirs.business.util.DepartmentRelEmployeeHelper;
 import pro.shushi.pamirs.core.common.behavior.impl.TreeCodeBehavior;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
+import pro.shushi.pamirs.framework.gateways.rsql.RsqlParseHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
@@ -113,23 +118,11 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
         } else {
             data.setTreeCode(data.getCode());
         }
-
-        if (CollectionUtils.isNotEmpty(data.getPositionList())) {
-            exist = exist.fieldQuery(PamirsDepartment::getPositionList);
-        }
         exist = exist.fieldQuery(PamirsDepartment::getEmployeeList);
         List<PamirsEmployee> originEmployees = exist.getEmployeeList();
-        final PamirsDepartment finalExit = exist;
         Tx.build().executeWithoutResult(status -> {
             data.updateById();
-            if (CollectionUtils.isNotEmpty(data.getPositionList())) {
-                if (CollectionUtils.isNotEmpty(data.getPositionList())) {
-                    finalExit.relationDelete(PamirsDepartment::getPositionList);
-                }
-                List<PamirsPosition> positionList = data.getPositionList();
-                positionList.forEach(t -> t.setDepartmentCode(data.getCode()));
-                new PamirsPosition().createOrUpdateBatch(positionList);
-            }
+            data.fieldSaveOnCascade(PamirsDepartment::getPositionList);
             data.fieldSaveOnCascade(PamirsDepartment::getEmployeeList);
             if (CollectionUtils.isNotEmpty(data.getEmployeeList())) {
                 assignDepartmentSupervisor(data, data.getEmployeeList());
@@ -233,7 +226,45 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
 
     @Function
     @Override
-    public List<PamirsDepartment> queryDepartmentRootList(IWrapper<PamirsDepartment> queryWrapper) {
+    public List<PamirsDepartment> queryListByFilter(DepartmentQueryFilter query) {
+        LambdaQueryWrapper<PamirsDepartment> queryWrapper = Pops.<PamirsDepartment>lambdaQuery().from(PamirsDepartment.MODEL_MODEL);
+        Set<String> departmentCodes = new HashSet<>();
+        Optional.ofNullable(query.getDepartmentCodes()).filter(CollectionUtils::isNotEmpty).ifPresent(departmentCodes::addAll);
+        boolean isReturnEmpty = false;
+        if (Boolean.TRUE.equals(query.getUserCompanyDept())) {
+            isReturnEmpty = true;
+            String companyCode = Optional.ofNullable(CurrentCompanyFetcher.get().fetch())
+                    .map(PamirsCompany::getCode)
+                    .orElse(null);
+            if (StringUtils.isNotBlank(companyCode)) {
+                queryWrapper.eq(PamirsDepartment::getCompanyCode, companyCode);
+                isReturnEmpty = false;
+            }
+        } else if (Boolean.TRUE.equals(query.getUserDeptAndChildren())) {
+            isReturnEmpty = true;
+            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchListWithChildren();
+            if (CollectionUtils.isNotEmpty(departments)) {
+                departmentCodes.addAll(departments.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet()));
+            }
+        } else if (Boolean.TRUE.equals(query.getUserDept())) {
+            isReturnEmpty = true;
+            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchList();
+            if (CollectionUtils.isNotEmpty(departments)) {
+                departmentCodes.addAll(departments.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet()));
+            }
+        }
+        if (!departmentCodes.isEmpty()) {
+            queryWrapper.in(PamirsDepartment::getCode, departmentCodes);
+            isReturnEmpty = false;
+        }
+        String rsql = query.getRsql();
+        if (StringUtils.isNotBlank(rsql)) {
+            queryWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, rsql));
+            isReturnEmpty = false;
+        }
+        if (isReturnEmpty) {
+            return new ArrayList<>();
+        }
         List<PamirsDepartment> departmentList = Models.origin().queryListByWrapper(queryWrapper);
         if (CollectionUtils.isEmpty(departmentList)) {
             return new ArrayList<>();

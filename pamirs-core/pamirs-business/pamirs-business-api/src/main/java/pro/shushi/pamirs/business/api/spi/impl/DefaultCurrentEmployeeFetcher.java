@@ -11,6 +11,7 @@ import pro.shushi.pamirs.business.api.session.DepartmentSession;
 import pro.shushi.pamirs.business.api.session.EmployeeSession;
 import pro.shushi.pamirs.business.api.spi.CurrentDepartmentFetcher;
 import pro.shushi.pamirs.business.api.spi.CurrentEmployeeFetcher;
+import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.framework.common.utils.DataShardingHelper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
@@ -54,44 +55,25 @@ public class DefaultCurrentEmployeeFetcher implements CurrentEmployeeFetcher {
     }
 
     @Override
-    public List<PamirsEmployee> fetchDeptEmployeeList() {
-        Set<String> employeeCodes = getDeptEmployeeCodes();
-        if (CollectionUtils.isEmpty(employeeCodes)) {
+    public List<PamirsEmployee> fetchList() {
+        Long userId = PamirsSession.getUserId();
+        if (userId == null) {
             return null;
         }
-        return DataShardingHelper.build().collectionSharding(employeeCodes, (sublist) -> Models.origin().queryListByWrapper(
-                generatorWrapper().setBatchSize(-1).in(PamirsEmployee::getCode, sublist))
-        );
-    }
-
-    protected Set<String> getDeptEmployeeCodes() {
-        String departmentType = DepartmentSession.getDepartmentType();
-        String departmentCode = DepartmentSession.getDepartmentCode();
-        if (departmentType == null || departmentCode == null) {
-            PamirsDepartment department = CurrentDepartmentFetcher.get().fetch();
-            if (department == null) {
-                return null;
-            }
-            departmentType = department.getDepartmentType();
-            departmentCode = department.getCode();
-        }
-        if (StringUtils.isAnyBlank(departmentType, departmentCode)) {
+        List<PamirsEmployee> employeeList = Models.origin().queryListByWrapper(generatorWrapper().eq(PamirsEmployee::getBindingUserId, userId));
+        if (CollectionUtils.isEmpty(employeeList)) {
             return null;
         }
-        List<DepartmentRelEmployee> departmentRelEmployees = Models.origin().queryListByWrapper(
-                Pops.<DepartmentRelEmployee>lambdaQuery()
-                        .from(DepartmentRelEmployee.MODEL_MODEL)
-                        .eq(DepartmentRelEmployee::getDepartmentType, departmentType)
-                        .eq(DepartmentRelEmployee::getDepartmentCode, departmentCode));
-        if (CollectionUtils.isEmpty(departmentRelEmployees)) {
-            return null;
-        }
-        return departmentRelEmployees.stream().map(DepartmentRelEmployee::getEmployeeCode).collect(Collectors.toSet());
+        return employeeList;
     }
 
     @Override
-    public List<PamirsEmployee> fetchDeptWithChildrenEmployeeList() {
-        Set<String> employeeCodes = getDeptWithChildrenEmployeeCodes();
+    public List<PamirsEmployee> fetchDeptEmployeeList() {
+        Set<String> departmentCodes = getDepartmentCodes();
+        if (CollectionUtils.isEmpty(departmentCodes)) {
+            return null;
+        }
+        Set<String> employeeCodes = fetchEmployeeCodesByDepartmentCodes(departmentCodes);
         if (CollectionUtils.isEmpty(employeeCodes)) {
             return null;
         }
@@ -100,7 +82,7 @@ public class DefaultCurrentEmployeeFetcher implements CurrentEmployeeFetcher {
         );
     }
 
-    protected Set<String> getDeptWithChildrenEmployeeCodes() {
+    protected Set<String> getDepartmentCodes() {
         Set<String> departmentCodes = DepartmentSession.getDepartmentCodes();
         if (departmentCodes == null) {
             List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchList();
@@ -109,9 +91,37 @@ public class DefaultCurrentEmployeeFetcher implements CurrentEmployeeFetcher {
             }
             departmentCodes = departments.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet());
         }
+        return departmentCodes;
+    }
+
+    @Override
+    public List<PamirsEmployee> fetchDeptWithChildrenEmployeeList() {
+        Set<String> departmentCodes = getDepartmentCodesWithChildren();
         if (CollectionUtils.isEmpty(departmentCodes)) {
             return null;
         }
+        Set<String> employeeCodes = fetchEmployeeCodesByDepartmentCodes(departmentCodes);
+        if (CollectionUtils.isEmpty(employeeCodes)) {
+            return null;
+        }
+        return DataShardingHelper.build().collectionSharding(employeeCodes, (sublist) -> Models.origin().queryListByWrapper(
+                generatorWrapper().setBatchSize(-1).in(PamirsEmployee::getCode, sublist))
+        );
+    }
+
+    protected Set<String> getDepartmentCodesWithChildren() {
+        Set<String> departmentCodes = DepartmentSession.getDepartmentCodesWithChildren();
+        if (departmentCodes == null) {
+            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchListWithChildren();
+            if (CollectionUtils.isEmpty(departments)) {
+                return null;
+            }
+            departmentCodes = departments.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet());
+        }
+        return departmentCodes;
+    }
+
+    protected Set<String> fetchEmployeeCodesByDepartmentCodes(Set<String> departmentCodes) {
         List<DepartmentRelEmployee> departmentRelEmployees = DataShardingHelper.build().collectionSharding(departmentCodes, (sublist) -> Models.origin().queryListByWrapper(
                 Pops.<DepartmentRelEmployee>lambdaQuery()
                         .from(DepartmentRelEmployee.MODEL_MODEL)
@@ -127,6 +137,7 @@ public class DefaultCurrentEmployeeFetcher implements CurrentEmployeeFetcher {
                 .select(PamirsEmployee::getId, PamirsEmployee::getCode, PamirsEmployee::getEmployeeType,
                         PamirsEmployee::getCompanyCode,
                         PamirsEmployee::getDepartmentCode, PamirsEmployee::getDepartmentTreeCode
-                );
+                )
+                .eq(PamirsEmployee::getDataStatus, DataStatusEnum.ENABLED.value());
     }
 }

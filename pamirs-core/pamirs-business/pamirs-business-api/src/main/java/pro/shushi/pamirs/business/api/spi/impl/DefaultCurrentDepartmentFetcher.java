@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.business.api.spi.impl;
 
-import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
@@ -12,6 +11,7 @@ import pro.shushi.pamirs.business.api.session.DepartmentSession;
 import pro.shushi.pamirs.business.api.session.EmployeeSession;
 import pro.shushi.pamirs.business.api.spi.CurrentDepartmentFetcher;
 import pro.shushi.pamirs.business.api.spi.CurrentEmployeeFetcher;
+import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.framework.common.utils.DataShardingHelper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 获取当前部门默认实现
@@ -56,8 +57,8 @@ public class DefaultCurrentDepartmentFetcher implements CurrentDepartmentFetcher
         if (StringUtils.isAnyBlank(employeeType, employeeCode)) {
             return null;
         }
+        // FIXME: zbh 20251202 此处有效部门应通过扩展部门启用禁用的方式维护在中间表，以此提高查询性能
         List<DepartmentRelEmployee> departmentRelEmployees = Models.origin().queryListByWrapper(
-                new Pagination<>(1, 1),
                 Pops.<DepartmentRelEmployee>lambdaQuery()
                         .from(DepartmentRelEmployee.MODEL_MODEL)
                         .eq(DepartmentRelEmployee::getEmployeeType, employeeType)
@@ -65,7 +66,16 @@ public class DefaultCurrentDepartmentFetcher implements CurrentDepartmentFetcher
         if (CollectionUtils.isEmpty(departmentRelEmployees)) {
             return null;
         }
-        return departmentRelEmployees.get(0).getDepartmentCode();
+        Set<String> departmentCodes = departmentRelEmployees.stream().map(DepartmentRelEmployee::getDepartmentCode).collect(Collectors.toSet());
+        if (CollectionUtils.isEmpty(departmentCodes)) {
+            return null;
+        }
+        List<PamirsDepartment> validDepartments = Models.origin().queryListByWrapper(new Pagination<>(1, 1),
+                generatorWrapper().in(PamirsDepartment::getCode, departmentCodes));
+        if (CollectionUtils.isEmpty(validDepartments)) {
+            return null;
+        }
+        return validDepartments.get(0).getCode();
     }
 
     protected String getCurrentDepartmentCodeByEmployee() {
@@ -78,11 +88,45 @@ public class DefaultCurrentDepartmentFetcher implements CurrentDepartmentFetcher
 
     @Override
     public List<PamirsDepartment> fetchList() {
-        PamirsDepartment department = fetch();
-        if (department == null) {
+        Set<String> employeeCodes = EmployeeSession.getEmployeeCodes();
+        if (employeeCodes == null) {
+            List<PamirsEmployee> employeeList = CurrentEmployeeFetcher.get().fetchList();
+            if (CollectionUtils.isEmpty(employeeList)) {
+                return null;
+            }
+            employeeCodes = employeeList.stream().map(PamirsEmployee::getCode).collect(Collectors.toSet());
+        }
+        if (CollectionUtils.isEmpty(employeeCodes)) {
             return null;
         }
-        return fillDepartmentChildren(Lists.newArrayList(department), new HashSet<>());
+        List<DepartmentRelEmployee> departmentRelEmployees = Models.origin().queryListByWrapper(
+                Pops.<DepartmentRelEmployee>lambdaQuery()
+                        .from(DepartmentRelEmployee.MODEL_MODEL)
+                        .in(DepartmentRelEmployee::getEmployeeCode, employeeCodes));
+        if (CollectionUtils.isEmpty(departmentRelEmployees)) {
+            return null;
+        }
+        Set<String> departmentCodes = departmentRelEmployees.stream().map(DepartmentRelEmployee::getDepartmentCode).collect(Collectors.toSet());
+        if (CollectionUtils.isEmpty(departmentCodes)) {
+            return null;
+        }
+        return DataShardingHelper.build().collectionSharding(departmentCodes, sublist -> Models.origin().queryListByWrapper(
+                generatorWrapper().setBatchSize(-1).in(PamirsDepartment::getCode, sublist))
+        );
+    }
+
+    @Override
+    public List<PamirsDepartment> fetchListWithChildren() {
+        List<PamirsDepartment> departments = fetchList();
+        if (CollectionUtils.isEmpty(departments)) {
+            return departments;
+        }
+        return fillDepartmentChildren(departments, new HashSet<>());
+    }
+
+    @Override
+    public List<PamirsDepartment> fillDepartmentChildren(List<PamirsDepartment> departments) {
+        return fillDepartmentChildren(departments, new HashSet<>());
     }
 
     protected List<PamirsDepartment> fillDepartmentChildren(List<PamirsDepartment> departments, Set<String> existCodes) {
@@ -114,6 +158,7 @@ public class DefaultCurrentDepartmentFetcher implements CurrentDepartmentFetcher
     protected LambdaQueryWrapper<PamirsDepartment> generatorWrapper() {
         return Pops.<PamirsDepartment>lambdaQuery()
                 .from(PamirsDepartment.MODEL_MODEL)
-                .select(PamirsDepartment::getId, PamirsDepartment::getCode, PamirsDepartment::getTreeCode, PamirsDepartment::getDepartmentType);
+                .select(PamirsDepartment::getId, PamirsDepartment::getCode, PamirsDepartment::getTreeCode, PamirsDepartment::getDepartmentType)
+                .eq(PamirsDepartment::getDataStatus, DataStatusEnum.ENABLED.value());
     }
 }
