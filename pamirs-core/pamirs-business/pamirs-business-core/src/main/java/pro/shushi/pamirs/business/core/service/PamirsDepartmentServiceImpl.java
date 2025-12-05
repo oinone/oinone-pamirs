@@ -1,10 +1,12 @@
 package pro.shushi.pamirs.business.core.service;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.shushi.pamirs.auth.api.runtime.executor.DataPermissionExecutor;
 import pro.shushi.pamirs.business.api.BusinessModule;
 import pro.shushi.pamirs.business.api.entity.PamirsCompany;
 import pro.shushi.pamirs.business.api.enumeration.BusinessExpEnumerate;
@@ -31,6 +33,8 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.base.K2;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
+import pro.shushi.pamirs.meta.constant.FunctionConstants;
+import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.SequenceEnum;
 
 import java.time.Instant;
@@ -258,8 +262,16 @@ public class PamirsDepartmentServiceImpl implements PamirsDepartmentService {
             isReturnEmpty = false;
         }
         String rsql = query.getRsql();
+        String filter = DataPermissionExecutor.getFilter(PamirsDepartment.MODEL_MODEL, FunctionConstants.queryPage, Lists.newArrayList(FunctionTypeEnum.QUERY));
+        if (StringUtils.isNotBlank(filter)) {
+            if (StringUtils.isBlank(rsql)) {
+                rsql = filter;
+            } else {
+                rsql = String.format("(%s) and (%s)", rsql, filter);
+            }
+        }
         if (StringUtils.isNotBlank(rsql)) {
-            queryWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, rsql));
+            queryWrapper.apply(RsqlParseHelper.parseRsql2Sql(PamirsDepartment.MODEL_MODEL, rsql));
             isReturnEmpty = false;
         }
         if (isReturnEmpty) {

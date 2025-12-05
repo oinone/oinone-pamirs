@@ -9,6 +9,7 @@ import pro.shushi.pamirs.auth.api.model.AuthRole;
 import pro.shushi.pamirs.auth.api.service.AuthRoleService;
 import pro.shushi.pamirs.auth.api.service.manager.AuthCacheManager;
 import pro.shushi.pamirs.auth.api.service.manager.AuthRoleManager;
+import pro.shushi.pamirs.auth.api.tmodel.RoleQueryFilter;
 import pro.shushi.pamirs.core.common.DataShardingHelper;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -126,6 +127,12 @@ public class AuthRoleAction {
     public AuthRole refreshAllCache(AuthRole data) {
         authCacheManager.refreshAll();
         return data;
+    }
+
+    @Function(openLevel = {FunctionOpenEnum.API})
+    @Function.Advanced(displayName = "角色组件查询", type = FunctionTypeEnum.QUERY)
+    public List<AuthRole> queryListByFilter(RoleQueryFilter query) {
+        return authRoleService.queryListByFilter(query);
     }
 
     private List<AuthRole> queryExistRoles(List<AuthRole> roles) {
