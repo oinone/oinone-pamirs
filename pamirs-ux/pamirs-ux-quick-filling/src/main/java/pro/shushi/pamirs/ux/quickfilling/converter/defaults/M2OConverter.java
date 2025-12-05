@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.ux.quickfilling.converter.defaults;
 
+import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.framework.common.utils.DataShardingHelper;
@@ -80,6 +81,7 @@ public class M2OConverter extends AbstractNonBasicQuickFillingConverter implemen
         if (matchValues.isEmpty()) {
             return;
         }
+        Set<String> matchedValues = new HashSet<>();
         Set<String> values = matchValues.keySet();
         QuickFillingColumn column = getColumn();
         String references = column.getReferences();
@@ -97,14 +99,25 @@ public class M2OConverter extends AbstractNonBasicQuickFillingConverter implemen
                 if (target == null) {
                     continue;
                 }
-                List<QuickFillingRow> matchedRows = matchValues.get(String.valueOf(target));
+                String maybeMatchedValue = String.valueOf(target);
+                List<QuickFillingRow> matchedRows = matchValues.get(maybeMatchedValue);
                 if (matchedRows == null) {
                     continue;
                 }
+                matchedValues.add(maybeMatchedValue);
                 for (QuickFillingRow matchedRow : matchedRows) {
                     setValue(matchedRow, item);
                 }
                 break;
+            }
+        }
+        for (String nonMatchedValue : Sets.difference(values, matchedValues)) {
+            List<QuickFillingRow> nonMatchedRows = matchValues.get(nonMatchedValue);
+            if (nonMatchedRows == null) {
+                continue;
+            }
+            for (QuickFillingRow nonMatchedRow : nonMatchedRows) {
+                validateError(nonMatchedRow, QuickFillingExpEnumerate.NON_MATCH_RELATION_DATA_ERROR.msg());
             }
         }
     }
