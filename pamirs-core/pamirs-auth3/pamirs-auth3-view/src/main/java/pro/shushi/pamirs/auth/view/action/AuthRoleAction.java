@@ -10,7 +10,6 @@ import pro.shushi.pamirs.auth.api.service.AuthRoleService;
 import pro.shushi.pamirs.auth.api.service.manager.AuthCacheManager;
 import pro.shushi.pamirs.auth.api.service.manager.AuthRoleManager;
 import pro.shushi.pamirs.core.common.DataShardingHelper;
-import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.Action;
@@ -22,6 +21,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.ExpConstants;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.enmu.*;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -50,6 +50,14 @@ public class AuthRoleAction {
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public Pagination<AuthRole> queryPage(Pagination<AuthRole> page, IWrapper<AuthRole> queryWrapper) {
         return authRoleService.queryPage(page, WrapperHelper.lambda(queryWrapper)
+                .ne(AuthRole::getSource, AuthorizationSourceEnum.BUILD_IN.value()));
+    }
+
+    @Function.Advanced(displayName = "根据条件查询记录列表", type = FunctionTypeEnum.QUERY, managed = true)
+    @Function.fun(FunctionConstants.queryListByWrapper)
+    @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
+    public List<AuthRole> queryListByWrapper(IWrapper<AuthRole> queryWrapper) {
+        return authRoleService.queryListByWrapper(WrapperHelper.lambda(queryWrapper)
                 .ne(AuthRole::getSource, AuthorizationSourceEnum.BUILD_IN.value()));
     }
 
