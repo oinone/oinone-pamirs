@@ -56,15 +56,22 @@ public class DefaultCurrentEmployeeFetcher implements CurrentEmployeeFetcher {
 
     @Override
     public List<PamirsEmployee> fetchList() {
-        Long userId = PamirsSession.getUserId();
-        if (userId == null) {
+        Set<String> employeeCodes = EmployeeSession.getEmployeeCodes();
+        if (employeeCodes == null) {
+            Long userId = PamirsSession.getUserId();
+            if (userId == null) {
+                return null;
+            }
+            List<PamirsEmployee> employeeList = Models.origin().queryListByWrapper(generatorWrapper().eq(PamirsEmployee::getBindingUserId, userId));
+            if (CollectionUtils.isEmpty(employeeList)) {
+                return null;
+            }
+            return employeeList;
+        }
+        if (employeeCodes.isEmpty()) {
             return null;
         }
-        List<PamirsEmployee> employeeList = Models.origin().queryListByWrapper(generatorWrapper().eq(PamirsEmployee::getBindingUserId, userId));
-        if (CollectionUtils.isEmpty(employeeList)) {
-            return null;
-        }
-        return employeeList;
+        return Models.origin().queryListByWrapper(generatorWrapper().in(PamirsEmployee::getCode, employeeCodes));
     }
 
     @Override

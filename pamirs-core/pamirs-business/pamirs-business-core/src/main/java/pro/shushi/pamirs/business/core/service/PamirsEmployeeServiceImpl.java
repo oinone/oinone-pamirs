@@ -328,38 +328,44 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     public List<PamirsEmployee> queryListByFilter(EmployeeQueryFilter query) {
         Set<String> departmentCodes = new HashSet<>();
         Set<String> employeeCodes = new HashSet<>();
-        Set<Long> bindingUserIds = null;
         Optional.ofNullable(query.getDepartmentCodes()).filter(CollectionUtils::isNotEmpty).ifPresent(departmentCodes::addAll);
         Optional.ofNullable(query.getEmployeeCodes()).filter(CollectionUtils::isNotEmpty).ifPresent(employeeCodes::addAll);
+        boolean isReturnEmpty = false;
+        if (Boolean.TRUE.equals(query.getUserEmployee())) {
+            isReturnEmpty = true;
+            List<PamirsEmployee> employeeList = CurrentEmployeeFetcher.get().fetchList();
+            if (CollectionUtils.isNotEmpty(employeeList)) {
+                employeeCodes.addAll(employeeList.stream().map(PamirsEmployee::getCode).collect(Collectors.toSet()));
+            }
+        }
+        if (Boolean.TRUE.equals(query.getUserDeptAndChildren())) {
+            isReturnEmpty = true;
+            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchListWithChildren();
+            if (CollectionUtils.isNotEmpty(departments)) {
+                departmentCodes.addAll(departments.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet()));
+            }
+        } else if (Boolean.TRUE.equals(query.getUserDept())) {
+            isReturnEmpty = true;
+            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchList();
+            if (CollectionUtils.isNotEmpty(departments)) {
+                departmentCodes.addAll(departments.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet()));
+            }
+        }
+        Set<Long> bindingUserIds = null;
         List<String> roleCodes = query.getRoleCodes();
         if (CollectionUtils.isNotEmpty(roleCodes)) {
-            Set<Long> roleIds = DataShardingHelper.build().sharding(roleCodes, (sublist) -> Models.origin().queryListByWrapper(Pops.<AuthRole>lambdaQuery()
+            isReturnEmpty = true;
+            Set<Long> roleIds = DataShardingHelper.build().collectionSharding(roleCodes, (sublist) -> Models.origin().queryListByWrapper(Pops.<AuthRole>lambdaQuery()
                             .from(AuthRole.MODEL_MODEL)
                             .select(AuthRole::getId)
-                            .eq(AuthRole::getCode, sublist)))
+                            .setBatchSize(-1)
+                            .in(AuthRole::getCode, sublist)))
                     .stream().map(AuthRole::getId).collect(Collectors.toSet());
             if (!roleIds.isEmpty()) {
                 List<AuthUserRoleRel> userRoleList = authUserRoleService.queryListByRoleIds(roleIds);
                 if (CollectionUtils.isNotEmpty(userRoleList)) {
                     bindingUserIds = userRoleList.stream().map(AuthUserRoleRel::getUserId).collect(Collectors.toSet());
                 }
-            }
-        }
-        if (Boolean.TRUE.equals(query.getUserEmployee())) {
-            PamirsEmployee employee = CurrentEmployeeFetcher.get().fetch();
-            if (employee != null) {
-                employeeCodes.add(employee.getCode());
-            }
-        }
-        if (Boolean.TRUE.equals(query.getUserDeptAndChildren())) {
-            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchListWithChildren();
-            if (CollectionUtils.isNotEmpty(departments)) {
-                departmentCodes.addAll(departments.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet()));
-            }
-        } else if (Boolean.TRUE.equals(query.getUserDept())) {
-            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchList();
-            if (CollectionUtils.isNotEmpty(departments)) {
-                departmentCodes.addAll(departments.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet()));
             }
         }
         if (CollectionUtils.isNotEmpty(bindingUserIds)) {
@@ -394,8 +400,22 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         }
         if (StringUtils.isNotBlank(rsql)) {
             applySql = RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, rsql);
+            isReturnEmpty = false;
+        }
+        if (isReturnEmpty && employeeCodes.isEmpty()) {
+            return new ArrayList<>();
         }
         final String finalApplySql = applySql;
+        if (employeeCodes.isEmpty() || employeeCodes.size() <= 500) {
+            LambdaQueryWrapper<PamirsEmployee> queryWrapper = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL);
+            if (finalApplySql != null) {
+                queryWrapper.apply(finalApplySql);
+            }
+            if (!employeeCodes.isEmpty()) {
+                queryWrapper.in(PamirsEmployee::getCode, employeeCodes);
+            }
+            return Models.origin().queryListByWrapper(queryWrapper);
+        }
         return DataShardingHelper.build().collectionSharding(employeeCodes, (sublist) -> {
             LambdaQueryWrapper<PamirsEmployee> queryWrapper = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL)
                     .setBatchSize(-1)
