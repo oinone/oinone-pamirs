@@ -698,7 +698,7 @@ public class RegisterViewEditor implements MetaDataEditor {
             }
 
             // 可选项配置
-            UiViewUtils.fillOptions(modelField, uiField,
+            UiViewUtils.fillOptions(modelField, uiView, uiField,
                     vModel -> context.getMeta().getModel(vModel),
                     (vModel, vField) -> context.getMeta().getModelField(vModel, vField));
 

@@ -25,4 +25,8 @@ public class UIMetadata extends TransientModel {
     @XStreamImplicit
     @Field(displayName = "模型")
     private List<UIModel> model;
+
+    @XStreamImplicit
+    @Field(displayName = "数据字典")
+    private List<UIDictionary> dictionary;
 }
