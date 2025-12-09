@@ -312,19 +312,4 @@ public class TextFunctions {
         }
         return StringUtils.indexOf(text, search);
     }
-
-    @Function.Advanced(
-            displayName = "判断字符串是否存在在集合里", language = JAVA,
-            builtin = true, category = TEXT
-    )
-    @Function.fun("IN_SET")
-    @Function(name = "IN_SET", scene = {EXPRESSION}, openLevel = LOCAL,
-            summary = "函数示例: IN_SET(\"a\", [\"a\",\"b\",\"c\"]) 返回 true 函数说明: 判断字符串是否存在在集合里"
-    )
-    public static Boolean indexOf(String text, List<String> set) {
-        if (null == text || null == set) {
-            return null;
-        }
-        return set.contains(text);
-    }
 }

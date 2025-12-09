@@ -757,15 +757,19 @@ public class MathFunctions {
     )
     @Function.fun("BETWEEN_AND")
     @Function(name = "BETWEEN_AND", scene = {EXPRESSION}, openLevel = LOCAL,
-            summary = "函数示例: BETWEEN_AND(arg, [a,b])\n函数说明: 判断arg是否在a到b之间（左闭右闭）"
+            summary = "函数示例: BETWEEN_AND(arg, 'a,b')\n函数说明: 判断arg是否在a到b之间（左闭右闭）"
     )
-    public static Boolean betweenAnd(Object arg, List<Object> scope) {
-        if (arg == null || scope == null || scope.size() != 2) {
+    public static Boolean betweenAnd(Number arg, String scopeStr) {
+        if (arg == null || scopeStr == null) {
+            return null;
+        }
+        String[] scopeIntList = scopeStr.split(",");
+        if (scopeIntList.length != 2) {
             return null;
         }
         BigDecimal argBigDecimal = new BigDecimal(arg.toString());
-        int compareLeft = argBigDecimal.compareTo(new BigDecimal(scope.get(0).toString()));
-        int compareRight = argBigDecimal.compareTo(new BigDecimal(scope.get(1).toString()));
+        int compareLeft = argBigDecimal.compareTo(new BigDecimal(scopeIntList[0]));
+        int compareRight = argBigDecimal.compareTo(new BigDecimal(scopeIntList[1]));
         return compareLeft >= 0 && compareRight <= 0;
     }
 
