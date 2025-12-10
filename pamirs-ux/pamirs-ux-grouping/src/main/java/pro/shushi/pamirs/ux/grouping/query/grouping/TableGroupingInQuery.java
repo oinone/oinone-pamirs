@@ -4,21 +4,22 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.common.entry.NullValue;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
+import pro.shushi.pamirs.meta.api.Models;
+import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
+import pro.shushi.pamirs.meta.util.FieldUtils;
+import pro.shushi.pamirs.ux.common.utils.QueryHelper;
 import pro.shushi.pamirs.ux.grouping.entity.GroupingDataWrapper;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.ux.grouping.model.TableGroupingResult;
 import pro.shushi.pamirs.ux.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.ux.grouping.utils.TableGroupingDataHelper;
 import pro.shushi.pamirs.ux.grouping.utils.TableGroupingHelper;
-import pro.shushi.pamirs.meta.api.Models;
-import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
-import pro.shushi.pamirs.meta.util.FieldUtils;
-import pro.shushi.pamirs.ux.common.utils.QueryHelper;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * 可使用 IN 查询处理的表格分组查询
@@ -52,6 +53,7 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
             }
         }
         QueryWrapper<T> queryWrapper = context.generatorQueryWrapper();
+        Consumer<QueryWrapper<T>> applyIn;
         if (firstQuery.isRelationOneField()) {
             List<String> relationColumns = firstQuery.getRelationColumns();
             List<String> referenceFields = firstQuery.getReferenceFields();
@@ -66,12 +68,17 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
                     newInValues.add(FieldUtils.getFieldValue(inValue, referenceField));
                 }
             }
-            queryWrapper.in(relationColumns, collInValues.toArray(new List[0]));
+            applyIn = (w) -> w.in(relationColumns, collInValues.toArray(new List[0]));
         } else {
-            queryWrapper.in(firstQuery.getColumn(), inValues);
+            applyIn = (w) -> w.in(firstQuery.getColumn(), inValues);
         }
         if (isContainsNull) {
-            firstQuery.withNullWhere(queryWrapper);
+            queryWrapper.and(w -> {
+                applyIn.accept(w);
+                firstQuery.withNullWhere(w.or());
+            });
+        } else {
+            applyIn.accept(queryWrapper);
         }
         List<String> needQueryRelationFields = new ArrayList<>();
         for (TableGroupingFieldQuery query : queryList) {
