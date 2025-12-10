@@ -388,7 +388,6 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
                 employeeCodes.addAll(departmentRelEmployees.stream().map(DepartmentRelEmployee::getEmployeeCode).collect(Collectors.toSet()));
             }
         }
-        String applySql = null;
         String rsql = query.getRsql();
         String filter = DataPermissionExecutor.getFilter(PamirsEmployee.MODEL_MODEL, FunctionConstants.queryPage, Lists.newArrayList(FunctionTypeEnum.QUERY));
         if (StringUtils.isNotBlank(filter)) {
@@ -398,6 +397,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
                 rsql = String.format("(%s) and (%s)", rsql, filter);
             }
         }
+        String applySql = null;
         if (StringUtils.isNotBlank(rsql)) {
             applySql = RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, rsql);
             isReturnEmpty = false;
