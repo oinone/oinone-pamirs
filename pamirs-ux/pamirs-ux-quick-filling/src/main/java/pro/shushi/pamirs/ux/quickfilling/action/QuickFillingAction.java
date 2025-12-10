@@ -24,6 +24,7 @@ import pro.shushi.pamirs.ux.quickfilling.model.QuickFillingFailureDetail;
 import pro.shushi.pamirs.ux.quickfilling.model.QuickFillingField;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -123,10 +124,16 @@ public class QuickFillingAction {
         List<Object> data = new ArrayList<>();
         List<QuickFillingFailure> failures = new ArrayList<>();
         for (QuickFillingRow row : rows) {
+            boolean isAppendData = false;
             if (row.isNotEmpty()) {
                 data.add(PamirsDataUtils.modelObjectToJsonObject(model, row.getData()));
+                isAppendData = true;
             }
-            collectionFailure(failures, row);
+            if (collectionFailure(failures, row)) {
+                if (!isAppendData) {
+                    data.add(new HashMap<>());
+                }
+            }
         }
         if (!data.isEmpty()) {
             result.setValues(JsonUtils.toJSONString(data));
@@ -137,14 +144,16 @@ public class QuickFillingAction {
         return result;
     }
 
-    private void collectionFailure(List<QuickFillingFailure> failures, QuickFillingRow row) {
+    private boolean collectionFailure(List<QuickFillingFailure> failures, QuickFillingRow row) {
         List<QuickFillingFailureDetail> failureDetails = row.getFailures();
-        if (!failureDetails.isEmpty()) {
-            QuickFillingFailure failure = new QuickFillingFailure();
-            failure.setRowNumber(row.getRowIndex());
-            failure.setDetailList(failureDetails);
-            failures.add(failure);
+        if (failureDetails.isEmpty()) {
+            return false;
         }
+        QuickFillingFailure failure = new QuickFillingFailure();
+        failure.setRowNumber(row.getRowIndex());
+        failure.setDetailList(failureDetails);
+        failures.add(failure);
+        return true;
     }
 
     private static class LoadContextResult {

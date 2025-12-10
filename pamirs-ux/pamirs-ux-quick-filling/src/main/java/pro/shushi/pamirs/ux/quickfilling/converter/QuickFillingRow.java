@@ -56,9 +56,18 @@ public class QuickFillingRow {
 
     public List<QuickFillingFailureDetail> getFailures() {
         if (data == null) {
-            return validateMessages.stream().filter(QuickFillingValidateMessage::isValid).map(QuickFillingValidateMessage::of).collect(Collectors.toList());
+            if (validateMessages.stream().noneMatch(QuickFillingValidateMessage::isValid)) {
+                return Collections.emptyList();
+            }
         }
         return validateMessages.stream().map(QuickFillingValidateMessage::of).collect(Collectors.toList());
+    }
+
+    public Object getValue(String field) {
+        if (this.data == null) {
+            return null;
+        }
+        return FieldUtils.getFieldValue(data, field);
     }
 
     public void setValue(String field, Object value) {

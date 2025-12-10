@@ -47,6 +47,10 @@ public abstract class AbstractQuickFillingConverter implements QuickFillingConve
         return false;
     }
 
+    protected Object getValue(QuickFillingRow row) {
+        return row.getValue(field);
+    }
+
     protected void setValue(QuickFillingRow row, Object value) {
         row.setValue(field, value);
     }
