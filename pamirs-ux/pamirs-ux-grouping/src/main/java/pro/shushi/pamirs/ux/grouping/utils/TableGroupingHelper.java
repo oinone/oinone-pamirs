@@ -35,16 +35,27 @@ public class TableGroupingHelper {
      */
     public static <T> void computePaging(Pagination<T> pagination, TableGroupingResult result) {
         List<GroupingData> groups = result.getGroups();
-        Long totalElements = pagination.getTotalElements();
+        Long totalElements = result.getTotalElements();
         if (totalElements == null) {
-            totalElements = Long.parseLong(String.valueOf(groups.size()));
-            result.setTotalElements(totalElements);
+            Long finalTotalElements = pagination.getTotalElements();
+            if (finalTotalElements == null) {
+                finalTotalElements = Long.parseLong(String.valueOf(groups.size()));
+            }
+            totalElements = finalTotalElements;
+            result.setTotalElements(finalTotalElements);
         }
-        int size = pagination.getSize().intValue();
-        if (size < 0) {
-            result.setTotalPages(1);
-        } else {
-            result.setTotalPages((int) (totalElements / size) + 1);
+        Integer totalPages = result.getTotalPages();
+        if (totalPages == null) {
+            Integer finalTotalPages = pagination.getTotalPages();
+            if (finalTotalPages == null) {
+                int size = pagination.getSize().intValue();
+                if (size < 0) {
+                    finalTotalPages = 1;
+                } else {
+                    finalTotalPages = (int) (totalElements / size) + 1;
+                }
+            }
+            result.setTotalPages(finalTotalPages);
         }
     }
 
@@ -93,7 +104,10 @@ public class TableGroupingHelper {
         Pagination<T> page = new Pagination<>();
         pagination.to(page);
         page.setSortable(false);
-        List<T> list = Models.origin().queryListByWrapper(page, queryWrapper);
+        Pagination<T> result = Models.origin().queryPage(page, queryWrapper);
+        List<T> list = result.getContent();
+        pagination.setTotalPages(result.getTotalPages());
+        pagination.setTotalElements(result.getTotalElements());
         if (query.isSupportRelationQuery()) {
             List<T> relationDataList = list.stream().filter(Objects::nonNull).collect(Collectors.toList());
             if (CollectionUtils.isNotEmpty(relationDataList)) {
