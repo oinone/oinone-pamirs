@@ -10,6 +10,7 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.ux.common.model.CommonConditionWrapper;
+import pro.shushi.pamirs.ux.common.utils.NumberHelper;
 import pro.shushi.pamirs.ux.grouping.entity.GroupingDataWrapper;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingModel;
@@ -17,6 +18,8 @@ import pro.shushi.pamirs.ux.grouping.model.GroupingData;
 import pro.shushi.pamirs.ux.grouping.model.GroupingField;
 import pro.shushi.pamirs.ux.grouping.model.TableGroupingWrapper;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -191,6 +194,12 @@ public class TableGroupingDataHelper {
                 }
                 return String.join(CharacterConstants.SEPARATOR_OCTOTHORPE, keys);
             }
+        } else if (query.isNumberField()) {
+            BigDecimal numberValue = NumberHelper.valueOfNullable(value);
+            if (numberValue == null) {
+                return NULL_VALUE;
+            }
+            return numberValue.setScale(6, RoundingMode.HALF_UP).toPlainString();
         } else if (query.isRelationOneField()) {
             return generatorObjectKey(value, query.getReferenceFields());
         }
@@ -218,6 +227,12 @@ public class TableGroupingDataHelper {
                         .map(v -> generatorObjectKey(v, query.getReferenceFields()))
                         .collect(Collectors.joining(CharacterConstants.SEPARATOR_OCTOTHORPE));
             }
+        } else if (query.isNumberField()) {
+            BigDecimal numberValue = NumberHelper.valueOfNullable(value);
+            if (numberValue == null) {
+                return NULL_VALUE;
+            }
+            return numberValue.setScale(6, RoundingMode.HALF_UP).toPlainString();
         } else if (query.isRelationOneField()) {
             return generatorObjectKey(value, query.getReferenceFields());
         }
@@ -295,6 +310,12 @@ public class TableGroupingDataHelper {
             } else if (query.isRelationManyField()) {
                 return new GroupingValueSerializeResult(PamirsDataUtils.toJSONString(query.getReferences(), value), true);
             }
+        } else if (query.isNumberField()) {
+            BigDecimal numberValue = NumberHelper.valueOfNullable(value);
+            if (numberValue == null) {
+                return new GroupingValueSerializeResult(NullValue.INSTANCE);
+            }
+            return new GroupingValueSerializeResult(numberValue.toString());
         } else if (query.isEnumField()) {
             return new GroupingValueSerializeResult(convertEnumerationName(query, value));
         } else if (query.isRelationOneField()) {

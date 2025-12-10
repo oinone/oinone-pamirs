@@ -417,7 +417,7 @@ public class BasicTableGroupingFieldQuery {
     }
 
     public boolean isBasicField() {
-        return TtypeEnum.isBasicType(ttype);
+        return TtypeEnum.isBasicType(ttype) || TtypeEnum.MONEY.value().equals(ttype);
     }
 
     public boolean isRelationField() {
@@ -445,7 +445,7 @@ public class BasicTableGroupingFieldQuery {
     }
 
     public boolean isNumberField() {
-        return TtypeEnum.isNumericType(ttype);
+        return TtypeEnum.isNumericType(ttype) || TtypeEnum.MONEY.value().equals(ttype);
     }
 
     public boolean isDateField() {

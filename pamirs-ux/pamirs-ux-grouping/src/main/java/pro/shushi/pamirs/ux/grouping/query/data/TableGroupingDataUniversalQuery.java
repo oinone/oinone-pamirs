@@ -4,10 +4,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
+import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.ux.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.ux.grouping.utils.TableGroupingHelper;
-import pro.shushi.pamirs.meta.api.Models;
 
 import java.util.ArrayList;
 import java.util.List;
