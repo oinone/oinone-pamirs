@@ -12,6 +12,7 @@ import pro.shushi.pamirs.ux.quickfilling.converter.QuickFillingConverter;
 import pro.shushi.pamirs.ux.quickfilling.converter.QuickFillingRow;
 import pro.shushi.pamirs.ux.quickfilling.enumeration.QuickFillingExpEnumerate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,11 +52,7 @@ public class EnumConverter extends AbstractBasicQuickFillingConverter implements
     protected Object singleValueConvert(QuickFillingRow row, String value) {
         DataDictionaryItem option = findOption(value);
         if (option != null) {
-            if (isNumberValue) {
-                return Long.parseLong(option.getValue());
-            } else {
-                return option.getValue();
-            }
+            return option.getValue();
         }
         validateError(row, QuickFillingExpEnumerate.NON_ENUM_ERROR.msg());
         return null;
@@ -75,7 +72,7 @@ public class EnumConverter extends AbstractBasicQuickFillingConverter implements
             return;
         }
         QuickFillingColumn column = getColumn();
-        long results = 0L;
+        List<String> results = new ArrayList<>();
         String[] valueList = value.split(CharacterConstants.SEPARATOR_COMMA);
         for (String valueItem : valueList) {
             if (StringUtils.isBlank(valueItem)) {
@@ -87,9 +84,9 @@ public class EnumConverter extends AbstractBasicQuickFillingConverter implements
                 validateError(row, QuickFillingExpEnumerate.NON_ENUM_ERROR.msg());
                 return;
             }
-            results |= Long.parseLong(option.getValue());
+            results.add(option.getValue());
         }
-        if (results == 0L) {
+        if (results.isEmpty()) {
             if (column.isRequired()) {
                 row.validateRequired(column.getField());
                 return;
