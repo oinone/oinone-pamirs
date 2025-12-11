@@ -30,6 +30,7 @@ public class QuickFillingContext {
         QuickFillingColumn column = new QuickFillingColumn(modelConfig.getModel(), this.field, ttype);
         column.setMulti(Boolean.TRUE.equals(modelFieldConfig.getMulti()));
         column.setRequired(Boolean.TRUE.equals(field.getRequired()));
+        column.setValidate(!Boolean.FALSE.equals(field.getValidate()));
         column.setLabelFields(field.getLabelFields());
         if (TtypeEnum.ENUM.value().equals(ttype)) {
             column.setDictionary(modelFieldConfig.getDictionary());

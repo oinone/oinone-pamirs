@@ -26,6 +26,9 @@ public class QuickFillingField extends TransientModel {
     @Field(displayName = "是否必填")
     private Boolean required;
 
+    @Field(displayName = "是否验证")
+    private Boolean validate;
+
     @Field(displayName = "关联选项字段名")
     private List<String> labelFields;
 

@@ -23,6 +23,8 @@ public class QuickFillingColumn {
 
     private boolean required;
 
+    private boolean validate;
+
     private List<String> labelFields;
 
     public QuickFillingColumn(String model, String field, String ttype) {
@@ -68,11 +70,19 @@ public class QuickFillingColumn {
     }
 
     public boolean isRequired() {
-        return required;
+        return validate && required;
     }
 
     public void setRequired(boolean required) {
         this.required = required;
+    }
+
+    public boolean isValidate() {
+        return validate;
+    }
+
+    public void setValidate(boolean validate) {
+        this.validate = validate;
     }
 
     public List<String> getLabelFields() {

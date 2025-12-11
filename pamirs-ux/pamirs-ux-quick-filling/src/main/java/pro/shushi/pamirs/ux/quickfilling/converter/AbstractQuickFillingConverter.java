@@ -56,10 +56,14 @@ public abstract class AbstractQuickFillingConverter implements QuickFillingConve
     }
 
     protected void validateError(QuickFillingRow row) {
-        row.validateError(field);
+        if (this.column.isValidate()) {
+            row.validateError(field);
+        }
     }
 
     protected void validateError(QuickFillingRow row, String message) {
-        row.validateError(field, message);
+        if (this.column.isValidate()) {
+            row.validateError(field, message);
+        }
     }
 }
