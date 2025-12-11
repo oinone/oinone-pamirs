@@ -20,7 +20,7 @@ import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
 import pro.shushi.pamirs.sso.server.model.SsoClientService;
 import pro.shushi.pamirs.user.api.cache.UserCache;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.security.KeyPair;
 import java.util.Objects;

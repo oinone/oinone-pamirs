@@ -17,7 +17,7 @@ import pro.shushi.pamirs.sso.api.model.SsoClient;
 import pro.shushi.pamirs.sso.server.model.SsoClientService;
 import pro.shushi.pamirs.user.api.utils.CookieUtil;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Component

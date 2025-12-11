@@ -18,7 +18,7 @@ import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
 import pro.shushi.pamirs.user.api.utils.CookieUtil;
 import pro.shushi.pamirs.user.api.utils.JwtTokenUtil;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
