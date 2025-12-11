@@ -287,21 +287,21 @@ public class RegisterViewEditor implements MetaDataEditor {
                 // 创建默认表格视图
                 makeDefaultView(registerViewContext,
                         ViewConstants.Name.tableView,
-                        null,
+                        ViewConstants.DisplayName.tableView,
                         ViewTypeEnum.TABLE);
             }
             if (null != uxForm) {
                 // 创建默认表单视图
                 makeDefaultView(registerViewContext,
                         ViewConstants.Name.formView,
-                        null,
+                        ViewConstants.DisplayName.formView,
                         ViewTypeEnum.FORM);
             }
             if (null != uxDetail) {
                 // 创建默认详情视图
                 makeDefaultView(registerViewContext,
                         ViewConstants.Name.detailView,
-                        null,
+                        ViewConstants.DisplayName.detailView,
                         ViewTypeEnum.DETAIL);
             }
         }
@@ -314,19 +314,19 @@ public class RegisterViewEditor implements MetaDataEditor {
         // 创建默认表格视图
         makeDefaultView(registerViewContext,
                 ViewConstants.Name.tableView,
-                null,
+                ViewConstants.DisplayName.tableView,
                 ViewTypeEnum.TABLE);
 
         // 创建默认表单视图
         makeDefaultView(registerViewContext,
                 ViewConstants.Name.formView,
-                null,
+                ViewConstants.DisplayName.formView,
                 ViewTypeEnum.FORM);
 
         // 创建默认详情视图
         makeDefaultView(registerViewContext,
                 ViewConstants.Name.detailView,
-                null,
+                ViewConstants.DisplayName.detailView,
                 ViewTypeEnum.DETAIL);
 
     }
@@ -365,7 +365,7 @@ public class RegisterViewEditor implements MetaDataEditor {
             // 构造一个视图对象来生成自定义默认视图子视图的动作
             rebuildView = new View();
         }
-        rebuildView.setTitle(title)
+        rebuildView.setTitle(Optional.ofNullable(defaultView.getTitle()).filter(StringUtils::isNotBlank).orElse(title))
                 .setModel(model)
                 .setName(viewName)
                 .setBizType(ViewBizTypeEnum.OPERATIONS_MANAGEMENT)
@@ -558,12 +558,14 @@ public class RegisterViewEditor implements MetaDataEditor {
         RegisterViewContext refContext = new RegisterViewContext(meta, refModelDefinition, actionMap);
         if (null != refContext.getClazz()) {
             String viewName = ViewConstants.Name.dialogFormView;
+            String title = ViewConstants.DisplayName.dialogFormView;
             ViewTypeEnum viewType = ViewTypeEnum.FORM;
             if (null == subViewField) {
                 return uiAction;
             }
             if (TtypeEnum.M2M.equals(subViewField.getExactTtype())) {
                 viewName = ViewConstants.Name.dialogTableView;
+                title = ViewConstants.DisplayName.dialogTableView;
                 viewType = ViewTypeEnum.TABLE;
             }
             if (!model.equals(subViewField.getModel())) {
@@ -577,7 +579,7 @@ public class RegisterViewEditor implements MetaDataEditor {
                 // 生成新的action
                 uiAction.setName(uiAction.getName() + suffix);
             }
-            View subView = makeView(refContext, viewName, null, viewType,
+            View subView = makeView(refContext, viewName, title, viewType,
                     view -> makeDefaultUiView(refContext, view, topViewType, subViewField, depth + 1),
                     ViewConstants.defaultPriority + 10);
             uiAction.setResViewName(subView.getName());
