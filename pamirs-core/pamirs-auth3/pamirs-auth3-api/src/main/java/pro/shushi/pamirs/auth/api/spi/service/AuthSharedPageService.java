@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.auth.api.spi.service;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,8 @@ import pro.shushi.pamirs.auth.api.entity.node.ActionPermissionNode;
 import pro.shushi.pamirs.auth.api.entity.node.PermissionNode;
 import pro.shushi.pamirs.auth.api.holder.AuthApiHolder;
 import pro.shushi.pamirs.auth.api.loader.PermissionNodeLoader;
-import pro.shushi.pamirs.auth.api.model.AuthSharedPageRecord;
+import pro.shushi.pamirs.auth.api.model.shared.AuthSharedPagePath;
+import pro.shushi.pamirs.auth.api.model.shared.AuthSharedPageRecord;
 import pro.shushi.pamirs.auth.api.runtime.session.AuthSharedAuthorizationSession;
 import pro.shushi.pamirs.auth.api.service.AuthSharedPageRecordService;
 import pro.shushi.pamirs.boot.base.model.SharedPage;
@@ -35,6 +35,7 @@ import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 分享页面服务
@@ -110,7 +111,7 @@ public class AuthSharedPageService extends DefaultSharedPageServiceImpl implemen
             record.setInvalidTime(invalidTime);
             record.setUrl(sharedPage.getUrl());
             record.setLinkText(sharedPage.getLinkText());
-            record.setPaths(JSON.toJSONString(paths));
+            record.setSharedPaths(paths.stream().map(path -> new AuthSharedPagePath().setSharedCode(sharedCode).setPath(path)).collect(Collectors.toList()));
             authSharedPageRecordService.create(record);
 
             AuthApiHolder.getAuthSharedCodeCacheService().set(sharedCode, authorizationCode, timeout, timeoutUnit);

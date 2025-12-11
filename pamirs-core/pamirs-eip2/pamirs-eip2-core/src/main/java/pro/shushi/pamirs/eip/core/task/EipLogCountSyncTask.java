@@ -2,19 +2,24 @@ package pro.shushi.pamirs.eip.core.task;
 
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
-import pro.shushi.pamirs.eip.api.strategy.service.EipLogCountService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
 import pro.shushi.pamirs.eip.core.task.abs.EipAbstractScheduledJob;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
+import pro.shushi.pamirs.trigger.model.ScheduleTaskAction;
 
 import jakarta.annotation.Resource;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 /**
  * 接口日志统计定时任务，每12小时执行一次
+ * @deprecated 6.x please using {@link EipLogDailyCountSyncTask} ，大版本升级时使用升级sql取消此任务
  */
 @Slf4j
 @Component
+@Deprecated
 @Fun(EipLogCountSyncTask.FUN_NAMESPACE)
 public class EipLogCountSyncTask extends EipAbstractScheduledJob {
 
@@ -22,7 +27,7 @@ public class EipLogCountSyncTask extends EipAbstractScheduledJob {
     public static final String TASK_DISPLAY_NAME = "接口日志汇总统计定时任务";
 
     @Resource
-    private EipLogCountService eipLogCountService;
+    private EipLogDailyCountService eipLogDailyCountService;
 
     @Override
     protected String getDisplayName() {
@@ -31,12 +36,23 @@ public class EipLogCountSyncTask extends EipAbstractScheduledJob {
 
     @Override
     protected Integer getPeriodTime() {
-        return 12;
+        return 24;
     }
 
     @Override
     protected TimeUnitEnum getTimeUnit() {
         return TimeUnitEnum.HOUR_OF_DAY;
+    }
+
+    @Override
+    protected Long getFirstExecuteTime() {
+        ZoneId zone = ZoneId.systemDefault();
+        return LocalDate.now(zone)
+                .plusDays(1)
+                .atTime(1, 45)
+                .atZone(zone)
+                .toInstant()
+                .toEpochMilli();
     }
 
     @Override
@@ -46,6 +62,11 @@ public class EipLogCountSyncTask extends EipAbstractScheduledJob {
 
     @Override
     public void doExecute(ScheduleItem scheduleItem) {
-        eipLogCountService.syncEipLogCount();
+        log.error("接口日志汇总统计定时任务已废弃");
+    }
+
+    @Override
+    protected void doSubmit(ScheduleTaskAction task) {
+        scheduleTaskActionService.cancel(task.getTechnicalName());
     }
 }

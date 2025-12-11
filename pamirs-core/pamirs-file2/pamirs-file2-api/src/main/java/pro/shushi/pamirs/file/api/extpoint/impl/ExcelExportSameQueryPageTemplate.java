@@ -100,14 +100,14 @@ public class ExcelExportSameQueryPageTemplate<T> extends AbstractExcelExportFetc
 
     private List<Object> queryPageAll(Long count, IWrapper<?> wrapper, String model) {
         // 自定义的Action可能存在调用ArgUtils把模型转换问题(代理模型->存储模型)
-        wrapper.setModel(model);
         List<Object> content = new ArrayList<>();
         Pagination<?> page = new Pagination<>();
         page.setCurrentPage(1);
-        page.setModel(model);
         //导出数据
         int pageNos = (int) Math.ceil(count / page.getSize()) + 1;
         for (Integer i = 1; i <= pageNos; i++) {
+            wrapper.setModel(model);
+            page.setModel(model);
             page.setCurrentPage(i);
             PamirsSession.directive().disableHook();
             Pagination<T> result = (Pagination) Fun.run(wrapper.getModel(), FunctionConstants.queryPage, new Object[]{page, wrapper});

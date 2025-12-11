@@ -144,6 +144,7 @@ public class ModuleConverter implements ModelConverter<ModuleDefinition, Class> 
         Boolean demo = null == moduleAdvancedAnnotation ? null : moduleAdvancedAnnotation.demo();
         SoftwareLicenseEnum license = null == moduleAdvancedAnnotation ? null : moduleAdvancedAnnotation.license();
         String maintainer = null == moduleAdvancedAnnotation ? null : moduleAdvancedAnnotation.maintainer();
+        Boolean core = null == moduleAdvancedAnnotation ? null : moduleAdvancedAnnotation.core();
         Boolean selfBuilt = null == moduleAdvancedAnnotation ? null : moduleAdvancedAnnotation.selfBuilt();
         Boolean toBuy = null == moduleAdvancedAnnotation ? null : moduleAdvancedAnnotation.toBuy();
         String url = null == moduleAdvancedAnnotation ? null : moduleAdvancedAnnotation.url();
@@ -174,6 +175,7 @@ public class ModuleConverter implements ModelConverter<ModuleDefinition, Class> 
                 .setDemo(demo)
                 .setLicense(license)
                 .setMaintainer(maintainer)
+                .setCore(core)
                 .setSelfBuilt(selfBuilt)
                 .setToBuy(toBuy)
                 .setUrl(url)

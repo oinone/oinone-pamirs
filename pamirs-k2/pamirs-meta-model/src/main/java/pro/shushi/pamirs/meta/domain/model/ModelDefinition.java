@@ -502,7 +502,7 @@ public class ModelDefinition extends MetaBaseModel implements MetaCheckConstants
     @Override
     public String stringify() {
         return DiffUtils.stringify(this, "functions", "moduleDefinition", "moduleName",
-                "modelFields", "sequenceConfig", "labelFields", "label");
+                "modelFields", "sequenceConfig");
     }
 
 }

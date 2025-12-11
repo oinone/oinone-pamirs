@@ -30,8 +30,14 @@ public abstract class EipAbstractScheduledJob implements ScheduleAction {
 
     protected abstract TimeUnitEnum getTimeUnit();
 
+    protected abstract Long getFirstExecuteTime();
+
     protected Integer getTimeoutMillis() {
         return 5000;
+    }
+
+    protected void doSubmit(ScheduleTaskAction task) {
+        scheduleTaskActionService.submit(task);
     }
 
     public void initTask() {
@@ -51,9 +57,8 @@ public abstract class EipAbstractScheduledJob implements ScheduleAction {
         task.setContext(null);
         task.setActive(true);
         task.setExecuteFunction(new FunctionDefinition().setTimeout(getTimeoutMillis()));
-        task.setFirstExecuteTime(System.currentTimeMillis());
-        scheduleTaskActionService.submit(task);
-        log.info("定时任务注册成功：[{}]", getDisplayName());
+        task.setFirstExecuteTime(getFirstExecuteTime());
+        doSubmit(task);
     }
 
     @Override

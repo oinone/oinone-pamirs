@@ -10,6 +10,7 @@ import pro.shushi.pamirs.meta.api.core.session.spi.SessionMetaCollectSpi;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
 import pro.shushi.pamirs.meta.api.session.RequestContext;
 import pro.shushi.pamirs.meta.common.spi.SPI;
+import pro.shushi.pamirs.meta.enmu.ActiveEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
 import java.util.List;
@@ -32,6 +33,10 @@ public class SessionMetaViewCollectSpi implements SessionMetaCollectSpi {
         List<View> viewList = metaData.getDataList(View.MODEL_MODEL);
         if (!CollectionUtils.isEmpty(viewList)) {
             for (View view : viewList) {
+                if (ActiveEnum.INACTIVE.equals(view.getShow()) || ActiveEnum.INACTIVE.equals(view.getActive())) {
+                    continue;
+                }
+
                 // 收集视图缓存
                 context.putExtendCacheEntity(ViewCacheApi.class,
                         cache -> cache.put(view.getSign(), view));

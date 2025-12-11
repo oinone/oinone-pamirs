@@ -1,6 +1,10 @@
 <view name="tableView" type="TABLE" cols="2" model="channel.ChannelModel" enableSequence="false">
-    <template slot="actions" autoFill="true"/>
-    <template slot="rowActions" autoFill="true"/>
+    <template slot="rowActions">
+        <action name="dump"/>
+        <action name="openIncrement"/>
+        <action name="closeIncrement"/>
+        <action name="redirectDetailPage"/>
+    </template>
     <template slot="fields">
         <field span="1" invisible="true" data="id" label="ID" readonly="true"/>
         <field span="1" data="tenant" label="租户"/>

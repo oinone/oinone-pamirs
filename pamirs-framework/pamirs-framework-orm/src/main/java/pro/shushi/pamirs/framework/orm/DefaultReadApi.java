@@ -10,13 +10,13 @@ import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.orm.helper.QueryFieldColumnsHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
-import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.PamirsMapperConfigurationProxy;
 import pro.shushi.pamirs.meta.api.core.orm.ReadApi;
 import pro.shushi.pamirs.meta.api.core.orm.convert.DataConverter;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.condition.Sort;
+import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.api.dto.entity.MapWrapper;
@@ -24,9 +24,11 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.BaseModel;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.enmu.FunctionCategoryEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
+import pro.shushi.pamirs.meta.enmu.MetaExpEnumerate;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
@@ -46,7 +48,6 @@ import static pro.shushi.pamirs.meta.enmu.FunctionOpenEnum.*;
  * @version 1.0.0
  * date 2020/1/18 2:11 下午
  */
-@Slf4j
 @Fun(BaseModel.MODEL_MODEL)
 @Component
 public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, FunctionConstants {
@@ -362,10 +363,13 @@ public class DefaultReadApi extends AbstractReadWriteApi implements ReadApi, Fun
             target.setSort(new Sort());
         } else {
             if (null == target.getSort()) {
-                String ordering = PamirsSession.getContext().getModelConfig(model).getOrdering();
+                ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
+                if (modelConfig == null) {
+                    throw PamirsException.construct(MetaExpEnumerate.BASE_MODEL_CONFIG_IS_NOT_EXISTS_ERROR).appendMsg("model:" + model).errThrow();
+                }
+                String ordering = modelConfig.getOrdering();
                 target.setSort(SortUtils.sort(ordering));
             }
-
         }
         return target;
     }

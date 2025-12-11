@@ -14,6 +14,6 @@ public interface WorkFlowConstant {
     //flow_biz_data\\.workflow_workflow_instance,flow_biz_data\\.workflow_workflow_timer_instance,flow_biz_data\\.workflow_workflow_user_task
 
     List<String> DEFAULT_WORKFLOW_FILTER_TABLES = Lists.newArrayList(
-            "workflow_workflow_timer_instance", "workflow_workflow_user_task");
+            "workflow_workflow_timer_instance", "workflow_workflow_user_task", "user_pamirs_user", "business_pamirs_employee");
 
 }

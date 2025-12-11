@@ -17,7 +17,6 @@ import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
 import static pro.shushi.pamirs.meta.enmu.MetaExpEnumerate.BASE_UN_SUPPORT_DATA_TYPE_ERROR;
 
@@ -66,67 +65,59 @@ public class Models {
     private final static HoldKeeper<EnumProcessor> ENUM_PROCESSOR = new HoldKeeper<>();
 
     // 批量操作命令
-    private final static Supplier<BatchApi> BATCH_API = () -> Spider.getDefaultExtension(BatchApi.class);
+    private final static HoldKeeper<BatchApi> BATCH_API = new HoldKeeper<>();
 
     public static ModelModelApi api() {
-        return Models.getApi(ModelModelApi.class, MODEL_MODEL_API, () -> Spider.getLoader(ModelModelApi.class).getDefaultExtension());
+        return MODEL_MODEL_API.supply(() -> Spider.getLoader(ModelModelApi.class).getDefaultExtension());
     }
 
     public static ModelComputeApi compute() {
-        return Models.getApi(ModelComputeApi.class, MODEL_COMPUTE_API, () -> Spider.getLoader(ModelComputeApi.class).getDefaultExtension());
+        return MODEL_COMPUTE_API.supply(() -> Spider.getLoader(ModelComputeApi.class).getDefaultExtension());
     }
 
     public static ModelCheckApi check() {
-        return Models.getApi(ModelCheckApi.class, MODEL_CHECK_API, () -> Spider.getLoader(ModelCheckApi.class).getDefaultExtension());
+        return MODEL_CHECK_API.supply(() -> Spider.getLoader(ModelCheckApi.class).getDefaultExtension());
     }
 
     public static DirectiveApi directive() {
-        return Models.getApi(DirectiveApi.class, DIRECTIVE_API, () -> Spider.getLoader(DirectiveApi.class).getDefaultExtension());
+        return DIRECTIVE_API.supply(() -> Spider.getLoader(DirectiveApi.class).getDefaultExtension());
     }
 
     public static ModelDirectiveApi modelDirective() {
-        return Models.getApi(ModelDirectiveApi.class, MODEL_DIRECTIVE_API, () -> Spider.getLoader(ModelDirectiveApi.class).getDefaultExtension());
+        return MODEL_DIRECTIVE_API.supply(() -> Spider.getLoader(ModelDirectiveApi.class).getDefaultExtension());
     }
 
     public static OrmApi orm() {
-        return Models.getApi(OrmApi.class, ORM_API, () -> Spider.getLoader(OrmApi.class).getDefaultExtension());
+        return ORM_API.supply(() -> Spider.getLoader(OrmApi.class).getDefaultExtension());
     }
 
     public static OrmApi mono() {
-        return Models.getApi(OrmApi.class, MONO_ORM_API, () -> Spider.getLoader(OrmApi.class).getExtension(NamespaceConstants.spiMono));
+        return MONO_ORM_API.supply(() -> Spider.getLoader(OrmApi.class).getExtension(NamespaceConstants.spiMono));
     }
 
     public static PopsApi pops() {
-        return Models.getApi(PopsApi.class, POPS_API, () -> Spider.getLoader(PopsApi.class).getDefaultExtension());
+        return POPS_API.supply(() -> Spider.getLoader(PopsApi.class).getDefaultExtension());
     }
 
     public static ModelInheritedApi inherited() {
-        return Models.getApi(ModelInheritedApi.class, MODEL_INHERITED_API, () -> Spider.getLoader(ModelInheritedApi.class).getDefaultExtension());
+        return MODEL_INHERITED_API.supply(() -> Spider.getLoader(ModelInheritedApi.class).getDefaultExtension());
     }
 
     public static TypeProcessor types() {
-        return Models.getApi(TypeProcessor.class, TYPE_PROCESSOR, () -> Spider.getLoader(TypeProcessor.class).getDefaultExtension());
+        return TYPE_PROCESSOR.supply(() -> Spider.getLoader(TypeProcessor.class).getDefaultExtension());
     }
 
     public static <T> EnumProcessor<T> enums() {
         //noinspection unchecked
-        return Models.getApi(EnumProcessor.class, ENUM_PROCESSOR, () -> Spider.getLoader(EnumProcessor.class).getDefaultExtension());
+        return ENUM_PROCESSOR.supply(() -> Spider.getLoader(EnumProcessor.class).getDefaultExtension());
     }
 
     public static BatchApi batch() {
-        return getApiBySupplier(BatchApi.class, BATCH_API);
+        return BATCH_API.supply(() -> Spider.getDefaultExtension(BatchApi.class));
     }
 
     public static BatchApi ne() {
-        return getApiBySupplier(null, () -> null);
-    }
-
-    private static <T> T getApi(@SuppressWarnings("unused") Class<T> api, HoldKeeper<T> keeper, Supplier<T> supplier) {
-        return keeper.supply(supplier);
-    }
-
-    private static <T> T getApiBySupplier(@SuppressWarnings("unused") Class<T> api, Supplier<T> defaultApiSupplier) {
-        return defaultApiSupplier.get();
+        return null;
     }
 
     public static GenericModel generic(String model, Object data) {

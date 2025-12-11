@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import pro.shushi.pamirs.framework.compute.exception.MetaDataComputeException;
 import pro.shushi.pamirs.framework.configure.MetaConfiguration;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.compute.CrossingInheritedComputer;
@@ -22,7 +23,6 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.common.util.ListUtils;
-import pro.shushi.pamirs.meta.common.util.TimeWatcher;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
@@ -36,6 +36,7 @@ import java.util.*;
  *
  * @author Adamancy Zhang at 19:04 on 2025-02-21
  */
+@Slf4j
 @Order
 @Component
 @SPI.Service
@@ -47,27 +48,53 @@ public class DefaultMetaDataModelComputer implements MetaDataModelComputer {
     @SuppressWarnings("rawtypes")
     @Override
     public void compute(ComputeContext context, List<Meta> metaList, Set<String> completedModuleSet) {
-        TimeWatcher.watch(() -> {
-            List<MetaDataExtendComputer> extendComputers = BeanDefinitionUtils.getBeansOfTypeByOrdered(MetaDataExtendComputer.class);
-            ModelDefinitionComputer modelDefinitionComputer = Spider.getDefaultExtension(ModelDefinitionComputer.class);
-            final Set<String> extendComputeModuleSet = new HashSet<>();
-            final Set<String> crossingComputeModuleSet = new HashSet<>();
-            for (Meta meta : metaList) {
-                // 元数据计算
-                Result<Void> result = modelDefinitionComputer.compute(context, meta, completedModuleSet);
-                // 元数据扩展计算
-                result.fill(TimeWatcher.watch(() -> extendCompute(extendComputers, extendComputeModuleSet, context, meta), "元数据扩展计算"));
+        long start = System.currentTimeMillis();
 
-                result.logMessages(metaConfiguration.getLogLevel());
-                if (!result.isSuccess()) {
-                    throw new MetaDataComputeException();
-                }
+        List<MetaDataExtendComputer> extendComputers = BeanDefinitionUtils.getBeansOfTypeByOrdered(MetaDataExtendComputer.class);
+        ModelDefinitionComputer modelDefinitionComputer = Spider.getDefaultExtension(ModelDefinitionComputer.class);
+        final Set<String> extendComputeModuleSet = new HashSet<>();
+        final Set<String> crossingComputeModuleSet = new HashSet<>();
+        List<Meta> coreMetaList = new ArrayList<>();
+        List<Meta> normalMetaList = new ArrayList<>();
+        for (Meta meta : metaList) {
+            if (Optional.ofNullable(meta.getCurrentModule()).map(ModuleDefinition::getCore).orElse(false)) {
+                coreMetaList.add(meta);
+            } else {
+                normalMetaList.add(meta);
             }
-            for (Meta meta : metaList) {
-                // 元数据跨模型继承计算
-                TimeWatcher.watch(() -> crossingCompute(crossingComputeModuleSet, meta), "元数据跨模型继承计算，module:" + meta.getModule());
+        }
+        compute0(context, coreMetaList, modelDefinitionComputer, extendComputers, completedModuleSet, extendComputeModuleSet, crossingComputeModuleSet);
+        compute0(context, normalMetaList, modelDefinitionComputer, extendComputers, completedModuleSet, extendComputeModuleSet, crossingComputeModuleSet);
+
+        log.info("完成计算所有元数据 {}ms", System.currentTimeMillis() - start);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void compute0(ComputeContext context, List<Meta> metaList,
+                          ModelDefinitionComputer modelDefinitionComputer,
+                          List<MetaDataExtendComputer> extendComputers,
+                          Set<String> completedModuleSet,
+                          Set<String> extendComputeModuleSet,
+                          Set<String> crossingComputeModuleSet) {
+        for (Meta meta : metaList) {
+            // 元数据计算
+            Result<Void> result = modelDefinitionComputer.compute(context, meta, completedModuleSet);
+            // 元数据扩展计算
+            long start = System.currentTimeMillis();
+            Result<Void> extendComputeResult = extendCompute(extendComputers, extendComputeModuleSet, context, meta);
+            log.info("元数据扩展计算 {}ms", System.currentTimeMillis() - start);
+            result.fill(extendComputeResult);
+            result.logMessages(metaConfiguration.getLogLevel());
+            if (!result.isSuccess()) {
+                throw new MetaDataComputeException();
             }
-        }, "完成计算所有元数据");
+        }
+        for (Meta meta : metaList) {
+            // 元数据跨模型继承计算
+            long start = System.currentTimeMillis();
+            crossingCompute(crossingComputeModuleSet, meta);
+            log.info("元数据跨模型继承计算完成 {}ms, module: {}", System.currentTimeMillis() - start, meta.getModule());
+        }
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

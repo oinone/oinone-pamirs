@@ -60,7 +60,7 @@ public class ManagementAspect {
     @Resource
     private FunApi funApi;
 
-    @Pointcut("@annotation(pro.shushi.pamirs.meta.annotation.Function)")
+    @Pointcut("@annotation(pro.shushi.pamirs.meta.annotation.Function) || @annotation(pro.shushi.pamirs.meta.annotation.Action)")
     public void pointcutMapper() {
 
     }

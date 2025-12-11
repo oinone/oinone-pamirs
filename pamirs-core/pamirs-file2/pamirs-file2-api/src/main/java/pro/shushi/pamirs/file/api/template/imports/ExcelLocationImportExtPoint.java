@@ -97,7 +97,7 @@ public class ExcelLocationImportExtPoint extends AbstractExcelImportDataExtPoint
                     names.add(name);
                 }
             }
-            List<ExcelWorkbookDefinition> workbookDefinitions = DataShardingHelper.build().sharding(models.size(), (begin, end) -> excelWorkbookDefinitionService.queryListByWrapper(Pops.<ExcelWorkbookDefinition>lambdaQuery()
+            List<ExcelWorkbookDefinition> workbookDefinitions = DataShardingHelper.build().sharding(models.size(), (begin, end, page, size) -> excelWorkbookDefinitionService.queryListByWrapper(Pops.<ExcelWorkbookDefinition>lambdaQuery()
                     .from(ExcelWorkbookDefinition.MODEL_MODEL)
                     .in(Lists.newArrayList(ExcelWorkbookDefinition::getModel, ExcelWorkbookDefinition::getName),
                             new ArrayList<>(models.subList(begin, end)),

@@ -25,8 +25,11 @@ import pro.shushi.pamirs.boot.base.model.Action;
 import pro.shushi.pamirs.boot.base.model.Menu;
 import pro.shushi.pamirs.boot.base.model.UeModule;
 import pro.shushi.pamirs.boot.base.model.ViewAction;
+import pro.shushi.pamirs.boot.web.spi.api.TranslateService;
+import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
 import pro.shushi.pamirs.core.common.CollectionHelper;
 import pro.shushi.pamirs.core.common.FetchUtil;
+import pro.shushi.pamirs.core.common.TranslateUtils;
 import pro.shushi.pamirs.core.common.cache.MemoryListSearchCache;
 import pro.shushi.pamirs.core.common.query.QueryActions;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -552,7 +555,24 @@ public class DefaultManagementPermissionNodeLoader extends AbstractResourcePermi
     }
 
     protected List<PermissionNode> buildMenuActionNodesWithCache(String sign, MenuPermissionNode selected, Menu menu) {
-        return PermissionNodeCache.get(sign, () -> actionPermissionNodeLoader.buildActionNodes(selected, menu));
+        List<PermissionNode> nodes = PermissionNodeCache.get(sign, () -> actionPermissionNodeLoader.buildActionNodes(selected, menu));
+        TranslateService translateService = TranslateServiceHolder.get();
+        if (translateService.needTranslate()) {
+            if (CollectionUtils.isNotEmpty(nodes)) {
+                translateNodes(nodes);
+            }
+        }
+        return nodes;
+    }
+
+    private void translateNodes(List<PermissionNode> nodes) {
+        for (PermissionNode node : nodes) {
+            node.setDisplayValue(TranslateUtils.placeholder(node.getDisplayValue()));
+            List<PermissionNode> nextNodes = node.getNodes();
+            if (CollectionUtils.isNotEmpty(nextNodes)) {
+                translateNodes(nextNodes);
+            }
+        }
     }
 
     protected void fillCanAccessByAction(PermissionLoadContext loadContext, String module, String menuName, List<PermissionNode> nodes) {
@@ -710,6 +730,7 @@ public class DefaultManagementPermissionNodeLoader extends AbstractResourcePermi
     }
 
     private void loadExtendMetadata(PermissionLoadContext loadContext, PermissionNode node) {
+        node.setDisplayValue(TranslateUtils.translateValues(node.getDisplayValue()));
         if (node instanceof ActionPermissionNode) {
             ActionPermissionNode actionPermissionNode = (ActionPermissionNode) node;
             String model = actionPermissionNode.getModel();

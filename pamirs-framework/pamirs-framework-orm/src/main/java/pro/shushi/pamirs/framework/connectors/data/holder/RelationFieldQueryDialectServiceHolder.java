@@ -67,6 +67,7 @@ public class RelationFieldQueryDialectServiceHolder {
         public Thread newThread(@Nonnull Runnable r) {
             Thread t = new Thread(r);
             t.setName("p.s.p.f.o.d.RelationFieldQueryDialectService");
+            t.setUncaughtExceptionHandler(PamirsThreadFactory.COMMON_UNCAUGHT_EXCEPTION_HANDLER_INSTANCE);
             return t;
         }
     }

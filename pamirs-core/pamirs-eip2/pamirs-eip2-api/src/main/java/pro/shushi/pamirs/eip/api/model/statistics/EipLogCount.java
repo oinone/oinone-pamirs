@@ -9,7 +9,9 @@ import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 
 /**
  * @author yeshenyue on 2025/4/10 09:23.
+ * @deprecated 改用每日同步 {@link EipLogDailyCount}
  */
+@Deprecated
 @Model.Advanced(unique = {"interfaceName,interfaceType"})
 @Model(displayName = "集成/开放接口调用统计")
 @Model.model(EipLogCount.MODEL_MODEL)

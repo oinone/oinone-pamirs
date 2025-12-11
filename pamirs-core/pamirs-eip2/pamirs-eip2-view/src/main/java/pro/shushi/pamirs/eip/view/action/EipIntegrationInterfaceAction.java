@@ -10,6 +10,7 @@ import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.service.EipService;
 import pro.shushi.pamirs.eip.api.service.model.EipIntegrationInterfaceService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -35,6 +36,9 @@ public class EipIntegrationInterfaceAction extends DataStatusBehavior<EipIntegra
 
     @Autowired
     private EipIntegrationInterfaceService eipIntegrationInterfaceService;
+
+    @Autowired
+    private EipLogDailyCountService eipLogDailyCountService;
 
     public static EipIntegrationInterface fetchIntegrationInterface(EipIntegrationInterface data) {
         data = FetchUtil.fetchOne(data);
@@ -106,5 +110,12 @@ public class EipIntegrationInterfaceAction extends DataStatusBehavior<EipIntegra
     @Function(openLevel = {FunctionOpenEnum.API})
     public Pagination<EipIntegrationInterface> queryPage(Pagination<EipIntegrationInterface> page, IWrapper<EipIntegrationInterface> queryWrapper) {
         return eipIntegrationInterfaceService.queryPage(page, queryWrapper);
+    }
+
+    @Function.Advanced(type = FunctionTypeEnum.UPDATE)
+    @Function(openLevel = {FunctionOpenEnum.API})
+    public EipIntegrationInterface syncYesterday(EipIntegrationInterface data) {
+        eipLogDailyCountService.syncYesterday();
+        return data;
     }
 }
