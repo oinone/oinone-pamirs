@@ -8,8 +8,8 @@
         <artifactId>pamirs-sso</artifactId>
         <version>7.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>pamirs-sso-oauth2-client</artifactId>
-    <name>pamirs-sso-oauth2-client</name>
+    <artifactId>pamirs-sso-server</artifactId>
+    <name>pamirs-sso-server</name>
 
     <dependencies>
         <dependency>

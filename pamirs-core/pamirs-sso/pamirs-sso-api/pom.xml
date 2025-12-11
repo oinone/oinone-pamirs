@@ -16,5 +16,10 @@
             <groupId>pro.shushi.pamirs.core</groupId>
             <artifactId>pamirs-user-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>pro.shushi.pamirs.core</groupId>
+            <artifactId>pamirs-sso-common</artifactId>
+        </dependency>
     </dependencies>
 </project>
