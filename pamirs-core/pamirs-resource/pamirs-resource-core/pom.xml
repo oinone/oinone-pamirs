@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-resource</artifactId>
-        <version>6.3.6</version>
+        <version>6.3.7</version>
     </parent>
     <artifactId>pamirs-resource-core</artifactId>
     <name>pamirs-resource-core</name>
