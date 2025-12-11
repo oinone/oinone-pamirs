@@ -20,8 +20,6 @@ public class SsoConfigurationConstant {
 
     public static final String USER_REDIS_CACHE = "SSO_USER_CACHE";
 
-    public static final String PAMIRS_SSO_CLIENT_ID_PREFIX = "pamirs_";
-
     public static final String PAMIRS_SSO_CLIENT_PUBLIC = "pamirs_public";
     public static final String PAMIRS_SSO_INTERNAL_CLIENT_PRIVATE = "pamirs_sso_internal_private";
     public static final String PAMIRS_SSO_INTERNAL_CLIENT_PUBLIC = "pamirs_sso_internal_public";

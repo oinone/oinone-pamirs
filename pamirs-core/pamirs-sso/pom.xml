@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-core</artifactId>
-        <version>6.3.5</version>
+        <version>6.3.6</version>
     </parent>
     <groupId>pro.shushi.pamirs.core</groupId>
     <artifactId>pamirs-sso</artifactId>
@@ -15,8 +15,10 @@
 
     <modules>
         <module>pamirs-sso-api</module>
-        <module>pamirs-sso-oauth2-client</module>
-        <module>pamirs-sso-oauth2-server</module>
+        <module>pamirs-sso-server</module>
+        <module>pamirs-sso-client</module>
+        <module>pamirs-sso-common</module>
+        <module>pamirs-sso-client-starter</module>
     </modules>
 
     <dependencyManagement>
@@ -28,12 +30,22 @@
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-sso-oauth2-client</artifactId>
+                <artifactId>pamirs-sso-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-sso-oauth2-server</artifactId>
+                <artifactId>pamirs-sso-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-sso-client-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.core</groupId>
+                <artifactId>pamirs-sso-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

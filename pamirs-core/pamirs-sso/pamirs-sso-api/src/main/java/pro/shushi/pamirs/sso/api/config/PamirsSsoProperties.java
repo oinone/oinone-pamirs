@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
+import pro.shushi.pamirs.sso.api.enmu.SsoAuthTypeEnum;
 
 import javax.validation.constraints.NotNull;
 
@@ -28,12 +29,14 @@ public class PamirsSsoProperties {
     public static class Client {
         private String clientId = "*";
         private String clientSecret = "*";
-        private String loginUrl = "http://localhost:9093";
+        private String ssoServerUrl = "*";
         private Expires expires = new Expires();
     }
 
     @Data
     public static class Server {
+        private String loginUrl;
+        private SsoAuthTypeEnum authType = SsoAuthTypeEnum.OAUTH2;
         private DefaultExpires defaultExpires = new DefaultExpires();
     }
 
