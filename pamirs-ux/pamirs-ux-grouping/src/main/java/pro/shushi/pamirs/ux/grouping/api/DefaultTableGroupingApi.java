@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.ux.grouping.api;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -13,6 +14,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.ux.grouping.configure.GroupingConfigure;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
+import pro.shushi.pamirs.ux.grouping.model.GroupingData;
 import pro.shushi.pamirs.ux.grouping.model.TableGroupingResult;
 import pro.shushi.pamirs.ux.grouping.model.TableGroupingWrapper;
 import pro.shushi.pamirs.ux.grouping.query.TableGroupingCommonQueryApi;
@@ -57,13 +59,13 @@ public class DefaultTableGroupingApi {
         }
         boolean isFetchAll = isFetchAll(model, page, totalElements);
         TableGroupingResult result = new TableGroupingResult();
-        result.setExpandedAll(isFetchAll);
         context.setTotalElements(totalElements);
         TableGroupingQueryStrategy queryStrategy = new TableGroupingQueryStrategy();
         queryStrategy.setFetchAll(isFetchAll);
         queryStrategy.setRelationManyShowNull(isRelationManyShowNull(model));
         context.setQueryStrategy(queryStrategy);
         fetchApi(TableGroupingQueryApi.class, context).queryGroupingPage(context, result);
+        result.setExpandedAll(computeExpandedAll(model, result.getGroups()));
         return result;
     }
 
@@ -104,6 +106,9 @@ public class DefaultTableGroupingApi {
             return true;
         }
         int fullQueryCount = GroupingConfigure.getFullQueryCount(model);
+        if (fullQueryCount == 0) {
+            return false;
+        }
         if (fullQueryCount < 0) {
             return true;
         }
@@ -113,6 +118,42 @@ public class DefaultTableGroupingApi {
     private boolean isRelationManyShowNull(String model) {
 //        return GroupingConfigure.isRelationManyShowNull(model);
         return true;
+    }
+
+    private boolean computeExpandedAll(String model, List<GroupingData> groups) {
+        int expendedAllCount = GroupingConfigure.getExpendedAllCount(model);
+        if (expendedAllCount == 0) {
+            return false;
+        }
+        if (expendedAllCount < 0) {
+            return true;
+        }
+        return statisticGroupingDataSize(groups, expendedAllCount) != 0;
+    }
+
+    private int statisticGroupingDataSize(List<GroupingData> groups, int expendedAllCount) {
+        int total = 0;
+        for (GroupingData groupingData : groups) {
+            if (groupingData.getIsLeaf()) {
+                Integer dataSize = groupingData.getDataSize();
+                if (dataSize == null) {
+                    return 0;
+                }
+                total += dataSize;
+            } else {
+                List<GroupingData> nextGroups = groupingData.getGroups();
+                if (CollectionUtils.isNotEmpty(nextGroups)) {
+                    total += statisticGroupingDataSize(nextGroups, expendedAllCount);
+                    if (total > expendedAllCount) {
+                        return 0;
+                    }
+                }
+            }
+        }
+        if (total > expendedAllCount) {
+            return 0;
+        }
+        return total;
     }
 
     private <T, API extends TableGroupingCommonQueryApi<T>> API fetchApi(Class<API> clazz, TableGroupingQueryContext<T> context) {

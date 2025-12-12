@@ -13,6 +13,8 @@ public class GroupingConfigure {
 
     private static final int DEFAULT_FULL_QUERY_COUNT = 200;
 
+    private static final int DEFAULT_EXPENDED_ALL_COUNT = 200;
+
     private static final boolean DEFAULT_RELATION_MANY_SHOW_NULL = false;
 
     private GroupingConfigure() {
@@ -23,6 +25,12 @@ public class GroupingConfigure {
         return Optional.ofNullable(getTableConfiguration(model))
                 .map(GroupingConfiguration.Table::getFullQueryCount)
                 .orElse(DEFAULT_FULL_QUERY_COUNT);
+    }
+
+    public static int getExpendedAllCount(String model) {
+        return Optional.ofNullable(getTableConfiguration(model))
+                .map(GroupingConfiguration.Table::getExpendedAllCount)
+                .orElse(DEFAULT_EXPENDED_ALL_COUNT);
     }
 
     public static boolean isRelationManyShowNull(String model) {

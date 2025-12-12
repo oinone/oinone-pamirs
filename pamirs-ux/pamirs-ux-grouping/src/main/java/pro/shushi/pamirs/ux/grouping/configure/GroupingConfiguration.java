@@ -48,6 +48,13 @@ public class GroupingConfiguration {
         private Integer fullQueryCount;
 
         /**
+         * 表格单页数据支持全部展开的最大阈值，当超过指定数据量时，不允许使用全部展开功能
+         * <p>
+         * 0 表示不允许使用全部展开功能; -1 表示永远允许使用全部展开功能;
+         */
+        private Integer expendedAllCount;
+
+        /**
          * O2M/M2M 关联关系字段进行分组时是否显示空（不显示可提高分组效率）
          * 默认: false 不显示空分组
          */
@@ -59,6 +66,14 @@ public class GroupingConfiguration {
 
         public void setFullQueryCount(Integer fullQueryCount) {
             this.fullQueryCount = fullQueryCount;
+        }
+
+        public Integer getExpendedAllCount() {
+            return expendedAllCount;
+        }
+
+        public void setExpendedAllCount(Integer expendedAllCount) {
+            this.expendedAllCount = expendedAllCount;
         }
 
         public Boolean getRelationManyShowNull() {

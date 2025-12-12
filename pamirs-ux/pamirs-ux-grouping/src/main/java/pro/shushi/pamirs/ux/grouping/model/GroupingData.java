@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.ux.grouping.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.TransientModel;
@@ -28,6 +29,9 @@ public class GroupingData extends TransientModel {
 
     @Field(displayName = "分组数据")
     private String data;
+
+    @JSONField(serialize = false)
+    private transient Integer dataSize;
 
     @Field(displayName = "是否为数据节点")
     private Boolean isLeaf;

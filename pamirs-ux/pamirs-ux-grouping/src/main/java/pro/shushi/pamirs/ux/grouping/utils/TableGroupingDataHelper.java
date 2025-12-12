@@ -130,6 +130,7 @@ public class TableGroupingDataHelper {
                 List<Object> data = wrapper.getResults();
                 if (CollectionUtils.isNotEmpty(data)) {
                     groupingData.setData(PamirsDataUtils.toJSONString(model, data));
+                    groupingData.setDataSize(data.size());
                 }
             } else {
                 Map<String, GroupingDataWrapper> nextGroupingDataMap = wrapper.getGroupings();
