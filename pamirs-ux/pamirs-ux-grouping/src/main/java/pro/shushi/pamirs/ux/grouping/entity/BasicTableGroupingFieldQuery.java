@@ -44,6 +44,8 @@ public class BasicTableGroupingFieldQuery {
 
     protected final boolean multi;
 
+    protected final Integer decimal;
+
     protected final String format;
 
     protected final String column;
@@ -123,6 +125,12 @@ public class BasicTableGroupingFieldQuery {
                 this.column = String.format(columnFormat, column);
                 this.asField = String.format(columnFormat, field);
             }
+        }
+
+        if (isFloatField()) {
+            this.decimal = Optional.ofNullable(modelFieldConfig.getDecimal()).orElse(2);
+        } else {
+            this.decimal = null;
         }
 
         if (isDateField()) {
@@ -320,6 +328,10 @@ public class BasicTableGroupingFieldQuery {
         return multi;
     }
 
+    public Integer getDecimal() {
+        return decimal;
+    }
+
     public String getFormat() {
         return format;
     }
@@ -446,6 +458,10 @@ public class BasicTableGroupingFieldQuery {
 
     public boolean isNumberField() {
         return TtypeEnum.isNumericType(ttype) || TtypeEnum.MONEY.value().equals(ttype);
+    }
+
+    public boolean isFloatField() {
+        return TtypeEnum.FLOAT.value().equals(ttype) || TtypeEnum.MONEY.value().equals(ttype);
     }
 
     public boolean isDateField() {

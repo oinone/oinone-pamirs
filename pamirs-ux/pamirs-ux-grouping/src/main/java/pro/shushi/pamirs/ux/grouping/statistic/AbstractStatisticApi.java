@@ -64,9 +64,12 @@ public abstract class AbstractStatisticApi<T> implements StatisticApi<T> {
         if (number == null) {
             return getInvalidStatisticValue();
         }
-        String ttype = getTtype();
         if (TtypeEnum.FLOAT.value().equals(ttype) || TtypeEnum.MONEY.value().equals(ttype)) {
-            return number.setScale(2, RoundingMode.HALF_UP).toPlainString();
+            Integer decimal = PamirsSession.getContext().getModelField(getModel(), getField()).getModelField().getDecimal();
+            if (decimal == null) {
+                decimal = 2;
+            }
+            return number.setScale(decimal, RoundingMode.HALF_UP).toPlainString();
         }
         return number.toPlainString();
     }

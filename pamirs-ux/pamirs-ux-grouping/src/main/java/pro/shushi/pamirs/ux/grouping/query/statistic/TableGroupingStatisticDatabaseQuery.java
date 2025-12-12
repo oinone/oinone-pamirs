@@ -16,6 +16,7 @@ import pro.shushi.pamirs.ux.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.ux.grouping.statistic.StatisticHelper;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -111,7 +112,16 @@ public class TableGroupingStatisticDatabaseQuery<T> implements TableGroupingStat
         if (statisticValue == null) {
             return statisticQuery.getInvalidStatisticValue();
         }
-        if (statisticQuery.isDateField()) {
+        if (statisticQuery.isNumberField()) {
+            BigDecimal numberValue = NumberHelper.valueOfNullable(statisticValue);
+            if (numberValue == null) {
+                return statisticQuery.getInvalidStatisticValue();
+            }
+            if (statisticQuery.isFloatField()) {
+                return numberValue.setScale(statisticQuery.getDecimal(), RoundingMode.HALF_UP).toPlainString();
+            }
+            return numberValue.toPlainString();
+        } else if (statisticQuery.isDateField()) {
             String format = statisticQuery.getFormat();
             Date date = dateParse(statisticQuery, statisticValue, format);
             if (date == null) {
