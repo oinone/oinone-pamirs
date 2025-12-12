@@ -1,13 +1,13 @@
 package pro.shushi.pamirs.ux.grouping.entity;
 
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
-import pro.shushi.pamirs.ux.grouping.model.GroupingField;
-import pro.shushi.pamirs.ux.grouping.model.GroupingStatisticField;
-import pro.shushi.pamirs.ux.grouping.utils.TableGroupingDataHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
+import pro.shushi.pamirs.ux.grouping.model.GroupingField;
+import pro.shushi.pamirs.ux.grouping.model.GroupingStatisticField;
+import pro.shushi.pamirs.ux.grouping.utils.TableGroupingDataHelper;
 
 import java.util.Collection;
 import java.util.List;
@@ -84,20 +84,23 @@ public class TableGroupingFieldQuery extends BasicTableGroupingFieldQuery {
         if (isRelationOneField()) {
             List<String> relationColumns = getRelationColumns();
             for (String relationColumn : relationColumns) {
-                withOrderBy(queryWrapper, relationColumn, direction);
+                withOrderBy(queryWrapper, relationColumn, direction, true);
             }
         } else {
-            withOrderBy(queryWrapper, column, direction);
+            withOrderBy(queryWrapper, column, direction, true);
         }
     }
 
     public <T> void withOrderBy(QueryWrapper<T> queryWrapper, String column) {
-        withOrderBy(queryWrapper, column, direction);
+        withOrderBy(queryWrapper, column, direction, false);
     }
 
-    private <T> void withOrderBy(QueryWrapper<T> queryWrapper, String column, SortDirectionEnum direction) {
+    private <T> void withOrderBy(QueryWrapper<T> queryWrapper, String column, SortDirectionEnum direction, boolean hasNull) {
         switch (direction) {
             case ASC:
+                if (hasNull) {
+                    queryWrapper.orderByAsc("CASE WHEN " + column + " IS NULL THEN 1 ELSE 0 END");
+                }
                 queryWrapper.orderByAsc(column);
                 break;
             case DESC:
