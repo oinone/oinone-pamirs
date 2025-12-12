@@ -526,6 +526,20 @@ public class BasicTableGroupingFieldQuery {
         }
     }
 
+    public <T> void withOrNullWhere(QueryWrapper<T> queryWrapper) {
+        if (isStringField()) {
+            queryWrapper.or().isNull(column).or().eq(column, CharacterConstants.SEPARATOR_EMPTY);
+        } else if (isRelationOneField()) {
+            queryWrapper.or(w -> {
+                for (String relationColumn : relationColumns) {
+                    queryWrapper.isNull(relationColumn);
+                }
+            });
+        } else {
+            queryWrapper.or().isNull(column);
+        }
+    }
+
     public <T> void withNotNullWhere(QueryWrapper<T> queryWrapper) {
         if (isStringField()) {
             queryWrapper.isNotNull(column).ne(column, CharacterConstants.SEPARATOR_EMPTY);

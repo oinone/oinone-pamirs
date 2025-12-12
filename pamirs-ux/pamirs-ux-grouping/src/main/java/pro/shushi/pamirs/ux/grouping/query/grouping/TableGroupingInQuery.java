@@ -75,7 +75,7 @@ public class TableGroupingInQuery<T> implements TableGroupingQueryApi<T> {
         if (isContainsNull) {
             queryWrapper.and(w -> {
                 applyIn.accept(w);
-                firstQuery.withNullWhere(w.or());
+                firstQuery.withOrNullWhere(w);
             });
         } else {
             applyIn.accept(queryWrapper);
