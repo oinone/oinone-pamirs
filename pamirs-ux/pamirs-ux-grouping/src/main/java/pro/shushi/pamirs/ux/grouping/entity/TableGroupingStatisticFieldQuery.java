@@ -41,7 +41,11 @@ public class TableGroupingStatisticFieldQuery extends BasicTableGroupingFieldQue
 
     private final String invalidStatisticValue;
 
+    private final String minField;
+
     private final String asMinField;
+
+    private final String maxField;
 
     private final String asMaxField;
 
@@ -52,14 +56,16 @@ public class TableGroupingStatisticFieldQuery extends BasicTableGroupingFieldQue
 
         String columnFormat = model.getColumnFormat();
 
+        this.minField = field + MIN_FIELD_SUFFIX;
+        this.maxField = field + MAX_FIELD_SUFFIX;
         String finalAsMinField;
         String finalAsMaxField;
         if (StringUtils.isBlank(columnFormat)) {
-            finalAsMinField = field + MIN_FIELD_SUFFIX;
-            finalAsMaxField = field + MAX_FIELD_SUFFIX;
+            finalAsMinField = this.minField;
+            finalAsMaxField = this.maxField;
         } else {
-            finalAsMinField = String.format(columnFormat, field + MIN_FIELD_SUFFIX);
-            finalAsMaxField = String.format(columnFormat, field + MAX_FIELD_SUFFIX);
+            finalAsMinField = String.format(columnFormat, this.minField);
+            finalAsMaxField = String.format(columnFormat, this.maxField);
         }
         this.asMinField = finalAsMinField;
         this.asMaxField = finalAsMaxField;
@@ -94,8 +100,16 @@ public class TableGroupingStatisticFieldQuery extends BasicTableGroupingFieldQue
                 || GroupStatisticMethodEnum.TIME_RANGE_YEAR.name().equals(statisticMethod);
     }
 
+    public String getMinField() {
+        return minField;
+    }
+
     public String getAsMinField() {
         return asMinField;
+    }
+
+    public String getMaxField() {
+        return maxField;
     }
 
     public String getAsMaxField() {

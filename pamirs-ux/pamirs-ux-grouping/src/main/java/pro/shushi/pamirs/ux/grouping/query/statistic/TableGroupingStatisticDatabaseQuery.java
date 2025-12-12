@@ -4,20 +4,24 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.mapper.GenericMapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
+import pro.shushi.pamirs.meta.enmu.TtypeEnum;
+import pro.shushi.pamirs.meta.util.FieldUtils;
+import pro.shushi.pamirs.ux.common.utils.NumberHelper;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingFieldQuery;
 import pro.shushi.pamirs.ux.grouping.entity.TableGroupingStatisticFieldQuery;
 import pro.shushi.pamirs.ux.grouping.enumeration.GroupStatisticMethodEnum;
 import pro.shushi.pamirs.ux.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.ux.grouping.statistic.StatisticHelper;
-import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
-import pro.shushi.pamirs.meta.util.FieldUtils;
-import pro.shushi.pamirs.ux.common.utils.NumberHelper;
 
 import javax.annotation.Resource;
 import java.math.RoundingMode;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -107,12 +111,20 @@ public class TableGroupingStatisticDatabaseQuery<T> implements TableGroupingStat
         if (statisticValue == null) {
             return statisticQuery.getInvalidStatisticValue();
         }
+        if (statisticQuery.isDateField()) {
+            String format = statisticQuery.getFormat();
+            Date date = dateParse(statisticQuery, statisticValue, format);
+            if (date == null) {
+                return statisticQuery.getInvalidStatisticValue();
+            }
+            return new SimpleDateFormat(format).format(date);
+        }
         return String.valueOf(statisticValue);
     }
 
     private String diff(TableGroupingStatisticFieldQuery query, DataMap data) {
-        Object minObjectValue = FieldUtils.getFieldValue(data, query.getAsMinField());
-        Object maxObjectValue = FieldUtils.getFieldValue(data, query.getAsMaxField());
+        Object minObjectValue = FieldUtils.getFieldValue(data, query.getMinField());
+        Object maxObjectValue = FieldUtils.getFieldValue(data, query.getMaxField());
         GroupStatisticMethodEnum statisticMethod = query.getInternalStatisticMethod();
         if (query.isNumberField()) {
             return NumberHelper.valueOf(maxObjectValue)
@@ -124,8 +136,8 @@ public class TableGroupingStatisticDatabaseQuery<T> implements TableGroupingStat
                 return query.getInvalidStatisticValue();
             }
             String format = query.getFormat();
-            Date minDate = dateParse((String) minObjectValue, format);
-            Date maxDate = dateParse((String) maxObjectValue, format);
+            Date minDate = dateParse(query, minObjectValue, format);
+            Date maxDate = dateParse(query, maxObjectValue, format);
             if (minDate == null || maxDate == null) {
                 return query.getInvalidStatisticValue();
             }
@@ -144,13 +156,39 @@ public class TableGroupingStatisticDatabaseQuery<T> implements TableGroupingStat
         }
     }
 
-    private Date dateParse(String value, String format) {
+    private Date dateParse(TableGroupingStatisticFieldQuery query, Object value, String format) {
+        String stringValue = null;
+        if (value instanceof String) {
+            stringValue = (String) value;
+        } else if (value instanceof Date) {
+            Long dateLong = castDateLong(query, value);
+            if (dateLong != null) {
+                return new Date(dateLong);
+            }
+        }
         try {
-            return new SimpleDateFormat(format).parse(value);
+            return new SimpleDateFormat(format).parse(stringValue);
         } catch (ParseException e) {
             log.error("Invalid datetime value and format. value: {}, format: {}", value, format, e);
             return null;
         }
+    }
+
+    private Long castDateLong(TableGroupingStatisticFieldQuery query, Object param) {
+        Long dateLong = null;
+        if (param instanceof Timestamp) {
+            dateLong = ((Timestamp) param).getTime();
+        } else if (param instanceof java.sql.Date) {
+            dateLong = ((java.sql.Date) param).getTime();
+        } else if (param instanceof java.sql.Time) {
+            dateLong = ((java.sql.Time) param).getTime();
+        } else if (param instanceof Long || param instanceof Integer) {
+            if (TtypeEnum.YEAR.value().equals(query.getTtype()) && ((long) param) < 10000L) {
+                return LocalDateTime.of((int) param, 1, 1, 0, 0, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            }
+            dateLong = (long) param;
+        }
+        return dateLong;
     }
 
     private long count(String model, QueryWrapper<T> queryWrapper) {
