@@ -1,26 +1,34 @@
 package pro.shushi.pamirs.auth.core.service;
 
+import com.google.common.collect.Lists;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.auth.api.enumeration.AuthExpEnumerate;
 import pro.shushi.pamirs.auth.api.enumeration.AuthorizationSourceEnum;
 import pro.shushi.pamirs.auth.api.model.AuthRole;
+import pro.shushi.pamirs.auth.api.runtime.executor.DataPermissionExecutor;
+import pro.shushi.pamirs.auth.api.runtime.session.AuthRoleSession;
 import pro.shushi.pamirs.auth.api.service.AuthRoleService;
+import pro.shushi.pamirs.auth.api.tmodel.RoleQueryFilter;
 import pro.shushi.pamirs.core.common.DataShardingHelper;
 import pro.shushi.pamirs.core.common.VerificationHelper;
 import pro.shushi.pamirs.core.common.standard.service.impl.AbstractStandardModelService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.update.LambdaUpdateWrapper;
+import pro.shushi.pamirs.framework.gateways.rsql.RsqlParseHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
+import pro.shushi.pamirs.meta.constant.FunctionConstants;
+import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 角色服务实现
@@ -158,6 +166,66 @@ public class AuthRoleServiceImpl extends AbstractStandardModelService<AuthRole> 
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
+    }
+
+    @Function
+    @Override
+    public List<AuthRole> queryListByFilter(RoleQueryFilter query) {
+        Set<String> roleCodes = new HashSet<>();
+        Optional.ofNullable(query.getRoleCodes()).filter(CollectionUtils::isNotEmpty).ifPresent(roleCodes::addAll);
+        boolean isReturnEmpty = false;
+        if (Boolean.TRUE.equals(query.getUserRole())) {
+            isReturnEmpty = true;
+            Set<Long> currentRoleIds = AuthRoleSession.getCurrentRoles();
+            if (CollectionUtils.isNotEmpty(currentRoleIds)) {
+                List<AuthRole> roles = Models.origin().queryListByWrapper(Pops.<AuthRole>lambdaQuery()
+                        .from(AuthRole.MODEL_MODEL)
+                        .select(AuthRole::getId, AuthRole::getCode)
+                        .in(AuthRole::getId, currentRoleIds));
+                if (CollectionUtils.isNotEmpty(roles)) {
+                    roleCodes.addAll(roles.stream().map(AuthRole::getCode).collect(Collectors.toSet()));
+                }
+            }
+        }
+        String applySql = null;
+        String rsql = query.getRsql();
+        String filter = DataPermissionExecutor.getFilter(AuthRole.MODEL_MODEL, FunctionConstants.queryPage, Lists.newArrayList(FunctionTypeEnum.QUERY));
+        if (StringUtils.isNotBlank(filter)) {
+            if (StringUtils.isBlank(rsql)) {
+                rsql = filter;
+            } else {
+                rsql = String.format("(%s) and (%s)", rsql, filter);
+            }
+        }
+        if (StringUtils.isNotBlank(rsql)) {
+            applySql = RsqlParseHelper.parseRsql2Sql(AuthRole.MODEL_MODEL, rsql);
+            isReturnEmpty = false;
+        }
+        if (isReturnEmpty && roleCodes.isEmpty()) {
+            return new ArrayList<>();
+        }
+        final String finalApplySql = applySql;
+        if (roleCodes.isEmpty() || roleCodes.size() <= 500) {
+            LambdaQueryWrapper<AuthRole> queryWrapper = Pops.<AuthRole>lambdaQuery().from(AuthRole.MODEL_MODEL)
+                    .ne(AuthRole::getSource, AuthorizationSourceEnum.BUILD_IN);
+            if (finalApplySql != null) {
+                queryWrapper.apply(finalApplySql);
+            }
+            if (!roleCodes.isEmpty()) {
+                queryWrapper.in(AuthRole::getCode, roleCodes);
+            }
+            return Models.origin().queryListByWrapper(queryWrapper);
+        }
+        return DataShardingHelper.build().collectionSharding(roleCodes, (sublist) -> {
+            LambdaQueryWrapper<AuthRole> queryWrapper = Pops.<AuthRole>lambdaQuery().from(AuthRole.MODEL_MODEL)
+                    .setBatchSize(-1)
+                    .ne(AuthRole::getSource, AuthorizationSourceEnum.BUILD_IN)
+                    .in(AuthRole::getCode, sublist);
+            if (finalApplySql != null) {
+                queryWrapper.apply(finalApplySql);
+            }
+            return Models.origin().queryListByWrapper(queryWrapper);
+        });
     }
 
     @Override

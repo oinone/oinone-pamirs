@@ -18,6 +18,7 @@ import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.RSqlConstants;
@@ -59,6 +60,25 @@ public class DataPermissionExecutor {
             throw PamirsException.construct(AuthExpEnumerate.AUTH_NO_PERMISSION).errThrow();
         }
         appendFilterToWrapper(dataPermissionApi, namespace, fun, functionTypes, args);
+    }
+
+    public static String getFilter(String namespace, String fun) {
+        if (isAppendFilter(namespace, fun)) {
+            Function function = PamirsSession.getContext().getFunctionAllowNull(namespace, fun);
+            if (function == null) {
+                log.error("Invalid function. namespace: {}, fun: {}", namespace, fun);
+                return null;
+            }
+            return generatorFilter(namespace, fun, function.getType());
+        }
+        return null;
+    }
+
+    public static String getFilter(String namespace, String fun, List<FunctionTypeEnum> functionTypes) {
+        if (isAppendFilter(namespace, fun)) {
+            return generatorFilter(namespace, fun, functionTypes);
+        }
+        return null;
     }
 
     private static void appendFilterToWrapper(DataPermissionApi dataPermissionApi, String namespace, String fun, List<FunctionTypeEnum> functionTypes, Object... args) {
@@ -115,6 +135,17 @@ public class DataPermissionExecutor {
         AccessPermissionApi accessPermissionApi = AuthApiHolder.getAccessPermissionApi();
         return !accessPermissionApi.isFilterFunction(namespace, fun) &&
                 !accessPermissionApi.isFilterFunctionOnlyLogin(namespace, fun);
+    }
+
+    private static String generatorFilter(String namespace, String fun, List<FunctionTypeEnum> functionTypes) {
+        String filter = generatorFilter(AuthApiHolder.getDataPermissionApi(), namespace, functionTypes);
+        if (StringUtils.isNotBlank(filter)) {
+            if (log.isDebugEnabled()) {
+                log.debug("Using filter. namespace: {}, fun: {}, filter: {}", namespace, fun, filter);
+            }
+            return filter;
+        }
+        return null;
     }
 
     private static String generatorFilter(DataPermissionApi dataPermissionApi, String namespace, List<FunctionTypeEnum> functionTypes) {

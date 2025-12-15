@@ -77,6 +77,13 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>pro.shushi.pamirs.ux</groupId>
+                <artifactId>pamirs-ux</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>pro.shushi.pamirs.middleware</groupId>
                 <artifactId>pamirs-middleware-dependencies</artifactId>
                 <version>${project.version}</version>
@@ -94,6 +101,7 @@
                 <artifactId>pamirs-sequence</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-resource-api</artifactId>

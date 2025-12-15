@@ -53,4 +53,22 @@ public interface CharacterConstants {
 
     String NEWLINE = "\n";
 
+    // <
+    String XML_SEPARATOR_LT = "&lt;";
+
+    // >
+    String XML_SEPARATOR_GT = "&gt;";
+
+    // &
+    String XML_SEPARATOR_AND = "&amp;";
+
+    // &&
+    String XML_SEPARATOR_DOUBLE_AND = "&amp;&amp;";
+
+    // '
+    String XML_SEPARATOR_SINGLE_QUOTE = "&apos;";
+
+    // "
+    String XML_SEPARATOR_QUOTE = "&quot;";
+
 }

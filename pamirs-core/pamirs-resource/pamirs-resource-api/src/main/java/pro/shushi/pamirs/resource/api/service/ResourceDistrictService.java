@@ -11,7 +11,7 @@ import java.util.List;
 @Fun(ResourceDistrictService.FUN_NAMESPACE)
 public interface ResourceDistrictService {
 
-    String FUN_NAMESPACE = "libra.resource.ResourceDistrictService";
+    String FUN_NAMESPACE = "resource.ResourceDistrictService";
 
     /**
      * 分页查询接口

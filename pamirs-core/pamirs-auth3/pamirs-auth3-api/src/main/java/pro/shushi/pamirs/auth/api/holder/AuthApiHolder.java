@@ -6,8 +6,8 @@ import pro.shushi.pamirs.auth.api.runtime.cache.AccessPermissionCacheApi;
 import pro.shushi.pamirs.auth.api.runtime.cache.DataPermissionCacheApi;
 import pro.shushi.pamirs.auth.api.runtime.cache.ManagementPermissionCacheApi;
 import pro.shushi.pamirs.auth.api.runtime.spi.*;
-import pro.shushi.pamirs.core.common.entry.HoldSupplier;
 import pro.shushi.pamirs.meta.api.core.auth.AuthApi;
+import pro.shushi.pamirs.ux.common.entity.HoldSupplier;
 
 import java.util.List;
 

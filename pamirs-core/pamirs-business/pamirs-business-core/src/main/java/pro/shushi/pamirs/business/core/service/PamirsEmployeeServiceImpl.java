@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.business.core.service;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -8,29 +9,35 @@ import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.auth.api.constants.AuthConstants;
 import pro.shushi.pamirs.auth.api.model.AuthRole;
 import pro.shushi.pamirs.auth.api.model.AuthUserRoleRel;
+import pro.shushi.pamirs.auth.api.runtime.executor.DataPermissionExecutor;
+import pro.shushi.pamirs.auth.api.service.relation.AuthUserRoleService;
 import pro.shushi.pamirs.business.api.BusinessModule;
 import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
 import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
-import pro.shushi.pamirs.business.api.model.PamirsPosition;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
+import pro.shushi.pamirs.business.api.spi.CurrentDepartmentFetcher;
+import pro.shushi.pamirs.business.api.spi.CurrentEmployeeFetcher;
+import pro.shushi.pamirs.business.api.tmodel.EmployeeQueryFilter;
 import pro.shushi.pamirs.business.util.DepartmentRelEmployeeHelper;
+import pro.shushi.pamirs.core.common.DataShardingHelper;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
 import pro.shushi.pamirs.framework.gateways.rsql.RSQLHelper;
+import pro.shushi.pamirs.framework.gateways.rsql.RsqlParseHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
-import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
+import pro.shushi.pamirs.meta.constant.FunctionConstants;
+import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.resource.api.enmu.UserSignUpType;
-import pro.shushi.pamirs.user.api.constants.UserConstants;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.service.UserService;
 
@@ -48,14 +55,30 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private DepartmentRelEmployeeService departmentRelEmployeeService;
+
+    @Autowired
+    private AuthUserRoleService authUserRoleService;
 
     @Function
     @Override
     public PamirsEmployee create(PamirsEmployee data) {
         if (StringUtils.isBlank(data.getEmployeeType())) {
             data.setEmployeeType(BusinessModule.DEFAULT_TYPE);
+        }
+        if (StringUtils.isNotBlank(data.getDepartmentCode())) {
+            PamirsDepartment department = new PamirsDepartment().setCode(data.getDepartmentCode()).queryByCode();
+            List<PamirsDepartment> departments = data.getDepartmentList();
+            if (department != null) {
+                data.setDepartmentTreeCode(department.getTreeCode());
+                if (CollectionUtils.isEmpty(departments)) departments = new ArrayList<>();
+                if (departments.stream().noneMatch(t -> t.getId().equals(department.getId()))) {
+                    departments.add(department);
+                    data.setDepartmentList(departments);
+                }
+            }
         }
         data = data.create();
         departmentRelEmployeeService.assignSupervisorOrImmediateSupervisor(data, data.getDepartmentList(), null);
@@ -105,14 +128,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         if (StringUtils.isBlank(data.getEmployeeType())) {
             data.setEmployeeType(BusinessModule.DEFAULT_TYPE);
         }
-        List<PamirsPosition> positions = data.getPositions();
         List<PamirsDepartment> departmentList = data.getDepartmentList();
-        if (CollectionUtils.isNotEmpty(positions)) {
-            for (int i = 0; i < positions.size(); i++) {
-                PamirsPosition position = positions.get(i).queryOne();
-                positions.set(i, position);
-            }
-        }
         if (StringUtils.isNotBlank(data.getDepartmentCode())) {
             PamirsDepartment department = new PamirsDepartment().setCode(data.getDepartmentCode()).queryByCode();
             if (department != null) {
@@ -151,7 +167,7 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
         List<PamirsDepartment> finalDepartmentList = departmentList;
         return Tx.build().execute(status -> {
             PamirsUser pamirsUser = null;
-            if (employee.getBindingMode().equals(BindingModeEnum.CREATE_BINDING)) {
+            if (BindingModeEnum.CREATE_BINDING.equals(employee.getBindingMode())) {
                 pamirsUser = createUser(employee);
                 createUserBaseRole(pamirsUser.getId());
             }
@@ -161,15 +177,13 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             }
             result = result.fieldQuery(PamirsEmployee::getDepartmentList);
             List<PamirsDepartment> originDepartments = result.getDepartmentList();
-            result = result.fieldQuery(PamirsEmployee::getPositions);
             result = result.relationDelete(PamirsEmployee::getDepartmentList);
-            result = result.relationDelete(PamirsEmployee::getPositions);
 
-            result.setPositions(positions);
             result.setDepartmentList(finalDepartmentList);
             departmentRelEmployeeService.assignSupervisorOrImmediateSupervisor(data, result.getDepartmentList(), originDepartments);
+            result.fieldSaveOnCascade(PamirsEmployee::getCompanyList);
+            result.fieldSaveOnCascade(PamirsEmployee::getPositions);
             result.fieldSave(PamirsEmployee::getDepartmentList);
-            result.fieldSave(PamirsEmployee::getPositions);
             return result;
         });
     }
@@ -307,6 +321,110 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
                     .or().eq(StringUtils.isNotBlank(employeeName), PamirsEmployee::getCode, employeeName));
         }
         return Models.origin().queryPage(page, query);
+    }
+
+    @Function
+    @Override
+    public List<PamirsEmployee> queryListByFilter(EmployeeQueryFilter query) {
+        Set<String> departmentCodes = new HashSet<>();
+        Set<String> employeeCodes = new HashSet<>();
+        Optional.ofNullable(query.getDepartmentCodes()).filter(CollectionUtils::isNotEmpty).ifPresent(departmentCodes::addAll);
+        Optional.ofNullable(query.getEmployeeCodes()).filter(CollectionUtils::isNotEmpty).ifPresent(employeeCodes::addAll);
+        boolean isReturnEmpty = false;
+        if (Boolean.TRUE.equals(query.getUserEmployee())) {
+            isReturnEmpty = true;
+            List<PamirsEmployee> employeeList = CurrentEmployeeFetcher.get().fetchList();
+            if (CollectionUtils.isNotEmpty(employeeList)) {
+                employeeCodes.addAll(employeeList.stream().map(PamirsEmployee::getCode).collect(Collectors.toSet()));
+            }
+        }
+        if (Boolean.TRUE.equals(query.getUserDeptAndChildren())) {
+            isReturnEmpty = true;
+            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchListWithChildren();
+            if (CollectionUtils.isNotEmpty(departments)) {
+                departmentCodes.addAll(departments.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet()));
+            }
+        } else if (Boolean.TRUE.equals(query.getUserDept())) {
+            isReturnEmpty = true;
+            List<PamirsDepartment> departments = CurrentDepartmentFetcher.get().fetchList();
+            if (CollectionUtils.isNotEmpty(departments)) {
+                departmentCodes.addAll(departments.stream().map(PamirsDepartment::getCode).collect(Collectors.toSet()));
+            }
+        }
+        Set<Long> bindingUserIds = null;
+        List<String> roleCodes = query.getRoleCodes();
+        if (CollectionUtils.isNotEmpty(roleCodes)) {
+            isReturnEmpty = true;
+            Set<Long> roleIds = DataShardingHelper.build().collectionSharding(roleCodes, (sublist) -> Models.origin().queryListByWrapper(Pops.<AuthRole>lambdaQuery()
+                            .from(AuthRole.MODEL_MODEL)
+                            .select(AuthRole::getId)
+                            .setBatchSize(-1)
+                            .in(AuthRole::getCode, sublist)))
+                    .stream().map(AuthRole::getId).collect(Collectors.toSet());
+            if (!roleIds.isEmpty()) {
+                List<AuthUserRoleRel> userRoleList = authUserRoleService.queryListByRoleIds(roleIds);
+                if (CollectionUtils.isNotEmpty(userRoleList)) {
+                    bindingUserIds = userRoleList.stream().map(AuthUserRoleRel::getUserId).collect(Collectors.toSet());
+                }
+            }
+        }
+        if (CollectionUtils.isNotEmpty(bindingUserIds)) {
+            List<PamirsEmployee> employeeList = DataShardingHelper.build().collectionSharding(bindingUserIds, (sublist) -> Models.origin().queryListByWrapper(Pops.<PamirsEmployee>lambdaQuery()
+                    .from(PamirsEmployee.MODEL_MODEL)
+                    .select(PamirsEmployee::getCode)
+                    .setBatchSize(-1)
+                    .in(PamirsEmployee::getBindingUserId, sublist)));
+            if (CollectionUtils.isNotEmpty(employeeList)) {
+                employeeCodes.addAll(employeeList.stream().map(PamirsEmployee::getCode).collect(Collectors.toSet()));
+            }
+        }
+        if (CollectionUtils.isNotEmpty(departmentCodes)) {
+            List<DepartmentRelEmployee> departmentRelEmployees = DataShardingHelper.build().collectionSharding(departmentCodes, (sublist) -> Models.origin().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
+                    .from(DepartmentRelEmployee.MODEL_MODEL)
+                    .select(DepartmentRelEmployee::getEmployeeCode)
+                    .setBatchSize(-1)
+                    .in(DepartmentRelEmployee::getDepartmentCode, sublist)));
+            if (CollectionUtils.isNotEmpty(departmentRelEmployees)) {
+                employeeCodes.addAll(departmentRelEmployees.stream().map(DepartmentRelEmployee::getEmployeeCode).collect(Collectors.toSet()));
+            }
+        }
+        String rsql = query.getRsql();
+        String filter = DataPermissionExecutor.getFilter(PamirsEmployee.MODEL_MODEL, FunctionConstants.queryPage, Lists.newArrayList(FunctionTypeEnum.QUERY));
+        if (StringUtils.isNotBlank(filter)) {
+            if (StringUtils.isBlank(rsql)) {
+                rsql = filter;
+            } else {
+                rsql = String.format("(%s) and (%s)", rsql, filter);
+            }
+        }
+        String applySql = null;
+        if (StringUtils.isNotBlank(rsql)) {
+            applySql = RsqlParseHelper.parseRsql2Sql(PamirsEmployee.MODEL_MODEL, rsql);
+            isReturnEmpty = false;
+        }
+        if (isReturnEmpty && employeeCodes.isEmpty()) {
+            return new ArrayList<>();
+        }
+        final String finalApplySql = applySql;
+        if (employeeCodes.isEmpty() || employeeCodes.size() <= 500) {
+            LambdaQueryWrapper<PamirsEmployee> queryWrapper = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL);
+            if (finalApplySql != null) {
+                queryWrapper.apply(finalApplySql);
+            }
+            if (!employeeCodes.isEmpty()) {
+                queryWrapper.in(PamirsEmployee::getCode, employeeCodes);
+            }
+            return Models.origin().queryListByWrapper(queryWrapper);
+        }
+        return DataShardingHelper.build().collectionSharding(employeeCodes, (sublist) -> {
+            LambdaQueryWrapper<PamirsEmployee> queryWrapper = Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL)
+                    .setBatchSize(-1)
+                    .in(PamirsEmployee::getCode, sublist);
+            if (finalApplySql != null) {
+                queryWrapper.apply(finalApplySql);
+            }
+            return Models.origin().queryListByWrapper(queryWrapper);
+        });
     }
 
     private Set<String> fetchImmediateSupervisorCode(String departmentCode, String myselfCode) {

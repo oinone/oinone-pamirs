@@ -17,7 +17,7 @@ public enum CommonExpEnumerate implements ExpBaseEnum {
     PK_UNIQUE_HAS_NULL(ERROR_TYPE.BIZ_ERROR, 10057006, "主键和唯一键的值无法满足更新要求，请至少传入一组主键或唯一键进行更新操作"),
     DELETE_PK_UNIQUE_HAS_NULL(ERROR_TYPE.BIZ_ERROR, 10057007, "主键和唯一键的值无法满足删除要求，请至少传入一组主键或唯一键进行删除操作"),
     UNSUPPORTED_OPERATION_ERROR(ERROR_TYPE.BIZ_ERROR, 10057008, "不被允许的操作"),
-    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10057009, "未处理的系统异常");
+    SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10057999, "未处理的系统异常");
 
     private final ERROR_TYPE type;
 

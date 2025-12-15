@@ -11,7 +11,7 @@ import java.util.List;
 @Fun(ResourceRegionMappingService.FUN_NAMESPACE)
 public interface ResourceRegionMappingService {
 
-    String FUN_NAMESPACE = "libra.resource.ResourceRegionMappingQueryService";
+    String FUN_NAMESPACE = "resource.ResourceRegionMappingQueryService";
 
     /**
      * 分页查询接口

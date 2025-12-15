@@ -10,29 +10,11 @@ import java.util.function.Supplier;
  *
  * @author Adamancy Zhang at 12:03 on 2024-10-12
  */
-public class HoldSupplier<T> {
-
-    private final Holder<T> holder = new Holder<>();
-
-    private final Supplier<T> supplier;
+@Deprecated
+public class HoldSupplier<T> extends pro.shushi.pamirs.ux.common.entity.HoldSupplier<T> {
 
     public HoldSupplier(Supplier<T> supplier) {
-        assert supplier != null : "Invalid hold supplier";
-        this.supplier = supplier;
-    }
-
-    public T get() {
-        T value = holder.get();
-        if (value == null && holder.isNotSetValue()) {
-            synchronized (holder) {
-                value = holder.get();
-                if (value == null && holder.isNotSetValue()) {
-                    value = supplier.get();
-                    holder.set(value);
-                }
-            }
-        }
-        return value;
+        super(supplier);
     }
 
     public static <R> HoldSupplier<R> getDefaultExtension(Class<R> clazz) {

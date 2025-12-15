@@ -106,11 +106,11 @@ public class AuthGroupResourcePermissionProxyAction {
             menus = new ArrayList<>();
         } else {
             menus = DataShardingHelper.build().sharding(menuModules.size(),
-                    (begin, end) -> Models.origin().queryListByWrapper(Pops.<Menu>lambdaQuery()
+                    (begin, end, currentPage, size) -> Models.origin().queryListByWrapper(Pops.<Menu>lambdaQuery()
                             .from(Menu.MODEL_MODEL)
                             .setBatchSize(-1)
                             .select(Menu::getModule, Menu::getName, Menu::getDisplayName, Menu::getDefaultDisplayName)
-                            .in(Arrays.asList(Menu::getModule, Menu::getName), menuModules.subList(begin, end), menuNames.subList(begin, end))));
+                            .in(Arrays.asList(Menu::getModule, Menu::getName), new ArrayList<>(menuModules.subList(begin, end)), new ArrayList<>(menuNames.subList(begin, end)))));
         }
         MemoryListSearchCache<String, ModuleDefinition> moduleDefinitionCache = new MemoryListSearchCache<>(moduleDefinitions, ModuleDefinition::getModule);
         MemoryListSearchCache<String, Menu> menuCache = new MemoryListSearchCache<>(menus, v -> Menu.sign(v.getModule(), v.getName()));

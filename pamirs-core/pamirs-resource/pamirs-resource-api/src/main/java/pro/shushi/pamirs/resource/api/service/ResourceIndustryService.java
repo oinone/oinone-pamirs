@@ -11,7 +11,7 @@ import java.util.List;
 @Fun(ResourceIndustryService.FUN_NAMESPACE)
 public interface ResourceIndustryService {
 
-    String FUN_NAMESPACE = "libra.resource.ResourceIndustryService";
+    String FUN_NAMESPACE = "resource.ResourceIndustryService";
 
     /**
      * 分页查询接口

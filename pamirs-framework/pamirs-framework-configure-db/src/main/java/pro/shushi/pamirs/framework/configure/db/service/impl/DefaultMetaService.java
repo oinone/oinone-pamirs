@@ -30,7 +30,6 @@ import pro.shushi.pamirs.meta.api.core.faas.boot.ModulesApi;
 import pro.shushi.pamirs.meta.api.core.orm.convert.DataConverter;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
-import pro.shushi.pamirs.meta.api.dto.meta.MetaModel;
 import pro.shushi.pamirs.meta.api.prefix.DataPrefixManager;
 import pro.shushi.pamirs.meta.base.common.MetaBaseModel;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
@@ -45,7 +44,6 @@ import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
@@ -87,7 +85,7 @@ public class DefaultMetaService implements MetaService {
     @Override
     public Map<String, MetaData> loadMetaDataMap(Set<String> modules, Consumer<MetaBaseModel> directive, Supplier<Boolean> preAction) {
         return metaSimulateService.transientStaticExecute(MetaSimulator.simulate(), () -> {
-            Map<String, MetaData> metaDataMap = new ConcurrentHashMap<>(modules.size());
+            Map<String, MetaData> metaDataMap = new HashMap<>(modules.size());
 
             String dsKey = DsApi.get().baseDsKey(ModelData.MODEL_MODEL);
             String modelDataTableName = DataPrefixManager.tablePrefix(ModuleConstants.MODULE_BASE, ModelData.MODEL_MODEL, ModelData.TABLE_NAME);
@@ -105,8 +103,7 @@ public class DefaultMetaService implements MetaService {
                 if (null != metaData) {
                     metaDataMap.putIfAbsent(module, metaData);
                 }
-                long end = System.currentTimeMillis();
-                log.info("[{}]模块,装载元数据,time:[{}]ms", module, end - start);
+                log.info("[{}]模块,装载元数据,time:[{}]ms", module, System.currentTimeMillis() - start);
             }
 
             return metaDataMap;
@@ -134,9 +131,8 @@ public class DefaultMetaService implements MetaService {
                 metaData.addCrossingExtendData(model, sign, modelData.getModule());
             }
         }
-        // 装载元数据
         for (String model : sortModelSet(resIdMap.keySet())) {
-            loadMetaDataForModel(metaData, model, resIdMap, modelDataMap.get(model), directive);
+            loadMetaDataForModel(metaData, module, model, resIdMap, modelDataMap.get(model), directive);
         }
         return metaData;
     }
@@ -154,6 +150,7 @@ public class DefaultMetaService implements MetaService {
     }
 
     protected void loadMetaDataForModel(MetaData metaData,
+                                        String module,
                                         String model,
                                         Map<String, List<Long>> resIdMap,
                                         Map<Long, ModelData> modelDataMap,
@@ -162,17 +159,7 @@ public class DefaultMetaService implements MetaService {
         if (CollectionUtils.isEmpty(ids) || MapUtils.isEmpty(modelDataMap)) {
             return;
         }
-
-        List<DataMap> dataMapList;
-        if (log.isDebugEnabled()) {
-            long start = System.currentTimeMillis();
-            log.debug("loadMetaDataMapList model: {}, size: {}", model, ids.size());
-            dataMapList = loadMetaDataMapList(model, ids);
-            log.debug("loadMetaDataMapList cost time: {}ms", System.currentTimeMillis() - start);
-        } else {
-            dataMapList = loadMetaDataMapList(model, ids);
-        }
-
+        List<DataMap> dataMapList = loadMetaDataMapList(model, ids);
         List<MetaBaseModel> dataList = persistenceDataConverter.out(model, dataMapList);
         MetaDataLoadExtend metaDataLoadExtend = Spider.getDefaultExtension(MetaDataLoadExtend.class);
         DiffService diffService = Spider.getDefaultExtension(DiffService.class);
@@ -205,9 +192,6 @@ public class DefaultMetaService implements MetaService {
             }
         }
         return results;
-//        return ParallelStreamHelper.parallelStream(idsGroups)
-//                .flatMap(sublist -> genericMapper.selectList(Pops.<DataMap>query().from(model).in(FieldConstants.ID, sublist)).stream())
-//                .collect(Collectors.toList());
     }
 
     private void crossingLoadMetaData(Map<String, MetaData> metaDataMap, Set<String> runModuleSet, String module) {
@@ -273,15 +257,9 @@ public class DefaultMetaService implements MetaService {
 
     @Override
     public Set<String> sortModelSet(Set<String> modelSet, Map<String, Integer> metaModelPriorityMap) {
-        Set<String> sortedModelSet = new LinkedHashSet<>();
-        List<MetaModel> models = new ArrayList<>();
-        for (String model : modelSet) {
-            Integer priority = Optional.ofNullable(metaModelPriorityMap.get(model)).orElse(50);
-            models.add(new MetaModel().setGroup(model).setPriority(priority));
-        }
-        models.sort(Comparator.comparing(MetaModel::getPriority));
-        models.stream().map(MetaModel::getGroup).forEachOrdered(sortedModelSet::add);
-        return sortedModelSet;
+        List<String> sortedModels = new ArrayList<>(modelSet);
+        sortedModels.sort(Comparator.comparingInt(model -> Optional.ofNullable(metaModelPriorityMap.get(model)).orElse(50)));
+        return new LinkedHashSet<>(sortedModels);
     }
 
 }

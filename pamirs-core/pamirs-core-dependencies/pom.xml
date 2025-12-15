@@ -16,6 +16,29 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- ux -->
+            <dependency>
+                <groupId>pro.shushi.pamirs.ux</groupId>
+                <artifactId>pamirs-ux-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.ux</groupId>
+                <artifactId>pamirs-ux-draft</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.ux</groupId>
+                <artifactId>pamirs-ux-grouping</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.ux</groupId>
+                <artifactId>pamirs-ux-quick-filling</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- basic -->
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-core-common</artifactId>
@@ -26,6 +49,7 @@
                 <artifactId>pamirs-sequence</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-resource</artifactId>
