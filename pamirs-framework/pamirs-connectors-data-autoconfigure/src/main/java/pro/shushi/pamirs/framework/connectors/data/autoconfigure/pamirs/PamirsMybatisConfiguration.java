@@ -2,20 +2,39 @@ package pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisMapperRegistry;
-import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.executor.*;
+import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.wrapper.ObjectWrapper;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.Transaction;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.dialect.StatementHandlerGeneratorDialect;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsModelBeanWrapper;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsModelMapWrapper;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsMybatisXMLLanguageDriver;
+import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
+import pro.shushi.pamirs.meta.api.Models;
+import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
+import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.base.D;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 修改plus逻辑
@@ -43,18 +62,6 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
     private Boolean usingModelAsProperty = false;
 
     private Boolean usingStatementHandlerDialect = false;
-
-    private GlobalConfig globalConfig = GlobalConfigUtils.defaults().setIdentifierGenerator(new PamirsIdentifierGenerator());
-
-    @Override
-    public GlobalConfig getGlobalConfig() {
-        return globalConfig;
-    }
-
-    @Override
-    public void setGlobalConfig(GlobalConfig globalConfig) {
-        this.globalConfig = globalConfig;
-    }
 
     /**
      * 初始化调用
