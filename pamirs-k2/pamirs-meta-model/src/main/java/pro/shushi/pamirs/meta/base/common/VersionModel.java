@@ -14,12 +14,14 @@ import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
  * date 2020/1/1 1:11 下午
  */
 @Base
-@Model.model("base.VersionModel")
+@Model.model(VersionModel.MODEL_MODEL)
 @Model.Advanced(type = ModelTypeEnum.ABSTRACT, priority = 38)
 @Model(displayName = "乐观锁基础模型", summary = "乐观锁基础模型")
 public abstract class VersionModel extends IdModel {
 
     private static final long serialVersionUID = 7531531743548130716L;
+
+    public static final String MODEL_MODEL = "base.VersionModel";
 
     @Base
     @Field.Version

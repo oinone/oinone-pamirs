@@ -3,10 +3,9 @@ package pro.shushi.pamirs.auth.api.debug;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.auth.api.constants.AuthConstants;
 import pro.shushi.pamirs.auth.api.enumeration.authorized.FieldAuthorizedValueEnum;
-import pro.shushi.pamirs.core.common.entry.HoldSupplier;
 import pro.shushi.pamirs.framework.common.api.SceneAnalysisDebugTraceApi;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
-import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
+import pro.shushi.pamirs.ux.common.entity.HoldSupplier;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -24,7 +23,7 @@ public class AuthVerificationDebugTrace implements SceneAnalysisDebugTraceApi {
 
     private static final String AUTH_VERIFICATION_DEBUG_SCENE = "权限验证追踪";
 
-    private static final HoldSupplier<AuthVerificationDebugTrace> debugTraceHolder = new HoldSupplier<>(() -> BeanDefinitionUtils.getBean(AuthVerificationDebugTrace.class));
+    private static final HoldSupplier<AuthVerificationDebugTrace> debugTraceHolder = HoldSupplier.getBean(AuthVerificationDebugTrace.class);
 
     public static void debugAccessModule(Result<Void> result, String module) {
         debug(() -> String.format("验证模块[%s]: %s", module, result.getSuccess()));

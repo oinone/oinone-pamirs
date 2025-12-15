@@ -3,11 +3,11 @@ package pro.shushi.pamirs.translate;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxRoute;
 import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxHomepage;
+import pro.shushi.pamirs.core.common.CommonModule;
 import pro.shushi.pamirs.file.api.FileModule;
 import pro.shushi.pamirs.meta.annotation.Module;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.base.PamirsModule;
-import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
 import pro.shushi.pamirs.resource.api.ResourceModule;
 import pro.shushi.pamirs.resource.api.model.ResourceTranslation;
 
@@ -23,7 +23,7 @@ import pro.shushi.pamirs.resource.api.model.ResourceTranslation;
         displayName = "翻译",
         version = "5.0.0",
         dependencies = {
-                ModuleConstants.MODULE_BASE,
+                CommonModule.MODULE_MODULE,
                 ResourceModule.MODULE_MODULE,
                 FileModule.MODULE_MODULE
         }

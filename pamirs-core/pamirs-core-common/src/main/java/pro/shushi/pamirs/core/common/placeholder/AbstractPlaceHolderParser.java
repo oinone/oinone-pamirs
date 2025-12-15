@@ -13,6 +13,10 @@ public abstract class AbstractPlaceHolderParser implements PlaceHolderParser {
 
     static final String auth_Condition = "authCondition";
 
+    protected static final String EMPTY_CONDITION = "";
+
+    protected static final String ARRAY_EMPTY_CONDITION = "''";
+
     @Override
     public Object[] parse(Object... args) {
         String authCondition = getAuthCondition(args);

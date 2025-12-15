@@ -11,7 +11,7 @@ import java.util.List;
 @Fun(ResourceCurrencyService.FUN_NAMESPACE)
 public interface ResourceCurrencyService {
 
-    String FUN_NAMESPACE = "libra.resource.ResourceCurrencyService";
+    String FUN_NAMESPACE = "resource.ResourceCurrencyService";
 
     /**
      * 分页查询接口

@@ -17,13 +17,13 @@ import java.util.Set;
 
 import static pro.shushi.pamirs.boot.base.enmu.BaseExpEnumerate.BASE_USER_NOT_LOGIN_ERROR;
 
+@Deprecated
 @Slf4j
 @Component
 public class DepartmentManager {
 
     /**
      * 获取当前登录部门CODE
-     *
      * @return
      */
     public String currentUserDeptCode() {
@@ -37,7 +37,6 @@ public class DepartmentManager {
 
     /**
      * 获取用户的部门 TREECODE-树编码
-     *
      * @return
      */
     public String userDeptCode(Long userId) {

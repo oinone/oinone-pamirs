@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.business.api.model;
 
+import pro.shushi.pamirs.boot.web.constants.BusinessModelConstants;
 import pro.shushi.pamirs.business.api.entity.PamirsCompany;
 import pro.shushi.pamirs.core.common.behavior.IDataStatus;
 import pro.shushi.pamirs.core.common.behavior.ITreeCodeModel;
@@ -19,10 +20,11 @@ import java.util.List;
 @Model.Code(sequence = "SEQ", prefix = "D", size = 8)
 public class PamirsDepartment extends BizCodeModel implements IDataStatus, ITreeCodeModel {
 
-    public static final String MODEL_MODEL = "business.PamirsDepartment";
-    public static final UniqueKeyGenerator<PamirsDepartment, String> UNIQUE_KEY_GENERATOR = PamirsDepartment::getCode;
-
     private static final long serialVersionUID = -265364687793309168L;
+
+    public static final String MODEL_MODEL = BusinessModelConstants.DEPARTMENT;
+
+    public static final UniqueKeyGenerator<PamirsDepartment, String> UNIQUE_KEY_GENERATOR = PamirsDepartment::getCode;
 
     @Base
     @Field.String(size = 64)
@@ -45,6 +47,11 @@ public class PamirsDepartment extends BizCodeModel implements IDataStatus, ITree
     @Field.Relation(relationFields = {"parentCode"}, referenceFields = {"code"})
     @Field(displayName = "上级部门")
     private PamirsDepartment parent;
+
+    @Field.one2many
+    @Field.Relation(relationFields = {"code"}, referenceFields = {"parentCode"})
+    @Field(displayName = "下级部门")
+    private List<PamirsDepartment> childList;
 
     @Field.String
     @Field(displayName = "上级部门编码", invisible = true)

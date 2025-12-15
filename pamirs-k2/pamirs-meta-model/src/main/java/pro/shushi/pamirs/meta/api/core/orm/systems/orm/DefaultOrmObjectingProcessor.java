@@ -42,7 +42,7 @@ public class DefaultOrmObjectingProcessor implements ModelBeforeComputeApi, Mode
         if (null == obj) {
             return null;
         }
-        ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelConfig(model);
+        ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
         return after(modelConfig, obj);
     }
 

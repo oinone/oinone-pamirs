@@ -11,11 +11,11 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import java.util.Set;
 
 /**
- * 权限模块 - 获取当前角色列表
+ * 获取当前用户角色列表
  *
  * @author Adamancy Zhang at 11:06 on 2024-01-10
  */
-@Order
+@Order(0)
 @Component
 @SPI.Service
 public class AuthCurrentRolesFetcher implements CurrentRolesFetcher {

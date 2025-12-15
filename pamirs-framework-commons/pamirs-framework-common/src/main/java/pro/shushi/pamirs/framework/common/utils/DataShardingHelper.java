@@ -33,7 +33,12 @@ public class DataShardingHelper {
     /**
      * 默认分片列表提供者
      */
-    private static final Supplier<List<?>> DEFAULT_SHARD_LIST_SUPPLIER = ArrayList::new;
+    private static final Function<List<?>, List<?>> DEFAULT_SHARD_LIST_SUPPLIER = (list) -> {
+        if (list == null) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(list);
+    };
 
     /**
      * 默认列表提供者
@@ -63,7 +68,7 @@ public class DataShardingHelper {
     /**
      * 分片列表提供者
      */
-    private Supplier<List<?>> shardListSupplier;
+    private Function<List<?>, List<?>> shardListSupplier;
 
     /**
      * 列表提供者
@@ -77,8 +82,8 @@ public class DataShardingHelper {
 
     protected DataShardingHelper(int eachShardMax) {
         this.eachShardMax(eachShardMax);
-        this.shardListSupplier(DEFAULT_SHARD_LIST_SUPPLIER);
         this.listSupplier(DEFAULT_LIST_SUPPLIER);
+        this.shardListSupplier(DEFAULT_SHARD_LIST_SUPPLIER);
         this.mapSupplier(DEFAULT_MAP_SUPPLIER);
     }
 
@@ -107,7 +112,13 @@ public class DataShardingHelper {
      * @param supplier 分片列表提供者
      * @return {@link DataShardingHelper}
      */
+    @Deprecated
     public DataShardingHelper shardListSupplier(Supplier<List<?>> supplier) {
+        this.shardListSupplier = (list) -> supplier.get();
+        return this;
+    }
+
+    public DataShardingHelper shardListSupplier(Function<List<?>, List<?>> supplier) {
         this.shardListSupplier = supplier;
         return this;
     }
@@ -157,11 +168,11 @@ public class DataShardingHelper {
         int batch = eachShardCount.batch, begin = 0, step = eachShardCount.basic, end = step;
         int bc = 1;
         do {
-            shardList.add(newList(list.subList(begin, end)));
+            shardList.add(newShardList(list.subList(begin, end)));
             begin += step;
             bc++;
             if (bc == batch) {
-                shardList.add(newList(list.subList(begin, total)));
+                shardList.add(newShardList(list.subList(begin, total)));
                 return shardList;
             }
             end += step;
@@ -328,8 +339,12 @@ public class DataShardingHelper {
         return new EachShardCount(shardingCount, this.shardGroupMax);
     }
 
+    protected <T> List<T> newShardList(List<T> list) {
+        return cast(this.shardListSupplier.apply(list));
+    }
+
     protected <T> List<T> newShardList() {
-        return cast(this.shardListSupplier.get());
+        return cast(this.shardListSupplier.apply(null));
     }
 
     protected <T> List<T> newList(List<T> list) {

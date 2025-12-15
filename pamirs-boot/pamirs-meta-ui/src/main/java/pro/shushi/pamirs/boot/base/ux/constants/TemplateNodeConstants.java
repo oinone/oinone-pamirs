@@ -119,4 +119,9 @@ public interface TemplateNodeConstants {
      * 模型元数据
      */
     String NODE_MODEL = "model";
+
+    /**
+     * 数据字典元数据
+     */
+    String NODE_DICTIONARY = "dictionary";
 }

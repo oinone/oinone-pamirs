@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.auth.api.service;
 
 import pro.shushi.pamirs.auth.api.model.AuthRole;
+import pro.shushi.pamirs.auth.api.tmodel.RoleQueryFilter;
 import pro.shushi.pamirs.core.common.standard.service.StandardModelService;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.update.LambdaUpdateWrapper;
@@ -86,4 +87,7 @@ public interface AuthRoleService extends StandardModelService<AuthRole> {
 
     @Function
     Boolean disable(Long id);
+
+    @Function
+    List<AuthRole> queryListByFilter(RoleQueryFilter query);
 }

@@ -2,29 +2,35 @@ package pro.shushi.pamirs.resource.api.tmodel;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.ux.common.model.CommonConditionWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.dto.condition.Order;
 import pro.shushi.pamirs.meta.api.dto.condition.Sort;
+import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.TransientModel;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
-import pro.shushi.pamirs.meta.common.util.PStringUtils;
+import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.RSqlConstants;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
+import pro.shushi.pamirs.ux.common.enumeration.UxCommonExpEnumerate;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author Adamancy Zhang
- * @date 2020-11-03 15:41
+ * @deprecated 6.x please using {@link CommonConditionWrapper}
  */
+@Slf4j
 @Base
 @Model.model(ConditionWrapper.MODEL_MODEL)
-@Model(displayName = "导出查询条件")
+@Model(displayName = "查询条件")
 public class ConditionWrapper extends TransientModel {
 
     private static final long serialVersionUID = 8483736574402915828L;
@@ -53,10 +59,16 @@ public class ConditionWrapper extends TransientModel {
     private Map<String, Object> queryData;
 
     public <T> QueryWrapper<T> generatorQueryWrapper() {
+        String model = getModel();
         QueryWrapper<T> wrapper = Pops.query();
         wrapper.setQueryData(getQueryData());
-        wrapper.from(getModel()).setRsql(getRsql());
+        wrapper.from(model).setRsql(getRsql());
+        withOrderBy(wrapper);
+        return wrapper;
+    }
 
+    public <T> void withOrderBy(QueryWrapper<T> wrapper) {
+        String model = getModel();
         Sort sort = getSort();
         if (sort != null) {
             List<Order> orders = sort.getOrders();
@@ -67,7 +79,15 @@ public class ConditionWrapper extends TransientModel {
                     if (StringUtils.isBlank(field) || direction == null) {
                         continue;
                     }
-                    String column = PStringUtils.fieldName2Column(field);
+                    ModelFieldConfig modelFieldConfig = PamirsSession.getContext().getModelField(model, field);
+                    if (modelFieldConfig == null) {
+                        throw PamirsException.construct(UxCommonExpEnumerate.SORT_FIELD_NOT_FOUND, model, field).errThrow();
+                    }
+                    String column = Configs.wrap(modelFieldConfig).getColumn();
+                    if (StringUtils.isBlank(column)) {
+                        log.error("sort field column is blank. model: {}, field: {}", model, field);
+                        continue;
+                    }
                     switch (direction) {
                         case ASC:
                             wrapper.orderByAsc(column);
@@ -81,7 +101,6 @@ public class ConditionWrapper extends TransientModel {
                 }
             }
         }
-        return wrapper;
     }
 
     public String and(String extend) {

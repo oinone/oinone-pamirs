@@ -40,6 +40,22 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
 
     private List<String> businessEnumPackages;
 
+    private Boolean usingModelAsProperty = false;
+
+    private Boolean usingStatementHandlerDialect = false;
+
+    private GlobalConfig globalConfig = GlobalConfigUtils.defaults().setIdentifierGenerator(new PamirsIdentifierGenerator());
+
+    @Override
+    public GlobalConfig getGlobalConfig() {
+        return globalConfig;
+    }
+
+    @Override
+    public void setGlobalConfig(GlobalConfig globalConfig) {
+        this.globalConfig = globalConfig;
+    }
+
     /**
      * 初始化调用
      */
@@ -126,7 +142,7 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
     public void setDefaultScriptingLanguage(Class<? extends LanguageDriver> driver) {
         if (driver == null) {
             //todo 替换动态SQL生成的默认语言为自己的。
-            driver = MybatisXMLLanguageDriver.class;
+            driver = PamirsMybatisXMLLanguageDriver.class;
         }
         getLanguageRegistry().setDefaultDriverClass(driver);
     }
@@ -158,4 +174,75 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
         this.businessEnumPackages = businessEnumPackages;
     }
 
+    public Boolean getUsingModelAsProperty() {
+        return usingModelAsProperty;
+    }
+
+    public void setUsingModelAsProperty(Boolean usingModelAsProperty) {
+        this.usingModelAsProperty = usingModelAsProperty;
+    }
+
+    public Boolean getUsingStatementHandlerDialect() {
+        return usingStatementHandlerDialect;
+    }
+
+    public void setUsingStatementHandlerDialect(Boolean usingStatementHandlerDialect) {
+        this.usingStatementHandlerDialect = usingStatementHandlerDialect;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public MetaObject newMetaObject(Object object) {
+        if (usingModelAsProperty) {
+            if (object instanceof MapperMethod.ParamMap || object instanceof ObjectWrapper) {
+                return super.newMetaObject(object);
+            }
+            ModelConfig modelConfig = null;
+            boolean isModelObject = object instanceof D;
+            if (isModelObject) {
+                // process PamirsMapper
+                modelConfig = Optional.ofNullable(Models.api().getModel(object))
+                        .filter(StringUtils::isNotBlank)
+                        .map(modelModel -> PamirsSession.getContext().getSimpleModelConfig(modelModel))
+                        .orElse(null);
+            } else if (object instanceof DataMap || (PamirsSession.isStaticConfig() && object instanceof HashMap)) {
+                // process GenericMapper
+                modelConfig = Optional.ofNullable(PamirsSession.getAsProperty())
+                        .filter(StringUtils::isNotBlank)
+                        .map(modelModel -> PamirsSession.getContext().getSimpleModelConfig(modelModel))
+                        .orElse(null);
+            }
+            if (modelConfig == null) {
+                return super.newMetaObject(object);
+            }
+            if (isModelObject) {
+                PamirsModelBeanWrapper beanWrapper = new PamirsModelBeanWrapper(modelConfig);
+                MetaObject metaObject = MetaObject.forObject(beanWrapper, objectFactory, objectWrapperFactory, reflectorFactory);
+                beanWrapper.apply(metaObject, object);
+                return metaObject;
+            } else {
+                PamirsModelMapWrapper mapWrapper = new PamirsModelMapWrapper(modelConfig, (Map<String, Object>) object);
+                MetaObject metaObject = MetaObject.forObject(mapWrapper, objectFactory, objectWrapperFactory, reflectorFactory);
+                mapWrapper.apply(metaObject);
+                return metaObject;
+            }
+        }
+        return super.newMetaObject(object);
+    }
+
+    @Override
+    public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+        if (usingStatementHandlerDialect) {
+            Object dsKeyObject = PamirsSession.getDsKey();
+            if (dsKeyObject != null) {
+                StatementHandlerGeneratorDialect handlerGeneratorDialect = Dialects.component(StatementHandlerGeneratorDialect.class, String.valueOf(dsKeyObject));
+                if (handlerGeneratorDialect != null) {
+                    StatementHandler statementHandler = handlerGeneratorDialect.newStatementHandler(this, executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
+                    statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
+                    return statementHandler;
+                }
+            }
+        }
+        return super.newStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
+    }
 }

@@ -99,6 +99,7 @@ public class GlobalAppConfigProxyAction {
     public GlobalAppConfigProxy saveSysStyleSetting(GlobalAppConfigProxy data) {
         _saveGlobalSetting(_appConfig -> {
             _appConfig.setMode(data.getMode());
+            _appConfig.setStyle(data.getStyle());
             _appConfig.setSize(data.getSize());
             _appConfig.setMultiTabTheme(data.getMultiTabTheme());
             _appConfig.setSideBarTheme(data.getSideBarTheme());

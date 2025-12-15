@@ -17,8 +17,6 @@
         <module>pamirs-auth3-api</module>
         <module>pamirs-auth3-core</module>
         <module>pamirs-auth3-view</module>
-        <module>pamirs-auth-business</module>
-        <module>pamirs-auth3-group</module>
         <module>pamirs-auth3-rbac</module>
     </modules>
 
@@ -42,22 +40,6 @@
             <dependency>
                 <groupId>pro.shushi.pamirs.core</groupId>
                 <artifactId>pamirs-auth3-rbac</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-auth-business-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-auth-business-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-auth-compatible</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -3,6 +3,7 @@ package pro.shushi.pamirs.resource.api.model;
 import com.google.common.base.Joiner;
 import pro.shushi.pamirs.boot.base.ux.annotation.field.UxWidget;
 import pro.shushi.pamirs.boot.base.ux.annotation.view.UxForm;
+import pro.shushi.pamirs.boot.web.constants.BusinessModelConstants;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.base.IdModel;
@@ -13,7 +14,9 @@ import pro.shushi.pamirs.resource.api.enmu.AddressSourceTypeEnum;
 @Model(displayName = "地址", labelFields = "fullAddress")
 public class ResourceAddress extends IdModel {
 
-    public static final String MODEL_MODEL = "resource.ResourceAddress";
+    private static final long serialVersionUID = -1247155524190721460L;
+
+    public static final String MODEL_MODEL = BusinessModelConstants.RESOURCE_ADDRESS;
 
     @Field.Enum
     @Field(displayName = "地址源类型")

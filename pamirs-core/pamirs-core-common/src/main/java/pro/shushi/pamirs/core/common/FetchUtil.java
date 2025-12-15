@@ -1,7 +1,5 @@
 package pro.shushi.pamirs.core.common;
 
-import cz.jirutka.rsql.parser.RSQLParser;
-import cz.jirutka.rsql.parser.ast.Node;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,16 +14,11 @@ import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.ModelFieldConfigWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.update.UpdateWrapper;
-import pro.shushi.pamirs.framework.faas.hook.builtin.PlaceHolderHook;
-import pro.shushi.pamirs.framework.gateways.rsql.PamirsRsqlVisitor;
-import pro.shushi.pamirs.framework.gateways.rsql.RsqlQuery;
-import pro.shushi.pamirs.framework.gateways.rsql.RsqlSearchOperation;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.PamirsMapperConfigurationProxy;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 import pro.shushi.pamirs.meta.api.core.faas.boot.ModulesApi;
-import pro.shushi.pamirs.meta.api.core.faas.hook.PlaceHolderParser;
 import pro.shushi.pamirs.meta.api.core.orm.ReadApi;
 import pro.shushi.pamirs.meta.api.core.orm.systems.relation.RelatedFieldQueryApi;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
@@ -53,6 +46,7 @@ import pro.shushi.pamirs.meta.constant.SqlConstants;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.TypeUtils;
+import pro.shushi.pamirs.ux.common.utils.QueryHelper;
 
 import jakarta.validation.constraints.NotNull;
 import java.util.*;
@@ -363,20 +357,20 @@ public class FetchUtil {
         return PStringUtils.fieldName2Column(LambdaUtil.fetchFieldName(getter));
     }
 
+    /**
+     * @deprecated 6.x please using {@link QueryHelper#replacePlaceholder}
+     */
+    @Deprecated
     public static String replacePlaceholder(String rsql) {
-        Map<String, PlaceHolderParser> placeHolderParserMap = PlaceHolderHook.getPlaceHolderParserMap();
-        IWrapper<?> wrapper = Pops.query().setRsql(rsql);
-        for (String placeHolderParser : placeHolderParserMap.keySet()) {
-            placeHolderParserMap.get(placeHolderParser).parse(wrapper);
-        }
-        return wrapper.getRsql();
+        return QueryHelper.replacePlaceholder(rsql);
     }
 
+    /**
+     * @deprecated 6.x please using {@link QueryHelper#rsqlToSql}
+     */
+    @Deprecated
     public static String rsqlToSql(String model, String rsql) {
-        rsql = replacePlaceholder(rsql);
-        Node parse = new RSQLParser(RsqlSearchOperation.getOperators()).parse(rsql);
-        RsqlQuery query = parse.accept(new PamirsRsqlVisitor(), PamirsSession.getContext().getSimpleModelConfig(model));
-        return query.getWhere().toString();
+        return QueryHelper.rsqlToSql(model, rsql);
     }
 
     public static <T extends AbstractModel> T fetchFirstByEntity(T object) {
@@ -472,15 +466,15 @@ public class FetchUtil {
     }
 
     public static void consumerPkSet(String modelModel, BiConsumer<Set<String>, Set<String>> consumer) {
-        consumerPkSet0(PamirsSession.getContext().getModelConfig(modelModel), consumer);
+        consumerPkSet0(PamirsSession.getContext().getSimpleModelConfig(modelModel), consumer);
     }
 
     public static void consumerUniqueSet(String modelModel, BiConsumer<List<Set<String>>, List<Set<String>>> consumer) {
-        consumerUniqueSet0(PamirsSession.getContext().getModelConfig(modelModel), consumer);
+        consumerUniqueSet0(PamirsSession.getContext().getSimpleModelConfig(modelModel), consumer);
     }
 
     public static void consumerPkAndUniqueSet(String modelModel, BiConsumer<Set<String>, List<Set<String>>> consumer) {
-        consumerPkAndUniqueSet0(PamirsSession.getContext().getModelConfig(modelModel), consumer);
+        consumerPkAndUniqueSet0(PamirsSession.getContext().getSimpleModelConfig(modelModel), consumer);
     }
 
     private static void consumerPkSet0(ModelConfig modelConfig, BiConsumer<Set<String>, Set<String>> consumer) {
@@ -690,7 +684,7 @@ public class FetchUtil {
 
     @SuppressWarnings("unchecked")
     private static <T, V, DM extends ReadApi> List<V> queryReferenceList(DM dataManager, List<T> relationList, String references, List<String> relationFields, List<String> referenceFields, int maxQuerySize) {
-        ModelConfig referenceModelConfig = PamirsSession.getContext().getModelConfig(references);
+        ModelConfig referenceModelConfig = PamirsSession.getContext().getSimpleModelConfig(references);
         MemoryIterableSearchCache<String, ModelFieldConfig> referenceModelFieldConfigCache = new MemoryIterableSearchCache<>(referenceModelConfig.getModelFieldConfigList(), ModelFieldConfig::getName);
         int relationFieldSize = relationFields.size();
         Map<String, List<Object>> referenceFieldValueMap;
@@ -1156,7 +1150,7 @@ public class FetchUtil {
         }
         Map<String, Object> dMap = data.get_d();
         String model = Models.api().getModel(data);
-        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
+        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
         AtomicBoolean predict = new AtomicBoolean(true);
         consumerPkAndUniqueSet0(modelConfig, (pkSet, uniqueSetList) -> predict.set(isNeedQueryOne(dMap, pkSet, uniqueSetList)));
         return predict.get();
@@ -1245,7 +1239,7 @@ public class FetchUtil {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
-        ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(model);
+        ModelConfig modelConfig = PamirsSession.getContext().getSimpleModelConfig(model);
         List<ModelFieldConfig> modelFieldConfigs = modelConfig.getModelFieldConfigList();
         List<ModelFieldConfig> selectModelFieldConfigs = new ArrayList<>();
         boolean isFirst = true;

@@ -112,14 +112,15 @@
     </scm>
 
     <modules>
+        <module>pamirs-spi</module>
         <module>pamirs-k2</module>
         <module>pamirs-framework</module>
         <module>pamirs-framework-commons</module>
         <module>pamirs-framework-adaptor</module>
         <module>pamirs-boot</module>
-        <module>pamirs-core</module>
-        <module>pamirs-spi</module>
         <module>pamirs-middleware</module>
+        <module>pamirs-ux</module>
+        <module>pamirs-core</module>
     </modules>
 
     <dependencyManagement>
