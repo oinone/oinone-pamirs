@@ -15,6 +15,7 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.BaseModel;
+import pro.shushi.pamirs.meta.constant.ContextConstants;
 import pro.shushi.pamirs.meta.constant.ExpConstants;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
@@ -190,7 +191,10 @@ public class DefaultWriteWithFieldApi extends AbstractReadWriteApi implements Wr
                 String fieldName = modelFieldConfig.getLname();
                 if (data instanceof List) {
                     List dataList = (List) data;
-                    relationWriteApi.listFieldSave(modelFieldConfig, dataList);
+                    if (TtypeEnum.isRelationMany(modelFieldConfig.getTtype()) ||
+                            !Boolean.TRUE.equals(PamirsSession.getRequestVariables().getVariables().get(ContextConstants.RELATION_EXCLUDE_UPDATE))) {
+                        relationWriteApi.listFieldSave(modelFieldConfig, dataList);
+                    }
 
                     List originDataList = new ArrayList();
                     List currentDataList = new ArrayList();
@@ -230,7 +234,10 @@ public class DefaultWriteWithFieldApi extends AbstractReadWriteApi implements Wr
                         fieldSave(modelFieldConfig.getReferences(), fieldValues);
                     }
                 } else {
-                    relationWriteApi.fieldSave(modelFieldConfig, data);
+                    if (TtypeEnum.isRelationMany(modelFieldConfig.getTtype()) ||
+                            !Boolean.TRUE.equals(PamirsSession.getRequestVariables().getVariables().get(ContextConstants.RELATION_EXCLUDE_UPDATE))) {
+                        relationWriteApi.fieldSave(modelFieldConfig, data);
+                    }
                     Object fieldValue = FieldUtils.getFieldValue(data, fieldName);
 
                     if (FieldUtils.containsFieldValue(data, fieldName) && TtypeEnum.isRelationMany(modelFieldConfig.getTtype())) {
