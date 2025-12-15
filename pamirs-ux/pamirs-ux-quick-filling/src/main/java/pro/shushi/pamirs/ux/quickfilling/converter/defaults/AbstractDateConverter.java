@@ -1,13 +1,8 @@
 package pro.shushi.pamirs.ux.quickfilling.converter.defaults;
 
-import pro.shushi.pamirs.meta.api.session.PamirsSession;
-import pro.shushi.pamirs.meta.util.FieldFix;
 import pro.shushi.pamirs.ux.quickfilling.converter.AbstractBasicQuickFillingConverter;
 import pro.shushi.pamirs.ux.quickfilling.converter.QuickFillingColumn;
 import pro.shushi.pamirs.ux.quickfilling.converter.QuickFillingConverter;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * 日期类型转换
@@ -32,12 +27,4 @@ public abstract class AbstractDateConverter extends AbstractBasicQuickFillingCon
         super(column);
     }
 
-    protected String getDateFillingValue(Date date) {
-        QuickFillingColumn column = getColumn();
-        String model = column.getModel();
-        String field = column.getField();
-        String format = FieldFix.fixFormat(PamirsSession.getContext().getModelField(model, field).getModelField());
-        assert format != null;
-        return new SimpleDateFormat(format).format(date);
-    }
 }

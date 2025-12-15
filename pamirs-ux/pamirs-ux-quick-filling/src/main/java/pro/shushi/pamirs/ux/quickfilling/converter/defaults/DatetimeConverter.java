@@ -24,7 +24,7 @@ public class DatetimeConverter extends AbstractDateConverter implements QuickFil
         for (String datePattern : DATE_PATTERNS) {
             for (String timePattern : TIME_PATTERNS) {
                 try {
-                    return getDateFillingValue(new SimpleDateFormat(datePattern + " " + timePattern).parse(value));
+                    return new SimpleDateFormat(datePattern + " " + timePattern).parse(value);
                 } catch (ParseException ignored) {
                 }
             }

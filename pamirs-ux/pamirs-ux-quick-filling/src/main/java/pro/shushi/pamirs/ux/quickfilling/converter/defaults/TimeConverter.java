@@ -23,7 +23,7 @@ public class TimeConverter extends AbstractDateConverter implements QuickFilling
     protected Object singleValueConvert(QuickFillingRow row, String value) {
         for (String datePattern : TIME_PATTERNS) {
             try {
-                return getDateFillingValue(new SimpleDateFormat(datePattern).parse(value));
+                return new SimpleDateFormat(datePattern).parse(value);
             } catch (ParseException ignored) {
             }
         }
