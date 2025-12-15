@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.middleware.zookeeper</groupId>
         <artifactId>pamirs-middleware-zookeeper</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.0.0</version>
     </parent>
     <artifactId>pamirs-middleware-zookeeper-test</artifactId>
     <name>pamirs-middleware-zookeeper-test</name>
