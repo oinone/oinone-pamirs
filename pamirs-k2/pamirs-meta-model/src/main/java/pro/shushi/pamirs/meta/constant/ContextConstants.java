@@ -13,4 +13,6 @@ public interface ContextConstants {
 
     String SCENE = "scene";
 
+    String RELATION_EXCLUDE_UPDATE = "relationExcludeUpdate";
+
 }
