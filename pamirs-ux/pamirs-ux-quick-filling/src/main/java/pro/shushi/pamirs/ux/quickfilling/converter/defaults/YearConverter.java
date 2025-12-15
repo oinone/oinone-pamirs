@@ -24,7 +24,7 @@ public class YearConverter extends AbstractDateConverter implements QuickFilling
     @Override
     protected Object singleValueConvert(QuickFillingRow row, String value) {
         try {
-            return getDateFillingValue(new SimpleDateFormat(YEAR_PATTERN).parse(value));
+            return new SimpleDateFormat(YEAR_PATTERN).parse(value);
         } catch (ParseException ignored) {
         }
         validateError(row, QuickFillingExpEnumerate.NON_YEAR_ERROR.msg());
