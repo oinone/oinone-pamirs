@@ -15,7 +15,7 @@ import pro.shushi.pamirs.ux.grouping.enumeration.GroupStatisticMethodEnum;
 import pro.shushi.pamirs.ux.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.ux.grouping.statistic.StatisticHelper;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;

@@ -26,7 +26,7 @@ import pro.shushi.pamirs.ux.grouping.model.TableGroupingResult;
 import pro.shushi.pamirs.ux.grouping.query.TableGroupingQueryContext;
 import pro.shushi.pamirs.ux.grouping.utils.TableGroupingHelper;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
