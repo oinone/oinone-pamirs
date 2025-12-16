@@ -26,8 +26,8 @@
                 </field>
             </pack>
 
-            <field span="1" data="invokeDate" label="调用时间"/>
-            <field span="1" data="invokeEndDate" label="调用完成时间"/>
+            <field span="1" data="invokeDate" label="调用时间" timeFormat="COLON_NORMAL_SSS"/>
+            <field span="1" data="invokeEndDate" label="调用完成时间" timeFormat="COLON_NORMAL_SSS"/>
             <field span="1" data="invokeMillisecond" label="执行时长" hint="单位毫秒"/>
         </pack>
 
