@@ -1,0 +1,98 @@
+package pro.shushi.pamirs.sso.server.controller;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
+import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
+import pro.shushi.pamirs.sso.common.dto.Result;
+import pro.shushi.pamirs.sso.common.dto.SsoRequestParameter;
+import pro.shushi.pamirs.sso.common.dto.SsoUserVo;
+
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Objects;
+
+@Slf4j
+@RestController
+@RequestMapping("/pamirs/sso/oauth2")
+public class ServerOauth2TokenController {
+
+    @Autowired
+    private SsoOauth2TokenService ssoOauth2TokenService;
+    @Autowired
+    private PamirsSsoProperties pamirsSsoProperties;
+
+    @RequestMapping("/authorize")
+    public Result authorize(@RequestBody SsoRequestParameter ssoRequestParameter) {
+        try {
+            return Result.success(ssoOauth2TokenService.authorize(ssoRequestParameter));
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/refresh")
+    public Result refresh(SsoRequestParameter ssoRequestParameter) {
+        try {
+            return Result.success(ssoOauth2TokenService.refresh(ssoRequestParameter));
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/getUserInfo")
+    public Result getUserInfo(@RequestBody SsoRequestParameter ssoRequestParameter) {
+        try {
+            return Result.success(ssoOauth2TokenService.getUserInfo(ssoRequestParameter.getClient_id()));
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/logout")
+    public Result logout(@RequestBody SsoRequestParameter ssoRequestParameter) {
+        try {
+            ssoOauth2TokenService.logout(ssoRequestParameter);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.error("推出登录失败");
+        }
+    }
+
+    @RequestMapping("/login")
+    public void login(SsoUserVo ssoUserVo) {
+        try {
+            ssoOauth2TokenService.login(ssoUserVo);
+        } catch (Exception e) {
+            log.error("login error", e);
+            String errorMessage;
+            String redirectUri = ssoUserVo.getRedirectUri();
+            try {
+                errorMessage = URLEncoder.encode(e.getMessage(), "UTF-8");
+                redirectUri = URLEncoder.encode(redirectUri, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                errorMessage = "encoding_failed";
+            }
+            //抓所有报错，重定向到登录页面
+            StringBuilder urlBuilder = new StringBuilder(pamirsSsoProperties.getServer().getLoginUrl());
+            urlBuilder.append(";client_id=").append(ssoUserVo.getClientId())
+                    .append(";redirect_uri=").append(redirectUri)
+                    .append(";error=").append(errorMessage);
+            if (StringUtils.isNotEmpty(ssoUserVo.getState())) {
+                urlBuilder.append(";state=").append(ssoUserVo.getState());
+            }
+            String url = urlBuilder.toString();
+            HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(
+                    RequestContextHolder.getRequestAttributes())).getResponse();
+            try {
+                Objects.requireNonNull(response).sendRedirect(url);
+            } catch (Exception ignored) {
+            }
+        }
+    }
+}

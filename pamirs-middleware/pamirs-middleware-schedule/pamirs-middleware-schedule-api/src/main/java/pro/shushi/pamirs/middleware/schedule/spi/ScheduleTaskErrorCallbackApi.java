@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.middleware.schedule.spi;
 
 import pro.shushi.pamirs.meta.common.spi.SPI;
+import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 
 /**
@@ -8,7 +9,7 @@ import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
  *
  * @author Adamancy Zhang at 17:35 on 2021-09-12
  */
-@SPI
+@SPI(factory = SpringServiceLoaderFactory.class)
 public interface ScheduleTaskErrorCallbackApi {
 
     /**

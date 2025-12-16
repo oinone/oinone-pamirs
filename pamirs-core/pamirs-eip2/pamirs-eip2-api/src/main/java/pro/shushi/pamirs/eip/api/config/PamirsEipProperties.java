@@ -25,6 +25,16 @@ public class PamirsEipProperties {
 
     private Http http = new Http();
 
+    /**
+     * 定时任务单次同步最大数量
+     */
+    private Long logCountMaxPageSize = 1000L;
+
+    /**
+     * 是否启用日志统计功能
+     */
+    private Boolean enableLogCount = true;
+
     public Boolean getEnabled() {
         return enabled;
     }
@@ -39,6 +49,22 @@ public class PamirsEipProperties {
 
     public void setHttp(Http http) {
         this.http = http;
+    }
+
+    public Long getLogCountMaxPageSize() {
+        return logCountMaxPageSize;
+    }
+
+    public Boolean getEnableLogCount() {
+        return enableLogCount;
+    }
+
+    public void setEnableLogCount(Boolean enableLogCount) {
+        this.enableLogCount = enableLogCount;
+    }
+
+    public void setLogCountMaxPageSize(Long logCountMaxPageSize) {
+        this.logCountMaxPageSize = logCountMaxPageSize;
     }
 
     public static class Http {

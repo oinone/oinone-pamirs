@@ -11,8 +11,10 @@ import java.util.Map;
 /**
  * 日志统计缓存服务
  *
+ * @deprecated 日志按日统计，不实时统计，
  * @author yeshenyue on 2025/4/10 15:51.
  */
+@Deprecated
 @SPI(factory = SpringServiceLoaderFactory.class)
 public interface EipLogCountCacheApi {
 

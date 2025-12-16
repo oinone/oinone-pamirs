@@ -14,7 +14,6 @@ import pro.shushi.pamirs.meta.enmu.HookTypeEnum;
 import jakarta.annotation.Resource;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 扩展点API默认实现
@@ -48,8 +47,7 @@ public class DefaultHookApi implements HookApi {
         if (null == function) {
             return;
         }
-        List<Hook> hooks = Objects.requireNonNull(PamirsSession.getContext())
-                .getExecuteHooks(type, namespace, fun, function.getType(), pamirsFrameworkHookConfiguration.getExcludes());
+        List<Hook> hooks = PamirsSession.getContext().getExecuteHooks(type, namespace, fun, function.getType(), pamirsFrameworkHookConfiguration.getExcludes());
         if (CollectionUtils.isEmpty(hooks)) {
             return;
         }
@@ -57,9 +55,6 @@ public class DefaultHookApi implements HookApi {
         for (Hook hook : hooks) {
             String executeNamespace = hook.getExecuteNamespace();
             String executeFun = hook.getExecuteFun();
-            if (!CollectionUtils.isEmpty(hook.getFunctionTypes()) && null != function.getType() && !hook.getFunctionTypes().retainAll(function.getType())) {
-                continue;
-            }
             Function hookFunction = PamirsSession.getContext().getFunction(executeNamespace, executeFun);
             Models.directive().run(() -> FunEngine.get().run(hookFunction, function, args));
         }

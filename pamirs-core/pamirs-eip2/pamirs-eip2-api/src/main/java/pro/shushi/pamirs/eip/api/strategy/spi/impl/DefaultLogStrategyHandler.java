@@ -18,7 +18,6 @@ import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
-import pro.shushi.pamirs.eip.api.strategy.cache.EipLogCountCacheApi;
 import pro.shushi.pamirs.eip.api.strategy.context.EipLogStrategyContext;
 import pro.shushi.pamirs.eip.api.strategy.entity.EipLogStrategyEntity;
 import pro.shushi.pamirs.eip.api.strategy.spi.EipLogSaveApi;
@@ -28,7 +27,6 @@ import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.cdn.pojo.CdnFile;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
-import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.dto.config.TxConfig;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.spi.SPI;
@@ -37,7 +35,6 @@ import pro.shushi.pamirs.meta.common.spi.Spider;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -140,7 +137,6 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
             EipLog savedLog = eipLog;
             savedLog.setIsSuccess(true);
             savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog, (IEipContext<SuperMap>) context);
-            CommonApiFactory.getApi(EipLogCountCacheApi.class).addLogCount(savedLog);
         });
     }
 
@@ -157,7 +153,6 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
                     .setErrorMsg(EipHelper.getStringBody(exchange))
                     .setInvokeEndDate(new Date());
             savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog, (IEipContext<SuperMap>) context);
-            CommonApiFactory.getApi(EipLogCountCacheApi.class).addLogCount(savedLog);
         });
     }
 

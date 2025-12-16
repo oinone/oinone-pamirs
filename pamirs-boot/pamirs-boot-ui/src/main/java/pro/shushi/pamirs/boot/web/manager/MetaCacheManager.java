@@ -108,7 +108,12 @@ public class MetaCacheManager {
             }
             if (null == view) {
                 List<View> views = new View().queryListByWrapper(new Pagination<View>().setSize(1L),
-                        Pops.<View>lambdaQuery().from(View.MODEL_MODEL).eq(View::getModel, model).eq(View::getType, viewType).orderByAsc(View::getPriority));
+                        Pops.<View>lambdaQuery().from(View.MODEL_MODEL)
+                                .eq(View::getModel, model)
+                                .eq(View::getType, viewType)
+                                .eq(View::getShow, true)
+                                .eq(View::getActive, true)
+                                .orderByAsc(View::getPriority));
                 if (CollectionUtils.isNotEmpty(views)) {
                     view = views.get(0);
                 }

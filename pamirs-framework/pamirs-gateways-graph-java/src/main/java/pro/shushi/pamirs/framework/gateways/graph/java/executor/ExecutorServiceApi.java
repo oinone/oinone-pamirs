@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.framework.gateways.graph.java.executor;
 
 import com.alibaba.ttl.threadpool.TtlExecutors;
+import pro.shushi.pamirs.framework.common.config.PamirsThreadFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,6 +22,7 @@ public class ExecutorServiceApi {
         public Thread newThread(Runnable r) {
             Thread t = new Thread(r);
             t.setName("p.s.p.gateways.graph.executor");
+            t.setUncaughtExceptionHandler(PamirsThreadFactory.COMMON_UNCAUGHT_EXCEPTION_HANDLER_INSTANCE);
             return t;
         }
     }));

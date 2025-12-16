@@ -9,10 +9,10 @@ import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
-import pro.shushi.pamirs.eip.api.strategy.service.EipLogCountService;
-import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.eip.api.service.EipService;
 import pro.shushi.pamirs.eip.api.service.model.EipOpenInterfaceService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
+import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -38,7 +38,7 @@ public class EipOpenInterfaceServiceImpl implements EipOpenInterfaceService {
     private EipLogStrategyService eipLogStrategyService;
 
     @Autowired
-    private EipLogCountService eipLogCountService;
+    private EipLogDailyCountService eipLogDailyCountService;
 
     @Override
     @Transactional
@@ -162,7 +162,7 @@ public class EipOpenInterfaceServiceImpl implements EipOpenInterfaceService {
             return result;
         }
         outConvert(resultList);
-        eipLogCountService.fillEipOpenInterfaceLogCount(resultList);
+        eipLogDailyCountService.fillOpenLogCountData(resultList);
         return result;
     }
 

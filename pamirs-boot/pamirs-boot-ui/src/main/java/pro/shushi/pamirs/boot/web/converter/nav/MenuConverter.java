@@ -195,7 +195,11 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
         if (null == uxMenu) {
             return null;
         }
-        return fetchMenuSign(module, MenuUtils.fetchMenuName(clazz));
+        String name = uxMenu.name();
+        if (StringUtils.isBlank(name)) {
+            name = MenuUtils.fetchMenuName(clazz);
+        }
+        return fetchMenuSign(module, name);
     }
 
     private String fetchMenuSign(String module, String menuName) {

@@ -13,6 +13,7 @@ import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.api.dto.meta.ExecuteContext;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaNames;
 import pro.shushi.pamirs.meta.domain.fun.Hook;
+import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.HookTypeEnum;
 import pro.shushi.pamirs.meta.enmu.InformationLevelEnum;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
@@ -21,6 +22,7 @@ import pro.shushi.pamirs.meta.util.SystemSourceUtils;
 
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.Comparator;
 import java.util.Optional;
 
 import static pro.shushi.pamirs.framework.configure.annotation.emnu.AnnotationExpEnumerate.BASE_HOOK_BEFORE_NO_INTERFACE_ERROR;
@@ -64,14 +66,13 @@ public class HookConverter implements ModelConverter<Hook, Method> {
     }
 
     @Override
-    public Hook convert(MetaNames names, Method source, Hook metaModelObject) {
+    public Hook convert(MetaNames names, Method source, Hook hook) {
         pro.shushi.pamirs.meta.annotation.Hook hookAnnotation = AnnotationUtils.getAnnotation(source, pro.shushi.pamirs.meta.annotation.Hook.class);
         String executeNamespace = NamespaceAndFunUtils.namespace(source);
         String executeFun = NamespaceAndFunUtils.fun(source);
         SystemSourceEnum systemSource = SystemSourceUtils.fetch(source);
         assert hookAnnotation != null;
-        metaModelObject.setDisplayName(hookAnnotation.displayName())
-                .setHookType(hookAnnotation.hookType())
+        hook.setDisplayName(hookAnnotation.displayName())
                 .setExecuteNamespace(executeNamespace)
                 .setExecuteFun(executeFun)
                 .setFunctionTypes(Optional.of(hookAnnotation.functionTypes()).filter(ArrayUtils::isNotEmpty).map(Lists::newArrayList).orElse(null))
@@ -81,12 +82,14 @@ public class HookConverter implements ModelConverter<Hook, Method> {
                 .setPriority(hookAnnotation.priority())
                 .setDescription(hookAnnotation.description())
                 .setActive(hookAnnotation.active())
-                .setSystemSource(systemSource)
-        ;
-        if (HookAfter.class.isAssignableFrom(source.getDeclaringClass())) {
-            metaModelObject.setHookType(HookTypeEnum.AFTER);
+                .setSystemSource(systemSource);
+        Optional.ofNullable(hook.getFunctionTypes()).ifPresent(v -> v.sort(Comparator.comparing(FunctionTypeEnum::value)));
+        if (HookBefore.class.isAssignableFrom(source.getDeclaringClass())) {
+            hook.setHookType(HookTypeEnum.BEFORE);
+        } else if (HookAfter.class.isAssignableFrom(source.getDeclaringClass())) {
+            hook.setHookType(HookTypeEnum.AFTER);
         }
-        return metaModelObject;
+        return hook;
     }
 
 

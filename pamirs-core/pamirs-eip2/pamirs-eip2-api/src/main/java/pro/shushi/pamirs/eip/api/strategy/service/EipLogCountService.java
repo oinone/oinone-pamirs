@@ -13,7 +13,9 @@ import java.util.List;
  * EIP日志统计服务
  *
  * @author yeshenyue on 2025/4/10 10:22.
+ * @deprecated 改用每日同步 {@link EipLogDailyCountService}
  */
+@Deprecated
 @Fun(EipLogCountService.FUN_NAMESPACE)
 public interface EipLogCountService {
 

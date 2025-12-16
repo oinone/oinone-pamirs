@@ -18,7 +18,7 @@ public interface AuthRoleManagerExtPoint {
 
     @ExtPoint(displayName = "删除角色前")
     default Boolean deleteBefore(List<AuthRole> roles, List<AuthUserRoleRel> userRoleRelList) {
-        return Boolean.FALSE;
+        return null;
     }
 
     @ExtPoint(displayName = "删除角色后")

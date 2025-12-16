@@ -3,9 +3,12 @@ package pro.shushi.pamirs.framework.gateways.graph.java.pool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.async.DeferredResult;
-import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.framework.common.config.PamirsThreadFactory;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -13,7 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author yakir on 2025/03/19 09:55.
  */
-@Slf4j
 @Configuration
 public class RequestThreadPool {
 
@@ -27,11 +29,10 @@ public class RequestThreadPool {
                     requestThreadPoolConfig.getKeepAliveTime(),
                     TimeUnit.MILLISECONDS,
                     new LinkedBlockingQueue<>(),
-                    new ThreadFactory() {
-                        @Override
-                        public Thread newThread(Runnable r) {
-                            return new Thread(r, "Deferred" + deferredThreadIncr.getAndIncrement());
-                        }
+                    r -> {
+                        Thread t = new Thread(r, "Deferred" + deferredThreadIncr.getAndIncrement());
+                        t.setUncaughtExceptionHandler(PamirsThreadFactory.COMMON_UNCAUGHT_EXCEPTION_HANDLER_INSTANCE);
+                        return t;
                     });
         } else {
             executorService = null;
