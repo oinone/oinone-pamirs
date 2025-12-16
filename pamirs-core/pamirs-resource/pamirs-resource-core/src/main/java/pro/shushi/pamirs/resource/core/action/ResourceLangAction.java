@@ -134,20 +134,27 @@ public class ResourceLangAction {
 
     private void verifyTimeFormat(ResourceTimeFormat resourceTimeFormat) {
         String apColonNormal = resourceTimeFormat.getApColonNormal();
+        String apColonNormalSss = resourceTimeFormat.getApColonNormalSss();
         String apColonShort = resourceTimeFormat.getApColonShort();
         String colonNormal = resourceTimeFormat.getColonNormal();
+        String colonNormalSss = resourceTimeFormat.getColonNormalSss();
         String colonShort = resourceTimeFormat.getColonShort();
 
         if (StringUtils.isEmpty(apColonNormal)) {
             throw PamirsException.construct(ResourceEnumerate.AP_COLON_NORMAL_IS_EMPTY).errThrow();
         }
-
+        if (StringUtils.isEmpty(apColonNormalSss)) {
+            throw PamirsException.construct(ResourceEnumerate.AP_COLON_NORMAL_SSS_IS_EMPTY).errThrow();
+        }
         if (StringUtils.isEmpty(apColonShort)) {
             throw PamirsException.construct(ResourceEnumerate.AP_COLON_SHORT_IS_EMPTY).errThrow();
         }
 
         if (StringUtils.isEmpty(colonNormal)) {
             throw PamirsException.construct(ResourceEnumerate.COLON_NORMAL_IS_EMPTY).errThrow();
+        }
+        if (StringUtils.isEmpty(colonNormalSss)) {
+            throw PamirsException.construct(ResourceEnumerate.COLON_NORMAL_SSS_IS_EMPTY).errThrow();
         }
         if (StringUtils.isEmpty(colonShort)) {
             throw PamirsException.construct(ResourceEnumerate.COLON_SHORT_IS_EMPTY).errThrow();
