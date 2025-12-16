@@ -28,6 +28,7 @@ public class PamirsRedisConfig {
     @Value("${spring.data.redis.prefix:}")
     private String prefix;
 
+    @ConditionalOnMissingBean(name = "pamirsStringRedisSerializer")
     @Bean(name = "pamirsStringRedisSerializer")
     @ConditionalOnMissingBean(value = PamirsStringRedisSerializer.class, name = "pamirsStringRedisSerializer")
     public PamirsStringRedisSerializer pamirsStringRedisSerializer() {
