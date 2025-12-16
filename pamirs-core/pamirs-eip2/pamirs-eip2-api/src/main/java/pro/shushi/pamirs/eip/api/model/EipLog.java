@@ -5,6 +5,7 @@ import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.base.IdModel;
+import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
 import pro.shushi.pamirs.meta.enmu.KeyGeneratorEnum;
 
 import java.util.Date;
@@ -83,12 +84,12 @@ public class EipLog extends IdModel {
     private String errorMsg;
 
     @Base
-    @Field.Date(fraction = 3)
+    @Field.Date(fraction = 3,format = DateFormatEnum.DATETIME_SSS)
     @Field(displayName = "调用时间")
     private Date invokeDate;
 
     @Base
-    @Field.Date(fraction = 3)
+    @Field.Date(fraction = 3,format = DateFormatEnum.DATETIME_SSS)
     @Field(displayName = "调用完成时间")
     private Date invokeEndDate;
 
