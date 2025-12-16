@@ -54,6 +54,17 @@ public class PamirsStringRedisSerializer extends StringRedisSerializer {
         return this.prefix;
     }
 
+    // 扩展key序列化有使用到
+    public int getPrefixLength() {
+        return this.prefixLength;
+    }
+
+    // 扩展key序列化有使用到
+    public String getKp() {
+        String kp = KeyPrefixManager.generate(SEPARATOR_COLON, SEPARATOR_COLON);
+        return kp + this.prefix;
+    }
+
     @Override
     public String deserialize(byte[] bytes) {
         String key = super.deserialize(bytes);
