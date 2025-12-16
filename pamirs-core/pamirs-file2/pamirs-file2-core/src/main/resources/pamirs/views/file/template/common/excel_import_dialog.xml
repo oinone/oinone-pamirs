@@ -6,7 +6,8 @@
         <field data="file" widget="Upload" label="上传文件" required="true"/>
     </template>
     <template slot="footer">
-        <action name="$$internal_DownloadImportWorkbook" label="下载模板" type="PRIMARY"/>
-        <action name="$$internal_ImportWorkbook" label="导入" type="PRIMARY" validateForm="true" closeDialog="true" refreshData="true"/>
+        <action name="createImportTask" invisible="true"/>
+        <action name="$$internal_DownloadImportWorkbook" label="下载模板" type="primary"/>
+        <action name="$$internal_ImportWorkbook" label="导入" type="primary" validateForm="true" closeDialog="true" refreshData="true"/>
     </template>
 </view>
