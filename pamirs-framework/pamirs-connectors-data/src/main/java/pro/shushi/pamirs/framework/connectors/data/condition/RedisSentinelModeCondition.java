@@ -9,7 +9,7 @@ public class RedisSentinelModeCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 
-        String redisNodes = context.getEnvironment().getProperty("spring.redis.sentinel.nodes[0]");
+        String redisNodes = context.getEnvironment().getProperty("spring.data.redis.sentinel.nodes[0]");
         return StringUtils.isNotBlank(redisNodes);
     }
 }

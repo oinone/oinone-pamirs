@@ -1,23 +1,17 @@
 package pro.shushi.pamirs.framework.connectors.data.kv;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.interceptor.KeyGenerator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisNode;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,10 +20,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import pro.shushi.pamirs.framework.connectors.data.condition.RedisClusterModeCondition;
 import pro.shushi.pamirs.framework.connectors.data.serializer.PamirsStringRedisSerializer;
 import pro.shushi.pamirs.meta.configure.PamirsFrameworkSystemConfiguration;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * redis封装
@@ -49,6 +39,8 @@ public class RedisClusterConfig {
     private String prefix;
 
     @Bean(name = "pamirsStringRedisSerializer")
+    @ConditionalOnMissingBean(name = "pamirsStringRedisSerializer")
+    @ConditionalOnSingleCandidate(PamirsStringRedisSerializer.class)
     public PamirsStringRedisSerializer pamirsStringRedisSerializer() {
         String prefix = this.prefix;
         if (StringUtils.isBlank(prefix)) {
@@ -86,18 +78,17 @@ public class RedisClusterConfig {
     /**
      * Redis Cluster参数配置
      *
-     * @param clusterNodes 云节点
-     * @param timeout      超时时间
-     * @param redirects    redirects
-     * @return Redis模板
+     * @param redisClusterProperty 集群配置
+     * @return Redis配置
      */
-    public RedisClusterConfiguration getClusterConfiguration(List<String> clusterNodes, Long timeout, int redirects, String password) {
-        Map<String, Object> source = new HashMap<>();
-        source.put("spring.data.redis.cluster.nodes", String.join(",", clusterNodes));
-        source.put("spring.data.redis.cluster.timeout", timeout);
-        source.put("spring.data.redis.cluster.max-redirects", redirects);
-        RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(new MapPropertySource("RedisClusterConfiguration", source));
+    public RedisClusterConfiguration getClusterConfiguration(RedisClusterProperty redisClusterProperty, String username, String password) {
+        RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration();
+        redisClusterConfiguration.setUsername(username);
         redisClusterConfiguration.setPassword(RedisPassword.of(password));
+        redisClusterConfiguration.setMaxRedirects(redisClusterProperty.getMaxRedirects());
+        for (String hostAndPort : redisClusterProperty.getNodes()) {
+            redisClusterConfiguration.addClusterNode(RedisNode.fromString(hostAndPort));
+        }
         return redisClusterConfiguration;
     }
 
@@ -109,58 +100,13 @@ public class RedisClusterConfig {
      * @return 连接工厂
      */
     @Bean
-    public RedisConnectionFactory connectionFactory(@Autowired RedisClusterProperty redisClusterProperty, @Value("${spring.data.redis.password}") String password) {
-        RedisClusterConfiguration configuration = getClusterConfiguration(redisClusterProperty.getNodes(), redisClusterProperty.getTimeout(), redisClusterProperty.getMaxRedirects(), password);
+    public RedisConnectionFactory connectionFactory(@Autowired RedisClusterProperty redisClusterProperty,
+                                                    @Value("${spring.data.redis.username}") String username,
+                                                    @Value("${spring.data.redis.password}") String password) {
+        RedisClusterConfiguration configuration = getClusterConfiguration(redisClusterProperty, username, password);
         JedisConnectionFactory connectionFactory = new JedisConnectionFactory(configuration);
         connectionFactory.afterPropertiesSet();
         return connectionFactory;
-    }
-
-    /**
-     * 序列化工具
-     * 使用 Spring 提供的序列化工具替换 Java 原生的序列化工具，这样 ReportBean 不需要实现 Serializable 接口
-     *
-     * @param template 连接模板
-     */
-    private void setSerializer(StringRedisTemplate template) {
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
-        Jackson2JsonRedisSerializer<?> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(om, Object.class);
-        template.setValueSerializer(jackson2JsonRedisSerializer);
-        template.afterPropertiesSet();
-    }
-
-    /**
-     * 管理缓存
-     *
-     * @param redisConnectionFactory 连接工厂
-     * @return 缓存管理器
-     */
-//    @Bean
-    public CacheManager cacheManager(@Autowired RedisConnectionFactory redisConnectionFactory) {
-        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig();
-        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
-                .cacheDefaults(redisCacheConfiguration).build();
-    }
-
-
-    /**
-     * 生产key的策略
-     *
-     * @return key生成策略
-     */
-//    @Bean
-    public KeyGenerator wiselyKeyGenerator() {
-        return (target, method, params) -> {
-            StringBuilder sb = new StringBuilder();
-            sb.append(target.getClass().getName());
-            sb.append(method.getName());
-            for (Object obj : params) {
-                sb.append(obj.toString());
-            }
-            return sb.toString();
-        };
     }
 
     private <K, V> void setKeySerializer(RedisTemplate<K, V> redisTemplate, PamirsStringRedisSerializer pamirsStringRedisSerializer) {

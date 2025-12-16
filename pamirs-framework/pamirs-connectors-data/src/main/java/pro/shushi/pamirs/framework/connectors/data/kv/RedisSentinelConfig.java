@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisNode;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -25,7 +26,7 @@ public class RedisSentinelConfig {
     @Autowired
     private PamirsFrameworkSystemConfiguration systemConfiguration;
 
-    @Value("${spring.redis.prefix:}")
+    @Value("${spring.data.redis.prefix:}")
     private String prefix;
 
     @Bean(name = "pamirsStringRedisSerializer")
@@ -57,36 +58,38 @@ public class RedisSentinelConfig {
 
     /**
      * 构建Redis哨兵配置
+     *
      * @param sentinelProperty 哨兵配置属性
-     * @param password Redis主从节点的密码（非哨兵密码）
      * @return 哨兵配置对象
      */
-    public RedisSentinelConfiguration getSentinelConfiguration(RedisSentinelProperty sentinelProperty, String password, int database) {
-        // 1. 创建哨兵配置，指定主节点名称 与 哨兵节点
-        RedisSentinelConfiguration sentinelConfig = new RedisSentinelConfiguration(sentinelProperty.getMaster(), sentinelProperty.getNodes());
-        // 2. 设置Redis主从节点的密码（核心：是Redis实例的密码，不是哨兵的）
-        sentinelConfig.setPassword(RedisPassword.of(password));
-        sentinelConfig.setDatabase(database);
-        if (sentinelProperty.getPassword() != null) {
-            sentinelConfig.setSentinelPassword(RedisPassword.of(sentinelProperty.getPassword()));
+    public RedisSentinelConfiguration getSentinelConfiguration(RedisSentinelProperty sentinelProperty) {
+        RedisSentinelConfiguration sentinelConfig = new RedisSentinelConfiguration();
+        sentinelConfig.setMaster(sentinelProperty.getMaster());
+        for (String hostAndPort : sentinelProperty.getNodes()) {
+            sentinelConfig.addSentinel(RedisNode.fromString(hostAndPort));
+        }
+        sentinelConfig.setSentinelUsername(sentinelProperty.getUsername());
+        sentinelConfig.setSentinelPassword(sentinelProperty.getPassword());
+        RedisSentinelProperty.DataNode dataNode = sentinelProperty.getDataNode();
+        if (dataNode != null) {
+            sentinelConfig.setUsername(dataNode.getUsername());
+            sentinelConfig.setPassword(RedisPassword.of(dataNode.getPassword()));
+            sentinelConfig.setDatabase(dataNode.getDatabase());
         }
         return sentinelConfig;
     }
 
     /**
      * 创建哨兵模式的Redis连接工厂
+     *
      * @param sentinelProperty 哨兵配置属性
-     * @param password Redis主从节点的密码（从配置文件读取）
      * @return 连接工厂
      */
     @Bean
-    public RedisConnectionFactory connectionFactory(
-            RedisSentinelProperty sentinelProperty,
-            @Value("${spring.redis.password}") String password,
-            @Value("${spring.redis.database:0}") int database) {
+    public RedisConnectionFactory connectionFactory(RedisSentinelProperty sentinelProperty) {
 
         // 1. 获取哨兵配置
-        RedisSentinelConfiguration configuration = getSentinelConfiguration(sentinelProperty, password, database);
+        RedisSentinelConfiguration configuration = getSentinelConfiguration(sentinelProperty);
 
         // 2. 创建Jedis连接工厂（哨兵模式仍用JedisConnectionFactory，入参为哨兵配置）
         JedisConnectionFactory connectionFactory = new JedisConnectionFactory(configuration);
@@ -96,18 +99,18 @@ public class RedisSentinelConfig {
 
         return connectionFactory;
     }
+
     private <K, V> void setKeySerializer(RedisTemplate<K, V> redisTemplate, PamirsStringRedisSerializer pamirsStringRedisSerializer) {
         redisTemplate.setKeySerializer(pamirsStringRedisSerializer);
     }
 
     private <K, V> void setValueSerializer(RedisTemplate<K, V> redisTemplate, Class<V> valueClass) {
-        // 解决value的序列化方式，使用Json。其中的日期再另外处理。
-        Jackson2JsonRedisSerializer<V> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(valueClass);
-        ObjectMapper objectMapper                = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         // 在序列化中增加类信息，否则无法反序列化。
         objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+        // 解决value的序列化方式，使用Json。其中的日期再另外处理。
+        Jackson2JsonRedisSerializer<V> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(objectMapper, valueClass);
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
     }
 
