@@ -20,6 +20,7 @@
                domain="model == '${activeRecord.model}'"/>
     </template>
     <template slot="footer">
+        <action name="createExportTask" invisible="true"/>
         <action name="$$internal_ExportWorkbook" label="导出" type="PRIMARY" validateForm="true" closeDialog="true" refreshData="false"/>
         <action name="$$internal_DialogCancel" label="取消" type="DEFAULT"/>
     </template>
