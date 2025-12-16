@@ -20,12 +20,20 @@ public class ResourceTimeFormat extends TransientModel {
     private String colonNormal;
 
     @Field.String
+    @Field(displayName = "标准冒号毫秒格式", summary = "HH:mm:ss.SSS")
+    private String colonNormalSss;
+
+    @Field.String
     @Field(displayName = "简写冒号格式", summary = "HH:mm")
     private String colonShort;
 
     @Field.String
     @Field(displayName = "标准冒号格式（AP样式）", summary = "A hh:mm:ss")
     private String apColonNormal;
+
+    @Field.String
+    @Field(displayName = "标准冒号毫秒格式（AP样式）", summary = "A hh:mm:ss.SSS")
+    private String apColonNormalSss;
 
     @Field.String
     @Field(displayName = "简写冒号格式（AP样式）", summary = "A hh:mm")
@@ -35,10 +43,16 @@ public class ResourceTimeFormat extends TransientModel {
     private Map<String, Object> colonNormalMap;
 
     @Field(displayName = "标准冒号格式", summary = "前端展示字段")
+    private Map<String, Object> colonNormalSssMap;
+
+    @Field(displayName = "标准冒号格式", summary = "前端展示字段")
     private Map<String, Object> colonShortMap;
 
     @Field(displayName = "标准冒号格式（AP样式）", summary = "前端展示字段")
     private Map<String, Object> apColonNormalMap;
+
+    @Field(displayName = "标准冒号格式（AP样式）", summary = "前端展示字段")
+    private Map<String, Object> apColonNormalSssMap;
 
     @Field(displayName = "简写冒号格式（AP样式）", summary = "前端展示字段")
     private Map<String, Object> apColonShortMap;
