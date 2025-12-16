@@ -12,7 +12,6 @@ import pro.shushi.pamirs.AbstractBaseTest;
 import pro.shushi.pamirs.boot.test.model.TestCategory;
 import pro.shushi.pamirs.boot.test.model.TestField;
 import pro.shushi.pamirs.boot.test.model.TestModel;
-import pro.shushi.pamirs.framework.connectors.data.kv.RedisClusterConfig;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
@@ -35,9 +34,6 @@ public class TestModelCrud extends AbstractBaseTest {
 
     @MockBean
     private RedisKeyValueAdapter redisKeyValueAdapter;
-
-    @MockBean
-    private RedisClusterConfig redisClusterConfig;
 
     @Test
     @Order(1)

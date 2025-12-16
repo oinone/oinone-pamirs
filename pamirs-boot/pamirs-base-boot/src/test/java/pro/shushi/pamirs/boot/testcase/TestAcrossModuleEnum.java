@@ -8,7 +8,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.core.RedisKeyValueAdapter;
 import org.springframework.data.redis.core.RedisTemplate;
 import pro.shushi.pamirs.AbstractBaseTest;
-import pro.shushi.pamirs.framework.connectors.data.kv.RedisClusterConfig;
 
 /**
  * 跨模块枚举测试
@@ -25,9 +24,6 @@ public class TestAcrossModuleEnum extends AbstractBaseTest {
 
     @MockBean
     private RedisKeyValueAdapter redisKeyValueAdapter;
-
-    @MockBean
-    private RedisClusterConfig redisClusterConfig;
 
     @Test
     @Order(1)

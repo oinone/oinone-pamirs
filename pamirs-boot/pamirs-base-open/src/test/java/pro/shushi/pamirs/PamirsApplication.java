@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoCo
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import pro.shushi.pamirs.framework.connectors.data.kv.RedisClusterConfig;
 
 //import static org.apache.rocketmq.client.log.ClientLogger.CLIENT_LOG_USESLF4J;
 
@@ -21,7 +20,7 @@ import pro.shushi.pamirs.framework.connectors.data.kv.RedisClusterConfig;
         exclude = {DataSourceAutoConfiguration.class}
 )
 @ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {
-        RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class, RedisClusterConfig.class
+        RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class
 }))
 class PamirsApplication {
 
