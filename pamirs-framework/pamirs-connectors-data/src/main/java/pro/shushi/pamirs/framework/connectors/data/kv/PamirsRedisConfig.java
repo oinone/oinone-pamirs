@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -28,6 +29,7 @@ public class PamirsRedisConfig {
     private String prefix;
 
     @Bean(name = "pamirsStringRedisSerializer")
+    @ConditionalOnMissingBean(value = PamirsStringRedisSerializer.class, name = "pamirsStringRedisSerializer")
     public PamirsStringRedisSerializer pamirsStringRedisSerializer() {
         String prefix = this.prefix;
         if (StringUtils.isBlank(prefix)) {
