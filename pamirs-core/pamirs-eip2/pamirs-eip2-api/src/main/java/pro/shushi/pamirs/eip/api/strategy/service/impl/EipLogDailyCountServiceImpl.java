@@ -3,6 +3,7 @@ package pro.shushi.pamirs.eip.api.strategy.service.impl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.shushi.pamirs.boot.modules.pmodel.AppSwitcherModuleProxy;
 import pro.shushi.pamirs.eip.api.config.PamirsEipProperties;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.AbstractSingleInterface;
@@ -56,32 +57,38 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
 
     @Function
     @Override
-    public List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList) {
+    public List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList,Date start, Date end) {
         if (CollectionUtils.isEmpty(eipIntegrationInterfaceList)) {
             return eipIntegrationInterfaceList;
         }
-        fillLogCount(eipIntegrationInterfaceList, InterfaceTypeEnum.INTEGRATION);
+        fillLogCount(eipIntegrationInterfaceList, InterfaceTypeEnum.INTEGRATION,start, end);
         return eipIntegrationInterfaceList;
     }
 
     @Function
     @Override
-    public List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList) {
+    public List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList,Date start, Date end) {
         if (CollectionUtils.isEmpty(eipOpenInterfaceList)) {
             return eipOpenInterfaceList;
         }
-        fillLogCount(eipOpenInterfaceList, InterfaceTypeEnum.OPEN);
+        fillLogCount(eipOpenInterfaceList, InterfaceTypeEnum.OPEN,start, end);
         return eipOpenInterfaceList;
     }
 
-    private <T extends AbstractSingleInterface> void fillLogCount(List<T> interfaceList, InterfaceTypeEnum interfaceType) {
+    private <T extends AbstractSingleInterface> void fillLogCount(List<T> interfaceList, InterfaceTypeEnum interfaceType,Date start, Date end) {
         Date yesterday = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
         List<String> interfaceNames = interfaceList.stream().map(T::getInterfaceName).collect(Collectors.toList());
-        List<EipLogDailyCount> eipLogCounts = Models.data().queryListByWrapper(Pops.<EipLogDailyCount>lambdaQuery()
+        LambdaQueryWrapper<EipLogDailyCount> queryWrapper = Pops.<EipLogDailyCount>lambdaQuery()
                 .from(EipLogDailyCount.MODEL_MODEL)
-                .eq(EipLogDailyCount::getCountDate, yesterday)
                 .eq(EipLogDailyCount::getInterfaceType, interfaceType)
-                .in(EipLogDailyCount::getInterfaceName, interfaceNames));
+                .in(EipLogDailyCount::getInterfaceName, interfaceNames);
+        if(start != null && end != null){
+            queryWrapper.ge(EipLogDailyCount::getCountDate, start)
+                    .lt(EipLogDailyCount::getCountDate, end);
+        }else {
+            queryWrapper.eq(EipLogDailyCount::getCountDate, yesterday);
+        }
+        List<EipLogDailyCount> eipLogCounts = Models.data().queryListByWrapper(queryWrapper);
 
         Map<String, EipLogDailyCount> eipLogCountMap;
         if (CollectionUtils.isEmpty(eipLogCounts)) {

@@ -5,6 +5,7 @@ import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,11 +26,11 @@ public interface EipLogDailyCountService {
      * 填充昨日集成接口统计数据
      */
     @Function
-    List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList);
+    List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList, Date start, Date end);
 
     /**
      * 填充昨日开放接口统计数据
      */
     @Function
-    List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList);
+    List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList,Date start, Date end);
 }
