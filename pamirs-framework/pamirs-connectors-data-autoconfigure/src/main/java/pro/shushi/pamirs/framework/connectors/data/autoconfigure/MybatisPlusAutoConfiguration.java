@@ -23,7 +23,6 @@ import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
@@ -127,7 +126,8 @@ public class MybatisPlusAutoConfiguration implements InitializingBean {
         if (System.getProperty(XPATH_FACTORY_PROPERTY) == null) {
             String usingDefaultXPathFactory = System.getProperty(USING_DEFAULT_XPATH_FACTORY);
             if (usingDefaultXPathFactory == null || Boolean.TRUE.toString().equals(usingDefaultXPathFactory)) {
-                System.setProperty(XPATH_FACTORY_PROPERTY, XPathFactoryImpl.class.getName());
+                // 解决 XPathFactory#newInstance 同步锁导致的查询DB并发问题
+                System.setProperty(XPATH_FACTORY_PROPERTY, "com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl");
             }
         }
     }
