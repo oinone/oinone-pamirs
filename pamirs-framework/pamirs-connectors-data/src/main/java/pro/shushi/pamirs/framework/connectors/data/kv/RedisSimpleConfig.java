@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -32,7 +33,8 @@ public class RedisSimpleConfig {
     @Value("${spring.redis.prefix:}")
     private String prefix;
 
-    @ConditionalOnMissingBean(name = "pamirsStringRedisSerializer")
+    @ConditionalOnMissingBean(name = "saasPamirsStringRedisSerializer")
+    @ConditionalOnSingleCandidate(PamirsStringRedisSerializer.class)
     @Bean(name = "pamirsStringRedisSerializer")
     public PamirsStringRedisSerializer pamirsStringRedisSerializer() {
         String prefix = this.prefix;
