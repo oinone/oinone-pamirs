@@ -37,6 +37,7 @@ import pro.shushi.pamirs.boot.base.ux.model.view.UITemplate;
 import pro.shushi.pamirs.boot.base.ux.spi.ViewTemplateStrategyApi;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
+import pro.shushi.pamirs.boot.web.constants.BusinessModelConstants;
 import pro.shushi.pamirs.boot.web.constants.GroupConstants;
 import pro.shushi.pamirs.boot.web.spi.domain.RegisterViewContext;
 import pro.shushi.pamirs.boot.web.utils.*;
@@ -287,21 +288,21 @@ public class RegisterViewEditor implements MetaDataEditor {
                 // 创建默认表格视图
                 makeDefaultView(registerViewContext,
                         ViewConstants.Name.tableView,
-                        null,
+                        ViewConstants.DisplayName.tableView,
                         ViewTypeEnum.TABLE);
             }
             if (null != uxForm) {
                 // 创建默认表单视图
                 makeDefaultView(registerViewContext,
                         ViewConstants.Name.formView,
-                        null,
+                        ViewConstants.DisplayName.formView,
                         ViewTypeEnum.FORM);
             }
             if (null != uxDetail) {
                 // 创建默认详情视图
                 makeDefaultView(registerViewContext,
                         ViewConstants.Name.detailView,
-                        null,
+                        ViewConstants.DisplayName.detailView,
                         ViewTypeEnum.DETAIL);
             }
         }
@@ -314,19 +315,19 @@ public class RegisterViewEditor implements MetaDataEditor {
         // 创建默认表格视图
         makeDefaultView(registerViewContext,
                 ViewConstants.Name.tableView,
-                null,
+                ViewConstants.DisplayName.tableView,
                 ViewTypeEnum.TABLE);
 
         // 创建默认表单视图
         makeDefaultView(registerViewContext,
                 ViewConstants.Name.formView,
-                null,
+                ViewConstants.DisplayName.formView,
                 ViewTypeEnum.FORM);
 
         // 创建默认详情视图
         makeDefaultView(registerViewContext,
                 ViewConstants.Name.detailView,
-                null,
+                ViewConstants.DisplayName.detailView,
                 ViewTypeEnum.DETAIL);
 
     }
@@ -365,7 +366,7 @@ public class RegisterViewEditor implements MetaDataEditor {
             // 构造一个视图对象来生成自定义默认视图子视图的动作
             rebuildView = new View();
         }
-        rebuildView.setTitle(title)
+        rebuildView.setTitle(Optional.ofNullable(defaultView.getTitle()).filter(StringUtils::isNotBlank).orElse(title))
                 .setModel(model)
                 .setName(viewName)
                 .setBizType(ViewBizTypeEnum.OPERATIONS_MANAGEMENT)
@@ -558,12 +559,14 @@ public class RegisterViewEditor implements MetaDataEditor {
         RegisterViewContext refContext = new RegisterViewContext(meta, refModelDefinition, actionMap);
         if (null != refContext.getClazz()) {
             String viewName = ViewConstants.Name.dialogFormView;
+            String title = ViewConstants.DisplayName.dialogFormView;
             ViewTypeEnum viewType = ViewTypeEnum.FORM;
             if (null == subViewField) {
                 return uiAction;
             }
             if (TtypeEnum.M2M.equals(subViewField.getExactTtype())) {
                 viewName = ViewConstants.Name.dialogTableView;
+                title = ViewConstants.DisplayName.dialogTableView;
                 viewType = ViewTypeEnum.TABLE;
             }
             if (!model.equals(subViewField.getModel())) {
@@ -577,7 +580,7 @@ public class RegisterViewEditor implements MetaDataEditor {
                 // 生成新的action
                 uiAction.setName(uiAction.getName() + suffix);
             }
-            View subView = makeView(refContext, viewName, null, viewType,
+            View subView = makeView(refContext, viewName, title, viewType,
                     view -> makeDefaultUiView(refContext, view, topViewType, subViewField, depth + 1),
                     ViewConstants.defaultPriority + 10);
             uiAction.setResViewName(subView.getName());
@@ -692,11 +695,13 @@ public class RegisterViewEditor implements MetaDataEditor {
                     }
                 }
                 // 设置为下拉控件
-                uiField.setWidget(WidgetEnum.SELECT.value());
+                if (StringUtils.isBlank(uiField.getWidget())) {
+                    uiField.setWidget(WidgetEnum.SELECT.value());
+                }
             }
 
             // 可选项配置
-            UiViewUtils.fillOptions(modelField, uiField,
+            UiViewUtils.fillOptions(modelField, uiView, uiField,
                     vModel -> context.getMeta().getModel(vModel),
                     (vModel, vField) -> context.getMeta().getModelField(vModel, vField));
 
@@ -890,7 +895,7 @@ public class RegisterViewEditor implements MetaDataEditor {
         UIField uiField = new UIField();
         uiField.setData(modelField.getField())
                 .setLabel(Optional.ofNullable(uxWidget).map(UxWidget::label).filter(StringUtils::isNotBlank).orElse(modelField.getDisplayName()))
-                .setWidget(Optional.ofNullable(uxWidget).map(UxWidget::widget).filter(StringUtils::isNotBlank).orElse(null))
+                .setWidget(Optional.ofNullable(uxWidget).map(UxWidget::widget).filter(StringUtils::isNotBlank).orElseGet(() -> fetchDefaultWidget(viewType, modelField)))
                 .setPropList(PropUtils.convertPropListFromAnnotation(Optional.ofNullable(uxWidget).map(UxWidget::config).orElse(null)))
                 .setContext(PropUtils.convertPropMapFromAnnotation(Optional.ofNullable(uxWidget).map(UxWidget::context).orElse(null)));
         uiField.setMapping(PropUtils.convertPropMapFromAnnotation(Optional.ofNullable(uxWidget).map(UxWidget::context).orElse(null)))
@@ -929,6 +934,33 @@ public class RegisterViewEditor implements MetaDataEditor {
         compileAbstractFields(viewType, uiField);
 
         return uiField;
+    }
+
+    private static String fetchDefaultWidget(ViewTypeEnum viewType, ModelField modelField) {
+        String references = modelField.getReferences();
+        if (StringUtils.isBlank(references)) {
+            return null;
+        }
+        String businessModel = BusinessModelHelper.isInheritedBusinessModel(references);
+        if (StringUtils.isBlank(businessModel)) {
+            return null;
+        }
+        TtypeEnum ttype = modelField.getTtype();
+        if (TtypeEnum.M2O.equals(ttype)) {
+            switch (businessModel) {
+                case BusinessModelConstants.RESOURCE_ADDRESS:
+                    return BusinessModelConstants.RESOURCE_ADDRESS_WIDGET;
+                case BusinessModelConstants.COMPANY:
+                    return BusinessModelConstants.COMPANY_WIDGET;
+                case BusinessModelConstants.DEPARTMENT:
+                    return BusinessModelConstants.DEPARTMENT_WIDGET;
+                case BusinessModelConstants.EMPLOYEE:
+                    return BusinessModelConstants.EMPLOYEE_WIDGET;
+                case BusinessModelConstants.ROLE:
+                    return BusinessModelConstants.ROLE_WIDGET;
+            }
+        }
+        return null;
     }
 
     /**

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.business.core.manager.DepartmentManager;
 import pro.shushi.pamirs.core.common.placeholder.AbstractPlaceHolderParser;
 
+@Deprecated
 @Component
 public class DepartmentPlaceHolder extends AbstractPlaceHolderParser {
 

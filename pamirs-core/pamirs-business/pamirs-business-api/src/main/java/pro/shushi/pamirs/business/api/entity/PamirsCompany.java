@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.business.api.entity;
 
 import pro.shushi.pamirs.boot.base.resource.PamirsFile;
+import pro.shushi.pamirs.boot.web.constants.BusinessModelConstants;
 import pro.shushi.pamirs.business.api.enumeration.StaffSizeEnum;
 import pro.shushi.pamirs.business.api.enumeration.TeamAuthEnum;
 import pro.shushi.pamirs.business.api.enumeration.TeamType;
@@ -11,6 +12,8 @@ import pro.shushi.pamirs.core.common.behavior.IDataStatus;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.constant.MetaDefaultConstants;
+import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
+import pro.shushi.pamirs.meta.enmu.DateTypeEnum;
 import pro.shushi.pamirs.resource.api.enmu.CompanyNatureEnum;
 import pro.shushi.pamirs.resource.api.model.ResourceAddress;
 
@@ -28,7 +31,7 @@ public class PamirsCompany extends PamirsPartner implements IDataStatus {
 
     private static final long serialVersionUID = -4241435982340928124L;
 
-    public static final String MODEL_MODEL = "business.PamirsCompany";
+    public static final String MODEL_MODEL = BusinessModelConstants.COMPANY;
 
     @Field.many2one
     @Field.Relation(relationFields = {"parentCode"}, referenceFields = {"code"})
@@ -53,7 +56,7 @@ public class PamirsCompany extends PamirsPartner implements IDataStatus {
      * 其他 {@link pro.shushi.pamirs.business.api.enumeration.OrgType}
      */
     @Field.String
-    @Field(displayName = "类型", summary = "团队类型->类型:   企业->行业,政府->单位,其他->组织类型")
+    @Field(displayName = "类型", defaultValue = "DEFAULT_TYPE", summary = "团队类型->类型:   企业->行业,政府->单位,其他->组织类型")
     private String companyType;
 
     @Field.Enum
@@ -108,15 +111,15 @@ public class PamirsCompany extends PamirsPartner implements IDataStatus {
     @Field(displayName = "组织机构代码")
     private String organizationNo;
 
-    @Field.Date
+    @Field.Date(type = DateTypeEnum.DATE, format = DateFormatEnum.DATE)
     @Field(displayName = "营业执照注册时间")
     private Date licenseRegisterTime;
 
-    @Field.Date
+    @Field.Date(type = DateTypeEnum.DATE, format = DateFormatEnum.DATE)
     @Field(displayName = "营业执照开始时间")
     private Date licenseStartTime;
 
-    @Field.Date
+    @Field.Date(type = DateTypeEnum.DATE, format = DateFormatEnum.DATE)
     @Field(displayName = "营业执照结束时间")
     private Date licenseEndTime;
 

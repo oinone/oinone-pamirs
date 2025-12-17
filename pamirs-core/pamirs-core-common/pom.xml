@@ -42,6 +42,19 @@
         </dependency>
 
         <dependency>
+            <groupId>pro.shushi.pamirs.ux</groupId>
+            <artifactId>pamirs-ux-draft</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pro.shushi.pamirs.ux</groupId>
+            <artifactId>pamirs-ux-grouping</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pro.shushi.pamirs.ux</groupId>
+            <artifactId>pamirs-ux-quick-filling</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>pro.shushi.pamirs.framework</groupId>
             <artifactId>pamirs-framework-session-tenant</artifactId>
         </dependency>

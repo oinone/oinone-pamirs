@@ -2,7 +2,10 @@ package pro.shushi.pamirs.boot.web.utils;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.boot.base.ux.model.UIView;
 import pro.shushi.pamirs.boot.base.ux.model.UIWidget;
+import pro.shushi.pamirs.boot.base.ux.model.metadata.UIDictionary;
+import pro.shushi.pamirs.boot.base.ux.model.metadata.UIMetadata;
 import pro.shushi.pamirs.boot.base.ux.model.part.UIOption;
 import pro.shushi.pamirs.boot.base.ux.model.view.UIField;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -37,6 +40,7 @@ import java.util.stream.Stream;
 public class UiViewUtils {
 
     public static void fillOptions(ModelField modelField,
+                                   UIView uiView,
                                    UIField uiField,
                                    java.util.function.Function<String, ModelDefinition> modelDefinitionSupplier,
                                    BiFunction<String, String, ModelField> modelFieldSupplier) {
@@ -86,7 +90,7 @@ public class UiViewUtils {
                     if (StringUtils.isNotBlank(fieldData)) {
                         existFieldOptionFieldSet.add(fieldData);
                         ModelField optionModelField = modelFieldSupplier.apply(model, fieldData);
-                        makeOption(optionModelField, uiFieldOption);
+                        makeOption(optionModelField, uiView, uiFieldOption);
                     }
                 }
             }
@@ -135,7 +139,7 @@ public class UiViewUtils {
                     } else {
                         UIField optionField = new UIField();
                         ModelField optionModelField = modelFieldSupplier.apply(model, field);
-                        option.addWidget(makeOption(optionModelField, optionField));
+                        option.addWidget(makeOption(optionModelField, uiView, optionField));
                         // 补充optionField的属性
                         optionField.setModel(modelFieldConfig.getReferences());
 
@@ -151,7 +155,7 @@ public class UiViewUtils {
                 } else {
                     UIField optionField = new UIField();
                     ModelField optionModelField = modelFieldSupplier.apply(model, field);
-                    option.addWidget(makeOption(optionModelField, optionField));
+                    option.addWidget(makeOption(optionModelField, uiView, optionField));
                 }
             }
 
@@ -159,7 +163,8 @@ public class UiViewUtils {
         } else if (TtypeEnum.ENUM.equals(ttype)) {
             List<UIOption> options = uiField.getOptions();
             if (CollectionUtils.isEmpty(options)) {
-                uiField.setOptions(convertDictionaryToOptions(modelField.getOptions()));
+                uiField.setDictionary(modelField.getDictionary());
+                fillDataDictionaryMetadata(uiView, modelField.getDictionary(), modelField.getOptions());
                 return;
             }
             String defaultValue = uiField.getDefaultValue();
@@ -202,7 +207,7 @@ public class UiViewUtils {
         }
     }
 
-    private static UIField makeOption(ModelField optionModelField, UIField optionField) {
+    private static UIField makeOption(ModelField optionModelField, UIView uiView, UIField optionField) {
         if (null == optionModelField) {
             return optionField;
         }
@@ -210,6 +215,7 @@ public class UiViewUtils {
         optionField.setName(optionModelField.getName());
         optionField.setData(optionModelField.getField());
         optionField.setLabel(optionModelField.getDisplayName());
+        optionField.setMulti(optionModelField.getMulti());
         optionField.setTtype(optionModelField.getTtype());
         optionField.setRelatedTtype(optionModelField.getRelatedTtype());
         if (TtypeEnum.isRelatedType(optionModelField.getTtype().value())) {
@@ -219,6 +225,12 @@ public class UiViewUtils {
         optionField.setRelationStore(optionModelField.getRelationStore());
         optionField.setRelationFields(optionModelField.getRelationFields());
         optionField.setReferenceFields(optionModelField.getReferenceFields());
+
+        TtypeEnum ttype = optionModelField.getExactTtype();
+        if (TtypeEnum.ENUM.equals(ttype)) {
+            optionField.setDictionary(optionModelField.getDictionary());
+            fillDataDictionaryMetadata(uiView, optionModelField.getDictionary(), optionModelField.getOptions());
+        }
         return optionField;
     }
 
@@ -280,6 +292,32 @@ public class UiViewUtils {
         subFieldOption.setRelationFields(optionModelField.getRelationFields());
         subFieldOption.setReferenceFields(optionModelField.getReferenceFields());
         return subFieldOption;
+    }
+
+    private static void fillDataDictionaryMetadata(UIView uiView, String dictionary, List<DataDictionaryItem> options) {
+        UIMetadata metadata = uiView.getMetadata();
+        if (metadata == null) {
+            metadata = new UIMetadata();
+            uiView.setMetadata(metadata);
+        }
+        List<UIDictionary> dataDictionaryList = metadata.getDictionary();
+        if (dataDictionaryList == null) {
+            dataDictionaryList = new ArrayList<>();
+            metadata.setDictionary(dataDictionaryList);
+        }
+        for (UIDictionary dataDictionary : dataDictionaryList) {
+            if (dictionary.equals(dataDictionary.getDictionary())) {
+                return;
+            }
+        }
+        dataDictionaryList.add(convertDictionary(dictionary, options));
+    }
+
+    public static UIDictionary convertDictionary(String dictionary, List<DataDictionaryItem> items) {
+        UIDictionary dataDictionary = new UIDictionary();
+        dataDictionary.setDictionary(dictionary);
+        dataDictionary.setOptions(convertDictionaryToOptions(items));
+        return dataDictionary;
     }
 
     public static List<UIOption> convertDictionaryToOptions(List<DataDictionaryItem> items) {

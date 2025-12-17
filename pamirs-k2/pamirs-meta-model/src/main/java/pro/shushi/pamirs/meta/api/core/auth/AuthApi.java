@@ -112,6 +112,15 @@ public interface AuthApi extends CommonApi {
     Result<Set<String>> canWritableFields(String model);
 
     /**
+     * get data filter
+     *
+     * @param namespace specify function namespace
+     * @param fun       specify function fun
+     * @return specify model data filter
+     */
+    String getDataFilter(String namespace, String fun);
+
+    /**
      * get access modules.
      *
      * @return access modules

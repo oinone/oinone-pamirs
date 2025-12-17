@@ -391,7 +391,6 @@ public class DefaultInheritedProcessor implements InheritedProcessor {
             return;
         }
         boolean isChangeTableInherited = ModelUtils.isChangeTableInherited(modelDefinition);
-        String sourceModel;
         if (isChangeTableInherited) {
             String code = modelDefinition.getModel() + CharacterConstants.SEPARATOR_OCTOTHORPE + newField.getField();
             newField.setSequenceCode(code);
@@ -488,7 +487,7 @@ public class DefaultInheritedProcessor implements InheritedProcessor {
 
         String module;
         String crossingModule = meta.getCrossingModule(FunctionDefinition.MODEL_MODEL, otherFunction.getSign());
-        if (null != crossingModule) {
+        if (crossingModule != null) {
             module = crossingModule;
             currentMetaData.addCrossingExtendData(FunctionDefinition.MODEL_MODEL, newFunction.getSign(), crossingModule);
         } else {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.PamirsDepartmentService;
+import pro.shushi.pamirs.business.api.tmodel.DepartmentQueryFilter;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -90,6 +91,12 @@ public class PamirsDepartmentAction {
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public Pagination<PamirsDepartment> queryPage(Pagination<PamirsDepartment> page, IWrapper<PamirsDepartment> queryWrapper) {
         return pamirsDepartmentService.queryPageAndFillSupervisor(page, queryWrapper);
+    }
+
+    @Function(openLevel = {FunctionOpenEnum.API})
+    @Function.Advanced(displayName = "部门组件查询", type = FunctionTypeEnum.QUERY)
+    public List<PamirsDepartment> queryListByFilter(DepartmentQueryFilter query) {
+        return pamirsDepartmentService.queryListByFilter(query);
     }
 
     @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)

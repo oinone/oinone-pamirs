@@ -3,6 +3,7 @@ package pro.shushi.pamirs.auth.api.model;
 import pro.shushi.pamirs.auth.api.behavior.AuthAuthorizationSource;
 import pro.shushi.pamirs.auth.api.enmu.PermissionDataSourceEnum;
 import pro.shushi.pamirs.auth.api.enumeration.AuthorizationSourceEnum;
+import pro.shushi.pamirs.boot.web.constants.BusinessModelConstants;
 import pro.shushi.pamirs.core.common.behavior.IUserNameModel;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -22,7 +23,7 @@ public class AuthRole extends IdModel implements AuthAuthorizationSource, IUserN
 
     private static final long serialVersionUID = -6792252804729589484L;
 
-    public static final String MODEL_MODEL = "auth.AuthRole";
+    public static final String MODEL_MODEL = BusinessModelConstants.ROLE;
 
     @Field.String(size = 64)
     @Field(displayName = "编码")

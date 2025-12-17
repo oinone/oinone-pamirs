@@ -46,7 +46,7 @@ public class RsqlParseHook implements HookBefore {
         return function;
     }
 
-    private static void parse(AbstractWrapper<?, ?, ?> wrapper, String model) {
+    public void parse(AbstractWrapper<?, ?, ?> wrapper, String model) {
         Optional.ofNullable(wrapper.getExpression())
                 .map(MergeSegments::getNormal)
                 .filter(v -> !v.isEmpty())
@@ -60,7 +60,7 @@ public class RsqlParseHook implements HookBefore {
         String rsql = wrapper.getRsql();
         if (StringUtils.isNotBlank(rsql)) {
             wrapper.setOriginRsql(rsql);
-            wrapper.apply(RSQLHelper.toTargetString(RSQLHelper.parse(model, wrapper.getRsql()), RSQLToSQLNodeConnector.INSTANCE));
+            wrapper.apply(RSQLHelper.toTargetString(RSQLHelper.parse(model, rsql), RSQLToSQLNodeConnector.INSTANCE));
             wrapper.unsetRsql();
         }
     }

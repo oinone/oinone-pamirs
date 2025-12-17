@@ -9,6 +9,7 @@ import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
+import pro.shushi.pamirs.business.api.tmodel.EmployeeQueryFilter;
 import pro.shushi.pamirs.core.common.check.UserInfoChecker;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.meta.annotation.Action;
@@ -67,7 +68,7 @@ public class PamirsEmployeeAction {
     }
 
     @Action.Advanced(name = FunctionConstants.create, managed = true, invisible = ExpConstants.idValueExist)
-    @Action(displayName = "确定", summary = "添加", bindingType = ViewTypeEnum.FORM)
+    @Action(displayName = "创建", summary = "添加", bindingType = ViewTypeEnum.FORM, label = "确定")
     @Function(name = FunctionConstants.create)
     @Function.fun(FunctionConstants.create)
     public PamirsEmployee create(PamirsEmployee data) {
@@ -128,7 +129,7 @@ public class PamirsEmployeeAction {
     }
 
     @Action.Advanced(name = FunctionConstants.update, managed = true, invisible = ExpConstants.idValueNotExist)
-    @Action(displayName = "确定", summary = "修改", bindingType = ViewTypeEnum.FORM)
+    @Action(displayName = "更新", summary = "修改", bindingType = ViewTypeEnum.FORM, label = "确定")
     @Function(name = FunctionConstants.update)
     @Function.fun(FunctionConstants.update)
     public PamirsEmployee update(PamirsEmployee data) {
@@ -197,4 +198,11 @@ public class PamirsEmployeeAction {
 
         return "";
     }
+
+    @Function(openLevel = {FunctionOpenEnum.API})
+    @Function.Advanced(displayName = "员工组件查询", type = FunctionTypeEnum.QUERY)
+    public List<PamirsEmployee> queryListByFilter(EmployeeQueryFilter query) {
+        return pamirsEmployeeService.queryListByFilter(query);
+    }
+
 }

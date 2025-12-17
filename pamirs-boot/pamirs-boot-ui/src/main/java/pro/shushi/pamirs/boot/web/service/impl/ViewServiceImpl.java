@@ -662,7 +662,7 @@ public class ViewServiceImpl implements ViewService {
                 relationFieldMap.remove(uiField.getData());
 
                 // 自动填充可选项配置
-                UiViewUtils.fillOptions(modelField, uiField,
+                UiViewUtils.fillOptions(modelField, currentView, uiField,
                         model -> Optional.ofNullable(PamirsSession.getContext().getSimpleModelConfig(model))
                                 .map(ModelConfig::getModelDefinition).orElse(null),
                         (model, field) -> Optional.ofNullable(PamirsSession.getContext().getModelField(model, field))

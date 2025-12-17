@@ -39,6 +39,7 @@ import pro.shushi.pamirs.meta.domain.fun.ExtPointImplementation;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
+import pro.shushi.pamirs.meta.domain.model.SequenceConfig;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 
 import java.util.*;
@@ -382,6 +383,8 @@ public class StandardMetaDataSaver implements MetaDataSaverApi {
             case ExtPointImplementation.MODEL_MODEL:
                 modelDefinition = meta.getModel(((ExtPointImplementation) data).getNamespace());
                 return fetchCrossingLoadModule(meta, currentModule, model, modelDefinition, data);
+            case SequenceConfig.MODEL_MODEL:
+                return ((SequenceConfig) data).getModule();
             default:
                 return fetchCrossingLoadModule(meta, currentModule, model, null, data);
         }

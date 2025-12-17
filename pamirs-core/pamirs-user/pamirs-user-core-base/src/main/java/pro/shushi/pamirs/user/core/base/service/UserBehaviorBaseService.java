@@ -434,9 +434,10 @@ public abstract class UserBehaviorBaseService {
     }
 
     public PamirsUserTransient sendSmsVerificationCode(PamirsUserTransient user) {
-        log.info("短信发送入参: {}", JsonUtils.toJSONString(user));
+        if (log.isDebugEnabled()) {
+            log.debug("短信发送入参: {}", JsonUtils.toJSONString(user));
+        }
         String msgType = user.getMsgType();
-        ;
         UserBehaviorEventEnum userBehaviorEvent = user.getUserBehaviorEvent();
         if (userBehaviorEvent == null) {
             UserServiceUtils.broken(user.setErrorMsg(USER_PHONE_MISS_EVENT_IS_NULL_ERROR.msg())

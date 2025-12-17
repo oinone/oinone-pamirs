@@ -2,20 +2,39 @@ package pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisMapperRegistry;
-import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.executor.*;
+import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.wrapper.ObjectWrapper;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.Transaction;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.dialect.StatementHandlerGeneratorDialect;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsModelBeanWrapper;
+import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsModelMapWrapper;
 import pro.shushi.pamirs.framework.connectors.data.autoconfigure.pamirs.extend.PamirsMybatisXMLLanguageDriver;
+import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
+import pro.shushi.pamirs.meta.api.Models;
+import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
+import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
+import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.base.D;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 修改plus逻辑
@@ -39,6 +58,10 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
     }
 
     private List<String> businessEnumPackages;
+
+    private Boolean usingModelAsProperty = false;
+
+    private Boolean usingStatementHandlerDialect = false;
 
     /**
      * 初始化调用
@@ -126,7 +149,7 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
     public void setDefaultScriptingLanguage(Class<? extends LanguageDriver> driver) {
         if (driver == null) {
             //todo 替换动态SQL生成的默认语言为自己的。
-            driver = MybatisXMLLanguageDriver.class;
+            driver = PamirsMybatisXMLLanguageDriver.class;
         }
         getLanguageRegistry().setDefaultDriverClass(driver);
     }
@@ -158,4 +181,75 @@ public class PamirsMybatisConfiguration extends MybatisConfiguration {
         this.businessEnumPackages = businessEnumPackages;
     }
 
+    public Boolean getUsingModelAsProperty() {
+        return usingModelAsProperty;
+    }
+
+    public void setUsingModelAsProperty(Boolean usingModelAsProperty) {
+        this.usingModelAsProperty = usingModelAsProperty;
+    }
+
+    public Boolean getUsingStatementHandlerDialect() {
+        return usingStatementHandlerDialect;
+    }
+
+    public void setUsingStatementHandlerDialect(Boolean usingStatementHandlerDialect) {
+        this.usingStatementHandlerDialect = usingStatementHandlerDialect;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public MetaObject newMetaObject(Object object) {
+        if (usingModelAsProperty) {
+            if (object instanceof MapperMethod.ParamMap || object instanceof ObjectWrapper) {
+                return super.newMetaObject(object);
+            }
+            ModelConfig modelConfig = null;
+            boolean isModelObject = object instanceof D;
+            if (isModelObject) {
+                // process PamirsMapper
+                modelConfig = Optional.ofNullable(Models.api().getModel(object))
+                        .filter(StringUtils::isNotBlank)
+                        .map(modelModel -> PamirsSession.getContext().getSimpleModelConfig(modelModel))
+                        .orElse(null);
+            } else if (object instanceof DataMap || (PamirsSession.isStaticConfig() && object instanceof HashMap)) {
+                // process GenericMapper
+                modelConfig = Optional.ofNullable(PamirsSession.getAsProperty())
+                        .filter(StringUtils::isNotBlank)
+                        .map(modelModel -> PamirsSession.getContext().getSimpleModelConfig(modelModel))
+                        .orElse(null);
+            }
+            if (modelConfig == null) {
+                return super.newMetaObject(object);
+            }
+            if (isModelObject) {
+                PamirsModelBeanWrapper beanWrapper = new PamirsModelBeanWrapper(modelConfig);
+                MetaObject metaObject = MetaObject.forObject(beanWrapper, objectFactory, objectWrapperFactory, reflectorFactory);
+                beanWrapper.apply(metaObject, object);
+                return metaObject;
+            } else {
+                PamirsModelMapWrapper mapWrapper = new PamirsModelMapWrapper(modelConfig, (Map<String, Object>) object);
+                MetaObject metaObject = MetaObject.forObject(mapWrapper, objectFactory, objectWrapperFactory, reflectorFactory);
+                mapWrapper.apply(metaObject);
+                return metaObject;
+            }
+        }
+        return super.newMetaObject(object);
+    }
+
+    @Override
+    public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+        if (usingStatementHandlerDialect) {
+            Object dsKeyObject = PamirsSession.getDsKey();
+            if (dsKeyObject != null) {
+                StatementHandlerGeneratorDialect handlerGeneratorDialect = Dialects.component(StatementHandlerGeneratorDialect.class, String.valueOf(dsKeyObject));
+                if (handlerGeneratorDialect != null) {
+                    StatementHandler statementHandler = handlerGeneratorDialect.newStatementHandler(this, executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
+                    statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
+                    return statementHandler;
+                }
+            }
+        }
+        return super.newStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
+    }
 }
