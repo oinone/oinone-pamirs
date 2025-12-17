@@ -46,7 +46,6 @@ public interface PermissionNodeLoadExtendApi {
      * @return 新加入的节点集合
      */
     default List<PermissionNode> buildRootPermissions(PermissionLoadContext loadContext, List<PermissionNode> nodes) {
-        buildRootPermissions(nodes);
         return null;
     }
 
@@ -59,12 +58,5 @@ public interface PermissionNodeLoadExtendApi {
      */
     default List<PermissionNode> buildNextPermissions(PermissionNode selected, List<PermissionNode> nodes) {
         return null;
-    }
-
-    /**
-     * @deprecated please replace the current method with the buildRootPermissions method for configuring RBAC permissions.
-     */
-    @Deprecated
-    default void buildRootPermissions(List<PermissionNode> nodes) {
     }
 }
