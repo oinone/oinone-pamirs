@@ -8,6 +8,7 @@
                 <option label="已停用" name="DISABLED"/>
             </options>
         </field>
+        <field data="searchDate" label="调用日期范围" required="false"/>
     </template>
     <template slot="actions">
         <!--    <action name="delete" label="删除" model="pamirs.eip.EipIntegrationInterface" text="删除"/>-->

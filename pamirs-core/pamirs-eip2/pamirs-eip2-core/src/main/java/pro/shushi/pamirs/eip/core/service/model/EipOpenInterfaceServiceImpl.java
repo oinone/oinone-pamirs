@@ -20,9 +20,10 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
+import pro.shushi.pamirs.meta.util.DateUtils;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -162,7 +163,14 @@ public class EipOpenInterfaceServiceImpl implements EipOpenInterfaceService {
             return result;
         }
         outConvert(resultList);
-        eipLogDailyCountService.fillOpenLogCountData(resultList);
+        Map<String,Object> data = queryWrapper.getQueryData();
+        Date startDate = null, endDate = null;
+        if(data.containsKey("searchDate")) {
+            List<String> searchDatas = (List<String>) data.get("searchDate");
+            startDate = Optional.ofNullable(searchDatas.get(0)).map(t-> DateUtils.formatDate(t, DateFormatEnum.DATE.value())).orElse( null);
+            endDate = Optional.ofNullable(searchDatas.get(1)).map(t-> DateUtils.formatDate(t,DateFormatEnum.DATE.value())).orElse( null);
+        }
+        eipLogDailyCountService.fillOpenLogCountData(resultList, startDate, endDate);
         return result;
     }
 
