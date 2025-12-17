@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.auth.api.model;
 
 import pro.shushi.pamirs.auth.api.behavior.AuthAuthorizationSource;
-import pro.shushi.pamirs.auth.api.enmu.PermissionDataSourceEnum;
 import pro.shushi.pamirs.auth.api.enumeration.AuthorizationSourceEnum;
 import pro.shushi.pamirs.boot.web.constants.BusinessModelConstants;
 import pro.shushi.pamirs.core.common.behavior.IUserNameModel;
@@ -64,14 +63,6 @@ public class AuthRole extends IdModel implements AuthAuthorizationSource, IUserN
     @Field(displayName = "修改人", store = NullableBoolEnum.FALSE, translate = true)
     private String writeUserName;
 
-    /**
-     * @deprecated please using AuthRole#source
-     */
-    @Deprecated
-    @Field.Enum
-    @Field(displayName = "数据来源", summary = "1.系统级别 2.自定义 3.业务内置", defaultValue = "CUSTOM")
-    private PermissionDataSourceEnum permissionDataSource;
-
     public static <T extends AuthRole> T transfer(AuthRole origin, T target) {
         target.setId(origin.getId());
         target.setCode(origin.getCode());
@@ -81,7 +72,6 @@ public class AuthRole extends IdModel implements AuthAuthorizationSource, IUserN
         target.setRoleType(origin.getRoleType());
         target.setRoleTypeCode(origin.getRoleTypeCode());
         target.setActive(origin.getActive());
-        target.setPermissionDataSource(origin.getPermissionDataSource());
         return target;
     }
 }

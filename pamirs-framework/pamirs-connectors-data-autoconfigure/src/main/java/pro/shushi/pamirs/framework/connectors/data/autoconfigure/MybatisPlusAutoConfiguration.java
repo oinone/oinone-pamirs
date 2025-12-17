@@ -23,7 +23,6 @@ import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
@@ -54,7 +53,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandi
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
@@ -90,7 +92,6 @@ import java.util.stream.Stream;
  * @author Kazuki Shimizu
  * @author Eduardo Macarrón
  */
-//@Configuration
 @ConditionalOnClass({SqlSessionFactory.class, SqlSessionFactoryBean.class})
 @ConditionalOnSingleCandidate(DataSource.class)
 @EnableConfigurationProperties(MybatisPlusProperties.class)
@@ -125,7 +126,8 @@ public class MybatisPlusAutoConfiguration implements InitializingBean {
         if (System.getProperty(XPATH_FACTORY_PROPERTY) == null) {
             String usingDefaultXPathFactory = System.getProperty(USING_DEFAULT_XPATH_FACTORY);
             if (usingDefaultXPathFactory == null || Boolean.TRUE.toString().equals(usingDefaultXPathFactory)) {
-                System.setProperty(XPATH_FACTORY_PROPERTY, XPathFactoryImpl.class.getName());
+                // 解决 XPathFactory#newInstance 同步锁导致的查询DB并发问题
+                System.setProperty(XPATH_FACTORY_PROPERTY, "com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl");
             }
         }
     }

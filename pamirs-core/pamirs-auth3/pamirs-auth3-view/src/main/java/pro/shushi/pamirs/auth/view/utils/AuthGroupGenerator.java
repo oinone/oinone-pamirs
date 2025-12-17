@@ -110,7 +110,6 @@ public class AuthGroupGenerator {
         }
         data.setActive(Boolean.TRUE);
         data.setSource(AuthorizationSourceEnum.SYSTEM);
-        data.setMenuName(menuName);
         return data;
     }
 

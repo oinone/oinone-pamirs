@@ -7,14 +7,14 @@ import pro.shushi.pamirs.auth.api.constants.SystemRole;
 import pro.shushi.pamirs.auth.api.holder.AuthApiHolder;
 import pro.shushi.pamirs.auth.api.runtime.spi.CurrentRolesCacheApi;
 import pro.shushi.pamirs.auth.api.runtime.spi.CustomCurrentRolesFetcher;
-import pro.shushi.pamirs.auth.api.service.IRoleCustom;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.session.SessionClearApi;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.spi.Spider;
-import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -74,15 +74,6 @@ public class AuthRoleSession implements SessionClearApi {
     }
 
     private static Set<Long> loadCustomCurrentRoles() {
-        // 旧版本兼容逻辑
-        List<IRoleCustom> iRoleCustoms = BeanDefinitionUtils.getBeansOfTypeByOrdered(IRoleCustom.class);
-        if (CollectionUtils.isNotEmpty(iRoleCustoms)) {
-            List<Long> customRoleIds = iRoleCustoms.get(0).findRoleById(PamirsSession.getUserId());
-            if (customRoleIds == null) {
-                customRoleIds = Collections.emptyList();
-            }
-            return new HashSet<>(customRoleIds);
-        }
         CustomCurrentRolesFetcher customFetcher = Optional.ofNullable(Spider.getLoader(CustomCurrentRolesFetcher.class).getOrderedExtensions())
                 .filter(CollectionUtils::isNotEmpty)
                 .map(v -> v.get(0))

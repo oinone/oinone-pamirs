@@ -6,7 +6,6 @@ import pro.shushi.pamirs.auth.api.runtime.cache.AccessPermissionCacheApi;
 import pro.shushi.pamirs.auth.api.runtime.cache.DataPermissionCacheApi;
 import pro.shushi.pamirs.auth.api.runtime.cache.ManagementPermissionCacheApi;
 import pro.shushi.pamirs.auth.api.runtime.spi.*;
-import pro.shushi.pamirs.meta.api.core.auth.AuthApi;
 import pro.shushi.pamirs.ux.common.entity.HoldSupplier;
 
 import java.util.List;
@@ -20,14 +19,6 @@ public class AuthApiHolder {
 
     private AuthApiHolder() {
         // reject create object
-    }
-
-    /**
-     * @deprecated please using {@link AuthApi#get()}
-     */
-    @Deprecated
-    public static AuthApi getAuthApi() {
-        return AuthApi.get();
     }
 
     private static final HoldSupplier<CurrentRolesCacheApi> currentRolesCacheApiHolder = HoldSupplier.getDefaultExtension(CurrentRolesCacheApi.class);

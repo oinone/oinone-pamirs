@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.0.0</version>
     </parent>
     <artifactId>pamirs-framework-commons</artifactId>
     <name>pamirs-framework-commons</name>
@@ -19,7 +19,7 @@
     </modules>
 
     <properties>
-        <pamirs.framework.a.version>7.0.0-SNAPSHOT</pamirs.framework.a.version>
+        <pamirs.framework.a.version>7.0.0</pamirs.framework.a.version>
     </properties>
 
     <dependencyManagement>

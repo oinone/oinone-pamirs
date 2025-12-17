@@ -464,9 +464,9 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     }
 
     private void createUserBaseRole(Long userId) {
-        AuthRole role = new AuthRole().setCode(AuthConstants.BUSINESS_BASE_CODE).queryOne();
+        AuthRole role = new AuthRole().setCode(AuthConstants.BUSINESS_ROLE_CODE).queryOne();
         if (null == role) {
-            throw new RuntimeException("未找到:" + AuthConstants.BUSINESS_BASE_ROLE);
+            throw new RuntimeException("未找到:" + AuthConstants.BUSINESS_ROLE_NAME);
         }
         AuthUserRoleRel userRoleRel = new AuthUserRoleRel();
         userRoleRel.setRoleId(role.getId());

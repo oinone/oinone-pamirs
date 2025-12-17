@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.auth.api.model;
 
 import pro.shushi.pamirs.auth.api.enmu.AuthGroupTypeEnum;
-import pro.shushi.pamirs.auth.api.enmu.PermissionDataSourceEnum;
 import pro.shushi.pamirs.auth.api.enumeration.AuthorizationSourceEnum;
 import pro.shushi.pamirs.auth.api.model.relation.AuthGroupRole;
 import pro.shushi.pamirs.meta.annotation.Field;
@@ -58,19 +57,4 @@ public class AuthGroup extends IdModel {
     @Field.Relation(relationFields = {"id"}, referenceFields = {"id"})
     @Field(displayName = "角色")
     private List<AuthRole> roles;
-
-    @Deprecated
-    @Field.Enum
-    @Field(displayName = "数据来源")
-    private PermissionDataSourceEnum dataSource;
-
-    @Deprecated
-    @Field.Boolean
-    @Field(displayName = "是否是批量方式", invisible = true, defaultValue = "false")
-    private Boolean batch;
-
-    @Deprecated
-    @Field.String
-    @Field(displayName = "菜单名称", summary = "菜单名称")
-    private String menuName;
 }

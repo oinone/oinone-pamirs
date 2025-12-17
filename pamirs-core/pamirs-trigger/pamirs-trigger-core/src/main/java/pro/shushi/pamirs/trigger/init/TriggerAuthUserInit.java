@@ -2,12 +2,10 @@ package pro.shushi.pamirs.trigger.init;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.auth.api.constants.AuthConstants;
-import pro.shushi.pamirs.auth.api.model.AuthRole;
+import pro.shushi.pamirs.auth.api.constants.SystemRole;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.InstallDataInit;
 import pro.shushi.pamirs.boot.common.api.init.UpgradeDataInit;
-import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.resource.api.enmu.UserSignUpType;
 import pro.shushi.pamirs.trigger.TriggerModule;
 import pro.shushi.pamirs.trigger.constant.TriggerUserConfiguration;
@@ -54,8 +52,6 @@ public class TriggerAuthUserInit implements InstallDataInit, UpgradeDataInit {
     }
 
     private void initTriggerUser() {
-        AuthRole administrator = FetchUtil.onlyCreate(new AuthRole()
-                .setName(AuthConstants.SUPER_ROLE)).getData();
         if (new PamirsUser().setCode(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_CODE).count() == 0) {
             PamirsUser triggerUser = (PamirsUser) new PamirsUser()
                     .setNickname(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_NAME)
@@ -65,7 +61,7 @@ public class TriggerAuthUserInit implements InstallDataInit, UpgradeDataInit {
                     .setLogin(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_CODE)
                     .setSource(UserSourceEnum.BUILD_IN)
                     .setActive(Boolean.FALSE)
-                    .setRoles(Arrays.asList(administrator))
+                    .setRoles(Arrays.asList(SystemRole.admin()))
                     .setCode(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_CODE)
                     .setId(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_ID);
             userService.createOrUpdate(triggerUser);

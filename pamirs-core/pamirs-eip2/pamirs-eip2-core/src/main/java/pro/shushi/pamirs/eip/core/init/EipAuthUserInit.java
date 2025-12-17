@@ -1,9 +1,9 @@
 package pro.shushi.pamirs.eip.core.init;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.auth.api.constants.AuthConstants;
-import pro.shushi.pamirs.auth.api.model.AuthRole;
+import pro.shushi.pamirs.auth.api.constants.SystemRole;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.LifecycleCompletedInit;
 import pro.shushi.pamirs.core.common.FetchUtil;
@@ -18,7 +18,6 @@ import pro.shushi.pamirs.user.api.enmu.UserType;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.service.UserService;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,8 +37,6 @@ public class EipAuthUserInit implements LifecycleCompletedInit {
     }
 
     private void initEipUser() {
-        List<AuthRole> roles = new ArrayList<>();
-        roles.add(FetchUtil.onlyCreate(new AuthRole().setName(AuthConstants.SUPER_ROLE)).getData());
         Result<PamirsUser> userResult = FetchUtil.onlyCreate((PamirsUser) new PamirsUser()
                 .setNickname(EipConfigurationConstant.EIP_SYSTEM_USER_NAME)
                 .setSignUpType(UserSignUpType.BACKSTAGE)
@@ -49,7 +46,7 @@ public class EipAuthUserInit implements LifecycleCompletedInit {
                 .setLogin(EipConfigurationConstant.EIP_SYSTEM_USER_CODE)
                 .setActive(Boolean.FALSE)
                 .setSource(UserSourceEnum.BUILD_IN)
-                .setRoles(roles)
+                .setRoles(Lists.newArrayList(SystemRole.admin()))
                 .setRegDate(new Date())
                 .setCode(EipConfigurationConstant.EIP_SYSTEM_USER_CODE)
                 .setId(EipConfigurationConstant.EIP_SYSTEM_USER_ID));

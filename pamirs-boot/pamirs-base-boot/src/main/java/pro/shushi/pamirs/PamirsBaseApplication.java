@@ -5,9 +5,6 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import pro.shushi.pamirs.framework.connectors.data.kv.RedisClusterConfig;
 
 /**
  * @author d@shushi.pro
@@ -19,9 +16,6 @@ import pro.shushi.pamirs.framework.connectors.data.kv.RedisClusterConfig;
         exclude = {DataSourceAutoConfiguration.class}
 )
 @MapperScan(value = "pro.shushi.pamirs", annotationClass = Mapper.class)
-@ComponentScan(excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = RedisClusterConfig.class),
-})
 public class PamirsBaseApplication {
 
     public static void main(String[] args) {

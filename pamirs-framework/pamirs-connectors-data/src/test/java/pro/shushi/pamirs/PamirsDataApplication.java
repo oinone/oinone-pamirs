@@ -12,7 +12,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import pro.shushi.pamirs.framework.connectors.data.configure.datasource.DataSourceConfiguration;
 import pro.shushi.pamirs.framework.connectors.data.datasource.DynamicDataSource;
-import pro.shushi.pamirs.framework.connectors.data.kv.RedisClusterConfig;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
 import javax.sql.DataSource;
@@ -28,7 +27,7 @@ import javax.sql.DataSource;
 )
 @MapperScan(value = "pro.shushi.pamirs", annotationClass = Mapper.class)
 @ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {
-        RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class, RedisClusterConfig.class
+        RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class
 }))
 class PamirsDataApplication {
 

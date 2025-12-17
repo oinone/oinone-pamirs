@@ -165,10 +165,6 @@ public class AuthGroupServiceImpl implements AuthGroupService {
         verificationAndSet(data, null);
         AuthResourcePermission resourcePermission = generatorResourcePermission(data);
         verifyGroupDisplayName(data, null);
-        if (ResourcePermissionTypeEnum.MENU.equals(resourcePermission.getType())) {
-            data.setMenuName(resourcePermission.getName());
-        }
-
         data = data.create();
         createGroupMenuRel(data, resourcePermission.getId());
 

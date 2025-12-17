@@ -8,4 +8,4 @@
 Enterprise-grade Productization Engine
 
 Author              :   shushi.
-Version             :   v7.0.0-SNAPSHOT
+Version             :   v7.0.0
