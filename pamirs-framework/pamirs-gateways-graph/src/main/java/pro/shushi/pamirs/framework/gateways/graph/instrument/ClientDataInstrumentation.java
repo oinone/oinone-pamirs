@@ -3,6 +3,7 @@ package pro.shushi.pamirs.framework.gateways.graph.instrument;
 import graphql.ExecutionResult;
 import graphql.execution.instrumentation.SimpleInstrumentation;
 import graphql.execution.instrumentation.parameters.InstrumentationExecutionParameters;
+import pro.shushi.pamirs.framework.gateways.graph.spi.FunctionResolverApi;
 import pro.shushi.pamirs.framework.gateways.graph.util.GraphQLUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
@@ -63,7 +64,7 @@ public class ClientDataInstrumentation extends SimpleInstrumentation {
                 if (functionResult == null) {
                     continue;
                 }
-                Function function = PamirsSession.getContext().getFunctionByName(funNamespace, funName);
+                Function function = FunctionResolverApi.get().resolveFunction(funNamespace, funName);
                 functionResultEntry.setValue(out(function, functionResult));
             }
         }
