@@ -85,19 +85,4 @@ public interface AuthConstants {
     String HOMEPAGE_PATH_SUFFIX = ResourcePath.PATH_SPLIT + HOMEPAGE_TYPE;
 
     String TABLE_EDITABLE_UPDATE = "行内编辑更新";
-
-    @Deprecated
-    String SUPER_ROLE = SUPER_ROLE_NAME;
-    @Deprecated
-    String SUPER_CODE = SUPER_ROLE_CODE;
-    @Deprecated
-    String BUSINESS_BASE_ROLE = BUSINESS_ROLE_NAME;
-    @Deprecated
-    String BUSINESS_BASE_CODE = BUSINESS_ROLE_CODE;
-    @Deprecated
-    String ROLE_SYSTEM_TYPE_CODE = SYSTEM_ROLE_TYPE_CODE;
-    @Deprecated
-    String ROLE_SYSTEM_TYPE = SYSTEM_ROLE_TYPE_NAME;
-    @Deprecated
-    String BASE_ROLE = BASE_ROLE_NAME;
 }
