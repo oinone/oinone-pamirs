@@ -38,7 +38,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
 
     private static final ZoneId ZONE = ZoneId.systemDefault();
 
-    private static final EipLogDailyCount EMPTY_EIP_LOG_DAILY_COUNT = new EipLogDailyCount();
+    private static final List<EipLogDailyCount> EMPTY_EIP_LOG_DAILY_COUNT = new ArrayList<EipLogDailyCount>();
 
     @Autowired
     private PamirsEipProperties pamirsEipProperties;
@@ -90,31 +90,34 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
         }
         List<EipLogDailyCount> eipLogCounts = Models.data().queryListByWrapper(queryWrapper);
 
-        Map<String, EipLogDailyCount> eipLogCountMap;
+        Map<String, List<EipLogDailyCount>> eipLogCountMap;
         if (CollectionUtils.isEmpty(eipLogCounts)) {
             eipLogCountMap = Collections.emptyMap();
         } else {
-            eipLogCountMap = eipLogCounts.stream().collect(Collectors.toMap(EipLogDailyCount::getInterfaceName, i -> i));
+            eipLogCountMap = eipLogCounts.stream().collect(Collectors.groupingBy(EipLogDailyCount::getInterfaceName));
         }
 
         // 3.组装
         for (T singleInterface : interfaceList) {
-            EipLogDailyCount eipLogCount = eipLogCountMap.getOrDefault(singleInterface.getInterfaceName(), EMPTY_EIP_LOG_DAILY_COUNT);
-            long successCount = eipLogCount.getSuccessCallCount();
-            long failCount = eipLogCount.getFailCallCount();
+            List<EipLogDailyCount> eipLogCountList = eipLogCountMap.getOrDefault(singleInterface.getInterfaceName(), EMPTY_EIP_LOG_DAILY_COUNT);
+            if(CollectionUtils.isEmpty(eipLogCountList)){
+                continue;
+            }
+            long successCount = eipLogCountList.stream().mapToLong(EipLogDailyCount::getSuccessCallCount).sum();
+            long failCount = eipLogCountList.stream().mapToLong(EipLogDailyCount::getFailCallCount).sum();
 
             singleInterface.setCallCount(successCount + failCount);
             singleInterface.setSuccessCallCount(successCount);
             singleInterface.setFailCallCount(failCount);
 
-            singleInterface.setUltraFastCall(eipLogCount.getUltraFastCall());
-            singleInterface.setVeryFastCall(eipLogCount.getVeryFastCall());
-            singleInterface.setFastCall(eipLogCount.getFastCall());
-            singleInterface.setModerateCall(eipLogCount.getModerateCall());
-            singleInterface.setSlowCall(eipLogCount.getSlowCall());
-            singleInterface.setVerySlowCall(eipLogCount.getVerySlowCall());
-            singleInterface.setSlowestCall(eipLogCount.getSlowestCall());
-            singleInterface.setTimeoutCall(eipLogCount.getTimeoutCall());
+            singleInterface.setUltraFastCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getUltraFastCall).sum());
+            singleInterface.setVeryFastCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getVeryFastCall).sum());
+            singleInterface.setFastCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getFastCall).count());
+            singleInterface.setModerateCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getModerateCall).sum());
+            singleInterface.setSlowCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getSlowCall).sum());
+            singleInterface.setVerySlowCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getVerySlowCall).sum());
+            singleInterface.setSlowestCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getSlowestCall).sum());
+            singleInterface.setTimeoutCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getTimeoutCall).sum());
         }
     }
 
