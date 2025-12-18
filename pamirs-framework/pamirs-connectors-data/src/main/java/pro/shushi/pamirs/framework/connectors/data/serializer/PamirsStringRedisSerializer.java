@@ -47,11 +47,21 @@ public class PamirsStringRedisSerializer extends StringRedisSerializer {
         if (this.prefixLength != 0) {
             string = prefix + string;
         }
-        return KeyPrefixManager.generate(SEPARATOR_COLON, SEPARATOR_COLON) + string;
+        return getKp() + string;
     }
 
     public String getPrefix() {
         return this.prefix;
+    }
+
+    // 扩展key序列化有使用到
+    public int getPrefixLength() {
+        return this.prefixLength;
+    }
+
+    // 扩展key序列化有使用到
+    public String getKp() {
+        return KeyPrefixManager.generate(SEPARATOR_COLON, SEPARATOR_COLON);
     }
 
     @Override
@@ -60,7 +70,7 @@ public class PamirsStringRedisSerializer extends StringRedisSerializer {
         if (key == null) {
             return null;
         }
-        String kp = KeyPrefixManager.generate(SEPARATOR_COLON, SEPARATOR_COLON);
+        String kp = getKp();
         String p = kp + this.prefix;
         int len = kp.length() + this.prefixLength;
         if (len == 0) {
