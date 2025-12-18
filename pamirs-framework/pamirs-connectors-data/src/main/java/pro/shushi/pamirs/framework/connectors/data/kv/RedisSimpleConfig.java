@@ -34,7 +34,7 @@ public class RedisSimpleConfig {
     private String prefix;
 
     @Bean(name = "pamirsStringRedisSerializer")
-    @ConditionalOnMissingBean(value = PamirsStringRedisSerializer.class, name = "saasPamirsStringRedisSerializer")
+    @ConditionalOnMissingBean(value = PamirsStringRedisSerializer.class, name = "pamirsStringRedisSerializer")
     public PamirsStringRedisSerializer pamirsStringRedisSerializer() {
         String prefix = this.prefix;
         if (StringUtils.isBlank(prefix)) {
