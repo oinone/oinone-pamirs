@@ -7,7 +7,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-logger</artifactId>
-        <version>6.3.7</version>
+        <version>6.3.8</version>
     </parent>
 
     <artifactId>pamirs-logback-appender</artifactId>
