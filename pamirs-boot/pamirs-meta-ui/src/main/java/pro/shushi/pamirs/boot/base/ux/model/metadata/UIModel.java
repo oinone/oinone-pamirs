@@ -5,6 +5,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import pro.shushi.pamirs.boot.base.ux.constants.TemplateNodeConstants;
 import pro.shushi.pamirs.boot.base.ux.model.view.UIField;
+import pro.shushi.pamirs.boot.base.ux.model.view.UIVirtualAction;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
@@ -31,4 +32,8 @@ public class UIModel extends TransientModel {
     @XStreamImplicit
     @Field(displayName = "模型字段")
     private List<UIField> field;
+
+    @XStreamImplicit
+    @Field(displayName = "模型动作")
+    private List<UIVirtualAction> action;
 }

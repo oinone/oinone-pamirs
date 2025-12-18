@@ -20,6 +20,7 @@ import pro.shushi.pamirs.boot.base.ux.model.auth.UIAuth;
 import pro.shushi.pamirs.boot.base.ux.model.metadata.UIMetadata;
 import pro.shushi.pamirs.boot.base.ux.model.metadata.UIModel;
 import pro.shushi.pamirs.boot.base.ux.model.view.*;
+import pro.shushi.pamirs.boot.base.ux.model.view.UIVirtualAction;
 import pro.shushi.pamirs.boot.web.cache.LayoutDefinitionCache;
 import pro.shushi.pamirs.boot.web.compile.ViewCompileContext;
 import pro.shushi.pamirs.boot.web.constants.UIConstants;
@@ -529,13 +530,21 @@ public class ViewServiceImpl implements ViewService {
                 continue;
             }
             List<UIField> fields = model.getField();
-            if (CollectionUtils.isEmpty(fields)) {
-                continue;
+            if (CollectionUtils.isNotEmpty(fields)) {
+                for (UIField field : fields) {
+                    String data = field.getData();
+                    if (StringUtils.isNotBlank(data)) {
+                        compileContext.putVirtualField(modelModel, data, field);
+                    }
+                }
             }
-            for (UIField field : fields) {
-                String data = field.getData();
-                if (StringUtils.isNotBlank(data)) {
-                    compileContext.putVirtualField(modelModel, data, field);
+            List<UIVirtualAction> actions = model.getAction();
+            if (CollectionUtils.isNotEmpty(actions)) {
+                for (UIVirtualAction action : actions) {
+                    String actionName = action.getName();
+                    if (StringUtils.isNotBlank(actionName)) {
+                        compileContext.putVirtualAction(modelModel, actionName, action);
+                    }
                 }
             }
         }

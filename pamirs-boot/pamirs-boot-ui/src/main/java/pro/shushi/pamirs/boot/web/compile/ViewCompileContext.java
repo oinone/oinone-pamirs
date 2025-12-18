@@ -3,6 +3,7 @@ package pro.shushi.pamirs.boot.web.compile;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.boot.base.ux.model.view.UIField;
+import pro.shushi.pamirs.boot.base.ux.model.view.UIVirtualAction;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
@@ -31,16 +32,20 @@ public class ViewCompileContext {
 
     private final Map<String, Map<String, ModelFieldConfig>> virtualFieldConfigs;
 
+    private final Map<String, Map<String, UIVirtualAction>> virtualActions;
+
     public ViewCompileContext(String model) {
-        this(model, new HashMap<>(), new HashMap<>());
+        this(model, new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 
     private ViewCompileContext(String model,
                                Map<String, Map<String, UIField>> virtualFields,
-                               Map<String, Map<String, ModelFieldConfig>> virtualFieldConfigs) {
+                               Map<String, Map<String, ModelFieldConfig>> virtualFieldConfigs,
+                               Map<String, Map<String, UIVirtualAction>> virtualActions) {
         this.model = model;
         this.virtualFields = virtualFields;
         this.virtualFieldConfigs = virtualFieldConfigs;
+        this.virtualActions = virtualActions;
     }
 
     public String getModel() {
@@ -208,8 +213,20 @@ public class ViewCompileContext {
         return relatedFieldConfig;
     }
 
+    public void putVirtualAction(String model, String actionName, UIVirtualAction actionData) {
+        virtualActions.computeIfAbsent(model, k -> new HashMap<>()).put(actionName, actionData);
+    }
+
+    public UIVirtualAction getVirtualAction(String model, String actionName) {
+        Map<String, UIVirtualAction> modelActions = virtualActions.get(model);
+        if (modelActions == null) {
+            return null;
+        }
+        return modelActions.get(actionName);
+    }
+
     public ViewCompileContext transfer(String model) {
-        ViewCompileContext compileContext = new ViewCompileContext(model, virtualFields, virtualFieldConfigs);
+        ViewCompileContext compileContext = new ViewCompileContext(model, virtualFields, virtualFieldConfigs, virtualActions);
         return compileContext;
     }
 }
