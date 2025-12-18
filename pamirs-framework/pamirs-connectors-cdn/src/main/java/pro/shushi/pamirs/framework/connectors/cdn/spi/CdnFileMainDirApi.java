@@ -4,7 +4,7 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 
 /**
- * 文件上传主目录扩展，使用于如多租户场景
+ * 文件上传主目录扩展，适用于如多租户场景
  *
  * @author wx@shushi.pro
  * @version 1.0.0
