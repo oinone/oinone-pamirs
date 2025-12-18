@@ -3,7 +3,6 @@ package pro.shushi.pamirs.meta.util;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
 import org.apache.commons.collections.CollectionUtils;
@@ -97,41 +96,17 @@ public class ClassUtils {
     }
 
     public static Set<Class<?>> getClassesByPacks(List<String> packs) {
-        return ParallelStreamHelper.parallelStream(mergePackages(packs))
+        return ParallelStreamHelper.parallelStream(packs)
                 .map(ClassUtils::getClasses)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public static Set<Class<?>> getClassesByPacks(String... packs) {
-        return ParallelStreamHelper.parallelStream(mergePackages(Lists.newArrayList(packs)))
+        return ParallelStreamHelper.parallelStream(Lists.newArrayList(packs))
                 .map(ClassUtils::getClasses)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
-    }
-
-    private static Set<String> mergePackages(List<String> packages) {
-        if (packages.size() == 1) {
-            return Sets.newHashSet(packages.get(0));
-        }
-        Map<String, MergedPackage> roots = new LinkedHashMap<>();
-        for (String p : packages) {
-            String[] ps = p.split("\\.");
-            MergedPackage parent = null;
-            for (int i = 0; i < ps.length; i++) {
-                String s = ps[i];
-                if (parent == null) {
-                    parent = roots.get(s);
-                    if (parent == null) {
-                        parent = new MergedPackage(s);
-                        roots.put(s, parent);
-                    }
-                } else {
-                    parent = new MergedPackage(s, parent, i == ps.length - 1);
-                }
-            }
-        }
-        return roots.values().stream().map(MergedPackage::toPackages).flatMap(Collection::stream).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public static Collection<Class<?>> getClasses(String pack) {
@@ -182,7 +157,9 @@ public class ClassUtils {
                     // 如果是jar包文件.定义一个JarFile
                     // System.err.println("jar类型的扫描");
                     // 获取jar
-                    try (JarFile jar = ((JarURLConnection) url.openConnection()).getJarFile()) {
+                    JarFile jar;
+                    try {
+                        jar = ((JarURLConnection) url.openConnection()).getJarFile();
                         // 从此jar包 得到一个枚举类
                         Enumeration<JarEntry> entries = jar.entries();
                         // 同样的进行循环迭代
@@ -336,84 +313,5 @@ public class ClassUtils {
                 return Boolean.TRUE;
             }
         });
-    }
-
-    private static class MergedPackage {
-
-        private final String packageName;
-
-        private final MergedPackage parent;
-
-        private final MergedPackage refer;
-
-        private final Map<String, MergedPackage> children = new LinkedHashMap<>();
-
-        private boolean isLeaf = false;
-
-        public MergedPackage(String packageName) {
-            this.refer = null;
-            this.packageName = packageName;
-            this.parent = null;
-        }
-
-        public MergedPackage(String packageName, MergedPackage parent, boolean isLeaf) {
-            this.packageName = packageName;
-            this.parent = parent;
-            this.isLeaf = isLeaf;
-            if (parent.refer == null) {
-                this.refer = parent.add(this, isLeaf);
-            } else {
-                this.refer = parent.refer.add(this, isLeaf);
-            }
-        }
-
-        public MergedPackage add(MergedPackage child, boolean isLeaf) {
-            MergedPackage exist = this.children.get(child.packageName);
-            if (exist == null) {
-                this.children.put(child.packageName, child);
-                return child;
-            }
-            if (isLeaf) {
-                exist.isLeaf = true;
-                exist.children.clear();
-                return exist;
-            }
-            return exist;
-        }
-
-        public Set<String> toPackages() {
-            if (this.isLeaf) {
-                return Sets.newHashSet(this.toString());
-            }
-            Set<String> packages = new LinkedHashSet<>();
-            for (MergedPackage child : this.children.values()) {
-                packages.addAll(child.toPackages());
-            }
-            return packages;
-        }
-
-        @Override
-        public final boolean equals(Object o) {
-            if (!(o instanceof MergedPackage)) {
-                return false;
-            }
-            MergedPackage that = (MergedPackage) o;
-            return Objects.equals(packageName, that.packageName) && Objects.equals(parent, that.parent);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(packageName, parent);
-        }
-
-        @Override
-        public String toString() {
-            StringBuilder builder = new StringBuilder();
-            if (parent != null) {
-                builder.append(parent).append(".");
-            }
-            builder.append(this.packageName);
-            return builder.toString();
-        }
     }
 }
