@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-user</artifactId>
-        <version>7.0.0</version>
+        <version>7.0.1</version>
     </parent>
     <artifactId>pamirs-user-view</artifactId>
     <name>pamirs-user-view</name>
