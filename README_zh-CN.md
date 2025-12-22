@@ -64,6 +64,7 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 | 📦 pamirs-boot              | 🌟 后端应用启动包    |
 | 📦 pamirs-core              | 🌟 后端基础功能包    |
 | 📦 pamirs-middleware        | 🌟 后端中间件功能包   |
+| 📦 pamirs-ux                | 🌟 后端用户体验功能包  |
 
 ### 9、文档链接
 - [📗 安装与升级](https://guide.oinone.top/zh-cn/InstallOrUpgrade)
@@ -74,23 +75,19 @@ O 代表开源，谐音 All in one 之意，象征：一站式、敏捷响应、
 - [📗 常见解决方案](https://guide.oinone.top/zh-cn/DevManual/CommonSolutions)
 - [📗 常见问题](https://guide.oinone.top/zh-cn/DevManual/FAQ)
 
-### 10、开发注意事项
-Idea 导入工程后确保激活 Profile：打开 `Maven` 工具栏并且激活 `tools` Profile。<br>
-<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/tools-profile.png" alt="Tools Profile" width="500">
-
-### 11、产品体系
+### 10、产品体系
 全方位覆盖产品研发及实施所需。
 ![产品体系](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/%E4%BA%A7%E5%93%81%E4%BD%93%E7%B3%BB1.png "产品体系")
 ![产品体系](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/%E4%BA%A7%E5%93%81%E4%BD%93%E7%B3%BB2.png "产品体系")
 
-### 12、许可协议
+### 11、许可协议
 - Oinone Pamirs 遵循 AGPL-3.0 协议。
 - [第三方开源软件及许可说明](https://guide.oinone.top/en/Third-Party-Open-Source-Software-And-License-Notice.html)
 
-### 13、如何参与
+### 12、如何参与
 - 参与社区：您可以前往 <a href="https://doc.oinone.top/" target="_blank" rel="noopener noreferrer">⚡Oinone 社区</a> 与大家互动哦❤️
 - <a href="https://guide.oinone.top/zh-cn/Contribute" target="_blank" rel="noopener noreferrer">参与贡献</a>
 
-### 14、联系我们
+### 13、联系我们
 - 官网：https://www.oinone.top
 - 邮箱：oinone@shushi.pro

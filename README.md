@@ -66,6 +66,7 @@ The "O" symbolizes open source while phonetically resonating with "All in one," 
   | 📦 pamirs-boot              | 🌟 Startup Package             |
   | 📦 pamirs-core              | 🌟 Common Features Package     |
   | 📦 pamirs-middleware        | 🌟 Middleware-Core Package     |
+  | 📦 pamirs-ux                | 🌟 User Experience Package     |
 
 ### 9. Documentation
 - [📗 Installation Or Upgrade](https://guide.oinone.top/en/InstallOrUpgrade)
@@ -76,23 +77,19 @@ The "O" symbolizes open source while phonetically resonating with "All in one," 
 - [📗 Common Solutions](https://guide.oinone.top/en/DevManual/CommonSolutions)
 - [📗 FAQ](https://guide.oinone.top/en/DevManual/FAQ)
 
-### 10. Development Notice
-After importing the project into IntelliJ IDEA, make sure to activate the profile. Open the `Maven` toolbar and activate the `tools` profile.<br>
-<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/tools-profile.png" alt="Tools Profile" width="500">
-
-### 11. Product Ecosystem
+### 10. Product Ecosystem
 Comprehensive coverage of product development and implementation needs.
 ![Product Ecosystem](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/en/1.Product%20Ecosystem-1.png "Product Ecosystem")
 ![Product Ecosystem](http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/en/2.Product%20Ecosystem-2.png "Product Ecosystem")
 
-### 12. License
+### 11. License
 - Oinone Pamirs repository is licensed under AGPL-3.0.
 - [Third Party Open Source Software and License Notice](https://guide.oinone.top/en/Third-Party-Open-Source-Software-And-License-Notice.html).
 
-### 13. Community Participation
+### 12. Community Participation
 - Join the community: Go to [⚡Oinone Community](https://doc.oinone.top)❤️
 - [How to contribute](https://guide.oinone.top/en/Contribute)
 
-### 14. Contact Us
+### 13. Contact Us
 - Website：https://www.oinone.top
 - Email：oinone@shushi.pro
