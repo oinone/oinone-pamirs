@@ -124,4 +124,9 @@ public interface TemplateNodeConstants {
      * 数据字典元数据
      */
     String NODE_DICTIONARY = "dictionary";
+
+    /**
+     * 虚拟动作
+     */
+    String NODE_VIRTUAL_ACTION = "virtualAction";
 }

@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.boot.web.service.impl;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -20,7 +21,6 @@ import pro.shushi.pamirs.boot.base.ux.model.auth.UIAuth;
 import pro.shushi.pamirs.boot.base.ux.model.metadata.UIMetadata;
 import pro.shushi.pamirs.boot.base.ux.model.metadata.UIModel;
 import pro.shushi.pamirs.boot.base.ux.model.view.*;
-import pro.shushi.pamirs.boot.base.ux.model.view.UIVirtualAction;
 import pro.shushi.pamirs.boot.web.cache.LayoutDefinitionCache;
 import pro.shushi.pamirs.boot.web.compile.ViewCompileContext;
 import pro.shushi.pamirs.boot.web.constants.UIConstants;
@@ -52,7 +52,6 @@ import pro.shushi.pamirs.meta.enmu.*;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
-import jakarta.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -564,7 +563,25 @@ public class ViewServiceImpl implements ViewService {
             boolean isRouteRelationField = false;
             boolean isFieldAction = false;
             AccessResourceInfo nextInfo = info;
-            if (DslNodeConstants.NODE_ACTION.equals(uiWidget.getDslNodeType()) || uiWidget instanceof UIAction) {
+            if (DslNodeConstants.NODE_VIRTUAL_ACTION.equals(uiWidget.getDslNodeType()) || uiWidget instanceof UIVirtualAction) {
+                if (uiWidget.isCompiled()) {
+                    continue;
+                }
+                uiWidget.setDslNodeType(DslNodeConstants.NODE_VIRTUAL_ACTION);
+                UIVirtualAction uiAction = (UIVirtualAction) uiWidget;
+
+                String model = Optional.ofNullable(uiAction.getModel()).filter(StringUtils::isNotBlank).orElse(currentModel);
+                uiAction.setModel(model);
+
+                if (info != null) {
+                    String actionModel = uiAction.getModel();
+                    if (StringUtils.isNotBlank(actionModel)) {
+                        nextInfo = info.clone();
+                        nextInfo.addActionPath(actionModel, uiAction.getName());
+                        uiAction.setSessionPath(nextInfo.toString());
+                    }
+                }
+            } else if (DslNodeConstants.NODE_ACTION.equals(uiWidget.getDslNodeType()) || uiWidget instanceof UIAction) {
                 if (uiWidget.isCompiled()) {
                     continue;
                 }

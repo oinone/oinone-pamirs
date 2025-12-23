@@ -46,6 +46,11 @@ public interface DslNodeConstants {
     String NODE_ACTION = "action";
 
     /**
+     * 虚拟动作
+     */
+    String NODE_VIRTUAL_ACTION = "virtualAction";
+
+    /**
      * 字段
      */
     String NODE_FIELD = "field";
