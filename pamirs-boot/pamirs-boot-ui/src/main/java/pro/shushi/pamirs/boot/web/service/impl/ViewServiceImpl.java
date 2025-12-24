@@ -25,12 +25,14 @@ import pro.shushi.pamirs.boot.web.cache.LayoutDefinitionCache;
 import pro.shushi.pamirs.boot.web.compile.ViewCompileContext;
 import pro.shushi.pamirs.boot.web.constants.UIConstants;
 import pro.shushi.pamirs.boot.web.loader.path.AccessResourceInfo;
+import pro.shushi.pamirs.boot.web.loader.path.ResourcePath;
 import pro.shushi.pamirs.boot.web.manager.MetaCacheManager;
 import pro.shushi.pamirs.boot.web.manager.UiIoManager;
 import pro.shushi.pamirs.boot.web.service.ViewService;
 import pro.shushi.pamirs.boot.web.session.AccessResourceInfoSession;
 import pro.shushi.pamirs.boot.web.spi.api.UserPreferenceService;
 import pro.shushi.pamirs.boot.web.utils.ClientActionUtils;
+import pro.shushi.pamirs.boot.web.utils.PageLoadHelper;
 import pro.shushi.pamirs.boot.web.utils.UiViewUtils;
 import pro.shushi.pamirs.framework.common.utils.ObjectUtils;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -572,13 +574,13 @@ public class ViewServiceImpl implements ViewService {
 
                 String model = Optional.ofNullable(uiAction.getModel()).filter(StringUtils::isNotBlank).orElse(currentModel);
                 uiAction.setModel(model);
+                uiAction.setIsVirtual(true);
 
                 if (info != null) {
                     String actionModel = uiAction.getModel();
                     if (StringUtils.isNotBlank(actionModel)) {
-                        nextInfo = info.clone();
                         nextInfo.addActionPath(actionModel, uiAction.getName());
-                        uiAction.setSessionPath(nextInfo.toString());
+                        uiAction.setSessionPath(ResourcePath.PATH_SPLIT + currentModel + ResourcePath.PATH_SPLIT + uiAction.getName());
                     }
                 }
             } else if (DslNodeConstants.NODE_ACTION.equals(uiWidget.getDslNodeType()) || uiWidget instanceof UIAction) {
