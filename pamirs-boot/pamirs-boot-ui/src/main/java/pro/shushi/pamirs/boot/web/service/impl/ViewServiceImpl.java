@@ -543,6 +543,7 @@ public class ViewServiceImpl implements ViewService {
             if (CollectionUtils.isNotEmpty(actions)) {
                 for (UIVirtualAction action : actions) {
                     String actionName = action.getName();
+                    action.setDslNodeType(DslNodeConstants.NODE_ACTION);
                     if (StringUtils.isNotBlank(actionName)) {
                         compileContext.putVirtualAction(modelModel, actionName, action);
                     }
@@ -569,7 +570,8 @@ public class ViewServiceImpl implements ViewService {
                 if (uiWidget.isCompiled()) {
                     continue;
                 }
-                uiWidget.setDslNodeType(DslNodeConstants.NODE_VIRTUAL_ACTION);
+                // DSL仍使用action
+                uiWidget.setDslNodeType(DslNodeConstants.NODE_ACTION);
                 UIVirtualAction uiAction = (UIVirtualAction) uiWidget;
 
                 String model = Optional.ofNullable(uiAction.getModel()).filter(StringUtils::isNotBlank).orElse(currentModel);
