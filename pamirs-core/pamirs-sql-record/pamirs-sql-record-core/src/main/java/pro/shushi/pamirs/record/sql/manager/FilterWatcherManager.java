@@ -182,6 +182,7 @@ public class FilterWatcherManager {
                 log.error("更新子节点异常: [{}]", child, exp);
             }
         }
+        recordFilterManager.initFilterCache();
         return true;
     }
 
