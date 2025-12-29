@@ -2,13 +2,13 @@
     <template slot="search">
         <field data="connGroup" label="业务域" required="false"/>
         <field data="name" label="API名称" required="false"/>
+        <field data="searchDate" label="调用日期范围" required="false"/>
         <field data="dataStatus" label="启用状态" required="false">
             <options>
                 <option label="已启用" name="ENABLED"/>
                 <option label="已停用" name="DISABLED"/>
             </options>
         </field>
-        <field data="searchDate" label="调用日期范围" required="false"/>
     </template>
     <template slot="actions">
         <!--    <action name="delete" label="删除" model="pamirs.eip.EipIntegrationInterface" text="删除"/>-->
