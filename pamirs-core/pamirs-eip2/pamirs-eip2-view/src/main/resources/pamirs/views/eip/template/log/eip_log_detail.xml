@@ -34,7 +34,7 @@
         <pack widget="group" title="参数信息">
             <pack widget="tabs">
                 <pack title="请求头数据">
-                    <field data="requestHeaderData" labelInvisible="true"/>
+                    <field data="requestHeaderData" labelInvisible="true" widget="jsonXmlViewWidget"/>
                 </pack>
                 <pack title="原始请求数据">
                     <field invisible="STARTS_WITH(activeRecord.requestOriginData, 'http://') || STARTS_WITH(activeRecord.requestOriginData, 'https://')" data="requestOriginData" labelInvisible="true" widget="jsonXmlViewWidget"/>
