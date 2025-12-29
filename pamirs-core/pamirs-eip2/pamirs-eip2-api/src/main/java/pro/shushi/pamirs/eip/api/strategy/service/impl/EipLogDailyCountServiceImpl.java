@@ -15,12 +15,14 @@ import pro.shushi.pamirs.eip.api.model.statistics.EipLogDailyCount;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
+import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.resource.api.model.ResourceTranslationItem;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -81,27 +83,21 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
         List<String> interfaceNames = interfaceList.stream().map(T::getInterfaceName).collect(Collectors.toList());
         boolean isDateFilter = start != null && end != null;
 
-        LambdaQueryWrapper<EipLogDailyCount> queryWrapper = Pops.<EipLogDailyCount>lambdaQuery()
-                .from(EipLogDailyCount.MODEL_MODEL)
-                .eq(EipLogDailyCount::getInterfaceType, interfaceType)
-                .in(EipLogDailyCount::getInterfaceName, interfaceNames)
-                .ge(isDateFilter,EipLogDailyCount::getCountDate, start)
-                .lt(isDateFilter,EipLogDailyCount::getCountDate, end)
-                .groupBy(EipLogDailyCount::getInterfaceName);
-        List<String> selects = new ArrayList<>();
-        selects.add("interface_name as interfaceName");
-        selects.add("sum(success_call_count) as successCallCount");
-        selects.add("sum(fail_call_count) as failCallCount");
-        selects.add("sum(ultra_fast_call) as ultraFastCall");
-        selects.add("sum(very_fast_call) as veryFastCall");
-        selects.add("sum(fast_call) as fastCall");
-        selects.add("sum(moderate_call) as moderateCall");
-        selects.add("sum(slow_call) as slowCall");
-        selects.add("sum(very_slow_call) as verySlowCall");
-        selects.add("sum(slowest_call) as slowestCall");
-        selects.add("sum(timeout_call) as timeoutCall");
-        queryWrapper.setSelects(selects);
-        List<EipLogDailyCount> eipLogCounts = Models.data().queryListByWrapper(queryWrapper);
+        QueryWrapper<EipLogDailyCount> itemWrapper = Pops.query();
+        itemWrapper.setModel(EipLogDailyCount.MODEL_MODEL);
+        itemWrapper.eq("interface_type", interfaceType);
+        itemWrapper.in("interface_name", interfaceNames);
+        if(isDateFilter) {
+            itemWrapper.ge("count_date", start);
+            itemWrapper.lt("count_date", end);
+        }
+        itemWrapper.groupBy("interface_name");
+        itemWrapper.select("interface_name as interfaceName,sum(success_call_count) as successCallCount,sum(fail_call_count) as failCallCount," +
+                "sum(ultra_fast_call) as ultraFastCall,sum(very_fast_call) as veryFastCall,sum(fast_call) as fastCall," +
+                "sum(moderate_call) as moderateCall,sum(slow_call) as slowCall,sum(very_slow_call) as verySlowCall," +
+                "sum(slowest_call) as slowestCall,sum(timeout_call) as timeoutCall");
+
+        List<EipLogDailyCount> eipLogCounts = Models.data().queryListByWrapper(itemWrapper);
 
         Map<String, List<EipLogDailyCount>> eipLogCountMap;
         if (CollectionUtils.isEmpty(eipLogCounts)) {
