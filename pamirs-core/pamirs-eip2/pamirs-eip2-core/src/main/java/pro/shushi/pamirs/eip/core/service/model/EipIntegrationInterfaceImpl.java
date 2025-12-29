@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.eip.core.service.model;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipIntegrate;
@@ -84,6 +85,12 @@ public class EipIntegrationInterfaceImpl implements EipIntegrationInterfaceServi
             List<String> searchDatas = (List<String>) data.get("searchDate");
             startDate = Optional.ofNullable(searchDatas.get(0)).map(t-> DateUtils.formatDate(t,DateFormatEnum.DATE.value())).orElse( null);
             endDate = Optional.ofNullable(searchDatas.get(1)).map(t-> DateUtils.formatDate(t,DateFormatEnum.DATE.value())).orElse( null);
+            if(startDate != null){
+                startDate = new DateTime(startDate).withTimeAtStartOfDay().toDate();
+            }
+            if(endDate != null){
+                endDate = new DateTime(endDate).plusDays(1).withTimeAtStartOfDay().toDate();
+            }
         }
         // 集成接口日志统计
         eipLogDailyCountService.fillIntegrationLogCountData(resultList,startDate,endDate);
