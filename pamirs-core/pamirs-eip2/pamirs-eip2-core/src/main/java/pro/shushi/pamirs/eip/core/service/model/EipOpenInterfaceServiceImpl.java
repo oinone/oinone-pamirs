@@ -2,6 +2,7 @@ package pro.shushi.pamirs.eip.core.service.model;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -169,6 +170,12 @@ public class EipOpenInterfaceServiceImpl implements EipOpenInterfaceService {
             List<String> searchDatas = (List<String>) data.get("searchDate");
             startDate = Optional.ofNullable(searchDatas.get(0)).map(t-> DateUtils.formatDate(t, DateFormatEnum.DATE.value())).orElse( null);
             endDate = Optional.ofNullable(searchDatas.get(1)).map(t-> DateUtils.formatDate(t,DateFormatEnum.DATE.value())).orElse( null);
+            if(startDate != null){
+                startDate = new DateTime(startDate).withTimeAtStartOfDay().toDate();
+            }
+            if(endDate != null){
+                endDate = new DateTime(endDate).plusDays(1).withTimeAtStartOfDay().toDate();
+            }
         }
         eipLogDailyCountService.fillOpenLogCountData(resultList, startDate, endDate);
         return result;
