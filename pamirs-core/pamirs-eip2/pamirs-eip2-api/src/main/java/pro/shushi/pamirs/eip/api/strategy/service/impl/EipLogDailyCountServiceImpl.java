@@ -22,6 +22,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.util.DateUtils;
 import pro.shushi.pamirs.resource.api.model.ResourceTranslationItem;
 
 import java.time.LocalDate;
@@ -88,8 +89,8 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
         itemWrapper.eq("interface_type", interfaceType);
         itemWrapper.in("interface_name", interfaceNames);
         if(isDateFilter) {
-            itemWrapper.ge("count_date", start);
-            itemWrapper.lt("count_date", end);
+            itemWrapper.ge("count_date", DateUtils.formatDate(start, DateUtils.yyyyMMddHHmmss));
+            itemWrapper.lt("count_date", DateUtils.formatDate(end, DateUtils.yyyyMMddHHmmss));
         }
         itemWrapper.groupBy("interface_name");
         itemWrapper.select("interface_name as interfaceName,sum(success_call_count) as successCallCount,sum(fail_call_count) as failCallCount," +
