@@ -577,6 +577,9 @@ public class ViewServiceImpl implements ViewService {
                 String model = Optional.ofNullable(uiAction.getModel()).filter(StringUtils::isNotBlank).orElse(currentModel);
                 uiAction.setModel(model);
                 uiAction.setIsVirtual(true);
+                if (StringUtils.isBlank(uiAction.getFun())) {
+                    uiAction.setFun(uiAction.getName());
+                }
 
                 if (info != null) {
                     String actionModel = uiAction.getModel();
