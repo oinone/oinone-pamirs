@@ -238,7 +238,7 @@ public class AppsMangedModuleDataInit implements MetaDataEditor, SystemBootAfter
         moduleMap.put("ui_designer", (UeModule) new UeModule().setName("uiDesigner").setDisplayName("界面设计器").setApplication(Boolean.TRUE).setPriority(220L).setCategory(ModuleCategoryType.USER_EXPERIENCE.getValue()));
         moduleMap.put("workflow_designer", (UeModule) new UeModule().setName("workflowDesigner").setDisplayName("流程设计器").setApplication(Boolean.TRUE).setPriority(230L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
         moduleMap.put("eip_designer", (UeModule) new UeModule().setName("eipDesigner").setDisplayName("集成设计器").setApplication(Boolean.TRUE).setPriority(240L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
-        moduleMap.put("ai_designer", (UeModule) new UeModule().setName("aiDesigner").setDisplayName("AI集成设计器").setApplication(Boolean.TRUE).setPriority(250L).setCategory(ModuleCategoryType.USER_EXPERIENCE.getValue()));
+        moduleMap.put("ai_designer", (UeModule) new UeModule().setName("aiDesigner").setDisplayName("智能应用设计").setApplication(Boolean.TRUE).setPriority(250L).setCategory(ModuleCategoryType.USER_EXPERIENCE.getValue()));
         moduleMap.put("data_designer", (UeModule) new UeModule().setName("dataDesigner").setDisplayName("数据可视化").setApplication(Boolean.TRUE).setPriority(260L).setCategory(ModuleCategoryType.USER_EXPERIENCE.getValue()));
         moduleMap.put("microflow_designer", (UeModule) new UeModule().setName("microflowDesigner").setDisplayName("微流设计器").setApplication(Boolean.TRUE).setPriority(270L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
 
