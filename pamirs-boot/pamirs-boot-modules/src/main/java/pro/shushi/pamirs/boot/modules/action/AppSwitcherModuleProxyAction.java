@@ -181,8 +181,10 @@ public class AppSwitcherModuleProxyAction {
                 ModuleDefinition moduleDefinition = PamirsSession.getContext().getModule(moduleKey);
                 if (moduleDefinition != null) {
                     if (PageLoadHelper.isCurrentClientApplication(moduleDefinition)) {
-                        moduleDefinition = BeanDefinitionUtils.getBean(UiIoManager.class).cloneData(moduleDefinition);
-                        memModuleList.add(ArgUtils.convert(ModuleDefinition.MODEL_MODEL, AppSwitcherModuleProxy.MODEL_MODEL, moduleDefinition));
+                        if (ActiveEnum.ACTIVE.equals(moduleDefinition.getShow())) {
+                            moduleDefinition = BeanDefinitionUtils.getBean(UiIoManager.class).cloneData(moduleDefinition);
+                            memModuleList.add(ArgUtils.convert(ModuleDefinition.MODEL_MODEL, AppSwitcherModuleProxy.MODEL_MODEL, moduleDefinition));
+                        }
                     }
                 } else {
                     PamirsSession.getContext().getModuleCache().remove(moduleKey);
