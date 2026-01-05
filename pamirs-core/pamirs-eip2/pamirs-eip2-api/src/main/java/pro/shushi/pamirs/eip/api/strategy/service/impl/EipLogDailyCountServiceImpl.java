@@ -119,7 +119,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
 
                 singleInterface.setUltraFastCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getUltraFastCall).sum());
                 singleInterface.setVeryFastCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getVeryFastCall).sum());
-                singleInterface.setFastCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getFastCall).count());
+                singleInterface.setFastCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getFastCall).sum());
                 singleInterface.setModerateCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getModerateCall).sum());
                 singleInterface.setSlowCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getSlowCall).sum());
                 singleInterface.setVerySlowCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getVerySlowCall).sum());
