@@ -33,6 +33,7 @@ import pro.shushi.pamirs.meta.api.dto.fun.Arg;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.constants.VariableNameConstants;
+import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.util.PStringUtils;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
@@ -48,6 +49,7 @@ import pro.shushi.pamirs.trigger.constant.NotifyConstant;
 import pro.shushi.pamirs.trigger.constant.TriggerUserConfiguration;
 import pro.shushi.pamirs.trigger.enmu.TriggerConditionEnum;
 import pro.shushi.pamirs.trigger.model.TriggerTaskAction;
+import pro.shushi.pamirs.trigger.spi.TriggerTaskActionFilterApi;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -116,6 +118,7 @@ public class AutoTriggerTaskActionService implements NotifyConsumer<Row>, Trigge
         if (triggerTaskActions.isEmpty()) {
             return;
         }
+        triggerTaskActions = Spider.getDefaultExtension(TriggerTaskActionFilterApi.class).filter(triggerTaskActions);
         triggerTaskActions.sort(Comparator.comparingInt(a -> a.getCondition().intValue()));
         Set<String> ignoredTriggerSet = new HashSet<>();
         Set<String> deleteTriggerSet = new HashSet<>();
