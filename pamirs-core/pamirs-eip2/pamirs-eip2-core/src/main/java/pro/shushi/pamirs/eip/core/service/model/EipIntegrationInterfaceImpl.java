@@ -20,7 +20,7 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
 import pro.shushi.pamirs.meta.util.DateUtils;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
