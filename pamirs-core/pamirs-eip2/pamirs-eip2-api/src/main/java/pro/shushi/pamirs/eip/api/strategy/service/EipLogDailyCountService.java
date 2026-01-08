@@ -38,11 +38,11 @@ public interface EipLogDailyCountService {
      * 填充昨日集成接口统计数据
      */
     @Function
-    List<EipIntegrationInterface> fillIntegrationLogCountDataByDay(List<EipIntegrationInterface> eipIntegrationInterfaceList);
+    List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList);
 
     /**
      * 填充昨日开放接口统计数据
      */
     @Function
-    List<EipOpenInterface> fillOpenLogCountDataByDay(List<EipOpenInterface> eipOpenInterfaceList);
+    List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList);
 }
