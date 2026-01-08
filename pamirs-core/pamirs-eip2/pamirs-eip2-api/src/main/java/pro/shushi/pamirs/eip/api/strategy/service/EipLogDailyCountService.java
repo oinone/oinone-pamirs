@@ -23,14 +23,26 @@ public interface EipLogDailyCountService {
     void syncYesterday();
 
     /**
-     * 填充昨日集成接口统计数据
+     * 填充集成接口统计数据
      */
     @Function
     List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList, Date start, Date end);
 
     /**
-     * 填充昨日开放接口统计数据
+     * 填充开放接口统计数据
      */
     @Function
     List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList,Date start, Date end);
+
+    /**
+     * 填充昨日集成接口统计数据
+     */
+    @Function
+    List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList);
+
+    /**
+     * 填充昨日开放接口统计数据
+     */
+    @Function
+    List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList);
 }

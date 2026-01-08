@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Model(displayName = "EIP日志按天调用统计")
 @Model.model(EipLogDailyCount.MODEL_MODEL)
-@Model.Advanced(unique = {"interfaceName,interfaceType,countDate"},ordering = "interface_name")
+@Model.Advanced(unique = {"interfaceName,interfaceType,countDate"},ordering = "interfaceName")
 
 public class EipLogDailyCount extends IdModel {
 
