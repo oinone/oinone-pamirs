@@ -62,6 +62,25 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
 
     @Function
     @Override
+    public List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList) {
+        if (CollectionUtils.isEmpty(eipIntegrationInterfaceList)) {
+            return eipIntegrationInterfaceList;
+        }
+        fillLogCount(eipIntegrationInterfaceList, InterfaceTypeEnum.INTEGRATION,null, null);
+        return eipIntegrationInterfaceList;
+    }
+
+    @Function
+    @Override
+    public List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList) {
+        if (CollectionUtils.isEmpty(eipOpenInterfaceList)) {
+            return eipOpenInterfaceList;
+        }
+        fillLogCount(eipOpenInterfaceList, InterfaceTypeEnum.OPEN,null, null);
+        return eipOpenInterfaceList;
+    }
+    @Function
+    @Override
     public List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList,Date start, Date end) {
         if (CollectionUtils.isEmpty(eipIntegrationInterfaceList)) {
             return eipIntegrationInterfaceList;
