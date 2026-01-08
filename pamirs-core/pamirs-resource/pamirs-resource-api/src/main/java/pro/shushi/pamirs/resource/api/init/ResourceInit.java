@@ -184,7 +184,9 @@ public class ResourceInit implements MetaDataEditor, InstallDataInit, UpgradeDat
         if (lang != null) {
             ResourceDateFormat resourceDateFormat = lang.getResourceDateFormat();
             ResourceTimeFormat resourceTimeFormat = lang.getResourceTimeFormat();
-            if (resourceDateFormat == null || resourceTimeFormat == null) {
+            if (resourceDateFormat == null || resourceTimeFormat == null
+                    || resourceTimeFormat.getApColonNormalSssMap() == null
+                    || resourceTimeFormat.getColonNormalSssMap() == null) {
                 ResourceLang updateLang = new ResourceLang();
                 updateLang.setCode(resourceLang.getCode());
                 updateLang.setResourceDateFormat(resourceLang.getResourceDateFormat());
