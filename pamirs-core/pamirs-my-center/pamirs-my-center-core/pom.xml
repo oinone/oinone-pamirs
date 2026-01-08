@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-my-center</artifactId>
-        <version>6.3.9</version>
+        <version>6.3.10</version>
     </parent>
 
     <artifactId>pamirs-my-center-core</artifactId>
