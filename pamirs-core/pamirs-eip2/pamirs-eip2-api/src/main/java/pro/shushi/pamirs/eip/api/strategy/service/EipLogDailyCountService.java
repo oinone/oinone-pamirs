@@ -26,23 +26,23 @@ public interface EipLogDailyCountService {
      * 填充集成接口统计数据
      */
     @Function
-    List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList, Date start, Date end);
+    List<EipIntegrationInterface> fillIntegrationLogCountDataByDay(List<EipIntegrationInterface> eipIntegrationInterfaceList, Date start, Date end);
 
     /**
      * 填充开放接口统计数据
      */
     @Function
-    List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList,Date start, Date end);
+    List<EipOpenInterface> fillOpenLogCountDataByDay(List<EipOpenInterface> eipOpenInterfaceList, Date start, Date end);
 
     /**
      * 填充昨日集成接口统计数据
      */
     @Function
-    List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList);
+    List<EipIntegrationInterface> fillIntegrationLogCountDataByDay(List<EipIntegrationInterface> eipIntegrationInterfaceList);
 
     /**
      * 填充昨日开放接口统计数据
      */
     @Function
-    List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList);
+    List<EipOpenInterface> fillOpenLogCountDataByDay(List<EipOpenInterface> eipOpenInterfaceList);
 }

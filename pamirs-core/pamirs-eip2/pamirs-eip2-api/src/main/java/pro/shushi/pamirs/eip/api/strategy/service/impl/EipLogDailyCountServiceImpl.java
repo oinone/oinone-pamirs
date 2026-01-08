@@ -62,7 +62,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
 
     @Function
     @Override
-    public List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList) {
+    public List<EipIntegrationInterface> fillIntegrationLogCountDataByDay(List<EipIntegrationInterface> eipIntegrationInterfaceList) {
         if (CollectionUtils.isEmpty(eipIntegrationInterfaceList)) {
             return eipIntegrationInterfaceList;
         }
@@ -72,7 +72,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
 
     @Function
     @Override
-    public List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList) {
+    public List<EipOpenInterface> fillOpenLogCountDataByDay(List<EipOpenInterface> eipOpenInterfaceList) {
         if (CollectionUtils.isEmpty(eipOpenInterfaceList)) {
             return eipOpenInterfaceList;
         }
@@ -81,7 +81,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
     }
     @Function
     @Override
-    public List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList,Date start, Date end) {
+    public List<EipIntegrationInterface> fillIntegrationLogCountDataByDay(List<EipIntegrationInterface> eipIntegrationInterfaceList, Date start, Date end) {
         if (CollectionUtils.isEmpty(eipIntegrationInterfaceList)) {
             return eipIntegrationInterfaceList;
         }
@@ -91,7 +91,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
 
     @Function
     @Override
-    public List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList,Date start, Date end) {
+    public List<EipOpenInterface> fillOpenLogCountDataByDay(List<EipOpenInterface> eipOpenInterfaceList, Date start, Date end) {
         if (CollectionUtils.isEmpty(eipOpenInterfaceList)) {
             return eipOpenInterfaceList;
         }

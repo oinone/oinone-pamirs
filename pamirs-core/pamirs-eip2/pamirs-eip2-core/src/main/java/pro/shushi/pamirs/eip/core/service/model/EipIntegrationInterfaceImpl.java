@@ -93,7 +93,7 @@ public class EipIntegrationInterfaceImpl implements EipIntegrationInterfaceServi
             }
         }
         // 集成接口日志统计
-        eipLogDailyCountService.fillIntegrationLogCountData(resultList,startDate,endDate);
+        eipLogDailyCountService.fillIntegrationLogCountDataByDay(resultList,startDate,endDate);
 
         // 填充应用名称
         fillEipIntegrate(resultList);
