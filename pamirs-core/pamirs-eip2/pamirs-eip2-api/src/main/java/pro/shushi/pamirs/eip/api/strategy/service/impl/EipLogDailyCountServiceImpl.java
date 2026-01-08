@@ -43,7 +43,8 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
 
     private static final ZoneId ZONE = ZoneId.systemDefault();
 
-    private static final List<EipLogDailyCount> EMPTY_EIP_LOG_DAILY_COUNT = new ArrayList<EipLogDailyCount>();
+    private static final EipLogDailyCount EMPTY_EIP_LOG_DAILY_COUNT = new EipLogDailyCount();
+    private static final List<EipLogDailyCount> EMPTY_EIP_LOG_DAILY_COUNT_DAY = new ArrayList<EipLogDailyCount>();
 
     @Autowired
     private PamirsEipProperties pamirsEipProperties;
@@ -66,7 +67,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
         if (CollectionUtils.isEmpty(eipIntegrationInterfaceList)) {
             return eipIntegrationInterfaceList;
         }
-        fillLogCount(eipIntegrationInterfaceList, InterfaceTypeEnum.INTEGRATION,null, null);
+        fillLogCount(eipIntegrationInterfaceList, InterfaceTypeEnum.INTEGRATION);
         return eipIntegrationInterfaceList;
     }
 
@@ -76,30 +77,48 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
         if (CollectionUtils.isEmpty(eipOpenInterfaceList)) {
             return eipOpenInterfaceList;
         }
-        fillLogCount(eipOpenInterfaceList, InterfaceTypeEnum.OPEN,null, null);
-        return eipOpenInterfaceList;
-    }
-    @Function
-    @Override
-    public List<EipIntegrationInterface> fillIntegrationLogCountDataByDay(List<EipIntegrationInterface> eipIntegrationInterfaceList, Date start, Date end) {
-        if (CollectionUtils.isEmpty(eipIntegrationInterfaceList)) {
-            return eipIntegrationInterfaceList;
-        }
-        fillLogCount(eipIntegrationInterfaceList, InterfaceTypeEnum.INTEGRATION,start, end);
-        return eipIntegrationInterfaceList;
-    }
-
-    @Function
-    @Override
-    public List<EipOpenInterface> fillOpenLogCountDataByDay(List<EipOpenInterface> eipOpenInterfaceList, Date start, Date end) {
-        if (CollectionUtils.isEmpty(eipOpenInterfaceList)) {
-            return eipOpenInterfaceList;
-        }
-        fillLogCount(eipOpenInterfaceList, InterfaceTypeEnum.OPEN,start, end);
+        fillLogCount(eipOpenInterfaceList, InterfaceTypeEnum.OPEN);
         return eipOpenInterfaceList;
     }
 
-    private <T extends AbstractSingleInterface> void fillLogCount(List<T> interfaceList, InterfaceTypeEnum interfaceType,Date start, Date end) {
+    private <T extends AbstractSingleInterface> void fillLogCount(List<T> interfaceList, InterfaceTypeEnum interfaceType) {
+        Date yesterday = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        List<String> interfaceNames = interfaceList.stream().map(T::getInterfaceName).collect(Collectors.toList());
+        List<EipLogDailyCount> eipLogCounts = Models.data().queryListByWrapper(Pops.<EipLogDailyCount>lambdaQuery()
+                .from(EipLogDailyCount.MODEL_MODEL)
+                .eq(EipLogDailyCount::getCountDate, yesterday)
+                .eq(EipLogDailyCount::getInterfaceType, interfaceType)
+                .in(EipLogDailyCount::getInterfaceName, interfaceNames));
+
+        Map<String, EipLogDailyCount> eipLogCountMap;
+        if (CollectionUtils.isEmpty(eipLogCounts)) {
+            eipLogCountMap = Collections.emptyMap();
+        } else {
+            eipLogCountMap = eipLogCounts.stream().collect(Collectors.toMap(EipLogDailyCount::getInterfaceName, i -> i));
+        }
+
+        // 3.组装
+        for (T singleInterface : interfaceList) {
+            EipLogDailyCount eipLogCount = eipLogCountMap.getOrDefault(singleInterface.getInterfaceName(), EMPTY_EIP_LOG_DAILY_COUNT);
+            long successCount = eipLogCount.getSuccessCallCount();
+            long failCount = eipLogCount.getFailCallCount();
+
+            singleInterface.setCallCount(successCount + failCount);
+            singleInterface.setSuccessCallCount(successCount);
+            singleInterface.setFailCallCount(failCount);
+
+            singleInterface.setUltraFastCall(eipLogCount.getUltraFastCall());
+            singleInterface.setVeryFastCall(eipLogCount.getVeryFastCall());
+            singleInterface.setFastCall(eipLogCount.getFastCall());
+            singleInterface.setModerateCall(eipLogCount.getModerateCall());
+            singleInterface.setSlowCall(eipLogCount.getSlowCall());
+            singleInterface.setVerySlowCall(eipLogCount.getVerySlowCall());
+            singleInterface.setSlowestCall(eipLogCount.getSlowestCall());
+            singleInterface.setTimeoutCall(eipLogCount.getTimeoutCall());
+        }
+    }
+
+    private <T extends AbstractSingleInterface> void fillLogCountByDay(List<T> interfaceList, InterfaceTypeEnum interfaceType,Date start, Date end) {
         List<String> interfaceNames = interfaceList.stream().map(T::getInterfaceName).collect(Collectors.toList());
         boolean isDateFilter = start != null && end != null;
 
@@ -127,7 +146,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
         }
         // 3.组装
         for (T singleInterface : interfaceList) {
-            List<EipLogDailyCount> eipLogCountList = eipLogCountMap.getOrDefault(singleInterface.getInterfaceName(), EMPTY_EIP_LOG_DAILY_COUNT);
+            List<EipLogDailyCount> eipLogCountList = eipLogCountMap.getOrDefault(singleInterface.getInterfaceName(), EMPTY_EIP_LOG_DAILY_COUNT_DAY);
             if(CollectionUtils.isNotEmpty(eipLogCountList)){
                 long successCount = eipLogCountList.stream().mapToLong(EipLogDailyCount::getSuccessCallCount).sum();
                 long failCount = eipLogCountList.stream().mapToLong(EipLogDailyCount::getFailCallCount).sum();
@@ -160,6 +179,27 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
         }
 
     }
+    @Function
+    @Override
+    public List<EipIntegrationInterface> fillIntegrationLogCountDataByDay(List<EipIntegrationInterface> eipIntegrationInterfaceList, Date start, Date end) {
+        if (CollectionUtils.isEmpty(eipIntegrationInterfaceList)) {
+            return eipIntegrationInterfaceList;
+        }
+        fillLogCountByDay(eipIntegrationInterfaceList, InterfaceTypeEnum.INTEGRATION,start, end);
+        return eipIntegrationInterfaceList;
+    }
+
+    @Function
+    @Override
+    public List<EipOpenInterface> fillOpenLogCountDataByDay(List<EipOpenInterface> eipOpenInterfaceList, Date start, Date end) {
+        if (CollectionUtils.isEmpty(eipOpenInterfaceList)) {
+            return eipOpenInterfaceList;
+        }
+        fillLogCountByDay(eipOpenInterfaceList, InterfaceTypeEnum.OPEN,start, end);
+        return eipOpenInterfaceList;
+    }
+
+
 
     /**
      * 同步指定日期范围的统计数据
