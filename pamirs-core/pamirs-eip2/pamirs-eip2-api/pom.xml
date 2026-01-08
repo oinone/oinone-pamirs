@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-eip2</artifactId>
-        <version>7.0.2</version>
+        <version>7.0.3</version>
     </parent>
     <artifactId>pamirs-eip2-api</artifactId>
     <name>pamirs-eip2-api</name>
