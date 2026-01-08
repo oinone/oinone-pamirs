@@ -62,7 +62,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
 
     @Function
     @Override
-    public List<EipIntegrationInterface> fillIntegrationLogCountDataByDay(List<EipIntegrationInterface> eipIntegrationInterfaceList) {
+    public List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList) {
         if (CollectionUtils.isEmpty(eipIntegrationInterfaceList)) {
             return eipIntegrationInterfaceList;
         }
@@ -72,7 +72,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
 
     @Function
     @Override
-    public List<EipOpenInterface> fillOpenLogCountDataByDay(List<EipOpenInterface> eipOpenInterfaceList) {
+    public List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList) {
         if (CollectionUtils.isEmpty(eipOpenInterfaceList)) {
             return eipOpenInterfaceList;
         }
