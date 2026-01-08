@@ -34,26 +34,26 @@
         <pack widget="group" title="参数信息">
             <pack widget="tabs">
                 <pack title="请求头数据">
-                    <field data="requestHeaderData" labelInvisible="true" widget="jsonXmlViewWidget"/>
+                    <field data="requestHeaderData" labelInvisible="true" widget="JsonXmlFieldWidget"/>
                 </pack>
                 <pack title="原始请求数据">
-                    <field invisible="STARTS_WITH(activeRecord.requestOriginData, 'http://') || STARTS_WITH(activeRecord.requestOriginData, 'https://')" data="requestOriginData" labelInvisible="true" widget="jsonXmlViewWidget"/>
+                    <field invisible="STARTS_WITH(activeRecord.requestOriginData, 'http://') || STARTS_WITH(activeRecord.requestOriginData, 'https://')" data="requestOriginData" labelInvisible="true" widget="JsonXmlFieldWidget"/>
                     <field invisible="!(STARTS_WITH(activeRecord.requestOriginData, 'http://') || STARTS_WITH(activeRecord.requestOriginData, 'https://'))" data="requestOriginData" labelInvisible="true" widget="Upload"/>
                 </pack>
                 <pack title="真实请求数据">
-                    <field invisible="STARTS_WITH(activeRecord.requestTargetData, 'http://') || STARTS_WITH(activeRecord.requestTargetData, 'https://')" data="requestTargetData" labelInvisible="true" widget="jsonXmlViewWidget"/>
+                    <field invisible="STARTS_WITH(activeRecord.requestTargetData, 'http://') || STARTS_WITH(activeRecord.requestTargetData, 'https://')" data="requestTargetData" labelInvisible="true" widget="JsonXmlFieldWidget"/>
                     <field invisible="!(STARTS_WITH(activeRecord.requestTargetData, 'http://') || STARTS_WITH(activeRecord.requestTargetData, 'https://'))" data="requestTargetData" labelInvisible="true" widget="Upload"/>
                 </pack>
                 <pack title="响应头数据">
-                    <field invisible="STARTS_WITH(activeRecord.responseHeaderData, 'http://') || STARTS_WITH(activeRecord.responseHeaderData, 'https://')" data="responseHeaderData" labelInvisible="true" widget="jsonXmlViewWidget"/>
+                    <field invisible="STARTS_WITH(activeRecord.responseHeaderData, 'http://') || STARTS_WITH(activeRecord.responseHeaderData, 'https://')" data="responseHeaderData" labelInvisible="true" widget="JsonXmlFieldWidget"/>
                     <field invisible="!(STARTS_WITH(activeRecord.responseHeaderData, 'http://') || STARTS_WITH(activeRecord.responseHeaderData, 'https://'))" data="responseHeaderData" labelInvisible="true" widget="Upload"/>
                 </pack>
                 <pack title="返回数据">
-                    <field invisible="STARTS_WITH(activeRecord.responseData, 'http://') || STARTS_WITH(activeRecord.responseData, 'https://')" data="responseData" labelInvisible="true" widget="jsonXmlViewWidget"/>
+                    <field invisible="STARTS_WITH(activeRecord.responseData, 'http://') || STARTS_WITH(activeRecord.responseData, 'https://')" data="responseData" labelInvisible="true" widget="JsonXmlFieldWidget"/>
                     <field invisible="!(STARTS_WITH(activeRecord.responseData, 'http://') || STARTS_WITH(activeRecord.responseData, 'https://'))" data="responseData" labelInvisible="true" widget="Upload"/>
                 </pack>
                 <pack title="异常信息">
-                    <field invisible="STARTS_WITH(activeRecord.errorMsg, 'http://') || STARTS_WITH(activeRecord.errorMsg, 'https://')" data="errorMsg" labelInvisible="true" widget="jsonXmlViewWidget"/>
+                    <field invisible="STARTS_WITH(activeRecord.errorMsg, 'http://') || STARTS_WITH(activeRecord.errorMsg, 'https://')" data="errorMsg" labelInvisible="true" widget="JsonXmlFieldWidget"/>
                     <field invisible="!(STARTS_WITH(activeRecord.errorMsg, 'http://') || STARTS_WITH(activeRecord.errorMsg, 'https://'))" data="errorMsg" labelInvisible="true" widget="Upload"/>
                 </pack>
             </pack>
