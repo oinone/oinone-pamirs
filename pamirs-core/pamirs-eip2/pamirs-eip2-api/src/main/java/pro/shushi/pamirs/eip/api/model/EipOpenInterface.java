@@ -13,8 +13,11 @@ import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
+import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
+import pro.shushi.pamirs.meta.enmu.DateTypeEnum;
 import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -162,6 +165,9 @@ public class EipOpenInterface extends AbstractSingleInterface implements IEipOpe
     @Field(displayName = "响应预处理函数名称")
     private String responseEncryptionFun;
 
+    @Field.Date(type = DateTypeEnum.DATE, format = DateFormatEnum.DATE)
+    @Field(displayName = "搜索日期",store = NullableBoolEnum.FALSE)
+    private Date searchDate;
     @JSONField(serialize = false)
     @Override
     public IEipContextSupplier<SuperMap> getContextSupplier() {

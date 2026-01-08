@@ -3,28 +3,34 @@ package pro.shushi.pamirs.eip.api.strategy.service.impl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.shushi.pamirs.boot.modules.pmodel.AppSwitcherModuleProxy;
 import pro.shushi.pamirs.eip.api.config.PamirsEipProperties;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.AbstractSingleInterface;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
+import pro.shushi.pamirs.eip.api.model.statistics.EipLogCount;
 import pro.shushi.pamirs.eip.api.model.statistics.EipLogDailyCount;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
+import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+import pro.shushi.pamirs.meta.util.DateUtils;
+import pro.shushi.pamirs.resource.api.model.ResourceTranslationItem;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
+import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +44,7 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
     private static final ZoneId ZONE = ZoneId.systemDefault();
 
     private static final EipLogDailyCount EMPTY_EIP_LOG_DAILY_COUNT = new EipLogDailyCount();
+    private static final List<EipLogDailyCount> EMPTY_EIP_LOG_DAILY_COUNT_DAY = new ArrayList<EipLogDailyCount>();
 
     @Autowired
     private PamirsEipProperties pamirsEipProperties;
@@ -110,6 +117,89 @@ public class EipLogDailyCountServiceImpl implements EipLogDailyCountService {
             singleInterface.setTimeoutCall(eipLogCount.getTimeoutCall());
         }
     }
+
+    private <T extends AbstractSingleInterface> void fillLogCountByDay(List<T> interfaceList, InterfaceTypeEnum interfaceType,Date start, Date end) {
+        List<String> interfaceNames = interfaceList.stream().map(T::getInterfaceName).collect(Collectors.toList());
+        boolean isDateFilter = start != null && end != null;
+
+        QueryWrapper<EipLogDailyCount> itemWrapper = Pops.query();
+        itemWrapper.setModel(EipLogDailyCount.MODEL_MODEL);
+        itemWrapper.eq("interface_type", interfaceType);
+        itemWrapper.in("interface_name", interfaceNames);
+        if(isDateFilter) {
+            itemWrapper.ge("count_date", DateUtils.formatDate(start, DateUtils.yyyyMMddHHmmss));
+            itemWrapper.lt("count_date", DateUtils.formatDate(end, DateUtils.yyyyMMddHHmmss));
+        }
+        itemWrapper.groupBy("interface_name");
+        itemWrapper.select("interface_name as interfaceName,sum(success_call_count) as successCallCount,sum(fail_call_count) as failCallCount," +
+                "sum(ultra_fast_call) as ultraFastCall,sum(very_fast_call) as veryFastCall,sum(fast_call) as fastCall," +
+                "sum(moderate_call) as moderateCall,sum(slow_call) as slowCall,sum(very_slow_call) as verySlowCall," +
+                "sum(slowest_call) as slowestCall,sum(timeout_call) as timeoutCall");
+
+        List<EipLogDailyCount> eipLogCounts = Models.data().queryListByWrapper(itemWrapper);
+
+        Map<String, List<EipLogDailyCount>> eipLogCountMap;
+        if (CollectionUtils.isEmpty(eipLogCounts)) {
+            eipLogCountMap = Collections.emptyMap();
+        } else {
+            eipLogCountMap = eipLogCounts.stream().collect(Collectors.groupingBy(EipLogDailyCount::getInterfaceName));
+        }
+        // 3.组装
+        for (T singleInterface : interfaceList) {
+            List<EipLogDailyCount> eipLogCountList = eipLogCountMap.getOrDefault(singleInterface.getInterfaceName(), EMPTY_EIP_LOG_DAILY_COUNT_DAY);
+            if(CollectionUtils.isNotEmpty(eipLogCountList)){
+                long successCount = eipLogCountList.stream().mapToLong(EipLogDailyCount::getSuccessCallCount).sum();
+                long failCount = eipLogCountList.stream().mapToLong(EipLogDailyCount::getFailCallCount).sum();
+
+                singleInterface.setCallCount(successCount + failCount);
+                singleInterface.setSuccessCallCount(successCount);
+                singleInterface.setFailCallCount(failCount);
+
+                singleInterface.setUltraFastCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getUltraFastCall).sum());
+                singleInterface.setVeryFastCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getVeryFastCall).sum());
+                singleInterface.setFastCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getFastCall).sum());
+                singleInterface.setModerateCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getModerateCall).sum());
+                singleInterface.setSlowCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getSlowCall).sum());
+                singleInterface.setVerySlowCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getVerySlowCall).sum());
+                singleInterface.setSlowestCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getSlowestCall).sum());
+                singleInterface.setTimeoutCall(eipLogCountList.stream().mapToLong(EipLogDailyCount::getTimeoutCall).sum());
+            }else{
+                singleInterface.setCallCount(0L);
+                singleInterface.setSuccessCallCount(0L);
+                singleInterface.setFailCallCount(0L);
+                singleInterface.setUltraFastCall(0L);
+                singleInterface.setVeryFastCall(0L);
+                singleInterface.setFastCall(0L);
+                singleInterface.setModerateCall(0L);
+                singleInterface.setSlowCall(0L);
+                singleInterface.setVerySlowCall(0L);
+                singleInterface.setSlowestCall(0L);
+                singleInterface.setTimeoutCall(0L);
+            }
+        }
+
+    }
+    @Function
+    @Override
+    public List<EipIntegrationInterface> fillIntegrationLogCountDataByDay(List<EipIntegrationInterface> eipIntegrationInterfaceList, Date start, Date end) {
+        if (CollectionUtils.isEmpty(eipIntegrationInterfaceList)) {
+            return eipIntegrationInterfaceList;
+        }
+        fillLogCountByDay(eipIntegrationInterfaceList, InterfaceTypeEnum.INTEGRATION,start, end);
+        return eipIntegrationInterfaceList;
+    }
+
+    @Function
+    @Override
+    public List<EipOpenInterface> fillOpenLogCountDataByDay(List<EipOpenInterface> eipOpenInterfaceList, Date start, Date end) {
+        if (CollectionUtils.isEmpty(eipOpenInterfaceList)) {
+            return eipOpenInterfaceList;
+        }
+        fillLogCountByDay(eipOpenInterfaceList, InterfaceTypeEnum.OPEN,start, end);
+        return eipOpenInterfaceList;
+    }
+
+
 
     /**
      * 同步指定日期范围的统计数据
