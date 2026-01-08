@@ -177,7 +177,7 @@ public class EipOpenInterfaceServiceImpl implements EipOpenInterfaceService {
                 endDate = new DateTime(endDate).plusDays(1).withTimeAtStartOfDay().toDate();
             }
         }
-        eipLogDailyCountService.fillOpenLogCountData(resultList, startDate, endDate);
+        eipLogDailyCountService.fillOpenLogCountDataByDay(resultList, startDate, endDate);
         return result;
     }
 
