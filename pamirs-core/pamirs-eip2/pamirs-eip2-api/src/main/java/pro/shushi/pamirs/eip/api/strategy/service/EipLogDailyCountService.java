@@ -36,13 +36,19 @@ public interface EipLogDailyCountService {
 
     /**
      * 填充昨日集成接口统计数据
+     *
+     * @deprecated 6.x please using {@link EipLogDailyCountService#fillIntegrationLogCountDataByDay}
      */
+    @Deprecated
     @Function
     List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList);
 
     /**
      * 填充昨日开放接口统计数据
+     *
+     * @deprecated 6.x please using {@link EipLogDailyCountService#fillOpenLogCountDataByDay}
      */
+    @Deprecated
     @Function
     List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList);
 }
