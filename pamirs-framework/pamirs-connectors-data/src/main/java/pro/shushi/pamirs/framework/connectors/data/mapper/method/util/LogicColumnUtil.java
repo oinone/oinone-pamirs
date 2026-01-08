@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.framework.connectors.data.constant.DbConstants;
 import pro.shushi.pamirs.framework.connectors.data.mapper.method.spi.LogicColumnSqlApi;
+import pro.shushi.pamirs.framework.connectors.data.mapper.template.SqlTemplate;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.LogicColumnFetcher;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
@@ -97,8 +98,7 @@ public class LogicColumnUtil {
             for (String column : columns) {
                 String property = DbConstants.PARAM_ANNOTATION_EXT + CharacterConstants.SEPARATOR_DOT + column;
                 column = needFormat ? String.format(columnFormat, column) : column;
-                String columnScript = Spider.getDefaultExtension(LogicColumnSqlApi.class).LogicColumnScript(model, column, property);
-                columnScripts.add(columnScript);
+                columnScripts.add(String.format(SqlTemplate.EQ_CONDITION, column, property));
             }
             return script + StringUtils.join(columnScripts, CharacterConstants.NEWLINE) + NEWLINE;
         }
