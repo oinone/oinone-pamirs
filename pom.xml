@@ -76,6 +76,7 @@
         <atomikos.version>6.0.0</atomikos.version>
         <jedis.version>5.0.2</jedis.version>
         <httpclient.version>4.5.13</httpclient.version>
+        <jetty.version>9.4.35.v20201120</jetty.version>
 
         <!--aliyun-->
         <aliyun.oss.version>3.4.2</aliyun.oss.version>
@@ -125,6 +126,15 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- for camel jetty runtime -->
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-bom</artifactId>
+                <version>${jetty.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- spring-boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
