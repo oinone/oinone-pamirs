@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.eip.core.service.model;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipIntegrate;
@@ -15,6 +16,9 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
+
+import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
+import pro.shushi.pamirs.meta.util.DateUtils;
 
 import jakarta.annotation.Resource;
 import java.util.*;
@@ -75,8 +79,21 @@ public class EipIntegrationInterfaceImpl implements EipIntegrationInterfaceServi
         }
         outConvert(resultList);
 
+        Map<String,Object> data = queryWrapper.getQueryData();
+        Date startDate = null, endDate = null;
+        if(data.containsKey("searchDate")) {
+            List<String> searchDatas = (List<String>) data.get("searchDate");
+            startDate = Optional.ofNullable(searchDatas.get(0)).map(t-> DateUtils.formatDate(t,DateFormatEnum.DATE.value())).orElse( null);
+            endDate = Optional.ofNullable(searchDatas.get(1)).map(t-> DateUtils.formatDate(t,DateFormatEnum.DATE.value())).orElse( null);
+            if(startDate != null){
+                startDate = new DateTime(startDate).withTimeAtStartOfDay().toDate();
+            }
+            if(endDate != null){
+                endDate = new DateTime(endDate).plusDays(1).withTimeAtStartOfDay().toDate();
+            }
+        }
         // 集成接口日志统计
-        eipLogDailyCountService.fillIntegrationLogCountData(resultList);
+        eipLogDailyCountService.fillIntegrationLogCountDataByDay(resultList,startDate,endDate);
 
         // 填充应用名称
         fillEipIntegrate(resultList);

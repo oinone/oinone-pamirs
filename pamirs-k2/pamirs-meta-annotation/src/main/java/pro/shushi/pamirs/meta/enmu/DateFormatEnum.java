@@ -16,6 +16,7 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
 public enum DateFormatEnum implements IEnum<String> {
 
     DATETIME("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss"),
+    DATETIME_SSS("yyyy-MM-dd HH:mm:ss.SSS", "yyyy-MM-dd HH:mm:ss.SSS", "yyyy-MM-dd HH:mm:ss.SSS"),
     TIMESTAMP("long", "时间戳", "整数时间戳"),
     DATE("yyyy-MM-dd", "yyyy-MM-dd", "yyyy-MM-dd"),
     TIME("HH:mm:ss", "HH:mm:ss", "HH:mm:ss"),

@@ -5,6 +5,7 @@ import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,14 +23,32 @@ public interface EipLogDailyCountService {
     void syncYesterday();
 
     /**
-     * 填充昨日集成接口统计数据
+     * 填充集成接口统计数据
      */
+    @Function
+    List<EipIntegrationInterface> fillIntegrationLogCountDataByDay(List<EipIntegrationInterface> eipIntegrationInterfaceList, Date start, Date end);
+
+    /**
+     * 填充开放接口统计数据
+     */
+    @Function
+    List<EipOpenInterface> fillOpenLogCountDataByDay(List<EipOpenInterface> eipOpenInterfaceList, Date start, Date end);
+
+    /**
+     * 填充昨日集成接口统计数据
+     *
+     * @deprecated 6.x please using {@link EipLogDailyCountService#fillIntegrationLogCountDataByDay}
+     */
+    @Deprecated
     @Function
     List<EipIntegrationInterface> fillIntegrationLogCountData(List<EipIntegrationInterface> eipIntegrationInterfaceList);
 
     /**
      * 填充昨日开放接口统计数据
+     *
+     * @deprecated 6.x please using {@link EipLogDailyCountService#fillOpenLogCountDataByDay}
      */
+    @Deprecated
     @Function
     List<EipOpenInterface> fillOpenLogCountData(List<EipOpenInterface> eipOpenInterfaceList);
 }

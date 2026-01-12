@@ -190,7 +190,19 @@ public class ResourceInit implements MetaDataEditor, InstallDataInit, UpgradeDat
                 updateLang.setResourceDateFormat(resourceLang.getResourceDateFormat());
                 updateLang.setResourceTimeFormat(resourceLang.getResourceTimeFormat());
                 updateLangs.add(updateLang);
+            }else if(resourceTimeFormat.getApColonNormalSssMap() == null
+                    || resourceTimeFormat.getColonNormalSssMap() == null){
+                ResourceLang updateLang = new ResourceLang();
+                updateLang.setCode(resourceLang.getCode());
+                ResourceTimeFormat originalResourceTimeFormat = lang.getResourceTimeFormat();
+                originalResourceTimeFormat.setApColonNormalSss(resourceLang.getResourceTimeFormat().getApColonNormalSss());
+                originalResourceTimeFormat.setColonNormalSss(resourceLang.getResourceTimeFormat().getColonNormalSss());
+                originalResourceTimeFormat.setApColonNormalSssMap(resourceLang.getResourceTimeFormat().getApColonNormalSssMap());
+                originalResourceTimeFormat.setColonNormalSssMap(resourceLang.getResourceTimeFormat().getColonNormalSssMap());
+                updateLang.setResourceTimeFormat(originalResourceTimeFormat);
+                updateLangs.add(updateLang);
             }
+
         } else {
             initLangs.add(resourceLang);
         }

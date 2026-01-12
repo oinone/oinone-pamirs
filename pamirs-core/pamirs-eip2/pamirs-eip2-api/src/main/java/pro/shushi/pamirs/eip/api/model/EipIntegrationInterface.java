@@ -11,8 +11,12 @@ import pro.shushi.pamirs.eip.api.pamirs.DefaultContextSupplierFunction;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
+import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
+import pro.shushi.pamirs.meta.enmu.DateTypeEnum;
+import pro.shushi.pamirs.meta.enmu.FieldStrategyEnum;
 import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -94,6 +98,10 @@ public class EipIntegrationInterface extends AbstractSingleInterface implements 
     @Field.Relation(relationFields = {"circuitBreakerRuleCode"}, referenceFields = {"code"})
     @Field(displayName = "熔断器规则")
     private EipCircuitBreakerRule circuitBreakerRule;
+
+    @Field.Date(type = DateTypeEnum.DATE, format = DateFormatEnum.DATE)
+    @Field(displayName = "搜索日期",store = NullableBoolEnum.FALSE)
+    private Date searchDate;
 
     @JSONField(serialize = false)
     @Override

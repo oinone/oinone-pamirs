@@ -29,8 +29,8 @@
         <field data="interfaceType" label="API类型"/>
         <field data="interfaceDescription" label="API描述" invisible="true"/>
 
-        <field data="invokeDate" label="调用时间"/>
-        <field data="invokeEndDate" label="调用完成时间"/>
+        <field data="invokeDate" label="调用时间" timeFormat="COLON_NORMAL_SSS"/>
+        <field data="invokeEndDate" label="调用完成时间" timeFormat="COLON_NORMAL_SSS"/>
         <field data="invokeMillisecond" label="执行时长(ms)"/>
         <field data="isSuccess" widget="Select" label="响应结果">
             <options>
