@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.LifecycleCompletedInit;
+import pro.shushi.pamirs.core.common.constant.CommonConstants;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.message.conf.EmailSmtpConfig;
 import pro.shushi.pamirs.message.conf.SmsAliyunConfig;
@@ -13,6 +14,7 @@ import pro.shushi.pamirs.message.enmu.*;
 import pro.shushi.pamirs.message.model.*;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.common.util.FileUtils;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 
 import java.util.Collection;
@@ -73,9 +75,13 @@ public class MessageModuleInit implements LifecycleCompletedInit {
                     .orElse(Stream.empty())
                     .map(_tmpConfig -> {
                         EmailTemplate emailTemplate = new EmailTemplate();
+                        String body = Optional.ofNullable(_tmpConfig.getBody()).orElse("");
+                        if (body.trim().startsWith(CommonConstants.CLASSPATH_PROTOCOL)){
+                            body = FileUtils.read(body.trim());
+                        }
                         emailTemplate.setName(_tmpConfig.getName())
                                 .setTitle(_tmpConfig.getTitle())
-                                .setBody(_tmpConfig.getBody())
+                                .setBody(body)
                                 .setEmailSenderSource((EmailSenderSource) new EmailSenderSource().setId(senderSourceId));
                         return emailTemplate;
                     })
