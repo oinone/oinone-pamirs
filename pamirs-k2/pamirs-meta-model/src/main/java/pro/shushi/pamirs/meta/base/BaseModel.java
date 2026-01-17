@@ -28,8 +28,6 @@ public class BaseModel extends AbstractModel {
 
     private static final long serialVersionUID = -6111914084667478752L;
 
-    private transient String draftCode;
-
     /**
      * 为模型数据列表填充默认值
      *

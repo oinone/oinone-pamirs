@@ -238,11 +238,11 @@ public class ExcelWorkbookDefinitionUtil {
      */
     @Deprecated
     public static ModuleDefinition getCurrentModule(String model) {
-        String moduleName = PamirsSession.getRequestFromModule();
-        if (StringUtils.isNotBlank(moduleName)) {
-            return PamirsSession.getContext().getModuleCache().getByName(moduleName);
+        String module = PamirsSession.getRequestFromModule();
+        if (StringUtils.isNotBlank(module)) {
+            return PamirsSession.getContext().getModuleCache().get(module);
         }
-        String module = Optional.ofNullable(model).filter(StringUtils::isNotBlank).map(v -> PamirsSession.getContext().getModelConfig(v)).map(ModelConfig::getModule).orElse(null);
+        module = Optional.ofNullable(model).filter(StringUtils::isNotBlank).map(v -> PamirsSession.getContext().getModelConfig(v)).map(ModelConfig::getModule).orElse(null);
         if (StringUtils.isBlank(module)) {
             throw PamirsException.construct(BootUxdExpEnumerate.BASE_MODULE_CAN_NOT_ACCESS_ERROR).errThrow();
         }
