@@ -7,9 +7,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 /**
  * 健康检查
  *
@@ -31,23 +28,6 @@ public class HealthCheckController implements ApplicationListener<ApplicationSta
             return SUCCESS_STRING;
         }
         return FAILURE_STRING;
-    }
-
-    /**
-     * 心跳检查：如Nginx或者SLA健康检查；符合 W3C 定义的规范。
-     * @param response
-     * @return
-     * @throws IOException
-     */
-    @GetMapping("/health/check")
-    public String healthCheck(HttpServletResponse response) throws IOException {
-        if (!IM_OK) {
-            response.sendError(503);
-            response.setStatus(503);
-            return FAILURE_STRING;
-        }
-
-        return SUCCESS_STRING;
     }
 
     @Override
