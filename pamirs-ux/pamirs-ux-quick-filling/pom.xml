@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.ux</groupId>
         <artifactId>pamirs-ux</artifactId>
-        <version>7.0.3</version>
+        <version>7.0.4</version>
     </parent>
     <artifactId>pamirs-ux-quick-filling</artifactId>
     <name>pamirs-ux-quick-filling</name>

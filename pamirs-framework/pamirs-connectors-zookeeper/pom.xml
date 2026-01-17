@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-framework</artifactId>
-        <version>7.0.3</version>
+        <version>7.0.4</version>
     </parent>
     <groupId>pro.shushi.pamirs.framework</groupId>
     <artifactId>pamirs-connectors-zookeeper</artifactId>
