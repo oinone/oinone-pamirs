@@ -1,7 +1,5 @@
 package pro.shushi.pamirs.ux.draft.constant;
 
-import pro.shushi.pamirs.meta.base.BaseModel;
-import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 import pro.shushi.pamirs.meta.constant.MetaDefaultConstants;
 
 /**
@@ -21,7 +19,7 @@ public interface DraftConstants {
 
     String ANONYMOUS_USER = "anonymous";
 
-    String DRAFT_CODE_FILED = LambdaUtil.fetchFieldName(BaseModel::getDraftCode);
+    String DRAFT_CODE_FILED = "draftCode";
 
     interface SaveDraft {
         String displayName = "保存为草稿";
