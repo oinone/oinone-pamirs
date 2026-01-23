@@ -259,8 +259,7 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
         Map<String, List<UiTreeNode>> parent2Children = new HashMap<>();
         result.stream().filter(i -> CollectionUtils.isNotEmpty(i.getParentKeys())).forEach(uiTreeNode -> {
             for (String parentKey : uiTreeNode.getParentKeys()) {
-                parent2Children.computeIfAbsent(parentKey, _k -> parent2Children.put(_k, new ArrayList<>()));
-                parent2Children.get(parentKey).add(uiTreeNode);
+                parent2Children.computeIfAbsent(parentKey, k -> new ArrayList<>()).add(uiTreeNode);
             }
         });
 
