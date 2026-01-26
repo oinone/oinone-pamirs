@@ -66,7 +66,8 @@ public class EipDataSourceManager {
         dataSource.setTestOnBorrow(false);
         dataSource.setTestOnReturn(false);
         dataSource.setPoolPreparedStatements(true);
-        dataSource.setBreakAfterAcquireFailure(true);
+        dataSource.setConnectionErrorRetryAttempts(0);
+        dataSource.setBreakAfterAcquireFailure(false);
         // DruidDataSource#initValidConnectionChecker()
         if (basicDbType == null) {
             if (DataSourceProtocolEnum.DM.value().startsWith(jdbcUrl)) {
@@ -92,17 +93,22 @@ public class EipDataSourceManager {
             }
         }
         EipJdbcProperties eipJdbcProperties = BeanDefinitionUtils.getBean(EipJdbcProperties.class);
-        if (dbType != null && eipJdbcProperties != null) {
-            Map<String, String> properties = Optional.ofNullable(eipJdbcProperties.getDataSource())
-                    .map(v -> v.get(dbType))
-                    .orElse(null);
-            if (MapUtils.isNotEmpty(properties)) {
-                DruidSafeProperties safeProperties = new DruidSafeProperties(properties);
-                dataSource.configFromPropety(safeProperties);
-                extraConfigFromProperty(dataSource, safeProperties);
+        if (eipJdbcProperties != null) {
+            dataSourceProperties(dataSource, eipJdbcProperties.getDruid());
+            if (dbType != null) {
+                dataSourceProperties(dataSource, Optional.ofNullable(eipJdbcProperties.getDataSource()).map(v -> v.get(dbType)).orElse(null));
             }
         }
         return dataSource;
+    }
+
+    private static void dataSourceProperties(DruidDataSource dataSource, Map<String, String> properties) {
+        if (MapUtils.isEmpty(properties)) {
+            return;
+        }
+        DruidSafeProperties safeProperties = new DruidSafeProperties(properties);
+        dataSource.configFromProperties(safeProperties);
+        extraConfigFromProperty(dataSource, safeProperties);
     }
 
     private static void extraConfigFromProperty(DruidDataSource dataSource, DruidSafeProperties safeProperties) {

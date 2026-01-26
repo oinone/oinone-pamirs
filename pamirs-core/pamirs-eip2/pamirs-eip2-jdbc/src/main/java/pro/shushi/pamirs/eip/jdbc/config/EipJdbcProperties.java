@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.jdbc.config;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Conditional;
@@ -7,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 import pro.shushi.pamirs.eip.api.constant.EipConfigurationConstant;
 
-import jakarta.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
@@ -27,6 +27,8 @@ public class EipJdbcProperties {
     @NotNull
     private Boolean enabled = Boolean.TRUE;
 
+    private Map<String, String> druid;
+
     private Map<String, Map<String, String>> dataSource;
 
     public Boolean getEnabled() {
@@ -35,6 +37,14 @@ public class EipJdbcProperties {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Map<String, String> getDruid() {
+        return druid;
+    }
+
+    public void setDruid(Map<String, String> druid) {
+        this.druid = druid;
     }
 
     public Map<String, Map<String, String>> getDataSource() {
