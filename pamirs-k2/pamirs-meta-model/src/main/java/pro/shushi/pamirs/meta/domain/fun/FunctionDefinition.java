@@ -34,7 +34,7 @@ import static pro.shushi.pamirs.meta.domain.fun.FunctionDefinition.MODEL_MODEL;
 @MetaSimulator(onlyBasicTypeField = false)
 @MetaModel(core = Method.class)
 @Base
-@Model.Advanced(unique = {"namespace, fun"}, index = {"namespace, name"}, priority = 17)
+@Model.Advanced(unique = {"namespace, fun"}, index = {"namespace, name", "category"}, priority = 17)
 @Model.model(MODEL_MODEL)
 @Model(displayName = "函数", summary = "函数", labelFields = {"displayName", "name"})
 public class FunctionDefinition extends AbstractFunction {

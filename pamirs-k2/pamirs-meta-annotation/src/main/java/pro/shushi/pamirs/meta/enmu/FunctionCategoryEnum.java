@@ -41,6 +41,8 @@ public enum FunctionCategoryEnum implements IEnum<String> {
     CUSTOM_DESIGNER("CUSTOM_DESIGNER", "设计器自定义", "设计器自定义"),
 
     EIP_IN_OUT("EIP_IN_OUT", "输入输出转换器", "输入输出转换器"),
+
+    AI_TOOL("AI_TOOL", "Ai工具", "Ai工具"),
     ;
 
     private final String value;
