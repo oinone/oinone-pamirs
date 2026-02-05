@@ -77,5 +77,8 @@ public interface ViewConstants {
         // 个性化配置
         String userPreference = "userPreference";
 
+        // ai agent
+        String aiPreference = "aiPreference";
+
     }
 }

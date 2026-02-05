@@ -133,4 +133,13 @@ public interface ViewService {
      */
     View userPreference(View view, ViewAction viewAction);
 
+    /**
+     * 智能体个性化视图
+     *
+     * @param viewList
+     * @param viewAction
+     * @return
+     */
+    List<View> aiPreference(List<View> viewList, ViewAction viewAction);
+
 }

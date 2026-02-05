@@ -296,6 +296,8 @@ public class PageLoadAction {
         viewService.internationalization(viewList);
         // 个性化视图
         viewService.userPreference(viewList, viewAction);
+        // ai智能体
+        viewService.aiPreference(viewList, viewAction);
     }
 
     private void fillViewModel(View view, String model) {

@@ -9,7 +9,6 @@ import pro.shushi.pamirs.boot.web.spi.api.UserPreferenceService;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.spi.SPI;
-import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 import pro.shushi.pamirs.user.api.model.UserListFieldPreferStore;
 
 @Component

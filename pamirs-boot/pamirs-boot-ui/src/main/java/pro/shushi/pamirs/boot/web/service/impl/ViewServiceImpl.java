@@ -30,9 +30,9 @@ import pro.shushi.pamirs.boot.web.manager.MetaCacheManager;
 import pro.shushi.pamirs.boot.web.manager.UiIoManager;
 import pro.shushi.pamirs.boot.web.service.ViewService;
 import pro.shushi.pamirs.boot.web.session.AccessResourceInfoSession;
+import pro.shushi.pamirs.boot.web.spi.api.AiPreferenceService;
 import pro.shushi.pamirs.boot.web.spi.api.UserPreferenceService;
 import pro.shushi.pamirs.boot.web.utils.ClientActionUtils;
-import pro.shushi.pamirs.boot.web.utils.PageLoadHelper;
 import pro.shushi.pamirs.boot.web.utils.UiViewUtils;
 import pro.shushi.pamirs.framework.common.utils.ObjectUtils;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -455,6 +455,21 @@ public class ViewServiceImpl implements ViewService {
     @Override
     public View userPreference(View view, ViewAction viewAction) {
         return userPreference(ListUtils.asList(view), viewAction).get(0);
+    }
+
+    @Override
+    public List<View> aiPreference(List<View> viewList, ViewAction viewAction) {
+        AiPreferenceService aiPreferenceService = Spider.getDefaultExtension(AiPreferenceService.class);
+        for (View view : viewList) {
+            String aiPreference = aiPreferenceService.load(viewAction, view);
+            if (null == aiPreference) {
+                continue;
+            }
+            Map<String, String> extension = Optional.ofNullable(view.getExtension()).orElse(new HashMap<>());
+            extension.put(ViewConstants.Extension.aiPreference, aiPreference);
+            view.setExtension(extension);
+        }
+        return viewList;
     }
 
     private View compileView(String model, View view) {
