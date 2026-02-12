@@ -22,8 +22,10 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.AbstractModel;
 import pro.shushi.pamirs.meta.base.D;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.lambda.Getter;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
+import pro.shushi.pamirs.meta.constant.RSqlConstants;
 
 import java.util.*;
 
@@ -203,6 +205,18 @@ public class RSQLHelper {
             default:
                 throw new IllegalArgumentException("Invalid node info type. value=" + type);
         }
+    }
+
+    public static String connectByAnd(String rsql1, String rsql2) {
+        if (StringUtils.isBlank(rsql1)) {
+            return rsql2;
+        }
+        if (StringUtils.isBlank(rsql2)) {
+            return rsql1;
+        }
+        return CharacterConstants.LEFT_BRACKET + rsql1 + CharacterConstants.RIGHT_BRACKET +
+                RSqlConstants.SPACE_AND +
+                CharacterConstants.LEFT_BRACKET + rsql2 + CharacterConstants.RIGHT_BRACKET;
     }
 
     @SafeVarargs
