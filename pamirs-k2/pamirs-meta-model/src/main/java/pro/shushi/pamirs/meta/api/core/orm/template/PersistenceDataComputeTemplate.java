@@ -30,6 +30,9 @@ public class PersistenceDataComputeTemplate {
 
     private static PersistenceDataComputeTemplate INSTANCE;
 
+    /** 复用计算上下文以减少 GC */
+    private static final ThreadLocal<FieldComputeContext> CONTEXT_HOLDER = ThreadLocal.withInitial(FieldComputeContext::new);
+
     public static PersistenceDataComputeTemplate getInstance() {
         if (null == INSTANCE) {
             synchronized (PersistenceDataComputeTemplate.class) {
@@ -45,62 +48,83 @@ public class PersistenceDataComputeTemplate {
                             ModelBeforeComputeApi modelBeforeComputeProcessor,
                             PersistenceModelAfterComputeApi modelAfterComputeProcessor,
                             PersistenceFieldComputeApi... fieldComputeProcessors) {
-        FieldComputeContext context = new FieldComputeContext();
-        context.setTotalContext(null);
         if (origin == null) {
             return null;
         } else if (StringUtils.isBlank(model)) {
             return (R) origin;
-        } else if (Map.class.isAssignableFrom(origin.getClass()) || D.class.isAssignableFrom(origin.getClass())) {
-            ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
-            if (null == modelConfig) {
-                throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", model));
-            }
-            return computeDMap(context, modelConfig, origin,
-                    (ctx, oModel, oOrigin) -> modelBeforeComputeProcessor.before(oModel, oOrigin),
-                    (ctx, oModel, oOrigin) -> modelAfterComputeProcessor.after(oModel, oOrigin),
-                    fieldComputeProcessors);
-        } else if (List.class.isAssignableFrom(origin.getClass())) {
-            List list = ((List) origin);
-            List result = new ArrayList(list.size());
-            int i = 0;
-            ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
-            if (null == modelConfig) {
-                throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", model));
-            }
-            FieldComputeContext subcontext = new FieldComputeContext();
-            subcontext.setTotalContext(null);
-            for (Object item : list) {
-                subcontext.segment(i);
-                result.add(computeDMap(subcontext, modelConfig, item,
-                        (ctx, oModel, oOrigin) -> modelBeforeComputeProcessor.before(oModel, oOrigin),
-                        (ctx, oModel, oOrigin) -> modelAfterComputeProcessor.after(oModel, oOrigin),
-                        fieldComputeProcessors));
-                subcontext.dropSegment();
-                i++;
-            }
-            return (R) result;
-        } else if (origin.getClass().isArray()) {
-            Object[] objects = ((Object[]) origin);
-            Object[] resultObjects = new Object[objects.length];
-            ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
-            if (null == modelConfig) {
-                throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", model));
-            }
-            FieldComputeContext subcontext = new FieldComputeContext();
-            subcontext.setTotalContext(null);
-            int i = 0;
-            for (Object item : objects) {
-                subcontext.segment(i);
-                resultObjects[i] = computeDMap(subcontext, modelConfig, item,
+        }
+
+        FieldComputeContext context = CONTEXT_HOLDER.get();
+        context.setTotalContext(null);
+
+        try {
+            if (Map.class.isAssignableFrom(origin.getClass()) || D.class.isAssignableFrom(origin.getClass())) {
+                ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
+                if (null == modelConfig) {
+                    throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", model));
+                }
+                return computeDMap(context, modelConfig, origin,
                         (ctx, oModel, oOrigin) -> modelBeforeComputeProcessor.before(oModel, oOrigin),
                         (ctx, oModel, oOrigin) -> modelAfterComputeProcessor.after(oModel, oOrigin),
                         fieldComputeProcessors);
-                subcontext.dropSegment();
-                i++;
+            } else if (List.class.isAssignableFrom(origin.getClass())) {
+                List list = ((List) origin);
+                List result = new ArrayList(list.size());
+                if (list.isEmpty()) {
+                    return (R) result;
+                }
+
+                ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
+                if (null == modelConfig) {
+                    throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", model));
+                }
+
+                int i = 0;
+                for (Object item : list) {
+                    context.segment(i);
+                    try {
+                        result.add(computeDMap(context, modelConfig, item,
+                                (ctx, oModel, oOrigin) -> modelBeforeComputeProcessor.before(oModel, oOrigin),
+                                (ctx, oModel, oOrigin) -> modelAfterComputeProcessor.after(oModel, oOrigin),
+                                fieldComputeProcessors));
+                    } finally {
+                        context.dropSegment();
+                    }
+                    i++;
+                }
+                return (R) result;
+            } else if (origin.getClass().isArray()) {
+                Object[] objects = ((Object[]) origin);
+                Object[] resultObjects = new Object[objects.length];
+                if (objects.length == 0) {
+                    return (R) resultObjects;
+                }
+
+                ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
+                if (null == modelConfig) {
+                    throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", model));
+                }
+
+                int i = 0;
+                for (Object item : objects) {
+                    context.segment(i);
+                    try {
+                        resultObjects[i] = computeDMap(context, modelConfig, item,
+                                (ctx, oModel, oOrigin) -> modelBeforeComputeProcessor.before(oModel, oOrigin),
+                                (ctx, oModel, oOrigin) -> modelAfterComputeProcessor.after(oModel, oOrigin),
+                                fieldComputeProcessors);
+                    } finally {
+                        context.dropSegment();
+                    }
+                    i++;
+                }
+                return (R) resultObjects;
             }
-            return (R) resultObjects;
+        } finally {
+            context.setTotalContext(null);
+            context.setOp(null);
         }
+
         return (R) origin;
     }
 
@@ -147,7 +171,7 @@ public class PersistenceDataComputeTemplate {
                 }
             }
         }
+
         return (R) modelAfterComputeProcessor.after(totalContext, modelConfig, result);
     }
 }
-

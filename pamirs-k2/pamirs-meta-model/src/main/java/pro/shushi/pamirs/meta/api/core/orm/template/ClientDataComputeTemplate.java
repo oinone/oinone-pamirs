@@ -31,6 +31,9 @@ public class ClientDataComputeTemplate {
 
     private static ClientDataComputeTemplate INSTANCE;
 
+    // 使用 ThreadLocal 复用 Context，减少对象创建开销，提高性能
+    private static final ThreadLocal<FieldComputeContext> CONTEXT_HOLDER = ThreadLocal.withInitial(FieldComputeContext::new);
+
     public static ClientDataComputeTemplate getInstance() {
         if (null == INSTANCE) {
             synchronized (ClientDataComputeTemplate.class) {
@@ -40,6 +43,13 @@ public class ClientDataComputeTemplate {
             }
         }
         return ClientDataComputeTemplate.INSTANCE;
+    }
+
+    private FieldComputeContext getCleanContext(ModelComputeContext totalContext) {
+        FieldComputeContext context = CONTEXT_HOLDER.get();
+        context.setTotalContext(totalContext);
+        context.setOp(null);
+        return context;
     }
 
     public <T, R> R compute(String model, T origin, ModelIteratorComputeApi cycleComputeApi,
@@ -58,75 +68,79 @@ public class ClientDataComputeTemplate {
                             ModelBeforeComputeWithContextApi modelBeforeComputeProcessor,
                             PersistenceModelAfterComputeWithContextApi modelAfterComputeProcessor,
                             PersistenceFieldComputeApi... fieldComputeProcessors) {
-        FieldComputeContext context = new FieldComputeContext();
-        context.setTotalContext(totalContext);
-        return ((OrmComputer<T, R>) ormComputer).compute(model, origin,
-                (oModel, oOrigin) -> {// model & map
-                    Map<String, Object> dMap;
-                    if (Map.class.isAssignableFrom(oOrigin.getClass())) {
-                        dMap = (Map<String, Object>) oOrigin;
-                    } else {
-                        dMap = ((D) oOrigin).get_d();
-                    }
-                    oOrigin = (R) modelBeforeComputeProcessor.before(totalContext, oModel, oOrigin);
-                    ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelConfig(oModel);
-                    if (null == modelConfig) {
-                        throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", oModel));
-                    }
-                    List<ModelFieldConfig> modelFieldConfigList = modelConfig.getModelFieldConfigList();
-                    if (!CollectionUtils.isEmpty(modelFieldConfigList)) {
-                        if (null != fieldComputeProcessors) {
-                            XXX:
-                            for (ModelFieldConfig fieldConfig : modelFieldConfigList) {
-                                context.segment(fieldConfig.getName());
-                                context.setOp(null);
-                                try {
-                                    for (PersistenceFieldComputeApi fieldComputeProcessor : fieldComputeProcessors) {
-                                        if (FieldComputeOp.skipNextProcessor.equals(context.getOp())) {
-                                            continue;
+        FieldComputeContext context = getCleanContext(totalContext);
+        try {
+            return ((OrmComputer<T, R>) ormComputer).compute(model, origin,
+                    (oModel, oOrigin) -> {// model & map
+                        Map<String, Object> dMap;
+                        if (Map.class.isAssignableFrom(oOrigin.getClass())) {
+                            dMap = (Map<String, Object>) oOrigin;
+                        } else {
+                            dMap = ((D) oOrigin).get_d();
+                        }
+                        oOrigin = (R) modelBeforeComputeProcessor.before(totalContext, oModel, oOrigin);
+                        ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelConfig(oModel);
+                        if (null == modelConfig) {
+                            throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", oModel));
+                        }
+                        List<ModelFieldConfig> modelFieldConfigList = modelConfig.getModelFieldConfigList();
+                        if (!CollectionUtils.isEmpty(modelFieldConfigList)) {
+                            if (null != fieldComputeProcessors) {
+                                XXX:
+                                for (ModelFieldConfig fieldConfig : modelFieldConfigList) {
+                                    context.segment(fieldConfig.getName());
+                                    context.setOp(null);
+                                    try {
+                                        for (PersistenceFieldComputeApi fieldComputeProcessor : fieldComputeProcessors) {
+                                            if (FieldComputeOp.skipNextProcessor.equals(context.getOp())) {
+                                                continue;
+                                            }
+                                            fieldComputeProcessor.run(context, modelConfig, fieldConfig, dMap);
+                                            if (FieldComputeOp.continueNextField.equals(context.getOp())) {
+                                                continue XXX;
+                                            }
+                                            if (FieldComputeOp.skipAllField.equals(context.getOp())) {
+                                                break XXX;
+                                            }
                                         }
-                                        fieldComputeProcessor.run(context, modelConfig, fieldConfig, dMap);
-                                        if (FieldComputeOp.continueNextField.equals(context.getOp())) {
-                                            continue XXX;
-                                        }
-                                        if (FieldComputeOp.skipAllField.equals(context.getOp())) {
-                                            break XXX;
-                                        }
+                                    } finally {
+                                        context.dropSegment();
                                     }
-                                } finally {
-                                    context.dropSegment();
                                 }
                             }
                         }
+                        oOrigin = (R) modelAfterComputeProcessor.after(totalContext, modelConfig, oOrigin);
+                        return oOrigin;
+                    },
+                    (oModel, oMap) -> {// list
+                        List list = ((List) oMap);
+                        List result = new ArrayList(list.size());
+                        int i = 0;
+                        for (Object item : list) {
+                            context.segment(i);
+                            result.add(cycleComputeApi.run(totalContext, oModel, item));
+                            context.dropSegment();
+                            i++;
+                        }
+                        return (R) result;
+                    },
+                    (oModel, oMap) -> {// array
+                        Object[] objects = ((Object[]) oMap);
+                        Object[] resultObjects = new Object[objects.length];
+                        int i = 0;
+                        for (Object item : objects) {
+                            context.segment(i);
+                            resultObjects[i] = cycleComputeApi.run(totalContext, oModel, item);
+                            context.dropSegment();
+                            i++;
+                        }
+                        return (R) resultObjects;
                     }
-                    oOrigin = (R) modelAfterComputeProcessor.after(totalContext, modelConfig, oOrigin);
-                    return oOrigin;
-                },
-                (oModel, oMap) -> {// list
-                    List list = ((List) oMap);
-                    List result = new ArrayList(list.size());
-                    int i = 0;
-                    for (Object item : list) {
-                        context.segment(i);
-                        result.add(cycleComputeApi.run(totalContext, oModel, item));
-                        context.dropSegment();
-                        i++;
-                    }
-                    return (R) result;
-                },
-                (oModel, oMap) -> {// array
-                    Object[] objects = ((Object[]) oMap);
-                    Object[] resultObjects = new Object[objects.length];
-                    int i = 0;
-                    for (Object item : objects) {
-                        context.segment(i);
-                        resultObjects[i] = cycleComputeApi.run(totalContext, oModel, item);
-                        context.dropSegment();
-                        i++;
-                    }
-                    return (R) resultObjects;
-                }
-        );
+            );
+        } finally {
+            context.setTotalContext(null);
+            context.setOp(null);
+        }
     }
 
 }
