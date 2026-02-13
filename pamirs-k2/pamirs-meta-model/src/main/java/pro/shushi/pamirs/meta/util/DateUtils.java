@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import static pro.shushi.pamirs.meta.enmu.MetaExpEnumerate.BASE_DATE_FORMAT_ERROR;
@@ -37,6 +38,24 @@ public class DateUtils {
     public final static Pattern timePattern = Pattern.compile("^([01]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$");
     public final static Pattern yyMMddpattern = Pattern.compile("(\\d{1,2})-(\\d{1,2})-(\\d{2})");
     public final static Pattern yyyyMMddhhmmssPattern = Pattern.compile("^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]) ([01]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$");
+
+    // 缓存常用日期格式的SimpleDateFormat实例，避免频繁创建
+    private static final Map<String, ThreadLocal<SimpleDateFormat>> sdfCache = new ConcurrentHashMap<>();
+
+    /**
+     * 获取线程安全的SimpleDateFormat实例
+     */
+    private static SimpleDateFormat getSdf(String pattern) {
+        return sdfCache.computeIfAbsent(pattern, p -> ThreadLocal.withInitial(() -> new SimpleDateFormat(p))).get();
+    }
+
+    /**
+     * 获取线程安全的SimpleDateFormat实例，用于解析日期字符串
+     */
+    private static SimpleDateFormat getSdf(String pattern, Locale locale) {
+        String cacheKey = pattern + "_" + locale.toString();
+        return sdfCache.computeIfAbsent(cacheKey, p -> ThreadLocal.withInitial(() -> new SimpleDateFormat(pattern, locale))).get();
+    }
 
     /**
      * 时间调整
@@ -106,7 +125,10 @@ public class DateUtils {
      * @return 指定格式的时间字符串
      */
     public static String formatDate(Date date, String pattern) {
-        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        if (DateFormatEnum.TIMESTAMP.value().equals(pattern)) {
+            return String.valueOf(date.getTime());
+        }
+        SimpleDateFormat format = getSdf(pattern);
         return format.format(date);
     }
 
@@ -146,7 +168,7 @@ public class DateUtils {
      * @return 时间
      */
     public static Date formatDate(String dateStr, String pattern) {
-        return formatDate0(dateStr, new SimpleDateFormat(pattern));
+        return formatDate0(dateStr, getSdf(pattern));
     }
 
     /**
@@ -424,13 +446,13 @@ public class DateUtils {
 
             if (dateStr.contains(SPLIT_STRING)) {
                 dateStr = dateStr.split(Pattern.quote(SPLIT_STRING))[0].replace(REPLACE_STRING[0], REPLACE_STRING[1]);
-                SimpleDateFormat sf1 = new SimpleDateFormat(DateFormatEnum.DATETIME_E_MM_Z.value(), Locale.US);
+                SimpleDateFormat sf1 = getSdf(DateFormatEnum.DATETIME_E_MM_Z.value(), Locale.US);
                 return sf1.parse(dateStr);
             } else if (dateStr.contains(TIME_ZONE_CST)
                     || dateStr.contains(TIME_ZONE_GMT)
                     || dateStr.contains(TIME_ZONE_UTC)) {
                 //格式化CST时间
-                SimpleDateFormat sdf2 = new SimpleDateFormat(DateFormatEnum.DATETIME_EEE_ZZ.value(), Locale.US);
+                SimpleDateFormat sdf2 = getSdf(DateFormatEnum.DATETIME_EEE_ZZ.value(), Locale.US);
                 return sdf2.parse(dateStr);
             } else {
                 return DateUtils.formatDate(dateStr, DateUtils.yyyyMMddHHmmss);
@@ -448,7 +470,7 @@ public class DateUtils {
         if (dateStr.contains(SPLIT_STRING)) {
             try {
                 dateStr = dateStr.split(Pattern.quote(SPLIT_STRING))[0].replace(REPLACE_STRING[0], REPLACE_STRING[1]);
-                SimpleDateFormat sf1 = new SimpleDateFormat(DateFormatEnum.DATETIME_E_MM_Z.value(), Locale.US);
+                SimpleDateFormat sf1 = getSdf(DateFormatEnum.DATETIME_E_MM_Z.value(), Locale.US);
                 Date gmtDate = sf1.parse(dateStr);
                 String gmtDataStr = new SimpleDateFormat(DateFormatEnum.DATETIME.value()).format(gmtDate);
                 return DateUtils.formatDate(gmtDataStr, pattern);
@@ -459,7 +481,7 @@ public class DateUtils {
                 || dateStr.contains(TIME_ZONE_GMT)
                 || dateStr.contains(TIME_ZONE_UTC)) {
             try {
-                SimpleDateFormat sdf2 = new SimpleDateFormat(DateFormatEnum.DATETIME_EEE_ZZ.value(), Locale.US);
+                SimpleDateFormat sdf2 = getSdf(DateFormatEnum.DATETIME_EEE_ZZ.value(), Locale.US);
                 Date cstDate = sdf2.parse(dateStr);
                 String cstDataStr = new SimpleDateFormat(DateFormatEnum.DATETIME.value()).format(cstDate);
                 return DateUtils.formatDate(cstDataStr, pattern);
@@ -514,12 +536,12 @@ public class DateUtils {
     }
 
     public static Date parseTimeStr(String timeStr) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat dateFormat = getSdf("HH:mm:ss");
         return new Time(dateFormat.parse(timeStr).getTime());
     }
 
     public static Date parseYyMMdd(String dataStr) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd");
+        SimpleDateFormat dateFormat = getSdf("yy-MM-dd");
         return dateFormat.parse(dataStr);
     }
 
