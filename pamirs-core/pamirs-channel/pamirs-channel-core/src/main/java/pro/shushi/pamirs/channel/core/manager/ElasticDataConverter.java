@@ -10,31 +10,33 @@ import pro.shushi.pamirs.framework.orm.named.ColumnToLnameProcessor;
 import pro.shushi.pamirs.framework.orm.processor.OrmMappingProcessor;
 import pro.shushi.pamirs.framework.orm.processor.OrmModelingProcessor;
 import pro.shushi.pamirs.framework.orm.processor.OrmObjectingProcessor;
-import pro.shushi.pamirs.meta.api.core.orm.convert.DataConverter;
 import pro.shushi.pamirs.meta.api.core.orm.spi.PersistenceFieldExtendConverter;
 import pro.shushi.pamirs.meta.api.core.orm.template.PersistenceDataComputeTemplate;
+import pro.shushi.pamirs.meta.api.core.orm.template.context.FieldComputeContext;
 import pro.shushi.pamirs.meta.api.core.orm.template.function.ModelBeforeComputeApi;
 import pro.shushi.pamirs.meta.api.core.orm.template.function.PersistenceFieldComputeApi;
 import pro.shushi.pamirs.meta.api.core.orm.template.function.PersistenceModelAfterComputeApi;
-import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
-import pro.shushi.pamirs.meta.enmu.TtypeEnum;
-import pro.shushi.pamirs.meta.util.TypeUtils;
-import pro.shushi.pamirs.meta.api.core.orm.template.context.FieldComputeContext;
-import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
+import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.D;
+import pro.shushi.pamirs.meta.common.spi.Spider;
+import pro.shushi.pamirs.meta.enmu.TtypeEnum;
+import pro.shushi.pamirs.meta.util.TypeUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
- * ElasticDataConverter - 基于 PersistenceDataComputeTemplate 的统一实现
+ * ElasticDataConverter
  *
  * @author yakir on 2023/04/08 17:05.
- * @author Refactored to use PersistenceDataComputeTemplate for unified processing
+ * @author wx on 2026/02/12
  */
 @Component
-public class ElasticDataConverter implements DataConverter {
+public class ElasticDataConverter {
 
     /** 是否存在扩展转换器 */
     private static final boolean HAS_EXTEND_CONVERTERS;
@@ -89,7 +91,6 @@ public class ElasticDataConverter implements DataConverter {
     private final PersistenceFieldComputeApi outType = (context, modelConfig, fieldConfig, dMap) -> persistenceTypeProcessor.out(modelConfig, fieldConfig, dMap);
     private final PersistenceFieldComputeApi outRelated = (context, modelConfig, fieldConfig, dMap) -> relatedConvertProcessor.out(fieldConfig, dMap);
 
-    @Override
     @SuppressWarnings("unchecked")
     public <T> T in(String model, Object obj) {
         if (ENABLE_BATCH_OPTIMIZATION && obj instanceof List) {
@@ -103,7 +104,6 @@ public class ElasticDataConverter implements DataConverter {
         );
     }
 
-    @Override
     @SuppressWarnings("unchecked")
     public <T> T out(String model, Object obj) {
         if (ENABLE_BATCH_OPTIMIZATION && obj instanceof List) {
