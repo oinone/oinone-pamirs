@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.framework.orm.client.converter;
 
-
 import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -23,6 +22,7 @@ import pro.shushi.pamirs.meta.api.core.orm.template.function.PersistenceFieldCom
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
+import pro.shushi.pamirs.meta.api.dto.meta.FuseMeta;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.common.spi.Spider;
@@ -136,7 +136,7 @@ public class DefaultClientDataConverter implements ClientDataConverter {
                     Models.modelDirective().enableOrmReentry(oObj);// 防重入
                     Object result = null;
                     ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelConfig(oModel);
-                    String lname = modelConfig.getLname();
+                    String lname = FuseMeta.lname(modelConfig);
                     if (ClassUtils.isNoClass(lname)) {
                         result = new DataMap();
                     } else {
@@ -149,7 +149,7 @@ public class DefaultClientDataConverter implements ClientDataConverter {
                     String oModel = modelConfig.getModel();
                     oObj = RecursionOrmApi.getOrmObjectingProcessor().after(oModel, oObj);// 对象化
                     Object res = clientModelChecker.check(context, modelConfig.getModelDefinition(), oObj);// 模型约束校验
-                    String lname = modelConfig.getLname();
+                    String lname = FuseMeta.lname(modelConfig);
                     SoftReference<Object> ref = getReentryMap(objId);
                     if (ref != null && ref.get() != null) {
                         Object target = ref.get();
@@ -267,7 +267,7 @@ public class DefaultClientDataConverter implements ClientDataConverter {
 
                 Models.modelDirective().enableOrmReentry(obj);// 防重入
                 Object target = null;
-                String lname = modelConfig.getLname();
+                String lname = FuseMeta.lname(modelConfig);
                 if (ClassUtils.isNoClass(lname)) {
                     target = new DataMap();
                 } else {

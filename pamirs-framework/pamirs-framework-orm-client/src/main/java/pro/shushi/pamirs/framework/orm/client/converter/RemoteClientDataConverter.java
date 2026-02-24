@@ -16,7 +16,6 @@ import pro.shushi.pamirs.meta.api.core.orm.spi.PersistenceFieldExtendConverter;
 import pro.shushi.pamirs.meta.api.core.orm.template.ClientDataComputeTemplate;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.FieldComputeContext;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.ModelComputeContext;
-import pro.shushi.pamirs.meta.api.core.orm.template.function.ModelBeforeComputeApi;
 import pro.shushi.pamirs.meta.api.core.orm.template.function.PersistenceFieldComputeApi;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;

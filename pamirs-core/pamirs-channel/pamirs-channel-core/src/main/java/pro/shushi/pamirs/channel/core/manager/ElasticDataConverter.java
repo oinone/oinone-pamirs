@@ -11,6 +11,7 @@ import pro.shushi.pamirs.framework.orm.processor.OrmMappingProcessor;
 import pro.shushi.pamirs.framework.orm.processor.OrmModelingProcessor;
 import pro.shushi.pamirs.framework.orm.processor.OrmObjectingProcessor;
 import pro.shushi.pamirs.meta.api.core.orm.convert.DataConverter;
+import pro.shushi.pamirs.meta.api.core.orm.spi.PersistenceFieldExtendConverter;
 import pro.shushi.pamirs.meta.api.core.orm.template.PersistenceDataComputeTemplate;
 import pro.shushi.pamirs.meta.api.core.orm.template.function.ModelBeforeComputeApi;
 import pro.shushi.pamirs.meta.api.core.orm.template.function.PersistenceFieldComputeApi;
@@ -45,7 +46,7 @@ public class ElasticDataConverter implements DataConverter {
     private static final ThreadLocal<FieldComputeContext> CONTEXT_HOLDER = ThreadLocal.withInitial(FieldComputeContext::new);
 
     static {
-        List<pro.shushi.pamirs.meta.api.core.orm.spi.PersistenceFieldExtendConverter> converters = Spider.getLoader(pro.shushi.pamirs.meta.api.core.orm.spi.PersistenceFieldExtendConverter.class).getOrderedExtensions();
+        List<PersistenceFieldExtendConverter> converters = Spider.getLoader(PersistenceFieldExtendConverter.class).getOrderedExtensions();
         HAS_EXTEND_CONVERTERS = converters != null && !converters.isEmpty();
     }
 
