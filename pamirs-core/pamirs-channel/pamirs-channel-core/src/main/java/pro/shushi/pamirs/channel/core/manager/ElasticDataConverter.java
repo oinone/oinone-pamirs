@@ -91,6 +91,14 @@ public class ElasticDataConverter {
     private final PersistenceFieldComputeApi outType = (context, modelConfig, fieldConfig, dMap) -> persistenceTypeProcessor.out(modelConfig, fieldConfig, dMap);
     private final PersistenceFieldComputeApi outRelated = (context, modelConfig, fieldConfig, dMap) -> relatedConvertProcessor.out(fieldConfig, dMap);
 
+    private final PersistenceFieldComputeApi[] inProcessors = new PersistenceFieldComputeApi[]{
+            inExtend, inRelated, inType, inSerialize
+    };
+
+    private final PersistenceFieldComputeApi[] outProcessors = new PersistenceFieldComputeApi[]{
+            outLname, outExtend, outSerialize, outType, outRelated
+    };
+
     @SuppressWarnings("unchecked")
     public <T> T in(String model, Object obj) {
         if (ENABLE_BATCH_OPTIMIZATION && obj instanceof List) {
@@ -100,7 +108,7 @@ public class ElasticDataConverter {
         return PersistenceDataComputeTemplate.getInstance().compute(model, obj,
                 modelBefore,
                 inModelAfter,
-                getInProcessors(model)
+                inProcessors
         );
     }
 
@@ -113,13 +121,13 @@ public class ElasticDataConverter {
         return PersistenceDataComputeTemplate.getInstance().compute(model, obj,
                 modelBefore,
                 outModelAfter,
-                getOutProcessors(model)
+                outProcessors
         );
     }
 
     private List<Object> processBatchIn(String model, List<?> list) {
         ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
-        ModelAnalysis analysis = new ModelAnalysis(modelConfig);
+        ModelAnalysis analysis = analyzeInModel(modelConfig);
         FieldComputeContext context = CONTEXT_HOLDER.get();
         try {
             context.setTotalContext(null);
@@ -171,7 +179,7 @@ public class ElasticDataConverter {
 
     private List<Object> processBatchOut(String model, List<?> list) {
         ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
-        ModelAnalysis analysis = new ModelAnalysis(modelConfig);
+        ModelAnalysis analysis = analyzeOutModel(modelConfig);
         FieldComputeContext context = CONTEXT_HOLDER.get();
         try {
             context.setTotalContext(null);
@@ -225,39 +233,48 @@ public class ElasticDataConverter {
         }
     }
 
-    private PersistenceFieldComputeApi[] getInProcessors(String model) {
-        return new PersistenceFieldComputeApi[]{inExtend, inRelated, inType, inSerialize};
-    }
-
-    private PersistenceFieldComputeApi[] getOutProcessors(String model) {
-        return new PersistenceFieldComputeApi[]{outLname, outExtend, outSerialize, outType, outRelated};
-    }
-
     private static class ModelAnalysis {
-        final List<ModelFieldConfig> allFields;
-        final List<ModelFieldConfig> typeFields;
-        final List<ModelFieldConfig> relatedFields;
-        final List<ModelFieldConfig> serializeFields;
+        List<ModelFieldConfig> allFields;
+        List<ModelFieldConfig> typeFields = new ArrayList<>();
+        List<ModelFieldConfig> relatedFields = new ArrayList<>();
+        List<ModelFieldConfig> serializeFields = new ArrayList<>();
+    }
 
-        ModelAnalysis(ModelConfig modelConfig) {
-            this.allFields = modelConfig.getModelFieldConfigListSort();
-            this.typeFields = new ArrayList<>();
-            this.relatedFields = new ArrayList<>();
-            this.serializeFields = new ArrayList<>();
+    private ModelAnalysis analyzeInModel(ModelConfig modelConfig) {
+        ModelAnalysis analysis = new ModelAnalysis();
+        analysis.allFields = modelConfig.getModelFieldConfigListSort();
+        if (analysis.allFields == null) analysis.allFields = new ArrayList<>();
 
-            for (ModelFieldConfig field : allFields) {
-                if (TtypeEnum.isRelatedType(field.getTtype())) {
-                    relatedFields.add(field);
+        for (ModelFieldConfig field : analysis.allFields) {
+            if (TtypeEnum.isRelatedType(field.getTtype())) {
+                analysis.relatedFields.add(field);
+            }
+            if (field.getStore()) {
+                if (!TypeUtils.isBaseType(field.getLtype())) {
+                    analysis.serializeFields.add(field);
                 }
-                // ElasticDataConverter Specific logic for Type and Serialize
-                if (field.getStore()) {
-                    if (!TypeUtils.isBaseType(field.getLtype())) {
-                        serializeFields.add(field);
-                    }
-                    // All stored fields might need type conversion
-                    typeFields.add(field);
-                }
+                analysis.typeFields.add(field);
             }
         }
+        return analysis;
+    }
+
+    private ModelAnalysis analyzeOutModel(ModelConfig modelConfig) {
+        ModelAnalysis analysis = new ModelAnalysis();
+        analysis.allFields = modelConfig.getModelFieldConfigListSort();
+        if (analysis.allFields == null) analysis.allFields = new ArrayList<>();
+
+        for (ModelFieldConfig field : analysis.allFields) {
+            if (TtypeEnum.isRelatedType(field.getTtype())) {
+                analysis.relatedFields.add(field);
+            }
+            if (field.getStore()) {
+                if (!TypeUtils.isBaseType(field.getLtype())) {
+                    analysis.serializeFields.add(field);
+                }
+                analysis.typeFields.add(field);
+            }
+        }
+        return analysis;
     }
 }
