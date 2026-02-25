@@ -31,9 +31,6 @@ public class ClientDataComputeTemplate {
 
     private static ClientDataComputeTemplate INSTANCE;
 
-    // 使用 ThreadLocal 复用 Context，减少对象创建开销，提高性能
-    private static final ThreadLocal<FieldComputeContext> CONTEXT_HOLDER = ThreadLocal.withInitial(FieldComputeContext::new);
-
     public static ClientDataComputeTemplate getInstance() {
         if (null == INSTANCE) {
             synchronized (ClientDataComputeTemplate.class) {
@@ -43,13 +40,6 @@ public class ClientDataComputeTemplate {
             }
         }
         return ClientDataComputeTemplate.INSTANCE;
-    }
-
-    private FieldComputeContext getCleanContext(ModelComputeContext totalContext) {
-        FieldComputeContext context = CONTEXT_HOLDER.get();
-        context.setTotalContext(totalContext);
-        context.setOp(null);
-        return context;
     }
 
     public <T, R> R compute(String model, T origin, ModelIteratorComputeApi cycleComputeApi,
@@ -68,9 +58,9 @@ public class ClientDataComputeTemplate {
                             ModelBeforeComputeWithContextApi modelBeforeComputeProcessor,
                             PersistenceModelAfterComputeWithContextApi modelAfterComputeProcessor,
                             PersistenceFieldComputeApi... fieldComputeProcessors) {
-        FieldComputeContext context = getCleanContext(totalContext);
-        try {
-            return ((OrmComputer<T, R>) ormComputer).compute(model, origin,
+        FieldComputeContext context = new FieldComputeContext();
+        context.setTotalContext(totalContext);
+        return ((OrmComputer<T, R>) ormComputer).compute(model, origin,
                     (oModel, oOrigin) -> {// model & map
                         Map<String, Object> dMap;
                         if (Map.class.isAssignableFrom(oOrigin.getClass())) {
@@ -136,11 +126,7 @@ public class ClientDataComputeTemplate {
                         }
                         return (R) resultObjects;
                     }
-            );
-        } finally {
-            context.setTotalContext(null);
-            context.setOp(null);
-        }
+        );
     }
 
 }
