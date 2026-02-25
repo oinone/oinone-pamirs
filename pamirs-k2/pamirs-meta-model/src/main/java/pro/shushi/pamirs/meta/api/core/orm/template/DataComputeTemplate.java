@@ -32,9 +32,6 @@ public class DataComputeTemplate {
 
     private static DataComputeTemplate INSTANCE;
 
-    // 使用 ThreadLocal 复用 Context，减少对象创建开销
-    private static final ThreadLocal<FieldComputeContext> CONTEXT_HOLDER = ThreadLocal.withInitial(FieldComputeContext::new);
-
     public static DataComputeTemplate getInstance() {
         if (null == INSTANCE) {
             synchronized (DataComputeTemplate.class) {
@@ -44,13 +41,6 @@ public class DataComputeTemplate {
             }
         }
         return DataComputeTemplate.INSTANCE;
-    }
-
-    private FieldComputeContext getCleanContext(ModelComputeContext totalContext) {
-        FieldComputeContext context = CONTEXT_HOLDER.get();
-        context.setTotalContext(totalContext);
-        context.setOp(null);
-        return context;
     }
 
     public <T, R> R compute(String model, T origin, ModelIteratorComputeApi cycleComputeApi,
@@ -68,9 +58,9 @@ public class DataComputeTemplate {
                             ModelBeforeComputeWithContextApi modelBeforeComputeProcessor,
                             ModelAfterComputeWithContextApi modelAfterComputeProcessor,
                             FieldComputeApi... fieldComputeProcessors) {
-        FieldComputeContext context = getCleanContext(totalContext);
-        try {
-            return ((OrmComputer<T, R>) ormComputer).compute(model, origin,
+        FieldComputeContext context = new FieldComputeContext();
+        context.setTotalContext(totalContext);
+        return ((OrmComputer<T, R>) ormComputer).compute(model, origin,
                     (oModel, oOrigin) -> {// model & map
                         Map<String, Object> dMap;
                         if (Map.class.isAssignableFrom(oOrigin.getClass())) {
@@ -137,9 +127,5 @@ public class DataComputeTemplate {
                         return (R) resultObjects;
                     }
             );
-        } finally {
-            context.setTotalContext(null);
-            context.setOp(null);
-        }
     }
 }
