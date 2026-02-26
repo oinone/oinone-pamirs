@@ -369,17 +369,14 @@ public class ViewServiceImpl implements ViewService {
         }
         UIAuth uiAuth = modelAuth.computeIfAbsent(model, UIAuth::generatorUIAuth);
         String childModel = model;
-        if (uiWidget instanceof UIField) {
-            UIField uiField = (UIField) uiWidget;
+        if (uiWidget instanceof UIField uiField) {
             String field = uiField.getData();
             ModelFieldConfig modelFieldConfig = uiField.getModelFieldConfig();
-            if (modelFieldConfig == null) {
-                modelFieldConfig = PamirsSession.getContext().getModelField(uiField.getModel(), field);
+            String fieldModel = uiField.getModel();
+            if (modelFieldConfig == null && StringUtils.isNotBlank(fieldModel)) {
+                modelFieldConfig = PamirsSession.getContext().getModelField(fieldModel, field);
             }
-            boolean isSkipAuth = false;
-            if (modelFieldConfig != null && (Boolean.TRUE.equals(modelFieldConfig.getPk()) || modelFieldConfig.isVirtual())) {
-                isSkipAuth = true;
-            }
+            boolean isSkipAuth = modelFieldConfig != null && (Boolean.TRUE.equals(modelFieldConfig.getPk()) || modelFieldConfig.isVirtual());
             if (!isSkipAuth) {
                 // 可见
                 Set<String> canReadAccessFields = uiAuth.getCanReadAccessFields();
@@ -394,8 +391,7 @@ public class ViewServiceImpl implements ViewService {
             }
             // 模型切换
             childModel = Optional.ofNullable(uiField.getReferences()).orElse(model);
-        } else if (uiWidget instanceof UIAction) {
-            UIAction localUIAction = ((UIAction) uiWidget);
+        } else if (uiWidget instanceof UIAction localUIAction) {
             if (!isAccessAction(localUIAction)) {
                 return null;
             }
