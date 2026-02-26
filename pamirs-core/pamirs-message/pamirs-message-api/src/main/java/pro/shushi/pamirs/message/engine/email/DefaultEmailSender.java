@@ -84,6 +84,7 @@ public class DefaultEmailSender implements EmailSender {
                 .setCode(code)
                 .setExpirationTime(VerificationCodeUtils.plusSec(emailVerifyTemplate.getTimeInterval()))
                 .setIsUsed(false)
+                .setInvalid(false)
                 .setSourceType(MessageEngineTypeEnum.EMAIL_SEND);
         try {
             verificationCode.create();
