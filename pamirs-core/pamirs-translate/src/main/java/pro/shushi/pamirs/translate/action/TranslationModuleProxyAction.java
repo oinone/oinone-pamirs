@@ -3,7 +3,6 @@ package pro.shushi.pamirs.translate.action;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.gateways.rsql.RSQLHelper;
@@ -16,6 +15,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.translate.constant.TranslateConstants;
 import pro.shushi.pamirs.translate.proxy.TranslationModuleProxy;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 import java.util.List;
 

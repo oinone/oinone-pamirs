@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.core.init;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.InstallDataInit;
@@ -7,7 +8,6 @@ import pro.shushi.pamirs.boot.common.api.init.UpgradeDataInit;
 import pro.shushi.pamirs.eip.api.EipModule;
 import pro.shushi.pamirs.eip.api.strategy.service.EipOpenRateLimitPolicyService;
 
-import jakarta.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
 

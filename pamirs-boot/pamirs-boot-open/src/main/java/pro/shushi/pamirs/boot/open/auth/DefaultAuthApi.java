@@ -14,7 +14,7 @@ import java.util.Set;
  * @version 1.0.0
  * date 2020/2/19 2:16 上午
  */
-@Order(77)
+@Order
 @SPI.Service
 public class DefaultAuthApi implements AuthApi {
 

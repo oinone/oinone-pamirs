@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.sso.server.model;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +19,6 @@ import pro.shushi.pamirs.sso.api.utils.EncryptionHandler;
 import pro.shushi.pamirs.user.api.utils.CookieUtil;
 import pro.shushi.pamirs.user.api.utils.JwtTokenUtil;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

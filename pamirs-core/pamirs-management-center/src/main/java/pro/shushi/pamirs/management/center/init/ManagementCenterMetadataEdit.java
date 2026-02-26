@@ -12,7 +12,6 @@ import pro.shushi.pamirs.boot.base.model.UeModule;
 import pro.shushi.pamirs.boot.base.model.ViewAction;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
-import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.InitializationUtil;
 import pro.shushi.pamirs.core.common.TreeHelper;
 import pro.shushi.pamirs.framework.common.entry.TreeNode;

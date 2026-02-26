@@ -1,10 +1,9 @@
 package pro.shushi.pamirs.eip.api.strategy.config;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import pro.shushi.pamirs.eip.api.constant.EipConfigurationConstant;
-
-import jakarta.validation.constraints.NotNull;
 
 
 /**

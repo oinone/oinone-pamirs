@@ -31,4 +31,11 @@ public @interface UxMenu {
     String icon() default "";
 
     ClientTypeEnum[] clientTypes() default {ClientTypeEnum.PC, ClientTypeEnum.MOBILE, ClientTypeEnum.PAD};
+
+    /**
+     * 菜单优先级，默认根据定义顺序自动填充
+     *
+     * @return 菜单优先级
+     */
+    long priority() default -1;
 }

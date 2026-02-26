@@ -1,5 +1,7 @@
 package pro.shushi.pamirs.sso.client.login;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -15,8 +17,6 @@ import pro.shushi.pamirs.user.api.enmu.UserLoginTypeEnum;
 import pro.shushi.pamirs.user.api.login.IUserLogin;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 /**

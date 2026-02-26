@@ -1,8 +1,8 @@
 package pro.shushi.pamirs.eip.api.pmodel;
 
 import pro.shushi.pamirs.eip.api.enmu.CircuitBreakerTypeEnum;
-import pro.shushi.pamirs.eip.api.model.strategy.EipCircuitBreakerRule;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
+import pro.shushi.pamirs.eip.api.model.strategy.EipCircuitBreakerRule;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;

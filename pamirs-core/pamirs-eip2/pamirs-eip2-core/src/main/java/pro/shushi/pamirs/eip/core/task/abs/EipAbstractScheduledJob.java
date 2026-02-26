@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.core.task.abs;
 
+import jakarta.annotation.Resource;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -12,8 +13,6 @@ import pro.shushi.pamirs.middleware.schedule.eunmeration.TaskType;
 import pro.shushi.pamirs.trigger.enmu.TriggerTimeAnchorEnum;
 import pro.shushi.pamirs.trigger.model.ScheduleTaskAction;
 import pro.shushi.pamirs.trigger.service.ScheduleTaskActionService;
-
-import jakarta.annotation.Resource;
 
 /**
  * @author yeshenyue on 2025/4/24 09:33.

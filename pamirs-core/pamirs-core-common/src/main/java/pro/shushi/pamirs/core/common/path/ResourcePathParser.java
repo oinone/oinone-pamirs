@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.core.common.path;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,6 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 
 /**

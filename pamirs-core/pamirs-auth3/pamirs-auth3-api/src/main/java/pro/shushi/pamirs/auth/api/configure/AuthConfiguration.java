@@ -1,12 +1,12 @@
 package pro.shushi.pamirs.auth.api.configure;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 import pro.shushi.pamirs.framework.common.constants.ConfigureConstants;
 
-import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

@@ -2,6 +2,7 @@ package pro.shushi.pamirs.sso.server.spi.impl;
 
 
 import com.alibaba.fastjson.JSON;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -21,7 +22,6 @@ import pro.shushi.pamirs.sso.server.spi.IOAuth2RefreshToken;
 import pro.shushi.pamirs.sso.server.utils.TokenCache;
 import pro.shushi.pamirs.user.api.utils.JwtTokenUtil;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

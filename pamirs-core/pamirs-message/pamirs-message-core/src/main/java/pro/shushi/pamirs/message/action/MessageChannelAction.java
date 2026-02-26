@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.message.action;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.message.model.MessageChannel;
 import pro.shushi.pamirs.meta.annotation.Action;
@@ -7,8 +8,6 @@ import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.validation.Validation;
 import pro.shushi.pamirs.meta.api.core.orm.WriteWithFieldApi;
 import pro.shushi.pamirs.meta.constant.ExpConstants;
-
-import jakarta.annotation.Resource;
 
 /**
  * @author shier

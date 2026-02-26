@@ -2,8 +2,8 @@ package pro.shushi.pamirs.eip.api.strategy.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.shushi.pamirs.eip.api.strategy.service.EipOpenRateLimitStateSyncService;
 import pro.shushi.pamirs.eip.api.strategy.listener.EipOpenRateLimitStatusChangeListener;
+import pro.shushi.pamirs.eip.api.strategy.service.EipOpenRateLimitStateSyncService;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 

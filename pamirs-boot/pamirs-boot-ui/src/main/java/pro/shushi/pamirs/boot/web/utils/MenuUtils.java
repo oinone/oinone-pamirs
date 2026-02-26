@@ -13,6 +13,7 @@ import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxMenu;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.meta.spi.AnnotationFetcher;
 import pro.shushi.pamirs.meta.util.PropUtils;
 
 import java.text.MessageFormat;
@@ -30,6 +31,18 @@ public class MenuUtils {
     public static String fetchMenuName(Class<?> clazz) {
         return StringUtils.substringAfterLast(clazz.getName(), CharacterConstants.SEPARATOR_DOT)
                 .replace(CharacterConstants.SEPARATOR_DOLLAR, CharacterConstants.SEPARATOR_UNDERLINE);
+    }
+
+    public static String fetchMenuNameByAnnotation(Class<?> clazz) {
+        UxMenu uxMenu = AnnotationFetcher.get().findAnnotation(clazz, UxMenu.class);
+        if (null == uxMenu) {
+            return null;
+        }
+        String menuName = uxMenu.name();
+        if (StringUtils.isBlank(menuName)) {
+            menuName = fetchMenuName(clazz);
+        }
+        return menuName;
     }
 
     public static String fetchMenuModel(String module, String appendix) {
@@ -50,7 +63,7 @@ public class MenuUtils {
 
     @SuppressWarnings("unchecked")
     public static <T extends Action> T fetchMenuAction(Class<?> clazz, String module) {
-        String menuName = fetchMenuName(clazz);
+        String menuName = fetchMenuNameByAnnotation(clazz);
         // 处理动作
         UrlAction urlAction = fetchUrlAction(fetchUrlActionAnnotation(clazz), module, menuName);
         if (null != urlAction) {
@@ -69,7 +82,7 @@ public class MenuUtils {
 
     @SuppressWarnings("unchecked")
     public static <T extends Action> T fetchMenuAction(String model, Class<?> clazz, String module) {
-        String menuName = fetchMenuName(clazz);
+        String menuName = fetchMenuNameByAnnotation(clazz);
         // 处理动作
         if (UrlAction.MODEL_MODEL.equals(model)) {
             return (T) fetchUrlAction(fetchUrlActionAnnotation(clazz), module, menuName);

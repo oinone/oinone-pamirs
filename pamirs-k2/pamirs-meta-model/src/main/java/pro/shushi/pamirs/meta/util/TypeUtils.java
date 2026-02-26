@@ -4,6 +4,7 @@ import com.google.common.primitives.Primitives;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.entity.DMap;
@@ -386,6 +387,7 @@ public class TypeUtils {
 
     @SuppressWarnings("rawtypes")
     public static Type[] getInterfaceGenericTypes(Class clazz) {
+        clazz = ClassUtils.getUserClass(clazz);
         ParameterizedType genericType = (ParameterizedType) (0 != clazz.getGenericInterfaces().length ? clazz.getGenericInterfaces()[0] : null);
         if (null == genericType) {
             return null;

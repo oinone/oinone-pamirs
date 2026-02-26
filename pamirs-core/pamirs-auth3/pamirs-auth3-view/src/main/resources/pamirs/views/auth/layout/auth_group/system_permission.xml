@@ -1,3 +1,0 @@
-<view type="TABLE" style="min-width: auto;" name="AuthGroupSystemPermissionLayout">
-    <element widget="permission-view" slotSupport="field"/>
-</view>

@@ -4,7 +4,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
@@ -26,6 +25,7 @@ import pro.shushi.pamirs.translate.constant.TranslateConstants;
 import pro.shushi.pamirs.translate.enmu.TranslateEnumerate;
 import pro.shushi.pamirs.translate.proxy.TranslationItemProxy;
 import pro.shushi.pamirs.translate.service.TranslationItemProxyService;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 import java.util.*;
 import java.util.stream.Collectors;

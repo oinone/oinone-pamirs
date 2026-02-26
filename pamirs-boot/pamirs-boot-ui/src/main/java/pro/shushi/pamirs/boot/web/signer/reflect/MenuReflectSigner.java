@@ -21,7 +21,7 @@ public class MenuReflectSigner implements ModelReflectSigner<Menu, Class> {
 
     @Override
     public String sign(MetaNames names, Class source) {
-        String name = MenuUtils.fetchMenuName(source);
+        String name = MenuUtils.fetchMenuNameByAnnotation(source);
         return Menu.sign(names.getModule(), name);
     }
 

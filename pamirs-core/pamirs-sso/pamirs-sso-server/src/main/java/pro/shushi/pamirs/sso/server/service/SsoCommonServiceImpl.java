@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.sso.server.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -20,7 +21,6 @@ import pro.shushi.pamirs.sso.api.service.SsoOauth2TokenService;
 import pro.shushi.pamirs.sso.server.model.SsoClientService;
 import pro.shushi.pamirs.user.api.cache.UserCache;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.security.KeyPair;
 import java.util.Objects;

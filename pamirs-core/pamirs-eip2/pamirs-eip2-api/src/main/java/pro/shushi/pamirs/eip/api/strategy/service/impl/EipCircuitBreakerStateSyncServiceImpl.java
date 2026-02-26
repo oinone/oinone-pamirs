@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.eip.api.enmu.CircuitBreakerStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
-import pro.shushi.pamirs.eip.api.strategy.service.EipCircuitBreakerStateSyncService;
 import pro.shushi.pamirs.eip.api.strategy.listener.EipCircuitBreakerStatusChangeListener;
+import pro.shushi.pamirs.eip.api.strategy.service.EipCircuitBreakerStateSyncService;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 

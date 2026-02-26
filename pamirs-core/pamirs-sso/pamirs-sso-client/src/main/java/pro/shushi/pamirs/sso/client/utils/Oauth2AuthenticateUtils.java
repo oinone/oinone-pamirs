@@ -2,6 +2,8 @@ package pro.shushi.pamirs.sso.client.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -18,8 +20,6 @@ import pro.shushi.pamirs.sso.common.dto.OAuthTokenResponse;
 import pro.shushi.pamirs.sso.common.dto.Result;
 import pro.shushi.pamirs.sso.common.dto.SsoUserInfo;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 

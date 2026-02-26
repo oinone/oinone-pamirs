@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.core.task;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
@@ -9,7 +10,6 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 import pro.shushi.pamirs.trigger.model.ScheduleTaskAction;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.ZoneId;
 

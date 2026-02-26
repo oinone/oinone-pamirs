@@ -1,13 +1,12 @@
 package pro.shushi.pamirs.eip.api.config;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 import pro.shushi.pamirs.eip.api.constant.EipConfigurationConstant;
-
-import jakarta.validation.constraints.NotNull;
 
 /**
  * @author Adamancy Zhang

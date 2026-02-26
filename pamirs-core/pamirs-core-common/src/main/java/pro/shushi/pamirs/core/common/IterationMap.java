@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.core.common;
 
 import jakarta.annotation.Nonnull;
+
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;

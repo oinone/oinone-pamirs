@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.message.action;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.message.enmu.MessageExpEnumerate;
 import pro.shushi.pamirs.message.model.EmailVerifyTemplate;
@@ -10,8 +11,6 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.WriteWithFieldApi;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.ExpConstants;
-
-import jakarta.annotation.Resource;
 
 /**
  * @author shier

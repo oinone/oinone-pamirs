@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.resource.core.service;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.core.common.standard.service.impl.AbstractStandardModelService;
@@ -14,7 +15,6 @@ import pro.shushi.pamirs.resource.api.model.ResourceTranslation;
 import pro.shushi.pamirs.resource.api.model.ResourceTranslationItem;
 import pro.shushi.pamirs.resource.api.service.ResourceTranslationService;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

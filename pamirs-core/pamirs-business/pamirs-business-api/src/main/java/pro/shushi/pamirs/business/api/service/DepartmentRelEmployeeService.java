@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.business.api.service;
 
+import jakarta.annotation.Nullable;
 import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
@@ -10,7 +11,6 @@ import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 
-import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 

@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.boot.base.model.UeModule;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.contants.ProfileEnum;
 import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;

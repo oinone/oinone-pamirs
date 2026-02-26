@@ -1,13 +1,13 @@
 package pro.shushi.pamirs.eip.api.serializable;
 
-import jakarta.xml.soap.*;
-import jakarta.xml.soap.Node;
-import jakarta.xml.soap.Text;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import jakarta.xml.soap.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.dom4j.*;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

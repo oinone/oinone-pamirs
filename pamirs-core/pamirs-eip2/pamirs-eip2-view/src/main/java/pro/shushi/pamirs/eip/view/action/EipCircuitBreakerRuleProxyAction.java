@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.view.action;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.enmu.ActionTargetEnum;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxAction;
@@ -17,8 +18,6 @@ import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
-
-import jakarta.annotation.Resource;
 
 /**
  * @author yeshenyue on 2025/4/14 15:20.

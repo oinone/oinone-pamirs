@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.file.api.extpoint;
 
+import jakarta.annotation.Resource;
 import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.cache.MemoryIterableSearchCache;
 import pro.shushi.pamirs.file.api.config.FileConstant;
@@ -20,7 +21,6 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;

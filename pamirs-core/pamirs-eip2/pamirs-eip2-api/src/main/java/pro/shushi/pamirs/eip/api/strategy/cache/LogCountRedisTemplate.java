@@ -6,8 +6,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.eip.api.strategy.constant.EipLogCountCacheConstant;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
+import pro.shushi.pamirs.eip.api.strategy.constant.EipLogCountCacheConstant;
 import pro.shushi.pamirs.framework.connectors.data.serializer.PamirsStringRedisSerializer;
 
 /**

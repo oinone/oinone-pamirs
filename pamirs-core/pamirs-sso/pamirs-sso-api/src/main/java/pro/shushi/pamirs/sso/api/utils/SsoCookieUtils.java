@@ -1,11 +1,10 @@
 package pro.shushi.pamirs.sso.api.utils;
 
-import org.springframework.core.env.Environment;
-import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.core.env.Environment;
+import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
 public class SsoCookieUtils {
     public static Cookie get(HttpServletRequest request, String key) {

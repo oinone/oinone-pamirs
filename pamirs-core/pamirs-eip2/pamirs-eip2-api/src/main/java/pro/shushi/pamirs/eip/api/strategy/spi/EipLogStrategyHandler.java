@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.eip.api.strategy.spi;
 
 import org.apache.camel.Exchange;
-import org.apache.poi.ss.formula.functions.T;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.meta.common.spi.SPI;

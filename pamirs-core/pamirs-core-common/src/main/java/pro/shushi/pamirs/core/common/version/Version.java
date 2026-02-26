@@ -1,10 +1,10 @@
 package pro.shushi.pamirs.core.common.version;
 
-import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.core.common.NumberHelper;
-import pro.shushi.pamirs.core.common.exception.IncomparableException;
-
 import jakarta.annotation.Nonnull;
+import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.core.common.exception.IncomparableException;
+import pro.shushi.pamirs.ux.common.utils.NumberHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 

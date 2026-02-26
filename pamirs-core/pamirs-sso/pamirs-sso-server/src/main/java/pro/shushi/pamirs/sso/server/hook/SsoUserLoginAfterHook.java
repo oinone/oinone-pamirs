@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.sso.server.hook;
 
 import com.alibaba.fastjson.JSON;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,6 @@ import pro.shushi.pamirs.user.api.model.tmodel.PamirsUserTransient;
 import pro.shushi.pamirs.user.api.utils.CookieUtil;
 import pro.shushi.pamirs.user.api.utils.JwtTokenUtil;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 

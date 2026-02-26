@@ -3,12 +3,12 @@ package pro.shushi.pamirs.translate.manager.cache;
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
+import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.translate.manager.base.TranslateRedisManager;
 import pro.shushi.pamirs.translate.pojo.TranslatePojo;
 
-import jakarta.annotation.Nonnull;
 import java.util.concurrent.TimeUnit;
 
 /**

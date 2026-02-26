@@ -5,8 +5,8 @@ import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.eip.api.strategy.limiter.api.OpenRateLimitApi;
 import pro.shushi.pamirs.eip.api.model.strategy.EipOpenRateLimitPolicy;
+import pro.shushi.pamirs.eip.api.strategy.limiter.api.OpenRateLimitApi;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 

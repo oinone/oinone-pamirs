@@ -3,7 +3,6 @@ package pro.shushi.pamirs.user.view.action;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -25,6 +24,7 @@ import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.service.PamirsUserConstructor;
 import pro.shushi.pamirs.user.api.service.UserService;
 import pro.shushi.pamirs.user.api.service.UserSimpleService;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 import java.util.Date;
 import java.util.List;

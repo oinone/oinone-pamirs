@@ -10,25 +10,13 @@ import pro.shushi.pamirs.sys.setting.pmodel.GlobalAppConfigProxy;
 class SysSettingMenus implements ViewActionConstants {
     @UxMenu("全局配置")
     class GlobalMenu {
-        /**
-         * topBar入口,菜单名称不要改,需要指定module
-         */
-        @UxMenu("登录页配置")
-        @UxRoute(model = GlobalAppConfigProxy.MODEL_MODEL, module = SysSettingModule.MODULE_MODULE, viewName = "GlobalAppConfigProxy_Login_Form")
-        class LoginMenu {
-        }
 
-        @UxMenu("企业形象配置")
-        @UxRoute(model = GlobalAppConfigProxy.MODEL_MODEL, module = SysSettingModule.MODULE_MODULE, viewName = "GlobalAppConfigProxy_CorporateImage_Form")
-        class CorporateImageMenu {
-        }
-
-        @UxMenu("系统风格配置")
+        @UxMenu(label = "系统风格配置", priority = 50)
         @UxRoute(model = GlobalAppConfigProxy.MODEL_MODEL, module = SysSettingModule.MODULE_MODULE, viewName = "GlobalAppConfigProxy_SysStyle_Form")
         class SysStyleMenu {
         }
 
-        @UxMenu("高级首页配置")
+        @UxMenu(label = "高级首页配置", priority = 51)
         @UxRoute(model = GlobalAppConfigProxy.MODEL_MODEL, viewName = "advanced_home_page_configuration")
         class AdvancedHomePageConfigMenu {
         }

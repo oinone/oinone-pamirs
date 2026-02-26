@@ -1,7 +1,5 @@
 package pro.shushi.pamirs.eip.jdbc.service.url;
 
-import com.alibaba.druid.util.JdbcUtils;
-
 /*
  * DefaultHanaComponent
  * @author : Haibo(xf.z@shushi.pro)

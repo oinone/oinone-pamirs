@@ -1,14 +1,15 @@
 package pro.shushi.pamirs.core.common.command;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * 命令行帮助类

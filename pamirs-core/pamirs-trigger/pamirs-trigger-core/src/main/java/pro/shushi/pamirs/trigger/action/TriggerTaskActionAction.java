@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.trigger.action;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -14,8 +15,6 @@ import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.trigger.model.TriggerTaskAction;
-
-import jakarta.annotation.Resource;
 
 /**
  * @author xzf 2022/06/30 12:08

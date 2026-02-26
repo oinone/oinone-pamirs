@@ -3,12 +3,12 @@ package pro.shushi.pamirs.translate.manager.cache;
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
+import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.resource.api.model.ResourceTranslationItem;
 
-import jakarta.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

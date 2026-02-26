@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.core.common;
 
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +49,6 @@ import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 import pro.shushi.pamirs.ux.common.utils.QueryHelper;
 
-import jakarta.validation.constraints.NotNull;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.*;

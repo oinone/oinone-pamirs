@@ -2,7 +2,6 @@ package pro.shushi.pamirs.resource.api.tmodel;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.ux.common.model.CommonConditionWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -20,6 +19,7 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.RSqlConstants;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 import pro.shushi.pamirs.ux.common.enumeration.UxCommonExpEnumerate;
+import pro.shushi.pamirs.ux.common.model.CommonConditionWrapper;
 
 import java.util.List;
 import java.util.Map;

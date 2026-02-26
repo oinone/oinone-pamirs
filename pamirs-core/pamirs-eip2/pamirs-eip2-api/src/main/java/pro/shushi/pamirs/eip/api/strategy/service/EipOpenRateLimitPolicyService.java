@@ -2,7 +2,6 @@ package pro.shushi.pamirs.eip.api.strategy.service;
 
 import pro.shushi.pamirs.eip.api.model.EipApplication;
 import pro.shushi.pamirs.eip.api.model.strategy.EipOpenRateLimitPolicy;
-
 import pro.shushi.pamirs.eip.api.pmodel.EipApplicationProxy;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;

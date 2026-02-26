@@ -3,6 +3,7 @@ package pro.shushi.pamirs.trigger.spring;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import jakarta.annotation.Resource;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -29,7 +30,6 @@ import pro.shushi.pamirs.trigger.annotation.XAsync;
 import pro.shushi.pamirs.trigger.model.ExecuteTaskAction;
 import pro.shushi.pamirs.trigger.service.ExecuteTaskActionService;
 
-import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 

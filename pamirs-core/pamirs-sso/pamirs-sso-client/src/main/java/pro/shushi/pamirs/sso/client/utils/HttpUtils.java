@@ -3,6 +3,7 @@ package pro.shushi.pamirs.sso.client.utils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.core.common.HttpRequestBuilder;
 import pro.shushi.pamirs.core.common.enmu.HttpRequestTypeEnum;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;

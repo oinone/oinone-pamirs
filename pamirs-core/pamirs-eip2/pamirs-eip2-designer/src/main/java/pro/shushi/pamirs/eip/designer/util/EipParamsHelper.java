@@ -5,8 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.model.EipConvertParam;
 import pro.shushi.pamirs.eip.api.pamirs.DefaultOpenFunctionConverterFunction;
-import pro.shushi.pamirs.eip.designer.model.conn.*;
-import pro.shushi.pamirs.eip.designer.model.open.*;
+import pro.shushi.pamirs.eip.designer.model.conn.EipApiResponseParam;
+import pro.shushi.pamirs.eip.designer.model.conn.EipReqBodyParam;
+import pro.shushi.pamirs.eip.designer.model.conn.EipReqQueryParam;
+import pro.shushi.pamirs.eip.designer.model.open.EipOpenReqBodyParam;
+import pro.shushi.pamirs.eip.designer.model.open.EipOpenReqQueryParam;
+import pro.shushi.pamirs.eip.designer.model.open.EipOpenRespParam;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
 import java.util.ArrayList;

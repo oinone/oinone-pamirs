@@ -177,7 +177,9 @@ public class DefaultHomepageFetcher implements HomepageFetcherApi {
     public Map<String, Object> loadContextInfo() {
         HashMap<String, Object> result = new HashMap<>();
         // 通过namespace获取function列表,调用全部函数. 为了支持独立部署时,远程调用获取前端低代码文件
-        List<FunctionDefinition> loadFunctions = Models.origin().queryListByWrapper(Pops.<FunctionDefinition>lambdaQuery().from(FunctionDefinition.MODEL_MODEL).setBatchSize(-1).eq(FunctionDefinition::getNamespace, UserAndAuthApi.FUN_NAMESPACE));
+        List<FunctionDefinition> loadFunctions = Models.origin().queryListByWrapper(Pops.<FunctionDefinition>lambdaQuery()
+                .from(FunctionDefinition.MODEL_MODEL).setBatchSize(-1)
+                .eq(FunctionDefinition::getNamespace, UserAndAuthApi.FUN_NAMESPACE));
         if (CollectionUtils.isEmpty(loadFunctions)) {
             return result;
         }

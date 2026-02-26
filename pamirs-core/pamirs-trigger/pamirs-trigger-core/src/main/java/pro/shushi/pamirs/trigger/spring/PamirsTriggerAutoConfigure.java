@@ -1,10 +1,10 @@
 package pro.shushi.pamirs.trigger.spring;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import pro.shushi.pamirs.framework.configure.MetaConfiguration;
 
-import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 

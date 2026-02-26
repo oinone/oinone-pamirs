@@ -1,6 +1,8 @@
 package pro.shushi.pamirs.sso.server.spi.impl;
 
 import com.alibaba.fastjson.JSON;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -24,8 +26,6 @@ import pro.shushi.pamirs.sso.server.spi.IUserLoginOAuth2GrantType;
 import pro.shushi.pamirs.sso.server.utils.TokenCache;
 import pro.shushi.pamirs.user.api.utils.JwtTokenUtil;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Optional;
 

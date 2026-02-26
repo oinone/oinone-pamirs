@@ -1,10 +1,10 @@
 package pro.shushi.pamirs.auth.api.behavior;
 
+import jakarta.annotation.Nullable;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.update.LambdaUpdateWrapper;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 
-import jakarta.annotation.Nullable;
 import java.util.List;
 
 /**

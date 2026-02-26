@@ -2,6 +2,7 @@ package pro.shushi.pamirs.sys.setting.action;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,6 @@ import pro.shushi.pamirs.sys.setting.pmodel.GlobalAppConfigProxy;
 import pro.shushi.pamirs.sys.setting.tmodel.SystemStyleConfig;
 import pro.shushi.pamirs.sys.setting.tmodel.TranslationConfig;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -68,31 +68,6 @@ public class GlobalAppConfigProxyAction {
     public GlobalAppConfigProxy construct(GlobalAppConfigProxy data) {
         AppConfig appConfig = appConfigService.fetchGlobalConfig();
         return ArgUtils.convert(AppConfig.MODEL_MODEL, GlobalAppConfigProxy.MODEL_MODEL, appConfig);
-    }
-
-
-    @Action(displayName = "保存登录页配置")
-    public GlobalAppConfigProxy saveLoginSetting(GlobalAppConfigProxy data) {
-        _saveGlobalSetting(_appConfig -> {
-            _appConfig.setLoginBackground(data.getLoginBackground());
-            _appConfig.setLoginPageLogo(data.getLoginPageLogo());
-            _appConfig.setLoginLayoutType(data.getLoginLayoutType());
-        });
-        return data;
-    }
-
-    @Action(displayName = "保存企业形象配置")
-    public GlobalAppConfigProxy saveCorporateImageSetting(GlobalAppConfigProxy data) {
-        _saveGlobalSetting(_appConfig -> {
-            _appConfig.setPartnerName(data.getPartnerName());
-            _appConfig.setOfficialWebsite(data.getOfficialWebsite());
-            _appConfig.setSlogan(data.getSlogan());
-            _appConfig.setIcpDesc(data.getIcpDesc());
-            _appConfig.setLogo(data.getLogo());
-            _appConfig.setAppSideLogo(data.getAppSideLogo());
-            _appConfig.setFavicon(data.getFavicon());
-        });
-        return data;
     }
 
     @Action(displayName = "保存系统风格配置")

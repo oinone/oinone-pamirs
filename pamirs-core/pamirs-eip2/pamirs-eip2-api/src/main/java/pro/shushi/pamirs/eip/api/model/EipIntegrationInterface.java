@@ -13,7 +13,6 @@ import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
 import pro.shushi.pamirs.meta.enmu.DateTypeEnum;
-import pro.shushi.pamirs.meta.enmu.FieldStrategyEnum;
 import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 
 import java.util.Date;

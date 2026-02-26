@@ -2,7 +2,6 @@ package pro.shushi.pamirs.message.action;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.message.enmu.MessageExpEnumerate;
@@ -28,6 +27,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 import java.util.*;
 import java.util.stream.Collectors;

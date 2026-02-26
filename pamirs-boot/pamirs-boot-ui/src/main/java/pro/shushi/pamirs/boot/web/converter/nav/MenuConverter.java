@@ -2,7 +2,6 @@ package pro.shushi.pamirs.boot.web.converter.nav;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.model.Action;
 import pro.shushi.pamirs.boot.base.model.Menu;
@@ -17,6 +16,7 @@ import pro.shushi.pamirs.meta.api.dto.meta.ExecuteContext;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaNames;
 import pro.shushi.pamirs.meta.enmu.ActiveEnum;
 import pro.shushi.pamirs.meta.enmu.ClientTypeEnum;
+import pro.shushi.pamirs.meta.spi.AnnotationFetcher;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,7 +41,7 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
     @SuppressWarnings("rawtypes")
     @Override
     public Result validate(ExecuteContext context, MetaNames names, Class source) {
-        UxMenus menuAnnotation = AnnotationUtils.getAnnotation(source, UxMenus.class);
+        UxMenus menuAnnotation = AnnotationFetcher.get().getAnnotation(source, UxMenus.class);
         Result result = new Result();
         if (null == menuAnnotation) {
             return result.error();
@@ -51,7 +51,7 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
 
     @Override
     public Map<String, Menu> convert(MetaNames names, @SuppressWarnings("rawtypes") Class source, Map<String, Menu> metaModelObject) {
-        UxMenus menuAnnotation = AnnotationUtils.getAnnotation(source, UxMenus.class);
+        UxMenus menuAnnotation = AnnotationFetcher.get().getAnnotation(source, UxMenus.class);
         String module = Optional.ofNullable(menuAnnotation).map(UxMenus::module).filter(StringUtils::isNotBlank).orElse(names.getModule());
         Integer basePriority = Optional.ofNullable(menuAnnotation).map(UxMenus::basePriority).orElse(0);
         Map<String, Menu> menuMap = new HashMap<>();
@@ -69,7 +69,7 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
             if (null == clazz) {
                 continue;
             }
-            Menu menu = fetchMenu(module, context, menuMap, parent, clazz, basePriority + i);
+            Menu menu = fetchMenu(module, context, menuMap, parent, clazz, basePriority, basePriority + i);
             if (null == menu) {
                 continue;
             }
@@ -79,8 +79,8 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
         }
     }
 
-    private Menu fetchMenu(String module, Map<String, Menu> context, Map<String, Menu> menuMap, Menu parent, Class clazz, long priority) {
-        UxMenu uxMenu = AnnotationUtils.findAnnotation(clazz, UxMenu.class);
+    private Menu fetchMenu(String module, Map<String, Menu> context, Map<String, Menu> menuMap, Menu parent, Class clazz, long basePriority, long defaultPriority) {
+        UxMenu uxMenu = AnnotationFetcher.get().findAnnotation(clazz, UxMenu.class);
         if (null == uxMenu) {
             return null;
         }
@@ -99,6 +99,12 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
         }
 
         List<ClientTypeEnum> clientTypeEnums = Arrays.stream(uxMenu.clientTypes()).collect(Collectors.toList());
+        long priority = uxMenu.priority();
+        if (priority <= -1) {
+            priority = defaultPriority;
+        } else {
+            priority = basePriority + priority;
+        }
 
         // 处理菜单
         menu.setName(name);
@@ -165,7 +171,7 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
     @Override
     public List<String> signs(MetaNames names, Class source) {
         List<String> signs = new ArrayList<>();
-        UxMenus menuAnnotation = AnnotationUtils.getAnnotation(source, UxMenus.class);
+        UxMenus menuAnnotation = AnnotationFetcher.get().getAnnotation(source, UxMenus.class);
         String module = Optional.ofNullable(menuAnnotation).map(UxMenus::module).filter(StringUtils::isNotBlank).orElse(names.getModule());
         Class[] declaredClasses = source.getDeclaredClasses();
         menuNames(signs, module, declaredClasses);
@@ -191,13 +197,9 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
     }
 
     private String fetchMenuSign(String module, Class clazz) {
-        UxMenu uxMenu = AnnotationUtils.findAnnotation(clazz, UxMenu.class);
-        if (null == uxMenu) {
-            return null;
-        }
-        String name = uxMenu.name();
+        String name = MenuUtils.fetchMenuNameByAnnotation(clazz);
         if (StringUtils.isBlank(name)) {
-            name = MenuUtils.fetchMenuName(clazz);
+            return null;
         }
         return fetchMenuSign(module, name);
     }

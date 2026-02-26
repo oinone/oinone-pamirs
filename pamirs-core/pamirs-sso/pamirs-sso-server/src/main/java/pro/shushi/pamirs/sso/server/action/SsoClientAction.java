@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.sso.server.action;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -17,7 +18,6 @@ import pro.shushi.pamirs.sso.api.model.SsoClient;
 import pro.shushi.pamirs.sso.server.model.SsoClientService;
 import pro.shushi.pamirs.user.api.utils.CookieUtil;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Component

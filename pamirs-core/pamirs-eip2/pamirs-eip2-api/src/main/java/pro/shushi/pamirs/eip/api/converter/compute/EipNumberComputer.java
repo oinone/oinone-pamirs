@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.eip.api.converter.compute;
 
-import pro.shushi.pamirs.core.common.NumberHelper;
 import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipConvertParam;
 import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
@@ -8,6 +7,7 @@ import pro.shushi.pamirs.eip.api.util.EipParamConverterHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
+import pro.shushi.pamirs.ux.common.utils.NumberHelper;
 
 import java.math.BigDecimal;
 import java.util.List;

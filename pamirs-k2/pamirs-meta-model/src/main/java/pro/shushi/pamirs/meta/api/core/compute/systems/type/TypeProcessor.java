@@ -3,6 +3,7 @@ package pro.shushi.pamirs.meta.api.core.compute.systems.type;
 import org.springframework.core.annotation.Order;
 import pro.shushi.pamirs.meta.api.CommonApi;
 import pro.shushi.pamirs.meta.common.spi.SPI;
+import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
 /**
@@ -13,7 +14,7 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
  * date 2020/1/18 2:59 下午
  */
 @Order
-@SPI
+@SPI(factory = SpringServiceLoaderFactory.class)
 public interface TypeProcessor extends CommonApi {
 
     int DEFAULT_SHORT = 6;

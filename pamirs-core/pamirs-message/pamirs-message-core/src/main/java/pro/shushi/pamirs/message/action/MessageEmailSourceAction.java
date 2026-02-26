@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.message.action;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.message.enmu.MessageEngineTypeEnum;
@@ -14,8 +15,6 @@ import pro.shushi.pamirs.meta.api.core.orm.WriteWithFieldApi;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.ExpConstants;
-
-import jakarta.annotation.Resource;
 
 /**
  * @author shier

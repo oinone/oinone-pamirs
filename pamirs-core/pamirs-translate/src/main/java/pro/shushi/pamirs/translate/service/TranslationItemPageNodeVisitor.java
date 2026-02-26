@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.translate.service;
 
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.auth.api.constants.AuthConstants;
@@ -25,7 +26,6 @@ import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 import pro.shushi.pamirs.translate.visitor.AuthCompileHelper;
 import pro.shushi.pamirs.translate.visitor.DslNodeVisitor;
 
-import jakarta.validation.constraints.NotNull;
 import java.util.*;
 
 /**

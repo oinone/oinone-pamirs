@@ -6,7 +6,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.shushi.pamirs.auth.api.constants.AuthConstants;
 import pro.shushi.pamirs.auth.api.model.AuthRole;
 import pro.shushi.pamirs.auth.api.model.AuthUserRoleRel;
 import pro.shushi.pamirs.auth.api.runtime.executor.DataPermissionExecutor;

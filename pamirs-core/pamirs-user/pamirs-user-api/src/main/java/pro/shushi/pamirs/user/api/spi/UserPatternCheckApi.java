@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.user.api.spi;
 
+import jakarta.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.Spider;
@@ -7,8 +8,6 @@ import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 import pro.shushi.pamirs.resource.api.constants.DefaultResourceConstants;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.utils.UserPatternCheckUtils;
-
-import jakarta.annotation.Nullable;
 
 
 @SPI(factory = SpringServiceLoaderFactory.class)

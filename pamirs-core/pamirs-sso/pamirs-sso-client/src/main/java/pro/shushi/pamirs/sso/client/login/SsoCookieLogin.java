@@ -1,5 +1,7 @@
 package pro.shushi.pamirs.sso.client.login;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -34,8 +36,6 @@ import pro.shushi.pamirs.user.api.model.tmodel.PamirsUserTransient;
 import pro.shushi.pamirs.user.api.service.UserService;
 import pro.shushi.pamirs.user.api.utils.CookieUtil;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;

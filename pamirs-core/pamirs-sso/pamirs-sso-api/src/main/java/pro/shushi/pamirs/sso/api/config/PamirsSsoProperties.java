@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.sso.api.config;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Conditional;
@@ -8,8 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
 import pro.shushi.pamirs.sso.api.enmu.SsoAuthTypeEnum;
-
-import jakarta.validation.constraints.NotNull;
 
 @Configuration
 @ConfigurationProperties(prefix = SsoConfigurationConstant.PAMIRS_SSO_PREFIX)

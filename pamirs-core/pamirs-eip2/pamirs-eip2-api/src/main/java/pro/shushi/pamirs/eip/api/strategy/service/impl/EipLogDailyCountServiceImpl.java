@@ -3,14 +3,12 @@ package pro.shushi.pamirs.eip.api.strategy.service.impl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.shushi.pamirs.boot.modules.pmodel.AppSwitcherModuleProxy;
 import pro.shushi.pamirs.eip.api.config.PamirsEipProperties;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.AbstractSingleInterface;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
-import pro.shushi.pamirs.eip.api.model.statistics.EipLogCount;
 import pro.shushi.pamirs.eip.api.model.statistics.EipLogDailyCount;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -23,14 +21,12 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.util.DateUtils;
-import pro.shushi.pamirs.resource.api.model.ResourceTranslationItem;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
-import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 
 /**

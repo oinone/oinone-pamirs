@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.meta.api.core.orm.systems.types;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.compute.systems.type.TypeProcessor;
 import pro.shushi.pamirs.meta.base.K2;
@@ -32,6 +33,7 @@ import static pro.shushi.pamirs.meta.enmu.TtypeEnum.*;
 @SuppressWarnings("unused")
 @Slf4j
 @SPI.Service
+@Component
 public class BaseTypeProcessor implements TypeProcessor {
 
     @Override

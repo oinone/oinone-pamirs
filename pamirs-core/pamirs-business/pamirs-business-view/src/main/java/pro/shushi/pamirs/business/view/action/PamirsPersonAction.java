@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.business.api.entity.PamirsPerson;
 import pro.shushi.pamirs.business.api.enumeration.BusinessPartnerTypeEnum;
 import pro.shushi.pamirs.business.api.service.entity.PamirsPersonService;
-import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -18,6 +17,7 @@ import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 import java.util.List;
 

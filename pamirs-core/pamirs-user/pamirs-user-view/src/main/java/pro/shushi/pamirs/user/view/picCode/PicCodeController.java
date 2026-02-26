@@ -1,5 +1,7 @@
 package pro.shushi.pamirs.user.view.picCode;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,9 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.user.api.service.picCode.PicVerificationCodeGeneratorApi;
 import pro.shushi.pamirs.user.api.utils.VerifyCodeUtil;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 生成图形验证码

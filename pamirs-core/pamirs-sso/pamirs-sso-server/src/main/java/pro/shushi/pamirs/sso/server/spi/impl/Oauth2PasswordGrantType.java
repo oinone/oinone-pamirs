@@ -1,6 +1,8 @@
 package pro.shushi.pamirs.sso.server.spi.impl;
 
 import com.alibaba.fastjson.JSON;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,23 +14,21 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
-import pro.shushi.pamirs.sso.common.dto.OAuthTokenResponse;
-import pro.shushi.pamirs.sso.common.dto.SsoRequestParameter;
-import pro.shushi.pamirs.sso.common.dto.SsoUserVo;
-import pro.shushi.pamirs.sso.server.check.SsoUserLoginChecker;
 import pro.shushi.pamirs.sso.api.config.PamirsSsoProperties;
 import pro.shushi.pamirs.sso.api.constant.SsoConfigurationConstant;
 import pro.shushi.pamirs.sso.api.enmu.SsoExpEnumerate;
 import pro.shushi.pamirs.sso.api.enmu.SsoGranTypeEnum;
 import pro.shushi.pamirs.sso.api.model.SsoClient;
+import pro.shushi.pamirs.sso.common.dto.OAuthTokenResponse;
+import pro.shushi.pamirs.sso.common.dto.SsoRequestParameter;
+import pro.shushi.pamirs.sso.common.dto.SsoUserVo;
+import pro.shushi.pamirs.sso.server.check.SsoUserLoginChecker;
 import pro.shushi.pamirs.sso.server.model.SsoClientService;
 import pro.shushi.pamirs.sso.server.spi.IUserLoginOAuth2GrantType;
 import pro.shushi.pamirs.sso.server.utils.TokenCache;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.utils.JwtTokenUtil;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Optional;
 

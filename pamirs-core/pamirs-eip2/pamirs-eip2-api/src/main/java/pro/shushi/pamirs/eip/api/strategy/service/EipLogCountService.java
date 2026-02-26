@@ -2,8 +2,8 @@ package pro.shushi.pamirs.eip.api.strategy.service;
 
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
-import pro.shushi.pamirs.eip.api.model.statistics.EipLogCount;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
+import pro.shushi.pamirs.eip.api.model.statistics.EipLogCount;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 

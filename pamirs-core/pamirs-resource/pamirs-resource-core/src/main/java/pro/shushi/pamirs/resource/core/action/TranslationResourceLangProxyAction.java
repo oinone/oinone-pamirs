@@ -1,7 +1,6 @@
 package pro.shushi.pamirs.resource.core.action;
 
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -12,6 +11,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.resource.api.model.ResourceLang;
 import pro.shushi.pamirs.resource.api.proxy.TranslationResourceLangProxy;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 /**
  * Copyright 2024 The Netty Project

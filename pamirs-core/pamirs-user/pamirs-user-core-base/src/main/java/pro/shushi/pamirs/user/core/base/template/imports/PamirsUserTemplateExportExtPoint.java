@@ -3,7 +3,6 @@ package pro.shushi.pamirs.user.core.base.template.imports;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.auth.api.model.AuthRole;
-import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.file.api.context.ExcelDefinitionContext;
 import pro.shushi.pamirs.file.api.extpoint.impl.DefaultExcelExportFetchDataExtPoint;
 import pro.shushi.pamirs.file.api.model.ExcelExportTask;
@@ -16,6 +15,7 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.user.api.enmu.UserSourceEnum;
 import pro.shushi.pamirs.user.core.base.pmodel.PamirsUserProxy;
 import pro.shushi.pamirs.user.core.base.template.PamirsUserTemplate;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 import java.util.List;
 import java.util.stream.Collectors;

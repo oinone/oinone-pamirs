@@ -10,7 +10,6 @@ import pro.shushi.pamirs.business.api.enumeration.BusinessExpEnumerate;
 import pro.shushi.pamirs.business.api.enumeration.BusinessPartnerTypeEnum;
 import pro.shushi.pamirs.business.api.service.entity.PamirsCompanyService;
 import pro.shushi.pamirs.core.common.FetchUtil;
-import pro.shushi.pamirs.core.common.WrapperHelper;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.Action;
@@ -27,6 +26,7 @@ import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 import java.util.List;
 import java.util.Map;

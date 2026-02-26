@@ -33,7 +33,9 @@ import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
-import java.util.*;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Adamancy Zhang

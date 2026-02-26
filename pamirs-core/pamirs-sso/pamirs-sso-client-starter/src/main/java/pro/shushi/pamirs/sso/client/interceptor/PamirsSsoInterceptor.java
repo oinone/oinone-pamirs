@@ -1,15 +1,14 @@
 package pro.shushi.pamirs.sso.client.interceptor;
 
-import org.springframework.util.AntPathMatcher;
-import org.springframework.web.servlet.HandlerInterceptor;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.web.servlet.HandlerInterceptor;
+import pro.shushi.pamirs.sso.client.config.PamirsSsoProperties;
+
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import pro.shushi.pamirs.sso.client.config.PamirsSsoProperties;
 
 public class PamirsSsoInterceptor implements HandlerInterceptor {
 

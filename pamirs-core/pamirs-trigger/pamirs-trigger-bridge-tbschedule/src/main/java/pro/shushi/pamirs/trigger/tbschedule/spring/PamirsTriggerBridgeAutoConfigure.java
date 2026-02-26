@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.trigger.tbschedule.spring;
 
+import jakarta.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +8,6 @@ import pro.shushi.pamirs.framework.connectors.data.configure.sharding.ShardingDe
 import pro.shushi.pamirs.framework.connectors.data.configure.sharding.model.ShardingTableDefinition;
 import pro.shushi.pamirs.trigger.tbschedule.model.PamirsSchedule;
 
-import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 

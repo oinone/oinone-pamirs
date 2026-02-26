@@ -1,8 +1,12 @@
 package pro.shushi.pamirs.sso.server.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -12,7 +16,6 @@ import pro.shushi.pamirs.sso.common.dto.Result;
 import pro.shushi.pamirs.sso.common.dto.SsoRequestParameter;
 import pro.shushi.pamirs.sso.common.dto.SsoUserVo;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Objects;

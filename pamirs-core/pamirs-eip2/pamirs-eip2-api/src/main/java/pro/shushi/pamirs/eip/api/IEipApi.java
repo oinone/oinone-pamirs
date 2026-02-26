@@ -1,11 +1,10 @@
 package pro.shushi.pamirs.eip.api;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import pro.shushi.pamirs.eip.api.context.EipCamelContext;
 import pro.shushi.pamirs.eip.api.enmu.ExchangePatternEnum;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * 所有接口基类

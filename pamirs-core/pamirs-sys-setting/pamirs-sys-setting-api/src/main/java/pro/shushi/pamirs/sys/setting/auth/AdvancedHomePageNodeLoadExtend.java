@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.sys.setting.auth;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ import pro.shushi.pamirs.boot.web.manager.MetaCacheManager;
 import pro.shushi.pamirs.boot.web.service.AppConfigService;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 
 /**

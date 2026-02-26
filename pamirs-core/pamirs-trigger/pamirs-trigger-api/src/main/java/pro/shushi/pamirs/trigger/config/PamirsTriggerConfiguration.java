@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.trigger.config;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Conditional;
@@ -7,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 import pro.shushi.pamirs.framework.connectors.event.condition.NotifySwitchCondition;
 import pro.shushi.pamirs.trigger.constant.NotifyConstant;
-
-import jakarta.validation.constraints.NotBlank;
 
 /**
  * Pamirs Trigger 配置
