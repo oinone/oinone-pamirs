@@ -91,6 +91,7 @@ public class AutoTriggerTaskActionService implements NotifyConsumer<Row>, Trigge
             }
         }
         if (triggerModelMap.isEmpty()) {
+            log.warn("triggerModelMap is empty. triggerTable:{}", triggerTable);
             return;
         }
         List<TriggerConditionEnum> conditionList = new ArrayList<>();
