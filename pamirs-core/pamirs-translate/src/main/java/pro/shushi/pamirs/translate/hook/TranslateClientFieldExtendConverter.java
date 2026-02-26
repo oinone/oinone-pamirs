@@ -60,7 +60,8 @@ public class TranslateClientFieldExtendConverter implements ClientFieldExtendCon
             }
 
             ModelField modelField = fieldConfig.getModelField();
-            if (!modelField.getTranslate()) {
+            // 草稿字段(draftCode)的Translate为空
+            if (modelField.getTranslate() == null || !modelField.getTranslate()) {
                 return;
             }
 
@@ -133,7 +134,7 @@ public class TranslateClientFieldExtendConverter implements ClientFieldExtendCon
             return model;
         }
 
-        ModelConfig superModel = PamirsSession.getContext().getModelConfig(modelConfig.getSuperModels().get(0));
+        ModelConfig superModel = PamirsSession.getContext().getSimpleModelConfig(modelConfig.getSuperModels().get(0));
 
         String sModel = superModel.getModel();
         if (SPEC_MODELS.contains(sModel)) {

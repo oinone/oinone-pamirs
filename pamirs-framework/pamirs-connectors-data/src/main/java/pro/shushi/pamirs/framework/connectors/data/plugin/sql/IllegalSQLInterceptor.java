@@ -83,10 +83,10 @@ public class IllegalSQLInterceptor implements Interceptor {
      * @param expression ignore
      */
     private static void validExpression(Expression expression) {
-        //where条件使用了 or 关键字
+        // where条件使用了 or 关键字
         if (expression instanceof OrExpression) {
-            OrExpression orExpression = (OrExpression) expression;
-            throw new MybatisPlusException("非法SQL，where条件中不能使用【or】关键字，错误or信息：" + orExpression.toString());
+//            OrExpression orExpression = (OrExpression) expression;
+//            throw new MybatisPlusException("非法SQL，where条件中不能使用【or】关键字，错误or信息：" + orExpression.toString());
         } else if (expression instanceof NotEqualsTo) {
             NotEqualsTo notEqualsTo = (NotEqualsTo) expression;
             throw new MybatisPlusException("非法SQL，where条件中不能使用【!=】关键字，错误!=信息：" + notEqualsTo.toString());
