@@ -46,9 +46,6 @@ public class SimpleAuthApi extends DefaultAuthApi implements AuthApi {
             return new Result<>();
         }
         AuthVerificationHelper.checkLogin();
-        if (isFilterFunctionOnlyLogin(namespace, fun)) {
-            return new Result<>();
-        }
         return new Result<>();
     }
 
@@ -57,16 +54,6 @@ public class SimpleAuthApi extends DefaultAuthApi implements AuthApi {
             return Boolean.TRUE;
         }
         return Optional.ofNullable(getAuthConfiguration().getFunFilter())
-                .filter(CollectionUtils::isNotEmpty)
-                .map(v -> v.stream().anyMatch(vv -> vv.getNamespace().equals(namespace) && vv.getFun().equals(fun)))
-                .orElse(Boolean.FALSE);
-    }
-
-    private Boolean isFilterFunctionOnlyLogin(String namespace, String fun) {
-        if (AuthHelper.isFunctionInWhiteOnlyLogin(namespace, fun)) {
-            return Boolean.TRUE;
-        }
-        return Optional.ofNullable(getAuthConfiguration().getFunFilterOnlyLogin())
                 .filter(CollectionUtils::isNotEmpty)
                 .map(v -> v.stream().anyMatch(vv -> vv.getNamespace().equals(namespace) && vv.getFun().equals(fun)))
                 .orElse(Boolean.FALSE);
