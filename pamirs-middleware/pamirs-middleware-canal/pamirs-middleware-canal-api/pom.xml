@@ -7,7 +7,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.middleware.canal</groupId>
         <artifactId>pamirs-middleware-canal</artifactId>
-        <version>6.4.3</version>
+        <version>6.4.4</version>
     </parent>
 
     <artifactId>pamirs-middleware-canal-api</artifactId>
