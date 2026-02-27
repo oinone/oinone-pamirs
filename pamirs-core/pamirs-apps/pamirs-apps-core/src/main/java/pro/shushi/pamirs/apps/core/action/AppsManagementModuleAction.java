@@ -14,7 +14,6 @@ import pro.shushi.pamirs.boot.modules.enmu.AppLikeEnum;
 import pro.shushi.pamirs.boot.modules.enmu.AppStatusEnum;
 import pro.shushi.pamirs.boot.modules.model.AppsModuleRelUser;
 import pro.shushi.pamirs.boot.web.service.AppConfigService;
-import pro.shushi.pamirs.core.common.api.EditionService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -58,16 +57,6 @@ public class AppsManagementModuleAction {
 
     @Autowired
     private AppConfigService appConfigService;
-
-    @Autowired
-    private EditionService editionService;
-
-    @Function(openLevel = FunctionOpenEnum.API)
-    @Function.Advanced(type = FunctionTypeEnum.QUERY)
-    public AppsManagementModule construct(AppsManagementModule appsManagementModule) {
-        appsManagementModule.setEnterpriseEdition(editionService.checkEdition());
-        return appsManagementModule;
-    }
 
     @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)
     @Function.fun(FunctionConstants.queryPage)
@@ -183,18 +172,6 @@ public class AppsManagementModuleAction {
         }
         result.fieldQuery(AppsManagementModule::getUrlHomePage);
         return result;
-    }
-
-    @Action.Advanced(managed = true, invisible = ExpConstants.idValueExist, type = FunctionTypeEnum.CREATE)
-    @Action(displayName = "创建", label = "确定", summary = "添加", bindingType = ViewTypeEnum.FORM)
-    public AppsManagementModule create(AppsManagementModule data) {
-        return appsManagementModuleService.create(data);
-    }
-
-    @Action.Advanced(managed = true, invisible = ExpConstants.idValueNotExist)
-    @Action(displayName = "更新", label = "确定", summary = "修改", bindingType = ViewTypeEnum.FORM)
-    public AppsManagementModule update(AppsManagementModule data) {
-        return appsManagementModuleService.update(data);
     }
 
     @Action(displayName = "绑定首页")

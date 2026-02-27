@@ -11,8 +11,8 @@
         <field data="like" label="false" placeholder="星标应用"/>
     </template>
     <template slot="actions">
-        <action name="create" label="创建" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="update" label="编辑" invisible="activeRecord.enterpriseEdition!=true"/>
+        <action name="create" label="创建"/>
+        <action name="update" label="编辑"/>
         <action name="bindHomePage" label="设置首页"/>
         <action name="like" model="base.AppSwitcherModuleProxy"/>
         <action name="unLike" model="base.AppSwitcherModuleProxy"/>
@@ -20,36 +20,36 @@
         <action name="upgrade"/>
         <action name="reload"/>
         <action name="uninstall"/>
-        <action name="homepage" model="designer.DesignerModelDefinition" label="设计页面" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="homepage" model="ui.designer.UiDesignerView" label="设计模型" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="PaasMenus_Menu_LowCodeMenu" model="paas.codeFuse.CodeFuseModuleExtProjectDisplay" label="低无一体" invisible="activeRecord.enterpriseEdition!=true"/>
+        <action name="homepage" model="designer.DesignerModelDefinition" label="设计页面"/>
+        <action name="homepage" model="ui.designer.UiDesignerView" label="设计模型"/>
+        <action name="PaasMenus_Menu_LowCodeMenu" model="paas.codeFuse.CodeFuseModuleExtProjectDisplay" label="低无一体"/>
 
         <!-- 导出 -->
-        <action name="modelDesignerDialog" label="模型导出" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="uiDesignerDialog" label="界面导出" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="wfDesignerDialog" label="流程导出" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="mfDesignerDialog" label="微流导出" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="eipDesignerDialog" label="集成导出" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="dataDesignerDialog" label="数据可视化导出" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="printDesignerDialog" label="打印导出" invisible="activeRecord.enterpriseEdition!=true"/>
+        <action name="modelDesignerDialog" label="模型导出"/>
+        <action name="uiDesignerDialog" label="界面导出"/>
+        <action name="wfDesignerDialog" label="流程导出"/>
+        <action name="mfDesignerDialog" label="微流导出"/>
+        <action name="eipDesignerDialog" label="集成导出"/>
+        <action name="dataDesignerDialog" label="数据可视化导出"/>
+        <action name="printDesignerDialog" label="打印导出"/>
 
         <!-- 导入 -->
-        <action name="modelDesignerImportDialog" label="模型导入" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="uiDesignerImportDialog" label="界面导入" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="wfDesignerImportDialog" label="流程导入" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="mfDesignerImportDialog" label="微流导入" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="eipDesignerImportDialog" label="集成导入" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="dataDesignerImportDialog" label="数据可视化导入" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="printDesignerImportDialog" label="打印导入" invisible="activeRecord.enterpriseEdition!=true"/>
+        <action name="modelDesignerImportDialog" label="模型导入"/>
+        <action name="uiDesignerImportDialog" label="界面导入"/>
+        <action name="wfDesignerImportDialog" label="流程导入"/>
+        <action name="mfDesignerImportDialog" label="微流导入"/>
+        <action name="eipDesignerImportDialog" label="集成导入"/>
+        <action name="dataDesignerImportDialog" label="数据可视化导入"/>
+        <action name="printDesignerImportDialog" label="打印导入"/>
 
         <!-- 部署 -->
-        <action name="modelDesignerSyncDialog" label="模型部署" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="uiDesignerSyncDialog" label="界面部署" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="wfDesignerSyncDialog" label="流程部署" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="mfDesignerSyncDialog" label="微流部署" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="eipDesignerSyncDialog" label="集成部署" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="dataDesignerSyncDialog" label="数据可视化部署" invisible="activeRecord.enterpriseEdition!=true"/>
-        <action name="printDesignerSyncDialog" label="打印部署" invisible="activeRecord.enterpriseEdition!=true"/>
+        <action name="modelDesignerSyncDialog" label="模型部署"/>
+        <action name="uiDesignerSyncDialog" label="界面部署"/>
+        <action name="wfDesignerSyncDialog" label="流程部署"/>
+        <action name="mfDesignerSyncDialog" label="微流部署"/>
+        <action name="eipDesignerSyncDialog" label="集成部署"/>
+        <action name="dataDesignerSyncDialog" label="数据可视化部署"/>
+        <action name="printDesignerSyncDialog" label="打印部署"/>
 
         <action name="apps_business_screen_detail" label="了解更多"/>
     </template>
@@ -64,7 +64,5 @@
         <field data="logo"/>
         <field data="canUpgrade"/>
         <field data="state"/>
-
-        <field data="enterpriseEdition" invisible="true"/>
     </template>
 </view>

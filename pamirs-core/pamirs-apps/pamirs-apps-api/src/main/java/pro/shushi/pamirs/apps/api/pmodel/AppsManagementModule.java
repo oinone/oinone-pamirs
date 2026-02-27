@@ -71,8 +71,4 @@ public class AppsManagementModule extends UeModule {
     @Field.many2one
     @Field(displayName = "URL主页")
     private UrlAction urlHomePage;
-
-    @Field(displayName = "版本标记")
-    @Field.Boolean
-    private Boolean enterpriseEdition;
 }

@@ -13,7 +13,6 @@ import pro.shushi.pamirs.meta.common.enmu.BitEnum;
 import pro.shushi.pamirs.meta.common.enmu.Enums;
 import pro.shushi.pamirs.meta.common.enmu.IEnum;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
-import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.domain.model.DataDictionary;
 import pro.shushi.pamirs.meta.domain.model.DataDictionaryItem;
 import pro.shushi.pamirs.meta.enmu.ActiveEnum;
@@ -36,9 +35,8 @@ import static pro.shushi.pamirs.meta.enmu.MetaExpEnumerate.*;
  * @version 1.0.0
  * date 2020/3/4 2:48 上午
  */
-@Slf4j
 @SuppressWarnings({"rawtypes"})
-@SPI.Service
+@Slf4j
 public class BaseEnumProcessor implements EnumProcessor<DataDictionary> {
 
     @Override
@@ -115,16 +113,28 @@ public class BaseEnumProcessor implements EnumProcessor<DataDictionary> {
             }
             SystemSourceEnum source = Optional.ofNullable(AnnotationUtils.getAnnotation(enumClass, Base.class))
                     .map(Base::value).orElse(null);
+            boolean showHelp = Optional.ofNullable(AnnotationUtils.getAnnotation(enumClass, Dict.class))
+                    .map(Dict::showHelp)
+                    .orElse(false);
             List<DataDictionaryItem> enumValues = new ArrayList<>();
             List<IEnum> enums = Enums.getEnumList((Class<IEnum>) enumClass);
             for (IEnum one : enums) {
-                enumValues.add(new DataDictionaryItem()
-                        .setDisplayName(one.displayName())
-                        .setName(one.name())
+                // FIXME: zbh 20260227 此处需要补充使用 Prop 注解设置 DSL 属性，并通过 attributes 属性传递。
+                String displayName = one.displayName();
+                String name = one.name();
+                DataDictionaryItem dataDictionaryItem = new DataDictionaryItem()
+                        .setDisplayName(displayName)
+                        .setName(name)
                         .setValue(TypeUtils.stringValueOf(one.value()))
                         .setState(ActiveEnum.ACTIVE)
-                        .setSource(source)
-                );
+                        .setSource(source);
+                if (showHelp) {
+                    String help = one.help();
+                    if (StringUtils.isNotBlank(help)) {
+                        dataDictionaryItem.setHelp(help);
+                    }
+                }
+                enumValues.add(dataDictionaryItem);
             }
             return enumValues;
         } catch (Exception e) {

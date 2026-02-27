@@ -8,6 +8,7 @@ import pro.shushi.pamirs.apps.api.enmu.AppsExpEnumerate;
 import pro.shushi.pamirs.apps.api.pmodel.AppsManagementModule;
 import pro.shushi.pamirs.apps.api.pmodel.AppsModuleMenuProxy;
 import pro.shushi.pamirs.apps.api.service.AppsManagementModuleService;
+import pro.shushi.pamirs.apps.core.util.ModelDataHelper;
 import pro.shushi.pamirs.boot.base.enmu.ActionTargetEnum;
 import pro.shushi.pamirs.boot.base.enmu.ActionTypeEnum;
 import pro.shushi.pamirs.boot.base.model.*;
@@ -30,40 +31,10 @@ import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static pro.shushi.pamirs.apps.api.enmu.AppsExpEnumerate.APPS_NOCODE_MODULE_NOT_SUPPORT;
-
 @Slf4j
 @Service
 @Order(1)
 public class DefaultAppsManagementModuleServiceImpl implements AppsManagementModuleService {
-
-    @Override
-    public AppsManagementModule create(AppsManagementModule data) {
-        throw PamirsException.construct(APPS_NOCODE_MODULE_NOT_SUPPORT)
-                .errThrow();
-    }
-
-    @Override
-    public AppsManagementModule update(AppsManagementModule data) {
-        throw PamirsException.construct(APPS_NOCODE_MODULE_NOT_SUPPORT)
-                .errThrow();
-    }
-
-    protected ModelData initModelData(String model, String module, MetaBaseModel meta) {
-        ModelData modelData = new ModelData();
-        modelData.setLowCode(Boolean.TRUE);
-        modelData.setSource(SystemSourceEnum.UI);
-        modelData.setModule(module);
-        modelData.setLoadModule(module);
-        modelData.setDateInit(new Date());
-        modelData.setDateUpdate(modelData.getDateInit());
-
-        modelData.setModel(model);
-        modelData.setResId(meta.getId());
-        modelData.code(modelData.getModel(), meta.getSign());
-        modelData.construct();
-        return modelData.create();
-    }
 
     @Override
     public AppsManagementModule bindHomePage(AppsManagementModule data) {
@@ -132,7 +103,7 @@ public class DefaultAppsManagementModuleServiceImpl implements AppsManagementMod
             homePage = homePage.create();
 
             // modelData
-            initModelData(ViewAction.MODEL_MODEL, module.getModule(), homePage);
+            ModelDataHelper.initModelData(ViewAction.MODEL_MODEL, module.getModule(), homePage);
         } else {
             homePage = new ViewAction();
             homePage.setId(existHomePage.getId());
@@ -193,7 +164,7 @@ public class DefaultAppsManagementModuleServiceImpl implements AppsManagementMod
             homePage.setPriority(999);
             homePage = homePage.create();
             // modelData
-            initModelData(ViewAction.MODEL_MODEL, module.getModule(), homePage);
+            ModelDataHelper.initModelData(ViewAction.MODEL_MODEL, module.getModule(), homePage);
         } else {
             homePage = new UrlAction();
             homePage.setId(existHomePage.getId());

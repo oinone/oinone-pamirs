@@ -27,6 +27,9 @@ public @interface Dict {
     // 类型
     int type() default 1;
 
+    // 枚举项显示帮助信息
+    boolean showHelp() default false;
+
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE})
     @interface dictionary {

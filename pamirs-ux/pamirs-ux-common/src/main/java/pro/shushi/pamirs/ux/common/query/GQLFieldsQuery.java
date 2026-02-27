@@ -102,6 +102,8 @@ public class GQLFieldsQuery {
     }
 
     private static void resolveRelationFields(GQLFieldsQuery query, String model, List<CommonGQLFields> gqlFieldsList, String key) {
+        Function<String, String> columnFormatConvert = query.getColumnFormatConvert(model);
+        List<String> columns = query.columnsMap.get(key);
         List<String> relationFields = new ArrayList<>();
         for (CommonGQLFields gqlFields : gqlFieldsList) {
             String field = gqlFields.getField();
@@ -110,6 +112,11 @@ public class GQLFieldsQuery {
                 throw PamirsException.construct(UxCommonExpEnumerate.MODEL_FIELD_NOT_FOUND, model, field).errThrow();
             }
             relationFields.add(field);
+            String lname = modelFieldConfig.getLname();
+            String column = modelFieldConfig.getColumn();
+            if (StringUtils.isNotBlank(column)) {
+                columns.add(WrapperHelper.getColumAsField(columnFormatConvert.apply(column), columnFormatConvert.apply(lname)));
+            }
             String references = modelFieldConfig.getReferences();
             String nextKey = key + CharacterConstants.SEPARATOR_OCTOTHORPE + field;
             List<String> normalFields = gqlFields.getFields();

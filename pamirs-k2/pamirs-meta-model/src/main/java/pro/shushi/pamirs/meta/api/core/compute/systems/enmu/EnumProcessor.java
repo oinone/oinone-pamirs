@@ -4,6 +4,7 @@ import org.springframework.core.annotation.Order;
 import pro.shushi.pamirs.meta.api.CommonApi;
 import pro.shushi.pamirs.meta.common.enmu.api.BaseEnumApi;
 import pro.shushi.pamirs.meta.common.spi.SPI;
+import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * date 2020/3/2 11:50 上午
  */
 @Order
-@SPI
+@SPI(factory = SpringServiceLoaderFactory.class)
 public interface EnumProcessor<T> extends BaseEnumApi, CommonApi {
 
     /**
