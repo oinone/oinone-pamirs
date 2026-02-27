@@ -332,7 +332,7 @@ public class RequestContext implements Serializable {
             if (null != type && !hook.getHookType().equals(type)) {
                 continue;
             }
-            if (null != excludeHooks && excludeHooks.contains(hook.getExecuteNamespace())) {
+            if (excludeHooks.contains(hook.getExecuteNamespace())) {
                 continue;
             }
             List<FunctionTypeEnum> hookFunctionTypes = hook.getFunctionTypes();

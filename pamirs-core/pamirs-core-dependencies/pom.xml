@@ -189,13 +189,6 @@
                 <artifactId>pamirs-management-center</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>pro.shushi.pamirs.core</groupId>
-                <artifactId>pamirs-sso</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 

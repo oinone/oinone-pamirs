@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import pro.shushi.pamirs.framework.common.constants.ConfigureConstants;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -25,6 +26,6 @@ public class PamirsFrameworkHookConfiguration {
 
     private boolean ignoreAll;
 
-    private Set<String> excludes;
+    private Set<String> excludes = new HashSet<>();
 
 }

@@ -46,7 +46,6 @@
         <module>pamirs-my-center</module>
 
         <!-- enhancing capability -->
-        <module>pamirs-sso</module>
         <module>pamirs-logger</module>
         <module>pamirs-dev-tools</module>
 
