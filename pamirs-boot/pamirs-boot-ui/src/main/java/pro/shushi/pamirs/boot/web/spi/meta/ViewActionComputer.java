@@ -9,6 +9,7 @@ import pro.shushi.pamirs.boot.web.utils.ViewUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.compute.definition.MetaDataPreStoreComputer;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
+import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
@@ -41,8 +42,10 @@ public class ViewActionComputer implements MetaDataPreStoreComputer<ViewAction> 
         // 补充模块名称
         if (StringUtils.isBlank(data.getModule())) {
             if (StringUtils.isNotBlank(dataModel)) {
-                ModelDefinition resModelDefinition = PamirsSession.getContext().getModelConfig(dataModel).getModelDefinition();
-                if (null != resModelDefinition) {
+                ModelDefinition resModelDefinition = Optional.ofNullable(PamirsSession.getContext().getSimpleModelConfig(dataModel)).map(ModelConfig::getModelDefinition).orElse(null);
+                if (resModelDefinition == null) {
+                    log.warn("Invalid data model. model: {}, actionName: {}, resModel: {}", model, data.getName(), dataModel);
+                } else {
                     data.setModule(resModelDefinition.getModule());
                     data.setModuleName(resModelDefinition.getModuleName());
                 }
