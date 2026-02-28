@@ -50,6 +50,9 @@ public class ServerActionInheritedExtendProcessor implements InheritedExtendProc
             return;
         }
         for (FunctionDefinition superFunction : superFunctionDefinitionList) {
+            if (!CollectionUtils.isEmpty(modelDefinition.getUnInheritedFunctions()) && modelDefinition.getUnInheritedFunctions().contains(superFunction.getFun())) {
+                return;
+            }
             if (superFunction.isMetaCompleted()) {
                 continue;
             }
