@@ -50,8 +50,8 @@ public class ServerActionInheritedExtendProcessor implements InheritedExtendProc
             return;
         }
         for (FunctionDefinition superFunction : superFunctionDefinitionList) {
-            if (!CollectionUtils.isEmpty(modelDefinition.getUnInheritedFunctions()) && modelDefinition.getUnInheritedFunctions().contains(superFunction.getFun())) {
-                return;
+            if (CollectionUtils.isNotEmpty(modelDefinition.getUnInheritedFunctions()) && modelDefinition.getUnInheritedFunctions().contains(superFunction.getFun())) {
+                continue;
             }
             if (superFunction.isMetaCompleted()) {
                 continue;
@@ -136,7 +136,7 @@ public class ServerActionInheritedExtendProcessor implements InheritedExtendProc
         signSet.add(sign);
         for (ServerAction otherServerAction : otherServerActions) {
             String model = otherServerAction.getModel();
-            if (!namespace.equals(model)) {
+            if (!namespace.equals(model) || !fun.equals(otherServerAction.getFun())) {
                 continue;
             }
             String action = otherServerAction.getName();
