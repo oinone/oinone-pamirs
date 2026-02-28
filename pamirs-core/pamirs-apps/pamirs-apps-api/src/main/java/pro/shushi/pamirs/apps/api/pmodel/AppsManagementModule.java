@@ -8,6 +8,7 @@ import pro.shushi.pamirs.boot.modules.enmu.AppLikeEnum;
 import pro.shushi.pamirs.boot.modules.enmu.AppStatusEnum;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
+import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.enmu.ModelTypeEnum;
 import pro.shushi.pamirs.meta.enmu.NullableBoolEnum;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 //@Base
 @Model.model(AppsManagementModule.MODEL_MODEL)
-@Model.Advanced(type = ModelTypeEnum.PROXY)
+@Model.Advanced(type = ModelTypeEnum.PROXY, unInheritedFunctions = {FunctionConstants.create, FunctionConstants.update, FunctionConstants.deleteWithFieldBatch})
 @Model(displayName = "Apps管理module", labelFields = "displayName")
 public class AppsManagementModule extends UeModule {
 
