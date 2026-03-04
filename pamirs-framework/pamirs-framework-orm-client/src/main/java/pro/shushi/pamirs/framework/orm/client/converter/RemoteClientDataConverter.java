@@ -114,7 +114,7 @@ public class RemoteClientDataConverter implements ClientDataConverter {
                     }
                     getReentryMap().put(objId, new SoftReference<Object>(Models.modelDirective().enableOrmReentry(result)));
                     return ormModelingProcessor.before(oModel, oObj);
-                },
+                },// 模型化
                 (context, modelConfig, oObj) -> {
                     String oModel = modelConfig.getModel();
                     oObj = RecursionOrmApi.getOrmObjectingProcessor().after(oModel, oObj);// 对象化
@@ -160,7 +160,7 @@ public class RemoteClientDataConverter implements ClientDataConverter {
         return ClientDataComputeTemplate.getInstance().compute(model, obj,
                 this::out,
                 (oModel, oObj) -> {
-                    Models.modelDirective().enableOrmReentry(oObj);
+                    Models.modelDirective().enableOrmReentry(oObj);// 防重入
                     getReentryMap().put(objId, new SoftReference<Object>(Models.modelDirective().enableOrmReentry(new HashMap())));
                     return ormModelingProcessor.before(oModel, oObj);// 模型化
                 },

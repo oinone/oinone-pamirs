@@ -126,7 +126,7 @@ public class DefaultClientDataConverter implements ClientDataConverter {
                     }
                     getReentryMap().put(objId, new SoftReference<Object>(Models.modelDirective().enableOrmReentry(result)));
                     return ormModelingProcessor.before(oModel, oObj);
-                },
+                },// 模型化
                 (context, oModel, oObj) -> {
                     oObj = RecursionOrmApi.getOrmObjectingProcessor().after(oModel, oObj);// 对象化
                     Object res = clientModelChecker.check(context, oModel, oObj);// 模型约束校验
