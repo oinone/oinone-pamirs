@@ -94,7 +94,7 @@ public class RemoteClientDataConverter implements ClientDataConverter {
             objIdTemp = System.identityHashCode(FieldUtils.getDValue(obj));
         }
         int objId = objIdTemp;
-        if (Models.modelDirective().isOrmReentry(obj)) {
+        if (Models.modelDirective().isOrmReentry(obj)) {// 判断是否重入
             if (getReentryMap(objId) != null) {
                 T res = (T) (getReentryMap(objId).get());
                 return res;
@@ -103,7 +103,7 @@ public class RemoteClientDataConverter implements ClientDataConverter {
         return ClientDataComputeTemplate.getInstance().compute(totalContext, model, obj,
                 this::in,
                 (context, oModel, oObj) -> {
-                    Models.modelDirective().enableOrmReentry(oObj);
+                    Models.modelDirective().enableOrmReentry(oObj);// 防重入
                     Object result = null;
                     ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelConfig(oModel);
                     String lname = modelConfig.getLname();
@@ -117,8 +117,8 @@ public class RemoteClientDataConverter implements ClientDataConverter {
                 },
                 (context, modelConfig, oObj) -> {
                     String oModel = modelConfig.getModel();
-                    oObj = RecursionOrmApi.getOrmObjectingProcessor().after(oModel, oObj);
-                    Object res = clientModelChecker.check(context, modelConfig.getModelDefinition(), oObj);
+                    oObj = RecursionOrmApi.getOrmObjectingProcessor().after(oModel, oObj);// 对象化
+                    Object res = clientModelChecker.check(context, modelConfig.getModelDefinition(), oObj);// 模型约束校验
                     String lname = modelConfig.getLname();
                     if (ClassUtils.isNoClass(lname)) {
                         Map obj1 = (Map) getReentryMap().get(objId).get();
@@ -151,7 +151,7 @@ public class RemoteClientDataConverter implements ClientDataConverter {
         }
         int objId = objIdTemp;
 
-        if (Models.modelDirective().isOrmReentry(obj)) {
+        if (Models.modelDirective().isOrmReentry(obj)) {// 判断是否重入
             if (getReentryMap(objId) != null) {
                 T res = (T) (getReentryMap(objId).get());
                 return res;
@@ -162,12 +162,12 @@ public class RemoteClientDataConverter implements ClientDataConverter {
                 (oModel, oObj) -> {
                     Models.modelDirective().enableOrmReentry(oObj);
                     getReentryMap().put(objId, new SoftReference<Object>(Models.modelDirective().enableOrmReentry(new HashMap())));
-                    return ormModelingProcessor.before(oModel, oObj);
+                    return ormModelingProcessor.before(oModel, oObj);// 模型化
                 },
                 (context, modelConfig, oObj) -> {
                     String oModel = modelConfig.getModel();
-                    remoteClientPageProcessor.out(oModel, oObj);
-                    Map<String, Object> res = (Map<String, Object>) ormMappingProcessor.after(oModel, oObj);
+                    remoteClientPageProcessor.out(oModel, oObj);// 分页数据处理
+                    Map<String, Object> res = (Map<String, Object>) ormMappingProcessor.after(oModel, oObj);// map化
                     Map obj1 = (HashMap) getReentryMap().get(objId).get();
                     res.forEach((k, v) -> {
                         obj1.put(k, v);

@@ -106,7 +106,7 @@ public class DefaultClientDataConverter implements ClientDataConverter {
             objIdTemp = System.identityHashCode(FieldUtils.getDValue(obj));
         }
         int objId = objIdTemp;
-        if (Models.modelDirective().isOrmReentry(obj)) {
+        if (Models.modelDirective().isOrmReentry(obj)) {// 判断是否重入
             if (getReentryMap(objId) != null) {
                 T res = (T) (getReentryMap(objId).get());
                 return res;
@@ -115,7 +115,7 @@ public class DefaultClientDataConverter implements ClientDataConverter {
         return dataComputeTemplate.compute(totalContext, model, obj,
                 this::in,
                 (context, oModel, oObj) -> {
-                    Models.modelDirective().enableOrmReentry(oObj);
+                    Models.modelDirective().enableOrmReentry(oObj);// 防重入
                     Object result = null;
                     ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelConfig(oModel);
                     String lname = FuseMeta.lname(modelConfig);
@@ -128,8 +128,8 @@ public class DefaultClientDataConverter implements ClientDataConverter {
                     return ormModelingProcessor.before(oModel, oObj);
                 },
                 (context, oModel, oObj) -> {
-                    oObj = RecursionOrmApi.getOrmObjectingProcessor().after(oModel, oObj);
-                    Object res = clientModelChecker.check(context, oModel, oObj);
+                    oObj = RecursionOrmApi.getOrmObjectingProcessor().after(oModel, oObj);// 对象化
+                    Object res = clientModelChecker.check(context, oModel, oObj);// 模型约束校验
                     ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelConfig(oModel);
                     String lname = FuseMeta.lname(modelConfig);
                     if (ClassUtils.isNoClass(lname)) {
@@ -172,13 +172,13 @@ public class DefaultClientDataConverter implements ClientDataConverter {
         return dataComputeTemplate.compute(model, obj,
                 this::out,
                 (oModel, oObj) -> {
-                    Models.modelDirective().enableOrmReentry(oObj);
+                    Models.modelDirective().enableOrmReentry(oObj);// 防重入
                     getReentryMap().put(objId, new SoftReference<Object>(Models.modelDirective().enableOrmReentry(new HashMap())));
-                    return ormModelingProcessor.before(oModel, oObj);
+                    return ormModelingProcessor.before(oModel, oObj);// 模型化
                 },
                 (oModel, oObj) -> {
-                    clientPageProcessor.out(oModel, oObj);
-                    Map<String, Object> res = (Map<String, Object>) ormMappingProcessor.after(oModel, oObj);
+                    clientPageProcessor.out(oModel, oObj);// 分页数据处理
+                    Map<String, Object> res = (Map<String, Object>) ormMappingProcessor.after(oModel, oObj);// map化
                     Map obj1 = (HashMap) getReentryMap().get(objId).get();
                     res.forEach((k, v) -> {
                         obj1.put(k, v);
