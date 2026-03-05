@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.framework.orm.client.converter;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.orm.api.RecursionOrmApi;
 import pro.shushi.pamirs.framework.orm.client.checker.ClientFieldChecker;
