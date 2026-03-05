@@ -179,11 +179,10 @@ public class AppsMangedModuleDataInit implements MetaDataEditor, SystemBootAfter
     }
 
     private void setModuleLogo(ModuleDefinition module) {
-        if (!isForceUpdateDefaultLogo && StringUtils.isNotBlank(module.getDefaultLogo())) {
-            return;
+        if (isForceUpdateDefaultLogo || StringUtils.isBlank(module.getLogo())) {
+            String logoFormat = FileClientFactory.getClient().getStaticUrl() + "/oinone/img/apps/%s@2x.png";
+            module.setDefaultLogo(String.format(logoFormat, module.getModule()));
         }
-        String logoFormat = FileClientFactory.getClient().getStaticUrl() + "/oinone/img/apps/%s@2x.png";
-        module.setDefaultLogo(String.format(logoFormat, module.getModule()));
     }
 
     /**
