@@ -33,9 +33,9 @@ public class AuthModule implements PamirsModule {
 
     public static final String MODULE_NAME = "auth";
 
-    public static final String MODULE_VERSION = "5.1.21";
+    public static final String MODULE_VERSION = "7.2.0";
 
-    public static final Version version = Version.parse(AuthModule.MODULE_VERSION);
+    public static final Version VERSION = Version.parse(AuthModule.MODULE_VERSION);
 
     @Override
     public String[] packagePrefix() {

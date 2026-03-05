@@ -28,9 +28,9 @@ public class UserModule implements PamirsModule {
 
     public static final String MODULE_NAME = "user";
 
-    public static final String MODULE_VERSION = "5.0.0";
+    public static final String MODULE_VERSION = "7.2.0";
 
-    public static final Version version = Version.parse(UserModule.MODULE_VERSION);
+    public static final Version VERSION = Version.parse(UserModule.MODULE_VERSION);
 
     @Override
     public String[] packagePrefix() {

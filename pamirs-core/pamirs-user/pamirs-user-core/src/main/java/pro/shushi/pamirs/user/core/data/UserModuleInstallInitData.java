@@ -8,14 +8,12 @@ import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.InstallDataInit;
 import pro.shushi.pamirs.boot.common.api.init.UpgradeDataInit;
 import pro.shushi.pamirs.core.common.cache.MemoryListSearchCache;
-import pro.shushi.pamirs.core.common.version.Version;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.user.api.UserModule;
 import pro.shushi.pamirs.user.api.constants.SystemUser;
-import pro.shushi.pamirs.user.api.model.PamirsPassword;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.service.PasswordService;
 import pro.shushi.pamirs.user.api.service.UserSimpleService;
@@ -46,15 +44,11 @@ public class UserModuleInstallInitData implements InstallDataInit, UpgradeDataIn
 
     @Override
     public boolean upgrade(AppLifecycleCommand command, String version, String existVersion) {
-        Version existModuleVersion = null;
-        if (Version.check(existVersion)) {
-            existModuleVersion = Version.parse(existVersion);
-        }
-        initUser(existModuleVersion);
+        initUser();
         return true;
     }
 
-    private void initUser(Version oldVersion) {
+    private void initUser() {
         PamirsUser anonymous = SystemUser.anonymous();
         PamirsUser admin = SystemUser.admin();
         List<PamirsUser> initUserList = Lists.newArrayList(anonymous, admin);
@@ -66,7 +60,6 @@ public class UserModuleInstallInitData implements InstallDataInit, UpgradeDataIn
         MemoryListSearchCache<Long, PamirsUser> existUserCache = new MemoryListSearchCache<>(existUsers, PamirsUser::getId);
 
         List<PamirsUser> createUserList = new ArrayList<>();
-        List<PamirsUser> forceUpdateUserList = new ArrayList<>();
         for (PamirsUser user : initUserList) {
             PamirsUser existUser = existUserCache.get(user.getId());
             if (existUser == null) {
@@ -74,15 +67,6 @@ public class UserModuleInstallInitData implements InstallDataInit, UpgradeDataIn
             } else if (!existUser.getId().equals(user.getId())) {
                 log.error("请手动更新用户ID以保证内置用户权限正常运行。oldId = {}, newId = {}", existUser.getId(), user.getId());
             }
-//            else if (isForceUpdate(oldVersion)) {
-//                PamirsUser forceUpdateUser = new PamirsUser();
-//                forceUpdateUser.setSource(user.getSource())
-//                        .setInitialPassword(existUser.getInitialPassword())
-//                        .setPassword(existUser.getPassword())
-//                        .setCode(user.getCode())
-//                        .setId(user.getId());
-//                forceUpdateUserList.add(forceUpdateUser);
-//            }
         }
 
         if (!createUserList.isEmpty()) {
@@ -99,19 +83,6 @@ public class UserModuleInstallInitData implements InstallDataInit, UpgradeDataIn
             }).collect(Collectors.toList()));
             initPasswords(createUserList);
         }
-
-        if (!forceUpdateUserList.isEmpty()) {
-            forceUpdateUserList.forEach(user -> {
-                PamirsUser data = new PamirsUser();
-                data.setSource(user.getSource())
-                        .setCode(user.getCode())
-                        .setId(user.getId());
-                userSimpleService.updateByWrapper(data, Pops.<PamirsUser>lambdaUpdate()
-                        .from(PamirsUser.MODEL_MODEL)
-                        .eq(PamirsUser::getId, user.getId()));
-            });
-            createExistPasswords(forceUpdateUserList);
-        }
     }
 
     private void initPasswords(List<PamirsUser> users) {
@@ -127,21 +98,6 @@ public class UserModuleInstallInitData implements InstallDataInit, UpgradeDataIn
         if (!passwords.isEmpty()) {
             passwordService.createBatch(userIds, passwords);
         }
-    }
-
-    private void createExistPasswords(List<PamirsUser> users) {
-        List<PamirsPassword> passwords = new ArrayList<>(users.size());
-        for (PamirsUser user : users) {
-            passwords.add(new PamirsPassword()
-                    .setUserId(user.getId())
-                    .setInitialPassword(user.getInitialPassword())
-                    .setPassword(user.getPassword()));
-        }
-        Models.origin().createOrUpdateBatch(passwords);
-    }
-
-    private boolean isForceUpdate(Version oldVersion) {
-        return oldVersion == null || UserModule.version.compareTo(oldVersion) > 0;
     }
 
     @Override
