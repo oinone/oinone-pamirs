@@ -12,6 +12,7 @@ import pro.shushi.pamirs.meta.enmu.DataContainerTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -80,6 +81,14 @@ public class ViewUtils {
         }
         int currentPriority = Optional.ofNullable(view.getPriority()).orElse(Integer.MAX_VALUE);
         int currentHighPriority = Optional.ofNullable(currentHighPriorityView.getPriority()).orElse(Integer.MAX_VALUE);
-        return currentPriority < currentHighPriority || currentHighPriorityView.getName().equals(view.getName());
+        if (currentPriority < currentHighPriority) {
+            return true;
+        }
+        Date currentCreateDate = Optional.ofNullable(view.getCreateDate()).orElse(new Date());
+        Date currentHighPriorityCreateData = Optional.ofNullable(currentHighPriorityView.getCreateDate()).orElse(new Date());
+        if (currentCreateDate.before(currentHighPriorityCreateData)) {
+            return true;
+        }
+        return currentHighPriorityView.getName().equals(view.getName());
     }
 }
