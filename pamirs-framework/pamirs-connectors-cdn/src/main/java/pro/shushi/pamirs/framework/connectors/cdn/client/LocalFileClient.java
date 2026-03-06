@@ -1,6 +1,8 @@
 package pro.shushi.pamirs.framework.connectors.cdn.client;
 
 import com.alibaba.fastjson.JSON;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,8 +24,6 @@ import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -202,9 +202,7 @@ public class LocalFileClient extends AbstractFileClient implements FileConstants
      */
     @Override
     public CdnFile upload(String fileName, byte[] data) {
-        CdnConfig cdnConfig = getCdnConfig();
-        String fileKey = getFileKey(cdnConfig.getMainDir(), fileName);
-        return this.upload(fileKey, new ByteArrayInputStream(data));
+        return upload(fileName, new ByteArrayInputStream(data));
     }
 
     @Override
