@@ -84,9 +84,9 @@ public class ViewUtils {
         if (currentPriority < currentHighPriority) {
             return true;
         }
-        Date currentCreateDate = Optional.ofNullable(view.getCreateDate()).orElse(new Date());
-        Date currentHighPriorityCreateData = Optional.ofNullable(currentHighPriorityView.getCreateDate()).orElse(new Date());
-        if (currentCreateDate.before(currentHighPriorityCreateData)) {
+        Date currentCreateDate = view.getCreateDate();
+        Date currentHighPriorityCreateData = currentHighPriorityView.getCreateDate();
+        if (currentCreateDate != null && currentHighPriorityCreateData != null && currentCreateDate.before(currentHighPriorityCreateData)) {
             return true;
         }
         return currentHighPriorityView.getName().equals(view.getName());
