@@ -2,10 +2,10 @@ package pro.shushi.pamirs.boot.web.spi.cache;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import pro.shushi.pamirs.boot.base.model.AbstractView;
 import pro.shushi.pamirs.boot.base.model.View;
 import pro.shushi.pamirs.boot.base.ux.cache.api.HighPriorityModelViewCacheApi;
 import pro.shushi.pamirs.boot.base.ux.cache.api.ViewCacheApi;
+import pro.shushi.pamirs.boot.web.utils.ViewUtils;
 import pro.shushi.pamirs.meta.api.core.session.spi.SessionMetaCollectSpi;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
 import pro.shushi.pamirs.meta.api.session.RequestContext;
@@ -43,14 +43,11 @@ public class SessionMetaViewCollectSpi implements SessionMetaCollectSpi {
 
                 // 收集高优先级模型视图缓存
                 String viewType = Optional.ofNullable(view.getType()).orElse(ViewTypeEnum.TABLE).value();
-                View currentHighPriorityModelView = context.getExtendCacheValue(HighPriorityModelViewCacheApi.class,
-                        cache -> cache.get(view.getModel(), viewType));
-                int currentHighPriority = Optional.ofNullable(currentHighPriorityModelView)
-                        .map(AbstractView::getPriority).orElse(Integer.MAX_VALUE);
-                if (null == currentHighPriorityModelView || null != view.getPriority() && view.getPriority() < currentHighPriority) {
-                    context.putExtendCacheEntity(HighPriorityModelViewCacheApi.class,
-                            cache -> cache.put(view.getModel(), viewType, view));
-                }
+                context.putExtendCacheEntity(HighPriorityModelViewCacheApi.class, cache -> {
+                    if (ViewUtils.isUpdateHighPriorityView(cache.get(view.getModel(), viewType), view)) {
+                        cache.put(view.getModel(), viewType, view);
+                    }
+                });
             }
         }
     }

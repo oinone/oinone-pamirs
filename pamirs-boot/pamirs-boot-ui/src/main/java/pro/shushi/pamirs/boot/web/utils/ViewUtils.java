@@ -12,6 +12,7 @@ import pro.shushi.pamirs.meta.enmu.DataContainerTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
 import java.text.MessageFormat;
+import java.util.Optional;
 
 /**
  * 视图工具类
@@ -73,4 +74,12 @@ public class ViewUtils {
         }
     }
 
+    public static boolean isUpdateHighPriorityView(View currentHighPriorityView, View view) {
+        if (currentHighPriorityView == null) {
+            return true;
+        }
+        int currentPriority = Optional.ofNullable(view.getPriority()).orElse(Integer.MAX_VALUE);
+        int currentHighPriority = Optional.ofNullable(currentHighPriorityView.getPriority()).orElse(Integer.MAX_VALUE);
+        return currentPriority < currentHighPriority || currentHighPriorityView.getName().equals(view.getName());
+    }
 }
