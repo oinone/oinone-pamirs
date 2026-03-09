@@ -2,13 +2,13 @@ package pro.shushi.pamirs.ux.draft.metadata;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.ux.draft.constant.DraftConstants;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.dto.config.api.ModelConfigExtendApi;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.enmu.FieldStrategyEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
+import pro.shushi.pamirs.ux.draft.constant.DraftConstants;
 
 import java.util.List;
 
@@ -44,6 +44,7 @@ public class DraftCodeMetadataExtend implements ModelConfigExtendApi {
         modelField.setInvisible(true);
         modelField.setStore(false);
         modelField.setRelationStore(false);
+        modelField.setTranslate(false);
         modelField.setOnlyColumn(true);
         modelField.setInsertStrategy(FieldStrategyEnum.NEVER);
         modelField.setUpdateStrategy(FieldStrategyEnum.NEVER);

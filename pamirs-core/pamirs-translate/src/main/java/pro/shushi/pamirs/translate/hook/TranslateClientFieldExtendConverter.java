@@ -60,8 +60,7 @@ public class TranslateClientFieldExtendConverter implements ClientFieldExtendCon
             }
 
             ModelField modelField = fieldConfig.getModelField();
-            // 草稿字段(draftCode)的Translate为空
-            if (modelField.getTranslate() == null || !modelField.getTranslate()) {
+            if (!modelField.getTranslate()) {
                 return;
             }
 
