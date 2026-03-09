@@ -26,6 +26,7 @@ public class EmailTemplate extends IdModel {
 
     @Field.Html
     @Field(required = true, displayName = "邮件内容")
+    @Field.Advanced(columnDefinition = "MEDIUMTEXT")
     private String body;
 
     @Field.many2one
