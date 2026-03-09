@@ -341,7 +341,7 @@ public class UiViewUtils {
                 .setValue(item.getValue())
                 .setName(item.getName())
                 .setCompiled(true);
-        if (!SystemSourceEnum.UI.equals(item.getSource())) {
+        if (item.getSource() != null && !SystemSourceEnum.UI.equals(item.getSource())) {
             option.setHelp(StringUtils.defaultIfBlank(option.getHelp(), StringUtils.defaultIfBlank(option.getSummary(), item.getHelp())));
         }
         return option;
