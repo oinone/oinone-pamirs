@@ -19,6 +19,7 @@ import pro.shushi.pamirs.meta.domain.model.DataDictionaryItem;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
+import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 
@@ -336,11 +337,13 @@ public class UiViewUtils {
 
     private static UIOption fillDictionaryOption(DataDictionaryItem item, UIOption option) {
         option.setDisplayName(Optional.ofNullable(option.getDisplayName()).orElse(item.getDisplayName()))
-                .setSummary(Optional.ofNullable(option.getSummary()).orElse(item.getHelp()))
                 .setState(Optional.ofNullable(option.getState()).orElse(item.getState()))
                 .setValue(item.getValue())
                 .setName(item.getName())
                 .setCompiled(true);
+        if (!SystemSourceEnum.UI.equals(item.getSource())) {
+            option.setHelp(StringUtils.defaultIfBlank(option.getHelp(), StringUtils.defaultIfBlank(option.getSummary(), item.getHelp())));
+        }
         return option;
     }
 

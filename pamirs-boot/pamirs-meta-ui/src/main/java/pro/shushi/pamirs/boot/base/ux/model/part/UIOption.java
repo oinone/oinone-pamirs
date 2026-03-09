@@ -51,6 +51,16 @@ public class UIOption extends UIWidget {
      */
     @XStreamAsAttribute
     @Field(displayName = "描述")
+    private String help;
+
+    /**
+     * 描述
+     *
+     * @deprecated please using help
+     */
+    @Deprecated
+    @XStreamAsAttribute
+    @Field(displayName = "描述")
     private String summary;
 
     /**
