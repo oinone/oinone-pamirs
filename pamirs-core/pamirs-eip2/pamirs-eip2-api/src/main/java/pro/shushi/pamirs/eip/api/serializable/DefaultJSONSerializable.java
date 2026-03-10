@@ -62,7 +62,7 @@ public class DefaultJSONSerializable extends AbstractSerializable implements IEi
         SuperMap result;
         if (JSONValidator.Type.Array.equals(jsonType)) {
             result = new SuperMap();
-            result.put(EipContextConstant.LIST_KEY, JSON.parseArray(s, SuperMap.class));
+            result.put(EipContextConstant.LIST_KEY, JSON.parseArray(s));
         } else if (JSONValidator.Type.Object.equals(jsonType)) {
             result = JSON.parseObject(s, SuperMap.class);
         } else {
