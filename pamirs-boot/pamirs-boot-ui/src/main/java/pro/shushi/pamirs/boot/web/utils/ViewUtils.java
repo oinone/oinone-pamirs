@@ -84,11 +84,14 @@ public class ViewUtils {
         if (currentPriority < currentHighPriority) {
             return true;
         }
-        Date currentCreateDate = view.getCreateDate();
-        Date currentHighPriorityCreateData = currentHighPriorityView.getCreateDate();
-        if (currentCreateDate != null && currentHighPriorityCreateData != null && currentCreateDate.before(currentHighPriorityCreateData)) {
-            return true;
+        if (currentPriority == currentHighPriority) {
+            Date currentCreateDate = view.getCreateDate();
+            Date currentHighPriorityCreateData = currentHighPriorityView.getCreateDate();
+            if (currentCreateDate != null && currentHighPriorityCreateData != null && currentCreateDate.before(currentHighPriorityCreateData)) {
+                return true;
+            }
+            return currentHighPriorityView.getName().equals(view.getName());
         }
-        return currentHighPriorityView.getName().equals(view.getName());
+        return false;
     }
 }
