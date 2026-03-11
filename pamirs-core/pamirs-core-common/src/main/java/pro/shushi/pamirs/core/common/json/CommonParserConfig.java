@@ -20,6 +20,10 @@ public class CommonParserConfig extends ParserConfig {
 
     public static final CommonParserConfig INSTANCE = new CommonParserConfig();
 
+    public CommonParserConfig() {
+        this.setAutoTypeSupport(false);
+    }
+
     @Override
     public ObjectDeserializer getDeserializer(Class<?> clazz, Type type) {
         if (IEnum.class.isAssignableFrom(clazz)) {

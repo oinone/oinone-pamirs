@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.resource.api.util;
 
+import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.fun.Data;
 
 import java.io.ByteArrayOutputStream;
@@ -39,6 +40,14 @@ public class IconUnZipUtils {
     }
 
     private static boolean isValidFile(String fileName) {
+        if (StringUtils.isEmpty(fileName)) {
+            return false;
+        }
+        // 规范化路径分隔符后检查路径遍历序列，防止 ../../fonts/malicious.js 形式的 ZIP 条目污染 CDN 上传路径
+        String normalized = fileName.replace('\\', '/');
+        if (normalized.contains("../") || normalized.contains("./") || normalized.startsWith("/")) {
+            return false;
+        }
         return fileName.endsWith(".css") || fileName.endsWith(".js") || fileName.endsWith(".json") ||
                 fileName.endsWith(".ttf") || fileName.endsWith(".woff") || fileName.endsWith(".woff2");
     }
