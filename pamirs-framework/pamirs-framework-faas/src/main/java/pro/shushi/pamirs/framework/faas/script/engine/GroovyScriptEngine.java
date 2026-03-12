@@ -3,7 +3,6 @@ package pro.shushi.pamirs.framework.faas.script.engine;
 import com.google.common.collect.Sets;
 import groovy.lang.GroovyClassLoader;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.jsr223.GroovyScriptEngineImpl;
 import pro.shushi.pamirs.framework.faas.enmu.FaasExpEnumerate;
 import pro.shushi.pamirs.framework.faas.guard.ScriptInvokeGuard;
@@ -40,7 +39,7 @@ public class GroovyScriptEngine extends AbstractScriptEngine implements PamirsSc
     protected ScriptEngine generatorDefaultScriptEngine() {
         return new GroovyScriptEngineImpl(
                 new GroovyClassLoader(AppClassLoader.getClassLoader(PamirsScriptEngine.class),
-                        new CompilerConfiguration(CompilerConfiguration.DEFAULT)));
+                        GroovySecureConfig.buildSecureCompilerConfig()));
     }
 
     @Override

@@ -22,17 +22,6 @@ public class KryoUtils {
         kryoFactory.registerClass(clazz);
     }
 
-    //获取当前线程中Kryo对象时,假如线程中没有此对象
-    //此时会调用initialValue创建对象并通过set方法绑定当前线程
-    //static Kryo kryo = new Kryo();//线程共享
-    private static final ThreadLocal<Kryo> KRYOS = ThreadLocal.withInitial(() -> {
-        Kryo kryo = new Kryo();
-        kryo.setRegistrationRequired(false);
-        // kryo.setReferences(true);//支持循环引用
-        // Configure the Kryo instance.
-        return kryo;
-    });
-
     //序列化
     public static <T extends Serializable> byte[] serialize(T t) {
         //1.构建kryo对象

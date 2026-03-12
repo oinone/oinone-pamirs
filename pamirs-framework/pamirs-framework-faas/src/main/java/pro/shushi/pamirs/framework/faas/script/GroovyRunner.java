@@ -6,6 +6,7 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.DigestUtils;
+import pro.shushi.pamirs.framework.faas.script.engine.GroovySecureConfig;
 import pro.shushi.pamirs.framework.faas.enmu.FaasExpEnumerate;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.fun.Arg;
@@ -41,7 +42,10 @@ public class GroovyRunner {
         if (StringUtils.isNotBlank(script)) {
             try {
                 //noinspection rawtypes
-                Class clazz = new GroovyClassLoader().parseClass(script);
+                Class clazz = new GroovyClassLoader(
+                        GroovyRunner.class.getClassLoader(),
+                        GroovySecureConfig.buildSecureCompilerConfig()
+                ).parseClass(script);
                 GroovyObject o = (GroovyObject) clazz.newInstance();
                 //noinspection unchecked
                 return (R) o.invokeMethod("run", args);
@@ -57,7 +61,7 @@ public class GroovyRunner {
     }
 
     public static Script parse(String scriptString) {
-        GroovyShell groovyShell = new GroovyShell();
+        GroovyShell groovyShell = new GroovyShell(GroovySecureConfig.buildSecureCompilerConfig());
 
         String scriptMd5 = null;
         try {

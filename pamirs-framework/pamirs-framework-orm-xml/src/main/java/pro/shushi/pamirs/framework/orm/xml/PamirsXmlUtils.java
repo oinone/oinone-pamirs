@@ -43,6 +43,7 @@ public class PamirsXmlUtils {
                 xStream = xStreamMap.get(key);
                 if (null == xStream) {
                     xStream = new XStream();
+                    XStream.setupDefaultSecurity(xStream);
                     xStreamMap.put(key, xStream);
                 }
 
@@ -57,6 +58,7 @@ public class PamirsXmlUtils {
             synchronized (XStream.class) {
                 if (null == xStream) {
                     xStream = new XStream();
+                    XStream.setupDefaultSecurity(xStream);
                 }
 
                 configXStream(xStream, features);
