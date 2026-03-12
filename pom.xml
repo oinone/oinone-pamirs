@@ -687,6 +687,21 @@
             </build>
         </profile>
         <profile>
+            <id>shushi</id>
+            <distributionManagement>
+                <repository>
+                    <id>shushi</id>
+                    <name>shushi release repository</name>
+                    <url>http://ss.nexus.ixtx.fun/repository/releases</url>
+                </repository>
+                <snapshotRepository>
+                    <id>shushi</id>
+                    <name>shushi snapshot repository</name>
+                    <url>http://ss.nexus.ixtx.fun/repository/snapshots</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+        <profile>
             <id>oinone</id>
             <distributionManagement>
                 <repository>
@@ -927,27 +942,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <configuration>
-                    <ignoredVersions>.*-M.*,.*alpha.*,.*Alpha.*,.*RC.*,.*CR.*,.*rc.*,.*-beta.*,.*Beta.*,.*-PREVIEW</ignoredVersions>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>shushi</id>
-            <name>shushi release repository</name>
-            <url>http://ss.nexus.ixtx.fun/repository/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>shushi</id>
-            <name>shushi snapshot repository</name>
-            <url>http://ss.nexus.ixtx.fun/repository/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>
 
