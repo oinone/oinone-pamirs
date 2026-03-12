@@ -182,6 +182,10 @@ public class PamirsUserTransient extends TransientModel {
     @Field(displayName = "unionId")
     private String unionId;
 
+    @Field.String
+    @Field(displayName = "登出地址")
+    private String redirectUrl;
+
     public Boolean getBroken() {
         if (null == _d.get("broken")) {
             return Boolean.FALSE;
