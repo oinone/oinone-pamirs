@@ -1,6 +1,6 @@
 package pro.shushi.pamirs.framework.orm.client.converter;
 
-
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.orm.api.RecursionOrmApi;
 import pro.shushi.pamirs.framework.orm.client.checker.ClientFieldChecker;
@@ -14,6 +14,7 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.convert.ClientDataConverter;
 import pro.shushi.pamirs.meta.api.core.orm.template.DataComputeTemplate;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.ModelComputeContext;
+import pro.shushi.pamirs.meta.api.core.orm.template.function.FieldComputeApi;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.api.dto.meta.FuseMeta;
@@ -23,7 +24,6 @@ import pro.shushi.pamirs.meta.util.ClassUtils;
 import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
-import jakarta.annotation.Resource;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
@@ -82,6 +82,21 @@ public class DefaultClientDataConverter implements ClientDataConverter {
     @Resource
     private LnameToNameProcessor lnameToNameProcessor;
 
+    // Lambda 表达式提取为 final 字段，避免重复创建
+    private final FieldComputeApi inName = (context, fieldConfig, dMap) -> nameToLnameProcessor.convert(fieldConfig, dMap);
+    private final FieldComputeApi inExtend = (context, fieldConfig, dMap) -> clientExtendProcessor.in(context, fieldConfig, dMap);
+    private final FieldComputeApi inSerialize = (context, fieldConfig, dMap) -> clientSerializeProcessor.in(context, fieldConfig, dMap);
+    private final FieldComputeApi inType = (context, fieldConfig, dMap) -> clientTypeProcessor.in(context, fieldConfig, dMap);
+    private final FieldComputeApi inArray = (context, fieldConfig, dMap) -> clientArrayProcessor.in(context, fieldConfig, dMap);
+    private final FieldComputeApi inCompute = (context, fieldConfig, dMap) -> clientComputeProcessor.in(context, fieldConfig, dMap);
+    private final FieldComputeApi inChecker = (context, fieldConfig, dMap) -> clientFieldChecker.check(context, fieldConfig, dMap);
+
+    private final FieldComputeApi outExtend = (context, fieldConfig, dMap) -> clientExtendProcessor.out(context, fieldConfig, dMap);
+    private final FieldComputeApi outType = (context, fieldConfig, dMap) -> clientTypeProcessor.out(context, fieldConfig, dMap);
+    private final FieldComputeApi outArray = (context, fieldConfig, dMap) -> clientArrayProcessor.out(context, fieldConfig, dMap);
+    private final FieldComputeApi outSerialize = (context, fieldConfig, dMap) -> clientSerializeProcessor.out(context, fieldConfig, dMap);
+    private final FieldComputeApi outName = (context, fieldConfig, dMap) -> lnameToNameProcessor.convert(fieldConfig, dMap);
+
     @Override
     public <T> T in(ModelComputeContext totalContext, String model, Object obj) {
 
@@ -135,13 +150,7 @@ public class DefaultClientDataConverter implements ClientDataConverter {
                     }
                     return res;
                 },
-                (context, fieldConfig, dMap) -> nameToLnameProcessor.convert(fieldConfig, dMap),// 技术名称转化
-                (context, fieldConfig, dMap) -> clientExtendProcessor.in(context, fieldConfig, dMap),// 字段处理扩展点
-                (context, fieldConfig, dMap) -> clientSerializeProcessor.in(context, fieldConfig, dMap),// 前端反序列化转换
-                (context, fieldConfig, dMap) -> clientTypeProcessor.in(context, fieldConfig, dMap),// 前端类型处理
-                (context, fieldConfig, dMap) -> clientArrayProcessor.in(context, fieldConfig, dMap),// 前端数组处理
-                (context, fieldConfig, dMap) -> clientComputeProcessor.in(context, fieldConfig, dMap),// 前端字段计算
-                (context, fieldConfig, dMap) -> clientFieldChecker.check(context, fieldConfig, dMap)// 前端字段约束校验
+                inName, inExtend, inSerialize, inType, inArray, inCompute, inChecker
         );
     }
 
@@ -154,7 +163,7 @@ public class DefaultClientDataConverter implements ClientDataConverter {
         }
         int objId = objIdTemp;
 
-        if (Models.modelDirective().isOrmReentry(obj)) {// 判断是否重入
+        if (Models.modelDirective().isOrmReentry(obj)) {
             if (getReentryMap(objId) != null) {
                 T res = (T) (getReentryMap(objId).get());
                 return res;
@@ -176,12 +185,9 @@ public class DefaultClientDataConverter implements ClientDataConverter {
                     });
                     return res;
                 },
-                (context, fieldConfig, dMap) -> clientExtendProcessor.out(context, fieldConfig, dMap),// 字段处理扩展点
-                (context, fieldConfig, dMap) -> clientTypeProcessor.out(context, fieldConfig, dMap),// 前端类型处理
-                (context, fieldConfig, dMap) -> clientArrayProcessor.out(context, fieldConfig, dMap),// 前端数组处理
-                (context, fieldConfig, dMap) -> clientSerializeProcessor.out(context, fieldConfig, dMap),// 前端序列化转换
-                (context, fieldConfig, dMap) -> lnameToNameProcessor.convert(fieldConfig, dMap)// 技术名称转化
+                outExtend, outType, outArray, outSerialize, outName
         );
     }
 
 }
+
