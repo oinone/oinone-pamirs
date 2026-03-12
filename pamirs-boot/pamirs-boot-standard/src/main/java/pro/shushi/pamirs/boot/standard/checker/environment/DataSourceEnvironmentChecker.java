@@ -164,12 +164,17 @@ public class DataSourceEnvironmentChecker extends AbstractPlatformEnvironmentChe
         final String dsMapKeyFormat = "pamirs.framework.data.dsMap[%s]";
 
         Map<String, String> dsMap = pamirsFrameworkDataConfiguration.getDsMap();
+        String systemDsKey = pamirsFrameworkSystemConfiguration.getOriginSystemDsKey();
         String defaultDsKey = pamirsFrameworkDataConfiguration.getOriginDefaultDsKey();
 
         for (String module : bootConfiguration.getModules()) {
             String dsKey = dsMap.get(module);
             if (StringUtils.isBlank(dsKey)) {
-                dsKey = defaultDsKey;
+                if (ModuleConstants.MODULE_BASE.equals(module)) {
+                    dsKey = systemDsKey;
+                } else {
+                    dsKey = defaultDsKey;
+                }
             }
             environments.add(generatorImmutableEnvironmentProperty(String.format(dsMapKeyFormat, module), dsKey));
         }
