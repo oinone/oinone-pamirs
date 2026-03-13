@@ -33,7 +33,7 @@ public class GroovyCache {
             //noinspection unchecked
             return (T) value.orElse(null);
         } catch (Exception ex) {
-            log.error("获取缓存异常,key:{} ", key, ex);
+            log.error("Get cache exception, key:{} ", key, ex);
             throw PamirsException.construct(BASE_SCRIPT_CACHE_ERROR, ex).errThrow();
         }
 

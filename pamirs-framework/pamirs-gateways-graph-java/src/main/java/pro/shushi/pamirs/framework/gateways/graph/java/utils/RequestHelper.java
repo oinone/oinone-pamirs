@@ -90,7 +90,7 @@ public class RequestHelper {
         if (!HealthCheckController.imok()) {
             PamirsRequestResult result = new PamirsRequestResult();
             result.setData(new HashMap<>());
-            log.warn("系统启动中,稍后再试...");
+            log.warn("System starting up, please try again later...");
             Map<Object, Object> extMap = new HashMap<>();
             extMap.put("success", true);
             extMap.put(ClientGraphQLError.MESSAGES, Collections.singletonList(Message.init().setMessage("系统启动中,稍后再试...")

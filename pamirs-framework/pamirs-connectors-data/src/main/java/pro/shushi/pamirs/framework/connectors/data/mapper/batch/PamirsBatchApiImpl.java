@@ -88,14 +88,14 @@ public class PamirsBatchApiImpl implements PamirsBatchApi {
     private void closeHintDsKey() {
         PamirsSession.clearDsKey();
         if (log.isDebugEnabled()) {
-            log.debug("恢复数据源-" + PamirsBatchApiImpl.class.getName());
+            log.debug("Restore datasource -" + PamirsBatchApiImpl.class.getName());
         }
     }
 
     private void hintDsKey(String model) {
         String dsKey = DataConfigurationHelper.getDsKey(model);
         if (log.isDebugEnabled()) {
-            log.debug("使用数据源(" + dsKey + ")-" + PamirsBatchApiImpl.class.getName());
+            log.debug("Use datasource (" + dsKey + ")-" + PamirsBatchApiImpl.class.getName());
         }
         PamirsSession.pushDsKey(dsKey);
     }

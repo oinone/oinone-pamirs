@@ -260,7 +260,7 @@ public class MathFunctions {
             }
         });
         if (ObjectUtils.isEmpty(result.get())) {
-            log.error("ADD函数发生意外情况：n1:{}, n2:{}，n1类型：{}, n2类型：{}", n1, n2, n1.getClass(), n2.getClass());
+            log.error("ADD function exception: n1:{}, n2:{}, n1 type: {}, n2 type: {}", n1, n2, n1.getClass(), n2.getClass());
         }
         return result.get();
     }
@@ -299,7 +299,7 @@ public class MathFunctions {
             }
         });
         if (ObjectUtils.isEmpty(result.get())) {
-            log.error("SUBTRACT函数发生意外情况：n1:{}, n2:{}，n1类型：{}, n2类型：{}", n1, n2, n1.getClass(), n2.getClass());
+            log.error("SUBTRACT function exception: n1:{}, n2:{}, n1 type: {}, n2 type: {}", n1, n2, n1.getClass(), n2.getClass());
         }
         return result.get();
     }
@@ -334,7 +334,7 @@ public class MathFunctions {
             }
         });
         if (ObjectUtils.isEmpty(result.get())) {
-            log.error("MULTIPLY函数发生意外情况：n1:{}, n2:{}，n1类型：{}, n2类型：{}", n1, n2, n1.getClass(), n2.getClass());
+            log.error("MULTIPLY function exception: n1:{}, n2:{}, n1 type: {}, n2 type: {}", n1, n2, n1.getClass(), n2.getClass());
         }
         return result.get();
     }
@@ -369,7 +369,7 @@ public class MathFunctions {
             }
         });
         if (ObjectUtils.isEmpty(result.get())) {
-            log.error("DIVIDE函数发生意外情况：n1:{}, n2:{}，n1类型：{}, n2类型：{}", n1, n2, n1.getClass(), n2.getClass());
+            log.error("DIVIDE function exception: n1:{}, n2:{}, n1 type: {}, n2 type: {}", n1, n2, n1.getClass(), n2.getClass());
         }
         return result.get();
     }

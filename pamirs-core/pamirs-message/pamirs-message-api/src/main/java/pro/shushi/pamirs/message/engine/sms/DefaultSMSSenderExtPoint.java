@@ -139,7 +139,7 @@ public class DefaultSMSSenderExtPoint implements SMSSenderExtPoint {
 
         String responseJson = null;
         try {
-            log.info("短信参数{}", JsonUtils.toJSONString(paras));
+            log.info("SMS params {}", JsonUtils.toJSONString(paras));
             responseJson = AliyunSmsHelper.doPost(smsChannel, SMSActionEnum.SEND_SMS, paras);
         } catch (Throwable e) {
             throw PamirsException.construct(MessageExpEnumerate.SYSTEM_ERROR, e).errThrow();
@@ -298,7 +298,7 @@ public class DefaultSMSSenderExtPoint implements SMSSenderExtPoint {
         if (StringUtils.equalsIgnoreCase(respCode, OK) && StringUtils.equalsIgnoreCase(respMsg, OK)) {
             return true;
         }
-        log.error("阿里云短信请求异常,msg:{}", respMsg);
+        log.error("Aliyun SMS request exception, msg:{}", respMsg);
         if (isThrow) {
             throw PamirsException.construct(MessageExpEnumerate.MAIL_SEND_SMS_ERROR).appendMsg(respMsg).errThrow();
         }

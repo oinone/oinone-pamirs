@@ -189,7 +189,7 @@ public class RegisterViewEditor implements MetaDataEditor {
             computeMetaMap.put(module, entry.getValue());
         }
         List<Map<String, Meta>> allMetaMapList = pro.shushi.pamirs.meta.common.util.MapUtils.splitByChunkSize(computeMetaMap, threadSize);
-        log.info("默认视图元数据计算Summary,totalSize:[{}],chunkSize:[{}],groupSize:[{}]", computeMetaMap.size(), threadSize, allMetaMapList.size());
+        log.info("Default view metadata calculation Summary,totalSize:[{}],chunkSize:[{}],groupSize:[{}]", computeMetaMap.size(), threadSize, allMetaMapList.size());
         for (Map<String, Meta> oneMetaMapGroup : allMetaMapList) {
             CountDownLatch latch = new CountDownLatch(oneMetaMapGroup.size());
             for (String module : oneMetaMapGroup.keySet()) {
@@ -212,7 +212,7 @@ public class RegisterViewEditor implements MetaDataEditor {
                                     .map(v -> StringUtils.isBlank(v.getResModel()) ? v.getModel() : v.getResModel())
                                     .filter(StringUtils::isNotBlank)
                                     .collect(Collectors.toSet());
-                            log.debug("窗口动作生成默认视图，数量:[{}]", viewActionModelSet.size());
+                            log.debug("Generate default view for window action, quantity:[{}]", viewActionModelSet.size());
                             for (String model : viewActionModelSet) {
                                 long start0 = System.currentTimeMillis();
                                 ModelDefinition modelDefinition = fetchModelDefinition(meta, model);
@@ -231,7 +231,7 @@ public class RegisterViewEditor implements MetaDataEditor {
                         // 为UX注解生成视图
                         makeDefaultViewByAnnotation(meta, metaData, actionMap, viewActionModelSet);
                         long end = System.currentTimeMillis();
-                        log.info("[{}]模块,UX注解生成视图,time:[{}]ms", module, end - start);
+                        log.info("[{}] module, UX annotation generates view, time:[{}]ms", module, end - start);
                     } finally {
                         latch.countDown();
                     }
@@ -240,12 +240,12 @@ public class RegisterViewEditor implements MetaDataEditor {
             try {
                 latch.await();
             } catch (InterruptedException e) {
-                log.error("视图元数据编辑计算等待超时", e);
+                log.error("View metadata editing calculation timed out", e);
             }
         }
 
         long endTotal = System.currentTimeMillis();
-        log.info("默认视图元数据编辑计算,time:[{}]ms", endTotal - startTotal);
+        log.info("Default view metadata editing calculation, time:[{}]ms", endTotal - startTotal);
     }
 
     private boolean filterModel(ModelDefinition modelDefinition) {
@@ -275,7 +275,7 @@ public class RegisterViewEditor implements MetaDataEditor {
             try {
                 modelClazz = TypeUtils.getClass(lname);
             } catch (PamirsException e) {
-                log.error(MessageFormat.format("{0}或者存在脏数据，类：{1}", BASE_CLASS_IS_NOT_EXISTS_ERROR.msg(), lname), e);
+                log.error(MessageFormat.format("{0} or there is dirty data, class: {1}", BASE_CLASS_IS_NOT_EXISTS_ERROR.msg(), lname), e);
             }
             if (null == modelClazz || !TypeUtils.isModelClass(modelClazz)) {
                 continue;
@@ -989,7 +989,7 @@ public class RegisterViewEditor implements MetaDataEditor {
     private ModelDefinition fetchModelDefinition(Meta meta, String model) {
         ModelDefinition modelDefinition = meta.getModel(model);
         if (null == modelDefinition) {
-            log.error("模型不存在, model:{}", model);
+            log.error("Model does not exist, model:{}", model);
             return null;
         }
         return modelDefinition;

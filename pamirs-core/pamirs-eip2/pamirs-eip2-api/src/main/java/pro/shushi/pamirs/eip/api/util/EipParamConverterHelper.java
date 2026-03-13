@@ -224,7 +224,7 @@ public class EipParamConverterHelper {
                     resultList.add(result);
                 }
             } else {
-                log.error("");
+                log.error("Parameter conversion failed, unknown type: {}", item != null ? item.getClass().getName() : "null");
             }
         }
         return resultList;
@@ -240,7 +240,7 @@ public class EipParamConverterHelper {
             String valueExp = part.substring(0, part.length() - IEipContext.DEFAULT_LIST_FLAG_KEY.length());
             JSONArray jsonArray = jsonObject.getJSONArray(valueExp);
             if (jsonArray == null) {
-                log.warn("数据解析获取值为null");
+                log.warn("Data parsing value is null");
                 return null;
             }
             if (index == parts.length - 1) {

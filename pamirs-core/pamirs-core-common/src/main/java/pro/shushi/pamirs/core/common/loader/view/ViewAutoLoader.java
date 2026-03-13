@@ -145,7 +145,7 @@ public class ViewAutoLoader {
         // 设置模型编码
         String model = attributes.get("model");
         if (StringUtils.isBlank(model)) {
-            log.warn("请设置模型编码model, filename={}", filename);
+            log.warn("Please set model code model, filename={}", filename);
             return null;
         }
 

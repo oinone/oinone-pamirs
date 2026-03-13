@@ -285,7 +285,7 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
             }
         }
 
-        log.debug("uiTreeReverselyQueryManager.fetchExpandEndLevel-查询耗时 {} ms", System.currentTimeMillis() - currentTimeMillis);
+        log.debug("uiTreeReverselyQueryManager.fetchExpandEndLevel-Query time cost {} ms", System.currentTimeMillis() - currentTimeMillis);
         currentTimeMillis = System.currentTimeMillis();
 
         if (CollectionUtils.isEmpty(dataList)) {
@@ -293,7 +293,7 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
         }
 
         List<UiTreeNode> resultList = convertTreeNodeList(dataList, metadataList);
-        log.debug("uiTreeReverselyQueryManager.fetchExpandEndLevel-构建树耗时 {} ms", System.currentTimeMillis() - currentTimeMillis);
+        log.debug("uiTreeReverselyQueryManager.fetchExpandEndLevel-Build tree time cost {} ms", System.currentTimeMillis() - currentTimeMillis);
         currentTimeMillis = System.currentTimeMillis();
 
         String rootMetaKey = metadataList.get(0).getKey();
@@ -306,7 +306,7 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
         // 标记是否叶子节点
         fetchIsLeaf(resultList, currentMetadata, nextMetadata);
 
-        log.debug("uiTreeReverselyQueryManager.fetchExpandEndLevel-标记叶节点耗时 {} ms", System.currentTimeMillis() - currentTimeMillis);
+        log.debug("uiTreeReverselyQueryManager.fetchExpandEndLevel-Mark leaf node time cost {} ms", System.currentTimeMillis() - currentTimeMillis);
         return resultList;
     }
 
@@ -348,7 +348,7 @@ public class UiTreeRelationQueryManager extends AbstractUiTreeQueryManager {
             }
             relFieldConfig = PamirsSession.getContext().getModelField(relModel, relField);
             if (!TtypeEnum.isRelationType(relFieldConfig.getTtype())) {
-                log.error("错误的关联字段,model:{},field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
+                log.error("Wrong relation field, model:{}, field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
                 throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).errThrow();
             }
             if (relModel.equals(treeNodeMetadata.getModel())) {

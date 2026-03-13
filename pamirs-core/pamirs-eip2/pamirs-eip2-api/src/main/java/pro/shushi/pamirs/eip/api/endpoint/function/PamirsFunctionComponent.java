@@ -26,7 +26,7 @@ public class PamirsFunctionComponent extends DefaultComponent {
             endpoint.setNamespace(namespace);
             endpoint.setFun(fun);
         } catch (Exception e) {
-            log.error("function接口定义异常,uri:{}", uri, e);
+            log.error("Function interface definition exception, uri:{}", uri, e);
         }
         return endpoint;
     }

@@ -36,13 +36,13 @@ public class RsqlDecodeHook implements HookBefore {
                     if (StringUtils.isNotBlank(rsql)) {
                         if (rsql.startsWith(RSQL_ENCODE_PREFIX)) {
                             rsql = rsql.substring(RSQL_ENCODE_PREFIX.length());
-                            log.debug("rsql解密,密文:{}", rsql);
+                            log.debug("rsql decrypt, ciphertext: {}", rsql);
                             try {
                                 rsql = new String(Base64.getMimeDecoder().decode(rsql));
                             } catch (Throwable e) {
                                 throw new RuntimeException(e);
                             }
-                            log.debug("rsql解密,明文:{}", rsql);
+                            log.debug("rsql decrypt, plaintext: {}", rsql);
                             wrapper.setRsql(rsql);
                         }
                     }

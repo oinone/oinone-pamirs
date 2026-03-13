@@ -124,7 +124,7 @@ public class CircuitBreakerManager {
     public void updateState(String interfaceName, CircuitBreakerStatusEnum state) {
         CircuitBreakerEntry circuitBreakerEntry = circuitMap.get(interfaceName);
         if (circuitBreakerEntry == null) {
-            log.error("熔断状态更新失败，未查询到熔断器：{}", interfaceName);
+            log.error("Failed to update circuit breaker status, circuit breaker not found: {}", interfaceName);
             return;
         }
         circuitBreakerEntry.state = state;

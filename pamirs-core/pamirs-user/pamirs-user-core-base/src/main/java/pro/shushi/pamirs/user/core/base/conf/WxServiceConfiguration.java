@@ -28,7 +28,7 @@ public class WxServiceConfiguration {
     @Bean(name = USER_WX_SERVICE_BEAN)
     public WxMaService userWxMaService(@Autowired WxConfig wxConfig) {
         if (null == wxConfig || StringUtils.isAnyBlank(wxConfig.getAppId())) {
-            log.error("微信配置异常: [{}]", wxConfig);
+            log.error("WeChat configuration exception: [{}]", wxConfig);
             System.exit(-1);
         }
 

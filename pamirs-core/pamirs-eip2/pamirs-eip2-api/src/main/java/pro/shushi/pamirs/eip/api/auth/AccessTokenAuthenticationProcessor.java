@@ -63,7 +63,7 @@ public class AccessTokenAuthenticationProcessor extends AbstractOpenApiAuthentic
             appKey = decryptToken.substring(0, 32);
             timestamp = Long.parseLong(decryptToken.substring(32));
         } catch (Exception e) {
-            log.error("无法解析的AccessToken", e);
+            log.error("Unable to parse AccessToken", e);
             error(exchange, "300002", "无法解析的AccessToken");
             return false;
         }

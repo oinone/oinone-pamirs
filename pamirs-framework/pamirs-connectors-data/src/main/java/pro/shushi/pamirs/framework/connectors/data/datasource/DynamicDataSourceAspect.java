@@ -53,19 +53,19 @@ public class DynamicDataSourceAspect {
             dsKey = PamirsSession.getDsKey();
         }
         dsKey = expression(dsKey);
-        log.debug("使用数据源(" + (null == dsKey ? "default" : dsKey) + ")-" + point.getSignature());
+        log.debug("Use datasource (" + (null == dsKey ? "default" : dsKey) + ")-" + point.getSignature());
         PamirsSession.pushDsKey(dsKey);
     }
 
     @After("@annotation(ds) || @within(ds)")
     public void restoreDataSource(JoinPoint point, Ds ds) {
-        log.debug("恢复数据源-" + point.getSignature());
+        log.debug("Restore datasource -" + point.getSignature());
         PamirsSession.clearDsKey();
     }
 
     @AfterThrowing("@annotation(ds) || @within(ds)")
     public void restoreDataSourceAndSetModel(JoinPoint point, Ds ds) {
-        log.debug("恢复数据源-" + point.getSignature());
+        log.debug("Restore datasource -" + point.getSignature());
         PamirsSession.clearDsKey();
     }
 

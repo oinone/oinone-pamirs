@@ -44,7 +44,7 @@ public class PicCodeController {
         // 输出验证码给客户端
         response.setContentType("image/jpeg");
         String verifyCode = codeGenerator.generate(request);
-        log.info("生成的验证码是：{}", verifyCode);
+        log.info("Generated verification code is: {}", verifyCode);
         VerifyCodeUtil.drawImage(response, verifyCode);
         return "SUCCESS";
     }

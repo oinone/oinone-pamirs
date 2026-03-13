@@ -33,7 +33,6 @@ import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 import pro.shushi.pamirs.meta.util.ClassUtils;
 
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -199,7 +198,7 @@ public class DslConverter {
                             viewStack.push(modelField.getReferences());
                         }
                     } else {
-                        log.warn(MessageFormat.format("字段不存在，model:{0},field:{1}", uiField.getModel(), uiField.getData()));
+                        log.warn("Field does not exist, model:{}, field:{}", uiField.getModel(), uiField.getData());
                     }
                 } else if (udWidget instanceof UdFilter) {
                     UdFilter udField = (UdFilter) udWidget;

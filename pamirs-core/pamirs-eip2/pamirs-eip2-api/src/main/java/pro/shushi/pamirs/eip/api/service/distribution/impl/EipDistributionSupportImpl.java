@@ -135,7 +135,7 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
         try {
             this.zookeeperService.createOrUpdateData(routePath, finalData, this::defaultComparator);
         } catch (Exception e) {
-            log.error("{}刷新失败 [interfaceName {}]", interfaceTypeName, interfaceName, e);
+            log.error("{} refresh failed [interfaceName {}]", interfaceTypeName, interfaceName, e);
             return new Result<String>().error().setData(String.format("%s刷新失败 [interfaceName %s]", interfaceTypeName, interfaceName));
         }
         return new Result<>();
@@ -156,7 +156,7 @@ public class EipDistributionSupportImpl implements EipDistributionSupport {
                     this.zookeeperService.createOrUpdateData(routePath, ENABLED, this::defaultComparator);
                 }
             } catch (Exception e) {
-                log.error("Eip 开启分布式支持失败，tenant：[{}]", tenant, e);
+                log.error("Eip failed to enable distributed support, tenant: [{}]", tenant, e);
             }
         }
 

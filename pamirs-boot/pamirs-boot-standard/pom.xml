@@ -15,6 +15,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>pro.shushi.pamirs.k2</groupId>
+            <artifactId>pamirs-meta-locale</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>pro.shushi.pamirs.boot</groupId>
             <artifactId>pamirs-boot-ddl</artifactId>
         </dependency>

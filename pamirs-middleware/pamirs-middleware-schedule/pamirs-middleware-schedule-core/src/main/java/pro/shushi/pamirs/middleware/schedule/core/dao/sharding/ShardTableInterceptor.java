@@ -64,7 +64,7 @@ public class ShardTableInterceptor implements Interceptor {
         }
 
         if (newSql != null) {
-            log.debug("{} 分表后SQL =====> {} ", TAG, newSql);
+            log.debug("{} Sharded SQL =====> {} ", TAG, newSql);
             metaStatementHandler.setValue("delegate.boundSql.sql", newSql);
         }
 

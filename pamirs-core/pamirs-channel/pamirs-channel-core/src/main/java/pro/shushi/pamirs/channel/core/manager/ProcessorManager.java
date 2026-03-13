@@ -150,7 +150,7 @@ public class ProcessorManager extends AbstractProcessor {
             try {
                 semaphore.acquire();
             } catch (InterruptedException e) {
-                log.error("获取信号量异常", e);
+                log.error("Acquire semaphore exception", e);
                 continue;
             }
 
@@ -185,7 +185,7 @@ public class ProcessorManager extends AbstractProcessor {
                     List<Map<String, Object>> resBulk = elasticDocApi.bulkIndex(naming, maps);
                     log.info("[{}] [{}] [{}]-[{}]", naming, resBulk.size(), _minId, _maxId);
                 } catch (Throwable throwable) {
-                    log.error("Dump发生异常", throwable);
+                    log.error("Dump exception occurred", throwable);
                 } finally {
                     semaphore.release();
                 }
@@ -206,7 +206,7 @@ public class ProcessorManager extends AbstractProcessor {
         }
 
         Long syncedCount = elasticDocApi.count(naming);
-        log.info("同步数量: [{}] DB数量: [{}]", syncedCount, countId);
+        log.info("Synced count: [{}] DB count: [{}]", syncedCount, countId);
 
         return syncedCount;
     }

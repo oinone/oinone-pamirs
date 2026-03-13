@@ -48,7 +48,7 @@ public abstract class PamirsLongPolling implements LongPollingConstants {
                             PamirsSession.setUserId(currentUser.getUserId());
 //                            PamirsSession.setUserName(currentUser.getLogin());
                         } else {
-                            log.error("long polling未获取到用户信息");
+                            log.error("long polling failed to get user info");
                         }
                     } else {
                         key = String.valueOf(PamirsSession.getRequestVariables().getVariables().get(longPollingKey));
@@ -56,7 +56,7 @@ public abstract class PamirsLongPolling implements LongPollingConstants {
                 }
             }
         } catch (Exception e) {
-            log.error("{}:{}", "不支持long poing", e);
+            log.error("{}:{}", "long polling not supported", e);
         }
         init(type, key, timeout);
     }

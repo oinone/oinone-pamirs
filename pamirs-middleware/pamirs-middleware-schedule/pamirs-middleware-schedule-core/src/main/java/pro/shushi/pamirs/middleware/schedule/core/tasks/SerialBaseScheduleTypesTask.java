@@ -108,7 +108,7 @@ public class SerialBaseScheduleTypesTask extends AbstractPamirsScheduleTaskDealS
                                     }
                                     if (!taskExecuteRs.isSuccess()) {
                                         result.setSuccess(false);
-                                        result.setErrorMessage(taskAction.getActionName() + "执行失败: " + taskExecuteRs.getErrorCode() + "," + taskExecuteRs.getErrorName() + "," + taskExecuteRs.getErrorMessage());
+                                        result.setErrorMessage(taskAction.getActionName() + " execution failed: " + taskExecuteRs.getErrorCode() + "," + taskExecuteRs.getErrorName() + "," + taskExecuteRs.getErrorMessage());
                                         status.setRollbackOnly();
                                         return;
                                     }
@@ -162,7 +162,7 @@ public class SerialBaseScheduleTypesTask extends AbstractPamirsScheduleTaskDealS
                 task.setErrorLog(result.getErrorMessage().substring(0, Math.min(result.getErrorMessage().length(), 2048)));
                 int i = scheduleManager.update2RetryByPrimaryKey(task);
                 if (i != 1) {
-                    log.error("设置重试失败：task.bid:" + task.getBizId() + ",task.id:" + task.getId());
+                    log.error("Set retry failed: task.bid:" + task.getBizId() + ",task.id:" + task.getId());
                     return true;
                 }
             }

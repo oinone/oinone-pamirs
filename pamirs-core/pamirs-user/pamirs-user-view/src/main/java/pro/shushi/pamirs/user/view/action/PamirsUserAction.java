@@ -138,7 +138,7 @@ public class PamirsUserAction {
     public PamirsUser queryOne(PamirsUser query) {
         PamirsUser user = userService.queryById(query.getId());
         if (user == null) {
-            log.error("根据ID：{} 查询用户信息为空", query.getId());
+            log.error("Query user info is empty by ID: {}", query.getId());
             return null;
         }
         return success(user);

@@ -115,17 +115,17 @@ public class ElasticRestSearchApi implements ElasticSearchApi {
                 .build();
         SearchResponse<HashMap> response = null;
         try {
-            log.info("ES搜索请求参数：{}", request.toString());
+            log.info("ES search request parameters: {}", request.toString());
             response = elasticsearchClient.search(request, HashMap.class);
         } catch (ElasticsearchException e) {
-            log.error("索引异常", e);
+            log.error("Index exception", e);
             PamirsSession.getMessageHub()
                     .msg(Message.init()
                             .setLevel(InformationLevelEnum.WARN)
                             .msg("索引异常"));
             return page;
         } catch (IOException e) {
-            log.error("ElasticSearch运行状态异常", e);
+            log.error("ElasticSearch runtime status exception", e);
             PamirsSession.getMessageHub()
                     .msg(Message.init()
                             .setLevel(InformationLevelEnum.WARN)
@@ -157,7 +157,7 @@ public class ElasticRestSearchApi implements ElasticSearchApi {
         page.setSize(size);
         page.setTotalElements(total);
         page.setContent(context);
-        log.info("ES搜索请求参数返回total,{}", total);
+        log.info("ES search request returns total, {}", total);
         return page;
     }
 }

@@ -166,16 +166,14 @@ public class UserSmsVerificationCodeServiceImpl implements UserSmsVerificationCo
         if (CollectionUtils.isNotEmpty(content)) {
             dbCode = content.get(0);
         } else {
-            log.error("验证码没查询到,{},{}", userTransient.getPhone(), userTransient.getVerificationCode());
+            log.error("Verification code not found,{},{}", userTransient.getPhone(), userTransient.getVerificationCode());
             resetCode(error);
 
             if (NumberUtils.valueOf(error.getErrorNum()) >= 3) {
-//                log.error("异常信息:"+USER_VERIFICATION_CODE_EXPIRED_ERROR.msg()+JSONUtils.toJSONString(error));
                 broken(userTransient.setErrorMsg(USER_VERIFICATION_CODE_EXPIRED_ERROR.msg())
                         .setErrorCode(USER_VERIFICATION_CODE_EXPIRED_ERROR.code())
                         .setErrorField("verificationCode"));
             } else {
-//                log.error("异常信息:"+USER_VERIFICATION_CODE_NOT_MATCH_ERROR.msg()+JSONUtils.toJSONString(error));
                 broken(userTransient.setErrorMsg(USER_VERIFICATION_CODE_NOT_MATCH_ERROR.msg())
                         .setErrorCode(USER_VERIFICATION_CODE_NOT_MATCH_ERROR.code())
                         .setErrorField("verificationCode"));

@@ -44,7 +44,7 @@ public class CircuitBreaker {
             return Pair.of(exchange, result);
         } finally {
             long duration = calculateDuration(context, startTime);
-            log.info("调用时间：{}", duration);
+            log.info("Call time: {}", duration);
             if (config.getSlowCallResponseTime() != null) {
                 slow = duration >= config.getSlowCallResponseTime();
             }

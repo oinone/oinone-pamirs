@@ -55,7 +55,7 @@ public class MysqlScriptDialectService implements ScriptDialectService {
                 runner.runScript(new StringReader(script));
             }
         } catch (Exception e) {
-            log.error("脚本执行错误, dsKey:{}, script:{}", dsKey, script, e);
+            log.error("Script execution error, dsKey:{}, script:{}", dsKey, script, e);
             tryUnlock(dsKey);
             throw PamirsException.construct(BASE_DIALECT_SCRIPT_RUN_ERROR, e).errThrow();
         }

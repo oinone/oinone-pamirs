@@ -46,7 +46,7 @@ public class MoneyUtils {
         }
         // overflow超出处理能力，直接返回
         if (integerStr.length() > IUNIT.length) {
-            System.out.println(str + ":超出处理能力");
+            System.out.println(str + ":Exceeds processing capability");
             return str;
         }
 

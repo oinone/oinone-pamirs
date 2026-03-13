@@ -61,7 +61,7 @@ public class LeafFunctions implements SequenceNameConstants {
         SequenceConfig data = SequenceConfigCacheManager.get(code);
 
         if (null == data || null == data.getCode()) {
-            log.error("Leaf Code: [{}] [{}] [{}]", SequenceEnum.SEQ, code, ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR.msg());
+            log.error("Leaf Code: [{}] [{}] [{}]", SequenceEnum.SEQ, code, ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR.name());
             throw PamirsException.construct(ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR)
                     .appendMsg(SequenceEnum.SEQ.help())
                     .errThrow();
@@ -97,7 +97,7 @@ public class LeafFunctions implements SequenceNameConstants {
                 sbuilder.append(leaf);
             }
         } else {
-            log.error("Leaf Id 丢失 [{}] [{}]", SequenceEnum.SEQ, ID_GEN_ERROR.msg());
+            log.error("Leaf Id lost [{}] [{}]", SequenceEnum.SEQ, ID_GEN_ERROR.name());
             throw PamirsException.construct(ID_GEN_ERROR)
                     .appendMsg(SequenceEnum.SEQ.help())
                     .errThrow();
@@ -127,7 +127,7 @@ public class LeafFunctions implements SequenceNameConstants {
         SequenceConfig data = SequenceConfigCacheManager.get(code);
 
         if (null == data || null == data.getCode()) {
-            log.error("Leaf Code: [{}] [{}] [{}]", SequenceEnum.ORDERLY_SEQ, code, ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR.msg());
+            log.error("Leaf Code: [{}] [{}] [{}]", SequenceEnum.ORDERLY_SEQ, code, ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR.name());
             throw PamirsException.construct(ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR)
                     .appendMsg(SequenceEnum.ORDERLY_SEQ.help())
                     .errThrow();
@@ -163,7 +163,7 @@ public class LeafFunctions implements SequenceNameConstants {
                 sbuilder.append(leaf);
             }
         } else {
-            log.error("Leaf Id 丢失 [{}] [{}]", SequenceEnum.ORDERLY_SEQ, ID_GEN_ERROR.msg());
+            log.error("Leaf Id lost [{}] [{}]", SequenceEnum.ORDERLY_SEQ, ID_GEN_ERROR.name());
             throw PamirsException.construct(ID_GEN_ERROR)
                     .appendMsg(SequenceEnum.ORDERLY_SEQ.help())
                     .errThrow();
@@ -194,7 +194,7 @@ public class LeafFunctions implements SequenceNameConstants {
         SequenceConfig data = SequenceConfigCacheManager.get(code);
 
         if (null == data || null == data.getCode()) {
-            log.error("Leaf Code: [{}] [{}] [{}]", SequenceEnum.DATE_SEQ, code, ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR.msg());
+            log.error("Leaf Code: [{}] [{}] [{}]", SequenceEnum.DATE_SEQ, code, ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR.name());
             throw PamirsException.construct(ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR)
                     .appendMsg(SequenceEnum.DATE_SEQ.help())
                     .errThrow();
@@ -236,7 +236,7 @@ public class LeafFunctions implements SequenceNameConstants {
                 sbuilder.append(leaf);
             }
         } else {
-            log.error("Leaf Id 丢失 [{}] [{}]", SequenceEnum.DATE_SEQ, ID_GEN_ERROR.msg());
+            log.error("Leaf Id lost [{}] [{}]", SequenceEnum.DATE_SEQ, ID_GEN_ERROR.name());
             throw PamirsException.construct(ID_GEN_ERROR)
                     .appendMsg(SequenceEnum.DATE_SEQ.help())
                     .errThrow();
@@ -267,7 +267,7 @@ public class LeafFunctions implements SequenceNameConstants {
         SequenceConfig data = SequenceConfigCacheManager.get(code);
 
         if (null == data || null == data.getCode()) {
-            log.error("Leaf Code: [{}] [{}] [{}]", SequenceEnum.DATE_ORDERLY_SEQ, code, ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR.msg());
+            log.error("Leaf Code: [{}] [{}] [{}]", SequenceEnum.DATE_ORDERLY_SEQ, code, ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR.name());
             throw PamirsException.construct(ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR)
                     .appendMsg(SequenceEnum.DATE_ORDERLY_SEQ.help())
                     .errThrow();
@@ -309,7 +309,7 @@ public class LeafFunctions implements SequenceNameConstants {
                 sbuilder.append(leaf);
             }
         } else {
-            log.error("Leaf Id 丢失 [{}] [{}]", SequenceEnum.DATE_ORDERLY_SEQ, ID_GEN_ERROR.msg());
+            log.error("Leaf Id lost [{}] [{}]", SequenceEnum.DATE_ORDERLY_SEQ, ID_GEN_ERROR.name());
             throw PamirsException.construct(ID_GEN_ERROR)
                     .appendMsg(SequenceEnum.DATE_ORDERLY_SEQ.help())
                     .errThrow();

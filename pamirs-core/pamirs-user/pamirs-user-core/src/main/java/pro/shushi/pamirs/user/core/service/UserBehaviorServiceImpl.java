@@ -94,7 +94,7 @@ public class UserBehaviorServiceImpl extends UserBehaviorBaseService implements 
     @Override
     public PamirsUserTransient loginMAPhone(PamirsUserTransient user) {
         UserBehaviorEventEnum behaviorEvent = user.getUserBehaviorEvent();
-        log.info("登录方式: [{}]", behaviorEvent);
+        log.info("Login method: [{}]", behaviorEvent);
         if (LOGIN_BY_WECHAT_MA.equals(behaviorEvent)) {
             String phone = BeanDefinitionUtils.getBean(WeChatManager.class).wechatPhoneNo(user.getToken());
             user.setPhone(phone);

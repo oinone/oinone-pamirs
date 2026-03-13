@@ -68,6 +68,6 @@ public class SysSettingInit implements InstallDataInit, UpgradeDataInit {
         bcSysSettings.setRegTeamTenant(true);
         bcSysSettings.setTenantDomain(TenantDomainEnum.L3_DOMAIN);
         bcSysSettings.createOrUpdate();
-        log.info("系统配置:[{}]", bcSysSettings);
+        log.info("System configuration: [{}]", bcSysSettings);
     }
 }

@@ -46,7 +46,7 @@ public class ChannelBinlogEventConsumer implements NotifyConsumer<Row> {
     public void consume(Message<Row> event) {
 
         if (null == enhanceModelCacheImpl || null == processorOneManager) {
-            log.error("初始化BinlogEvent消费者 失败 !!!!!! 模型缓存Bean为空");
+            log.error("Initialize BinlogEvent consumer failed !!!!!! Model cache Bean is null");
             return;
         }
 

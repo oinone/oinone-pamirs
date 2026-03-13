@@ -89,7 +89,7 @@ public class EnhanceModelScanner {
             }
 
             if (null == modelCfg.getType() || !ModelTypeEnum.PROXY.equals(modelCfg.getType())) {
-                log.error("增强模型的类型只能是代理模型");
+                log.error("Enhance model type must be proxy model");
                 continue;
             }
 

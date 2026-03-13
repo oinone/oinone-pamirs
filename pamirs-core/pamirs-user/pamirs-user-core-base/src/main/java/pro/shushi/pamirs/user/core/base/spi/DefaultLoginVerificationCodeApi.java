@@ -21,12 +21,12 @@ public class DefaultLoginVerificationCodeApi implements LoginVerificationCodeApi
             String env = BeanDefinitionUtils.getEnvironment().getProperty("spring.profiles.active");
             if (StringUtils.isNotBlank(env) && ("dev".equals(env) || "test".equals(env))) {
                 if ("888888".equals(verificationCode)) {
-                    log.info("测试环境，默认验证码 888888");
+                    log.info("Test environment, default verification code 888888");
                     return true;
                 }
             }
         } catch (Exception e) {
-            log.error("获取上下文信息错误", e);
+            log.error("Error getting context information", e);
         }
         return false;
     }

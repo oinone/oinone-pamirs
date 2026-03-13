@@ -296,7 +296,7 @@ public class ViewServiceImpl implements ViewService {
             uiAction.setFun(serverAction.getFun());
             uiAction.setFunction(UiViewUtils.fetchServActionFunction(serverAction.getModel(), serverAction.getFun()));
             if (null == uiAction.getFunction()) {
-                log.error(MessageFormat.format("找不到服务器动作对应的函数，model:{0}, name:{1}, fun:{2}",
+                log.error(MessageFormat.format("The function corresponding to the server action cannot be found, model:{0}, name:{1}, fun:{2}",
                         serverAction.getModel(), serverAction.getName(), serverAction.getFun()));
             }
         } else {

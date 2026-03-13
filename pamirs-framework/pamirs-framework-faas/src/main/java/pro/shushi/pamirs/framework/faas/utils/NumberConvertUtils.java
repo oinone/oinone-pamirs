@@ -51,7 +51,7 @@ public class NumberConvertUtils {
                 return Integer.valueOf(str);
             }
         }
-        log.error("尝试将{}转换成数值失败", n.toString());
+        log.error("Failed to convert {} to number", n.toString());
         return null;
     }
 
@@ -72,7 +72,7 @@ public class NumberConvertUtils {
         } else if (clazz.equals(Integer.class)) {
             return Integer.valueOf(number.toString());
         } else {
-            log.error("数值转换失败，数值{}尝试转换成{}失败", number.toString(), clazz.getClass().getName());
+            log.error("Number conversion failed, failed to convert number {} to {}", number.toString(), clazz.getClass().getName());
             return null;
         }
     }

@@ -53,10 +53,10 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
         }
 
         if (StringUtils.isBlank(integrationInterface.getCircuitBreakerRuleCode())) {
-            log.warn("熔断器注销，interfaceName:{}", interfaceName);
+            log.warn("Circuit breaker unregister, interfaceName:{}", interfaceName);
             circuitBreakerManager.unregister(interfaceName);
         } else {
-            log.warn("熔断器注册，interfaceName：{}", interfaceName);
+            log.warn("Circuit breaker register, interfaceName:{}", interfaceName);
             integrationInterface.fieldQuery(EipIntegrationInterface::getCircuitBreakerRule);
             EipCircuitBreakerRule circuitBreakerRule = integrationInterface.getCircuitBreakerRule();
             circuitBreakerManager.registerCircuitBreaker(interfaceName, circuitBreakerRule);
@@ -144,7 +144,7 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
                 for (EipIntegrationInterface eipInterface : interfaceList) {
                     String interfaceName = eipInterface.getInterfaceName();
                     if (StringUtils.isBlank(interfaceName)) {
-                        log.error("熔断器注册失败，接口技术名称为空");
+                        log.error("Circuit breaker registration failed, the interface technical name is empty");
                         continue;
                     }
 
@@ -230,7 +230,7 @@ public class EipCircuitBreakerRuleServiceImpl implements EipCircuitBreakerRuleSe
                 circuitBreakerManager.registerCircuitBreaker(interfaceName, data);
                 eipCircuitBreakerStateSyncService.handleUpdateConfig(interfaceName);
             } else {
-                log.error("熔断器注册失败，interfaceName为空");
+                log.error("Circuit breaker registration failed, interfaceName is empty");
             }
         }
     }

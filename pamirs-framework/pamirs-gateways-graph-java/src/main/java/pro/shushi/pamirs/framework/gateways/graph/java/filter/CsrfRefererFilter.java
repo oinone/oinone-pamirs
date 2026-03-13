@@ -58,7 +58,7 @@ public class CsrfRefererFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String referer = httpRequest.getHeader("Referer");
         if (!isAllowedRefererUrl(referer)) {
-            log.warn("请求referer:" + referer + "，不匹配allowedReferer，请求拒绝(403)");
+            log.warn("Request referer:" + referer + ", does not match allowedReferer, request rejected (403)");
             // 返回 403 Forbidden 错误
             httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
             httpResponse.setStatus(HttpStatus.FORBIDDEN.value());

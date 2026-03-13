@@ -59,7 +59,7 @@ public class PlatformJarVersionChecker implements PlatformJarVersionCheckerApi {
             SimplePackageVersion packageVersion = SimplePackageVersion.getPackageVersion(clazz);
             if (packageVersion == null) {
                 if (log.isDebugEnabled()) {
-                    log.debug("Jar名称获取异常:[{}]", clazz);
+                    log.debug("Jar name acquisition exception:[{}]", clazz);
                 }
                 continue;
             }
@@ -112,7 +112,7 @@ public class PlatformJarVersionChecker implements PlatformJarVersionCheckerApi {
                     .collect(Collectors.toMap(PlatformVersion::getJar, PlatformVersion::getVersion, (_a, _b) -> _a));
 
             boolean hasError = false;
-            StringBuilder msg = new StringBuilder("\n\n\n依赖包版本不匹配\n");
+            StringBuilder msg = new StringBuilder("\n\n\nDependency package version mismatch\n");
             a:
             for (Map.Entry<String, String> entry : jarVerMap.entrySet()) {
                 String jarName = entry.getKey();
@@ -141,18 +141,18 @@ public class PlatformJarVersionChecker implements PlatformJarVersionCheckerApi {
                         continue a;
                     } else if (j < k) {
                         hasError = true;
-                        msg.append(jarName).append("已安装版本:[").append(dbVersion).append("],启动中包含的版本:[").append(version).append("]\n");
+                        msg.append(jarName).append("installed version:[").append(dbVersion).append("], startup included version:[").append(version).append("]\n");
                     }
                 }
             }
 
             if (hasError) {
-                msg.append("\n请确认版本配置后重新启动, 系统即将退出。\n\n\n");
+                msg.append("\nPlease check version configuration and restart, system is about to exit.\n\n\n");
                 log.error(msg.toString());
                 System.exit(-1);
             }
         } catch (Throwable t) {
-            log.error("对比Jar版本异常", t);
+            log.error("Compare Jar version exception", t);
         }
     }
 

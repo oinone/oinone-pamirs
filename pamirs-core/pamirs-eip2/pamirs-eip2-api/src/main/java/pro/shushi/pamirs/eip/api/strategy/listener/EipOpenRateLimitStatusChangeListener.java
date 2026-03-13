@@ -40,13 +40,13 @@ public class EipOpenRateLimitStatusChangeListener implements TreeCacheListener {
 
         String dataPath = EipZkHelper.processorListenerPath(rootPath, path);
         if (StringUtils.isBlank(dataPath)) {
-            log.info("流控检测到顶层或非预期节点变更，已忽略处理，path：{}", path);
+            log.info("Flow control detected top-level or unexpected node change, ignored, path: {}", path);
             return;
         }
 
         String[] pathList = dataPath.split(CharacterConstants.SEPARATOR_SLASH);
         if (pathList.length != 2) {
-            log.info("流控检测到顶层或非预期节点变更，已忽略处理，path：{}", path);
+            log.info("Flow control detected top-level or unexpected node change, ignored, path: {}", path);
             return;
         }
 

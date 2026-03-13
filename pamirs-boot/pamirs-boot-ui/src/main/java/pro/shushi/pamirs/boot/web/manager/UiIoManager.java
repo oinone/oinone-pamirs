@@ -41,7 +41,7 @@ public class UiIoManager {
     }
 
     public void logFindAction(String model, String name) {
-        log.warn(MessageFormat.format("找不到对应的动作，model:{0}, name:{1}", model, name));
+        log.warn(MessageFormat.format("Cannot find corresponding action, model:{0}, name:{1}", model, name));
     }
 
 }

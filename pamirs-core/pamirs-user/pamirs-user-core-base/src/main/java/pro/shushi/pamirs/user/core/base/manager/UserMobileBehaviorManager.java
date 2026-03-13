@@ -67,7 +67,7 @@ public class UserMobileBehaviorManager {
         }
 
         UserBehaviorEventEnum behaviorEvent = user.getUserBehaviorEvent();
-        log.info("登录方式: [{}]", behaviorEvent);
+        log.info("Login method: [{}]", behaviorEvent);
         if (!LOGIN_BY_WECHAT_MA.equals(behaviorEvent)) {
             return user;
         }

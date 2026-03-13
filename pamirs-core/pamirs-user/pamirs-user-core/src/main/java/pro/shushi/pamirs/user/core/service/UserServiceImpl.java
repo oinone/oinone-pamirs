@@ -166,7 +166,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (modCount == 0) {
-            log.error("更新失败，当前的用户名为: {}", user.getName());
+            log.error("Update failed, current username is: {}", user.getName());
         }
 
         return user;
@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
         userUpdateCommon(user);
         Integer modCount = IdDataManager.getInstance().updateById(user);
         if (modCount == 0) {
-            log.error("更新失败，当前的用户名为: {}", user.getName());
+            log.error("Update failed, current username is: {}", user.getName());
         }
 
         return modCount;
@@ -575,7 +575,7 @@ public class UserServiceImpl implements UserService {
             // 过滤掉系统用户（即系统用户的密码修改不受扩展点影响） 8848:eip_system.; 10088L:workflow_system; 10086L:trigger_system
             if (!(user.getId() != null && (8848L == user.getId() || 10086L == user.getId() || 10088L == user.getId()))) {
                 if (!PamirsUserDataChecker.checkLogin(login)) {
-                    log.error("用户创建校验失败,账号校验失败:{}", login);
+                    log.error("User creation validation failed, account validation failed: {}", login);
                     throw PamirsException.construct(UserExpEnumerate.USER_CREATE_LOGIN_FORMAT_ERROR).setExtendObject(UserConstant.FIELD_LOGIN).errThrow();
                 }
             }
@@ -586,16 +586,16 @@ public class UserServiceImpl implements UserService {
         String phoneCode = user.getPhoneCode();
         if (StringUtils.isNotBlank(phone)) {
             if (!checkApi.checkPhone(phone, phoneCode)) {
-                log.error("用户创建校验失败,手机号校验失败:{},用户的账号为{}", phone, login);
+                log.error("User creation validation failed, phone number validation failed: {}, user account is {}", phone, login);
                 throw PamirsException.construct(UserExpEnumerate.USER_CREATE_PHONE_NOT_FORMAT_ERROR).setExtendObject("phone").errThrow();
             }
             if (isModify) {
                 if (existUserInfo(new PamirsUser().setPhone(phone)) && (!queryByPhone(phone).getId().equals(user.getId()))) {
-                    log.error("用户更新失败,手机号已经被注册:{},用户的账号为{}", phone, login);
+                    log.error("User update failed, phone number already registered: {}, user account is {}", phone, login);
                     throw PamirsException.construct(UserExpEnumerate.USER_CREATE_PHONE_EXISTED_ERROR).setExtendObject("phone").errThrow();
                 }
             } else if (existUserInfo(new PamirsUser().setPhone(phone))) {
-                log.error("用户创建校验失败,手机号已经被注册:{},用户的账号为{}", phone, login);
+                log.error("User creation validation failed, phone number already registered: {}, user account is {}", phone, login);
                 throw PamirsException.construct(UserExpEnumerate.USER_CREATE_PHONE_EXISTED_ERROR).setExtendObject("phone").errThrow();
             }
         }
@@ -603,22 +603,22 @@ public class UserServiceImpl implements UserService {
         String email = user.getEmail();
         if (StringUtils.isNotBlank(email)) {
             if (!checkApi.checkEmail(email)) {
-                log.error("用户创建失败，邮箱校验失败{}，用户的账户为{}", email, login);
+                log.error("User creation failed, email validation failed {}, user account is {}", email, login);
                 throw PamirsException.construct(UserExpEnumerate.USER_CREATE_EMAIL_NOT_FORMAT_ERROR).setExtendObject("email").errThrow();
             }
             if (isModify) {
                 if (existUserInfo(new PamirsUser().setEmail(email)) && (!queryByEmail(email).getId().equals(user.getId()))) {
-                    log.error("用户更新失败,邮箱已经被注册:{},用户的账号为{}", email, login);
+                    log.error("User update failed, email already registered: {}, user account is {}", email, login);
                     throw PamirsException.construct(UserExpEnumerate.USER_CREATE_EMAIL_EXISTED_ERROR).setExtendObject("email").errThrow();
                 }
             } else if (existUserInfo(new PamirsUser().setEmail(email))) {
-                log.error("用户创建校验失败,邮箱已经被注册:{},用户的账号为{}", email, login);
+                log.error("User creation validation failed, email already registered: {}, user account is {}", email, login);
                 throw PamirsException.construct(UserExpEnumerate.USER_CREATE_EMAIL_EXISTED_ERROR).setExtendObject("email").errThrow();
             }
         }
 
         if (!isModify && existUserInfo(new PamirsUser().setLogin(login))) {
-            log.error("用户创建校验失败,账号已经被注册:{},用户的账号为{}", login, login);
+            log.error("User creation validation failed, account already registered: {}, user account is {}", login, login);
             throw PamirsException.construct(UserExpEnumerate.USER_CREATE_LOGIN_EXISTED_ERROR).setExtendObject(UserConstant.FIELD_LOGIN).errThrow();
         }
     }

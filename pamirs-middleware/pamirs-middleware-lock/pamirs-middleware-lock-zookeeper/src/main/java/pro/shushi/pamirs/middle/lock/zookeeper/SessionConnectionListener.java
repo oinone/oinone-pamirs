@@ -34,7 +34,7 @@ public class SessionConnectionListener implements ConnectionStateListener {
                 try {
                     if (client.getZookeeperClient().blockUntilConnectedOrTimedOut()) {
                         zookeeperService.create(routePath, createBuilder -> createBuilder.withMode(CreateMode.EPHEMERAL_SEQUENTIAL));
-                        log.error("重新获取锁成功 [routePath {}]", routePath);
+                        log.error("Re-acquire lock successfully [routePath {}]", routePath);
                         break;
                     }
                 } catch (InterruptedException e) {

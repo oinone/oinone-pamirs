@@ -55,7 +55,7 @@ public class DefaultOpenApiIpWhiteCheck implements OpenApiIpWhiteCheckApi {
         try {
             boolean ipAllowed = EipIpUtil.isIpAllowed(readIp, ipWhites);
             if (!ipAllowed) {
-                log.warn("IP白名单拦截:{}", readIp);
+                log.warn("IP whitelist blocked: {}", readIp);
                 exchange.getMessage().setHeader(Exchange.HTTP_RESPONSE_CODE, errorCode);
                 exchange.getMessage().setBody(errorBody);
                 return Boolean.FALSE;

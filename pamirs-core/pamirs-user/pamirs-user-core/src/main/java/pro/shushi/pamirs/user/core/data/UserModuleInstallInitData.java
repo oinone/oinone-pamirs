@@ -65,7 +65,7 @@ public class UserModuleInstallInitData implements InstallDataInit, UpgradeDataIn
             if (existUser == null) {
                 createUserList.add(user);
             } else if (!existUser.getId().equals(user.getId())) {
-                log.error("请手动更新用户ID以保证内置用户权限正常运行。oldId = {}, newId = {}", existUser.getId(), user.getId());
+                log.error("Please manually update the user ID to ensure the normal operation of the built-in user permissions. oldId = {}, newId = {}", existUser.getId(), user.getId());
             }
         }
 

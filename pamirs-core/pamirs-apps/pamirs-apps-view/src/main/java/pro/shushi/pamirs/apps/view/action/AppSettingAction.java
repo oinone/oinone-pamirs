@@ -94,7 +94,7 @@ public class AppSettingAction {
     public AppConfigTransient gatewayModuleSetting(String module) {
         AppConfigTransient appConfigTransient = new AppConfigTransient();
         AppConfig appConfig = appConfigService.fetchAppConfig(module);
-        log.info("产品设置详情:[{}]", JsonUtils.toJSONString(appConfig));
+        log.info("Product setting details:[{}]", JsonUtils.toJSONString(appConfig));
         AppMenu menus;
         if (null != appConfig) {
             appConfigTransient.setLogo(appConfig.getLogo());
@@ -212,7 +212,7 @@ public class AppSettingAction {
         result.setDomain(comSet.getDomainName());
         result.setSearchable(comSet.getSearchable());
         result.setLogo(comSet.getLogo());
-        log.info("企业设置保存:[{}]", JsonUtils.toJSONString(result));
+        log.info("Enterprise setting save:[{}]", JsonUtils.toJSONString(result));
         return result;
     }
 

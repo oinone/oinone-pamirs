@@ -53,7 +53,7 @@ public class DdlManager {
     public String getUrl(String dsKey) {
         Map<String, String> dataSource = getDsConfig(dsKey);
         if (MapUtils.isEmpty(dataSource)) {
-            log.error("找不到对应的数据源，请检查数据源配置. dsKey:{}", dsKey);
+            log.error("Corresponding data source not found, please check data source configuration. dsKey:{}", dsKey);
             throw PamirsException.construct(BASE_DS_CONFIG_ERROR).appendMsg("数据源：" + dsKey).errThrow();
         }
         String url = dataSource.get("url");

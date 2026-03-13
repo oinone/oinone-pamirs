@@ -327,7 +327,7 @@ public class CtYunZOSClient extends AbstractFileClient implements FileConstants 
                 return content;
             }
         } catch (IOException e) {
-            log.error("天翼云ZOS读取文件io异常", e);
+            log.error("Tianyi Cloud ZOS read file io exception", e);
         }
         return null;
     }
@@ -350,9 +350,9 @@ public class CtYunZOSClient extends AbstractFileClient implements FileConstants 
         try {
             String bucket = cdnConfig.getBucket();
             obsClient.deleteObject(bucket, folderKey);
-            log.info("deleteByFolder folder:[{}] 成功", folder);
+            log.info("deleteByFolder folder:[{}] success", folder);
         } catch (Exception e) {
-            log.error("deleteByFolder folder:[{}] 失败", folder, e);
+            log.error("deleteByFolder folder:[{}] failed", folder, e);
         }
     }
 
@@ -366,11 +366,11 @@ public class CtYunZOSClient extends AbstractFileClient implements FileConstants 
         try {
             DeleteObjectResult deleteResult = obsClient.deleteObject(bucket, fileKey);
             if (deleteResult.getStatusCode() != 200) {
-                log.error("删除文件失败: [{}], response:{}", fileName, JsonUtils.toJSONString(deleteResult));
+                log.error("Failed to delete file: [{}], response:{}", fileName, JsonUtils.toJSONString(deleteResult));
                 throw PamirsException.construct(FILE_CDN_RM_ERROR).errThrow();
             }
         } catch (ObsException exp) {
-            log.error("删除文件发生异常: [{}]", fileName, exp);
+            log.error("An exception occurred while deleting the file: [{}]", fileName, exp);
             throw PamirsException.construct(FILE_CDN_RM_ERROR).errThrow();
         }
     }

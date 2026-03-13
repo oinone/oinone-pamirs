@@ -18,7 +18,7 @@ public class TestConsumerMethod {
     public NotifyConsumer<TestModel> eventListener() {
         return event -> {
             TestModel testModel = event.getPayload();
-            logger.error("第{}次消费", testModel.getTestInteger());
+            logger.error("Consume time: {}", testModel.getTestInteger());
         };
     }
 }

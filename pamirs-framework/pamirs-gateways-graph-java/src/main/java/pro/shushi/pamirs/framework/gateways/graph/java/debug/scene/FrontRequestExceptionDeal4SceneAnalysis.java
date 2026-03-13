@@ -42,10 +42,10 @@ public class FrontRequestExceptionDeal4SceneAnalysis implements FrontRequestExce
                 if (traceRs == null) {
                     continue;
                 }
-                result.getErrors().add(ClientGraphQLError.build(ImmutablePair.of("stacktraceSceneAnalysis", "场景追踪:[" + sceneAnalysisDebugTraceApi.scene() + "]"), JsonUtils.toJSONString(traceRs)));
+                result.getErrors().add(ClientGraphQLError.build(ImmutablePair.of("stacktraceSceneAnalysis", "Scene trace:[" + sceneAnalysisDebugTraceApi.scene() + "]"), JsonUtils.toJSONString(traceRs)));
             } catch (Throwable throwable) {
                 //忽略
-                log.error("场景异常追踪执行失败: [{}], exception:{}", sceneAnalysisDebugTraceApi.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
+                log.error("Scene exception trace execution failed: [{}], exception:{}", sceneAnalysisDebugTraceApi.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
             }
         }
     }
@@ -59,10 +59,10 @@ public class FrontRequestExceptionDeal4SceneAnalysis implements FrontRequestExce
                 if (traceRs == null) {
                     continue;
                 }
-                addDebugInfo(executionResult, ClientGraphQLError.build(ImmutablePair.of("stacktraceSceneAnalysis", "场景追踪:[" + sceneAnalysisDebugTraceApi.scene() + "]"), JsonUtils.toJSONString(traceRs)));
+                addDebugInfo(executionResult, ClientGraphQLError.build(ImmutablePair.of("stacktraceSceneAnalysis", "Scene trace:[" + sceneAnalysisDebugTraceApi.scene() + "]"), JsonUtils.toJSONString(traceRs)));
             } catch (Throwable throwable) {
                 //忽略
-                log.error("场景异常追踪执行失败: [{}], exception:{}", sceneAnalysisDebugTraceApi.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
+                log.error("Scene exception trace execution failed: [{}], exception:{}", sceneAnalysisDebugTraceApi.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
             }
         }
     }

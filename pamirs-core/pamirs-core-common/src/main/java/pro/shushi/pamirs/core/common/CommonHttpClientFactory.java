@@ -81,7 +81,7 @@ public class CommonHttpClientFactory {
                     .setDefaultRequestConfig(requestConfig)
                     .build();
         } catch (NoSuchAlgorithmException | KeyManagementException exp) {
-            log.error("初始化HTTP连接池出错", exp);
+            log.error("Error initializing HTTP connection pool", exp);
             throw exp;
         }
     }

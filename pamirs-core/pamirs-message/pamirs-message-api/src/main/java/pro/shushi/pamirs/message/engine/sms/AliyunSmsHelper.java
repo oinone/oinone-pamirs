@@ -84,7 +84,7 @@ public class AliyunSmsHelper {
             log.info("Response: {}", responseJson);
             return responseJson;
         } catch (Throwable throwable) {
-            log.error("请求发送短信失败", throwable);
+            log.error("Request to send SMS failed", throwable);
             throw throwable;
         }
     }

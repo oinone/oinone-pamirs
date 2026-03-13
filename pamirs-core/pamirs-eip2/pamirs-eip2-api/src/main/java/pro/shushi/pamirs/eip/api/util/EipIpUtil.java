@@ -73,7 +73,7 @@ public class EipIpUtil {
 
             return true;
         } catch (UnknownHostException e) {
-            log.error("解析IP地址时发生错误", e);
+            log.error("Error parsing IP address", e);
             return false;
         }
     }
@@ -125,7 +125,7 @@ public class EipIpUtil {
             }
             return !ip.endsWith(".");
         } catch (NumberFormatException nfe) {
-            log.error("解析IP地址时发生错误:{}", ip, nfe);
+            log.error("Error parsing IP address:{}", ip, nfe);
             return false;
         }
     }
@@ -145,7 +145,7 @@ public class EipIpUtil {
 
             return isValidIP(ip) && prefix >= 0 && prefix <= 32;
         } catch (NumberFormatException e) {
-            log.error("解析CIDR时发生错误:{}", cidr, e);
+            log.error("Error parsing CIDR:{}", cidr, e);
             return false;
         }
     }

@@ -130,7 +130,7 @@ public class UiViewUtils {
                     String subFieldData = fieldDataSplit[1];
                     ModelFieldConfig modelFieldConfig = PamirsSession.getContext().getModelField(model, field);
                     if (null == modelFieldConfig) {
-                        log.warn("字段被删除或者被重命名, model:{}, field:{}", model, field);
+                        log.warn("Field is deleted or renamed, model:{}, field:{}", model, field);
                         continue;
                     }
                     UIField subUIField = makeSubOptionField(modelFieldConfig, subFieldData);

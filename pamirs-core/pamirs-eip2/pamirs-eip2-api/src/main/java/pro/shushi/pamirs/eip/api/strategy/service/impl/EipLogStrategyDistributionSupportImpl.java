@@ -97,7 +97,7 @@ public class EipLogStrategyDistributionSupportImpl implements EipLogStrategyDist
             }
             this.zookeeperService.createOrUpdateData(routePath, createData(logStrategy), this::defaultComparator);
         } catch (Exception e) {
-            log.error("刷新失败 [interfaceName {}]", interfaceName, e);
+            log.error("Refresh failed [interfaceName {}]", interfaceName, e);
             return new Result<String>().error().setData(String.format("刷新失败 [interfaceName %s]", interfaceName));
         }
         return new Result<>();

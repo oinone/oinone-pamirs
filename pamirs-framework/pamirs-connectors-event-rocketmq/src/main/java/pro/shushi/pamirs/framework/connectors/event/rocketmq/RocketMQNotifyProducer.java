@@ -115,7 +115,7 @@ public class RocketMQNotifyProducer extends NotifyAbstractProducer<RocketMQTempl
                     break;
             }
         } catch (Throwable throwable) {
-            log.error("发送消息异常", throwable);
+            log.error("Send message exception", throwable);
             result = NotifySendResult.error(throwable);
         }
 

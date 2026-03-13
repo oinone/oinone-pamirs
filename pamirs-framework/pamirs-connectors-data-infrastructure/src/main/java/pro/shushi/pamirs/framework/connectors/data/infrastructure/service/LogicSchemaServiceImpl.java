@@ -177,7 +177,7 @@ public class LogicSchemaServiceImpl implements LogicSchemaService {
                     }
                 }
                 if (curLogicTable == null) {
-                    log.warn("当前删除的模型不存在物理表: [{}]", model);
+                    log.warn("Physical table does not exist for the model currently being deleted: [{}]", model);
                     return Boolean.TRUE;
                 }
                 log.info("logicTable: [{}]", curLogicTable);

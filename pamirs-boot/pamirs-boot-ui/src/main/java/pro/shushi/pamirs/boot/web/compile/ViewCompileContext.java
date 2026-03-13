@@ -97,7 +97,7 @@ public class ViewCompileContext {
             }
             if (relatedFieldConfig == null) {
                 if (log.isWarnEnabled()) {
-                    log.warn("无效的Related字段定义 field: {}, related: {}", data, related);
+                    log.warn("Invalid Related field definition, field: {}, related: {}", data, related);
                 }
                 return null;
             }
@@ -113,7 +113,7 @@ public class ViewCompileContext {
                 String dictionary = uiField.getDictionary();
                 if (StringUtils.isBlank(dictionary)) {
                     if (log.isWarnEnabled()) {
-                        log.warn("数据字典编码未正确指定 field: {}", data);
+                        log.warn("Data dictionary code not correctly specified, field: {}", data);
                     }
                     return null;
                 }
@@ -121,7 +121,7 @@ public class ViewCompileContext {
                 DataDictionary dataDictionary = PamirsSession.getContext().getDictionary(dictionary);
                 if (dataDictionary == null) {
                     if (log.isWarnEnabled()) {
-                        log.warn("找不到有效的数据字典 field: {}, dictionary: {}", data, dictionary);
+                        log.warn("Valid data dictionary not found, field: {}, dictionary: {}", data, dictionary);
                     }
                     return null;
                 }

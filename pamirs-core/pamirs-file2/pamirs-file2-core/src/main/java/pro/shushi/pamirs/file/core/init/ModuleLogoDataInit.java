@@ -45,7 +45,7 @@ public class ModuleLogoDataInit implements MetaDataEditor {
     @Override
     public void edit(AppLifecycleCommand command, Map<String, Meta> metaMap) {
         if (!fileProperties.getAutoUploadLogo() || ProfileEnum.DDL.equals(command.getProfile())) {
-            log.info("禁用自动上传Logo功能，将不再进行文件上传和匹配操作");
+            log.info("The automatic logo upload function is disabled, and file upload and matching operations will no longer be performed");
             return;
         }
         FileClient fileClient = FileClientFactory.getClient();
@@ -59,7 +59,7 @@ public class ModuleLogoDataInit implements MetaDataEditor {
                             .ifPresent(modules::addAll));
             moduleLogoInit(modules, uploadResult);
         } catch (IOException e) {
-            log.error("Logo文件上传失败", e);
+            log.error("Logo file upload failed", e);
         }
     }
 

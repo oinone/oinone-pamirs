@@ -154,7 +154,7 @@ public class UserLoginAndOutChecker implements IUserDataChecker {
             broken(userTransient.setErrorMsg(USER_EMAIL_OR_VERIFICATION_CODE_ERROR.msg())
                     .setErrorCode(USER_EMAIL_OR_VERIFICATION_CODE_ERROR.code())
                     .setErrorField(UserConstant.FIELD_VERIFICATION_CODE));
-            log.error("{},邮箱登录失败，当前邮箱不存在用户，邮箱号为{}", userTransient.getEmail(), USER_EMAIL_NOT_EXISTED_ERROR.msg());
+            log.error("{}, Email login failed, user does not exist for current email, email is {}", userTransient.getEmail(), USER_EMAIL_NOT_EXISTED_ERROR.msg());
             return null;
         }
         return checkActive(rUser, userTransient, USER_EMAIL_OR_VERIFICATION_CODE_ERROR, UserConstant.FIELD_VERIFICATION_CODE);

@@ -43,7 +43,7 @@ public class EipConfigurationConstant {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(1);
         executor.setMaxPoolSize(1);
-        log.info("注册EIP专用回调单线程池成功 [CoreSize {}] [MaxPoolSize {}]", executor.getCorePoolSize(), executor.getMaxPoolSize());
+        log.info("Register EIP dedicated callback single thread pool success [CoreSize {}] [MaxPoolSize {}]", executor.getCorePoolSize(), executor.getMaxPoolSize());
         return executor;
     }
 

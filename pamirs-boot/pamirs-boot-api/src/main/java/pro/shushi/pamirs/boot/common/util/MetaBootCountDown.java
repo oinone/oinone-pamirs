@@ -26,7 +26,7 @@ public class MetaBootCountDown {
         while (true) {
             boolean aRs = atomicInteger.compareAndSet(0, 0);
             if (aRs) {
-                log.info("所有子线程任务执行结束");
+                log.info("All sub-thread tasks execution finished");
                 break;
             }
             try {

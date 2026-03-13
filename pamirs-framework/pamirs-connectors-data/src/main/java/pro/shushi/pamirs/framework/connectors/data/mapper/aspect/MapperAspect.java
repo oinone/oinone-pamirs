@@ -70,7 +70,7 @@ public class MapperAspect {
             dsKey = pamirsFrameworkDataConfiguration.getDefaultDsKey();
         }
         if (log.isDebugEnabled()) {
-            log.debug("使用数据源(" + (null == dsKey ? "default" : dsKey) + ")-" + point.getSignature());
+            log.debug("Use datasource (" + (null == dsKey ? "default" : dsKey) + ")-" + point.getSignature());
         }
         PamirsSession.pushDsKey(dsKey);
     }
@@ -93,7 +93,7 @@ public class MapperAspect {
             }
         }
         if (log.isDebugEnabled()) {
-            log.debug("恢复数据源-" + point.getSignature());
+            log.debug("Restore datasource -" + point.getSignature());
         }
         PamirsSession.clearDsKey();
     }
@@ -101,7 +101,7 @@ public class MapperAspect {
     @AfterThrowing(value = "pointcutMapper()")
     public void restoreDataSourceAndSetModel(JoinPoint point) {
         if (log.isDebugEnabled()) {
-            log.debug("恢复数据源-" + point.getSignature());
+            log.debug("Restore datasource -" + point.getSignature());
         }
         PamirsSession.clearDsKey();
     }

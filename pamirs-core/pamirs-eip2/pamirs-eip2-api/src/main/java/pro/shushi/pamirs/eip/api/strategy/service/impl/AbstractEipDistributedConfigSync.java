@@ -45,7 +45,7 @@ public abstract class AbstractEipDistributedConfigSync {
     public void startListener(TreeCacheListener listener) {
         if (registered.compareAndSet(false, true)) {
             String path = getFullRootPath();
-            log.info("{}注册ZK监听：{}", getDisplayName(), path);
+            log.info("{} Register ZK listener: {}", getDisplayName(), path);
             zookeeperService.registerTreeCache(path, listener);
         }
     }
@@ -66,7 +66,7 @@ public abstract class AbstractEipDistributedConfigSync {
                 zookeeperService.createOrUpdateData(path, data, DEFAULT_COMPARATOR);
             }
         } catch (Exception e) {
-            log.error("{}状态刷新失败 [childPath:{}]", getDisplayName(), childPath, e);
+            log.error("{} Status refresh failed [childPath:{}]", getDisplayName(), childPath, e);
             throw PamirsException.construct(EipExpEnumerate.EIP_CB_REFRESH_ERROR).errThrow();
         }
     }
@@ -81,7 +81,7 @@ public abstract class AbstractEipDistributedConfigSync {
                 zookeeperService.delete(path);
             }
         } catch (Exception e) {
-            log.error("{}配置删除失败，childPath={}", getDisplayName(), childPath, e);
+            log.error("{} Config deletion failed, childPath={}", getDisplayName(), childPath, e);
         }
     }
 

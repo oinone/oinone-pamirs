@@ -51,9 +51,9 @@ public class EventApplicationTests {
             NotifySendResult notifySendResult = rocketMQNotifyProducer.send("topic2", "test", item);
 //                    .setGroup("testTransaction").setIsTransaction(true);// todo 事务消息
             if (notifySendResult.isSuccess()) {
-                logger.info("第{}次发送成功", item.getTestInteger());
+                logger.info("Send success time: {}", item.getTestInteger());
             } else
-                logger.info("第{}次发送失败", item.getTestInteger());
+                logger.info("Send failed time: {}", item.getTestInteger());
         }
         TimeUnit.MINUTES.sleep(5);
     }

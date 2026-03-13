@@ -38,7 +38,7 @@ public class ExpressionDefinitionHistoryServiceImpl implements ExpressionDefinit
             return new ArrayList<>();
         }
 
-        log.debug("保存表达式历史表数据，keyPrefix:{}, existed-size:{}", keyPrefix, existed.size());
+        log.debug("Save expression history table data, keyPrefix:{}, existed-size:{}", keyPrefix, existed.size());
         //根据表达式,构造历史记录
         List<ExpressionDHistory> histories = existed.stream()
                 .map(exp -> {

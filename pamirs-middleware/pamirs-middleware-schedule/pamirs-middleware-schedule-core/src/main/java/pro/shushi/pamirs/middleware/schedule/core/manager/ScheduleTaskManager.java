@@ -101,7 +101,7 @@ public class ScheduleTaskManager {
                 }
             }, isAutoCreateConfigFile);
         } catch (IOException e) {
-            log.error("任务配置读取失败", e);
+            log.error("Failed to read task configuration", e);
         }
         return configNodes;
     }
@@ -196,7 +196,7 @@ public class ScheduleTaskManager {
             for (String beanName : beanNameList) {
                 if (isNotRegisterBean(beanName)) {
                     if (!hasBeanClassName) {
-                        log.error("自定义任务需要注册Spring Bean，但未配置beanClassName，schedule将不会进行该任务的调度");
+                        log.error("Custom tasks need to register Spring Bean, but beanClassName is not configured, schedule will not schedule this task");
                         continue;
                     }
                     Object customScheduleTaskDealSingle = contextManager.registerBean(beanClass, beanName, builder -> {

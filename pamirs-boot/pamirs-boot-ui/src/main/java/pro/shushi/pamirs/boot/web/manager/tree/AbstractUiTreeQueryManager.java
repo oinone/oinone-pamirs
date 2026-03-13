@@ -50,7 +50,7 @@ public abstract class AbstractUiTreeQueryManager {
                 queryWrapper.isNull(Configs.wrap(requestContext.getModelField(references, f)).getColumn());
             }
         } else {
-            log.error("错误的关联字段,model:{},field:{}", fieldConfig.getModel(), fieldConfig.getField());
+            log.error("Wrong relation field, model:{}, field:{}", fieldConfig.getModel(), fieldConfig.getField());
             throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).errThrow();
         }
     }
@@ -99,7 +99,7 @@ public abstract class AbstractUiTreeQueryManager {
         try {
             return (Map<String, Object>) obj;
         } catch (Exception e) {
-            log.error("强转map异常" + obj.getClass());
+            log.error("Cast to map exception" + obj.getClass());
             throw e;
         }
     }
@@ -126,7 +126,7 @@ public abstract class AbstractUiTreeQueryManager {
                 }
                 result.setLabel(label);
             } catch (Exception e) {
-                log.error("label表达式执行异常,exp:{}, value:{}", metadata.getLabel(), value == null ? null : JSON.toJSONString(value));
+                log.error("Label expression execution exception, exp:{}, value:{}", metadata.getLabel(), value == null ? null : JSON.toJSONString(value));
             }
         }
 
@@ -134,7 +134,7 @@ public abstract class AbstractUiTreeQueryManager {
             try {
                 result.setIcon(Exp.run(metadata.getIcon(), map));
             } catch (Exception e) {
-                log.error("Icon表达式执行异常,exp:{}, value:{}", metadata.getIcon(), value == null ? null : JSON.toJSONString(value));
+                log.error("Icon expression execution exception, exp:{}, value:{}", metadata.getIcon(), value == null ? null : JSON.toJSONString(value));
             }
         }
         return result;
@@ -215,7 +215,7 @@ public abstract class AbstractUiTreeQueryManager {
         } else if (TtypeEnum.O2M.value().equals(relFieldConfig.getTtype())) {
             fieldInParent = Boolean.TRUE;
         } else {
-            log.error("错误的关联字段,model:{},field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
+            log.error("Wrong relation field, model:{}, field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
             throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).errThrow();
         }
 
@@ -262,7 +262,7 @@ public abstract class AbstractUiTreeQueryManager {
     protected void buildNodeRelKeys(List<UiTreeNode> parents, List<UiTreeNode> children, UiTreeNodeMetadata childrenMetadata, List<Map<String, Object>> throughMapList) {
         ModelFieldConfig relFieldConfig = PamirsSession.getContext().getModelField(childrenMetadata.getRelModel(), childrenMetadata.getRelField());
         if (!TtypeEnum.isRelationType(relFieldConfig.getTtype())) {
-            log.error("错误的关联字段,model:{},field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
+            log.error("Wrong relation field, model:{}, field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
             throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).errThrow();
         }
         Boolean fieldInParent;

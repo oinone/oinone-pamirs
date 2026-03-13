@@ -284,7 +284,7 @@ public class TencentCosClient extends AbstractFileClient implements FileConstant
                 return content;
             }
         } catch (IOException e) {
-            log.error("腾讯云读取文件io异常", e);
+            log.error("Tencent Cloud read file IO exception", e);
         }
         return null;
     }
@@ -299,7 +299,7 @@ public class TencentCosClient extends AbstractFileClient implements FileConstant
         try {
             cosClient.deleteObject(bucket, fileKey);
         } catch (CosClientException exp) {
-            log.error("删除文件发生异常: [{}]", fileName);
+            log.error("Delete file exception: [{}]", fileName);
             throw PamirsException.construct(FILE_CDN_RM_ERROR).errThrow();
         }
     }

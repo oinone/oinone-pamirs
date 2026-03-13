@@ -407,7 +407,7 @@ public class PageLoadAction {
             action = uiIoManager.cloneData((ViewAction) cacheAction);
         }
         if (null == action) {
-            log.error("未找到首页, module:{}, homepageModel:{}, homepageName:{}", home.getModule(), homepageModel, homepageName);
+            log.error("Homepage not found, module:{}, homepageModel:{}, homepageName:{}", home.getModule(), homepageModel, homepageName);
             throw PamirsException.construct(BaseExpEnumerate.BASE_HOME_PAGE_IS_NOT_EXISTS_ERROR)
                     .appendMsg("module:" + home.getModule()).errThrow();
         }

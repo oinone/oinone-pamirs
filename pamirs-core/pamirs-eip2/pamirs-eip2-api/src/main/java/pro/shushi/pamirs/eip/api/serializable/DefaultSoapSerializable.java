@@ -60,7 +60,7 @@ public class DefaultSoapSerializable implements IEipSerializable<SuperMap>, IEip
         } else if (inObject instanceof String) {
             result = stringToMap((String) inObject);
         } else {
-            log.error("无法识别的SOAP入参类型");
+            log.error("Unrecognized SOAP input parameter type");
             result = new SuperMap();
         }
         return result;
@@ -77,7 +77,7 @@ public class DefaultSoapSerializable implements IEipSerializable<SuperMap>, IEip
             bytes = bos.toByteArray();
             return new String(bytes, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            log.error("读取", e);
+            log.error("read error.", e);
         }
         return null;
     }
@@ -93,17 +93,17 @@ public class DefaultSoapSerializable implements IEipSerializable<SuperMap>, IEip
     }
 
     public SuperMap soapXML2Map(String xml) {
-        log.debug("SOAP响应: {}", xml);
+        log.debug("SOAP response: {}", xml);
         xml = WHITESPACE_PATTERN.matcher(xml).replaceAll("><");
         byte[] bytes = xml.getBytes(StandardCharsets.UTF_8);
         try {
             return soap2Map(bytes, SOAPConstants.SOAP_1_2_PROTOCOL);
         } catch (SOAPException | IOException e) {
-            log.debug("SOAP 1.2 反序列化异常", e);
+            log.debug("SOAP 1.2 deserialization exception", e);
             try {
                 return soap2Map(bytes, SOAPConstants.SOAP_1_1_PROTOCOL);
             } catch (SOAPException | IOException ee) {
-                log.error("SOAP 1.1 反序列化异常", ee);
+                log.error("SOAP 1.1 deserialization exception", ee);
                 return new SuperMap();
             }
         }
@@ -148,7 +148,7 @@ public class DefaultSoapSerializable implements IEipSerializable<SuperMap>, IEip
                     try {
                         return readXml(element.getValue());
                     } catch (Throwable e) {
-                        log.error("解析内部XML失败");
+                        log.error("Failed to parse internal XML", e);
                     }
                 }
                 return value;

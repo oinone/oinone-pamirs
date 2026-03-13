@@ -84,6 +84,6 @@ public class DefaultOpenApiIpBlackCheck implements OpenApiIpBlackCheckApi {
 
         String result = black.getHttpResult();
         exchange.getMessage().setBody(StringUtils.isNotBlank(result) ? result : DEFAULT_ERROR_RESP_MSG);
-        log.warn("黑名单,readIp:{}", readIp);
+        log.warn("Blacklist, readIp:{}", readIp);
     }
 }

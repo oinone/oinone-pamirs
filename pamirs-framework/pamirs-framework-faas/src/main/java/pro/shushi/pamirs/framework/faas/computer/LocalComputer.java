@@ -57,16 +57,16 @@ public class LocalComputer implements FunctionComputer, Prioritized {
         } catch (PamirsException e) {
             throw e;
         } catch (InvocationTargetException | IllegalArgumentException e) {
-            log.error("异常:{} function:{}", BASE_INVOCATION_TARGET_ERROR.msg(), JsonUtils.toJSONString(function), e);
+            log.error("Exception:{} function:{}", BASE_INVOCATION_TARGET_ERROR.msg(), JsonUtils.toJSONString(function), e);
             throw PamirsException.construct(BASE_INVOCATION_TARGET_ERROR, e).errThrow();
         } catch (IllegalAccessException e) {
-            log.error("异常:{} function:{}", BASE_ILLEGAL_ACCESS_ERROR.msg(), JsonUtils.toJSONString(function), e);
+            log.error("Exception:{} function:{}", BASE_ILLEGAL_ACCESS_ERROR.msg(), JsonUtils.toJSONString(function), e);
             throw PamirsException.construct(BASE_ILLEGAL_ACCESS_ERROR, e).errThrow();
         } catch (ClassNotFoundException e) {
-            log.error("异常:{} function:{}", BASE_CLASS_NOT_FOUNT_ERROR.msg(), JsonUtils.toJSONString(function), e);
+            log.error("Exception:{} function:{}", BASE_CLASS_NOT_FOUNT_ERROR.msg(), JsonUtils.toJSONString(function), e);
             throw PamirsException.construct(BASE_CLASS_NOT_FOUNT_ERROR, e).errThrow();
         } catch (Exception e) {
-            log.error("异常:{} function:{}", BASE_LOCAL_CALLER_UNKNOWN_ERROR.msg(), JsonUtils.toJSONString(function), e);
+            log.error("Exception:{} function:{}", BASE_LOCAL_CALLER_UNKNOWN_ERROR.msg(), JsonUtils.toJSONString(function), e);
             throw PamirsException.construct(BASE_LOCAL_CALLER_UNKNOWN_ERROR, e).errThrow();
         }
     }

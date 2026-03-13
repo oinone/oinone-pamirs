@@ -78,7 +78,7 @@ public class RocketMQAppCtxAware extends AbstractNotifyAppCtxAware {
         String nameServer = rocketMQProperties.getNameServer();
         log.info("RocketMQ NameSrv = {}", nameServer);
         if (nameServer == null) {
-            log.error("RocketMQ 配置参数异常 !!!");
+            log.error("RocketMQ config parameter error !!!");
         }
         this.applicationContext = applicationContext;
         registerNotifyTxProducer();
@@ -149,7 +149,7 @@ public class RocketMQAppCtxAware extends AbstractNotifyAppCtxAware {
         try {
             producer.start();
         } catch (Throwable exp) {
-            log.error("启动RocketMQ Producer异常", exp);
+            log.error("Start RocketMQ Producer exception", exp);
         }
         return producer;
     }
@@ -228,7 +228,7 @@ public class RocketMQAppCtxAware extends AbstractNotifyAppCtxAware {
         try {
             rocketMQTemplate.afterPropertiesSet();
         } catch (Throwable exp) {
-            log.error("启动RocketMQ Tx Producer txGroup:[{}]异常", group, exp);
+            log.error("Start RocketMQ Tx Producer txGroup:[{}] exception", group, exp);
         }
 
         BeanDefinitionUtils.getBean(ROCKETMQ_NOTIFY_PRODUCER_BEAN_NAME, RocketMQNotifyProducer.class)

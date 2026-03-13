@@ -76,7 +76,7 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
         if (parentNode != null) {
             ModelFieldConfig relFieldConfig = PamirsSession.getContext().getModelField(currentNodeMetadata.getRelModel(), currentNodeMetadata.getRelField());
             if (!TtypeEnum.isRelationType(relFieldConfig.getTtype())) {
-                log.error("错误的关联字段,model:{},field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
+                log.error("Incorrect association field, model:{}, field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
                 throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).errThrow();
             }
             parentNode.setValueObj(PamirsDataUtils.parseModelMap(
@@ -445,7 +445,7 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
             return null;
         }
         if (!TtypeEnum.isRelationType(relFieldConfig.getTtype())) {
-            log.error("错误的关联字段,model:{},field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
+            log.error("Incorrect association field, model:{}, field:{}", relFieldConfig.getModel(), relFieldConfig.getField());
             throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).errThrow();
         }
 

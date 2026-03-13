@@ -45,7 +45,7 @@ public class QueryFieldColumnsHelper {
     public static ModelFieldConfig fetchQueryFieldConfig(ModelFieldConfig modelFieldConfig, String queryModel, String queryField) {
         ModelFieldConfig relationFieldConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelField(queryModel, queryField);
         if (null == relationFieldConfig) {
-            log.error("查询ModelField为空。参数：model:{}, Field:{}", queryModel, queryField);
+            log.error("Query ModelField is null. Params: model:{}, Field:{}", queryModel, queryField);
             // 如果reference模型所在模块不依赖当前模块，则需要手动配置reference模型中的关联字段配置
             throw PamirsException.construct(OrmExpEnumerate.BASE_DISTRIBUTION_FIELD_IS_NOT_EXISTS_ERROR)
                     .appendMsg("model:" + modelFieldConfig.getModel() + ",relation:" + modelFieldConfig.getField() + ",ref:" + queryField)

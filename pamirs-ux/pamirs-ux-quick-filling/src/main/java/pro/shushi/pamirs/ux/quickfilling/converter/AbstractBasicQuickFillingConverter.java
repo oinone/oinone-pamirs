@@ -61,7 +61,7 @@ public abstract class AbstractBasicQuickFillingConverter extends AbstractQuickFi
         try {
             return singleValueConvert(row, value);
         } catch (Exception e) {
-            log.error("自动填报类型转换失败", e);
+            log.error("Auto filling type conversion failed", e);
             validateError(row);
             return null;
         }

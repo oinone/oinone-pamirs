@@ -43,12 +43,12 @@ public class DefaultLoginServiceImpl implements DefaultLoginService {
     @Function
     public PamirsUserTransient fillSessionByPhone(PamirsUserTransient user) {
         if (null == user || StringUtils.isBlank(user.getPhone())) {
-            log.error("session注入出错, 用户信息为空");
+            log.error("Session injection error, user info is null");
             return user;
         }
         PamirsUser login = userService.queryByPhone(user.getPhone());
         if (null == login) {
-            log.error("session注入出错, 根据手机号【{}】未找到用户", user.getPhone());
+            log.error("Session injection error, user not found by phone [{}]", user.getPhone());
             return user;
         }
         //登录

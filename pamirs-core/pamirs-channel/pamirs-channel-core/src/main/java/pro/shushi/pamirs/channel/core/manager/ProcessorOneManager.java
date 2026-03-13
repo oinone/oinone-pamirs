@@ -115,7 +115,7 @@ public class ProcessorOneManager extends AbstractProcessor {
         }
         List<Map<String, Object>> maps = elasticDataConverter.in(model, result);
         List<Map<String, Object>> resBluk = elasticDocApi.bulkIndex(naming, maps);
-        log.info("BINLOG_EVENT_TOPIC：dump [{}] [{}]", naming, resBluk == null ? 0 : resBluk.size());
+        log.info("BINLOG_EVENT_TOPIC: dump [{}] [{}]", naming, resBluk == null ? 0 : resBluk.size());
 
         return id;
     }

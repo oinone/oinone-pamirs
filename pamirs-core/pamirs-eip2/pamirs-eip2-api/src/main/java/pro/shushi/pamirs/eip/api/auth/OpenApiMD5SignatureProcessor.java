@@ -50,7 +50,7 @@ public class OpenApiMD5SignatureProcessor extends AbstractOpenApiAuthenticationP
             }
         } catch (IOException e) {
             error(exchange, "600003", "参数签名处理异常");
-            log.error("开放接口数据验签异常", e);
+            log.error("Open interface data signature verification exception", e);
             return false;
         }
     }

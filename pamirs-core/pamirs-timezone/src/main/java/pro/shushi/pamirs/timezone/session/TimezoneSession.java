@@ -30,7 +30,7 @@ public class TimezoneSession {
             try {
                 return TimeZone.getTimeZone(timezoneString).getID();
             } catch (Exception e) {
-                log.warn("无法获取当前指定时区", e);
+                log.warn("Unable to get current specified timezone", e);
                 return null;
             }
         });

@@ -91,15 +91,15 @@ public abstract class AbstractZookeeperLockTest {
 
         @Override
         public void run() {
-            log.info("{}测试结果 {}", lock, lockService.lock(lockPath, 5, TimeUnit.SECONDS, () -> {
-                log.info("{}获取锁", lock);
+            log.info("{} test result {}", lock, lockService.lock(lockPath, 5, TimeUnit.SECONDS, () -> {
+                log.info("{} acquire lock", lock);
                 try {
-                    log.info("{} 查看 [target {}]", lock, getTarget());
+                    log.info("{} view [target {}]", lock, getTarget());
                     setTarget();
-                    log.info("{} 更新 [target {}]", lock, getTarget());
+                    log.info("{} update [target {}]", lock, getTarget());
                     TimeUnit.SECONDS.sleep(2);
                     if (isAutoReleaseLock) {
-                        log.info("{}释放锁", lock);
+                        log.info("{} release lock", lock);
                     }
                 } catch (InterruptedException e) {
                     return isAutoReleaseLock;

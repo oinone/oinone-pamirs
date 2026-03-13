@@ -54,7 +54,7 @@ public class CrossingComputer {
                                 functionDefinition = meta.getFunction(namespace, fun);
                             }
                             if (null == functionDefinition) {
-                                log.error("配置错误，函数不存在。 module:" + meta.getModule() + ",namespace:" + namespace + ",fun:" + fun);
+                                log.error("Configuration error, function does not exist. module:" + meta.getModule() + ",namespace:" + namespace + ",fun:" + fun);
                                 //throw PamirsException.construct(CompareExpEnumerate.BASE_FUNCTION_NOT_EXIST_ERROR)
                                 //        .appendMsg(("module:" + meta.getModule() + ",namespace:" + namespace + ",fun:" + fun)).errThrow();
                                 continue;

@@ -106,7 +106,7 @@ public class EipLogCountServiceImpl implements EipLogCountService {
     @Override
     @Function
     public void syncEipLogCount() {
-        log.error("全量同步接口日志统计已废弃");
+        log.error("Full synchronization of interface log statistics has been deprecated");
         eipLogDailyCountService.syncYesterday();
     }
 }

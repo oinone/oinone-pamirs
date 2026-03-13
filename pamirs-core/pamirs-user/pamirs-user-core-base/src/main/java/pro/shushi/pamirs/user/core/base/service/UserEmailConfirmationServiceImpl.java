@@ -141,7 +141,7 @@ public class UserEmailConfirmationServiceImpl implements UserEmailConfirmationSe
         }
 
         try {
-            log.info("邮件验证参数" + verificationCode.getParams());
+            log.info("Email verification params" + verificationCode.getParams());
             Boolean aBoolean = emailSender.send(template, JsonUtils.parseMap(verificationCode.getParams()), sendTo, null);
             if (null == aBoolean || !aBoolean) {
                 log.error(USER_EMAIL_SEND_FAIL_ERROR.msg());
@@ -150,7 +150,7 @@ public class UserEmailConfirmationServiceImpl implements UserEmailConfirmationSe
                         .setErrorField("emailConfirmation"));
             }
         } catch (Exception e) {
-            log.error("发送确认邮件失败:emailPoster:{},异常:{}", JsonUtils.toJSONString(template), e);
+            log.error("Failed to send confirmation email:emailPoster:{},exception:{}", JsonUtils.toJSONString(template), e);
         }
     }
 
@@ -236,7 +236,7 @@ public class UserEmailConfirmationServiceImpl implements UserEmailConfirmationSe
         }
 
         try {
-            log.info("邮件验证参数" + verificationCode.getParams());
+            log.info("Email verification params" + verificationCode.getParams());
             Boolean aBoolean = emailSender.send(template, JsonUtils.parseMap(verificationCode.getParams()), sendTo, null);
             if (null == aBoolean || !aBoolean) {
                 log.error(USER_EMAIL_SEND_FAIL_ERROR.msg());
@@ -245,7 +245,7 @@ public class UserEmailConfirmationServiceImpl implements UserEmailConfirmationSe
                         .setErrorField("emailConfirmation"));
             }
         } catch (Exception e) {
-            log.error("发送确认邮件失败:emailPoster:{},异常:{}", JsonUtils.toJSONString(template), e);
+            log.error("Failed to send confirmation email:emailPoster:{},exception:{}", JsonUtils.toJSONString(template), e);
         }
     }
 
@@ -289,12 +289,12 @@ public class UserEmailConfirmationServiceImpl implements UserEmailConfirmationSe
             error.setSource(email);
             resetCode(error);
             if (NumberUtils.valueOf(error.getErrorNum()) >= 3) {
-//                log.error("异常信息:"+USER_VERIFICATION_CODE_EXPIRED_ERROR.msg()+JSONUtils.toJSONString(error));
+//                log.error("Exception info:"+USER_VERIFICATION_CODE_EXPIRED_ERROR.msg()+JSONUtils.toJSONString(error));
                 broken(userTransient.setErrorMsg(USER_VERIFICATION_CODE_EXPIRED_ERROR.msg())
                         .setErrorCode(USER_VERIFICATION_CODE_EXPIRED_ERROR.code())
                         .setErrorField("verificationCode"));
             } else {
-//                log.error("异常信息:"+USER_VERIFICATION_CODE_NOT_MATCH_ERROR.msg()+JSONUtils.toJSONString(error));
+//                log.error("Exception info:"+USER_VERIFICATION_CODE_NOT_MATCH_ERROR.msg()+JSONUtils.toJSONString(error));
                 broken(userTransient.setErrorMsg(USER_VERIFICATION_CODE_NOT_MATCH_ERROR.msg())
                         .setErrorCode(USER_VERIFICATION_CODE_NOT_MATCH_ERROR.code())
                         .setErrorField("verificationCode"));

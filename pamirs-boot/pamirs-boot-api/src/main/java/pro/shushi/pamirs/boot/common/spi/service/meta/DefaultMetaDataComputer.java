@@ -48,7 +48,7 @@ public class DefaultMetaDataComputer implements MetaDataComputerApi {
         try {
             long start = System.currentTimeMillis();
             Spider.getDefaultExtension(MetaDataModelComputer.class).compute(context, metaList, completedModuleSet);
-            log.info("完成计算所有元数据 {}ms", System.currentTimeMillis() - start);
+            log.info("Finished computing all metadata {}ms", System.currentTimeMillis() - start);
         } catch (MetaDataComputeException e) {
             throw PamirsException.construct(BootExpEnumerate.BASE_BOOT_META_DATA_COMPUTE_ERROR, e).errThrow();
         }

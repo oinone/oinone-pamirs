@@ -174,7 +174,7 @@ public class ElasticDocImpl implements ElasticDocApi {
                 for (BulkResponseItem item : bulkResponse.items()) {
                     ErrorCause errorCause = item.error();
                     if (null != errorCause) {
-                        log.error("数据操作失败:[{}] index:[{}] id:[{}] 失败原因: [{}]", opt, item.index(), item.id(), errorCause);
+                        log.error("Data operation failed:[{}] index:[{}] id:[{}] reason: [{}]", opt, item.index(), item.id(), errorCause);
                     }
                 }
             }

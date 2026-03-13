@@ -67,7 +67,7 @@ public class GroovyRunner {
         try {
             scriptMd5 = DigestUtils.md5DigestAsHex(scriptString.getBytes());
         } catch (Exception e) {
-            log.error("脚本解析错误：" + scriptString, e);
+            log.error("Script parsing error: " + scriptString, e);
         }
         Script script;
         if (scriptMd5 == null) {

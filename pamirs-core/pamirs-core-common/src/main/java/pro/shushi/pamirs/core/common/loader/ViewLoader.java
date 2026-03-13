@@ -46,7 +46,7 @@ public class ViewLoader {
         String uriString = uri.toString();
         int basePathIndex = uriString.indexOf(MATCH_VIEW_PATH);
         if (basePathIndex == -1) {
-            log.warn("忽略无法加载的文件路径前缀: {}", uriString);
+            log.warn("Ignore file path prefix that cannot be loaded: {}", uriString);
             return;
         }
         String xmlPath = uriString.substring(basePathIndex);
@@ -176,7 +176,7 @@ public class ViewLoader {
 //                viewAction.setPage(util.createPage(pageName, targetModelModel, "file:pamirs/init/views/" + util.getUeModule().getModule() + "/page/" + pageFileName));
             });
         } catch (Exception e) {
-            log.error("指定的模型不存在，originModelModel:{} viewActionName:{}, err", originModelModel, viewActionName, e);
+            log.error("Specified model does not exist, originModelModel:{} viewActionName:{}, err", originModelModel, viewActionName, e);
         }
     }
 }

@@ -68,7 +68,7 @@ public class DefaultMetaDataModelComputer implements MetaDataModelComputer {
             // 元数据扩展计算
             long start = System.currentTimeMillis();
             Result<Void> extendComputeResult = extendCompute(extendComputers, extendComputeModuleSet, context, meta);
-            log.info("元数据扩展计算 {}ms", System.currentTimeMillis() - start);
+            log.info("Metadata extension computation {}ms", System.currentTimeMillis() - start);
             result.fill(extendComputeResult);
             result.logMessages(metaConfiguration.getLogLevel());
             if (!result.isSuccess()) {
@@ -79,7 +79,7 @@ public class DefaultMetaDataModelComputer implements MetaDataModelComputer {
             // 元数据跨模型继承计算
             long start = System.currentTimeMillis();
             crossingCompute(crossingComputeModuleSet, meta);
-            log.info("元数据跨模型继承计算完成 {}ms, module: {}", System.currentTimeMillis() - start, meta.getModule());
+            log.info("Metadata cross-model inheritance computation completed {}ms, module: {}", System.currentTimeMillis() - start, meta.getModule());
         }
     }
 

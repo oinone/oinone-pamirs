@@ -52,7 +52,7 @@ public class FileInstallInit implements InstallDataInit, UpgradeDataInit {
             try {
                 ExcelTemplateInitHelper.init();
             } catch (Throwable t) {
-                log.error("文件模板初始化失败，请高度关注！", t);
+                log.error("File template initialization failed, please pay close attention!", t);
             }
         });
     }

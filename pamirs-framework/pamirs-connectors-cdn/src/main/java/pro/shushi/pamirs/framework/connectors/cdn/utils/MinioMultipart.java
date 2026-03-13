@@ -39,7 +39,7 @@ public class MinioMultipart {
             requestMap.put(CONTENT_MD5, md5Hash());
             generateRequestHeader(requestMap, url, Method.POST.toString(), accessKey, secretKey, date);
         } catch (MalformedURLException | NoSuchAlgorithmException | InvalidKeyException e) {
-            log.error("Minio 请求头构建失败", e);
+            log.error("Minio request header build failed", e);
             return null;
         }
 
@@ -61,7 +61,7 @@ public class MinioMultipart {
                 return result.uploadId();
             }
         } catch (IOException | XmlPullParserException e) {
-            log.error("minio 请求 uploadId 失败", e);
+            log.error("minio request uploadId failed", e);
         }
         return null;
     }

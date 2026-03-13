@@ -142,7 +142,7 @@ public class MiniOssClient extends AbstractFileClient {
             try {
                 generateRequestHeader(uploadHeaders, url, Method.PUT.toString(), accessKeyId, accessKeySecret, date);
             } catch (MalformedURLException | NoSuchAlgorithmException | InvalidKeyException e) {
-                log.error("Minio 获取分片 生成请求头失败", e);
+                log.error("Minio get part generate request header failed", e);
                 return null;
             }
             singleUploadData.setUploadHeaders(uploadHeaders);
@@ -159,7 +159,7 @@ public class MiniOssClient extends AbstractFileClient {
         try {
             generateRequestHeader(uploadCompleteHeaders, uploadCompleteUrl, Method.POST.toString(), accessKeyId, accessKeySecret, date);
         } catch (MalformedURLException | NoSuchAlgorithmException | InvalidKeyException e) {
-            log.error("Minio 合并分片 生成请求头失败", e);
+            log.error("Minio merge part generate request header failed", e);
             return null;
         }
         completeUploadData.setUploadHeaders(uploadCompleteHeaders);
@@ -196,7 +196,7 @@ public class MiniOssClient extends AbstractFileClient {
             cdnFile.setName(fileName);
             cdnFile.setUrl(url);
         } catch (Exception e) {
-            log.error("MINIO文件上传服务出错!", e);
+            log.error("MINIO file upload service error!", e);
             try {
                 inputStream.close();
             } catch (IOException ex) {
@@ -226,7 +226,7 @@ public class MiniOssClient extends AbstractFileClient {
             minioClient.putObject(bucket, fileKey, inputStream, contentType);
             return getBaseDownloadUrl() + SEPARATOR_SLASH + fileKey;
         } catch (Exception e) {
-            log.error("MINIO文件上传服务出错!", e);
+            log.error("MINIO file upload service error!", e);
         }
         return null;
     }
@@ -257,9 +257,9 @@ public class MiniOssClient extends AbstractFileClient {
                 objectNames.add(item.objectName());
             }
             minioClient.removeObjects(bucket, objectNames);
-            log.info("deleteByFolder folder:[{}] 成功", folder);
+            log.info("deleteByFolder folder:[{}] success", folder);
         } catch (Exception e) {
-            log.error("deleteByFolder folder:[{" + folder + "}] 失败", e);
+            log.error("deleteByFolder folder:[{" + folder + "}] failed", e);
         }
     }
 
@@ -276,7 +276,7 @@ public class MiniOssClient extends AbstractFileClient {
         try {
             return minioClient.getObject(bucket, fileKey);
         } catch (Throwable e) {
-            log.error("MINIO读取文件IO异常", e);
+            log.error("MINIO read file IO exception", e);
         }
         return null;
     }
@@ -294,7 +294,7 @@ public class MiniOssClient extends AbstractFileClient {
             inputStream.close();
             return content;
         } catch (Throwable e) {
-            log.error("MINIO读取文件IO异常", e);
+            log.error("MINIO read file IO exception", e);
         }
         return null;
     }
@@ -309,7 +309,7 @@ public class MiniOssClient extends AbstractFileClient {
         try {
             minioClient.removeObject(bucket, fileKey);
         } catch (Exception e) {
-            log.error("MINIO文件上传服务出错!", e);
+            log.error("MINIO file upload service error!", e);
         }
     }
 
@@ -324,7 +324,7 @@ public class MiniOssClient extends AbstractFileClient {
             minioClient.statObject(bucket, fileKey);
             return true;
         } catch (Exception e) {
-            log.error("MINIO文件上传服务出错!", e);
+            log.error("MINIO file upload service error!", e);
         }
         return false;
     }
@@ -371,7 +371,7 @@ public class MiniOssClient extends AbstractFileClient {
                 minioClient.makeBucket(bucketName);
             }
         } catch (Exception e) {
-            log.error("Minio 连接异常，bucketName: " + cdnConfig.getBucket() + "", e);
+            log.error("Minio connection exception, bucketName: " + cdnConfig.getBucket() + "", e);
         }
         return minioClient;
     }

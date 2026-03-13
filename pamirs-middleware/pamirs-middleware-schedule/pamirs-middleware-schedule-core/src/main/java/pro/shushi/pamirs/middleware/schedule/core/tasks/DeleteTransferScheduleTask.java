@@ -43,7 +43,7 @@ public class DeleteTransferScheduleTask extends AbstractPamirsScheduleTaskDealSi
         //删除后面一天的数据,需要删除两次
         deleteScheduleData(nowTableNum, 1 + ampm);
         deleteScheduleData(nowTableNum, 2 + ampm);
-        log.info("待迁移数据表清空已经完成！");
+        log.info("Migration data table clearing completed!");
         return null;
     }
 

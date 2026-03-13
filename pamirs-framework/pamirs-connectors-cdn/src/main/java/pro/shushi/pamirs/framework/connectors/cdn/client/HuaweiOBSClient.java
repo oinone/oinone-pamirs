@@ -277,7 +277,7 @@ public class HuaweiOBSClient extends AbstractFileClient implements FileConstants
                 return content;
             }
         } catch (IOException e) {
-            log.error("华为云OBS读取文件io异常", e);
+            log.error("Huawei Cloud OBS read file IO exception", e);
         }
         return null;
     }
@@ -296,9 +296,9 @@ public class HuaweiOBSClient extends AbstractFileClient implements FileConstants
             String bucket = cdnConfig.getBucket();
             // 删除目录，注意目录路径需要以斜杠结尾
             obsClient.deleteObject(bucket, folderKey);
-            log.info("deleteByFolder folder:[{}] 成功", folder);
+            log.info("deleteByFolder folder:[{}] success", folder);
         } catch (Exception e) {
-            log.error("deleteByFolder folder:[{" + folder + "}] 失败", e);
+            log.error("deleteByFolder folder:[{" + folder + "}] failed", e);
         }
     }
 
@@ -312,11 +312,11 @@ public class HuaweiOBSClient extends AbstractFileClient implements FileConstants
         try {
             DeleteObjectResult deleteResult = obsClient.deleteObject(bucket, fileKey);
             if (deleteResult.getStatusCode() != 200) {
-                log.error("删除文件失败: [{}], response:{}", fileName, JsonUtils.toJSONString(deleteResult));
+                log.error("Delete file failed: [{}], response:{}", fileName, JsonUtils.toJSONString(deleteResult));
                 throw PamirsException.construct(FILE_CDN_RM_ERROR).errThrow();
             }
         } catch (ObsException exp) {
-            log.error("删除文件发生异常: [{" + fileName + "}]", exp);
+            log.error("Delete file exception: [{" + fileName + "}]", exp);
             throw PamirsException.construct(FILE_CDN_RM_ERROR).errThrow();
         }
     }

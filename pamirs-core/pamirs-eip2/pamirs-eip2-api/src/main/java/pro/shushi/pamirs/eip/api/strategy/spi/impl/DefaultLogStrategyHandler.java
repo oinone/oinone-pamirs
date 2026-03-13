@@ -80,7 +80,7 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
         } else if (eipApi instanceof IEipOpenInterface) {
             type = InterfaceTypeEnum.OPEN;
         } else {
-            log.warn("无法识别的接口类型不支持日志功能 [InterfaceName {}]", interfaceName);
+            log.warn("Unrecognized interface type does not support logging [InterfaceName {}]", interfaceName);
             return null;
         }
         String requestOriginData = buildRequestData(context.getInterfaceContext());
@@ -233,7 +233,7 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
         CdnFile cdnFile = FileClientFactory.getClient().upload(fileName, data.getBytes(StandardCharsets.UTF_8));
 
         if (null == cdnFile) {
-            log.error("EipLog上传失败，CDN配置为null，改用DB直接存储");
+            log.error("EipLog upload failed, CDN config is null, switching to DB storage");
             return data;
         }
         return cdnFile.getUrl();

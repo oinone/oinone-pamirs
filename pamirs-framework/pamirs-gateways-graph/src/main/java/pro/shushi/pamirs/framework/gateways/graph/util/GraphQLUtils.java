@@ -117,7 +117,7 @@ public class GraphQLUtils {
                 } else {
                     ModelConfig modelConfig = requestContext.getModelConfig(referenceModel);
                     if (null == modelConfig) {
-                        log.error("模型[字段关联的模型]未配置或被删除, 模型modelName:" + modelName + ", 字段关联模型referenceModel:" + referenceModel);
+                        log.error("Model [Field associated model] is not configured or deleted, modelName:" + modelName + ", field associated model referenceModel:" + referenceModel);
                         throw PamirsException.construct(BASE_REFERENCE_MODEL_ERROR)
                                 .appendMsg("modelName:" + modelName + ", referenceModel:" + referenceModel).errThrow();
                     }
@@ -129,7 +129,7 @@ public class GraphQLUtils {
             } else if (typeProcessor.isEnumField(ttype)) {
                 DataDictionary dataDictionary = requestContext.getDictionary(dictionary);
                 if (null == dataDictionary) {
-                    log.error("模型[字段关联的字典]未配置或被删除, 模型modelName:" + modelName + ", 字段关联字典dictionary:" + dictionary);
+                    log.error("Model [Field associated dictionary] is not configured or deleted, modelName:" + modelName + ", field associated dictionary dictionary:" + dictionary);
                     throw PamirsException.construct(BASE_DICTIONARY_CONFIG_ERROR)
                             .appendMsg("modelName:" + modelName + ", dictionary:" + dictionary).errThrow();
                 }

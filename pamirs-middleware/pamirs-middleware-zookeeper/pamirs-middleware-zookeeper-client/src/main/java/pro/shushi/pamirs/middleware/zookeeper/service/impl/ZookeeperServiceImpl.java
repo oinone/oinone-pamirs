@@ -238,7 +238,7 @@ public class ZookeeperServiceImpl implements ZookeeperService, InitializingBean 
             treeCache.getListenable().addListener(listener);
             treeCacheMap.put(routePath, treeCache);
         } catch (Exception e) {
-            log.error("注册监听失败 [routePath {}]", routePath, e);
+            log.error("Failed to register listener [routePath {}]", routePath, e);
             return null;
         }
         return treeCache;
@@ -253,7 +253,7 @@ public class ZookeeperServiceImpl implements ZookeeperService, InitializingBean 
                 treeCache.close();
                 treeCacheMap.remove(routePath);
             } catch (Exception e) {
-                log.error("监听关闭失败 [routePath {}]", routePath, e);
+                log.error("Listener close failed [routePath {}]", routePath, e);
                 return null;
             }
         }

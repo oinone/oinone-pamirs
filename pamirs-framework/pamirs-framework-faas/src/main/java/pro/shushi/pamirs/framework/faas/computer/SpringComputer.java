@@ -42,12 +42,12 @@ public class SpringComputer implements FunctionComputer, Prioritized {
             PamirsSession.directive().enableIgnoreFunManagement();
             return ReflectionUtils.invokeMethod(method, bean, args);
         } catch (ClassNotFoundException e) {
-            log.error("异常{}-function:{}", BASE_CLASS_NOT_FOUNT_ERROR.msg(), JsonUtils.toJSONString(function), e);
+            log.error("Exception {}-function:{}", BASE_CLASS_NOT_FOUNT_ERROR.msg(), JsonUtils.toJSONString(function), e);
             throw PamirsException.construct(BASE_CLASS_NOT_FOUNT_ERROR, e).errThrow();
         } catch (PamirsException e) {
             throw e;
         } catch (Exception e) {
-            log.error("异常{}-function:{}", BASE_LOCAL_CALLER_UNKNOWN_ERROR.msg(), JsonUtils.toJSONString(function), e);
+            log.error("Exception {}-function:{}", BASE_LOCAL_CALLER_UNKNOWN_ERROR.msg(), JsonUtils.toJSONString(function), e);
             throw PamirsException.construct(BASE_LOCAL_CALLER_UNKNOWN_ERROR, e).errThrow();
         }
     }

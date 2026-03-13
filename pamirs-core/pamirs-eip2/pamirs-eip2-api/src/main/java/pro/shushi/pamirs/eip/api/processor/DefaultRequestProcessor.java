@@ -186,7 +186,7 @@ public class DefaultRequestProcessor extends AbstractEipIntegrationInterfaceProc
         body = paramProcessor.getInOutConverter().exchangeObject(exchange, body);
 
         if (log.isDebugEnabled()) {
-            log.debug("集成接口请求入参:{}", JsonUtils.toJSONString(body));
+            log.debug("Integration interface request parameters:{}", JsonUtils.toJSONString(body));
         }
 
         // 设置出参
@@ -243,7 +243,7 @@ public class DefaultRequestProcessor extends AbstractEipIntegrationInterfaceProc
                     String key = entry.getKey();
                     Object value = entry.getValue();
                     if (ObjectUtils.isEmpty(value)) {
-                        log.error("path参数获取为空，key:{}", entry.getValue());
+                        log.error("Path parameter is empty, key:{}", entry.getValue());
                     } else if (!(value instanceof String)) {
                         value = String.valueOf(value);
                     }

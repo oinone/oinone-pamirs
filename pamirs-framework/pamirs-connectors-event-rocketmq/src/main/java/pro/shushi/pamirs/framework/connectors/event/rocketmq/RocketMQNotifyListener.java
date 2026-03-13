@@ -67,10 +67,10 @@ public class RocketMQNotifyListener extends AbstractNotifyListener<DefaultMQPush
         try {
             initRocketMQPushConsumer();
             this.consumer.start();
-            log.info("注册RocketMQ消息消费者成功 group:[{}] consume orderly: [{}] topic: [{}] tags: [{}]",
+            log.info("Register RocketMQ message consumer successfully group:[{}] consume orderly: [{}] topic: [{}] tags: [{}]",
                     group, this.notifyListener.orderly(), topic, this.notifyListener.selectorExpression());
         } catch (MQClientException e) {
-            log.error("创建RocketQM Pull Consumer 异常", e);
+            log.error("Create RocketMQ Pull Consumer exception", e);
         }
         this.setRunning(true);
     }
@@ -81,7 +81,7 @@ public class RocketMQNotifyListener extends AbstractNotifyListener<DefaultMQPush
         if (Objects.nonNull(consumer)) {
             consumer.shutdown();
         }
-        log.info("RocketMQ 消费者容器销毁 {}", group);
+        log.info("RocketMQ consumer container destroyed {}", group);
     }
 
     public boolean isRunning() {
@@ -115,7 +115,7 @@ public class RocketMQNotifyListener extends AbstractNotifyListener<DefaultMQPush
                     context.setDelayLevelWhenNextConsume(delayLevelWhenNextConsume);
                     return ConsumeConcurrentlyStatus.RECONSUME_LATER;
                 } finally {
-                    log.info("消费消息: topic: {} keys:{} tags: {}", topic, messageExt.getKeys(), messageExt.getTags());
+                    log.info("Consume message: topic: {} keys:{} tags: {}", topic, messageExt.getKeys(), messageExt.getTags());
                 }
             }
 
@@ -146,7 +146,7 @@ public class RocketMQNotifyListener extends AbstractNotifyListener<DefaultMQPush
                     context.setSuspendCurrentQueueTimeMillis(suspendCurrentQueueTimeMillis);
                     return ConsumeOrderlyStatus.SUSPEND_CURRENT_QUEUE_A_MOMENT;
                 } finally {
-                    log.info("消费消息: topic: {} keys:{} tags: {}", topic, messageExt.getKeys(), messageExt.getTags());
+                    log.info("Consume message: topic: {} keys:{} tags: {}", topic, messageExt.getKeys(), messageExt.getTags());
                 }
             }
 

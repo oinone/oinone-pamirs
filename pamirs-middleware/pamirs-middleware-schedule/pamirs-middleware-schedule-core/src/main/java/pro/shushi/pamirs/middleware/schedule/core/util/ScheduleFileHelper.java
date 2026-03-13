@@ -37,7 +37,7 @@ public class ScheduleFileHelper {
             if (file.exists()) {
                 if (file.isFile()) {
                     try {
-                        logger.info("读取本地配置 path:{}", file.getPath());
+                        logger.info("Reading local config path:{}", file.getPath());
                         inputStream = new FileInputStream(file);
                     } catch (FileNotFoundException e) {
                         throw new IllegalArgumentException("file does not exist. path=" + DEFAULT_SCHEDULE_JSON_PATH, e);
@@ -48,20 +48,20 @@ public class ScheduleFileHelper {
             } else {
                 inputStream = ScheduleTaskManager.class.getClassLoader().getResourceAsStream(ScheduleConstant.JSON_CONFIG_FILE_PATH);
                 if (inputStream == null) {
-                    logger.warn("未读取到任务配置，请在resources目录下添加配置文件 {}", ScheduleConstant.JSON_CONFIG_FILE_PATH);
+                    logger.warn("Task configuration not found, please add config file {} in resources directory", ScheduleConstant.JSON_CONFIG_FILE_PATH);
                     return;
                 }
-                logger.info("读取资源配置 path:{}", ScheduleConstant.JSON_CONFIG_FILE_PATH);
+                logger.info("Reading resource config path:{}", ScheduleConstant.JSON_CONFIG_FILE_PATH);
                 isCreateFile = true;
             }
             FileOutputStream outputStream = null;
             try {
                 if (isCreateFile && isAutoCreate) {
                     if (file.createNewFile()) {
-                        logger.info("成功创建外部配置文件 path:{}", file.getPath());
+                        logger.info("Successfully created external config file path:{}", file.getPath());
                         outputStream = new FileOutputStream(file);
                     } else {
-                        logger.warn("配置文件自动创建失败，如需自定义配置信息，请在 {} 目录下手动创建 schedule.json 文件", ScheduleConstant.JSON_CONFIG_FILE_PATH);
+                        logger.warn("Failed to automatically create config file. To customize config, please manually create schedule.json in {} directory", ScheduleConstant.JSON_CONFIG_FILE_PATH);
                     }
                 }
                 byte[] buffer = allocateBytes();

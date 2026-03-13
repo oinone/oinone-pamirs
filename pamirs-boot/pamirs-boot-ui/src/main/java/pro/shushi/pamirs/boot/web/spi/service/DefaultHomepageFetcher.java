@@ -165,7 +165,7 @@ public class DefaultHomepageFetcher implements HomepageFetcherApi {
         try {
             flag = Exp.<Boolean>run(expression, map);
         } catch (Exception e) {
-            log.error("expression 解析错误", e);
+            log.error("expression parsing error", e);
             return null;
         }
         if (Boolean.FALSE.equals(Optional.ofNullable(flag).orElse(Boolean.FALSE))) {
@@ -192,7 +192,7 @@ public class DefaultHomepageFetcher implements HomepageFetcherApi {
                 }
             } catch (Exception e) {
                 // 支持远程调用,如果调用失败,不影响启动
-                log.error("警告! 函数错误,可忽略. namespace:" + loadFunction.getNamespace() + ", fun:" + loadFunction.getFun(), e);
+                log.error("Warning! Function error, can be ignored. namespace:" + loadFunction.getNamespace() + ", fun:" + loadFunction.getFun(), e);
             }
         }
 

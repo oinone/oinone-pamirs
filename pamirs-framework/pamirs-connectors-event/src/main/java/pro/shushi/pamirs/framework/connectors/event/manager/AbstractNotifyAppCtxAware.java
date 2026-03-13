@@ -76,7 +76,7 @@ public class AbstractNotifyAppCtxAware implements ApplicationContextAware {
                 containerMap.put(entry.getKey(), notifyListener);
                 notifyListener.start();
             } catch (Throwable throwable) {
-                log.error("注册消费者异常", throwable);
+                log.error("Register consumer exception", throwable);
             }
         }
     }
@@ -113,7 +113,7 @@ public class AbstractNotifyAppCtxAware implements ApplicationContextAware {
                 notifyListener.start();
                 containerMap.put(entry.getKey(), notifyListener);
             } catch (Throwable throwable) {
-                log.error("注册消费者异常", throwable);
+                log.error("Register consumer exception", throwable);
             }
         }
     }
@@ -142,10 +142,10 @@ public class AbstractNotifyAppCtxAware implements ApplicationContextAware {
                 if (txListener instanceof NotifyTransactionListener) {
                     notifyTxProducer(group, (NotifyTransactionListener) entry.getValue());
                 } else {
-                    log.error("Listener[{}]不是[{}]的实例", txListener.getClass(), NotifyTransactionListener.class.getName());
+                    log.error("Listener[{}] is not an instance of [{}]", txListener.getClass(), NotifyTransactionListener.class.getName());
                 }
             } catch (Throwable throwable) {
-                log.error("注册消费者异常", throwable);
+                log.error("Register consumer exception", throwable);
             }
         }
     }

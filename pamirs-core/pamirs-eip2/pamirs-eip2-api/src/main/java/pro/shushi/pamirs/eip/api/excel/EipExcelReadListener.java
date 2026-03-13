@@ -267,7 +267,7 @@ public class EipExcelReadListener extends AnalysisEventListener<Map<Integer, Str
                 ttype = TtypeEnum.HTML.value();
                 break;
             default:
-                log.debug("未匹配CellType:{}", cellType);
+                log.debug("Unmatched CellType:{}", cellType);
                 ttype = TtypeEnum.STRING.value();
         }
 

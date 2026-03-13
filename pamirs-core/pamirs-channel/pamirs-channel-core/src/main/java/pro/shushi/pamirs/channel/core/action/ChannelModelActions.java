@@ -68,9 +68,6 @@ public class ChannelModelActions {
             throw PamirsException.construct(CHANNEL_PREPARE_ERROR_0)
                     .errThrow();
         }
-
-//        log.info("同步配置模型: {}", fromDB);
-
         int pos = Optional.ofNullable(fromDB.getPos()).map(_i -> _i + 1).orElse(1);
         String model = fromDB.getModel();
         String origin = fromDB.getOrigin();
@@ -82,15 +79,6 @@ public class ChannelModelActions {
         DumpStateEnum dumpState = fromDB.getDumpState();
 
         List<Map<String, String>> anzList = fromDB.getAnalyzers();
-//        String        tenant    = PamirsTenantSession.getTenant();
-//        String             module      = fromDB.getModule();
-//        ModelDefinition    modelDefine = fromDB.getModelDefine();
-
-//        if (StringUtils.isBlank(tenant)) {
-//            log.error("[{}]", CHANNEL_TENANT_ERROR.msg());
-//            throw PamirsException.construct(CHANNEL_TENANT_ERROR)
-//                    .errThrow();
-//        }
 
         String indexName = null;
         Boolean exist = false;
@@ -120,9 +108,9 @@ public class ChannelModelActions {
 
         String createdIndex = elasticIndicesApi.create(elasticIndex);
         if (StringUtils.equalsIgnoreCase(indexName, createdIndex)) {
-            log.info("索引创建成功 [{}]", createdIndex);
+            log.info("Index created successfully [{}]", createdIndex);
         } else {
-            log.error("创建索引失败");
+            log.error("Create index failed");
             throw PamirsException.construct(CHANNEL_CREATE_INDEX_ERROR).errThrow();
         }
 
@@ -134,37 +122,37 @@ public class ChannelModelActions {
         }
 
         if (StringUtils.equalsIgnoreCase(mappedIndex, indexName)) {
-            log.info("创建Mapping成功 [{}], [{}]", indexName, mapping);
+            log.info("Create Mapping successfully [{}], [{}]", indexName, mapping);
         }
 
-        log.warn("开始全量Dump OriginModel:[{}] EnhanceModel:[{}] Naming:[{}] IndexName: [{}] AliasName:[{}]",
+        log.warn("Start full Dump OriginModel:[{}] EnhanceModel:[{}] Naming:[{}] IndexName: [{}] AliasName:[{}]",
                 origin, model, index, indexName, alias);
 
         Long dumpedCount = processorManager.isOk().readBulk(fromDB, elasticIndexLog);
 
-        log.info("dump完成 dumpedCount [{}]", dumpedCount);
+        log.info("Dump completed dumpedCount [{}]", dumpedCount);
 
         if (reAlias) {
-            log.info("dump完成重新 alias别名 [{}]", reAlias);
+            log.info("Dump completed re-alias alias [{}]", reAlias);
             if (elasticIndicesApi.existAlias(alias)) {
-                log.info("索引别名不存在 创建索引别名 [{}] [{}]", indexName, alias);
+                log.info("Index alias does not exist Create index alias [{}] [{}]", indexName, alias);
                 String deleteAlias = elasticIndicesApi.deleteAlias(alias);
                 String createdAlias = elasticIndicesApi.createAlias(indexName, alias);
                 if (StringUtils.equalsIgnoreCase(createdAlias, deleteAlias)) {
-                    log.info("创建索引别名成功 [{}] [{}]", indexName, deleteAlias);
+                    log.info("Create index alias successfully [{}] [{}]", indexName, deleteAlias);
                 }
             } else {
-                log.info("索引别名不存在 创建索引别名 [{}] [{}]", indexName, alias);
+                log.info("Index alias does not exist Create index alias [{}] [{}]", indexName, alias);
                 String createdAlias = elasticIndicesApi.createAlias(indexName, alias);
                 if (StringUtils.equalsIgnoreCase(createdAlias, alias)) {
-                    log.info("创建索引别名成功 [{}] [{}]", indexName, alias);
+                    log.info("Create index alias successfully [{}] [{}]", indexName, alias);
                 }
             }
         } else if (dumpState == DumpStateEnum.INIT) {
-            log.info("索引初始化 创建索引别名 [{}] [{}]", indexName, alias);
+            log.info("Index initialization Create index alias [{}] [{}]", indexName, alias);
             String createdAlias = elasticIndicesApi.createAlias(indexName, alias);
             if (StringUtils.equalsIgnoreCase(createdAlias, alias)) {
-                log.info("创建索引别名成功 [{}] [{}]", indexName, alias);
+                log.info("Create index alias successfully [{}] [{}]", indexName, alias);
             }
         }
 
@@ -208,7 +196,7 @@ public class ChannelModelActions {
             willUpdate.setId(fromDB.getId());
             willUpdate.setIncrement(IncrementEnum.OPEN);
             willUpdate.updateById();
-            log.info("开启增量同步成功");
+            log.info("Enable incremental sync successfully");
             return willUpdate.queryById();
         } else {
             throw PamirsException.construct(CHANNEL_ENHANCE_MODEL_INCREMENT_OPEN_FAIL_ERROR).errThrow();
@@ -237,7 +225,7 @@ public class ChannelModelActions {
             willUpdate.setId(fromDB.getId());
             willUpdate.setIncrement(IncrementEnum.CLOSE);
             willUpdate.updateById();
-            log.info("关闭增量同步成功");
+            log.info("Disable incremental sync successfully");
             return willUpdate.queryById();
         } else {
             throw PamirsException.construct(CHANNEL_ENHANCE_MODEL_INCREMENT_CLOSE_FAIL_ERROR).errThrow();

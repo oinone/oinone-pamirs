@@ -89,7 +89,7 @@ public class EipInterfaceContext {
         //获取入/出接口定义
         IEipIntegrationInterface<T> eipInterface = getAnyInterface(interfaceName);
         if (eipInterface == null) {
-            log.error("未找到指定接口:{}", interfaceName);
+            log.error("Specified interface not found:{}", interfaceName);
             return EipResult.error(null, "Oops!", "未找到指定接口", null);
         }
         return call(eipInterface, executorContext, body);
@@ -149,7 +149,7 @@ public class EipInterfaceContext {
                 exchange = pair.getKey();
                 result = pair.getValue();
             } catch (CircuitBreakerOpenException e) {
-                log.warn("接口进入熔断状态，msg:{}", e.getMessage());
+                log.warn("Interface entered circuit breaker state, msg:{}", e.getMessage());
                 return EipResult.error(getExecutorContext(exchange), CircuitBreakerOpenException.ERROR_CODE, e.getMessage(), e);
             }
         }

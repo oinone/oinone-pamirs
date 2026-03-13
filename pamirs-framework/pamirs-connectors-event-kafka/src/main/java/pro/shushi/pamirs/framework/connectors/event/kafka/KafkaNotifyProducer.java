@@ -88,7 +88,7 @@ public class KafkaNotifyProducer extends NotifyAbstractProducer<KafkaTemplate<St
             SendResult<String, Object> sendJoin = func.apply(message)
                     .get(1, TimeUnit.MINUTES);
             if (log.isDebugEnabled()) {
-                log.debug("Kafka 发送详情:[{}]", sendJoin);
+                log.debug("Kafka send details: [{}]", sendJoin);
             }
             result = NotifySendResult.ok(sendJoin.getProducerRecord());
         } catch (Throwable throwable) {

@@ -25,7 +25,7 @@ public class DefaultOpenEipFunctionConverterFunction<T> extends AbstractExecuteF
         Object result = ignoreHookCall(context, exchange);
         // 返回结果约定使用OpenEipResult
         if (!(result instanceof OpenEipResult)) {
-            log.warn("开放接口函数返回结果未使用OpenEipResult, interface:{}", Optional.ofNullable(context).map(IEipContext::getApi).map(IEipApi::getInterfaceName).orElse(null));
+            log.warn("Open interface function return result does not use OpenEipResult, interface:{}", Optional.ofNullable(context).map(IEipContext::getApi).map(IEipApi::getInterfaceName).orElse(null));
         }
 
         context.putInterfaceContextValue(EipConfigurationConstant.DEFAULT_RESULT_KEY, result);

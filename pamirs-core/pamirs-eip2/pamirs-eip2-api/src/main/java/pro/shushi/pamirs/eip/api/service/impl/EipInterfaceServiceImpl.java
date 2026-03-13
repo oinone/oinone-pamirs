@@ -79,7 +79,7 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
             logStrategy.setEnabled(!Boolean.FALSE.equals(eipInterface.getIsEnabledLog()));
             eipLogStrategyService.refreshLogStrategy(logStrategy);
         } catch (Exception e) {
-            log.error("集成接口注册失败", e);
+            log.error("Integration interface registration failed", e);
             return new Result<String>().error().setData(e.getMessage());
         }
         return new Result<>();
@@ -97,7 +97,7 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
                 EipInterfaceContext.removeTemporaryInterface(interfaceName);
             }
         } catch (Exception e) {
-            log.error("集成接口注销失败", e);
+            log.error("Integration interface cancellation failed", e);
             return new Result<String>().error().setData(e.getMessage());
         }
         return new Result<>();
@@ -190,7 +190,7 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
             try {
                 camelContext.removeRouteDefinition(routeDefinition);
             } catch (Exception e) {
-                log.error("路由定义注销失败", e);
+                log.error("Route definition cancellation failed", e);
                 return new Result<String>().error().setData(e.getMessage());
             }
         }
@@ -209,7 +209,7 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
             logStrategy.setEnabled(!Boolean.FALSE.equals(eipInterface.getIsEnabledLog()));
             eipLogStrategyService.refreshLogStrategy(logStrategy);
         } catch (Exception e) {
-            log.error("开放接口注册失败", e);
+            log.error("Open interface registration failed", e);
             return new Result<String>().error().setData(e.getMessage());
         }
         return new Result<>();
@@ -221,7 +221,7 @@ public class EipInterfaceServiceImpl implements EipInterfaceService {
             EipInitializationUtil.newInstance()
                     .removeOpenApi(eipInterface.getInterfaceName());
         } catch (Exception e) {
-            log.error("开放接口注销失败", e);
+            log.error("Open interface cancellation failed", e);
             return new Result<String>().error().setData(e.getMessage());
         }
         return new Result<>();

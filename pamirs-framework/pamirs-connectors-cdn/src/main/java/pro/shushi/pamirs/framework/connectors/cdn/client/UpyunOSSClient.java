@@ -120,11 +120,11 @@ public class UpyunOSSClient extends AbstractFileClient implements FileConstants 
         String fileKey = getUpYunFileKey(cdnConfig.getMainDir(), encodedFileName);
         try (Response writeFileResponse = restManager.writeFile(fileKey, inputStream, null)) {
             if (!writeFileResponse.isSuccessful()) {
-                log.error("上传upyun失败 文件名[{}] [{}]", fileName, writeFileResponse.headers());
+                log.error("Upload to Upyun failed, filename[{}] [{}]", fileName, writeFileResponse.headers());
                 throw PamirsException.construct(CDN_UPYUN_UPLOAD_FILE_ERROR).errThrow();
             }
         } catch (IOException | UpException exp) {
-            log.error("上传upyun异常 文件名[{}] Err", fileName, exp);
+            log.error("Upload to Upyun exception, filename[{}] Err", fileName, exp);
             throw PamirsException.construct(CDN_UPYUN_UPLOAD_FILE_ERROR).errThrow();
         }
 
@@ -144,7 +144,7 @@ public class UpyunOSSClient extends AbstractFileClient implements FileConstants 
             resourceFile.setUrl(generatorDownloadUrl(fileKey));
 
         } catch (IOException | UpException exp) {
-            log.error("上传upyun异常 文件名[{" + fileName + "}] Err", exp);
+            log.error("Upload to Upyun exception, filename[{" + fileName + "}] Err", exp);
             throw PamirsException.construct(CDN_UPYUN_UPLOAD_FILE_FETCH_INFO_ERROR).errThrow();
         }
 
@@ -164,7 +164,7 @@ public class UpyunOSSClient extends AbstractFileClient implements FileConstants 
         String fileKey = cdnConfig.getMainDir() + keyPrefix + fileName;
         try (Response writeFileResponse = restManager.writeFile(fileKey, inputStream, null)) {
             if (!writeFileResponse.isSuccessful()) {
-                log.error("上传upyun失败 文件名[{}] [{}]", fileName, writeFileResponse.headers());
+                log.error("Upload to Upyun failed, filename[{}] [{}]", fileName, writeFileResponse.headers());
                 throw PamirsException.construct(CDN_UPYUN_UPLOAD_FILE_ERROR).errThrow();
             }
             return generatorDownloadUrl(fileKey);
@@ -195,7 +195,7 @@ public class UpyunOSSClient extends AbstractFileClient implements FileConstants 
                 return response.body().byteStream();
             }
         } catch (Throwable e) {
-            log.error("UPYUN读取文件IO异常", e);
+            log.error("UPYUN read file IO exception", e);
         }
         return null;
     }
@@ -213,7 +213,7 @@ public class UpyunOSSClient extends AbstractFileClient implements FileConstants 
                 }
             }
         } catch (IOException | UpException e) {
-            log.error("upyun oss读取文件异常", e);
+            log.error("Upyun OSS read file exception", e);
             throw PamirsException.construct(CDN_UPYUN_UPLOAD_FILE_FETCH_INFO_ERROR).errThrow();
         }
         return null;
@@ -230,11 +230,11 @@ public class UpyunOSSClient extends AbstractFileClient implements FileConstants 
         RestManager restManager = getRestManager();
         try (Response response = restManager.rmDir(folder)) {
             if (null == response || !response.isSuccessful()) {
-                log.error("删除upyun文件夹失败: [{}]", folder);
+                log.error("Delete Upyun folder failed: [{}]", folder);
                 throw PamirsException.construct(CDN_UPYUN_RM_DIR_ERROR).errThrow();
             }
         } catch (IOException | UpException exp) {
-            log.error("删除upyun文件夹发生异常: [{}]", folder);
+            log.error("Delete Upyun folder exception: [{}]", folder);
             throw PamirsException.construct(CDN_UPYUN_RM_DIR_ERROR).errThrow();
         }
     }
@@ -247,11 +247,11 @@ public class UpyunOSSClient extends AbstractFileClient implements FileConstants 
         String fileKey = cdnConfig.getMainDir() + keyPrefix + fileName;
         try (Response response = restManager.deleteFile(fileKey, null)) {
             if (!response.isSuccessful()) {
-                log.error("删除upyun文件失败: [{}], response:{}", fileName, JsonUtils.toJSONString(response));
+                log.error("Delete Upyun file failed: [{}], response:{}", fileName, JsonUtils.toJSONString(response));
                 throw PamirsException.construct(CDN_UPYUN_RM_FILE_ERROR).errThrow();
             }
         } catch (IOException | UpException exp) {
-            log.error("删除upyun文件发生异常: [{" + fileName + "}]", exp);
+            log.error("Delete Upyun file exception: [{" + fileName + "}]", exp);
             throw PamirsException.construct(CDN_UPYUN_RM_FILE_ERROR).errThrow();
         }
     }

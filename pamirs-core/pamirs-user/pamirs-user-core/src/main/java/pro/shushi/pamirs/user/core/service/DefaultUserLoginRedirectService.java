@@ -69,7 +69,7 @@ public class DefaultUserLoginRedirectService implements UserLoginService {
 //                .sorted(Comparator.comparing(ModuleDefinition::getPriority)).collect(Collectors.toList());
 //        if (CollectionUtils.isEmpty(list)) {
 //            AuthVerificationHelper.checkLogin();
-//            log.warn("当前用户id为{},{}", PamirsSession.getUserId(), UserExpEnumerate.USER_HAS_NO_ACCESS_MODULE_ERROR.msg());
+//            log.warn("Current user id is {},{}", PamirsSession.getUserId(), UserExpEnumerate.USER_HAS_NO_ACCESS_MODULE_ERROR.msg());
 //            return new ViewAction();
 //        }
 //        UeModule firstPriorityModule = list.get(0);

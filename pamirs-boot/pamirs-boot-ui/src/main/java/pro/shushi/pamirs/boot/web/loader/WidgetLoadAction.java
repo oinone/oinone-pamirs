@@ -54,7 +54,7 @@ public class WidgetLoadAction {
                 }
             } catch (Exception e) {
                 // 支持远程调用,如果调用失败,不影响启动
-                log.error("警告! loadSDK加载函数错误,可忽略. namespace:" + loadFunction.getNamespace() + ", fun:" + loadFunction.getFun(), e);
+                log.error("Warning! loadSDK load function error, can be ignored. namespace:" + loadFunction.getNamespace() + ", fun:" + loadFunction.getFun(), e);
             }
         }
 

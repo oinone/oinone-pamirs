@@ -45,20 +45,20 @@ public class EipCircuitBreakerStatusChangeListener implements TreeCacheListener 
 
         String dataPath = EipZkHelper.processorListenerPath(rootPath, path);
         if (StringUtils.isBlank(dataPath)) {
-            log.info("熔断检测到顶层或非预期节点变更，已忽略处理，path：{}", path);
+            log.info("Circuit breaker detected top-level or unexpected node change, ignored, path: {}", path);
             return;
         }
 
         String[] pathList = dataPath.split(CharacterConstants.SEPARATOR_SLASH);
         if (pathList.length != 1) {
-            log.info("熔断检测到顶层或非预期节点变更，已忽略处理，path：{}", path);
+            log.info("Circuit breaker detected top-level or unexpected node change, ignored, path: {}", path);
             return;
         }
 
         String interfaceName = pathList[0];
         byte[] dataBytes = event.getData().getData();
         if (dataBytes[0] == EipCircuitBreakerStateSyncService.CONFIG_UPDATE[0]) {
-            log.info("zk监听熔断配置变更，刷新本地熔断配置，interfaceName:{}", interfaceName);
+            log.info("zk listens to circuit breaker config change, refresh local circuit breaker config, interfaceName: {}", interfaceName);
             registerInterface(interfaceName);
         } else {
             CircuitBreakerStatusEnum status = deserialize(dataBytes);
@@ -80,16 +80,16 @@ public class EipCircuitBreakerStatusChangeListener implements TreeCacheListener 
         try {
             eipCircuitBreakerRuleService.register(interfaceName);
         } catch (Exception e) {
-            log.error("熔断器注册失败，接口：{}", interfaceName, e);
+            log.error("Circuit breaker registration failed, interface: {}", interfaceName, e);
         }
     }
 
     private void updateCircuitBreakerState(String interfaceName, CircuitBreakerStatusEnum status) {
         try {
-            log.info("zk通知熔断器状态变更，interfaceName:{}，状态:{}", interfaceName, status.displayName());
+            log.info("zk notifies circuit breaker status change, interfaceName: {}, status: {}", interfaceName, status.displayName());
             circuitBreakerManager.updateState(interfaceName, status);
         } catch (Exception e) {
-            log.error("更新熔断器状态失败，接口:{}，状态:{}", interfaceName, status.displayName(), e);
+            log.error("Failed to update circuit breaker status, interface: {}, status: {}", interfaceName, status.displayName(), e);
         }
     }
 

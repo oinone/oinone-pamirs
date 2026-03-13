@@ -56,7 +56,7 @@ public class ServletRequestHelper {
             String ip2 = request.getHeader("X-Real-IP");//内网IP
             String ip3 = request.getHeader("X-Forwarded-For");//真实访问IP,内网IP
             String ip4 = request.getRemoteHost();
-            log.info("请求IP [Host {}] [X-Real-IP {}] [X-Forwarded-For {}] [RemoteHost {}]", ip1, ip2, ip3, ip4);
+            log.info("Request IP [Host {}] [X-Real-IP {}] [X-Forwarded-For {}] [RemoteHost {}]", ip1, ip2, ip3, ip4);
             if (ips.length >= 2) {
                 Collections.reverse(Arrays.asList(ips));
                 for (String ip : ips) {

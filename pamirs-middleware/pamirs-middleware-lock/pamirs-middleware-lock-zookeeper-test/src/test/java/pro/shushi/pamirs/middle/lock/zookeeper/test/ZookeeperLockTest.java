@@ -11,7 +11,7 @@ public class ZookeeperLockTest extends AbstractZookeeperLockTest {
 
     @Test
     public void tryLock001() throws InterruptedException {
-        log.info("原始锁");
+        log.info("Original lock");
         executor.execute(new ZookeeperLockTestRunnable(lockService, Boolean.TRUE, LOCK1, LOCK_PATH) {
             @Override
             public String getTarget() {
@@ -24,7 +24,7 @@ public class ZookeeperLockTest extends AbstractZookeeperLockTest {
             }
         });
 
-        log.info("修改锁");
+        log.info("Modified lock");
         executor.execute(new ZookeeperLockTestRunnable(lockService, Boolean.TRUE, LOCK2, LOCK_PATH) {
             @Override
             public String getTarget() {
@@ -42,7 +42,7 @@ public class ZookeeperLockTest extends AbstractZookeeperLockTest {
 
     @Test
     public void tryLock002() throws InterruptedException {
-        log.info("非自动释放原始锁");
+        log.info("Non-auto-release original lock");
         executor.execute(new ZookeeperLockTestRunnable(lockService, Boolean.FALSE, LOCK1, LOCK_PATH) {
             @Override
             public String getTarget() {
@@ -55,7 +55,7 @@ public class ZookeeperLockTest extends AbstractZookeeperLockTest {
             }
         });
 
-        log.info("非自动释放修改锁");
+        log.info("Non-auto-release modified lock");
         executor.execute(new ZookeeperLockTestRunnable(lockService, Boolean.FALSE, LOCK2, LOCK_PATH) {
             @Override
             public String getTarget() {
@@ -73,7 +73,7 @@ public class ZookeeperLockTest extends AbstractZookeeperLockTest {
 
     @Test
     public void tryLock003() throws InterruptedException {
-        log.info("同线程锁测试");
+        log.info("Same thread lock test");
         new ZookeeperLockTestRunnable(lockService, Boolean.FALSE, LOCK1, LOCK_PATH) {
             @Override
             public String getTarget() {
@@ -91,7 +91,7 @@ public class ZookeeperLockTest extends AbstractZookeeperLockTest {
 
     @Test
     public void tryLock004() throws InterruptedException {
-        log.info("子线程加锁，主线程解锁测试");
+        log.info("Child thread lock, main thread unlock test");
         executor.execute(new ZookeeperLockTestRunnable(lockService, Boolean.FALSE, LOCK1, LOCK_PATH) {
             @Override
             public String getTarget() {
@@ -109,7 +109,7 @@ public class ZookeeperLockTest extends AbstractZookeeperLockTest {
 
     @After
     public void releaseLock() {
-        log.info("释放锁结果 {}", lockService.releaseLocked(LOCK_PATH));
+        log.info("Release lock result {}", lockService.releaseLocked(LOCK_PATH));
         log.info("Release All Lock.");
     }
 }

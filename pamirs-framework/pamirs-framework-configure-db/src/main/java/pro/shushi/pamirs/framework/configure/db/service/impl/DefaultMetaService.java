@@ -103,7 +103,7 @@ public class DefaultMetaService implements MetaService {
                 if (null != metaData) {
                     metaDataMap.putIfAbsent(module, metaData);
                 }
-                log.info("[{}]模块,装载元数据,time:[{}]ms", module, System.currentTimeMillis() - start);
+                log.info("[{}] Module, load metadata, time: [{}]ms", module, System.currentTimeMillis() - start);
             }
 
             return metaDataMap;
@@ -145,7 +145,7 @@ public class DefaultMetaService implements MetaService {
             long start = System.currentTimeMillis();
             crossingLoadMetaData(metaDataMap, runModuleSet, module);
             long end = System.currentTimeMillis();
-            log.info("[{}]模块,跨模块挂载元数据,time:[{}]ms", module, end - start);
+            log.info("[{}] Module, cross-module metadata mounting, time: [{}]ms", module, end - start);
         }
     }
 

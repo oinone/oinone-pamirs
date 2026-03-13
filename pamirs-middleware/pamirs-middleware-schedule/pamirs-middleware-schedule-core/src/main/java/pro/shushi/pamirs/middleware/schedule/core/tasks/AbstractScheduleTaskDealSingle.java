@@ -47,13 +47,13 @@ public abstract class AbstractScheduleTaskDealSingle extends AbstractPamirsSched
                     .around(task, ownSign, () -> execute0(task, ownSign));
             if (taskExecuteResult == null) {
                 result.setSuccess(false);
-                result.setErrorMessage("执行失败: 无返回结果");
+                result.setErrorMessage("Execution failed: No return result");
             } else {
                 if (taskExecuteResult.isSuccess()) {
                     result.setErrorMessage(taskExecuteResult.getErrorMessage());
                 } else {
                     result.setSuccess(false);
-                    result.setErrorMessage("执行失败: " + taskExecuteResult.getErrorCode() + "," + taskExecuteResult.getErrorName() + "," + taskExecuteResult.getErrorMessage());
+                    result.setErrorMessage("Execution failed: " + taskExecuteResult.getErrorCode() + "," + taskExecuteResult.getErrorName() + "," + taskExecuteResult.getErrorMessage());
                 }
             }
         } catch (Throwable e) {
@@ -92,8 +92,8 @@ public abstract class AbstractScheduleTaskDealSingle extends AbstractPamirsSched
                 }
                 if (scheduleManager.updateTaskStatusById(task) != 1) {
                     String errorMessage = getTaskMessage(task);
-                    log.error("任务最后更新失败: " + errorMessage);
-                    result.setFail("任务最后更新失败: " + errorMessage);
+                    log.error("Task final update failed: " + errorMessage);
+                    result.setFail("Task final update failed: " + errorMessage);
                     status.setRollbackOnly();
                 }
             }

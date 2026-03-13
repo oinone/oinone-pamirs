@@ -59,7 +59,7 @@ public class EipSendRequestTransientAction {
         eipParamMapping.setActionName(data.getActionName());
         eipParamMapping = eipParamMapping.queryOne();
         if (eipParamMapping == null) {
-            log.error("技术名称:{}，模型编码：{}，动作名称：{}，视图名称：{}",
+            log.error("Technical name:{}, model code:{}, action name:{}, view name:{}",
                     data.getInterfaceName(), data.getModel(), data.getActionName(), data.getViewName());
             throw PamirsException.construct(EipExpEnumerate.EIP_PARAM_MAPPING_IS_NULL).errThrow();
         }

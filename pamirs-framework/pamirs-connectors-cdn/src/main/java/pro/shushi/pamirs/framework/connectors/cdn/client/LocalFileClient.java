@@ -80,7 +80,7 @@ public class LocalFileClient extends AbstractFileClient implements FileConstants
         String filePath = cdnConfig.getLocalFolderUrl() + "/" + uniqueFileName;
         File localFile = new File(filePath);
         if (!localFile.exists()) {
-            log.warn("[getFileContent][path({}) 文件不存在]", filePath);
+            log.warn("[getFileContent][path({}) file does not exist]", filePath);
             response.setStatus(HttpStatus.NOT_FOUND.value());
             return;
         }
@@ -107,7 +107,7 @@ public class LocalFileClient extends AbstractFileClient implements FileConstants
             _createLocalFile(in, fileKey);
             return getDownloadUrl(fileKey);
         } catch (Exception e) {
-            log.error("createLocalFile 文件上传服务出错!", e);
+            log.error("createLocalFile file upload service error!", e);
             return null;
         }
     }
@@ -123,7 +123,7 @@ public class LocalFileClient extends AbstractFileClient implements FileConstants
             _createLocalFile(inputStream, fileName);
             return getDownloadUrl(fileName);
         } catch (Exception e) {
-            log.error("uploadByFileName 文件上传服务出错!", e);
+            log.error("uploadByFileName File upload service error!", e);
             return null;
         }
     }
@@ -143,7 +143,7 @@ public class LocalFileClient extends AbstractFileClient implements FileConstants
         File fileFolder = new File(folder);
         deleteFolder(fileFolder);
 
-        log.info("deleteByFolder folder:[{}] 成功", folder);
+        log.info("deleteByFolder folder:[{}] success", folder);
     }
 
     @Override
@@ -223,7 +223,7 @@ public class LocalFileClient extends AbstractFileClient implements FileConstants
             resourceFile.setUrl(getDownloadUrl(fileName));
             return resourceFile;
         } catch (Exception e) {
-            log.error("upload 文件上传服务出错!", e);
+            log.error("upload File upload service error!", e);
         }
 
         return null;
@@ -298,10 +298,10 @@ public class LocalFileClient extends AbstractFileClient implements FileConstants
             fos.flush();
             log.info("Reading uploaded file and buffering to local successfully!");
         } catch (FileNotFoundException e) {
-            log.error("文件不存在", e);
+            log.error("File does not exist", e);
             return false;
         } catch (IOException e) {
-            log.error("文件异常", e);
+            log.error("File exception", e);
             return false;
         } finally {
             try {

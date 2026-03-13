@@ -49,17 +49,17 @@ public class ModuleLoadAction extends AbstractLoadAction {
         //加载模块
         long start1 = System.currentTimeMillis();
         module = loadModule(module);
-        log.info("加载模块耗时: [" + (System.currentTimeMillis() - start1) + "] ms ..");
+        log.info("Load module cost: [" + (System.currentTimeMillis() - start1) + "] ms ..");
         long start2 = System.currentTimeMillis();
         loadMenu(module);
-        log.info("加载菜单耗时: [" + (System.currentTimeMillis() - start2) + "] ms ..");
+        log.info("Load menu cost: [" + (System.currentTimeMillis() - start2) + "] ms ..");
         return module;
     }
 
     private UeModule loadModule(UeModule module) {
         String moduleName = module.getName();
         if (StringUtils.isBlank(moduleName)) {
-            log.error("加载元数据查询条件错误，请求的模块的name字段为空");
+            log.error("Load metadata query condition error, requested module name field is empty");
             throw PamirsException.construct(BootUxdExpEnumerate.BASE_LOAD_MODULE_META_NO_MODULE_NAME_ERROR).errThrow();
         }
         UeModule returnModule;

@@ -73,7 +73,7 @@ public class StandardMetaDataSaver implements MetaDataSaverApi {
         // step2、保存数据
         long start = System.currentTimeMillis();
         storeMetaData(metaMap, dataListMap, diffLoadMap, updateMeta);
-        log.info("元数据保存全部完成 {}ms", System.currentTimeMillis() - start);
+        log.info("Metadata saving completed {}ms", System.currentTimeMillis() - start);
     }
 
     private void storeMetaData(Map<String/*module*/, Meta> metaMap,
@@ -206,7 +206,7 @@ public class StandardMetaDataSaver implements MetaDataSaverApi {
     private void storeMetaData(String model, Map<String/*sign*/, DiffModel> dataMap, Boolean updateMeta) {
         int size = dataMap.size();
         if (size == 0) {
-            log.info("无元数据变更: {}", model);
+            log.info("No metadata change: {}", model);
             return;
         }
 

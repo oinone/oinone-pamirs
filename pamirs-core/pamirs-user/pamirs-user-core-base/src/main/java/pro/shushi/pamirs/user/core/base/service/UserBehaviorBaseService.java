@@ -257,7 +257,7 @@ public abstract class UserBehaviorBaseService {
     public PamirsUserTransient beforeSignUpMobile(PamirsUserTransient user) {
         dataChecker.checkInviteCode(user);
         if (user.getBroken()) {
-            log.error("注册用户发生异常: [{}]", user.getErrorMsg());
+            log.error("Register user exception: [{}]", user.getErrorMsg());
             return user;
         }
         dataChecker.checkLoginNameIsExist(user);
@@ -285,7 +285,7 @@ public abstract class UserBehaviorBaseService {
         }
 
         if (user.getBroken()) {
-            log.error("注册用户发生异常: [{}]", user.getErrorMsg());
+            log.error("Register user exception: [{}]", user.getErrorMsg());
         }
         return user;
     }
@@ -435,7 +435,7 @@ public abstract class UserBehaviorBaseService {
 
     public PamirsUserTransient sendSmsVerificationCode(PamirsUserTransient user) {
         if (log.isDebugEnabled()) {
-            log.debug("短信发送入参: {}", JsonUtils.toJSONString(user));
+            log.debug("SMS send input params: {}", JsonUtils.toJSONString(user));
         }
         String msgType = user.getMsgType();
         UserBehaviorEventEnum userBehaviorEvent = user.getUserBehaviorEvent();

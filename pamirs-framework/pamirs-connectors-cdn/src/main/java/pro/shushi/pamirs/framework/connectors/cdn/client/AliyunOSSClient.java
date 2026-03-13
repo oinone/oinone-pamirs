@@ -260,7 +260,7 @@ public class AliyunOSSClient extends AbstractFileClient implements FileConstants
                 return content;
             }
         } catch (IOException e) {
-            log.error("阿里云OSS读取文件io异常", e);
+            log.error("Aliyun OSS read file IO exception", e);
         }
         return null;
     }

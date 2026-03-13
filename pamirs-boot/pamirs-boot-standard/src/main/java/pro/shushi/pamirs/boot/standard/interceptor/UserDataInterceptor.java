@@ -154,7 +154,7 @@ public class UserDataInterceptor implements Interceptor {
         } else if (data instanceof D) {
             map = ((D) data).get_d();
         } else {
-            log.warn("创建人和更新人设置失败，尚未支持的入参类型 class: {} sqlCommandType: {}", data.getClass(), sqlCommandType);
+            log.warn("Creator and updater setting failed, unsupported parameter type class: {} sqlCommandType: {}", data.getClass(), sqlCommandType);
         }
         if (map == null) {
             return DONT_RESET;

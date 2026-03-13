@@ -82,7 +82,7 @@ public class KafkaNotifyListener<T extends Serializable> extends AbstractNotifyL
 
     public void initKafkaConsumer() {
         ConsumerFactory<?, ?> factory = initKafkaConsumerFactory();
-        log.info("注册Kafka消费者:[{}]", this.topic);
+        log.info("Register Kafka consumer: [{}]", this.topic);
         ContainerProperties containerProperties = new ContainerProperties(this.topic);
         containerProperties.setAckMode(ContainerProperties.AckMode.MANUAL);
         containerProperties.setMessageListener(new MessageListener<Object, Object>() {

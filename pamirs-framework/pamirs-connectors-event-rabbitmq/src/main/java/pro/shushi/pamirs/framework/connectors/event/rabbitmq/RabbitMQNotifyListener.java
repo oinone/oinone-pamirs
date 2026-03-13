@@ -62,7 +62,7 @@ public class RabbitMQNotifyListener extends AbstractNotifyListener<SimpleMessage
         initRouting();
         initRabbitMQConsumer();
         this.consumer.start();
-        log.info("注册RabbitMQ消息消费者成功 Exchange:[{}] Routing:[{}] Queue: [{}]", topic, topic, topic);
+        log.info("Register RabbitMQ message consumer successfully Exchange:[{}] Routing:[{}] Queue: [{}]", topic, topic, topic);
     }
 
     @Override

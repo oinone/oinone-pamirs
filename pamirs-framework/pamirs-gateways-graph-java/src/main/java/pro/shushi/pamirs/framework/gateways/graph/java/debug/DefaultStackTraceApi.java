@@ -41,7 +41,7 @@ public class DefaultStackTraceApi implements StackTraceApi {
                 frontRequestExceptionDeal.stackTrace(handlerParameters, result, e, path);
             } catch (Throwable throwable) {
                 //忽略
-                log.error("异常追踪类执行失败: [{}], exception:{}", frontRequestExceptionDeal.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
+                log.error("Exception trace class execution failed: [{}], exception:{}", frontRequestExceptionDeal.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
             }
         }
     }
@@ -56,7 +56,7 @@ public class DefaultStackTraceApi implements StackTraceApi {
                 frontRequestResultDeal.stackTrace(executionResult, executionInput);
             } catch (Throwable throwable) {
                 //忽略
-                log.error("异常追踪类执行失败: [{}], exception:{}", frontRequestResultDeal.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
+                log.error("Exception trace class execution failed: [{}], exception:{}", frontRequestResultDeal.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
             }
         }
     }
@@ -71,7 +71,7 @@ public class DefaultStackTraceApi implements StackTraceApi {
                 frontRequestInitDeal.init(executionInput);
             } catch (Throwable throwable) {
                 //忽略
-                log.error("异常追踪类初始化执行失败: [{}], exception:{}", frontRequestInitDeal.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
+                log.error("Exception trace class initialization execution failed: [{}], exception:{}", frontRequestInitDeal.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
             }
         }
     }
@@ -86,7 +86,7 @@ public class DefaultStackTraceApi implements StackTraceApi {
                 frontRequestInitDeal.init(invoker, invocation);
             } catch (Throwable throwable) {
                 //忽略
-                log.error("异常追踪类初始化执行失败: [{}], exception:{}", frontRequestInitDeal.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
+                log.error("Exception trace class initialization execution failed: [{}], exception:{}", frontRequestInitDeal.getClass().getTypeName(), ExceptionUtils.getStackTrace(throwable));
             }
         }
     }

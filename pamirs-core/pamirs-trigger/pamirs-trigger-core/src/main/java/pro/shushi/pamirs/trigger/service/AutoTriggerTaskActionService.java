@@ -177,11 +177,11 @@ public class AutoTriggerTaskActionService implements NotifyConsumer<Row>, Trigge
                             }
                             break;
                         case RECOVERY:
-                            log.error("非法的数据库修改操作: 忽略数据行的逻辑删除字段的恢复操作 model: {} id: {}", model, changeData.getId());
+                            log.error("Illegal database modification operation: Ignore the recovery operation of the logical deletion field of the data row model: {} id: {}", model, changeData.getId());
                             ignoredTriggerSet.add(model);
                             break;
                         case MODIFY_DELETED_DATA:
-                            log.error("非法的数据库修改操作: 忽略对已删除字段的修改操作 model: {} id: {}", model, changeData.getId());
+                            log.error("Illegal database modification operation: Ignore the modification of the deleted field model: {} id: {}", model, changeData.getId());
                             ignoredTriggerSet.add(model);
                             break;
                         default:

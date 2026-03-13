@@ -23,7 +23,7 @@ public class PamirsTaskExecuteHelper {
             exchange = function.apply(exchange);
         } else {
             String signature = task.signature();
-            log.info("任务: {}-开始", signature);
+            log.info("Task: {}-start", signature);
             task.start();
             exchange = function.apply(exchange);
             if (exchange.isInterrupted()) {
@@ -32,7 +32,7 @@ public class PamirsTaskExecuteHelper {
                 }
             }
             task.finish();
-            log.info("任务: {}-完成", signature);
+            log.info("Task: {}-finish", signature);
         }
         return exchange;
     }

@@ -39,14 +39,14 @@ public class UiTreeAllQueryManager extends AbstractUiTreeQueryManager {
             }
             dataList.add(queryDataList.stream().map(this::convertMap).map(i -> convertTreeNode(i, uiTreeNodeMetadata)).collect(Collectors.toList()));
         }
-        log.debug("UiTreeAllQueryManager.fetchAll-查询耗时 {} ms", System.currentTimeMillis() - currentTimeMillis);
+        log.debug("UiTreeAllQueryManager.fetchAll-Query cost {} ms", System.currentTimeMillis() - currentTimeMillis);
         currentTimeMillis = System.currentTimeMillis();
 
         if (CollectionUtils.isEmpty(dataList)) {
             return new ArrayList<>();
         }
         List<UiTreeNode> resultList = convertTreeNodeList(dataList, metadataList);
-        log.debug("UiTreeAllQueryManager.fetchAll-构建树耗时 {} ms", System.currentTimeMillis() - currentTimeMillis);
+        log.debug("UiTreeAllQueryManager.fetchAll-Build tree cost {} ms", System.currentTimeMillis() - currentTimeMillis);
         currentTimeMillis = System.currentTimeMillis();
 
         String rootMetaKey = metadataList.get(0).getKey();
@@ -56,7 +56,7 @@ public class UiTreeAllQueryManager extends AbstractUiTreeQueryManager {
         leafTag(resultList);
         // 已经全查了, 不明确全部标记为叶子
         resultList.stream().filter(i -> i.getIsLeaf() == null).forEach(i -> i.setIsLeaf(Boolean.TRUE));
-        log.debug("UiTreeAllQueryManager.fetchAll-标记叶节点耗时 {} ms", System.currentTimeMillis() - currentTimeMillis);
+        log.debug("UiTreeAllQueryManager.fetchAll-Mark leaf nodes cost {} ms", System.currentTimeMillis() - currentTimeMillis);
         return resultList;
     }
 
