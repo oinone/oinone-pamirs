@@ -14,17 +14,21 @@ import pro.shushi.pamirs.core.common.entry.TopBarAction;
 import pro.shushi.pamirs.core.common.path.ResourcePathParser;
 import pro.shushi.pamirs.core.common.query.QueryActionCollection;
 import pro.shushi.pamirs.core.common.spi.TopBarActionExtendApi;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.core.auth.AuthApi;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.lambda.Getter;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
+import pro.shushi.pamirs.resource.api.constants.DefaultResourceConstants;
+import pro.shushi.pamirs.resource.api.model.ResourceLang;
 import pro.shushi.pamirs.user.api.login.UserInfoCache;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.model.tmodel.TopBarActionGroup;
@@ -75,6 +79,33 @@ public class TopBarUserBlockAction {
                 user = user.fieldQuery(PamirsUser::getAvatarBig);
             } else {
                 user = new PamirsUser();
+            }
+            ResourceLang lang = user.getLang();
+            if (lang == null) {
+                Locale locale = I18nUtils.getCurrentLocale();
+                lang = new ResourceLang();
+                user.setLang(lang);
+                if (locale == null) {
+                    lang.setCode(DefaultResourceConstants.CHINESE_LANGUAGE.getCode());
+                    lang.setIsoCode(DefaultResourceConstants.CHINESE_LANGUAGE.getIsoCode());
+                } else {
+                    String language = locale.getLanguage();
+                    String country = locale.getCountry();
+                    // 兼容语言初始化
+                    if (Locale.US.getLanguage().equals(language) && StringUtils.isBlank(country)) {
+                        country = Locale.US.getCountry();
+                    }
+                    if (Locale.US.getLanguage().equals(language) && Locale.US.getCountry().equals(country)) {
+                        lang.setCode(DefaultResourceConstants.ENGLISH_LANGUAGE.getCode());
+                        lang.setIsoCode(DefaultResourceConstants.ENGLISH_LANGUAGE.getIsoCode());
+                    } else if (StringUtils.isBlank(country)) {
+                        lang.setCode(language);
+                        lang.setIsoCode(language);
+                    } else {
+                        lang.setCode(language + CharacterConstants.SEPARATOR_HYPHEN + country);
+                        lang.setIsoCode(language);
+                    }
+                }
             }
             data.setPamirsUser(user);
         }

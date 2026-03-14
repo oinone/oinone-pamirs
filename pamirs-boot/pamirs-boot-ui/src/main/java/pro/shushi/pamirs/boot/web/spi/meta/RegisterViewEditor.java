@@ -42,6 +42,7 @@ import pro.shushi.pamirs.boot.web.constants.GroupConstants;
 import pro.shushi.pamirs.boot.web.spi.domain.RegisterViewContext;
 import pro.shushi.pamirs.boot.web.utils.*;
 import pro.shushi.pamirs.framework.common.config.TtlAsyncTaskExecutor;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.orm.systems.ModelInheritedApi;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
@@ -288,21 +289,21 @@ public class RegisterViewEditor implements MetaDataEditor {
                 // 创建默认表格视图
                 makeDefaultView(registerViewContext,
                         ViewConstants.Name.tableView,
-                        ViewConstants.DisplayName.tableView,
+                        I18nUtils.getMessage(ViewConstants.DisplayName.tableView),
                         ViewTypeEnum.TABLE);
             }
             if (null != uxForm) {
                 // 创建默认表单视图
                 makeDefaultView(registerViewContext,
                         ViewConstants.Name.formView,
-                        ViewConstants.DisplayName.formView,
+                        I18nUtils.getMessage(ViewConstants.DisplayName.formView),
                         ViewTypeEnum.FORM);
             }
             if (null != uxDetail) {
                 // 创建默认详情视图
                 makeDefaultView(registerViewContext,
                         ViewConstants.Name.detailView,
-                        ViewConstants.DisplayName.detailView,
+                        I18nUtils.getMessage(ViewConstants.DisplayName.detailView),
                         ViewTypeEnum.DETAIL);
             }
         }
@@ -315,19 +316,19 @@ public class RegisterViewEditor implements MetaDataEditor {
         // 创建默认表格视图
         makeDefaultView(registerViewContext,
                 ViewConstants.Name.tableView,
-                ViewConstants.DisplayName.tableView,
+                I18nUtils.getMessage(ViewConstants.DisplayName.tableView),
                 ViewTypeEnum.TABLE);
 
         // 创建默认表单视图
         makeDefaultView(registerViewContext,
                 ViewConstants.Name.formView,
-                ViewConstants.DisplayName.formView,
+                I18nUtils.getMessage(ViewConstants.DisplayName.formView),
                 ViewTypeEnum.FORM);
 
         // 创建默认详情视图
         makeDefaultView(registerViewContext,
                 ViewConstants.Name.detailView,
-                ViewConstants.DisplayName.detailView,
+                I18nUtils.getMessage(ViewConstants.DisplayName.detailView),
                 ViewTypeEnum.DETAIL);
 
     }
@@ -366,7 +367,7 @@ public class RegisterViewEditor implements MetaDataEditor {
             // 构造一个视图对象来生成自定义默认视图子视图的动作
             rebuildView = new View();
         }
-        rebuildView.setTitle(Optional.ofNullable(defaultView.getTitle()).filter(StringUtils::isNotBlank).orElse(title))
+        rebuildView.setTitle(I18nUtils.translateView(model, viewName, "title", StringUtils.defaultIfBlank(defaultView.getTitle(), title)))
                 .setModel(model)
                 .setName(viewName)
                 .setBizType(ViewBizTypeEnum.OPERATIONS_MANAGEMENT)
@@ -559,14 +560,14 @@ public class RegisterViewEditor implements MetaDataEditor {
         RegisterViewContext refContext = new RegisterViewContext(meta, refModelDefinition, actionMap);
         if (null != refContext.getClazz()) {
             String viewName = ViewConstants.Name.dialogFormView;
-            String title = ViewConstants.DisplayName.dialogFormView;
+            String title = I18nUtils.getMessage(ViewConstants.DisplayName.dialogFormView);
             ViewTypeEnum viewType = ViewTypeEnum.FORM;
             if (null == subViewField) {
                 return uiAction;
             }
             if (TtypeEnum.M2M.equals(subViewField.getExactTtype())) {
                 viewName = ViewConstants.Name.dialogTableView;
-                title = ViewConstants.DisplayName.dialogTableView;
+                title = I18nUtils.getMessage(ViewConstants.DisplayName.dialogTableView);
                 viewType = ViewTypeEnum.TABLE;
             }
             if (!model.equals(subViewField.getModel())) {

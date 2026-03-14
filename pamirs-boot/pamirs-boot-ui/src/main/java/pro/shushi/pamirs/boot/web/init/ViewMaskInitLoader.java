@@ -15,6 +15,7 @@ import pro.shushi.pamirs.framework.common.entry.TreeNode;
 import pro.shushi.pamirs.framework.common.utils.xstream.TreeNodeXStream;
 import pro.shushi.pamirs.framework.common.utils.xstream.XMLNodeContent;
 import pro.shushi.pamirs.framework.configure.MetaConfiguration;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
@@ -98,7 +99,7 @@ public class ViewMaskInitLoader {
                     maskDefinition.setName(maskName);
                     maskDefinition.setType(Optional.ofNullable(rootNodeContent.getAttribute(LambdaUtil.fetchFieldName(UIMask::getType))).map(ViewTypeEnum::valueOf).orElse(null));
                     maskDefinition.setBizType(ViewBizTypeEnum.OPERATIONS_MANAGEMENT);
-                    maskDefinition.setTitle(Optional.ofNullable(rootNodeContent.getAttribute(LambdaUtil.fetchFieldName(UIMask::getTitle))).orElse(maskName));
+                    maskDefinition.setTitle(I18nUtils.translateMask(maskName, "title", Optional.ofNullable(rootNodeContent.getAttribute(LambdaUtil.fetchFieldName(UIMask::getTitle))).orElse(maskName)));
                     maskDefinition.setPriority(Optional.ofNullable(rootNodeContent.getAttribute(LambdaUtil.fetchFieldName(UIMask::getPriority))).map(Integer::valueOf).orElse(ViewConstants.manualPriority));
                     maskDefinition.setShow(ActiveEnum.ACTIVE);
                     maskDefinition.setActive(ActiveEnum.ACTIVE);

@@ -8,6 +8,7 @@ import pro.shushi.pamirs.boot.base.model.Menu;
 import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxMenu;
 import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxMenus;
 import pro.shushi.pamirs.boot.web.utils.MenuUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ConverterType;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
@@ -108,8 +109,8 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
 
         // 处理菜单
         menu.setName(name);
-        menu.setDefaultDisplayName(Optional.of(uxMenu.label()).filter(StringUtils::isNotBlank).orElse(clazz.getSimpleName()));
-        menu.setDescription(Optional.of(uxMenu.summary()).filter(StringUtils::isNotBlank).orElse(menu.getDisplayName()));
+        menu.setDefaultDisplayName(I18nUtils.translateMenu(module, name, "displayName", Optional.of(uxMenu.label()).filter(StringUtils::isNotBlank).orElse(clazz.getSimpleName())));
+        menu.setDescription(I18nUtils.translateMenu(module, name, "description", Optional.of(uxMenu.summary()).filter(StringUtils::isNotBlank).orElse(menu.getDisplayName())));
         menu.setModule(module);
         menu.setClientTypes(clientTypeEnums);
         menu.setDefaultPriority(priority);

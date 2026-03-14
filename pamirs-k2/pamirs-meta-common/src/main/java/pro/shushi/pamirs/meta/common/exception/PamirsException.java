@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.meta.common.exception;
 
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.constants.AppName;
 import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
 import pro.shushi.pamirs.meta.common.util.PStringUtils;
@@ -128,7 +129,7 @@ public class PamirsException extends RuntimeException {
         private Builder(T expEnum, Throwable e, Object... args) {
             this.code = expEnum.code();
             this.type = expEnum.type().getType();
-            this.msg = PStringUtils.parse1(expEnum.msg(), args);
+            this.msg = PStringUtils.parse1(I18nUtils.translateErrorDefinitionItem(expEnum.getClass().getName(), expEnum.name(), "msg", expEnum.msg()), args);
             this.level = ExpBaseEnum.LEVEL.ERROR.name();
             this.extend = null;
             this.msgBuilder = new StringBuilder();

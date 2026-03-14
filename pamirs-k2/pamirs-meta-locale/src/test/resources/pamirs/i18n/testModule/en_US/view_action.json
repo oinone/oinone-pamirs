@@ -1,0 +1,9 @@
+{
+  "TestModel": {
+    "FullViewAction": {
+      "displayName": "Full ViewAction Name",
+      "summary": "Full ViewAction Summary"
+    },
+    "ShortViewAction": "Short ViewAction Name"
+  }
+}

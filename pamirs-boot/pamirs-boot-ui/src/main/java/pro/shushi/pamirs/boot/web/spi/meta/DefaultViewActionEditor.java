@@ -9,6 +9,7 @@ import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
 import pro.shushi.pamirs.boot.web.utils.UiActionUtils;
 import pro.shushi.pamirs.boot.web.utils.ViewActionUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
@@ -44,7 +45,7 @@ public class DefaultViewActionEditor implements MetaDataEditor {
         // 创建 跳转新增页 viewAction
         ViewActionUtils.makeDefaultViewAction(meta, data,
                 ViewActionConstants.redirectCreatePage.name,
-                ViewActionConstants.redirectCreatePage.displayName,
+                I18nUtils.getMessage(ViewActionConstants.redirectCreatePage.displayName),
                 null,
                 ActionContextTypeEnum.CONTEXT_FREE,
                 ViewTypeEnum.FORM, ViewActionConstants.redirectCreatePage.priority);
@@ -52,7 +53,7 @@ public class DefaultViewActionEditor implements MetaDataEditor {
         // 创建 跳转更新页 viewAction
         ViewActionUtils.makeDefaultViewAction(meta, data,
                 ViewActionConstants.redirectUpdatePage.name,
-                ViewActionConstants.redirectUpdatePage.displayName,
+                I18nUtils.getMessage(ViewActionConstants.redirectUpdatePage.displayName),
                 null,
                 ActionContextTypeEnum.SINGLE,
                 ViewTypeEnum.FORM, ViewActionConstants.redirectUpdatePage.priority);
@@ -60,7 +61,7 @@ public class DefaultViewActionEditor implements MetaDataEditor {
         // 创建 跳转详情页 viewAction
         ViewActionUtils.makeDefaultViewAction(meta, data,
                 ViewActionConstants.redirectDetailPage.name,
-                ViewActionConstants.redirectDetailPage.displayName,
+                I18nUtils.getMessage(ViewActionConstants.redirectDetailPage.displayName),
                 null,
                 ActionContextTypeEnum.SINGLE,
                 ViewTypeEnum.DETAIL, ViewActionConstants.redirectDetailPage.priority);

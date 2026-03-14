@@ -49,7 +49,7 @@ public class UrlActionOfMenuConverter implements ModelConverter<Map<String, UrlA
     public Map<String, UrlAction> convert(MetaNames names, @SuppressWarnings("rawtypes") Class source, Map<String, UrlAction> metaModelObject) {
         return ActionOfMenuConverterUtils.convert(names.getModule(), UrlAction.MODEL_MODEL, source, metaModelObject,
                 (action, menuClazz) -> {
-                    MenuUtils.configAction(action, menuClazz);
+                    MenuUtils.configAction(names.getModule(), action, menuClazz);
                     ActionUtils.configUrlAction(action, MenuUtils.fetchUrlActionAnnotation(menuClazz));
                 });
     }

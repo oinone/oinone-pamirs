@@ -5,6 +5,7 @@ import pro.shushi.pamirs.boot.base.model.View;
 import pro.shushi.pamirs.boot.base.ux.cache.api.HighPriorityModelViewCacheApi;
 import pro.shushi.pamirs.boot.base.ux.cache.api.ViewCacheApi;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.enmu.ActiveEnum;
@@ -67,7 +68,7 @@ public class ViewUtils {
         }
         if (null != view.getActive() && ActiveEnum.INACTIVE.equals(view.getActive())) {
             throw PamirsException.construct(BootUxdExpEnumerate.BASE_RES_VIEW_IS_INACTIVE_ERROR)
-                    .appendMsg(MessageFormat.format("模型:{0},视图类型:{1},视图api名称:{2}", model, viewType, resViewName)).errThrow();
+                    .appendMsg(I18nUtils.getMessage("ViewUtils.viewInactive", model, viewType, resViewName)).errThrow();
         }
         if (null == view.getTemplate()) {
             throw PamirsException.construct(BootUxdExpEnumerate.BASE_RES_TEMPLATE_IS_NOT_EXIST_ERROR)

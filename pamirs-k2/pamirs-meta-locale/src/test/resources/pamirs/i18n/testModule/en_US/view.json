@@ -1,0 +1,8 @@
+{
+  "TestModel": {
+    "TestView": {
+      "title": "Test View Title"
+    },
+    "ShortView": "Short View Title"
+  }
+}

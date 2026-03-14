@@ -1,0 +1,5 @@
+TestNamespace:
+  FullFunction:
+    displayName: "Full Function Name"
+    summary: "Full Function Summary"
+  ShortFunction: "Short Function Name"

@@ -19,6 +19,7 @@
         <module>pamirs-meta-fun</module>
         <module>pamirs-meta-model</module>
         <module>pamirs-meta-dsl</module>
+        <module>pamirs-meta-locale</module>
     </modules>
 
     <dependencyManagement>
@@ -54,6 +55,12 @@
                 <artifactId>pamirs-meta-dsl</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>pro.shushi.pamirs.k2</groupId>
+                <artifactId>pamirs-meta-locale</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-core</artifactId>

@@ -1,0 +1,9 @@
+{
+  "TestNamespace": {
+    "FullSchedule": {
+      "displayName": "Full Schedule Name",
+      "summary": "Full Schedule Summary"
+    },
+    "ShortSchedule": "Short Schedule Name"
+  }
+}

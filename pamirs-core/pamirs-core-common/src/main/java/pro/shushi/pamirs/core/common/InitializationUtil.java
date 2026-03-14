@@ -19,6 +19,7 @@ import pro.shushi.pamirs.core.common.dsl.DslConverter;
 import pro.shushi.pamirs.core.common.enmu.ModuleLifecycleEnum;
 import pro.shushi.pamirs.framework.configure.annotation.core.sign.ModelDefinitionSigner;
 import pro.shushi.pamirs.framework.configure.annotation.core.sign.SequenceConfigSigner;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelSigner;
@@ -287,7 +288,7 @@ public class InitializationUtil {
             view = new View();
         }
         view.setModel(model)
-                .setTitle(title)
+                .setTitle(I18nUtils.translateView(model, name, "title", title))
                 .setName(name)
                 .setType(viewType)
                 .setTemplate(template)
@@ -489,22 +490,24 @@ public class InitializationUtil {
                 .setModel(originModel)
                 .setBindingType(originViewTypes)
                 .setName(name)
-                .setDisplayName(displayName)
+                .setDisplayName(I18nUtils.translateViewAction(module, originModel, name, "displayName", displayName))
                 .setContextType(contextType);
         if (StringUtils.isNotBlank(resViewName)) {
             viewAction.setResView(getView(targetModel, resViewName))
                     .setResModel(targetModel)
                     .setResViewName(resViewName);
         }
-        if (StringUtils.isBlank(viewAction.getLabel()) && StringUtils.isNotBlank(viewAction.getDisplayName())) {
-            viewAction.setLabel(viewAction.getDisplayName());
+        if (StringUtils.isBlank(viewAction.getLabel())) {
+            if (StringUtils.isNotBlank(viewAction.getDisplayName())) {
+                viewAction.setLabel(viewAction.getDisplayName());
+            }
+        } else {
+            viewAction.setLabel(I18nUtils.translateViewAction(module, originModel, name, "label", viewAction.getLabel()));
         }
         if (StringUtils.isNotBlank(rule)) {
             viewAction.setRule(rule);
-            //表达式取反
             viewAction.setInvisible("!(" + rule + ")");
         }
-        //回调可能修改name,在生成前面之前处理回调
         if (viewActionConsumer != null) {
             viewActionConsumer.accept(viewAction);
         }
@@ -666,7 +669,7 @@ public class InitializationUtil {
         urlAction.setUrl(url)
                 .setTarget(pageTarget)
                 .setActionType(ActionTypeEnum.URL)
-                .setDisplayName(displayName)
+                .setDisplayName(I18nUtils.translateUrlAction(module, model, name, "displayName", displayName))
                 .setModel(model)
                 .setBindingType(viewTypes)
                 .setName(name)
@@ -762,8 +765,8 @@ public class InitializationUtil {
         }
         clintAction
                 .setActionType(ActionTypeEnum.CLIENT)
-                .setLabel(displayName)
-                .setDisplayName(displayName)
+                .setDisplayName(I18nUtils.translateClientAction(module, model, name, "displayName", displayName))
+                .setLabel(I18nUtils.translateClientAction(module, model, name, "label", clintAction.getDisplayName()))
                 .setModel(model)
                 .setBindingType(viewTypes)
                 .setName(name)
@@ -876,8 +879,9 @@ public class InitializationUtil {
         if (menu == null) {
             menu = new Menu();
         }
+        displayName = I18nUtils.translateMenu(module, menuName, "displayName", displayName);
         menu.setModule(module)
-                .setDisplayName(displayName)
+                .setDefaultDisplayName(displayName)
                 .setName(menuName)
                 .setParentName(parentMenuName)
                 .setClientTypes(Arrays.asList(ClientTypeEnum.PC, ClientTypeEnum.MOBILE, ClientTypeEnum.PAD))
@@ -1013,7 +1017,7 @@ public class InitializationUtil {
             mask = new MaskDefinition();
         }
         mask.setName(name)
-                .setTitle(name)
+                .setTitle(I18nUtils.translateMask(name, "title", name))
                 .setTemplate(getXmlTemplate(MaskDefinition.MODEL_MODEL, xmlPath, false))
                 .setActive(ActiveEnum.ACTIVE);
         pushMask(mask);

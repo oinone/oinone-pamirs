@@ -7,6 +7,7 @@ import pro.shushi.pamirs.boot.base.enmu.ActionTypeEnum;
 import pro.shushi.pamirs.boot.base.model.ViewAction;
 import pro.shushi.pamirs.boot.base.ux.constants.ActionPropConstants;
 import pro.shushi.pamirs.boot.base.ux.model.view.UIAction;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.constant.MetaDefaultConstants;
@@ -108,11 +109,10 @@ public class ViewActionUtils {
      * @return 动作
      */
     public static UIAction makeO2MCreateAction(String model) {
-        UIAction uiAction;
-        uiAction = new UIAction();
+        UIAction uiAction = new UIAction();
         uiAction.setModel(model);
         uiAction.setName(ViewActionConstants.O2MCreate.name);
-        uiAction.setLabel(ViewActionConstants.O2MCreate.title);
+        uiAction.setLabel(I18nUtils.getMessage(ViewActionConstants.O2MCreate.title));
         uiAction.setActionType(ActionTypeEnum.VIEW);
         uiAction.setTarget(ActionTargetEnum.DIALOG);
         uiAction.setViewType(ViewTypeEnum.FORM);
@@ -130,11 +130,10 @@ public class ViewActionUtils {
      * @return 动作
      */
     public static UIAction makeO2MEditAction(String model) {
-        UIAction uiAction;
-        uiAction = new UIAction();
+        UIAction uiAction = new UIAction();
         uiAction.setModel(model);
         uiAction.setName(ViewActionConstants.O2MEdit.name);
-        uiAction.setLabel(ViewActionConstants.O2MEdit.title);
+        uiAction.setLabel(I18nUtils.getMessage(ViewActionConstants.O2MEdit.title));
         uiAction.setActionType(ActionTypeEnum.VIEW);
         uiAction.setTarget(ActionTargetEnum.DIALOG);
         uiAction.setViewType(ViewTypeEnum.FORM);
@@ -152,11 +151,10 @@ public class ViewActionUtils {
      * @return 动作
      */
     public static UIAction makeM2MCreateAction(String model) {
-        UIAction uiAction;
-        uiAction = new UIAction();
+        UIAction uiAction = new UIAction();
         uiAction.setModel(model);
         uiAction.setName(ViewActionConstants.M2MCreate.name);
-        uiAction.setLabel(ViewActionConstants.M2MCreate.title);
+        uiAction.setLabel(I18nUtils.getMessage(ViewActionConstants.M2MCreate.title));
         uiAction.setActionType(ActionTypeEnum.VIEW);
         uiAction.setTarget(ActionTargetEnum.DIALOG);
         uiAction.setViewType(ViewTypeEnum.TABLE);

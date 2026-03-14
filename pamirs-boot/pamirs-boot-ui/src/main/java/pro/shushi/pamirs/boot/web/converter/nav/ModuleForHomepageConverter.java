@@ -5,6 +5,8 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.constants.ViewActionConstants;
 import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxHomepage;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
+
 import pro.shushi.pamirs.meta.annotation.Module;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
@@ -15,7 +17,6 @@ import pro.shushi.pamirs.meta.api.dto.meta.MetaNames;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.InformationLevelEnum;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -46,7 +47,7 @@ public class ModuleForHomepageConverter implements ModelConverter<ModuleDefiniti
         }
         if (StringUtils.isBlank(homepageAnnotation.value().model())) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
-                    .append(MessageFormat.format("请为应用首页配置跳转视图的模型，class:{0}", source.getName())));
+                    .append(I18nUtils.translate("ModuleForHomepageConverter.homepageModelMissing", source.getName())));
             result.error();
             context.error().broken();
         }

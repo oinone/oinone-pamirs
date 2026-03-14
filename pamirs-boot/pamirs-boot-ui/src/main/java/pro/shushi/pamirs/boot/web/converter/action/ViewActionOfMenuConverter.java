@@ -50,8 +50,8 @@ public class ViewActionOfMenuConverter implements ModelConverter<Map<String, Vie
     public Map<String, ViewAction> convert(MetaNames names, @SuppressWarnings("rawtypes") Class source, Map<String, ViewAction> metaModelObject) {
         return ActionOfMenuConverterUtils.convert(names.getModule(), ViewAction.MODEL_MODEL, source, metaModelObject,
                 (action, menuClazz) -> {
-                    MenuUtils.configAction(action, menuClazz).setModule(names.getModule()).setModuleName(names.getModuleName());
-                    ActionUtils.configViewAction(action, MenuUtils.fetchViewActionAnnotation(menuClazz));
+                    MenuUtils.configAction(names.getModule(), action, menuClazz).setModule(names.getModule()).setModuleName(names.getModuleName());
+                    ActionUtils.configViewAction(names.getModule(), action, MenuUtils.fetchViewActionAnnotation(menuClazz));
                     action.setContextType(ActionContextTypeEnum.CONTEXT_FREE);
                 });
     }

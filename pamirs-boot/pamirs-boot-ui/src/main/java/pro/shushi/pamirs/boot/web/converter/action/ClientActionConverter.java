@@ -93,7 +93,7 @@ public class ClientActionConverter implements ModelConverter<Map<String, ClientA
             } else {
                 action = actionMap.get(sign).disableMetaCompleted();
             }
-            ActionUtils.configAction(uxAction, action);
+            ActionUtils.configAction(names.getModule(), uxAction, action);
             ActionUtils.configClientAction(action, uxClientButton.value());
         }
         return result;

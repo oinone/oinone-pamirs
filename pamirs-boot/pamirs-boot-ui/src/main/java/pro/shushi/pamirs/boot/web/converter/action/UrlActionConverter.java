@@ -99,7 +99,7 @@ public class UrlActionConverter implements ModelConverter<Map<String, UrlAction>
             } else {
                 action = actionMap.get(sign).disableMetaCompleted();
             }
-            ActionUtils.configAction(uxAction, action);
+            ActionUtils.configAction(names.getModule(), uxAction, action);
             ActionUtils.configUrlAction(action, uxLinkButton.value());
         }
         return result;

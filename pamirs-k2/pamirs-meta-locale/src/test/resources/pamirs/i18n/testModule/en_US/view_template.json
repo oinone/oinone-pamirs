@@ -1,0 +1,11 @@
+{
+  "auth.AuthGroupDataPermissionProxy": {
+    "AuthGroupDataPermissionTable": {
+      "base.Field": {
+        "displayName": "Name",
+        "comment": "Description",
+        "moduleDefinition.displayName": "Resource Module - Display Name"
+      }
+    }
+  }
+}

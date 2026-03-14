@@ -1,0 +1,9 @@
+{
+  "TestModel": {
+    "FullClientAction": {
+      "displayName": "Full ClientAction Name",
+      "summary": "Full ClientAction Summary"
+    },
+    "ShortClientAction": "Short ClientAction Name"
+  }
+}

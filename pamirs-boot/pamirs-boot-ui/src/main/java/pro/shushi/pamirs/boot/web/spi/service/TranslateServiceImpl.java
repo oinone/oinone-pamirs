@@ -26,6 +26,11 @@ public class TranslateServiceImpl implements TranslateService {
     }
 
     @Override
+    public String getCurrentLangIsoCode() {
+        return PamirsSession.getLang();
+    }
+
+    @Override
     public <T> void simpleTranslate(String lang, List<T> list, Function<T, String> getter, BiConsumer<T, String> setter, String... models) {
         //do nothing
     }

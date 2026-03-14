@@ -11,6 +11,7 @@ import pro.shushi.pamirs.boot.base.ux.model.UIView;
 import pro.shushi.pamirs.boot.base.ux.model.UIWidget;
 import pro.shushi.pamirs.boot.base.ux.model.view.UIAction;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
@@ -40,7 +41,7 @@ import java.util.stream.Collectors;
 public class UiActionUtils {
 
     public static UIAction refreshActionMetaData(MetaData metaData, UIView uiView, UIAction uiAction, SystemSourceEnum systemSource) {
-        internalClientActionProcess(uiAction);
+        internalClientActionProcess(metaData.getModule().getModule(), uiAction);
         if (null == uiAction.getRefs() || uiAction.getRefs()) {
             return uiAction;
         }
@@ -92,49 +93,60 @@ public class UiActionUtils {
         };
     }
 
-    private static void internalClientActionProcess(UIAction uiAction) {
+    private static void internalClientActionProcess(String module, UIAction uiAction) {
         String name = Optional.ofNullable(uiAction.getName()).orElse(uiAction.getFun());
         if (StringUtils.isBlank(name)) {
             return;
         }
         switch (name) {
-            case ClientActionConstants.Import.fun:
+            case ClientActionConstants.Import.fun: {
                 uiAction.setActionType(ActionTypeEnum.CLIENT);
                 uiAction.setName(ClientActionConstants.Import.name);
                 uiAction.setFun(ClientActionConstants.Import.fun);
-                setDefaultValue(uiAction, UIAction::getLabel, UIAction::setLabel, ClientActionConstants.Import.label);
+                String label = uiAction.getLabel();
+                if (StringUtils.isBlank(label)) {
+                    label = I18nUtils.getMessage(ClientActionConstants.Import.label);
+                } else {
+                    label = I18nUtils.translateClientAction(module, uiAction.getModel(), name, "label", label);
+                }
+                uiAction.setLabel(label);
                 setDefaultValue(uiAction, UIAction::getContextType, UIAction::setContextType, ActionContextTypeEnum.CONTEXT_FREE);
                 setDefaultValue(uiAction, UIAction::getRefs, UIAction::setRefs, false);
                 addDefaultProp(uiAction, ClientActionConstants.Import.propNameType, ClientActionConstants.Import.propValueType);
                 break;
-            case ClientActionConstants.Export.fun:
+            }
+            case ClientActionConstants.Export.fun: {
                 uiAction.setActionType(ActionTypeEnum.CLIENT);
                 uiAction.setName(ClientActionConstants.Export.name);
                 uiAction.setFun(ClientActionConstants.Export.fun);
-                setDefaultValue(uiAction, UIAction::getLabel, UIAction::setLabel, ClientActionConstants.Export.label);
+                String label = uiAction.getLabel();
+                if (StringUtils.isBlank(label)) {
+                    label = I18nUtils.getMessage(ClientActionConstants.Export.label);
+                } else {
+                    label = I18nUtils.translateClientAction(module, uiAction.getModel(), name, "label", label);
+                }
+                uiAction.setLabel(label);
                 setDefaultValue(uiAction, UIAction::getContextType, UIAction::setContextType, ActionContextTypeEnum.CONTEXT_FREE);
                 setDefaultValue(uiAction, UIAction::getRefs, UIAction::setRefs, false);
                 addDefaultProp(uiAction, ClientActionConstants.Export.propNameType, ClientActionConstants.Export.propValueType);
                 break;
-            case ClientActionConstants.X2MDelete.fun:
+            }
+            case ClientActionConstants.X2MDelete.fun: {
                 uiAction.setActionType(ActionTypeEnum.CLIENT);
                 uiAction.setName(ClientActionConstants.X2MDelete.name);
                 uiAction.setFun(ClientActionConstants.X2MDelete.fun);
-                setDefaultValue(uiAction, UIAction::getLabel, UIAction::setLabel, ClientActionConstants.X2MDelete.label);
+                String label = uiAction.getLabel();
+                if (StringUtils.isBlank(label)) {
+                    label = I18nUtils.getMessage(ClientActionConstants.X2MDelete.label);
+                } else {
+                    label = I18nUtils.translateClientAction(module, uiAction.getModel(), name, "label", label);
+                }
+                uiAction.setLabel(label);
                 setDefaultValue(uiAction, UIAction::getContextType, UIAction::setContextType, ActionContextTypeEnum.SINGLE_AND_BATCH);
                 setDefaultValue(uiAction, UIAction::getRefs, UIAction::setRefs, false);
                 addDefaultProp(uiAction, ClientActionConstants.X2MDelete.propNameType, ClientActionConstants.X2MDelete.propValueType);
                 break;
-//            case ClientActionConstants.GoBack.name:
-//            case ClientActionConstants.GoBack.fun:
-//                uiAction.setActionType(ActionTypeEnum.CLIENT);
-//                uiAction.setName(ClientActionConstants.GoBack.name);
-//                uiAction.setFun(ClientActionConstants.GoBack.fun);
-//                setDefaultValue(uiAction, UIAction::getLabel, UIAction::setLabel, ClientActionConstants.GoBack.label);
-//                setDefaultValue(uiAction, UIAction::getContextType, UIAction::setContextType, ActionContextTypeEnum.CONTEXT_FREE);
-//                setDefaultValue(uiAction, UIAction::getRefs, UIAction::setRefs, false);
-//                addDefaultProp(uiAction, ClientActionConstants.GoBack.propNameType, ClientActionConstants.GoBack.propValueType);
-//                break;
+            }
         }
     }
 

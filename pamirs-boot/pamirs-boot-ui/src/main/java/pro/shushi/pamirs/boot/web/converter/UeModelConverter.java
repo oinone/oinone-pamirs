@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.model.UeModel;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
@@ -16,7 +17,6 @@ import pro.shushi.pamirs.meta.enmu.InformationLevelEnum;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 import pro.shushi.pamirs.meta.util.SystemSourceUtils;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -53,7 +53,7 @@ public class UeModelConverter implements ModelConverter<UeModel, Class> {
 
         if (0 == modelAnnotation.labelFields().length && StringUtils.isBlank(modelAnnotation.label())) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
-                    .append(MessageFormat.format("label与labelFields用于前端交互的展示标题，至少设置一项，否则可能会展示为空白，class:{0}", source.getName())));
+                    .append(I18nUtils.translate("UeModelConverter.labelMissing", source.getName())));
 //            result.error();
         }
         return result;
@@ -70,7 +70,7 @@ public class UeModelConverter implements ModelConverter<UeModel, Class> {
         String name = Optional.ofNullable(modelAdvancedAnnotation).map(Model.Advanced::name).filter(StringUtils::isNotBlank)
                 .map(StringUtils::uncapitalize).orElse(PStringUtils.camelCaseFromModel(modelModel));
         metaModelObject.setLabelFields(PStringUtils.trim(Objects.requireNonNull(modelAnnotation).labelFields()))
-                .setLabel(Optional.of(modelAnnotation.label()).filter(StringUtils::isNotBlank).orElse(null))
+                .setLabel(I18nUtils.translateModel(names.getModule(), modelModel, "label", StringUtils.defaultIfBlank(modelAnnotation.label(), null)))
                 .setModel(modelModel)
                 .setName(name)
                 .setSystemSource(systemSource)

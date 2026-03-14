@@ -4,14 +4,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.boot.base.enmu.ActionTypeEnum;
 import pro.shushi.pamirs.boot.base.enmu.QueryModeEnum;
-import pro.shushi.pamirs.boot.base.model.Action;
-import pro.shushi.pamirs.boot.base.model.ClientAction;
-import pro.shushi.pamirs.boot.base.model.UrlAction;
-import pro.shushi.pamirs.boot.base.model.ViewAction;
+import pro.shushi.pamirs.boot.base.model.*;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxAction;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxClient;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxLink;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxRoute;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.util.ArrayUtils;
@@ -76,16 +74,44 @@ public class ActionUtils {
     /**
      * 配置动作基本信息
      *
+     * @param module   模块名称
      * @param uxAction 动作基本配置注解
      * @param action   动作
      * @param <T>      动作类型
      */
-    public static <T extends Action> void configAction(UxAction uxAction, T action) {
-        action.setDisplayName(Optional.of(uxAction).map(UxAction::displayName).filter(StringUtils::isNotBlank).orElse(action.getName()))
-                .setLabel(Optional.of(uxAction).map(UxAction::label).filter(StringUtils::isNotBlank).orElse(action.getDisplayName()))
-                .setSummary(Optional.of(uxAction).map(UxAction::summary).filter(StringUtils::isNotBlank).orElse(null))
+    public static <T extends Action> void configAction(String module, UxAction uxAction, T action) {
+        String displayName = Optional.of(uxAction).map(UxAction::displayName).filter(StringUtils::isNotBlank).orElse(action.getName());
+        String label = Optional.of(uxAction).map(UxAction::label).filter(StringUtils::isNotBlank).orElse(action.getDisplayName());
+        String summary = Optional.of(uxAction).map(UxAction::summary).filter(StringUtils::isNotBlank).orElse(null);
 
-                .setContextType(uxAction.contextType())
+        if (action instanceof ServerAction) {
+            action.setDisplayName(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "displayName", displayName));
+            action.setLabel(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "label", label));
+            action.setSummary(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "summary", summary));
+        } else if (action instanceof ViewAction) {
+            action.setDisplayName(I18nUtils.translateViewAction(module, action.getModel(), action.getName(), "displayName", displayName));
+            action.setLabel(I18nUtils.translateViewAction(module, action.getModel(), action.getName(), "label", label));
+            action.setSummary(I18nUtils.translateViewAction(module, action.getModel(), action.getName(), "summary", summary));
+        } else if (action instanceof ClientAction) {
+            action.setDisplayName(I18nUtils.translateClientAction(module, action.getModel(), action.getName(), "displayName", displayName));
+            action.setLabel(I18nUtils.translateClientAction(module, action.getModel(), action.getName(), "label", label));
+            action.setSummary(I18nUtils.translateClientAction(module, action.getModel(), action.getName(), "summary", summary));
+        } else if (action instanceof UrlAction) {
+            action.setDisplayName(I18nUtils.translateUrlAction(module, action.getModel(), action.getName(), "displayName", displayName));
+            action.setLabel(I18nUtils.translateUrlAction(module, action.getModel(), action.getName(), "label", label));
+            action.setSummary(I18nUtils.translateUrlAction(module, action.getModel(), action.getName(), "summary", summary));
+        } else {
+            // Fallback or other action types if any, currently defaulting to ServerAction logic or could throw exception/log warning
+            // For now, keeping consistent with prior behavior might mean assuming ServerAction or generic handling?
+            // But since we removed generic translate, we should probably default to ServerAction or just leave it.
+            // Let's assume ServerAction as default for unknown types to match previous behavior effectively, 
+            // or better, handle explicitly.
+            action.setDisplayName(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "displayName", displayName));
+            action.setLabel(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "label", label));
+            action.setSummary(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "summary", summary));
+        }
+
+        action.setContextType(uxAction.contextType())
                 .setBindingType(ArrayUtils.toList(uxAction.bindingType()))
                 .setInvisible(Optional.of(uxAction).map(UxAction::invisible).filter(StringUtils::isNotBlank).orElse(null))
                 .setRule(Optional.of(uxAction).map(UxAction::rule).filter(StringUtils::isNotBlank).orElse(null))
@@ -124,16 +150,17 @@ public class ActionUtils {
                 .setSystemSource(SystemSourceEnum.MANUAL);
     }
 
-    public static void configViewAction(ViewAction viewAction, UxRoute routeAnnotation) {
+    public static void configViewAction(String module, ViewAction viewAction, UxRoute routeAnnotation) {
         ViewTypeEnum viewType = routeAnnotation.viewType();
         viewAction.setActionType(ActionTypeEnum.VIEW)
                 .setViewType(viewType)
                 .setDataType(ViewUtils.dataContainerType(viewType))
                 .setResModule(routeAnnotation.module())
                 .setResModel(Optional.of(routeAnnotation.model()).filter(StringUtils::isNotBlank).orElse(null))
-                .setTarget(routeAnnotation.openType())
-                .setTitle(Optional.of(routeAnnotation.title()).filter(StringUtils::isNotBlank).orElse(null))
-                .setTheme(Optional.of(routeAnnotation.theme()).filter(StringUtils::isNotBlank).orElse(null))
+                .setTarget(routeAnnotation.openType());
+        String title = Optional.of(routeAnnotation.title()).filter(StringUtils::isNotBlank).orElse(null);
+        viewAction.setTitle(I18nUtils.translateServerAction(module, viewAction.getModel(), viewAction.getName(), "title", title));
+        viewAction.setTheme(Optional.of(routeAnnotation.theme()).filter(StringUtils::isNotBlank).orElse(null))
                 .setMask(Optional.of(routeAnnotation.mask()).filter(StringUtils::isNotBlank).orElse(null))
                 .setResViewName(Optional.of(routeAnnotation.viewName()).filter(StringUtils::isNotBlank).orElse(null))
                 .setOptionViewTypes(ArrayUtils.toList(routeAnnotation.views()))

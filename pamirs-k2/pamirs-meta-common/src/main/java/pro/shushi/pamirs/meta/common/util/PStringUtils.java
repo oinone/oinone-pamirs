@@ -225,10 +225,4 @@ public class PStringUtils extends StringUtils {
         return parse("{", "}", text, args);
     }
 
-    public static void main(String[] args) {
-        String string = "生成默认导出模板成功 [Model {}] [ViewName {}]";
-        System.out.printf(parse1(string, "user.PamirsUser", "test.vue"));
-
-    }
-
 }

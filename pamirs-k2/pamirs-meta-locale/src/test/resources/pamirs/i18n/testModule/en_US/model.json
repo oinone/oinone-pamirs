@@ -1,0 +1,32 @@
+{
+  "base.Model": {
+    "summary": "Model",
+    "displayName": "Model",
+    "remark": "Model",
+    "base.Field": {
+      "multiTableType": {
+        "summary": "Multi-table Type",
+        "displayName": "Multiple table types"
+      }
+    },
+    "FullModel": {
+      "displayName": "Full Model Name",
+      "summary": "Full Model Summary",
+      "base.Field": {
+        "fullField": {
+          "displayName": "Full Field Name",
+          "help": "Full Field Help"
+        }
+      }
+    }
+  },
+  "ShortModel": {
+    "displayName": "Short Model Name",
+    "base.Field": {
+      "shortField": "Short Field Name"
+    }
+  },
+  "MyModel": {
+    "displayName": "My Model Display Name"
+  }
+}

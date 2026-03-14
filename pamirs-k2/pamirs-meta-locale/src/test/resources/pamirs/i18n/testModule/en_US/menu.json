@@ -1,0 +1,9 @@
+{
+  "base.Menu": {
+    "FullMenu": {
+      "label": "Full Menu Label",
+      "summary": "Full Menu Summary"
+    }
+  },
+  "ShortMenu": "Short Menu Label"
+}

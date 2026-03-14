@@ -29,6 +29,7 @@ import pro.shushi.pamirs.framework.common.config.AsyncTaskExecutorConfiguration;
 import pro.shushi.pamirs.framework.common.entry.TreeNode;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.gateways.util.BooleanHelper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
@@ -51,12 +52,6 @@ import java.util.stream.Collectors;
 @Component
 @Order
 public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
-
-    private static final String DEFAULT_EXPORT_TEMPLATE_DISPLAY_NAME = "默认导出模板";
-    private static final String DEFAULT_IMPORT_TEMPLATE_DISPLAY_NAME = "默认导入模板";
-
-    private static final String DEFAULT_EXPORT_TEMPLATE_SUFFIX = "导出";
-    private static final String DEFAULT_IMPORT_TEMPLATE_SUFFIX = "导入";
 
     private static final String CONFIG_KEY = "config";
 
@@ -167,7 +162,7 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                     workbookDefinition = createOrUpdateExcelTemplate(xs, view);
                 } catch (Exception e) {
                     if (log.isErrorEnabled()) {
-                        log.error("Excel模板生成失败 model: {}", model, e);
+                        log.error("Failed to generate Excel template model: {}", model, e);
                     }
                     continue;
                 }
@@ -244,31 +239,31 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
             HeaderDefinitionBuilder configHeaderDefinitionBuilder = blockDefinitionBuilder.createHeader().setStyleBuilder(ExcelHelper.createDefaultStyle()).setIsConfig(true);
             HeaderDefinitionBuilder headerDefinitionBuilder = blockDefinitionBuilder.createHeader().setStyleBuilder(ExcelHelper.createDefaultStyle(v -> v.setBold(true)));
             if (ViewTypeEnum.TABLE.name().equals(viewType)) {
-                if (!createExportCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, viewRoot, requestContext, model)) {
+                if (!createExportCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, viewRoot, requestContext, model, view.getName())) {
                     return null;
                 }
-                log.info("生成默认导出模板成功 [Model {}] [ViewName {}] [ViewType {}]", view.getModel(), view.getName(), view.getType());
+                log.info("Successfully generated default export template [Model {}] [ViewName {}] [ViewType {}]", view.getModel(), view.getName(), view.getType());
                 blockDefinitionBuilder.modifyDesignRange(0, 1, 0, configHeaderDefinitionBuilder.cellSize() - 1);
                 return workbookDefinitionBuilder.setType(ExcelTemplateTypeEnum.EXPORT).setDisplayName(templateDisplayName).build().setTemplateSource(ExcelTemplateSourceEnum.SYSTEM);
             } else {
-                if (!createImportCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, viewRoot, requestContext, model)) {
+                if (!createImportCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, viewRoot, requestContext, model, view.getName())) {
                     return null;
                 }
-                log.info("生成默认导入模板成功 [Model {}] [ViewName {}] [ViewType {}]", view.getModel(), view.getName(), view.getType());
+                log.info("Successfully generated default import template [Model {}] [ViewName {}] [ViewType {}]", view.getModel(), view.getName(), view.getType());
                 blockDefinitionBuilder.modifyDesignRange(0, 1, 0, configHeaderDefinitionBuilder.cellSize() - 1);
                 return workbookDefinitionBuilder.setType(ExcelTemplateTypeEnum.IMPORT).setDisplayName(templateDisplayName).build().setTemplateSource(ExcelTemplateSourceEnum.SYSTEM);
             }
         } catch (Exception e) {
-            log.error("生成默认模板失败 [Model {}] [ViewName {}] [ViewType {}]", view.getModel(), view.getName(), view.getType(), e);
+            log.error("Failed to generate default template [Model {}] [ViewName {}] [ViewType {}]", view.getModel(), view.getName(), view.getType(), e);
         }
         return null;
     }
 
     private String generatorDefaultTemplateDisplayName(View view, ModelConfig modelConfig, String viewType) {
         if (ViewTypeEnum.TABLE.name().equals(viewType.trim().toUpperCase())) {
-            return generatorDefaultSheetName(view, modelConfig, viewType) + DEFAULT_EXPORT_TEMPLATE_SUFFIX;
+            return generatorDefaultSheetName(view, modelConfig, viewType) + I18nUtils.getMessage("file.template.default.suffix.export");
         } else {
-            return generatorDefaultSheetName(view, modelConfig, viewType) + DEFAULT_IMPORT_TEMPLATE_SUFFIX;
+            return generatorDefaultSheetName(view, modelConfig, viewType) + I18nUtils.getMessage("file.template.default.suffix.import");
         }
     }
 
@@ -278,9 +273,9 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
             name = modelConfig.getDisplayName();
             if (StringUtils.isBlank(name)) {
                 if (ViewTypeEnum.TABLE.name().equals(viewType.trim().toUpperCase())) {
-                    name = DEFAULT_EXPORT_TEMPLATE_DISPLAY_NAME;
+                    name = I18nUtils.getMessage("file.template.default.export");
                 } else {
-                    name = DEFAULT_IMPORT_TEMPLATE_DISPLAY_NAME;
+                    name = I18nUtils.getMessage("file.template.default.import");
                 }
             }
         }
@@ -291,7 +286,7 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                                      HeaderDefinitionBuilder headerDefinitionBuilder,
                                      TreeNode<XMLNodeContent> viewRoot,
                                      RequestContext requestContext,
-                                     String model) {
+                                     String model, String viewName) {
         boolean isCreate = false;
         for (TreeNode<XMLNodeContent> child : viewRoot.getChildren()) {
             XMLNodeContent childValue = child.getValue();
@@ -319,7 +314,8 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                         label = field;
                     }
                 }
-                if (createCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, field, label, true)) {
+                label = I18nUtils.translateFieldInViewTemplate(model, viewName, field, "label", label);
+                if (createCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, viewName, field, label, true)) {
                     isCreate = true;
                 }
             } else if (CONFIG_KEY.equals(key)) {
@@ -336,7 +332,7 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                 }
                 slot = slot.trim().toLowerCase();
                 if (TABLE_KEY.equals(slot) || FIELDS_KEY.equals(slot)) {
-                    isCreate = createExportCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, child, requestContext, model);
+                    isCreate = createExportCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, child, requestContext, model, viewName);
                 }
             }
         }
@@ -347,7 +343,7 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                                      HeaderDefinitionBuilder headerDefinitionBuilder,
                                      TreeNode<XMLNodeContent> viewRoot,
                                      RequestContext requestContext,
-                                     String model) {
+                                     String model, String viewName) {
         boolean isCreate = false;
         for (TreeNode<XMLNodeContent> child : viewRoot.getChildren()) {
             XMLNodeContent childValue = child.getValue();
@@ -375,7 +371,8 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                         label = field;
                     }
                 }
-                if (createCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, field, label, false)) {
+                label = I18nUtils.translateFieldInViewTemplate(model, viewName, field, "label", label);
+                if (createCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, viewName, field, label, false)) {
                     isCreate = true;
                 }
             } else if (CONFIG_KEY.equals(key)) {
@@ -386,7 +383,7 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                     }
                 }
             } else if (PACK_KEY.equals(key)) {
-                isCreate = createImportCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, child, requestContext, model);
+                isCreate = createImportCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, child, requestContext, model, viewName);
             } else if (TEMPLATE_KEY.equals(key)) {
                 String slot = childValue.getAttribute(SLOT_KEY);
                 if (StringUtils.isBlank(slot)) {
@@ -394,7 +391,7 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                 }
                 slot = slot.trim().toLowerCase();
                 if (TABLE_KEY.equals(slot) || FIELDS_KEY.equals(slot) || FORM_KEY.equals(slot)) {
-                    isCreate = createImportCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, child, requestContext, model);
+                    isCreate = createImportCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, child, requestContext, model, viewName);
                 }
             }
         }
@@ -405,6 +402,7 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                                HeaderDefinitionBuilder headerDefinitionBuilder,
                                RequestContext requestContext,
                                ModelFieldConfig modelFieldConfig,
+                               String viewName,
                                String field,
                                String label,
                                Boolean isExport) {
@@ -458,11 +456,11 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                 format = ExcelHelper.generatorMultiValueFormatExpression();
                 valueType = ExcelValueTypeEnum.OBJECT;
             } else {
-                format = ExcelValueTypeEnum.INTEGER.getDefaultFormat();
+                format = ExcelValueTypeEnum.INTEGER.defaultFormat();
                 valueType = ExcelValueTypeEnum.INTEGER;
             }
         } else if (TtypeEnum.BOOLEAN.value().equals(ttype)) {
-            format = ExcelValueTypeEnum.BOOLEAN.getDefaultFormat();
+            format = ExcelValueTypeEnum.BOOLEAN.defaultFormat();
             valueType = ExcelValueTypeEnum.BOOLEAN;
         } else if (TtypeEnum.MONEY.value().equals(ttype) || TtypeEnum.FLOAT.value().equals(ttype)) {
             if (isMulti) {
@@ -473,10 +471,10 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                 valueType = ExcelValueTypeEnum.NUMBER;
             }
         } else if (TtypeEnum.M2O.value().equals(ttype) || TtypeEnum.O2O.value().equals(ttype)) {
-            relationFieldProcess(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, field, label, false, isExport);
+            relationFieldProcess(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, viewName, field, label, false, isExport);
             isSampleField = false;
         } else if (TtypeEnum.O2M.value().equals(ttype) || TtypeEnum.M2M.value().equals(ttype)) {
-            relationFieldProcess(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, field, label, true, isExport);
+            relationFieldProcess(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, viewName, field, label, true, isExport);
             isSampleField = false;
         }
         if (isSampleField) {
@@ -490,6 +488,7 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                                       HeaderDefinitionBuilder headerDefinitionBuilder,
                                       RequestContext requestContext,
                                       ModelFieldConfig modelFieldConfig,
+                                      String viewName,
                                       String field,
                                       String label,
                                       Boolean isMulti,
@@ -497,7 +496,7 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
         if (isExport) {
             exportRelationFieldProcess(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, field, label, isMulti);
         } else {
-            importRelationFieldProcess(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, field, label, isMulti);
+            importRelationFieldProcess(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, modelFieldConfig, viewName, field, label, isMulti);
         }
     }
 
@@ -545,6 +544,7 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
                                             HeaderDefinitionBuilder headerDefinitionBuilder,
                                             RequestContext requestContext,
                                             ModelFieldConfig modelFieldConfig,
+                                            String viewName,
                                             String field,
                                             String label,
                                             Boolean isMulti) {
@@ -592,12 +592,13 @@ public class FileLifecycleCompletedInit implements LifecycleCompletedInit {
             } else {
                 newRelationField = field + FileConstant.POINT_CHARACTER + relationField;
             }
-            referenceFieldMap.put(newRelationField, label + DEFAULT_RELATION_LABEL_SPLIT + referenceLabel);
+            label = I18nUtils.translateFieldInViewTemplate(modelFieldConfig.getModel(), viewName, field, "label", label);
+            referenceFieldMap.put(newRelationField, I18nUtils.translateFieldInViewTemplate(modelFieldConfig.getModel(), viewName, newRelationField, "label", label + DEFAULT_RELATION_LABEL_SPLIT + referenceLabel));
             referenceFieldConfigMap.put(newRelationField, referenceModelFieldConfig);
         }
         for (Map.Entry<String, String> entry : referenceFieldMap.entrySet()) {
             String key = entry.getKey();
-            createCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, referenceFieldConfigMap.get(key), key, entry.getValue(), null);
+            createCell(configHeaderDefinitionBuilder, headerDefinitionBuilder, requestContext, referenceFieldConfigMap.get(key), viewName, key, entry.getValue(), null);
         }
     }
 

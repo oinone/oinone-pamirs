@@ -27,9 +27,9 @@ public class DefaultIntegrationInterfaceErrorHandler implements ErrorHandler {
         EipResult<?> result;
         IEipContext<?> context = EipInterfaceContext.getExecutorContext(exchange);
         if (e == null) {
-            result = EipResult.error(context, "Oops!", "无法处理的异常", null);
+            result = EipResult.error(context, "Oops!", "Unhandled exception", null);
         } else {
-            log.error("集成接口调用异常", e);
+            log.error("Integration interface call exception", e);
             if (e instanceof PamirsException) {
                 PamirsException exception = (PamirsException) e;
                 result = EipResult.error(context, StringHelper.valueOf(exception.getCode()), exception.getMessage(), exception);

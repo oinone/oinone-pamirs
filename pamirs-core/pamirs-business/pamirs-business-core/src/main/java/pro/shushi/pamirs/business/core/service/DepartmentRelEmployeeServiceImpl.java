@@ -102,7 +102,7 @@ public class DepartmentRelEmployeeServiceImpl extends AbstractStandardModelServi
     @Override
     public PamirsEmployee queryDepartmentSupervisor(PamirsDepartment department) {
         if (department == null || StringUtils.isBlank(department.getCode())) {
-            log.error("部门或部门编码为空");
+            log.error("Department or department code is empty");
             return null;
         }
         List<DepartmentRelEmployee> rels = queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
@@ -112,7 +112,7 @@ public class DepartmentRelEmployeeServiceImpl extends AbstractStandardModelServi
                 .eq(DepartmentRelEmployee::getSupervisor, Boolean.TRUE)
         );
         if (CollectionUtils.isEmpty(rels) || rels.size() != 1) {
-            log.info("部门主管查询失败，不存在或存在多个主管，部门编码：{}", department.getCode());
+            log.info("Department supervisor query failed, does not exist or multiple supervisors exist, department code: {}", department.getCode());
             return null;
         }
         return Models.origin().queryOneByWrapper(Pops.<PamirsEmployee>lambdaQuery()

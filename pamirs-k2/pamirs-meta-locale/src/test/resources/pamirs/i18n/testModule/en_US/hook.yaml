@@ -1,0 +1,6 @@
+base.Hook:
+  FullHook:
+    displayName: "Full Hook Name"
+    summary: "Full Hook Summary"
+
+ShortHook: "Short Hook Name"

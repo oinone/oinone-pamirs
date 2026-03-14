@@ -1,0 +1,11 @@
+base.DataDictionary:
+  FullDict:
+    displayName: "Full Dict Name"
+    summary: "Full Dict Summary"
+    "ITEM1":
+      displayName: "Full Item 1"
+      help: "Help for Item 1"
+
+ShortDict:
+  displayName: "Short Dict Name"
+  "ITEM2": "Short Item 2"

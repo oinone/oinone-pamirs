@@ -1,0 +1,11 @@
+{
+  "TestNamespace1": {
+    "FullExtPoint": {
+      "displayName": "Full ExtPoint Name",
+      "summary": "Full ExtPoint Summary"
+    }
+  },
+  "TestNamespace2": {
+    "ShortExtPoint": "Short ExtPoint Name"
+  }
+}

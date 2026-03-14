@@ -14,6 +14,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>pro.shushi.pamirs.k2</groupId>
+            <artifactId>pamirs-meta-locale</artifactId>
+        </dependency>
+        <dependency>
             <groupId>pro.shushi.pamirs.middleware.zookeeper</groupId>
             <artifactId>pamirs-middleware-zookeeper-client</artifactId>
         </dependency>

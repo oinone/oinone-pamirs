@@ -49,7 +49,7 @@ public class ClientActionOfMenuConverter implements ModelConverter<Map<String, C
     public Map<String, ClientAction> convert(MetaNames names, Class source, Map<String, ClientAction> metaModelObject) {
         return ActionOfMenuConverterUtils.convert(names.getModule(), ClientAction.MODEL_MODEL, source, metaModelObject,
                 (action, menuClazz) -> {
-                    MenuUtils.configAction(action, menuClazz);
+                    MenuUtils.configAction(names.getModule(), action, menuClazz);
                     ActionUtils.configClientAction(action, MenuUtils.fetchClientActionAnnotation(menuClazz));
                 });
     }

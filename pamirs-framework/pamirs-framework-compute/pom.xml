@@ -35,6 +35,11 @@
         </dependency>
 
         <dependency>
+            <groupId>pro.shushi.pamirs.k2</groupId>
+            <artifactId>pamirs-meta-locale</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>pro.shushi.pamirs.framework</groupId>
             <artifactId>pamirs-framework-test</artifactId>
             <scope>test</scope>

@@ -5,6 +5,7 @@ import pro.shushi.pamirs.boot.base.constants.ClientActionConstants;
 import pro.shushi.pamirs.boot.base.enmu.ActionTypeEnum;
 import pro.shushi.pamirs.boot.base.model.ClientAction;
 import pro.shushi.pamirs.boot.base.ux.model.view.UIAction;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.constant.MetaDefaultConstants;
 import pro.shushi.pamirs.meta.domain.model.Prop;
@@ -102,7 +103,7 @@ public class ClientActionUtils {
         UIAction uiAction;
         uiAction = new UIAction();
         uiAction.setName(ClientActionConstants.GoBack.name);
-        uiAction.setLabel(ClientActionConstants.GoBack.label);
+        uiAction.setLabel(I18nUtils.getMessage("ClientActionConstants.GoBack.label"));
         uiAction.setActionType(ActionTypeEnum.CLIENT);
         uiAction.setFun(ClientActionConstants.GoBack.fun);
         uiAction.addProp(new Prop().setName(ClientActionConstants.GoBack.propNameType)
@@ -120,7 +121,7 @@ public class ClientActionUtils {
         UIAction uiAction;
         uiAction = new UIAction();
         uiAction.setName(ClientActionConstants.X2MDelete.name);
-        uiAction.setLabel(ClientActionConstants.X2MDelete.label);
+        uiAction.setLabel(I18nUtils.getMessage(ClientActionConstants.X2MDelete.label));
         uiAction.setActionType(ActionTypeEnum.CLIENT);
         uiAction.setFun(ClientActionConstants.X2MDelete.fun);
         uiAction.addProp(new Prop().setName(ClientActionConstants.X2MDelete.propNameType)

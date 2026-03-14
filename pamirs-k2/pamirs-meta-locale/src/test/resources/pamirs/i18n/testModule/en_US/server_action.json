@@ -1,0 +1,9 @@
+{
+  "TestModel": {
+    "FullAction": {
+      "displayName": "Full Action Name",
+      "summary": "Full Action Summary"
+    },
+    "ShortAction": "Short Action Name"
+  }
+}

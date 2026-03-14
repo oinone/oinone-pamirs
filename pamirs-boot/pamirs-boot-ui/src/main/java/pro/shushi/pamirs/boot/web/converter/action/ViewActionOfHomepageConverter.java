@@ -7,6 +7,7 @@ import pro.shushi.pamirs.boot.base.constants.ViewActionConstants;
 import pro.shushi.pamirs.boot.base.model.ViewAction;
 import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxHomepage;
 import pro.shushi.pamirs.boot.web.utils.ActionUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ConverterType;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
@@ -68,9 +69,9 @@ public class ViewActionOfHomepageConverter implements ModelConverter<Map<String,
                 } else {
                     viewAction = metaModelObject.get(sign).disableMetaCompleted();
                 }
-                ActionUtils.configViewAction(viewAction, homepageAnnotation.value());
-                viewAction.setDisplayName(ViewActionConstants.homepage.displayName);
-                viewAction.setTitle(ViewActionConstants.homepage.title);
+                ActionUtils.configViewAction(names.getModule(), viewAction, homepageAnnotation.value());
+                viewAction.setDisplayName(I18nUtils.translateViewAction(names.getModule(), viewAction.getModel(), viewAction.getName(), "displayName", I18nUtils.getMessage(ViewActionConstants.homepage.displayName)));
+                viewAction.setTitle(I18nUtils.translateViewAction(names.getModule(), viewAction.getModel(), viewAction.getName(), "title", I18nUtils.getMessage(ViewActionConstants.homepage.title)));
                 viewAction.setLabel(viewAction.getDisplayName());
                 viewAction.setModule(names.getModule());
                 viewAction.setModuleName(names.getModuleName());

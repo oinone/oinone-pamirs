@@ -99,8 +99,8 @@ public class ViewActionConverter implements ModelConverter<Map<String, ViewActio
             } else {
                 viewAction = actionMap.get(sign).disableMetaCompleted();
             }
-            ActionUtils.configAction(uxAction, viewAction);
-            ActionUtils.configViewAction(viewAction, uxRouteButton.value());
+            ActionUtils.configAction(names.getModule(), uxAction, viewAction);
+            ActionUtils.configViewAction(names.getModule(), viewAction, uxRouteButton.value());
         }
         return result;
     }

@@ -1,0 +1,5 @@
+TestNamespace:
+  FullTrigger:
+    displayName: "Full Trigger Name"
+    summary: "Full Trigger Summary"
+  ShortTrigger: "Short Trigger Name"

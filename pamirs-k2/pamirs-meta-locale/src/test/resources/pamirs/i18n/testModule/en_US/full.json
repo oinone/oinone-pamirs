@@ -1,0 +1,9 @@
+{
+  "base.ServerAction": {
+    "TestModel": {
+      "MyAction": {
+        "displayName": "Action Display Name"
+      }
+    }
+  }
+}

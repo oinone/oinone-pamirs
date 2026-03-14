@@ -11,6 +11,7 @@ import pro.shushi.pamirs.boot.base.ux.annotation.action.UxRoute;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxServer;
 import pro.shushi.pamirs.boot.base.ux.annotation.navigator.UxMenu;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.spi.AnnotationFetcher;
@@ -53,11 +54,11 @@ public class MenuUtils {
         return AnnotationUtils.findAnnotation(clazz, UxMenu.class);
     }
 
-    public static <T extends Action> T configAction(T action, Class<?> menuClazz) {
+    public static <T extends Action> T configAction(String module, T action, Class<?> menuClazz) {
         UxMenu uxMenu = fetchUxMenuAnnotation(menuClazz);
         String displayName = Optional.of(uxMenu.label()).filter(StringUtils::isNotBlank).orElse(menuClazz.getSimpleName());
-        action.setDisplayName(displayName);
-        action.setLabel(displayName);
+        action.setDisplayName(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "displayName", displayName));
+        action.setLabel(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "label", displayName));
         return action;
     }
 

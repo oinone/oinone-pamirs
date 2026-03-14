@@ -1,0 +1,16 @@
+{
+  "base.ErrorDefinition": {
+    "com.example.FullError": {
+      "displayName": "Full Error Name",
+      "summary": "Full Error Summary",
+      "ERR_001": {
+        "msg": "Full Error Msg 001",
+        "summary": "Full Error Summary 001"
+      }
+    }
+  },
+  "com.example.ShortError": {
+    "displayName": "Short Error Name",
+    "ERR_002": "Short Error Msg 002"
+  }
+}

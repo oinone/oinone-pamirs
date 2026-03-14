@@ -1,0 +1,9 @@
+{
+  "TestModel": {
+    "FullUrlAction": {
+      "displayName": "Full UrlAction Name",
+      "summary": "Full UrlAction Summary"
+    },
+    "ShortUrlAction": "Short UrlAction Name"
+  }
+}

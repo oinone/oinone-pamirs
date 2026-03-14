@@ -5,6 +5,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.enmu.ActionTypeEnum;
 import pro.shushi.pamirs.boot.base.model.ServerAction;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -14,6 +15,7 @@ import pro.shushi.pamirs.meta.api.dto.common.Message;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.api.dto.meta.ExecuteContext;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaNames;
+import pro.shushi.pamirs.meta.domain.model.Prop;
 import pro.shushi.pamirs.meta.enmu.InformationLevelEnum;
 import pro.shushi.pamirs.meta.enmu.SystemSourceEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
@@ -76,16 +78,17 @@ public class ServerActionConverter implements ModelConverter<ServerAction, Metho
         Fun funAnnotation = AnnotationUtils.getAnnotation(source.getDeclaringClass(), Fun.class);
         String model = Optional.ofNullable(names.getModel()).filter(StringUtils::isNotBlank).orElse(Optional.ofNullable(funAnnotation).map(Fun::value).orElse(null));
         Action actionAnnotation = AnnotationUtils.getAnnotation(source, Action.class);
+        assert actionAnnotation != null;
         Action.Advanced actionAdvanced = AnnotationUtils.getAnnotation(source, Action.Advanced.class);
         SystemSourceEnum systemSource = SystemSourceUtils.fetch(source);
         action.setFun(NamespaceAndFunUtils.fun(source))
                 .setRule(Optional.ofNullable(actionAdvanced).map(Action.Advanced::rule).orElse(StringUtils.EMPTY))
                 .setInvisible(Optional.ofNullable(actionAdvanced).map(Action.Advanced::invisible).orElse(StringUtils.EMPTY))
                 .setName(Optional.ofNullable(actionAdvanced).map(Action.Advanced::name).filter(StringUtils::isNotBlank).orElse(source.getName()))
-                .setDisplayName(Optional.ofNullable(actionAnnotation).map(Action::displayName).filter(StringUtils::isNotBlank).orElse(source.getName()))
-                .setLabel(Optional.ofNullable(actionAnnotation).map(Action::label).filter(StringUtils::isNotBlank).orElse(action.getDisplayName()))
+                .setDisplayName(I18nUtils.translateServerAction(names.getModule(), model, action.getName(), "displayName", StringUtils.defaultIfBlank(actionAnnotation.displayName(), source.getName())))
+                .setLabel(I18nUtils.translateServerAction(names.getModule(), model, action.getName(), "label", StringUtils.defaultIfBlank(actionAnnotation.label(), action.getDisplayName())))
                 .setModel(model)
-                .setDescription(Objects.requireNonNull(actionAnnotation).summary())
+                .setDescription(I18nUtils.translateServerAction(names.getModule(), model, action.getName(), "description", actionAnnotation.summary()))
                 .setActionType(ActionTypeEnum.SERVER)
                 .setContextType(actionAnnotation.contextType())
                 .setBindingType(convertEnumClassFromEnumName(actionAnnotation.bindingType()))
@@ -97,9 +100,9 @@ public class ServerActionConverter implements ModelConverter<ServerAction, Metho
                 .setBindingViewName(Optional.ofNullable(actionAdvanced).map(Action.Advanced::bindingView).filter(StringUtils::isNotBlank).orElse(null))
                 .setPriority(Optional.ofNullable(actionAdvanced).map(Action.Advanced::priority).orElse(99))
                 .setSystemSource(systemSource)
-                .setAttributes(Optional.ofNullable(actionAnnotation).map(Action::attributes).map(PropUtils::convertPropListFromAnnotation).map(_props -> {
+                .setAttributes(Optional.ofNullable(actionAnnotation.attributes()).map(PropUtils::convertPropListFromAnnotation).map(props -> {
                     Map<String, Object> attribute = new HashMap<>();
-                    for (pro.shushi.pamirs.meta.domain.model.Prop prop : _props) {
+                    for (Prop prop : props) {
                         attribute.put(prop.getName(), prop.getValue());
                     }
                     return attribute;

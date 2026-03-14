@@ -28,6 +28,13 @@ public interface TranslateService {
     String getCurrentLang();
 
     /**
+     * 获取当前语言 ISO 编码
+     *
+     * @return 语言编码
+     */
+    String getCurrentLangIsoCode();
+
+    /**
      * 获取当前语言编码
      *
      * @return 语言编码
