@@ -57,6 +57,7 @@ public class BaseModule implements PamirsModule, InitializingBean {
                 "pro.shushi.pamirs.boot.web.loader",
                 "pro.shushi.pamirs.boot.web.action",
                 "pro.shushi.pamirs.boot.modules",
+                "pro.shushi.pamirs.boot.common.enmu",
                 "pro.shushi.pamirs.sid",
                 "pro.shushi.pamirs.sequence",
                 "pro.shushi.pamirs.metadata.manager",
