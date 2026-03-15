@@ -38,9 +38,6 @@ public class EventApplicationTests {
     }
 
     @Autowired
-    private TestProducer testProducer;
-
-    @Autowired
     private RocketMQNotifyProducer rocketMQNotifyProducer;
 
     @Test
