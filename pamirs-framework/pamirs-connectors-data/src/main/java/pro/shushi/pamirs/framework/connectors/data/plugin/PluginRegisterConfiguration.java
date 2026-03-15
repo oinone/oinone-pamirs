@@ -11,7 +11,6 @@ import pro.shushi.pamirs.framework.connectors.data.plugin.page.PageLocalCacheDis
 import pro.shushi.pamirs.framework.connectors.data.plugin.page.PaginationInterceptor;
 import pro.shushi.pamirs.framework.connectors.data.plugin.sequence.IdGeneratorInterceptor;
 import pro.shushi.pamirs.framework.connectors.data.plugin.sequence.SequenceGeneratorInterceptor;
-import pro.shushi.pamirs.framework.connectors.data.plugin.sql.IllegalSQLInterceptor;
 import pro.shushi.pamirs.framework.connectors.data.plugin.sql.SqlDialectInterceptor;
 import pro.shushi.pamirs.framework.connectors.data.plugin.type.TypeAndToolInterceptor;
 
@@ -120,12 +119,6 @@ public class PluginRegisterConfiguration {
     @Order(999)
     public IdGeneratorInterceptor idGeneratorInterceptor() {
         return new IdGeneratorInterceptor();
-    }
-
-    @Bean
-    @Order(999)
-    public IllegalSQLInterceptor illegalSQLInterceptor() {
-        return new IllegalSQLInterceptor();
     }
 
 }
