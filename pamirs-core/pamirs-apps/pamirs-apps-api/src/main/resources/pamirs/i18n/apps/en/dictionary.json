@@ -1,0 +1,251 @@
+{
+  "app.AppChannelEnum": {
+    "displayName": "App Product",
+    "OMS": {
+      "displayName": "Omni-channel operations",
+      "help": "Omni-channel operations"
+    },
+    "B2C": {
+      "displayName": "Online store",
+      "help": "Online store"
+    },
+    "DMS": {
+      "displayName": "Distribution Collaboration",
+      "help": "Distribution Collaboration"
+    },
+    "GEMINI": {
+      "displayName": "All-staff marketing",
+      "help": "All-staff marketing"
+    }
+  },
+  "app.AppTrialProcessStateEnum": {
+    "displayName": "Trial Node Installation Status",
+    "INSTALLING": {
+      "displayName": "Installing",
+      "help": "Installing"
+    },
+    "INSTALLED": {
+      "displayName": "Installation Complete",
+      "help": "Installation Complete"
+    },
+    "INACTIVE": {
+      "displayName": "Trial expired",
+      "help": "Trial expired"
+    }
+  },
+  "app.ModuleCategoryType": {
+    "displayName": "Module Classification Type",
+    "BUSINESS_GROWTH": {
+      "displayName": "Promote rapid business growth"
+    },
+    "ELECTRONIC_COMMERCE": {
+      "displayName": "E-commerce"
+    },
+    "DISTRIBUTION": {
+      "displayName": "Distribution"
+    },
+    "OPERATOR": {
+      "displayName": "Operation"
+    },
+    "MARKETING": {
+      "displayName": "All-staff marketing"
+    },
+    "DESIGN": {
+      "displayName": "Design"
+    },
+    "OPERATOR_BASE": {
+      "displayName": "Operations Basics"
+    },
+    "LOW_CODE_DESIGN": {
+      "displayName": "Low-code design"
+    },
+    "USER_EXPERIENCE": {
+      "displayName": "User experience"
+    },
+    "BUSINESS_PROCESS": {
+      "displayName": "Business process"
+    },
+    "DESIGNER_COMMON": {
+      "displayName": "public"
+    },
+    "INDUSTRY_GENERAL_MODEL": {
+      "displayName": "Mature industry common data model (CDM)"
+    },
+    "TRANSACTION": {
+      "displayName": "Transaction"
+    },
+    "SETTLEMENT": {
+      "displayName": "Settlement"
+    },
+    "OPERATION_SUPPORT": {
+      "displayName": "Efficient operational support"
+    },
+    "PROCESS_AUTOMATION": {
+      "displayName": "Process Automation"
+    },
+    "BUSINESS_ANALYSIS": {
+      "displayName": "Business Analysis"
+    },
+    "BASE_SUPPORT": {
+      "displayName": "Stable foundational support"
+    },
+    "PARTNER": {
+      "displayName": "Partner"
+    },
+    "DATA_PLATFORM": {
+      "displayName": "Data"
+    },
+    "OPEN_PLATFORM": {
+      "displayName": "Integration"
+    },
+    "TRANSLATE": {
+      "displayName": "Internationalization"
+    },
+    "USER_AND_AUTH": {
+      "displayName": "Users and Permissions"
+    },
+    "APPS_AND_CMP": {
+      "displayName": "Application and Multi-Cloud Management"
+    },
+    "RESOURCE": {
+      "displayName": "Resources"
+    },
+    "BASE_CAPABILITY": {
+      "displayName": "Basic ability"
+    }
+  },
+  "app.ModuleTypeEnum": {
+    "displayName": "Module Type",
+    "APPLICATION": {
+      "displayName": "Application",
+      "help": "Application"
+    },
+    "MODULE": {
+      "displayName": "module",
+      "help": "module"
+    }
+  },
+  "app.TechniqueViConstantEnum": {
+    "displayName": "Platform Technology Architecture Diagram Constants",
+    "WORKFLOW": {
+      "displayName": "Workflow"
+    },
+    "MESSAGE_QUEUE": {
+      "displayName": "Message Queue"
+    },
+    "TRIGGER": {
+      "displayName": "Trigger"
+    },
+    "EXTEND_POINT": {
+      "displayName": "Extension point"
+    },
+    "INTERCEPTOR": {
+      "displayName": "Interceptor"
+    },
+    "DATA_CHANGE": {
+      "displayName": "Data Conversion"
+    },
+    "DATA_SYNC": {
+      "displayName": "Data synchronization"
+    },
+    "EIP_INTERFACE": {
+      "displayName": "Integrated interface"
+    },
+    "PRODUCT": {
+      "displayName": "Product"
+    },
+    "LOGIC": {
+      "displayName": "Logic"
+    },
+    "BUSINESS_COMPONENT": {
+      "displayName": "Business Component"
+    },
+    "ROUTER_RULE": {
+      "displayName": "Routing rules"
+    },
+    "VALIDATION_RULE": {
+      "displayName": "Validation rules"
+    },
+    "DATA_FILTER_RULE": {
+      "displayName": "Data filtering rules"
+    },
+    "MODEL": {
+      "displayName": "model"
+    },
+    "PROFESSION_MODEL": {
+      "displayName": "Industry model"
+    },
+    "BUSINESS_MODEL": {
+      "displayName": "Business model"
+    },
+    "BASE_MODEL": {
+      "displayName": "Foundation model"
+    },
+    "USER_EXPERIENCE": {
+      "displayName": "User experience"
+    },
+    "FORM": {
+      "displayName": "Form"
+    },
+    "LAYOUT": {
+      "displayName": "Layout"
+    },
+    "THEME": {
+      "displayName": "Theme"
+    },
+    "INTERACTIVE_COMPONENT": {
+      "displayName": "Interactive component"
+    },
+    "TEMPLATE": {
+      "displayName": "Template"
+    },
+    "LINK": {
+      "displayName": "Link"
+    },
+    "VIEW": {
+      "displayName": "View"
+    },
+    "DATA": {
+      "displayName": "Data"
+    },
+    "CHART": {
+      "displayName": "Chart"
+    },
+    "REPORT": {
+      "displayName": "Report"
+    },
+    "SCREEN": {
+      "displayName": "big screen"
+    },
+    "STORAGE": {
+      "displayName": "Object Storage"
+    },
+    "CACHE": {
+      "displayName": "Cache"
+    },
+    "DATA_SOURCE": {
+      "displayName": "Data Source"
+    },
+    "SEARCH": {
+      "displayName": "Search"
+    },
+    "DISTRIBUTE_CONFIG": {
+      "displayName": "Distributed configuration"
+    },
+    "MICRO_SERVICE": {
+      "displayName": "Microservices"
+    },
+    "BUSINESS": {
+      "displayName": "Business domain"
+    },
+    "TERMINAL": {
+      "displayName": "Client"
+    },
+    "LINE": {
+      "displayName": "Product line"
+    },
+    "APPLICATION": {
+      "displayName": "Application"
+    }
+  }
+}

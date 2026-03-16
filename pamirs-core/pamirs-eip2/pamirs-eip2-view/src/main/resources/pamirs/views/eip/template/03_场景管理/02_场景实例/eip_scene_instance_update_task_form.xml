@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" model="pamirs.eip.EipSceneInstanceProxy" name="实例更新定时任务form" submit="all" excluded-actions="create,update,updateIncUpdateLog,testCall">
+<view type="FORM" widget="form" model="pamirs.eip.EipSceneInstanceProxy" name="EipSceneInstanceProxyFormTimer" submit="all" excluded-actions="create,update,updateIncUpdateLog,testCall">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action label="确定" actionType="COMPOSITION" model="pamirs.eip.EipSceneInstanceProxy" displayName="确定">

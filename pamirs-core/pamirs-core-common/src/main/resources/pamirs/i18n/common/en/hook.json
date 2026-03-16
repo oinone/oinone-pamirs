@@ -1,0 +1,10 @@
+{
+  "pro.shushi.pamirs.core.common.hook.QueryPageHook4TreeAfter.run": {
+    "displayName": "Tree-structured Parent Query Optimization"
+  },
+  "pro.shushi.pamirs.core.common.hook.QueryPageHook4TreeAfter": {
+    "run": {
+      "displayName": "Tree-structured Parent Query Optimization"
+    }
+  }
+}

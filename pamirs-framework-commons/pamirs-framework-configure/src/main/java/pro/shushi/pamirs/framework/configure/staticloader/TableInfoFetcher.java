@@ -424,7 +424,7 @@ public class TableInfoFetcher {
         pro.shushi.pamirs.meta.annotation.Field.field fieldFieldAnnotation = AnnotationUtils.getAnnotation(field, pro.shushi.pamirs.meta.annotation.Field.field.class);
         String fieldField = Optional.ofNullable(fieldFieldAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.field::value).orElse(field.getName());
         String fieldName = Optional.ofNullable(fieldAdvancedAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Advanced::name).filter(StringUtils::isNotBlank).orElse(field.getName());
-        String displayName = Optional.of(fieldAnnotation.displayName()).filter(StringUtils::isNotBlank).orElse(fieldName);
+        String displayName = I18nUtils.translateField(module, originModel, fieldName, "displayName", StringUtils.defaultIfBlank(fieldAnnotation.displayName(), fieldName));
         boolean multi = TypeUtils.isCollection(field.getType()) || fieldAnnotation.multi();
         ModelFieldConfig modelField = new ModelFieldConfig();
         modelField.setDisplayName(displayName)

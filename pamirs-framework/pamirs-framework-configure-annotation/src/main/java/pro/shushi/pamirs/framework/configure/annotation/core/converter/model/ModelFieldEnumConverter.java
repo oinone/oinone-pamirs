@@ -14,7 +14,6 @@ import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.api.dto.meta.ExecuteContext;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaNames;
 import pro.shushi.pamirs.meta.common.enmu.IEnum;
-import pro.shushi.pamirs.meta.domain.model.DataDictionaryItem;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.enmu.InformationLevelEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
@@ -22,7 +21,6 @@ import pro.shushi.pamirs.meta.util.TypeUtils;
 
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Optional;
 
 import static pro.shushi.pamirs.framework.configure.annotation.emnu.AnnotationExpEnumerate.*;
@@ -98,16 +96,11 @@ public class ModelFieldEnumConverter implements ModelConverter<ModelField, Field
     @Override
     public ModelField convert(MetaNames names, Field field, ModelField modelField) {
         pro.shushi.pamirs.meta.annotation.Field.Enum fieldAnnotation = AnnotationUtils.getAnnotation(field, pro.shushi.pamirs.meta.annotation.Field.Enum.class);
+        String module = names.getModule();
         String dictionary = Models.enums().fetchDictionaryFromField(field);
-        Class<?> type = TypeUtils.getClass(TypeUtils.getActualType(field).getTypeName());
-        List<DataDictionaryItem> options = null;
-        if (!TypeUtils.isBaseType(type)) {
-            options = Models.enums().fetchEnumValues(type);
-        }
         modelField.setDictionary(dictionary)
                 .setSize(Optional.ofNullable(fieldAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Enum::size).orElse(null))
                 .setLimit(Optional.ofNullable(fieldAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Enum::limit).orElse(null))
-                .setOptions(options)
                 .setTtype(TtypeEnum.ENUM)
         ;
         return modelField;

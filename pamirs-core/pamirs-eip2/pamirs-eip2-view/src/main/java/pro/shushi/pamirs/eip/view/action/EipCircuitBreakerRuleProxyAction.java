@@ -25,11 +25,11 @@ import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 @Component
 @Model.model(EipCircuitBreakerRuleProxy.MODEL_MODEL)
 @UxRouteButton(
-        action = @UxAction(name = "熔断配置create", displayName = "创建", label = "创建", contextType = ActionContextTypeEnum.CONTEXT_FREE),
-        value = @UxRoute(model = EipCircuitBreakerRuleProxy.MODEL_MODEL, viewName = "熔断配置create", openType = ActionTargetEnum.DIALOG))
+        action = @UxAction(name = "EipCircuitBreakerRuleProxyActionCreate", displayName = "创建", label = "创建", contextType = ActionContextTypeEnum.CONTEXT_FREE),
+        value = @UxRoute(model = EipCircuitBreakerRuleProxy.MODEL_MODEL, viewName = "EipCircuitBreakerRuleProxyFormCreate", openType = ActionTargetEnum.DIALOG))
 @UxRouteButton(
-        action = @UxAction(name = "熔断配置edit", displayName = "更新", label = "更新", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = EipCircuitBreakerRuleProxy.MODEL_MODEL, viewName = "熔断配置edit", openType = ActionTargetEnum.DIALOG))
+        action = @UxAction(name = "EipCircuitBreakerRuleProxyActionEdit", displayName = "更新", label = "更新", contextType = ActionContextTypeEnum.SINGLE),
+        value = @UxRoute(model = EipCircuitBreakerRuleProxy.MODEL_MODEL, viewName = "EipCircuitBreakerRuleProxyFormEdit", openType = ActionTargetEnum.DIALOG))
 public class EipCircuitBreakerRuleProxyAction {
 
     @Resource

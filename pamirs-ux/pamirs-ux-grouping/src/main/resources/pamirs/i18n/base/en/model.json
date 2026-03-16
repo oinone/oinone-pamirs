@@ -1,0 +1,46 @@
+{
+  "grouping.TableGroupingWrapper" : {
+    "base.Field" : {
+      "gqlFields" : "GQL query field",
+      "queryWrapper" : "Query Conditions",
+      "statisticField" : "Statistical Field",
+      "fields" : "Grouping Field"
+    },
+    "displayName" : "Table grouping query conditions"
+  },
+  "grouping.GroupingStatisticField" : {
+    "base.Field" : {
+      "field" : "Field Name",
+      "statisticMethod" : "Statistical Method"
+    },
+    "displayName" : "Grouped Statistics Field"
+  },
+  "grouping.TableGroupingResult" : {
+    "base.Field" : {
+      "totalElements" : "Total Records of Level 1 Group",
+      "expandedAll" : "Expand all?",
+      "totalPages" : "Total pages of first level grouping",
+      "groups" : "Grouped data"
+    },
+    "displayName" : "Table grouping results"
+  },
+  "grouping.GroupingField" : {
+    "base.Field" : {
+      "field" : "Field Name",
+      "value" : "Field Value",
+      "direction" : "Sorting method"
+    },
+    "displayName" : "Grouping Field"
+  },
+  "grouping.GroupingData" : {
+    "base.Field" : {
+      "field" : "Field Name",
+      "groups" : "Next level grouping information",
+      "isLeaf" : "Is it a data node?",
+      "value" : "Group Value",
+      "data" : "Grouped data",
+      "isJsonValue" : "Is the group value in JSON format"
+    },
+    "displayName" : "Group information"
+  }
+}

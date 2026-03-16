@@ -1,0 +1,175 @@
+{
+  "trigger.PamirsSchedule" : {
+    "base.Field" : {
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique self-increasing index"
+      },
+      "technicalName" : {
+        "displayName" : "Technical name",
+        "summary" : "Task Parameters: Technology Name"
+      },
+      "tableNum" : {
+        "displayName" : "Data sheet number",
+        "summary" : "Control parameter: data table number"
+      },
+      "taskType" : {
+        "displayName" : "Task Type",
+        "summary" : "Task Parameters: Task Type"
+      },
+      "remark" : {
+        "displayName" : "Remarks",
+        "summary" : "Task Parameters: Remarks"
+      },
+      "interfaceName" : {
+        "displayName" : "Execute function namespace",
+        "summary" : "Function parameter: interface name"
+      },
+      "methodName" : {
+        "displayName" : "Execute function name",
+        "summary" : "Function parameter: method name"
+      },
+      "version" : {
+        "displayName" : "Interface Version",
+        "summary" : "Function parameter: interface version"
+      },
+      "group" : {
+        "displayName" : "Interface Group",
+        "summary" : "Function Parameters: Interface Grouping"
+      },
+      "timeout" : {
+        "displayName" : "Timeout",
+        "summary" : "Function parameter: interface call timeout"
+      },
+      "tenant" : {
+        "displayName" : "Tenant",
+        "summary" : "Environment Parameter: Tenant"
+      },
+      "env" : {
+        "displayName" : "Environment",
+        "summary" : "Environmental parameters: Environment"
+      },
+      "userId" : {
+        "displayName" : "User ID",
+        "summary" : "Environment parameter: User Id"
+      },
+      "username" : {
+        "displayName" : "Username",
+        "summary" : "Environment parameter: Username"
+      },
+      "ownSign" : {
+        "displayName" : "Owner Mark (Isolated Environment Domain)",
+        "summary" : "Environment Parameters: Owner Tag (Isolated Environment Domain)"
+      },
+      "application" : {
+        "displayName" : "Application Name",
+        "summary" : "Environment Parameter: Application Name"
+      },
+      "bizId" : {
+        "displayName" : "Business ID",
+        "summary" : "Subscriber business id (modulo field)"
+      },
+      "parentBizId" : {
+        "displayName" : "Parent business ID",
+        "summary" : "Subscriber business id (modulo field)"
+      },
+      "bizCode" : {
+        "displayName" : "business code",
+        "summary" : "Business Code"
+      },
+      "context" : {
+        "displayName" : "Task Context",
+        "summary" : "Task Context"
+      },
+      "limitExecuteNumber" : {
+        "displayName" : "Maximum number of executions",
+        "summary" : "Strategy parameter: Maximum number of executions"
+      },
+      "isCycle" : {
+        "displayName" : "Is it a recurring task?",
+        "summary" : "Strategy Parameter: Whether to Repeat the Task"
+      },
+      "cron" : {
+        "displayName" : "cron expression",
+        "summary" : "Strategy Parameters: Execution Cycle Definition"
+      },
+      "periodTimeValue" : {
+        "displayName" : "Execution cycle time",
+        "summary" : "Strategy Parameters: Execution Cycle Time"
+      },
+      "periodTimeUnit" : {
+        "displayName" : "Execution cycle time unit",
+        "summary" : "Strategy Parameters: Execution Cycle Time Unit"
+      },
+      "periodTimeAnchor" : {
+        "displayName" : "Execution cycle time anchor",
+        "summary" : "Strategy Parameters: Execution Cycle Time Anchor"
+      },
+      "limitRetryNumber" : {
+        "displayName" : "Maximum number of retries",
+        "summary" : "Policy Parameters: Maximum Retry Attempts"
+      },
+      "nextRetryTimeValue" : {
+        "displayName" : "Next retry interval",
+        "summary" : "Strategy Parameter: Next Retry Interval"
+      },
+      "nextRetryTimeUnit" : {
+        "displayName" : "Unit of time for the next retry interval",
+        "summary" : "Strategy parameter: unit of time for the next retry interval"
+      },
+      "executeNumber" : {
+        "displayName" : "Number of executions",
+        "summary" : "Control Parameters: Number of Executions"
+      },
+      "nextExecuteTime" : {
+        "displayName" : "Next execution time",
+        "summary" : "Control Parameters: Next Execution Time"
+      },
+      "lastExecuteTime" : {
+        "displayName" : "Latest execution time",
+        "summary" : "Control Parameter: Latest Execution Time"
+      },
+      "anchorExecuteTime" : {
+        "displayName" : "Anchor execution time",
+        "summary" : "Control parameter: After successful execution, the standard time used to calculate the next execution time"
+      },
+      "retryNumber" : {
+        "displayName" : "Number of retries",
+        "summary" : "Control Parameter: Number of Retries"
+      },
+      "taskStatus" : {
+        "displayName" : "Task status",
+        "summary" : "Control Parameters: Task Status"
+      },
+      "isTransfer" : {
+        "displayName" : "Has it been migrated?",
+        "summary" : "Control parameter: Has it been migrated"
+      },
+      "isCanceled" : {
+        "displayName" : "Has it been cancelled?",
+        "summary" : "Control parameter: Whether it has been canceled"
+      },
+      "errorLog" : {
+        "displayName" : "Exception Log",
+        "summary" : "Control parameters: exception stack information, pay attention to controlling the size"
+      },
+      "createDate" : {
+        "displayName" : "Create Time",
+        "summary" : "Create Time"
+      },
+      "createUid" : {
+        "displayName" : "Created By ID",
+        "summary" : "Created By ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time",
+        "summary" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updated By ID",
+        "summary" : "Updated By ID"
+      }
+    },
+    "displayName" : "TBSchedule Task Distribution Table"
+  }
+}

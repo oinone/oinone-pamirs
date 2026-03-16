@@ -1,0 +1,38 @@
+{
+  "quick.filling.QuickFillingFailureDetail" : {
+    "displayName" : "Quick Report Failure Details",
+    "base.Field" : {
+      "msg" : {
+        "summary" : "Failure Reason",
+        "displayName" : "Failure Reason"
+      },
+      "field" : "Failed field"
+    }
+  },
+  "quick.filling.QuickFillingField" : {
+    "displayName" : "Quick Fill Fields",
+    "base.Field" : {
+      "field" : "Field Name",
+      "options" : "Data dictionary options",
+      "required" : "Is it required?",
+      "labelFields" : "Associated Option Field Name",
+      "validate" : "Verify or not"
+    }
+  },
+  "quick.filling.QuickFilling" : {
+    "displayName" : "Quick Reporting",
+    "base.Field" : {
+      "failures" : "Failure Information",
+      "values" : "Parse results",
+      "model" : "Model",
+      "fields" : "Field"
+    }
+  },
+  "quick.filling.QuickFillingFailure" : {
+    "displayName" : "Quick report submission failed",
+    "base.Field" : {
+      "detailList" : "Failure Details",
+      "rowNumber" : "Line number"
+    }
+  }
+}

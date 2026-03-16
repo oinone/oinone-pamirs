@@ -1,4 +1,4 @@
-<view widget="form" name="国家关键字设置form" title="国家关键字设置" model="resource.ResourceCountry" type="FORM" priority="100">
+<view widget="form" name="ResourceCountryFormKeyword" title="国家关键字设置" model="resource.ResourceCountry" type="FORM" priority="100">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="update" invisible="!(activeRecord.id &gt; 0)" model="resource.ResourceCountry" goBack="true" validateForm="true" tag="contextFreeAction"/>

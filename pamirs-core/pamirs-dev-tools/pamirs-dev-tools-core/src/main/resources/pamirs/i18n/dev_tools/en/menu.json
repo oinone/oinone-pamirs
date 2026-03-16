@@ -1,0 +1,7 @@
+{
+  "DevToolsMenus_DevToolsMenu_ModelOverviewMenu" : "Model Comparison Query",
+  "DevToolsMenus_DevToolsMenu_FunctionOverviewMenu" : "Function Comparison Query",
+  "DevToolsMenus_DevToolsMenu_DictionaryOverviewMenu" : "Dictionary Comparison Query",
+  "DevToolsMenus_DevToolsMenu_ExtPointOverviewMenu" : "Extension Point Comparison Query",
+  "DevToolsMenus_DevToolsMenu" : "Cache vs DB Comparison"
+}

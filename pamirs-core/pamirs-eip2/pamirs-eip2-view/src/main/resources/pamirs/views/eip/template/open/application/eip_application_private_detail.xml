@@ -1,4 +1,4 @@
-<view type="DETAIL" widget="detail" title="查看密钥" model="pamirs.eip.proxy.EipApplicationProxy" name="集成应用密钥detail">
+<view type="DETAIL" widget="detail" title="查看密钥" model="pamirs.eip.proxy.EipApplicationProxy" name="EipApplicationProxyDetail">
     <template slot="actions">
         <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
     </template>

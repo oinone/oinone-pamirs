@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" title="新增应用" model="pamirs.eip.proxy.EipApplicationProxy" name="集成应用form">
+<view type="FORM" widget="form" title="新增应用" model="pamirs.eip.proxy.EipApplicationProxy" name="EipApplicationProxyFormApp">
     <template slot="actions">
         <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
         <action name="create" label="保存" goBack="true" validateForm="true"/>

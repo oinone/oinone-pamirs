@@ -1,0 +1,777 @@
+{
+  "business.PamirsDistributor" : {
+    "summary" : "Distributor",
+    "displayName" : "Distributor"
+  },
+  "business.CompanyType" : {
+    "displayName" : "Enterprise/Government/Other Types",
+    "base.Field" : {
+      "parent" : {
+        "summary" : "Parent type",
+        "displayName" : "Parent type"
+      },
+      "displayName" : {
+        "summary" : "Type display name",
+        "displayName" : "Type display name"
+      },
+      "dept" : {
+        "summary" : "Hierarchy",
+        "displayName" : "Hierarchy"
+      },
+      "type" : {
+        "summary" : "Type Code",
+        "displayName" : "Type Code"
+      },
+      "parentType" : {
+        "summary" : "Parent Code",
+        "displayName" : "Parent Code"
+      }
+    }
+  },
+  "OrganizationRelEmployee" : {
+    "summary" : "Relation between Employee and Organization",
+    "displayName" : "Relation between Employee and Organization",
+    "base.Field" : {
+      "organizationType" : {
+        "summary" : "organizationType",
+        "displayName" : "organizationType"
+      }
+    }
+  },
+  "DepartmentRelEmployee" : {
+    "displayName" : "Departmental Employee Relations Form",
+    "base.Field" : {
+      "employeeType" : {
+        "summary" : "Employee type",
+        "displayName" : "Employee type"
+      },
+      "immediateSupervisorCode" : {
+        "summary" : "Direct supervisor code",
+        "displayName" : "Direct supervisor code"
+      },
+      "departmentTreeCode" : {
+        "displayName" : "Department Tree Code"
+      },
+      "departmentCode" : {
+        "displayName" : "Department Code"
+      },
+      "immediateSupervisor" : {
+        "summary" : "Immediate supervisor",
+        "displayName" : "Immediate supervisor"
+      },
+      "departmentType" : {
+        "displayName" : "Department Type"
+      },
+      "supervisor" : {
+        "summary" : "Department Head",
+        "displayName" : "Department Head"
+      },
+      "employeeCode" : {
+        "displayName" : "Employee Code"
+      }
+    }
+  },
+  "business.PamirsSupplier" : {
+    "summary" : "Supplier",
+    "displayName" : "Supplier"
+  },
+  "business.DepartmentQueryWrapper" : {
+    "displayName" : "Department Query Condition Model",
+    "base.Field" : {
+      "departmentCodes" : {
+        "displayName" : "Department Code"
+      },
+      "userDept" : {
+        "summary" : "Current User Department",
+        "displayName" : "The department the current user belongs to"
+      },
+      "rsql" : {
+        "summary" : "RSQL Filter Condition",
+        "displayName" : "RSQL filter conditions"
+      },
+      "userCompanyDept" : {
+        "summary" : "All Departments of Current User Company",
+        "displayName" : "All departments of the company the current user belongs to"
+      },
+      "userDeptAndChildren" : {
+        "summary" : "Current User Department and Sub-departments",
+        "displayName" : "The department the current user belongs to and its subordinate departments"
+      }
+    }
+  },
+  "business.PamirsDepartment" : {
+    "summary" : "Department",
+    "displayName" : "Department",
+    "base.Field" : {
+      "companyCode" : {
+        "summary" : "Owning Company Code",
+        "displayName" : "Owning Company Code"
+      },
+      "parent" : {
+        "summary" : "Superior department",
+        "displayName" : "Superior department"
+      },
+      "code" : {
+        "summary" : "Encode",
+        "displayName" : "Encode"
+      },
+      "positionList" : {
+        "summary" : "Job List",
+        "displayName" : "Job List"
+      },
+      "dataStatus" : {
+        "summary" : "Data State",
+        "displayName" : "Data State"
+      },
+      "description" : {
+        "summary" : "Remark",
+        "displayName" : "Remark"
+      },
+      "childList" : {
+        "summary" : "Lower level departments",
+        "displayName" : "Lower level departments"
+      },
+      "immediateSupervisor" : {
+        "summary" : "Immediate supervisor",
+        "displayName" : "Immediate supervisor"
+      },
+      "departmentType" : {
+        "summary" : "Department Type",
+        "displayName" : "Department Type"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "employeeList" : {
+        "summary" : "Employee List",
+        "displayName" : "Employee List"
+      },
+      "parentCode" : {
+        "summary" : "Superior department code",
+        "displayName" : "Superior department code"
+      },
+      "name" : {
+        "summary" : "Department Name",
+        "displayName" : "Department Name"
+      },
+      "company" : {
+        "summary" : "Company",
+        "displayName" : "Company"
+      },
+      "treeCode" : {
+        "summary" : "Tree encoding",
+        "displayName" : "Tree encoding"
+      },
+      "supervisor" : {
+        "summary" : "Department Head",
+        "displayName" : "Department Head"
+      }
+    }
+  },
+  "business.BizChannelCodeModel" : {
+    "summary" : "Abstract base class for business with channels and code models",
+    "displayName" : "Model business abstract base class with channels and codes",
+    "base.Field" : {
+      "bizChannel" : {
+        "displayName" : "Business channels"
+      }
+    }
+  },
+  "business.BizChannelIdModel" : {
+    "summary" : "Business abstract base class with channel id model",
+    "displayName" : "Model business abstract base class with channel id",
+    "base.Field" : {
+      "bizChannel" : {
+        "displayName" : "Business channels"
+      }
+    }
+  },
+  "business.BizIdModel" : {
+    "summary" : "Abstract base class for business models with ID",
+    "displayName" : "ID business model",
+    "base.Field" : {
+      "writeUserName" : {
+        "summary" : "Modifier Name",
+        "displayName" : "Modifier Name"
+      },
+      "createUserName" : {
+        "summary" : "Creator Name",
+        "displayName" : "Creator Name"
+      }
+    }
+  },
+  "business.PamirsCompany" : {
+    "summary" : "Company",
+    "displayName" : "Company",
+    "base.Field" : {
+      "parent" : {
+        "summary" : "Parent company",
+        "displayName" : "Parent company"
+      },
+      "licenseNo" : {
+        "summary" : "Business License Number",
+        "displayName" : "Business License Number"
+      },
+      "shortAddress" : {
+        "summary" : "Short addresses for provinces, cities, and counties",
+        "displayName" : "Short addresses for provinces, cities, and counties"
+      },
+      "remark" : {
+        "summary" : "Remark",
+        "displayName" : "Remark"
+      },
+      "departmentList" : {
+        "summary" : "Department List",
+        "displayName" : "Department List"
+      },
+      "licenseEndTime" : {
+        "summary" : "Business License Expiration Date",
+        "displayName" : "Business License Expiration Date"
+      },
+      "legalIdcardNo" : {
+        "summary" : "Legal person\\'s ID number",
+        "displayName" : "Legal person\\'s ID number"
+      },
+      "creditCode" : {
+        "summary" : "Unified Social Credit Code",
+        "displayName" : "Unified Social Credit Code"
+      },
+      "employeeList" : {
+        "summary" : "List of employees",
+        "displayName" : "List of employees"
+      },
+      "staffSize" : {
+        "summary" : "Staff size",
+        "displayName" : "Staff size"
+      },
+      "parentCode" : {
+        "summary" : "Parent company code",
+        "displayName" : "Parent company code"
+      },
+      "legalPerson" : {
+        "summary" : "Corporation",
+        "displayName" : "Corporation"
+      },
+      "companyNature" : {
+        "summary" : "Nature of company (nature of organization)",
+        "displayName" : "Nature of company (nature of organization)"
+      },
+      "logo" : {
+        "summary" : "Company Logo",
+        "displayName" : "Company Logo"
+      },
+      "legalIdcardFile" : {
+        "summary" : "Scanned copy of legal person's ID card",
+        "displayName" : "Scanned copy of legal person's ID card"
+      },
+      "taxNo" : {
+        "summary" : "Tax Registration Number",
+        "displayName" : "Tax Registration Number"
+      },
+      "licenseStartTime" : {
+        "summary" : "Business license start time",
+        "displayName" : "Business license start time"
+      },
+      "licenseRegisterTime" : {
+        "summary" : "Business license registration date",
+        "displayName" : "Business license registration date"
+      },
+      "licenseFund" : {
+        "summary" : "Registered capital of business license",
+        "displayName" : "Registered capital of business license"
+      },
+      "companyType" : {
+        "summary" : "Team Type->Type: Enterprise->Industry, Government->Unit, Other->Organization Type",
+        "displayName" : "Type"
+      },
+      "teamAuth" : {
+        "summary" : "Auth Status",
+        "displayName" : "Auth Status"
+      },
+      "licensePhone" : {
+        "summary" : "Business License Phone Number",
+        "displayName" : "Business License Phone Number"
+      },
+      "organizationNo" : {
+        "summary" : "Organization Code",
+        "displayName" : "Organization Code"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "logoUrl" : {
+        "summary" : "logoUrl",
+        "displayName" : "logoUrl"
+      },
+      "searchable" : {
+        "summary" : "Whether support search",
+        "displayName" : "Whether support search"
+      },
+      "responsiblePerson" : {
+        "summary" : "Company principal",
+        "displayName" : "Person in charge"
+      },
+      "sequence" : {
+        "summary" : "Used to order Companies in the company switcher",
+        "displayName" : "Company order"
+      },
+      "registerAddress" : {
+        "summary" : "Registered Address",
+        "displayName" : "Registered Address"
+      },
+      "domainName" : {
+        "summary" : "Personalized Domain",
+        "displayName" : "Personalized Domain"
+      },
+      "joinAudit" : {
+        "summary" : "Does joining a company require administrator approval?",
+        "displayName" : "Join review"
+      },
+      "responsiblePersonCode" : {
+        "summary" : "Person in charge code",
+        "displayName" : "Person in charge code"
+      },
+      "teamType" : {
+        "summary" : "Team Type",
+        "displayName" : "Team Type"
+      }
+    }
+  },
+  "business.PamirsPosition" : {
+    "displayName" : "Position",
+    "base.Field" : {
+      "companyCode" : {
+        "displayName" : "Company code"
+      },
+      "parent" : {
+        "displayName" : "Direct position"
+      },
+      "employeeList" : {
+        "displayName" : "employee list"
+      },
+      "positionType" : {
+        "displayName" : "Job Type"
+      },
+      "parentCode" : {
+        "displayName" : "Direct Position Code"
+      },
+      "departmentCode" : {
+        "displayName" : "Department Code"
+      },
+      "name" : {
+        "displayName" : "Job title"
+      },
+      "dataStatus" : {
+        "summary" : "Data State",
+        "displayName" : "Data Status"
+      },
+      "company" : {
+        "displayName" : "Affiliated Company"
+      },
+      "department" : {
+        "displayName" : "Department"
+      },
+      "employeeCount" : {
+        "displayName" : "Number of employees"
+      }
+    }
+  },
+  "CompanyRelEmployee" : {
+    "summary" : "Relation between Company and Employee",
+    "displayName" : "Relation between Company and Employee",
+    "base.Field" : {
+      "companyCode" : {
+        "summary" : "companyCode",
+        "displayName" : "companyCode"
+      },
+      "employeeType" : {
+        "summary" : "employeeType",
+        "displayName" : "employeeType"
+      }
+    }
+  },
+  "business.EmployeeQueryWrapper" : {
+    "displayName" : "Employee Query Condition Model",
+    "base.Field" : {
+      "departmentCodes" : {
+        "displayName" : "Department Code"
+      },
+      "employeeCodes" : {
+        "displayName" : "Employee Code"
+      },
+      "userEmployee" : {
+        "summary" : "Current User Bound Employee",
+        "displayName" : "Employee currently linked to the user"
+      },
+      "userDept" : {
+        "summary" : "Employees in Current User Department",
+        "displayName" : "Employees in the department to which the current user belongs"
+      },
+      "rsql" : {
+        "summary" : "RSQL Filter Condition",
+        "displayName" : "RSQL filter conditions"
+      },
+      "roleCodes" : {
+        "summary" : "Role Code",
+        "displayName" : "Character Encoding"
+      },
+      "userDeptAndChildren" : {
+        "summary" : "Employees in Current User Department and Sub-departments",
+        "displayName" : "Employees in the current user's department and its subordinate departments"
+      }
+    }
+  },
+  "PositionRelEmployee" : {
+    "displayName" : "Employee Position Relationship Table",
+    "base.Field" : {
+      "positionId" : {
+        "summary" : "Job ID",
+        "displayName" : "Job ID"
+      },
+      "employeeId" : {
+        "summary" : "Employee ID",
+        "displayName" : "Employee ID"
+      }
+    }
+  },
+  "business.PamirsMember" : {
+    "summary" : "Member",
+    "displayName" : "Member"
+  },
+  "business.PamirsOrganization" : {
+    "displayName" : "Organization",
+    "base.Field" : {
+      "organizationType" : {
+        "displayName" : "Organization Type"
+      },
+      "name" : {
+        "displayName" : "Organization Name"
+      },
+      "dataStatus" : {
+        "summary" : "Data State",
+        "displayName" : "Data Status"
+      },
+      "relationEmployeeList" : {
+        "displayName" : "employee list"
+      }
+    }
+  },
+  "business.PamirsEmployee" : {
+    "displayName" : "Employee",
+    "base.Field" : {
+      "companyCode" : {
+        "summary" : "Owning Company Code",
+        "displayName" : "Owning Company Code"
+      },
+      "defaultBindingUser" : {
+        "summary" : "Bind User",
+        "displayName" : "Bind User"
+      },
+      "jobNum" : {
+        "summary" : "Job number",
+        "displayName" : "Job number"
+      },
+      "code" : {
+        "summary" : "Encode",
+        "displayName" : "Code"
+      },
+      "departmentTreeCode" : {
+        "summary" : "Department Tree Code",
+        "displayName" : "Department Tree Code"
+      },
+      "departmentCode" : {
+        "summary" : "Department code",
+        "displayName" : "Department code"
+      },
+      "roles" : {
+        "summary" : "Role",
+        "displayName" : "Role"
+      },
+      "dataStatus" : {
+        "summary" : "Data State",
+        "displayName" : "Data State"
+      },
+      "positions" : {
+        "summary" : "Job List",
+        "displayName" : "Job List"
+      },
+      "departmentList" : {
+        "summary" : "Department List",
+        "displayName" : "Department List"
+      },
+      "login" : {
+        "summary" : "Login Account",
+        "displayName" : "Login Account"
+      },
+      "employeeType" : {
+        "summary" : "Employee type",
+        "displayName" : "Employee type"
+      },
+      "bindingMode" : {
+        "summary" : "User Binding Method Enumeration",
+        "displayName" : "User binding method"
+      },
+      "bindingUserId" : {
+        "summary" : "Binding User ID",
+        "displayName" : "bindingUserId"
+      },
+      "initialPassword" : {
+        "summary" : "Initial password",
+        "displayName" : "Initial password"
+      },
+      "companyList" : {
+        "summary" : "Company list",
+        "displayName" : "Company list"
+      },
+      "phone" : {
+        "summary" : "Mobile phone number",
+        "displayName" : "Mobile phone number"
+      },
+      "isMaster" : {
+        "summary" : "Is it the main administrator?",
+        "displayName" : "Is it the main administrator?"
+      },
+      "name" : {
+        "displayName" : "Name"
+      },
+      "company" : {
+        "summary" : "Company",
+        "displayName" : "Company"
+      },
+      "userEmail" : {
+        "summary" : "Email Address",
+        "displayName" : "Email Address"
+      },
+      "department" : {
+        "summary" : "Department",
+        "displayName" : "Department"
+      },
+      "supervisor" : {
+        "summary" : "Department Head",
+        "displayName" : "Department Head"
+      }
+    }
+  },
+  "business.PamirsEmployeeProxy" : {
+    "displayName" : "Employee Export Agent",
+    "base.Field" : {
+      "departmentNameList" : {
+        "displayName" : "Department name list"
+      },
+      "roleCodes" : {
+        "displayName" : "Character Encoding List"
+      },
+      "departmentCodeList" : {
+        "displayName" : "Department Code List"
+      }
+    }
+  },
+  "business.PamirsPartner" : {
+    "displayName" : "Partner",
+    "base.Field" : {
+      "approvedDate" : {
+        "displayName" : "Approval Time / Entry Time"
+      },
+      "englishName" : {
+        "summary" : "English name",
+        "displayName" : "English name"
+      },
+      "features" : {
+        "displayName" : "Extended field"
+      },
+      "outResourceRelationList" : {
+        "displayName" : "External Resource Association List"
+      },
+      "phone" : {
+        "displayName" : "Contact mobile"
+      },
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "partnerOption" : {
+        "displayName" : "Partner Tag"
+      },
+      "auditStatus" : {
+        "summary" : "Audit Status",
+        "displayName" : "Review Status"
+      },
+      "dataStatus" : {
+        "summary" : "Data State",
+        "displayName" : "Data Status"
+      },
+      "partnerType" : {
+        "displayName" : "Partner Type"
+      },
+      "email" : {
+        "summary" : "Contact Email",
+        "displayName" : "Contact Email"
+      }
+    }
+  },
+  "business.BizVersionIdModel" : {
+    "summary" : "Abstract base class for business models with ID",
+    "displayName" : "ID business model with optimistic locking",
+    "base.Field" : {
+      "writeUserName" : {
+        "summary" : "Modifier",
+        "displayName" : "Modifier"
+      },
+      "createUserName" : {
+        "summary" : "Created By",
+        "displayName" : "Creator"
+      }
+    }
+  },
+  "business.PamirsRetailer" : {
+    "summary" : "Retailer",
+    "displayName" : "Retailer"
+  },
+  "business.BizCodeRelation" : {
+    "summary" : "In a many-to-many relationship, business relationship model with Code",
+    "displayName" : "Business Relationship Model with Coding",
+    "base.Field" : {
+      "writeUserName" : {
+        "summary" : "Modifier Name",
+        "displayName" : "Modifier Name"
+      },
+      "createUserName" : {
+        "summary" : "Creator Name",
+        "displayName" : "Creator Name"
+      }
+    }
+  },
+  "business.PamirsPartnerRelation" : {
+    "displayName" : "Partnership",
+    "base.Field" : {
+      "relationType" : {
+        "summary" : "Relationship Type",
+        "displayName" : "Partnership Type"
+      },
+      "originPartnerName" : {
+        "displayName" : "Main Partner Name"
+      },
+      "targetPartner" : {
+        "displayName" : "Target partners"
+      },
+      "dataStatus" : {
+        "summary" : "Data State",
+        "displayName" : "Data Status"
+      },
+      "originPartnerCode" : {
+        "displayName" : "Primary Partner Code"
+      },
+      "originPartner" : {
+        "displayName" : "main partner"
+      },
+      "originPartnerType" : {
+        "displayName" : "Primary Partner Type"
+      },
+      "targetPartnerEmail" : {
+        "displayName" : "Target partner contact email"
+      },
+      "isDefault" : {
+        "summary" : "Is Default",
+        "displayName" : "Is it the default"
+      },
+      "originPartnerPhone" : {
+        "displayName" : "Primary partner contact mobile phone"
+      },
+      "targetPartnerType" : {
+        "displayName" : "Target partner type"
+      },
+      "name" : {
+        "summary" : "What is stored is targetPartnerName, pay attention when using it in the interface.",
+        "displayName" : "Name"
+      },
+      "auditStatus" : {
+        "summary" : "Audit Status",
+        "displayName" : "Review Status"
+      },
+      "model" : {
+        "summary" : "Model Code",
+        "displayName" : "Model Encoding"
+      },
+      "targetPartnerPhone" : {
+        "displayName" : "Target partner contact mobile phone"
+      },
+      "originPartnerEmail" : {
+        "displayName" : "Primary partner contact email"
+      },
+      "targetPartnerName" : {
+        "displayName" : "Target Partner Name"
+      },
+      "targetPartnerCode" : {
+        "displayName" : "Target Partner Code"
+      }
+    }
+  },
+  "business.BizVersionCodeModel" : {
+    "summary" : "Business abstract base class with code model",
+    "displayName" : "Code business model with optimistic locking",
+    "base.Field" : {
+      "writeUserName" : {
+        "summary" : "Modifier",
+        "displayName" : "Modifier"
+      },
+      "createUserName" : {
+        "summary" : "Created By",
+        "displayName" : "Creator"
+      }
+    }
+  },
+  "business.DomainChangeLog" : {
+    "displayName" : "Company domain name modification log",
+    "base.Field" : {
+      "companyCode" : {
+        "summary" : "Company Code",
+        "displayName" : "company code"
+      },
+      "times" : {
+        "displayName" : "Number of times"
+      },
+      "year" : {
+        "displayName" : "Fiscal year"
+      },
+      "domain" : {
+        "displayName" : "Modified domain name"
+      }
+    }
+  },
+  "business.PamirsPerson" : {
+    "summary" : "Personal",
+    "displayName" : "Personal"
+  },
+  "business.BizCodeModel" : {
+    "summary" : "Provide the business basic capabilities required in business forms, such as ID, code, creator name, creation time, etc.",
+    "displayName" : "Basic business model",
+    "base.Field" : {
+      "writeUserName" : {
+        "summary" : "Modifier Name",
+        "displayName" : "Modifier Name"
+      },
+      "createUserName" : {
+        "summary" : "Creator Name",
+        "displayName" : "Creator Name"
+      }
+    }
+  },
+  "EmployeeRelRole" : {
+    "displayName" : "Employee Related Roles",
+    "base.Field" : {
+      "employeeId" : {
+        "displayName" : "Employee ID"
+      },
+      "authRoleId" : {
+        "summary" : "Role ID",
+        "displayName" : "Role ID"
+      }
+    }
+  },
+  "business.PamirsSeller" : {
+    "summary" : "seller",
+    "displayName" : "seller"
+  }
+}

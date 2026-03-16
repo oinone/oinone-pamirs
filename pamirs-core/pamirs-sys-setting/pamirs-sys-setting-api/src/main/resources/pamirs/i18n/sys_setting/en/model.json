@@ -1,0 +1,167 @@
+{
+  "sysSetting.CompanySettings" : {
+    "base.Field" : {
+      "companyCode" : {
+        "displayName" : "company code",
+        "summary" : "Company Code"
+      },
+      "domainName" : {
+        "displayName" : "Personalized domain name",
+        "summary" : "Personalized Domain"
+      },
+      "logo" : {
+        "displayName" : "Logo",
+        "summary" : "Logo"
+      },
+      "searchable" : {
+        "displayName" : "Whether support search",
+        "summary" : "Whether support search"
+      },
+      "tenant" : {
+        "displayName" : "Tenant",
+        "summary" : "Tenant"
+      }
+    },
+    "displayName" : "Enterprise Setup"
+  },
+  "sysSetting.GlobalAppConfigProxy" : {
+    "displayName" : "Global Application Configuration Proxy",
+    "remark" : "Application Configuration",
+    "summary" : "Global Application Configuration Proxy"
+  },
+  "sysSetting.MultiTabsApplicationHomepageConfig" : {
+    "base.Field" : {
+      "autoInvisible" : {
+        "displayName" : "Whether the home page automatically hides",
+        "summary" : "Whether home page automatically hides"
+      },
+      "enabled" : {
+        "displayName" : "Whether to enable the application homepage",
+        "summary" : "Whether to enable application homepage"
+      }
+    },
+    "displayName" : "App Home Page Configuration"
+  },
+  "sysSetting.SideBarConfig" : {
+    "base.Field" : {
+      "mode" : {
+        "displayName" : "theme",
+        "summary" : "Subject"
+      },
+      "theme" : {
+        "displayName" : "Style",
+        "summary" : "Style"
+      }
+    },
+    "displayName" : "Sidebar style"
+  },
+  "sysSetting.SysSettings" : {
+    "base.Field" : {
+      "invitationCodeValidTime" : {
+        "displayName" : "Invitation code validity period",
+        "summary" : "Invitation Code Validity"
+      },
+      "loginType" : {
+        "displayName" : "Login method",
+        "summary" : "The platform system configuration can set the login methods supported by the platform."
+      },
+      "needModifyInitialPassword" : {
+        "displayName" : "You must change the initial password upon first login",
+        "summary" : "You must change the initial password upon first login"
+      },
+      "openDomainSetting" : {
+        "displayName" : "Open Domain Settings",
+        "summary" : "The platform system configuration can set whether to enable domain name settings"
+      },
+      "openReg" : {
+        "displayName" : "Open registration",
+        "summary" : "The platform system configuration can set whether registration is open."
+      },
+      "openTenantSetting" : {
+        "displayName" : "Enable tenant name configuration",
+        "summary" : "The platform system configuration can set whether tenant name settings are open."
+      },
+      "regInvite" : {
+        "displayName" : "Is a registration invitation code required?",
+        "summary" : "Add an \\'Invitation Code\\' input field to the registration form and verify the invitation code after submission"
+      },
+      "regTeamInvite" : {
+        "displayName" : "Is an invitation code required to create a team?",
+        "summary" : "Add an \\'Invitation Code\\' input field to the registration form and verify the invitation code after submission"
+      },
+      "regTeamTenant" : {
+        "displayName" : "Whether creating a team also creates a tenant",
+        "summary" : "Whether to create a tenant when creating a team. If a team is created on the enterprise platform without creating a tenant, the enterprise\\'s third-level domain settings will be hidden, and the domain will be the same as the enterprise platform domain."
+      },
+      "tenantDomain" : {
+        "displayName" : "Tenant Domain Access Method",
+        "summary" : "https://subdomain.oinone.top | https://www.oinone.top/top-path/"
+      },
+      "trialDays" : {
+        "displayName" : "Trial Period",
+        "summary" : "Trial Validity"
+      }
+    },
+    "displayName" : "System Configuration"
+  },
+  "sysSetting.SystemStyleConfig" : {
+    "base.Field" : {
+      "multiTabConfig" : {
+        "displayName" : "Multi-tab Style",
+        "summary" : "Multi-tab Style"
+      },
+      "sideBarConfig" : {
+        "displayName" : "Sidebar Style",
+        "summary" : "Sidebar Style"
+      }
+    },
+    "displayName" : "System Style Config",
+    "summary" : "System Style Config"
+  },
+  "sysSetting.multiTabConfig" : {
+    "base.Field" : {
+      "draggable" : {
+        "displayName" : "Drag and drop sort",
+        "summary" : "Drag Sort"
+      },
+      "enabled" : {
+        "displayName" : "Multiple tabs",
+        "summary" : "Multi-tab"
+      },
+      "homepage" : {
+        "displayName" : "App main tab",
+        "summary" : "App Main Tab"
+      },
+      "inline" : {
+        "displayName" : "Inline",
+        "summary" : "Inline"
+      },
+      "maxCount" : {
+        "displayName" : "Maximum number of tabs",
+        "summary" : "Max Tab Count"
+      },
+      "showModuleLogo" : {
+        "displayName" : "Display module logo",
+        "summary" : "Show Module Logo"
+      },
+      "theme" : {
+        "displayName" : "Style",
+        "summary" : "Style"
+      }
+    },
+    "displayName" : "Multiple tab bar styles"
+  },
+  "translation.TranslationConfig" : {
+    "base.Field" : {
+      "toolboxTranslation" : {
+        "displayName" : "Page Toolbox Translation Management",
+        "summary" : "Page Toolbox Translation Management"
+      },
+      "translationManage" : {
+        "displayName" : "Page Item Translation Management",
+        "summary" : "Page Item Translation Management"
+      }
+    },
+    "displayName" : "Page toolbox configuration"
+  }
+}

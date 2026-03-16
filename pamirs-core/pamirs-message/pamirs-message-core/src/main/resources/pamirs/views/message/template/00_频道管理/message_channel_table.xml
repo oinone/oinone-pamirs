@@ -1,11 +1,11 @@
-<view widget="table" title="频道管理" name="频道管理table" type="TABLE" model="pamirs.message.MessageChannel" excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog,redirectDetailPage">
+<view widget="table" title="频道管理" name="MessageChannelTable" type="TABLE" model="pamirs.message.MessageChannel" excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog,redirectDetailPage">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="pamirs.message.MessageChannel" text="创建"/>
         <action name="delete" label="删除" model="pamirs.message.MessageChannel" text="删除"/>
     </template>
     <template slot="rowActions">
         <action name="redirectUpdatePage" label="编辑" model="pamirs.message.MessageChannel" text="编辑"/>
-        <action name="频道管理detail" label="详情" model="pamirs.message.MessageChannel" text="详情"/>
+        <action name="MessageChannelAction" label="详情" model="pamirs.message.MessageChannel" text="详情"/>
     </template>
 
     <template slot="search" widget="search">

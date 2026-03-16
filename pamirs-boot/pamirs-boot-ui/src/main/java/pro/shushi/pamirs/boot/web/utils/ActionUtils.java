@@ -85,30 +85,25 @@ public class ActionUtils {
         String summary = Optional.of(uxAction).map(UxAction::summary).filter(StringUtils::isNotBlank).orElse(null);
 
         if (action instanceof ServerAction) {
-            action.setDisplayName(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "displayName", displayName));
-            action.setLabel(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "label", label));
-            action.setSummary(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "summary", summary));
+            action.setDisplayName(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "displayName", I18nUtils.translate(displayName, displayName)));
+            action.setLabel(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "label", I18nUtils.translate(label, label)));
+            action.setSummary(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "summary", I18nUtils.translate(summary, summary)));
         } else if (action instanceof ViewAction) {
-            action.setDisplayName(I18nUtils.translateViewAction(module, action.getModel(), action.getName(), "displayName", displayName));
-            action.setLabel(I18nUtils.translateViewAction(module, action.getModel(), action.getName(), "label", label));
-            action.setSummary(I18nUtils.translateViewAction(module, action.getModel(), action.getName(), "summary", summary));
+            action.setDisplayName(I18nUtils.translateViewAction(module, action.getModel(), action.getName(), "displayName", I18nUtils.translate(displayName, displayName)));
+            action.setLabel(I18nUtils.translateViewAction(module, action.getModel(), action.getName(), "label", I18nUtils.translate(label, label)));
+            action.setSummary(I18nUtils.translateViewAction(module, action.getModel(), action.getName(), "summary", I18nUtils.translate(summary, summary)));
         } else if (action instanceof ClientAction) {
-            action.setDisplayName(I18nUtils.translateClientAction(module, action.getModel(), action.getName(), "displayName", displayName));
-            action.setLabel(I18nUtils.translateClientAction(module, action.getModel(), action.getName(), "label", label));
-            action.setSummary(I18nUtils.translateClientAction(module, action.getModel(), action.getName(), "summary", summary));
+            action.setDisplayName(I18nUtils.translateClientAction(module, action.getModel(), action.getName(), "displayName", I18nUtils.translate(displayName, displayName)));
+            action.setLabel(I18nUtils.translateClientAction(module, action.getModel(), action.getName(), "label", I18nUtils.translate(label, label)));
+            action.setSummary(I18nUtils.translateClientAction(module, action.getModel(), action.getName(), "summary", I18nUtils.translate(summary, summary)));
         } else if (action instanceof UrlAction) {
-            action.setDisplayName(I18nUtils.translateUrlAction(module, action.getModel(), action.getName(), "displayName", displayName));
-            action.setLabel(I18nUtils.translateUrlAction(module, action.getModel(), action.getName(), "label", label));
-            action.setSummary(I18nUtils.translateUrlAction(module, action.getModel(), action.getName(), "summary", summary));
+            action.setDisplayName(I18nUtils.translateUrlAction(module, action.getModel(), action.getName(), "displayName", I18nUtils.translate(displayName, displayName)));
+            action.setLabel(I18nUtils.translateUrlAction(module, action.getModel(), action.getName(), "label", I18nUtils.translate(label, label)));
+            action.setSummary(I18nUtils.translateUrlAction(module, action.getModel(), action.getName(), "summary", I18nUtils.translate(summary, summary)));
         } else {
-            // Fallback or other action types if any, currently defaulting to ServerAction logic or could throw exception/log warning
-            // For now, keeping consistent with prior behavior might mean assuming ServerAction or generic handling?
-            // But since we removed generic translate, we should probably default to ServerAction or just leave it.
-            // Let's assume ServerAction as default for unknown types to match previous behavior effectively, 
-            // or better, handle explicitly.
-            action.setDisplayName(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "displayName", displayName));
-            action.setLabel(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "label", label));
-            action.setSummary(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "summary", summary));
+            action.setDisplayName(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "displayName", I18nUtils.translate(displayName, displayName)));
+            action.setLabel(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "label", I18nUtils.translate(label, label)));
+            action.setSummary(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "summary", I18nUtils.translate(summary, summary)));
         }
 
         action.setContextType(uxAction.contextType())
@@ -159,7 +154,7 @@ public class ActionUtils {
                 .setResModel(Optional.of(routeAnnotation.model()).filter(StringUtils::isNotBlank).orElse(null))
                 .setTarget(routeAnnotation.openType());
         String title = Optional.of(routeAnnotation.title()).filter(StringUtils::isNotBlank).orElse(null);
-        viewAction.setTitle(I18nUtils.translateServerAction(module, viewAction.getModel(), viewAction.getName(), "title", title));
+        viewAction.setTitle(I18nUtils.translateViewAction(module, viewAction.getModel(), viewAction.getName(), "title", title));
         viewAction.setTheme(Optional.of(routeAnnotation.theme()).filter(StringUtils::isNotBlank).orElse(null))
                 .setMask(Optional.of(routeAnnotation.mask()).filter(StringUtils::isNotBlank).orElse(null))
                 .setResViewName(Optional.of(routeAnnotation.viewName()).filter(StringUtils::isNotBlank).orElse(null))

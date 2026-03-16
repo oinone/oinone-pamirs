@@ -1,4 +1,4 @@
-<view type="DETAIL" title="部门" name="部门detail" widget="detail" model="business.PamirsDepartment">
+<view type="DETAIL" title="部门" name="PamirsDepartmentDetail" widget="detail" model="business.PamirsDepartment">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

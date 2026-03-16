@@ -1,0 +1,32 @@
+{
+  "apps.AppStatusEnum": {
+    "displayName": "Apply status filter",
+    "ALL": {
+      "displayName": "All",
+      "help": "All"
+    },
+    "INSTALLED": {
+      "displayName": "Installed",
+      "help": "Installed"
+    },
+    "UNINSTALL": {
+      "displayName": "Not installed",
+      "help": "Not installed"
+    }
+  },
+  "apps.AppLikeEnum": {
+    "displayName": "Starred App Filter",
+    "ALL": {
+      "displayName": "All",
+      "help": "All"
+    },
+    "LIKE": {
+      "displayName": "Added to Favorites",
+      "help": "Added to Favorites"
+    },
+    "NOT_LIKE": {
+      "displayName": "Not favorited",
+      "help": "Not favorited"
+    }
+  }
+}

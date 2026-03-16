@@ -1,0 +1,272 @@
+{
+  "tools.DictionaryOverview" : {
+    "base.Field" : {
+      "dbContext" : {
+        "displayName" : "db information",
+        "summary" : "DB Info"
+      },
+      "dictionary" : {
+        "displayName" : "data dictionary",
+        "summary" : "Data Dictionary"
+      },
+      "diff" : {
+        "displayName" : "Difference content",
+        "summary" : "Diff Content"
+      },
+      "redisContext" : {
+        "displayName" : "Redis information",
+        "summary" : "Redis Info"
+      }
+    },
+    "displayName" : "Overview of the Data Dictionary"
+  },
+  "tools.ExtPointOverview" : {
+    "base.Field" : {
+      "dbContext" : {
+        "displayName" : "db information",
+        "summary" : "DB Info"
+      },
+      "diff" : {
+        "displayName" : "Difference content",
+        "summary" : "Diff Content"
+      },
+      "executeFun" : {
+        "displayName" : "Execute function encoding",
+        "summary" : "Execute Function Code"
+      },
+      "executeNamespace" : {
+        "displayName" : "Execute function namespace",
+        "summary" : "Execute Function Namespace"
+      },
+      "expression" : {
+        "displayName" : "Expression",
+        "summary" : "Expression"
+      },
+      "extPointOverviews" : {
+        "displayName" : "Extended list",
+        "summary" : "Extension List"
+      },
+      "name" : {
+        "displayName" : "Function coding",
+        "summary" : "Function Code"
+      },
+      "namespace" : {
+        "displayName" : "Namespace",
+        "summary" : "Namespace"
+      },
+      "redisContext" : {
+        "displayName" : "Redis information",
+        "summary" : "Redis Info"
+      }
+    },
+    "displayName" : "Overview of Extension Points"
+  },
+  "tools.FunctionOverview" : {
+    "base.Field" : {
+      "dbContext" : {
+        "displayName" : "db information",
+        "summary" : "DB Info"
+      },
+      "diff" : {
+        "displayName" : "Difference content",
+        "summary" : "Diff Content"
+      },
+      "fun" : {
+        "displayName" : "FUN",
+        "summary" : "FUN"
+      },
+      "namespace" : {
+        "displayName" : "Command space",
+        "summary" : "Command Space"
+      },
+      "redisContext" : {
+        "displayName" : "Redis information",
+        "summary" : "Redis Info"
+      }
+    },
+    "displayName" : "Function Overview"
+  },
+  "tools.ModelFieldOverview" : {
+    "base.Field" : {
+      "dbContext" : {
+        "displayName" : "DB field information",
+        "summary" : "DB Field Info"
+      },
+      "diff" : {
+        "displayName" : "Difference content",
+        "summary" : "Diff Content"
+      },
+      "field" : {
+        "displayName" : "Field",
+        "summary" : "Field"
+      },
+      "model" : {
+        "displayName" : "Model Encoding",
+        "summary" : "Model Code"
+      },
+      "redisContext" : {
+        "displayName" : "Redis field information",
+        "summary" : "Redis Field Info"
+      }
+    },
+    "displayName" : "Field Comparison Overview"
+  },
+  "tools.ModelOverview" : {
+    "base.Field" : {
+      "dbContext" : {
+        "displayName" : "db information",
+        "summary" : "DB Info"
+      },
+      "diff" : {
+        "displayName" : "Difference content",
+        "summary" : "Diff Content"
+      },
+      "model" : {
+        "displayName" : "Model Encoding",
+        "summary" : "Model Code"
+      },
+      "modelFieldOverviews" : {
+        "displayName" : "Field List",
+        "summary" : "Field List"
+      },
+      "redisContext" : {
+        "displayName" : "Redis information",
+        "summary" : "Redis Info"
+      },
+      "redisInfo" : {
+        "displayName" : "redis information",
+        "summary" : "Redis Info"
+      },
+      "serverActionOverviews" : {
+        "displayName" : "ServerAction List",
+        "summary" : "ServerAction List"
+      },
+      "urlActionOverviews" : {
+        "displayName" : "urlAction list",
+        "summary" : "URLAction List"
+      },
+      "viewActionOverviews" : {
+        "displayName" : "ViewAction List",
+        "summary" : "ViewAction List"
+      }
+    },
+    "displayName" : "Overview of Model Comparison"
+  },
+  "tools.ModelServerActionOverview" : {
+    "base.Field" : {
+      "dbContext" : {
+        "displayName" : "db information",
+        "summary" : "DB Info"
+      },
+      "diff" : {
+        "displayName" : "Difference content",
+        "summary" : "Diff Content"
+      },
+      "fun" : {
+        "displayName" : "FUN",
+        "summary" : "FUN"
+      },
+      "model" : {
+        "displayName" : "Model Encoding",
+        "summary" : "Model Code"
+      },
+      "redisContext" : {
+        "displayName" : "redis information",
+        "summary" : "Redis Info"
+      }
+    },
+    "displayName" : "Overview of ServerAction Comparison"
+  },
+  "tools.ModelUrlActionOverview" : {
+    "base.Field" : {
+      "dbContext" : {
+        "displayName" : "db information",
+        "summary" : "DB Info"
+      },
+      "diff" : {
+        "displayName" : "Difference content",
+        "summary" : "Diff Content"
+      },
+      "model" : {
+        "displayName" : "Model Encoding",
+        "summary" : "Model Code"
+      },
+      "redisContext" : {
+        "displayName" : "redis information",
+        "summary" : "Redis Info"
+      },
+      "url" : {
+        "displayName" : "URL",
+        "summary" : "URL"
+      }
+    },
+    "displayName" : "Overview of UrlAction Comparison"
+  },
+  "tools.ModelViewActionOverview" : {
+    "base.Field" : {
+      "dbContext" : {
+        "displayName" : "db information",
+        "summary" : "DB Info"
+      },
+      "diff" : {
+        "displayName" : "Difference content",
+        "summary" : "Diff Content"
+      },
+      "model" : {
+        "displayName" : "Model Encoding",
+        "summary" : "Model Code"
+      },
+      "name" : {
+        "displayName" : "viewAction name",
+        "summary" : "ViewAction Name"
+      },
+      "redisContext" : {
+        "displayName" : "redis information",
+        "summary" : "Redis Info"
+      }
+    },
+    "displayName" : "Overview of ViewAction Comparison"
+  },
+  "tools.RedisInfo" : {
+    "base.Field" : {
+      "database" : {
+        "displayName" : "database",
+        "summary" : "database"
+      },
+      "host" : {
+        "displayName" : "host",
+        "summary" : "host"
+      },
+      "port" : {
+        "displayName" : "Port",
+        "summary" : "Port"
+      },
+      "prefix" : {
+        "displayName" : "Prefix",
+        "summary" : "Prefix"
+      }
+    },
+    "displayName" : "redis information"
+  },
+  "tools.SequenceOverview" : {
+    "base.Field" : {
+      "code" : {
+        "displayName" : "sequence encoding",
+        "summary" : "Sequence Code"
+      },
+      "dbContext" : {
+        "displayName" : "db information",
+        "summary" : "DB Info"
+      },
+      "diff" : {
+        "displayName" : "Difference content",
+        "summary" : "Diff Content"
+      },
+      "redisContext" : {
+        "displayName" : "Redis information",
+        "summary" : "Redis Info"
+      }
+    },
+    "displayName" : "Sequence Overview"
+  }
+}

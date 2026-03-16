@@ -1,0 +1,938 @@
+{
+  "MailFollowerRelationMailSubtype" : {
+    "displayName" : "Relation between Model Attention and Message Subtype",
+    "summary" : "Relation between Model Attention and Message Subtype"
+  },
+  "MessageChannelRelAuthGroup" : {
+    "base.Field" : {
+      "authRoleId" : {
+        "displayName" : "Role ID",
+        "summary" : "Role ID"
+      },
+      "messageChannelId" : {
+        "displayName" : "Message channel ID",
+        "summary" : "Message Channel ID"
+      }
+    },
+    "displayName" : "Message channel associated role"
+  },
+  "MessageChannelRelPamirsMessage" : {
+    "displayName" : "Relation between Message Channel and Pamirs News",
+    "summary" : "Relation between Message Channel and Pamirs News"
+  },
+  "MessageChannelRelPamirsPartner" : {
+    "displayName" : "Relation between Message Channel and User Table",
+    "summary" : "Relation between Message Channel and User Table"
+  },
+  "pamirs.message.EmailPostCopyTo" : {
+    "base.Field" : {
+      "address" : {
+        "displayName" : "Fixed email address",
+        "summary" : "Fixed Email Address"
+      },
+      "modelField" : {
+        "displayName" : "modelField",
+        "summary" : "For personnel in the model\\'s fields, such as the creator, supervisor, and other fields, the value of the field must be in the format of user id, model.aaa.sss"
+      },
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "partner" : {
+        "displayName" : "User",
+        "summary" : "User"
+      },
+      "type" : {
+        "displayName" : "type",
+        "summary" : "Object type"
+      }
+    },
+    "displayName" : "Users copied on the email"
+  },
+  "pamirs.message.EmailPostSendTo" : {
+    "base.Field" : {
+      "address" : {
+        "displayName" : "Fixed email address",
+        "summary" : "Fixed Email Address"
+      },
+      "modelField" : {
+        "displayName" : "modelField",
+        "summary" : "For personnel in the model\\'s fields, such as the creator, supervisor, and other fields, the value of the field must be in the format of user id, model.aaa.sss"
+      },
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "partner" : {
+        "displayName" : "User",
+        "summary" : "User"
+      },
+      "type" : {
+        "displayName" : "type",
+        "summary" : "Object type"
+      }
+    },
+    "displayName" : "User sending the email"
+  },
+  "pamirs.message.EmailPoster" : {
+    "base.Field" : {
+      "body" : {
+        "displayName" : "Content",
+        "summary" : "Content"
+      },
+      "copyTo" : {
+        "displayName" : "CC recipients, separated by commas",
+        "summary" : "CC recipients, separated by commas"
+      },
+      "replyTo" : {
+        "displayName" : "Reply targets, separated by commas",
+        "summary" : "Reply targets, separated by commas"
+      },
+      "resourceFiles" : {
+        "displayName" : "Attachment",
+        "summary" : "Attachment"
+      },
+      "sendTo" : {
+        "displayName" : "Send objects, separated by commas",
+        "summary" : "Send objects, separated by commas"
+      },
+      "sender" : {
+        "displayName" : "Sender Name",
+        "summary" : "Sender Name"
+      },
+      "title" : {
+        "displayName" : "theme",
+        "summary" : "theme"
+      }
+    },
+    "displayName" : "Send Email"
+  },
+  "pamirs.message.EmailSenderSource" : {
+    "base.Field" : {
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "sequence" : {
+        "displayName" : "Priority",
+        "summary" : "If no specific mail server is required, the highest priority server will be used. Default priority is 10 (smaller number means higher priority)"
+      },
+      "smtpHost" : {
+        "displayName" : "smtp host",
+        "summary" : "smtp host"
+      },
+      "smtpPassword" : {
+        "displayName" : "Password",
+        "summary" : "Password"
+      },
+      "smtpPort" : {
+        "displayName" : "SMTP port number",
+        "summary" : "SMTP Port"
+      },
+      "smtpSecurity" : {
+        "displayName" : "Connection Security",
+        "summary" : "Choose a connection encryption scheme: None: The SMTP conversation is completed in plaintext. TLS (STARTTLS): TLS encryption is requested at the beginning of the SMTP conversation (recommended). SSL/TLS: The SMTP conversation is encrypted using SSL/TLS through a dedicated port (default: 465)"
+      },
+      "smtpUser" : {
+        "displayName" : "User",
+        "summary" : "User"
+      }
+    },
+    "displayName" : "Mail server"
+  },
+  "pamirs.message.EmailTemplate" : {
+    "base.Field" : {
+      "body" : {
+        "displayName" : "Email content",
+        "summary" : "Email Content"
+      },
+      "description" : {
+        "displayName" : "Introduction",
+        "summary" : "Introduction"
+      },
+      "emailSenderSource" : {
+        "displayName" : "Specify mail server",
+        "summary" : "Specify Mail Server"
+      },
+      "emailUserSign" : {
+        "displayName" : "Email Signature",
+        "summary" : "Email Signature"
+      },
+      "model" : {
+        "displayName" : "Model Encoding",
+        "summary" : "Model Code"
+      },
+      "modelDefinition" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "title" : {
+        "displayName" : "Email Subject",
+        "summary" : "Email Subject"
+      }
+    },
+    "displayName" : "Email template"
+  },
+  "pamirs.message.EmailUserSign" : {
+    "base.Field" : {
+      "emailSignature" : {
+        "displayName" : "Email Signature",
+        "summary" : "Email Signature"
+      },
+      "name" : {
+        "displayName" : "Email signature name",
+        "summary" : "Email Signature Name"
+      },
+      "partner" : {
+        "displayName" : "User",
+        "summary" : "User"
+      },
+      "partnerName" : {
+        "displayName" : "Username",
+        "summary" : "Username"
+      }
+    },
+    "displayName" : "Email Signature"
+  },
+  "pamirs.message.EmailVerifyTemplate" : {
+    "base.Field" : {
+      "body" : {
+        "displayName" : "Email content",
+        "summary" : "Email Content"
+      },
+      "templateType" : {
+        "displayName" : "Email verification template type",
+        "summary" : "Email Verification Template Type"
+      },
+      "timeInterval" : {
+        "displayName" : "Verification code valid time (seconds/s)",
+        "summary" : "Captcha Valid Time (Seconds)"
+      },
+      "title" : {
+        "displayName" : "Email Subject",
+        "summary" : "Email Subject"
+      }
+    },
+    "displayName" : "Verification Email Template"
+  },
+  "pamirs.message.MessageCenter" : {
+    "base.Field" : {
+      "count" : {
+        "displayName" : "Unread messages count",
+        "summary" : "Unread Message Count"
+      },
+      "lastMessageId" : {
+        "displayName" : "Latest News ID",
+        "summary" : "Latest Message ID"
+      },
+      "messageGroups" : {
+        "displayName" : "Message Group",
+        "summary" : "Message Group"
+      }
+    },
+    "displayName" : "Message Center"
+  },
+  "pamirs.message.MessageChannel" : {
+    "base.Field" : {
+      "authorRole" : {
+        "displayName" : "Authorized Role",
+        "summary" : "Authorized Role"
+      },
+      "authorRoleId" : {
+        "displayName" : "Authorized Role ID",
+        "summary" : "Authorized Role ID"
+      },
+      "channelType" : {
+        "displayName" : "channel type",
+        "summary" : "Channel Type"
+      },
+      "iconUrl" : {
+        "displayName" : "icon address",
+        "summary" : "Icon Address"
+      },
+      "messages" : {
+        "displayName" : "Channel Messages",
+        "summary" : "Channel Message"
+      },
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "openType" : {
+        "displayName" : "Who can follow the channel?",
+        "summary" : "Who can follow the channel?"
+      },
+      "partners" : {
+        "displayName" : "User",
+        "summary" : "User"
+      },
+      "subscribeRoles" : {
+        "displayName" : "Automatically subscribed role",
+        "summary" : "Auto Subscribe Role"
+      }
+    },
+    "displayName" : "Message Channel"
+  },
+  "pamirs.message.MessageChannelUserRel" : {
+    "base.Field" : {
+      "channelId" : {
+        "displayName" : "Channel ID",
+        "summary" : "ID field, unique self-increasing index"
+      },
+      "userId" : {
+        "displayName" : "User ID",
+        "summary" : "ID field, unique self-increasing index"
+      }
+    },
+    "displayName" : "Channel user relationship table"
+  },
+  "pamirs.message.MessageFollower" : {
+    "base.Field" : {
+      "channel" : {
+        "displayName" : "Channel for following models",
+        "summary" : "Channel Following Model"
+      },
+      "partner" : {
+        "displayName" : "Users following the model",
+        "summary" : "User Following Model"
+      },
+      "resId" : {
+        "displayName" : "Model row record id",
+        "summary" : "Model Row ID"
+      },
+      "resModel" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "resName" : {
+        "displayName" : "Model row record name",
+        "summary" : "Model Row Name"
+      },
+      "subtypes" : {
+        "displayName" : "Message Subtype",
+        "summary" : "Message Subtype"
+      }
+    },
+    "displayName" : "Model Attention"
+  },
+  "pamirs.message.MessageGroup" : {
+    "base.Field" : {
+      "channel" : {
+        "displayName" : "Receiving Channel",
+        "summary" : "Receive Channel"
+      },
+      "chatPartner" : {
+        "displayName" : "Receiver",
+        "summary" : "Receive Object"
+      },
+      "currentUserName" : {
+        "displayName" : "Current Username",
+        "summary" : "Current Username"
+      },
+      "groupType" : {
+        "displayName" : "Message group type",
+        "summary" : "Message Group Type"
+      },
+      "iconUrl" : {
+        "displayName" : "Message group logo",
+        "summary" : "Message Group Logo"
+      },
+      "id" : {
+        "displayName" : "Personal or channel ID",
+        "summary" : "Identify which ID it is based on groupType"
+      },
+      "lastMessageBody" : {
+        "displayName" : "The content of a recent piece of news",
+        "summary" : "Latest Message Content"
+      },
+      "lastMessageId" : {
+        "displayName" : "The ID of the most recent message",
+        "summary" : "Latest Message ID"
+      },
+      "lastMessageTime" : {
+        "displayName" : "Time of the latest news",
+        "summary" : "Latest Message Time"
+      },
+      "messageInput" : {
+        "displayName" : "Enter message content",
+        "summary" : "Input Message Content"
+      },
+      "messages" : {
+        "displayName" : "Message List",
+        "summary" : "Message List"
+      },
+      "resId" : {
+        "displayName" : "Model Record ID",
+        "summary" : "Model Record ID"
+      },
+      "resModel" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "resName" : {
+        "displayName" : "Model record name",
+        "summary" : "Model Record Name"
+      },
+      "title" : {
+        "displayName" : "Group Title",
+        "summary" : "Group Title"
+      },
+      "unreadCount" : {
+        "displayName" : "Unread messages count",
+        "summary" : "Unread Message Count"
+      }
+    },
+    "displayName" : "Message Group"
+  },
+  "pamirs.message.MessageLongPolling" : {
+    "base.Field" : {
+      "activeId" : {
+        "displayName" : "Current activity ID",
+        "summary" : "Current Activity ID"
+      },
+      "activeModel" : {
+        "displayName" : "Current communication model",
+        "summary" : "Current Communication Model"
+      },
+      "channelIds" : {
+        "displayName" : "Multiple channels",
+        "summary" : "Multiple Channels"
+      },
+      "channelMessages" : {
+        "displayName" : "Channel Messages",
+        "summary" : "Channel Message"
+      },
+      "count" : {
+        "displayName" : "Unread messages count",
+        "summary" : "Unread Message Count"
+      },
+      "lastMessageId" : {
+        "displayName" : "Last message ID",
+        "summary" : "Last Message ID"
+      },
+      "modelMessages" : {
+        "displayName" : "Model Message",
+        "summary" : "Model Message"
+      }
+    },
+    "displayName" : "Message long polling request",
+    "summary" : "Unified return of long polling data"
+  },
+  "pamirs.message.MessageSource" : {
+    "base.Field" : {
+      "active" : {
+        "displayName" : "active",
+        "summary" : "Activate or not"
+      },
+      "attribute" : {
+        "displayName" : "Attribute",
+        "summary" : "Attribute"
+      },
+      "type" : {
+        "displayName" : "Message notification type",
+        "summary" : "Message Notification Type"
+      }
+    },
+    "displayName" : "MessageSource"
+  },
+  "pamirs.message.MessageSubtype" : {
+    "base.Field" : {
+      "defaultSelect" : {
+        "displayName" : "Default selection state",
+        "summary" : "Default Selection State"
+      },
+      "desc" : {
+        "displayName" : "Introduction",
+        "summary" : "Introduction"
+      },
+      "field" : {
+        "displayName" : "Field",
+        "summary" : "Field"
+      },
+      "model" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "name" : {
+        "displayName" : "Message Type",
+        "summary" : "Message Type"
+      },
+      "sequence" : {
+        "displayName" : "Serial Number",
+        "summary" : "Define the sorting rules for the subscription types of the model"
+      }
+    },
+    "displayName" : "Message Subtype"
+  },
+  "pamirs.message.MessageThread" : {
+    "base.Field" : {
+      "activeId" : {
+        "displayName" : "activeId",
+        "summary" : "activeId"
+      },
+      "activeModel" : {
+        "displayName" : "activeModel",
+        "summary" : "activeModel"
+      },
+      "followerCount" : {
+        "displayName" : "The number of partners and channels the model focuses on",
+        "summary" : "Model Followed Partner and Channel Count"
+      },
+      "followingState" : {
+        "displayName" : "follow status",
+        "summary" : "Follow Status"
+      },
+      "maxMessageId" : {
+        "displayName" : "Maximum Message ID",
+        "summary" : "Max Message ID"
+      },
+      "messageFollowers" : {
+        "displayName" : "Followers of the model",
+        "summary" : "Model Follower"
+      },
+      "messages" : {
+        "displayName" : "Model's message list",
+        "summary" : "Model Message List"
+      },
+      "partnerSubtypeRel" : {
+        "displayName" : "Types of messages followed",
+        "summary" : "Followed Message Type"
+      }
+    },
+    "displayName" : "Model Message Thread"
+  },
+  "pamirs.message.MessageTrackingValue" : {
+    "base.Field" : {
+      "fieldName" : {
+        "displayName" : "Field Name",
+        "summary" : "Field Name"
+      },
+      "fieldType" : {
+        "displayName" : "Field Type",
+        "summary" : "Field Type"
+      },
+      "message" : {
+        "displayName" : "Message",
+        "summary" : "Message"
+      },
+      "newValue" : {
+        "displayName" : "Update Value",
+        "summary" : "Updated Value"
+      },
+      "oldValue" : {
+        "displayName" : "Original value",
+        "summary" : "Original Value"
+      },
+      "resId" : {
+        "displayName" : "Source Model Row Records",
+        "summary" : "Source Model Row Record"
+      },
+      "resModel" : {
+        "displayName" : "Source model",
+        "summary" : "Source Model"
+      },
+      "valueType" : {
+        "displayName" : "Field value type",
+        "summary" : "Field Value Type"
+      }
+    },
+    "displayName" : "Message Tracking Field Information"
+  },
+  "pamirs.message.PamirsMessage" : {
+    "base.Field" : {
+      "appModule" : {
+        "displayName" : "Application Module",
+        "summary" : "App Module"
+      },
+      "body" : {
+        "displayName" : "Content",
+        "summary" : "Content"
+      },
+      "channels" : {
+        "displayName" : "Message Receiving Channel",
+        "summary" : "Message Receive Channel"
+      },
+      "children" : {
+        "displayName" : "Sublist",
+        "summary" : "Sub-list"
+      },
+      "currentUserName" : {
+        "displayName" : "currentUserName",
+        "summary" : "Current login user name"
+      },
+      "extendIcon" : {
+        "displayName" : "Extra charts",
+        "summary" : "When urging a workflow, add a reminder"
+      },
+      "file" : {
+        "displayName" : "Attachment List",
+        "summary" : "Attachment List"
+      },
+      "iconUrl" : {
+        "displayName" : "Message Avatar",
+        "summary" : "Message Avatar"
+      },
+      "mailMaster" : {
+        "displayName" : "mailMaster",
+        "summary" : "The position of the message in the chat window"
+      },
+      "messageType" : {
+        "displayName" : "Message Type",
+        "summary" : "Message Type"
+      },
+      "module" : {
+        "displayName" : "Module Coding",
+        "summary" : "Module Code"
+      },
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "parent" : {
+        "displayName" : "parent node",
+        "summary" : "Parent Node"
+      },
+      "partnerNeedAction" : {
+        "displayName" : "Message Notification Recipient",
+        "summary" : "Message Notification Object"
+      },
+      "resId" : {
+        "displayName" : "Model row record id",
+        "summary" : "Model Row ID"
+      },
+      "resModel" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "resName" : {
+        "displayName" : "Model row record name",
+        "summary" : "Model Row Name"
+      },
+      "resViewAction" : {
+        "displayName" : "Business Jump Window Action",
+        "summary" : "Business Jump Window Action"
+      },
+      "resViewActionName" : {
+        "displayName" : "Business Jump Window Action Name",
+        "summary" : "Business Jump Window Action Name"
+      },
+      "sendPartner" : {
+        "displayName" : "Message Sender",
+        "summary" : "Message Sender"
+      },
+      "subject" : {
+        "displayName" : "theme",
+        "summary" : "Subject"
+      },
+      "subtype" : {
+        "displayName" : "Message Subtype",
+        "summary" : "Message Subtype"
+      },
+      "workFlowTaskType" : {
+        "displayName" : "Task Type",
+        "summary" : "Workflow type"
+      }
+    },
+    "displayName" : "Pamirs News"
+  },
+  "pamirs.message.PartnerSubtypeRelation" : {
+    "base.Field" : {
+      "activeId" : {
+        "displayName" : "Current activity ID",
+        "summary" : "Current Activity ID"
+      },
+      "activeModel" : {
+        "displayName" : "Current communication model",
+        "summary" : "Current Communication Model"
+      },
+      "partnerId" : {
+        "displayName" : "Follower ID",
+        "summary" : "Follower ID"
+      },
+      "resId" : {
+        "displayName" : "Model Record ID",
+        "summary" : "Model Record ID"
+      },
+      "resModel" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "selectState" : {
+        "displayName" : "Select Status",
+        "summary" : "Selection State"
+      },
+      "subtype" : {
+        "displayName" : "Message Subtype",
+        "summary" : "Message Subtype"
+      }
+    },
+    "displayName" : "Relationship between user and model message subtypes"
+  },
+  "pamirs.message.SmsChannelConfig" : {
+    "base.Field" : {
+      "accessKeyId" : {
+        "displayName" : "Main account AccessKey ID",
+        "summary" : "Master Account AccessKey ID"
+      },
+      "accessKeySecret" : {
+        "displayName" : "The main account AccessKey's secret key",
+        "summary" : "Master Account AccessKey Secret"
+      },
+      "action" : {
+        "displayName" : "SMSAction",
+        "summary" : "SMSAction"
+      },
+      "channel" : {
+        "displayName" : "SMS Channel",
+        "summary" : "SMS Channel"
+      },
+      "endpoint" : {
+        "displayName" : "Sending Channel Endpoint",
+        "summary" : "Send Channel Endpoint"
+      },
+      "regionId" : {
+        "displayName" : "Region ID supported by the API",
+        "summary" : "API Supported RegionID"
+      },
+      "signName" : {
+        "displayName" : "SMS signature name",
+        "summary" : "SMS Signature Name"
+      },
+      "signatureMethod" : {
+        "displayName" : "Signature Method",
+        "summary" : "Signature Method"
+      },
+      "signatureVersion" : {
+        "displayName" : "Signature algorithm version",
+        "summary" : "Signature Algorithm Version"
+      },
+      "timeZone" : {
+        "displayName" : "Time zone",
+        "summary" : "Timezone"
+      },
+      "version" : {
+        "displayName" : "API version number",
+        "summary" : "API Version"
+      }
+    },
+    "displayName" : "SMS channel configuration"
+  },
+  "pamirs.message.SmsSend" : {
+    "base.Field" : {
+      "code" : {
+        "displayName" : "SMS verification code",
+        "summary" : "SMS Captcha"
+      },
+      "phone" : {
+        "displayName" : "Phone number",
+        "summary" : "Receiver\\'s phone number"
+      },
+      "type" : {
+        "displayName" : "SMS verification code type",
+        "summary" : "SMS Captcha Type"
+      }
+    },
+    "displayName" : "General Model for SMS Verification Codes"
+  },
+  "pamirs.message.SmsTemplate" : {
+    "base.Field" : {
+      "channel" : {
+        "displayName" : "SMS Channel",
+        "summary" : "SMS Channel"
+      },
+      "hasVerifyCode" : {
+        "displayName" : "Generate verification code?",
+        "summary" : "Generate Captcha"
+      },
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "reason" : {
+        "displayName" : "Review Notes",
+        "summary" : "The specific reason for the review"
+      },
+      "remark" : {
+        "displayName" : "Remarks",
+        "summary" : "Remark"
+      },
+      "status" : {
+        "displayName" : "Review Status",
+        "summary" : "Audit Status"
+      },
+      "templateCode" : {
+        "displayName" : "SMS template ID",
+        "summary" : "SMS Template ID"
+      },
+      "templateContent" : {
+        "displayName" : "Text message template content",
+        "summary" : "SMS Template Content"
+      },
+      "templateType" : {
+        "displayName" : "SMS Template Type",
+        "summary" : "SMS Template Type"
+      },
+      "timeInterval" : {
+        "displayName" : "Verification code valid time (seconds/s)",
+        "summary" : "Captcha Valid Time (Seconds)"
+      }
+    },
+    "displayName" : "Text Message Template"
+  },
+  "pamirs.message.SystemMessage" : {
+    "base.Field" : {
+      "messages" : {
+        "displayName" : "Site message",
+        "summary" : "Station Letter"
+      },
+      "partners" : {
+        "displayName" : "Recipient of site message",
+        "summary" : "Station Letter Receiver"
+      },
+      "type" : {
+        "displayName" : "Message Type",
+        "summary" : "Message Type"
+      }
+    },
+    "displayName" : "Site message"
+  },
+  "pamirs.message.UnreadMessage" : {
+    "base.Field" : {
+      "appModule" : {
+        "displayName" : "Application Module",
+        "summary" : "App Module"
+      },
+      "body" : {
+        "displayName" : "Specific content of the message",
+        "summary" : "Message Content"
+      },
+      "message" : {
+        "displayName" : "Message",
+        "summary" : "Message"
+      },
+      "messageId" : {
+        "displayName" : "Message ID",
+        "summary" : "Message ID"
+      },
+      "messageSummary" : {
+        "displayName" : "Message summary",
+        "summary" : "Message Summary"
+      },
+      "messageType" : {
+        "displayName" : "Message Type",
+        "summary" : "Message Type"
+      },
+      "module" : {
+        "displayName" : "Module Coding",
+        "summary" : "Module Code"
+      },
+      "readDone" : {
+        "displayName" : "Read or not?",
+        "summary" : "Is Read"
+      },
+      "resId" : {
+        "displayName" : "Model row record id",
+        "summary" : "Model Row ID"
+      },
+      "resModel" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "resName" : {
+        "displayName" : "Model row record name",
+        "summary" : "Model Row Name"
+      },
+      "resViewAction" : {
+        "displayName" : "Business Jump Window Action",
+        "summary" : "Business Jump Window Action"
+      },
+      "resViewActionName" : {
+        "displayName" : "Business Jump Window Action Name",
+        "summary" : "Business Jump Window Action Name"
+      },
+      "subject" : {
+        "displayName" : "theme",
+        "summary" : "theme"
+      },
+      "user" : {
+        "displayName" : "Message Recipient",
+        "summary" : "Message Receiver"
+      },
+      "userId" : {
+        "displayName" : "User ID",
+        "summary" : "User ID"
+      }
+    },
+    "displayName" : "Message"
+  },
+  "pamirs.message.VerificationCode" : {
+    "base.Field" : {
+      "bizId" : {
+        "displayName" : "External business id",
+        "summary" : "External Business ID"
+      },
+      "code" : {
+        "displayName" : "Phone number/Email verification code",
+        "summary" : "Mobile/Email Verification Code"
+      },
+      "expirationTime" : {
+        "displayName" : "Expiration date",
+        "summary" : "Expiration Time"
+      },
+      "invalid" : {
+        "displayName" : "Has the verification code expired?",
+        "summary" : "Is Captcha Invalid"
+      },
+      "isUsed" : {
+        "displayName" : "Whether to use the verification code",
+        "summary" : "Whether to use verification code"
+      },
+      "outId" : {
+        "displayName" : "External order number",
+        "summary" : "External Order Number"
+      },
+      "params" : {
+        "displayName" : "Phone number/email verification code parameter",
+        "summary" : "Mobile/Email Verification Code Parameter"
+      },
+      "source" : {
+        "displayName" : "Mobile phone number/email",
+        "summary" : "Mobile/Email"
+      },
+      "sourceType" : {
+        "displayName" : "Type: Phone Number/Email",
+        "summary" : "Type: Mobile/Email"
+      },
+      "verifyType" : {
+        "displayName" : "Verification code type",
+        "summary" : "Captcha Type"
+      }
+    },
+    "displayName" : "CAPTCHA"
+  },
+  "pamirs.message.VerificationError" : {
+    "base.Field" : {
+      "errorNum" : {
+        "displayName" : "Number of incorrect entries",
+        "summary" : "Error Count"
+      },
+      "source" : {
+        "displayName" : "Mobile phone number/email",
+        "summary" : "Mobile/Email"
+      },
+      "sourceType" : {
+        "displayName" : "Type: Phone Number/Email",
+        "summary" : "Type: Mobile/Email"
+      },
+      "verifyType" : {
+        "displayName" : "Verification code type",
+        "summary" : "Captcha Type"
+      }
+    },
+    "displayName" : "Verification code error message"
+  }
+}

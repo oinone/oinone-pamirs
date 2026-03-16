@@ -1,4 +1,4 @@
-<view type="DETAIL" widget="detail" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" name="集成接口详情detail" title="详情">
+<view type="DETAIL" widget="detail" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" name="EipIntegrationInterfaceEditDetail" title="详情">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

@@ -1,0 +1,7 @@
+{
+  "pamirs.eip.EipSceneInstanceCycleScheduleTaskService" : {
+    "execute" : {
+      "description" : "Scheduled execution of scene instances"
+    }
+  }
+}

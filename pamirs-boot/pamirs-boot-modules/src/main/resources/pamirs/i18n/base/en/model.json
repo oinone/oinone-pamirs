@@ -1,0 +1,237 @@
+{
+  "base.AppSwitcherModuleProxy" : {
+    "summary" : "AppSwitcher Module Proxy",
+    "displayName" : "AppSwitcher Module Proxy",
+    "remark" : "Module",
+    "base.Field" : {
+      "homePageModel" : {
+        "summary" : "Home Page Model Code",
+        "displayName" : "Home Page Model Code"
+      },
+      "moduleCategory" : {
+        "summary" : "Category",
+        "displayName" : "Category"
+      },
+      "maintainer" : {
+        "summary" : "Maintainer",
+        "displayName" : "Maintainer"
+      },
+      "selfBuilt" : {
+        "summary" : "Self-built Application",
+        "displayName" : "Self-built Application"
+      },
+      "homepageViewSystemSource" : {
+        "summary" : "Application Home Page View System Source",
+        "displayName" : "Application Home Page View System Source"
+      },
+      "homePageName" : {
+        "summary" : "Home Page Action Name",
+        "displayName" : "Home Page Action Name"
+      },
+      "moduleUpstreams" : {
+        "summary" : "Upstream Module Code List",
+        "displayName" : "moduleUpstreams"
+      },
+      "logo" : {
+        "summary" : "Icon",
+        "displayName" : "Icon"
+      },
+      "excludeHooks" : {
+        "summary" : "Exclude Interceptor List",
+        "displayName" : "excludeHooks"
+      },
+      "state" : {
+        "summary" : "Status",
+        "displayName" : "Status"
+      },
+      "abbr" : {
+        "summary" : "Module abbreviation only supports lowercase letters and numbers and cannot exceed 8 characters",
+        "displayName" : "Module Abbreviation"
+      },
+      "toBuy" : {
+        "summary" : "Need to Purchase",
+        "displayName" : "Need to Purchase"
+      },
+      "publishCount" : {
+        "summary" : "Total Publish Count",
+        "displayName" : "Total Publish Count"
+      },
+      "defaultHomePageName" : {
+        "summary" : "Default Home Page Action Name",
+        "displayName" : "Default Home Page Action Name"
+      },
+      "like" : {
+        "summary" : "Is Application Favorited",
+        "displayName" : "Is Application Favorited"
+      },
+      "author" : {
+        "summary" : "Module Author",
+        "displayName" : "Module Author"
+      },
+      "module" : {
+        "summary" : "Module Code",
+        "displayName" : "Module Code"
+      },
+      "priority" : {
+        "summary" : "Determines the order of modules in display and default jump on the home page, default is 100, sorted by priority in ascending order by default",
+        "displayName" : "Priority"
+      },
+      "moduleDependencies" : {
+        "summary" : "Dependency Module Code List",
+        "displayName" : "moduleDependencies"
+      },
+      "license" : {
+        "summary" : "License",
+        "displayName" : "License"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "moduleUpstreamList" : {
+        "summary" : "Upstream Module List",
+        "displayName" : "Upstream Module List"
+      },
+      "moduleExclusions" : {
+        "summary" : "Mutually Exclusive Module Code List",
+        "displayName" : "moduleExclusions"
+      },
+      "defaultCategory" : {
+        "summary" : "Default Category Code",
+        "displayName" : "Default Category Code"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "show" : {
+        "summary" : "Visible",
+        "displayName" : "Visible"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "demo" : {
+        "summary" : "Demo Application",
+        "displayName" : "Demo Application"
+      },
+      "moduleDependencyList" : {
+        "summary" : "Dependency Module List",
+        "displayName" : "Dependency Module List"
+      },
+      "publishedVersion" : {
+        "summary" : "Latest Release Version",
+        "displayName" : "Latest Release Version"
+      },
+      "homepageViewId" : {
+        "summary" : "Application Home Page View ID",
+        "displayName" : "Application Home Page View ID"
+      },
+      "moduleMiddleWareList" : {
+        "summary" : "Middleware List",
+        "displayName" : "Middleware List"
+      },
+      "web" : {
+        "summary" : "Web Application",
+        "displayName" : "Web Application"
+      },
+      "platformVersion" : {
+        "summary" : "Latest Platform Version",
+        "displayName" : "Latest Platform Version"
+      },
+      "boot" : {
+        "summary" : "Boot Module",
+        "displayName" : "Boot Module"
+      },
+      "moduleExclusionList" : {
+        "summary" : "Mutually Exclusive Module List",
+        "displayName" : "Mutually Exclusive Module List"
+      },
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "website" : {
+        "summary" : "Site",
+        "displayName" : "Site"
+      },
+      "clientTypes" : {
+        "summary" : "List of Client Types Supported by Application",
+        "displayName" : "List of Client Types Supported by Application"
+      },
+      "dsKey" : {
+        "summary" : "Logical Data Source Name",
+        "displayName" : "Logical Data Source Name"
+      },
+      "urlHomePage" : {
+        "summary" : "URL Home Page",
+        "displayName" : "URL Home Page"
+      },
+      "url" : {
+        "summary" : "Code Repository Address",
+        "displayName" : "Code Repository Address"
+      },
+      "application" : {
+        "summary" : "Is Application",
+        "displayName" : "Is Application"
+      },
+      "latestVersion" : {
+        "summary" : "Installed Version",
+        "displayName" : "Installed Version"
+      },
+      "defaultHomePageModel" : {
+        "summary" : "Default Home Page Model Code",
+        "displayName" : "Default Home Page Model Code"
+      },
+      "contributors" : {
+        "summary" : "Contributor List",
+        "displayName" : "Contributor List"
+      },
+      "category" : {
+        "summary" : "Category Code",
+        "displayName" : "category"
+      },
+      "defaultLogo" : {
+        "summary" : "Default Icon",
+        "displayName" : "Default Icon"
+      },
+      "metaSource" : {
+        "summary" : "Metadata Source",
+        "displayName" : "Metadata Source"
+      }
+    }
+  },
+  "apps.AppsModuleRelUser" : {
+    "displayName" : "Apps Application Associated Users",
+    "base.Field" : {
+      "writeUid" : {
+        "summary" : "Updated By ID",
+        "displayName" : "Updated By ID"
+      },
+      "orderNumber" : "Ordinal number",
+      "like" : {
+        "summary" : "like",
+        "displayName" : "like"
+      },
+      "module" : "Module Coding",
+      "writeDate" : {
+        "summary" : "Update Time",
+        "displayName" : "Update Time"
+      },
+      "id" : {
+        "summary" : "ID field, unique auto-increment index",
+        "displayName" : "ID"
+      },
+      "userId" : "User ID",
+      "createUid" : {
+        "summary" : "Created By ID",
+        "displayName" : "Created By ID"
+      },
+      "createDate" : {
+        "summary" : "Create Time",
+        "displayName" : "Create Time"
+      }
+    }
+  }
+}

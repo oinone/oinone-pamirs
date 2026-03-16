@@ -1,0 +1,191 @@
+{
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_BLANK(data.signatureVersion)": {
+    "error": "Signature algorithm version cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.create#!IS_NULL(data.smtpPort)": {
+    "error": "SMTP server port cannot be empty and must be an integer"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.create#!IS_BLANK(data.smtpHost)": {
+    "error": "SMTP server address cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_BLANK(data.signatureMethod)": {
+    "error": "Signature method cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.update#!IS_NULL(data.id)": {
+    "error": "ID cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.MessageChannel.update#!IS_NULL(channel.iconUrl)": {
+    "error": "Message channel icon cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_BLANK(data.signatureVersion)": {
+    "error": "Signature algorithm version cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailTemplate.update#!IS_BLANK(data.name)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailTemplate.create#!IS_BLANK(data.body)": {
+    "error": "Email content cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsTemplate.update#!IS_NULL(data.templateType)": {
+    "error": "Email content cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.MessageChannel.create#!IS_BLANK(channel.name)": {
+    "error": "Message channel name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.update#!IS_BLANK(data.name)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.update#!IS_NULL(data.smtpPort)": {
+    "error": "SMTP server port cannot be empty and must be an integer"
+  },
+  "validate#base.Function#pamirs.message.MessageChannel.update#!IS_BLANK(channel.name)": {
+    "error": "Message channel name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_BLANK(data.accessKeySecret)": {
+    "error": "Access Secret cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_BLANK(data.endpoint)": {
+    "error": "Sending channel Endpoint cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_BLANK(data.endpoint)": {
+    "error": "Sending channel Endpoint cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsTemplate.update#!IS_BLANK(data.templateCode)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailVerifyTemplate.update#!IS_BLANK(data.body)": {
+    "error": "Email content cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_BLANK(data.accessKeyId)": {
+    "error": "Access Key cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailVerifyTemplate.create#!IS_BLANK(data.body)": {
+    "error": "Email content cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_BLANK(data.accessKeyId)": {
+    "error": "Access Key cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.create#!IS_BLANK(data.name)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsTemplate.update#!IS_NULL(data.channel)": {
+    "error": "SMS channel cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_BLANK(data.timeZone)": {
+    "error": "Time zone cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.MessageChannel.update#!IS_NULL(channel.channelType)": {
+    "error": "Message channel type cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.create#!IS_BLANK(data.smtpUser)": {
+    "error": "SMTP username cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_BLANK(data.signatureMethod)": {
+    "error": "Signature method cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailTemplate.update#!IS_BLANK(data.body)": {
+    "error": "Email content cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_NULL(data.channel)": {
+    "error": "SMS channel cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.MessageChannel.create#!IS_NULL(channel.channelType)": {
+    "error": "Message channel type cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailVerifyTemplate.update#!IS_NULL(data.templateType)": {
+    "error": "Email server cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.create#!IS_NULL(data.smtpSecurity)": {
+    "error": "Encryption type cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.MessageChannel.update#!IS_NULL(channel.openType)": {
+    "error": "Message channel open type cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.MessageChannel.create#!IS_NULL(channel.iconUrl)": {
+    "error": "Message channel icon cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_BLANK(data.signName)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_BLANK(data.version)": {
+    "error": "API version cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_BLANK(data.accessKeySecret)": {
+    "error": "Access Secret cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailVerifyTemplate.create#!IS_NULL(data.templateType)": {
+    "error": "Email server cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailUserSign.update#!IS_BLANK(data.name)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_BLANK(data.regionId)": {
+    "error": "API supported RegionID cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_BLANK(data.regionId)": {
+    "error": "API supported RegionID cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.update#!IS_NULL(data.smtpSecurity)": {
+    "error": "Encryption type cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsTemplate.create#!(EQUALS(data.templateType,NOTIFY) && IS_BLANK(data.timeInterval))": {
+    "error": "Verification code valid time cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_NULL(data.channel)": {
+    "error": "SMS channel cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.update#!IS_NULL(data.action)": {
+    "error": "Send action cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.MessageChannel.create#!IS_NULL(channel.openType)": {
+    "error": "Message channel open type cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailTemplate.create#!IS_NULL(data.emailSenderSourceId)": {
+    "error": "Email server cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsTemplate.create#!IS_NULL(data.channel)": {
+    "error": "SMS channel cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_BLANK(data.version)": {
+    "error": "API version cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_NULL(data.action)": {
+    "error": "Send action cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsTemplate.update#!(EQUALS(data.templateType,NOTIFY) && IS_BLANK(data.timeInterval))": {
+    "error": "Verification code valid time cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_BLANK(data.signName)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailUserSign.create#!IS_BLANK(data.name)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.update#!IS_BLANK(data.smtpHost)": {
+    "error": "SMTP server address cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailUserSign.create#!IS_BLANK(data.emailSignature)": {
+    "error": "Email signature cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailTemplate.create#!IS_BLANK(data.name)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailSenderSource.update#!IS_BLANK(data.smtpUser)": {
+    "error": "SMTP username cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsTemplate.create#!IS_BLANK(data.templateCode)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsTemplate.create#!IS_NULL(data.templateType)": {
+    "error": "Email content cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailTemplate.update#!IS_NULL(data.emailSenderSourceId)": {
+    "error": "Email server cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.SmsChannelConfig.create#!IS_BLANK(data.timeZone)": {
+    "error": "Time zone cannot be empty"
+  },
+  "validate#base.Function#pamirs.message.EmailUserSign.update#!IS_BLANK(data.emailSignature)": {
+    "error": "Email signature cannot be empty"
+  }
+}

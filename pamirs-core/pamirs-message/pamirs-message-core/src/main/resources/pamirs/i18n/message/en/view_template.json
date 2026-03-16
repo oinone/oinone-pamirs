@@ -1,0 +1,99 @@
+{
+  "pamirs.message.EmailVerifyTemplate": {
+    "EmailVerifyTemplateTable": {
+      "base.Field": {
+        "title": "Email Subject",
+        "templateType": "Email Verification Template Type",
+        "timeInterval": "Verification Code Valid Time",
+        "createDate": "Creation Time",
+        "writeDate": "Modification Time"
+      }
+    }
+  },
+  "pamirs.message.MessageChannel": {
+    "MessageChannelTable": {
+      "base.Field": {
+        "name": "Name",
+        "channelType": "Type",
+        "iconUrl": "Icon",
+        "openType": "Open Type",
+        "createDate": "Creation Time",
+        "writeDate": "Modification Time"
+      }
+    },
+    "MessageChannelForm": {
+      "base.Field": {
+        "name": "Name",
+        "channelType": "Type",
+        "iconUrl": "Icon",
+        "openType": "Open Type"
+      }
+    }
+  },
+  "pamirs.message.SmsTemplate": {
+    "SmsTemplateTable": {
+      "base.Field": {
+        "name": "Template Name",
+        "templateCode": "Template Code",
+        "templateContent": "Template Content",
+        "templateType": "Template Type",
+        "channel": "SMS Channel",
+        "status": "Audit Status",
+        "timeInterval": "Verification Code Valid Time (s)"
+      }
+    },
+    "SmsTemplateForm": {
+      "base.Field": {
+        "name": "Template Name",
+        "templateType": "Template Type",
+        "templateCode": "Template Code",
+        "templateContent": "Template Content",
+        "channel": "SMS Channel",
+        "status": "Audit Status",
+        "timeInterval": "Verification Code Valid Time (s)"
+      }
+    }
+  },
+  "pamirs.message.UnreadMessage": {
+    "UnreadMessageTable": {
+      "base.Field": {
+        "messageType": "Message Type",
+        "messageSummary": "Message Summary",
+        "readDone": "Is Read",
+        "createDate": "Message Time"
+      }
+    }
+  },
+  "pamirs.message.EmailTemplate": {
+    "EmailTemplateForm": {
+      "base.Field": {
+        "name": "Name",
+        "description": "Introduction",
+        "title": "Email Subject",
+        "modelDefinition.model": "Model - Model Encoding",
+        "modelDefinition.displayName": "Model - Display Name",
+        "emailUserSign.name": "Email Signature - Email Signature Name",
+        "emailSenderSource.smtpUser": "Specify Email Server - User",
+        "emailSenderSource.smtpHost": "Specify Email Server - smtp host",
+        "emailSenderSource.name": "Specify Email Server - Name",
+        "body": "Email Content"
+      }
+    }
+  },
+  "pamirs.message.SmsChannelConfig": {
+    "SmsChannelConfigForm": {
+      "base.Field": {
+        "signName": "Name",
+        "channel": "SMS Channel",
+        "action": "Sending Form",
+        "endpoint": "Sending Channel Endpoint",
+        "regionId": "API Supported Region ID",
+        "timeZone": "Time Zone",
+        "signatureMethod": "Signature Method",
+        "signatureVersion": "Signature Algorithm Version",
+        "version": "API Version",
+        "active": "Is Activated"
+      }
+    }
+  }
+}

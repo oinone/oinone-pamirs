@@ -1,0 +1,92 @@
+{
+  "pamirs.message.MessageCenter": {
+    "construct": {
+      "description": "Message center construction"
+    }
+  },
+  "pamirs.message.MessageThread": {
+    "construct": {
+      "description": "Model message thread construction"
+    }
+  },
+  "pamirs.message.EmailPoster": {
+    "sendEmail": {
+      "displayName": "Send an email directly"
+    }
+  },
+  "pamirs.message.EmailSenderSource": {
+    "create": {
+      "displayName": "Create"
+    },
+    "update": {
+      "displayName": "Update"
+    }
+  },
+  "pamirs.message.EmailTemplate": {
+    "create": {
+      "displayName": "Create"
+    },
+    "update": {
+      "displayName": "Update"
+    }
+  },
+  "pamirs.message.EmailUserSign": {
+    "create": {
+      "displayName": "Create"
+    },
+    "update": {
+      "displayName": "Update"
+    }
+  },
+  "pamirs.message.EmailVerifyTemplate": {
+    "create": {
+      "displayName": "Create"
+    },
+    "update": {
+      "displayName": "Update"
+    }
+  },
+  "pamirs.message.MessageChannel": {
+    "create": {
+      "displayName": "Create"
+    },
+    "update": {
+      "displayName": "Update"
+    }
+  },
+  "pamirs.message.SmsChannelConfig": {
+    "create": {
+      "displayName": "Create"
+    },
+    "update": {
+      "displayName": "Update"
+    }
+  },
+  "pamirs.message.SmsSend": {
+    "sendCode": {
+      "displayName": "Get verification code"
+    }
+  },
+  "pamirs.message.SmsTemplate": {
+    "create": {
+      "displayName": "Create"
+    },
+    "update": {
+      "displayName": "Update"
+    }
+  },
+  "pamirs.message.UnreadMessage": {
+    "readBatch": {
+      "displayName": "Read"
+    },
+    "readWorkflowMessage": {
+      "displayName": "Query workflow messages"
+    },
+    "unreadCount": {
+      "displayName": "Check the number of unread messages"
+    },
+    "unreadWorkflowList": {
+      "displayName": "Check the list of unread messages"
+    }
+  }
+}

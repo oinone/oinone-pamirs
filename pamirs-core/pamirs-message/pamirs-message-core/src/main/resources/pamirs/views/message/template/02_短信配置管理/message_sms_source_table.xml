@@ -1,4 +1,4 @@
-<view widget="table" title="短信通道" name="短信通道table" type="TABLE" model="pamirs.message.SmsChannelConfig"
+<view widget="table" title="短信通道" name="SmsChannelConfigTable" type="TABLE" model="pamirs.message.SmsChannelConfig"
       excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="pamirs.message.SmsChannelConfig" text="创建"/>

@@ -1,4 +1,4 @@
-<view type="FORM" model="pamirs.message.SmsTemplate" name="短信模板form" title="短信模板">
+<view type="FORM" model="pamirs.message.SmsTemplate" name="SmsTemplateForm" title="短信模板">
     <template slot="actions">
         <action name="$$internal_GotoListTableRouter" label="返回" type="default"/>
         <action name="create" validateForm="true" goBack="true" invisible="activeRecord.id"/>

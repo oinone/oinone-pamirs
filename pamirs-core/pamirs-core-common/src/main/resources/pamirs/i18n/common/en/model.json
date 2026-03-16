@@ -1,0 +1,714 @@
+{
+  "core.common.MetaBizData" : {
+    "base.Field" : {
+      "model" : {
+        "displayName" : "Business Data Model",
+        "summary" : "Business Data Model"
+      },
+      "uniqueKey" : {
+        "displayName" : "Unique mark",
+        "summary" : "Unique mark"
+      }
+    },
+    "displayName" : "Metadata Import/Export Business Data Carrier",
+    "summary" : "Metadata Import/Export Business Data Carrier"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.UdLayout" : {
+    "base.Field" : {
+      "colAlign" : {
+        "displayName" : "Horizontal Alignment",
+        "summary" : "Horizontal Alignment"
+      },
+      "colGap" : {
+        "displayName" : "Horizontal interval",
+        "summary" : "Horizontal interval"
+      },
+      "cols" : {
+        "displayName" : "Number of horizontal grids",
+        "summary" : "Number of horizontal grids"
+      },
+      "gap" : {
+        "displayName" : "Horizontal and vertical spacing",
+        "summary" : "Horizontal and vertical spacing"
+      },
+      "layout" : {
+        "displayName" : "Layout",
+        "summary" : "Layout"
+      },
+      "rowAlign" : {
+        "displayName" : "Vertical alignment",
+        "summary" : "Vertical alignment"
+      },
+      "rowGap" : {
+        "displayName" : "Vertical spacing",
+        "summary" : "Vertical spacing"
+      },
+      "rows" : {
+        "displayName" : "Number of vertical grids",
+        "summary" : "Number of vertical grids"
+      },
+      "wrap" : {
+        "displayName" : "Whether to wrap",
+        "summary" : "Whether to wrap"
+      }
+    },
+    "displayName" : "Layout",
+    "summary" : "Layout"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.UdLayoutCell" : {
+    "base.Field" : {
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      }
+    },
+    "displayName" : "Layout Cell",
+    "summary" : "Layout Cell"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.UdMask" : {
+    "displayName" : "Mask",
+    "summary" : "Mask"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.UdSearch" : {
+    "displayName" : "Search View",
+    "summary" : "Search View"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.UdView" : {
+    "base.Field" : {
+      "autoFillActions" : {
+        "displayName" : "autoFillActions",
+        "summary" : "autoFillActions"
+      },
+      "baseLayoutName" : {
+        "displayName" : "Basic Layout Name",
+        "summary" : "Basic Layout Name"
+      },
+      "enableSequence" : {
+        "displayName" : "Open serial number",
+        "summary" : "Open serial number"
+      },
+      "menu" : {
+        "displayName" : "menu",
+        "summary" : "menu"
+      },
+      "model" : {
+        "displayName" : "Model Code",
+        "summary" : "Model Code"
+      },
+      "pagePath" : {
+        "displayName" : "pagePath",
+        "summary" : "pagePath"
+      },
+      "path" : {
+        "displayName" : "path",
+        "summary" : "path"
+      },
+      "search" : {
+        "displayName" : "search",
+        "summary" : "search"
+      },
+      "summary" : {
+        "displayName" : "Description",
+        "summary" : "Description"
+      },
+      "title" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "type" : {
+        "displayName" : "View type",
+        "summary" : "View type"
+      },
+      "viewName" : {
+        "displayName" : "viewName",
+        "summary" : "viewName"
+      }
+    },
+    "displayName" : "View",
+    "summary" : "View"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.UdWidget" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      }
+    },
+    "displayName" : "Component",
+    "summary" : "Component"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.config.UdClear" : {
+    "displayName" : "Clear Configuration",
+    "summary" : "Clear Configuration"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.mask.UdBlock" : {
+    "displayName" : "Block Component",
+    "summary" : "Block Component"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.mask.UdContainer" : {
+    "displayName" : "Container",
+    "summary" : "Container"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.mask.UdFooter" : {
+    "displayName" : "Footer",
+    "summary" : "Footer"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.mask.UdHeader" : {
+    "displayName" : "Header",
+    "summary" : "Header"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.mask.UdSidebar" : {
+    "displayName" : "Sidebar",
+    "summary" : "Sidebar"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.part.UdOption" : {
+    "base.Field" : {
+      "displayName" : {
+        "displayName" : "Display Name",
+        "summary" : "Display Name"
+      },
+      "references" : {
+        "displayName" : "Related Model Code",
+        "summary" : "Related Model Code"
+      },
+      "referencesType" : {
+        "displayName" : "Association model type",
+        "summary" : "Association model type"
+      },
+      "state" : {
+        "displayName" : "State",
+        "summary" : "State"
+      },
+      "summary" : {
+        "displayName" : "Description",
+        "summary" : "Description"
+      },
+      "value" : {
+        "displayName" : "Value",
+        "summary" : "Value"
+      }
+    },
+    "displayName" : "Option",
+    "summary" : "Option"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.view.UdAction" : {
+    "base.Field" : {
+      "actionType" : {
+        "displayName" : "Action type",
+        "summary" : "Action type"
+      },
+      "compute" : {
+        "displayName" : "Calculation function",
+        "summary" : "Calculation function"
+      },
+      "contextType" : {
+        "displayName" : "Context type",
+        "summary" : "Context type"
+      },
+      "dataType" : {
+        "displayName" : "View data type",
+        "summary" : "View data type"
+      },
+      "disable" : {
+        "displayName" : "Disabled",
+        "summary" : "Disabled"
+      },
+      "displayName" : {
+        "displayName" : "Display Name",
+        "summary" : "Display Name"
+      },
+      "domain" : {
+        "displayName" : "Filter criteria",
+        "summary" : "Filter criteria"
+      },
+      "filter" : {
+        "displayName" : "Server-side filtering criteria",
+        "summary" : "Server-side filtering criteria"
+      },
+      "fun" : {
+        "displayName" : "Function Code",
+        "summary" : "Function Code"
+      },
+      "function" : {
+        "displayName" : "Data Function Definition",
+        "summary" : "Data Function Definition"
+      },
+      "label" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "limit" : {
+        "displayName" : "Query quantity limit",
+        "summary" : "Query quantity limit"
+      },
+      "load" : {
+        "displayName" : "Data Load Function",
+        "summary" : "Data Load Function"
+      },
+      "mapping" : {
+        "displayName" : "Data Mapping",
+        "summary" : "Data Mapping"
+      },
+      "mask" : {
+        "displayName" : "Master",
+        "summary" : "Master"
+      },
+      "model" : {
+        "displayName" : "Source Model",
+        "summary" : "Source Model"
+      },
+      "optionViewTypes" : {
+        "displayName" : "Optional view types",
+        "summary" : "After opening the target model, the types of views that can be switched are supported"
+      },
+      "queryMode" : {
+        "displayName" : "Query Method",
+        "summary" : "Query Method"
+      },
+      "refMeta" : {
+        "displayName" : "Reference metadata",
+        "summary" : "Reference metadata"
+      },
+      "refs" : {
+        "displayName" : "Unique Identifier",
+        "summary" : "Unique Identifier"
+      },
+      "resModel" : {
+        "displayName" : "Target model",
+        "summary" : "Target model"
+      },
+      "resModule" : {
+        "displayName" : "Target Module",
+        "summary" : "Target Module"
+      },
+      "resViewName" : {
+        "displayName" : "Target view",
+        "summary" : "Target view"
+      },
+      "rule" : {
+        "displayName" : "Filter action",
+        "summary" : "Filter action"
+      },
+      "summary" : {
+        "displayName" : "Description",
+        "summary" : "Description"
+      },
+      "tag" : {
+        "displayName" : "Groove",
+        "summary" : "Groove"
+      },
+      "target" : {
+        "displayName" : "Opening method",
+        "summary" : "Opening method"
+      },
+      "text" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "theme" : {
+        "displayName" : "Subject",
+        "summary" : "Subject"
+      },
+      "url" : {
+        "displayName" : "Link",
+        "summary" : "Link"
+      },
+      "viewType" : {
+        "displayName" : "View type",
+        "summary" : "View type"
+      }
+    },
+    "displayName" : "View Action",
+    "summary" : "View Action"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.view.UdConfig" : {
+    "displayName" : "Functional Component",
+    "summary" : "Functional Component"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.view.UdField" : {
+    "base.Field" : {
+      "autoFill" : {
+        "displayName" : "Auto Fill Default",
+        "summary" : "Auto Fill Default"
+      },
+      "compute" : {
+        "displayName" : "Calculated Properties",
+        "summary" : "Calculated Properties"
+      },
+      "decimal" : {
+        "displayName" : "Precision",
+        "summary" : "Precision"
+      },
+      "defaultValue" : {
+        "displayName" : "Default Value",
+        "summary" : "Default Value"
+      },
+      "disable" : {
+        "displayName" : "Disabled",
+        "summary" : "Disabled"
+      },
+      "domain" : {
+        "displayName" : "Filter criteria",
+        "summary" : "Filter criteria"
+      },
+      "domainSize" : {
+        "displayName" : "Limit on the number of options",
+        "summary" : "Limit on the number of options"
+      },
+      "field" : {
+        "displayName" : "Field Code",
+        "summary" : "Field Code"
+      },
+      "format" : {
+        "displayName" : "Format",
+        "summary" : "Format"
+      },
+      "hint" : {
+        "displayName" : "Instruction prompt",
+        "summary" : "Instruction prompt"
+      },
+      "label" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "limit" : {
+        "displayName" : "Quantity limit",
+        "summary" : "Quantity limit"
+      },
+      "load" : {
+        "displayName" : "Data Load Function",
+        "summary" : "Data Load Function"
+      },
+      "mapping" : {
+        "displayName" : "Data Mapping",
+        "summary" : "Data Mapping"
+      },
+      "max" : {
+        "displayName" : "Maximum value",
+        "summary" : "Maximum value"
+      },
+      "min" : {
+        "displayName" : "Minimum value",
+        "summary" : "Minimum value"
+      },
+      "model" : {
+        "displayName" : "Model Code",
+        "summary" : "Model Code"
+      },
+      "multi" : {
+        "displayName" : "Multiple values",
+        "summary" : "Multiple values"
+      },
+      "optionFields" : {
+        "displayName" : "Optional field list",
+        "summary" : "Optional field list"
+      },
+      "options" : {
+        "displayName" : "Options",
+        "summary" : "Options"
+      },
+      "ordering" : {
+        "displayName" : "Sort",
+        "summary" : "Sort"
+      },
+      "pageSize" : {
+        "displayName" : "Optional pagination",
+        "summary" : "Optional pagination"
+      },
+      "proxyOptions" : {
+        "displayName" : "Options",
+        "summary" : "Options"
+      },
+      "queryMode" : {
+        "displayName" : "Data loading method",
+        "summary" : "Data loading method"
+      },
+      "readonly" : {
+        "displayName" : "Read Only",
+        "summary" : "Read Only"
+      },
+      "referenceFields" : {
+        "displayName" : "Relation Field",
+        "summary" : "Relation Field"
+      },
+      "references" : {
+        "displayName" : "Related Model",
+        "summary" : "Related Model"
+      },
+      "relationFields" : {
+        "displayName" : "Relationship field",
+        "summary" : "Relationship field"
+      },
+      "relationStore" : {
+        "displayName" : "Store relationships",
+        "summary" : "Store relationships"
+      },
+      "required" : {
+        "displayName" : "Required",
+        "summary" : "Required"
+      },
+      "showClear" : {
+        "displayName" : "Show Clear Button",
+        "summary" : "Show Clear Button"
+      },
+      "size" : {
+        "displayName" : "Length",
+        "summary" : "Length"
+      },
+      "store" : {
+        "displayName" : "Storage",
+        "summary" : "Storage"
+      },
+      "through" : {
+        "displayName" : "Intermediate Model",
+        "summary" : "Intermediate Model"
+      },
+      "throughReferenceFields" : {
+        "displayName" : "Intermediate Model Association Field",
+        "summary" : "Intermediate Model Association Field"
+      },
+      "throughRelationFields" : {
+        "displayName" : "Intermediate model relationship field",
+        "summary" : "Intermediate model relationship field"
+      },
+      "ttype" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      }
+    },
+    "displayName" : "View Field",
+    "summary" : "View Field"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.view.UdFilter" : {
+    "base.Field" : {
+      "autoFill" : {
+        "displayName" : "Auto Fill Default",
+        "summary" : "Auto Fill Default"
+      },
+      "compute" : {
+        "displayName" : "Calculated Properties",
+        "summary" : "Calculated Properties"
+      },
+      "decimal" : {
+        "displayName" : "Precision",
+        "summary" : "Precision"
+      },
+      "defaultValue" : {
+        "displayName" : "Default Value",
+        "summary" : "Default Value"
+      },
+      "disable" : {
+        "displayName" : "Disabled",
+        "summary" : "Disabled"
+      },
+      "domain" : {
+        "displayName" : "Filter criteria",
+        "summary" : "Filter criteria"
+      },
+      "domainSize" : {
+        "displayName" : "Limit on the number of options",
+        "summary" : "Limit on the number of options"
+      },
+      "field" : {
+        "displayName" : "Field Code",
+        "summary" : "Field Code"
+      },
+      "format" : {
+        "displayName" : "Format",
+        "summary" : "Format"
+      },
+      "hint" : {
+        "displayName" : "Instruction prompt",
+        "summary" : "Instruction prompt"
+      },
+      "label" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "limit" : {
+        "displayName" : "Quantity limit",
+        "summary" : "Quantity limit"
+      },
+      "load" : {
+        "displayName" : "Data Load Function",
+        "summary" : "Data Load Function"
+      },
+      "mapping" : {
+        "displayName" : "Data Mapping",
+        "summary" : "Data Mapping"
+      },
+      "max" : {
+        "displayName" : "Maximum value",
+        "summary" : "Maximum value"
+      },
+      "min" : {
+        "displayName" : "Minimum value",
+        "summary" : "Minimum value"
+      },
+      "model" : {
+        "displayName" : "Model Code",
+        "summary" : "Model Code"
+      },
+      "multi" : {
+        "displayName" : "Multiple values",
+        "summary" : "Multiple values"
+      },
+      "options" : {
+        "displayName" : "Options",
+        "summary" : "Options"
+      },
+      "ordering" : {
+        "displayName" : "Sort",
+        "summary" : "Sort"
+      },
+      "pageSize" : {
+        "displayName" : "Optional pagination",
+        "summary" : "Optional pagination"
+      },
+      "placeholder" : {
+        "displayName" : "Occupant Prompt",
+        "summary" : "Occupant Prompt"
+      },
+      "proxyOptions" : {
+        "displayName" : "Options",
+        "summary" : "Options"
+      },
+      "queryMode" : {
+        "displayName" : "Data loading method",
+        "summary" : "Data loading method"
+      },
+      "readonly" : {
+        "displayName" : "Read Only",
+        "summary" : "Read Only"
+      },
+      "referenceFields" : {
+        "displayName" : "Relation Field",
+        "summary" : "Relation Field"
+      },
+      "references" : {
+        "displayName" : "Related Model",
+        "summary" : "Related Model"
+      },
+      "relationFields" : {
+        "displayName" : "Relationship field",
+        "summary" : "Relationship field"
+      },
+      "relationStore" : {
+        "displayName" : "Store relationships",
+        "summary" : "Store relationships"
+      },
+      "required" : {
+        "displayName" : "Required",
+        "summary" : "Required"
+      },
+      "showClear" : {
+        "displayName" : "Show Clear Button",
+        "summary" : "Show Clear Button"
+      },
+      "size" : {
+        "displayName" : "Length",
+        "summary" : "Length"
+      },
+      "store" : {
+        "displayName" : "Storage",
+        "summary" : "Storage"
+      },
+      "through" : {
+        "displayName" : "Intermediate Model",
+        "summary" : "Intermediate Model"
+      },
+      "throughReferenceFields" : {
+        "displayName" : "Intermediate Model Association Field",
+        "summary" : "Intermediate Model Association Field"
+      },
+      "throughRelationFields" : {
+        "displayName" : "Intermediate model relationship field",
+        "summary" : "Intermediate model relationship field"
+      },
+      "ttype" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      }
+    },
+    "displayName" : "View Field",
+    "summary" : "View Field"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.view.UdGroup" : {
+    "base.Field" : {
+      "title" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      }
+    },
+    "displayName" : "Container Component",
+    "summary" : "Container Component"
+  },
+  "pro.shushi.pamirs.core.common.dsl.model.view.UdPlaceholder" : {
+    "displayName" : "Template Slot Content",
+    "summary" : "Template Slot Content"
+  }
+}

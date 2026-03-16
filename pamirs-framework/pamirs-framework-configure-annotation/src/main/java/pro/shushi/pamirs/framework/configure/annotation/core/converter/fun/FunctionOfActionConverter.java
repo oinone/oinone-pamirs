@@ -5,7 +5,9 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Action;
+import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
 import pro.shushi.pamirs.meta.api.dto.common.Message;
@@ -67,30 +69,33 @@ public class FunctionOfActionConverter implements ModelConverter<FunctionDefinit
     }
 
     @Override
-    public FunctionDefinition convert(MetaNames names, Method method, FunctionDefinition function) {
-        Action actionAnnotation = AnnotationUtils.getAnnotation(method, Action.class);
-        Action.Advanced actionAdvancedAnnotation = AnnotationUtils.getAnnotation(method, Action.Advanced.class);
-        String namespace = NamespaceAndFunUtils.namespace(method);
-        String fun = NamespaceAndFunUtils.fun(method);
-        NamespaceAndFunUtils.fillBeanName(method, function);
-        SystemSourceEnum systemSource = SystemSourceUtils.fetch(method);
-        Boolean managed = Optional.ofNullable(actionAdvancedAnnotation).map(Action.Advanced::managed)
+    public FunctionDefinition convert(MetaNames names, Method source, FunctionDefinition function) {
+        Action actionAnnotation = AnnotationUtils.getAnnotation(source, Action.class);
+        Action.Advanced actionAdvanced = AnnotationUtils.getAnnotation(source, Action.Advanced.class);
+        Fun funAnnotation = AnnotationUtils.getAnnotation(source.getDeclaringClass(), Fun.class);
+        String model = Optional.ofNullable(names.getModel()).filter(StringUtils::isNotBlank).orElse(Optional.ofNullable(funAnnotation).map(Fun::value).orElse(null));
+        String name = Optional.ofNullable(actionAdvanced).map(Action.Advanced::name).filter(StringUtils::isNotBlank).orElse(source.getName());
+        String namespace = NamespaceAndFunUtils.namespace(source);
+        String fun = NamespaceAndFunUtils.fun(source);
+        NamespaceAndFunUtils.fillBeanName(source, function);
+        SystemSourceEnum systemSource = SystemSourceUtils.fetch(source);
+        Boolean managed = Optional.ofNullable(actionAdvanced).map(Action.Advanced::managed)
                 .map(v -> v || null != function.getDataManager() && function.getDataManager()).orElse(false);
-        function.setDisplayName(Optional.ofNullable(actionAnnotation).map(Action::displayName).orElse(fun))
+        function.setDisplayName(I18nUtils.translateServerAction(names.getModule(), model, name, "displayName", Optional.ofNullable(actionAnnotation).map(Action::displayName).orElse(fun)))
                 .setModule(names.getModule())
                 .setNamespace(namespace)
                 .setFun(fun)
-                .setName(Optional.ofNullable(actionAdvancedAnnotation).map(Action.Advanced::name).filter(StringUtils::isNotBlank).orElse(method.getName()))
-                .setType(Optional.ofNullable(actionAdvancedAnnotation).map(Action.Advanced::type).map(ListUtils::<FunctionTypeEnum>toList).orElse(Lists.newArrayList(FunctionTypeEnum.UPDATE)))
+                .setName(Optional.ofNullable(actionAdvanced).map(Action.Advanced::name).filter(StringUtils::isNotBlank).orElse(source.getName()))
+                .setType(Optional.ofNullable(actionAdvanced).map(Action.Advanced::type).map(ListUtils::<FunctionTypeEnum>toList).orElse(Lists.newArrayList(FunctionTypeEnum.UPDATE)))
                 .setLanguage(FunctionLanguageEnum.JAVA)
                 .setCategory(FunctionCategoryEnum.OTHER)
                 .setSource(FunctionSourceEnum.ACTION)
                 .setDataManager(managed)
-                .setDescription(Optional.ofNullable(actionAnnotation).map(Action::summary).orElse(null))
-                .setClazz(method.getDeclaringClass().getName())
-                .setMethod(method.getName())
-                .setArgumentList(FunctionUtils.convertArgumentList(method))
-                .setReturnType(FunctionUtils.convertReturnType(method))
+                .setDescription(I18nUtils.translateServerAction(names.getModule(), model, name, "description", Optional.ofNullable(actionAnnotation).map(Action::summary).orElse(null)))
+                .setClazz(source.getDeclaringClass().getName())
+                .setMethod(source.getName())
+                .setArgumentList(FunctionUtils.convertArgumentList(source))
+                .setReturnType(FunctionUtils.convertReturnType(source))
                 .setSystemSource(systemSource);
         if (managed || CollectionUtils.isEmpty(function.getOpenLevel())) {
             function.setOpenLevel(Lists.newArrayList(FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API));
@@ -110,7 +115,7 @@ public class FunctionOfActionConverter implements ModelConverter<FunctionDefinit
         Optional.ofNullable(function.getOpenLevel()).ifPresent(v -> v.sort(Comparator.comparing(FunctionOpenEnum::value)));
 
         // 是否校验
-        Boolean check = Optional.ofNullable(actionAdvancedAnnotation).map(Action.Advanced::check).orElse(null);
+        Boolean check = Optional.ofNullable(actionAdvanced).map(Action.Advanced::check).orElse(null);
         if (null != check && check) {
             function.enableBitOption(FunctionBitOptions.ENABLE_CHECK.getOption());
         } else {

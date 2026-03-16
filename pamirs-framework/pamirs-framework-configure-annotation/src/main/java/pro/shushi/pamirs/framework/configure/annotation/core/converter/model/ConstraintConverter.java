@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.meta.annotation.Model;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ConverterType;
@@ -20,7 +21,6 @@ import pro.shushi.pamirs.meta.enmu.InformationLevelEnum;
 import pro.shushi.pamirs.meta.enmu.OnCascadeEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
-import java.text.MessageFormat;
 import java.util.*;
 
 import static pro.shushi.pamirs.framework.configure.annotation.emnu.AnnotationExpEnumerate.BASE_CONSTRAINT_NO_REFERENCE_ERROR;
@@ -61,7 +61,7 @@ public class ConstraintConverter implements ModelConverter<Map<String, ModelFiel
             if (StringUtils.isBlank(references)) {
                 result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                         .error(BASE_CONSTRAINT_NO_REFERENCE_ERROR)
-                        .append(MessageFormat.format("请配置{0}的@Model.Constraint注解的references或referenceClass属性", names.getModel())));
+                        .append(I18nUtils.translate("ConstraintConverter.referencesMissing", names.getModel())));
                 result.error();
                 context.error().broken();
             }

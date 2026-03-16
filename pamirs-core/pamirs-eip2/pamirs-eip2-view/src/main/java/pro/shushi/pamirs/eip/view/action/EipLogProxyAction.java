@@ -21,7 +21,7 @@ import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 @Model.model(EipLogProxy.MODEL_MODEL)
 @UxRouteButton(
         action = @UxAction(name = "EipLogDetail", displayName = "接口日志详情", label = "详情", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = EipLogProxy.MODEL_MODEL, viewName = "EIP日志detail", openType = ActionTargetEnum.DRAWER))
+        value = @UxRoute(model = EipLogProxy.MODEL_MODEL, viewName = "EipLogProxyProxyDetail", openType = ActionTargetEnum.DRAWER))
 public class EipLogProxyAction {
 
     @Autowired

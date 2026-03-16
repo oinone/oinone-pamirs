@@ -1,0 +1,16 @@
+{
+  "AddressLib": "Address Library",
+  "ResourceRegion": "Region",
+  "ResourceCountryGroup": "Country Group",
+  "ResourceCountry": "Country",
+  "ResourceProvince": "Province",
+  "ResourceCity": "City",
+  "ResourceDistrict": "District",
+  "ResourceStreet": "Street",
+  "ResourceCurrency": "Currency",
+  "ResourceLang": "Language",
+  "ResourceTaxConfig": "Tax Configuration",
+  "ResourceTaxKind": "Tax Type",
+  "ResourceTax": "Tax Rate",
+  "ResourceIcon": "Icon Management"
+}

@@ -1,4 +1,4 @@
-<view type="DETAIL" title="导入/导出模板" name="Excel工作簿detail" widget="detail" model="file.ExcelWorkbookDefinition">
+<view type="DETAIL" title="导入/导出模板" name="ExcelWorkbookDefinitionDetail" widget="detail" model="file.ExcelWorkbookDefinition">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

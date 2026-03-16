@@ -1,0 +1,7 @@
+{
+  "apps.AppsManagementModule": {
+    "apps_business_screen_detail": {
+      "displayName": "Learn more"
+    }
+  }
+}

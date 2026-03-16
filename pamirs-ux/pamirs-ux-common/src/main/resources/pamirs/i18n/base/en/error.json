@@ -1,0 +1,11 @@
+{
+  "pro.shushi.pamirs.ux.common.enumeration.UxCommonExpEnumerate" : {
+    "displayName" : "User Experience Package Common Error Enumeration",
+    "MODEL_NOT_FOUND" : "Model metadata not found model: {}",
+    "MODEL_FIELD_NOT_FOUND" : "Model field metadata not found model: {}, field: {}",
+    "SORT_FIELD_NOT_FOUND" : "Sorting field metadata not found model: {}, field: {}",
+    "GROUPING_FIELD_NOT_FOUND" : "Grouping field metadata not found model: {}, field: {}",
+    "STATISTIC_API_NOT_FOUND" : "Unsupported statistical method statistic: {}",
+    "SYSTEM_ERROR" : "Unhandled system exception"
+  }
+}

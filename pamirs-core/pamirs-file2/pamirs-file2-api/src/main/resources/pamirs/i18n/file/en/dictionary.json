@@ -1,0 +1,481 @@
+{
+  "file.ExcelAnalysisTypeEnum": {
+    "displayName": "Excel Parsing Type",
+    "FIXED_HEADER": {
+      "displayName": "Fixed header",
+      "help": "Fixed header"
+    },
+    "FIXED_FORMAT": {
+      "displayName": "Fixed format",
+      "help": "Fixed format"
+    }
+  },
+  "file.ExcelBorderStyleEnum": {
+    "displayName": "Excel border style",
+    "NONE": {
+      "displayName": "Frameless",
+      "help": "Frameless"
+    },
+    "THIN": {
+      "displayName": "Thin bezel",
+      "help": "Thin bezel"
+    },
+    "MEDIUM": {
+      "displayName": "Regular Border",
+      "help": "Regular Border"
+    },
+    "THICK": {
+      "displayName": "Thick border",
+      "help": "Thick border"
+    },
+    "DASHED": {
+      "displayName": "dashed border",
+      "help": "dashed border"
+    },
+    "DOTTED": {
+      "displayName": "Dotted and dashed borders",
+      "help": "Dotted and dashed borders"
+    },
+    "DOUBLE": {
+      "displayName": "Double line border",
+      "help": "Double line border"
+    },
+    "HAIR": {
+      "displayName": "Hairline border",
+      "help": "Hairline border"
+    },
+    "MEDIUM_DASHED": {
+      "displayName": "dashed border",
+      "help": "dashed border"
+    },
+    "DASH_DOT": {
+      "displayName": "Dotted line border",
+      "help": "Dotted line border"
+    },
+    "MEDIUM_DASH_DOT": {
+      "displayName": "Dashed border",
+      "help": "Dashed border"
+    },
+    "DASH_DOT_DOT": {
+      "displayName": "Dotted border",
+      "help": "Dotted border"
+    },
+    "MEDIUM_DASH_DOT_DOT": {
+      "displayName": "Medium-short dash-dot-dot border",
+      "help": "Medium-short dash-dot-dot border"
+    },
+    "SLANTED_DASH_DOT": {
+      "displayName": "Diagonal dotted border",
+      "help": "Diagonal dotted border"
+    }
+  },
+  "file.ExcelDirectionEnum": {
+    "displayName": "Excel Arrangement Direction",
+    "HORIZONTAL": {
+      "displayName": "Horizontal arrangement",
+      "help": "Child elements arranged horizontally, vertically filled"
+    },
+    "VERTICAL": {
+      "displayName": "Vertical arrangement",
+      "help": "Child elements are arranged vertically and fill horizontally"
+    }
+  },
+  "file.ExcelExportFileTypeEnum": {
+    "displayName": "Export File Type",
+    "EXCEL": {
+      "displayName": "Excel format",
+      "help": "Export Excel format file"
+    },
+    "CSV": {
+      "displayName": "CSV format",
+      "help": "Export CSV format file"
+    },
+    "summary": "All export file types supported by the system"
+  },
+  "file.ExcelExportMethodEnum": {
+    "displayName": "Export method",
+    "TEMPLATE": {
+      "displayName": "Export according to the template",
+      "help": "Export according to the template"
+    },
+    "SELECT_TEMPLATE_FIELD": {
+      "displayName": "Export fields based on the template",
+      "help": "Export fields based on the template"
+    },
+    "SELECT_FIELD": {
+      "displayName": "Export according to the model selection field",
+      "help": "Export according to the model selection field"
+    },
+    "summary": "Export method"
+  },
+  "file.ExcelExportStrategyEnum": {
+    "displayName": "Export Policy",
+    "STANDARD": {
+      "displayName": "Default fetch",
+      "help": "By default, use a single extension point to obtain all data from the entire workbook"
+    },
+    "BLOCK": {
+      "displayName": "Multiple function acquisition",
+      "help": "Use functions defined by blocks to separately obtain the data within the blocks"
+    },
+    "STREAM": {
+      "displayName": "Stream based retrieval",
+      "help": "Retrieve data from each block through paging, alternating between retrieving data and filling data"
+    },
+    "summary": "Export Policy"
+  },
+  "file.ExcelFillPatternTypeEnum": {
+    "displayName": "Excel Fill Type",
+    "NO_FILL": {
+      "displayName": "Do not fill",
+      "help": "Do not fill"
+    },
+    "SOLID_FOREGROUND": {
+      "displayName": "Solid Color Fill",
+      "help": "Solid Color Fill"
+    },
+    "FINE_DOTS": {
+      "displayName": "Fine filling",
+      "help": "Fine point filling"
+    },
+    "ALT_BARS": {
+      "displayName": "Alternating stripe filling",
+      "help": "Alternating stripe filling"
+    },
+    "SPARSE_DOTS": {
+      "displayName": "Sparse point filling",
+      "help": "Sparse point filling"
+    },
+    "THICK_HORZ_BANDS": {
+      "displayName": "Thick horizontal stripe fill",
+      "help": "Coarse horizontal stripe fill"
+    },
+    "THICK_VERT_BANDS": {
+      "displayName": "Coarse vertical stripe fill",
+      "help": "Coarse vertical stripe fill"
+    },
+    "THICK_BACKWARD_DIAG": {
+      "displayName": "Fill backward with a thick slash",
+      "help": "Fill backward with a thick slash"
+    },
+    "THICK_FORWARD_DIAG": {
+      "displayName": "Fill the bold diagonal line forward",
+      "help": "Fill forward with a thick slash"
+    },
+    "BIG_SPOTS": {
+      "displayName": "Big padding",
+      "help": "Fill a bit more"
+    },
+    "BRICKS": {
+      "displayName": "Brick filling",
+      "help": "Brick filling"
+    },
+    "THIN_HORZ_BANDS": {
+      "displayName": "Fine horizontal stripe fill",
+      "help": "Fine horizontal stripe fill"
+    },
+    "THIN_VERT_BANDS": {
+      "displayName": "Fine vertical stripe fill",
+      "help": "Fine vertical stripe fill"
+    },
+    "THIN_BACKWARD_DIAG": {
+      "displayName": "Thin slash fills backwards",
+      "help": "Fill backward with fine diagonal lines"
+    },
+    "THIN_FORWARD_DIAG": {
+      "displayName": "Fill forward with fine diagonal lines",
+      "help": "Fill forward with fine diagonal lines"
+    }
+  },
+  "file.ExcelHorizontalAlignmentEnum": {
+    "displayName": "Excel Horizontal Alignment",
+    "GENERAL": {
+      "displayName": "Default",
+      "help": "Text is left-aligned; numbers, dates, and times are right-aligned; booleans are centered;"
+    },
+    "LEFT": {
+      "displayName": "Align Left",
+      "help": "Align Left"
+    },
+    "CENTER": {
+      "displayName": "Center Alignment",
+      "help": "Center Alignment"
+    },
+    "RIGHT": {
+      "displayName": "Right Align",
+      "help": "Right Align"
+    },
+    "FILL": {
+      "displayName": "Fill Alignment",
+      "help": "Fill Alignment"
+    },
+    "JUSTIFY": {
+      "displayName": "Align Left and Right",
+      "help": "Align Left and Right"
+    },
+    "CENTER_SELECTION": {
+      "displayName": "Center align",
+      "help": "Center align"
+    },
+    "DISTRIBUTED": {
+      "displayName": "Justify (Distributed)",
+      "help": "Justify (Distributed)"
+    }
+  },
+  "file.ExcelImportModeEnum": {
+    "displayName": "Excel Import Mode",
+    "MULTI_MODEL": {
+      "displayName": "Multi-model",
+      "help": "One template corresponds to multiple different sheets, default mode"
+    },
+    "SINGLE_MODEL": {
+      "displayName": "Single model",
+      "help": "All sheets share one model"
+    }
+  },
+  "file.ExcelImportStrategyEnum": {
+    "displayName": "Import strategy",
+    "STANDARD": {
+      "displayName": "Standard mode",
+      "help": "Standard mode (default), developers control all import processes themselves"
+    },
+    "EACH": {
+      "displayName": "Import line by line",
+      "help": "Automatically collect import errors and generate error files"
+    },
+    "ALL": {
+      "displayName": "All successful",
+      "help": "Automatically start import transactions, automatically interrupt on error"
+    },
+    "ALL_EACH": {
+      "displayName": "All succeed and collect errors",
+      "help": "Automatically start import transactions and automatically collect import errors to generate error files"
+    },
+    "summary": "Import strategy"
+  },
+  "file.ExcelPositionEnum": {
+    "displayName": "Excel Location Properties",
+    "ABSOLUTELY": {
+      "displayName": "Absolute positioning",
+      "help": "Absolute positioning"
+    },
+    "RELATIVE": {
+      "displayName": "Relative positioning",
+      "help": "Relative positioning"
+    }
+  },
+  "file.ExcelTaskStateEnum": {
+    "displayName": "Excel Task Status",
+    "PROCESSING": {
+      "displayName": "Processing",
+      "help": "Processing"
+    },
+    "SUCCESS": {
+      "displayName": "Success",
+      "help": "Success"
+    },
+    "FAILURE": {
+      "displayName": "Failure",
+      "help": "Failure"
+    }
+  },
+  "resource.ExcelTemplateSourceEnum": {
+    "displayName": "Template Source Enumeration",
+    "SYSTEM": {
+      "displayName": "System Generated",
+      "help": "When the current model does not have a template, it will be automatically generated by the system. After creating a new template, it will be automatically deleted, and editing operations will retain the template."
+    },
+    "INITIALIZATION": {
+      "displayName": "Initialize generation",
+      "help": "This template is not allowed to be edited or deleted."
+    },
+    "CUSTOM": {
+      "displayName": "Custom",
+      "help": "Templates created/edited by the user"
+    },
+    "summary": "Template source enum"
+  },
+  "file.ExcelTemplateTypeEnum": {
+    "displayName": "Excel Template Type",
+    "IMPORT_EXPORT": {
+      "displayName": "All",
+      "help": "All"
+    },
+    "IMPORT": {
+      "displayName": "Import",
+      "help": "For import only"
+    },
+    "EXPORT": {
+      "displayName": "Export",
+      "help": "For export only"
+    }
+  },
+  "file.ExcelTypefaceEnum": {
+    "displayName": "Excel Font",
+    "SONG": {
+      "displayName": "SimSun",
+      "help": "SimSun"
+    },
+    "REGULAR_SCRIPT": {
+      "displayName": "Regular Script",
+      "help": "Regular Script"
+    },
+    "BOLDFACE": {
+      "displayName": "black body",
+      "help": "black body"
+    },
+    "YAHEI": {
+      "help": "Microsoft YaHei"
+    }
+  },
+  "file.ExcelTypeOffsetEnum": {
+    "displayName": "Excel Font Offset Type",
+    "NORMAL": {
+      "displayName": "Regular",
+      "help": "Regular"
+    },
+    "SUPER": {
+      "displayName": "Superscript",
+      "help": "Superscript"
+    },
+    "SUB": {
+      "displayName": "Subscript",
+      "help": "Subscript"
+    }
+  },
+  "file.ExcelUnderlineEnum": {
+    "displayName": "Excel Font Style Types",
+    "NONE": {
+      "displayName": "None",
+      "help": "None"
+    },
+    "SINGLE": {
+      "displayName": "Single underscore",
+      "help": "Superscript"
+    },
+    "DOUBLE": {
+      "displayName": "double underscore",
+      "help": "Superscript"
+    },
+    "SINGLE_ACCOUNTING": {
+      "displayName": "Accounting style single underline",
+      "help": "Superscript"
+    },
+    "DOUBLE_ACCOUNTING": {
+      "displayName": "Accounting style double underline",
+      "help": "Subscript"
+    }
+  },
+  "file.ExcelValueTypeEnum": {
+    "displayName": "Excel Value Type",
+    "STRING": {
+      "displayName": "Text",
+      "help": "Text"
+    },
+    "INTEGER": {
+      "displayName": "Integer",
+      "help": "Integer"
+    },
+    "NUMBER": {
+      "displayName": "Number",
+      "help": "Number"
+    },
+    "DATETIME": {
+      "displayName": "Date Time",
+      "help": "Date Time"
+    },
+    "FORMULA": {
+      "displayName": "formula",
+      "help": "formula"
+    },
+    "BOOLEAN": {
+      "displayName": "Boolean",
+      "help": "Boolean"
+    },
+    "CALENDAR": {
+      "displayName": "Calendar",
+      "help": "Calendar"
+    },
+    "COMMENT": {
+      "displayName": "Remarks",
+      "help": "Remarks"
+    },
+    "HYPER_LINK": {
+      "displayName": "Hyperlink",
+      "help": "Hyperlink"
+    },
+    "RICH_TEXT_STRING": {
+      "displayName": "Rich Text",
+      "help": "Rich Text"
+    },
+    "ENUMERATION": {
+      "displayName": "Enumeration",
+      "help": "Enumeration"
+    },
+    "BIT": {
+      "displayName": "Binary Enumeration",
+      "help": "Binary Enumeration"
+    },
+    "OBJECT": {
+      "displayName": "Object",
+      "help": "Object"
+    }
+  },
+  "file.ExcelVerticalAlignmentEnum": {
+    "displayName": "Excel vertical alignment",
+    "TOP": {
+      "displayName": "Top Align",
+      "help": "Top Align"
+    },
+    "CENTER": {
+      "displayName": "Center Alignment",
+      "help": "Center Alignment"
+    },
+    "BOTTOM": {
+      "displayName": "Bottom alignment",
+      "help": "Bottom alignment"
+    },
+    "JUSTIFY": {
+      "displayName": "Align top and bottom",
+      "help": "Align top and bottom"
+    },
+    "DISTRIBUTED": {
+      "displayName": "Justify (Distributed)",
+      "help": "Justify (Distributed)"
+    }
+  },
+  "file.OfficeVersionEnum": {
+    "displayName": "Office version",
+    "AUTO": {
+      "displayName": "Automatic recognition",
+      "help": "Automatically recognizes file types, an error occurs when it cannot be recognized"
+    },
+    "OLD": {
+      "displayName": "Old version",
+      "help": "Refers to the versions of Office released in 2003 and earlier, using the old file extensions"
+    },
+    "NEW": {
+      "displayName": "New version",
+      "help": "Refers to Office versions released after 2003, using the new file extensions"
+    }
+  },
+  "file.TaskMessageLevelEnum": {
+    "displayName": "Task Information Level",
+    "TIP": {
+      "displayName": "Prompt",
+      "help": "Prompt"
+    },
+    "INFO": {
+      "displayName": "Information",
+      "help": "Information"
+    },
+    "WARNING": {
+      "displayName": "Warning",
+      "help": "Warning"
+    },
+    "ERROR": {
+      "displayName": "Abnormal",
+      "help": "Abnormal"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "trigger.NotifyTypeEnum": {
+    "summary": "notification type",
+    "displayName": "Notification Type"
+  }
+}

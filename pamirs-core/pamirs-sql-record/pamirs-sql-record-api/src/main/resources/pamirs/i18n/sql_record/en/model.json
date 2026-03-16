@@ -1,0 +1,15 @@
+{
+  "record.RecordFilter" : {
+    "base.Field" : {
+      "filter" : {
+        "displayName" : "Filter expression",
+        "summary" : "Filter Expression"
+      },
+      "filterType" : {
+        "displayName" : "Filter Type",
+        "summary" : "Filter Type"
+      }
+    },
+    "displayName" : "Filter Settings"
+  }
+}

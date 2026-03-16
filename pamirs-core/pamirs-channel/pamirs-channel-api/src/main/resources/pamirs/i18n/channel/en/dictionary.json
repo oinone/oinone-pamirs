@@ -1,0 +1,19 @@
+{
+  "channel.DumpStateEnum": {
+    "displayName": "Dump state",
+    "INIT": {
+      "help": "Initialization"
+    }
+  },
+  "channel.IncrementEnum": {
+    "displayName": "Enhanced Model Incremental Synchronization Control",
+    "OPEN": {
+      "displayName": "Already turned on",
+      "help": "Enable incremental synchronization"
+    },
+    "CLOSE": {
+      "displayName": "Closed",
+      "help": "Turn off incremental sync"
+    }
+  }
+}

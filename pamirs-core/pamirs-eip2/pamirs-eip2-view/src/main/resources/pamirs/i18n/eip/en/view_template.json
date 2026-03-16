@@ -1,0 +1,106 @@
+{
+  "eip.EipCircuitBreakerRuleProxy": {
+    "EipCircuitBreakerRuleProxyTable": {
+      "base.Field": {
+        "code": "Rule Code",
+        "ruleName": "Rule Name",
+        "circuitBreakerType": "Circuit Breaker Type",
+        "integrationInterfaceList": "Integration Interface",
+        "statisticalDuration": "Statistical Duration (s)",
+        "minRequestCount": "Minimum Request Count",
+        "circuitBreakerDuration": "Circuit Breaker Duration (s)",
+        "threshold": "Circuit Breaker Ratio Threshold (%)",
+        "slowCallResponseTime": "Slow Invocation Threshold (ms)",
+        "recoveryStrategy": "Circuit Breaker Recovery Strategy"
+      }
+    },
+    "EipCircuitBreakerRuleProxyFormEdit": {
+      "base.Field": {
+        "ruleName": "Rule Name",
+        "circuitBreakerType": "Circuit Breaker Type",
+        "statisticalDuration": "Statistical Duration",
+        "minRequestCount": "Minimum Request Count",
+        "slowCallThreshold": "Circuit Breaker Ratio Threshold",
+        "failureRateThreshold": "Circuit Breaker Ratio Threshold",
+        "circuitBreakerDuration": "Circuit Breaker Duration",
+        "slowCallResponseTime": "Slow Invocation Threshold",
+        "recoveryStrategy": "Circuit Breaker Recovery Strategy"
+      }
+    }
+  },
+  "eip.EipConnGroup": {
+    "EipConnGroupTable": {
+      "base.Field": {
+        "code": "Code",
+        "name": "Name",
+        "description": "Description",
+        "createDate": "Creation Time",
+        "writeDate": "Update Time"
+      }
+    },
+    "EipConnGroupForm": {
+      "base.Field": {
+        "code": "Code",
+        "name": "Name",
+        "description": "Description"
+      }
+    }
+  },
+  "pamirs.eip.EipOpenInterface": {
+    "EipOpenInterfaceTable": {
+      "base.Field": {
+        "connGroup": "Business Domain",
+        "name": "API Name",
+        "uri": "API Path",
+        "interfaceName": "Technical Name",
+        "moduleDefinition": "Owned Module",
+        "isEnabledLog": "Is Log Enabled",
+        "createDate": "Creation Time",
+        "writeDate": "Update Time",
+        "createUserName": "Creator",
+        "dataStatus": "Enable Status",
+        "isIgnoreLogFrequency": "Ignore Log Frequency Configuration",
+        "callCount": "Total Invocation Count",
+        "successCallCount": "Success Count",
+        "failCallCount": "Failure Count"
+      }
+    }
+  },
+  "pamirs.eip.proxy.EipApplicationProxy": {
+    "EipApplicationProxyTable": {
+      "base.Field": {
+        "code": "Application Code",
+        "name": "Application Name",
+        "encryptType": "Data Transmission Encryption Algorithm",
+        "encryptKeyType": "Data Transmission Encryption Key Type",
+        "description": "Application Description",
+        "dataStatus": "Enable Status",
+        "createDate": "Creation Time",
+        "createUserName": "Creator"
+      }
+    },
+    "EipApplicationProxyFormFlowCtrl": {
+      "base.Field": {
+        "code": "Application Code",
+        "name": "Application Name",
+        "dataStatus": "Enable Status",
+        "description": "Application Description"
+      }
+    }
+  },
+  "pamirs.eip.proxy.EipLogProxy": {
+    "EipLogProxyTable": {
+      "base.Field": {
+        "interfaceDisplayName": "API Name",
+        "interfaceName": "Technical Name",
+        "interfaceModuleDefinition": "Owned Module",
+        "interfaceConnGroup": "Business Domain",
+        "interfaceType": "API Type",
+        "invokeDate": "Invocation Time",
+        "invokeEndDate": "Invocation Completion Time",
+        "invokeMillisecond": "Execution Duration (ms)",
+        "isSuccess": "Response Result"
+      }
+    }
+  }
+}

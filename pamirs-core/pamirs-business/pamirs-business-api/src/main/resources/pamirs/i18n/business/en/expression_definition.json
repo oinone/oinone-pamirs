@@ -1,0 +1,14 @@
+{
+  "validate#base.Function#business.PamirsDepartment.update#!IS_BLANK(data.name)": {
+    "error": "Department name cannot be empty"
+  },
+  "validate#base.Function#business.PamirsCompany.update#!IS_BLANK(data.name)": {
+    "error": "Company name cannot be empty"
+  },
+  "validate#base.Function#business.PamirsDepartment.create#!IS_BLANK(data.name)": {
+    "error": "Department name cannot be empty"
+  },
+  "validate#base.Function#business.PamirsCompany.create#!IS_BLANK(data.name)": {
+    "error": "Company name cannot be empty"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "EipMenus_EipMenu" : "Integrated Management",
+  "EipMenus_EipMenu_EipIntegrationInterfaceMenu" : "Integrated interface",
+  "EipMenus_EipMenu_EipCircuitBreakerRuleProxyMenu" : "Circuit Breaker Configuration",
+  "EipMenus_EipMenu_CircuitBreakerRecordProxyMenu" : "Circuit breaker record",
+  "EipMenus_EipOpenMenu" : "Open management",
+  "EipMenus_EipOpenMenu_EipOpenInterfaceMenu" : "Open interface",
+  "EipMenus_EipOpenMenu_EipApplicationProxyMenu" : "Application",
+  "EipMenus_EipOpenMenu_EipOpenIpBlacklistProxyMenu" : "blacklist",
+  "EipMenus_EipLogMenu" : "Interface Log",
+  "EipMenus_EipBasicMenu" : "Basic Data",
+  "EipMenus_EipBasicMenu_EipLogMenu" : "business domain"
+}

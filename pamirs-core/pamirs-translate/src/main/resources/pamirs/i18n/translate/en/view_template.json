@@ -1,0 +1,51 @@
+{
+  "translation.TranslationItemProxy": {
+    "translationItemTable": {
+      "base.Field": {
+        "moduleDefinition": "Translation Application",
+        "resLang": "Source Language",
+        "lang": "Target Language",
+        "origin": "Source Term",
+        "target": "Translation Value",
+        "scope": "Translation Application Scope",
+        "writeDate": "Update Time",
+        "state": "Activation Status"
+      }
+    },
+    "translationEdit": {
+      "base.Field": {
+        "moduleDefinition.module": "Translation Application - Module Code",
+        "moduleDefinition.displayName": "Translation Application - Display Name",
+        "resLang.code": "Source Language - Encode",
+        "resLang.name": "Source Language - Language Name",
+        "lang.code": "Target Language - Encode",
+        "lang.name": "Target Language - Language Name",
+        "resLangCode": "Source Language Code",
+        "langCode": "Target Language Code",
+        "writeDate": "Update Time",
+        "createDate": "Creation Time",
+        "comments": "Remark",
+        "origin": "Source Term",
+        "target": "Translation Value",
+        "scope": "Translation Application Scope",
+        "state": "Activation Status",
+        "dataSource": "Translation Method"
+      }
+    }
+  },
+  "translation.TranslationItemExportProxy": {
+    "translationItemExport": {
+      "base.Field": {
+        "isTranslate": "Is Translated",
+        "moduleDefinition.module": "Source Term Application - Module Code",
+        "moduleDefinition.displayName": "Source Term Application - Display Name",
+        "state": "Is Activated",
+        "lang.code": "Target Language - Encode",
+        "lang.name": "Target Language - Language Name",
+        "scope": "Translation Application Scope",
+        "resLangInclude": "Source Term Contains",
+        "targetInclude": "Translation Value Contains"
+      }
+    }
+  }
+}

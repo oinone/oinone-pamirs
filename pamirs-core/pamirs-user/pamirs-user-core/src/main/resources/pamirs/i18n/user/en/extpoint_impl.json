@@ -1,0 +1,7 @@
+{
+  "user.PamirsUser" : {
+    "deleteWithFieldBatchAfter" : {
+      "displayName" : "Delete user's post extension point"
+    }
+  }
+}

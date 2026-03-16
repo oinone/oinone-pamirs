@@ -3,6 +3,7 @@ package pro.shushi.pamirs.framework.configure.annotation.core.converter.model;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.PrimaryFieldConverter;
@@ -53,7 +54,7 @@ public class ModelFieldRelationO2MConverter implements ModelConverter<ModelField
         if (!TypeUtils.isCollection(field.getType()) || !String.class.equals(field.getType()) && TypeUtils.isValidValueLtype(field.getType().getTypeName())) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                     .error(BASE_FIELD_UN_SUPPORT_O2M_TYPE_ERROR)
-                    .append(MessageFormat.format("类{0}字段{1}的类型{2}不匹配一对多关系",
+                    .append(I18nUtils.getMessage("ModelFieldRelationO2MConverter.typeMismatch", "类{0}字段{1}的类型{2}不匹配一对多关系",
                             field.getDeclaringClass().getName(), field.getName(), field.getType().getName())));
             result.error();
             context.error();

@@ -1,0 +1,20 @@
+{
+  "managementCenter.RoleUserManager" : {
+    "construct" : {
+      "displayName" : "Initialization"
+    },
+    "updateRoleForUser" : {
+      "displayName" : "Update",
+      "description" : "Modify"
+    }
+  },
+  "managementCenter.UserBindingManager" : {
+    "bindingUser" : {
+      "displayName" : "Update",
+      "description" : "Modify"
+    },
+    "construct" : {
+      "displayName" : "Initialization"
+    }
+  }
+}

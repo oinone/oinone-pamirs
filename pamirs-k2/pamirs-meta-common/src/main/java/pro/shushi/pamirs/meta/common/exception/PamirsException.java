@@ -13,6 +13,8 @@ public class PamirsException extends RuntimeException {
 
     private static final long serialVersionUID = 1353138041604034025L;
 
+    private final String expClassName;
+    private final String expName;
     private final int code;
     private final String applicationName;
     private final String type;
@@ -20,10 +22,17 @@ public class PamirsException extends RuntimeException {
     private final String extra;
     private Object msgDetail;
     private final String level;
-    private final Object extend;//扩展数据
 
-    private PamirsException(int code, String type, String msg, String extra, String level, Object extend) {
+    /**
+     * 扩展数据
+     */
+    private final Object extend;
+
+    private PamirsException(String expClassName, String expName,
+                            int code, String type, String msg, String extra, String level, Object extend) {
         super("code: " + code + ", type: " + type + ", msg: " + msg + ", extra: " + extra + ", extend: " + extend + ", applicationName: " + getAppName());
+        this.expClassName = expClassName;
+        this.expName = expName;
         this.code = code;
         this.type = type;
         this.msg = msg;
@@ -33,8 +42,12 @@ public class PamirsException extends RuntimeException {
         this.applicationName = getAppName();
     }
 
-    private PamirsException(int code, String type, String msg, String extra, String level, Object extend, Throwable e) {
+    private PamirsException(String expClassName, String expName,
+                            int code, String type, String msg,
+                            String extra, String level, Object extend, Throwable e) {
         super("code: " + code + ", type: " + type + ", msg: " + msg + ", extra: " + extra + ", extend: " + extend + ", applicationName: " + getAppName(), e);
+        this.expClassName = expClassName;
+        this.expName = expName;
         this.code = code;
         this.type = type;
         this.msg = msg;
@@ -46,6 +59,14 @@ public class PamirsException extends RuntimeException {
 
     public static String getAppName() {
         return AppName.get();
+    }
+
+    public String getExpClassName() {
+        return expClassName;
+    }
+
+    public String getExpName() {
+        return expName;
     }
 
     public int getCode() {
@@ -108,6 +129,8 @@ public class PamirsException extends RuntimeException {
 
     public static class Builder<T extends Enum<T> & ExpBaseEnum> {
 
+        private final String expClassName;
+        private final String expName;
         private final int code;
         private final String type;
         private String msg;
@@ -117,9 +140,11 @@ public class PamirsException extends RuntimeException {
         private final Throwable e;
 
         private Builder(T expEnum, Throwable e) {
+            this.expClassName = expEnum.getClass().getName();
+            this.expName = expEnum.name();
             this.code = expEnum.code();
             this.type = expEnum.type().getType();
-            this.msg = expEnum.msg();
+            this.msg = I18nUtils.translateErrorDefinitionItem(expEnum.getClass().getName(), expEnum.name(), "msg", expEnum.msg());
             this.level = ExpBaseEnum.LEVEL.ERROR.name();
             this.extend = null;
             this.msgBuilder = new StringBuilder();
@@ -127,6 +152,8 @@ public class PamirsException extends RuntimeException {
         }
 
         private Builder(T expEnum, Throwable e, Object... args) {
+            this.expClassName = expEnum.getClass().getName();
+            this.expName = expEnum.name();
             this.code = expEnum.code();
             this.type = expEnum.type().getType();
             this.msg = PStringUtils.parse1(I18nUtils.translateErrorDefinitionItem(expEnum.getClass().getName(), expEnum.name(), "msg", expEnum.msg()), args);
@@ -166,6 +193,9 @@ public class PamirsException extends RuntimeException {
             return this;
         }
 
+        /**
+         * @deprecated please using format message
+         */
         public Builder<T> appendMsg(String otherMsg) {
             this.msgBuilder.append(otherMsg);
             return this;
@@ -179,7 +209,7 @@ public class PamirsException extends RuntimeException {
         public PamirsException errThrow() {
             String extra = msgBuilder.toString();
             if (e == null) {
-                return new PamirsException(this.code, this.type, this.msg, extra, this.level, this.extend);
+                return new PamirsException(this.expClassName, this.expName, this.code, this.type, this.msg, extra, this.level, this.extend);
             } else {
                 if (e instanceof PamirsException) {
                     return (PamirsException) e;
@@ -201,7 +231,7 @@ public class PamirsException extends RuntimeException {
                         return (PamirsException) targetException;
                     }
                 }
-                return new PamirsException(this.code, this.type, this.msg, extra, this.level, this.extend, e);
+                return new PamirsException(this.expClassName, this.expName, this.code, this.type, this.msg, extra, this.level, this.extend, e);
             }
         }
     }

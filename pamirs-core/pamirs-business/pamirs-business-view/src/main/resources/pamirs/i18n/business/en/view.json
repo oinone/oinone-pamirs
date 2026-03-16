@@ -1,0 +1,57 @@
+{
+  "business.PamirsDepartment": {
+    "PamirsDepartmentDetail": {
+      "title": "Department"
+    },
+    "PamirsDepartmentTable": {
+      "title": "Department List"
+    },
+    "PamirsDepartmentForm": {
+      "title": "Department"
+    }
+  },
+  "business.PamirsCompany": {
+    "PamirsCompanyTable": {
+      "title": "Company List"
+    },
+    "PamirsCompanyForm": {
+      "title": "Company information"
+    },
+    "PamirsCompanyDetail": {
+      "title": "Company Details"
+    }
+  },
+  "business.PamirsEmployee": {
+    "PamirsEmployeeDetail": {
+      "title": "Employee"
+    },
+    "PamirsEmployeeTable": {
+      "title": "Employee List"
+    },
+    "PamirsEmployeeForm": {
+      "title": "Employee"
+    }
+  },
+  "business.PamirsPerson": {
+    "PamirsPersonForm": {
+      "title": "Personal"
+    },
+    "PamirsPersonTable": {
+      "title": "Personal List"
+    },
+    "PamirsPersonDetail": {
+      "title": "Personal"
+    }
+  },
+  "business.PamirsPosition": {
+    "PamirsPositionDetail": {
+      "title": "post"
+    },
+    "PamirsPositionTable": {
+      "title": "Position List"
+    },
+    "PamirsPositionForm": {
+      "title": "post"
+    }
+  }
+}

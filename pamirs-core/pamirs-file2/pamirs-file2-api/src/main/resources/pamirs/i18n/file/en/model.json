@@ -1,0 +1,682 @@
+{
+  "file.ExcelWorkbookDefinition" : {
+    "displayName" : "Excel workbook",
+    "base.Field" : {
+      "redirectUri" : {
+        "displayName" : "Download import template redirect address"
+      },
+      "sheetDefinitions" : {
+        "summary" : "Worksheet Definition JSON String",
+        "displayName" : "Worksheet Definition JSON String"
+      },
+      "displayName" : {
+        "summary" : "Excel Workbook Display Name",
+        "displayName" : "Display Name"
+      },
+      "show" : {
+        "summary" : "Whether to show",
+        "displayName" : "Whether to show"
+      },
+      "eachImport" : {
+        "summary" : "Import line by line",
+        "displayName" : "Import line by line"
+      },
+      "type" : {
+        "displayName" : "Template Type"
+      },
+      "maxErrorLength" : {
+        "displayName" : "Maximum number of errors"
+      },
+      "definitionContext" : {
+        "summary" : "Parse content defined by the cached workbook",
+        "displayName" : "Workbook definition JSON string"
+      },
+      "model" : {
+        "summary" : "The model code is used to determine which model\\'s table page the import and export are displayed on, and is not used for modeling operations.",
+        "displayName" : "Model Encoding"
+      },
+      "lang" : {
+        "summary" : "The language of the template",
+        "displayName" : "Language"
+      },
+      "bindingViewName" : {
+        "summary" : "When a specific view is designated, this template is only displayed in the designated view.",
+        "displayName" : "Bind view name"
+      },
+      "dataStatus" : {
+        "summary" : "Data State",
+        "displayName" : "Data Status"
+      },
+      "exportStrategy" : {
+        "displayName" : "Export Policy"
+      },
+      "hasErrorRollback" : {
+        "displayName" : "Rollback on error"
+      },
+      "defaultShow" : {
+        "summary" : "Whether to show by default",
+        "displayName" : "Whether to show by default"
+      },
+      "templateSource" : {
+        "displayName" : "Template Source"
+      },
+      "version" : {
+        "summary" : "When importing, automatic identification is performed based on the file name suffix specified in the incoming URL. URLs without file name suffix must be specified manually, when exporting, the new release version is used by default.",
+        "displayName" : "Office version"
+      },
+      "clearExportStyle" : {
+        "summary" : "Export using CSV format",
+        "displayName" : "Clear Export Styles"
+      },
+      "sheetList" : {
+        "summary" : "When a specific worksheet index is specified, there is one and only one object, otherwise, they are arranged in order according to the number of sheets in the Excel file",
+        "displayName" : "Worksheet List"
+      },
+      "csvMaxSupportLength" : {
+        "summary" : "CSV Export Max Supported Rows",
+        "displayName" : "Maximum number of rows supported for CSV export"
+      },
+      "filename" : {
+        "summary" : "The file name used when exporting. If not specified, the default name will be used as the file name.",
+        "displayName" : "File name"
+      },
+      "excelMaxSupportLength" : {
+        "summary" : "Excel Export Max Supported Rows",
+        "displayName" : "Maximum supported number of rows exported in excel format"
+      },
+      "domain" : {
+        "summary" : "RSQL Expression",
+        "displayName" : "Default filtering rules"
+      },
+      "name" : {
+        "summary" : "Definition name of Excel workbook",
+        "displayName" : "Name"
+      },
+      "locations" : {
+        "displayName" : "Internationalization configuration"
+      },
+      "importStrategy" : {
+        "displayName" : "Import strategy"
+      },
+      "excelImportMode" : {
+        "summary" : "Import Mode",
+        "displayName" : "Import Mode"
+      }
+    }
+  },
+  "file.ExcelImportResult" : {
+    "displayName" : "Excel Import Results",
+    "base.Field" : {
+      "data" : {
+        "displayName" : "Data"
+      },
+      "importTask" : {
+        "displayName" : "Import Task"
+      }
+    }
+  },
+  "file.ExcelBlockDefinition" : {
+    "displayName" : "Excel block",
+    "base.Field" : {
+      "presetNumber" : {
+        "summary" : "Fill the cells in the data row with empty strings",
+        "displayName" : "Preset number"
+      },
+      "fetchFun" : {
+        "displayName" : "Get function name"
+      },
+      "fetchNamespace" : {
+        "displayName" : "Get function namespace"
+      },
+      "designRange" : {
+        "displayName" : "Design Scope"
+      },
+      "bindingModel" : {
+        "summary" : "After binding the model, you can use the default template and model parsing functions.",
+        "displayName" : "Bind model"
+      },
+      "headerList" : {
+        "displayName" : "Header Definition"
+      },
+      "domain" : {
+        "summary" : "rsql expression",
+        "displayName" : "Default filtering rules"
+      },
+      "mergeRangeList" : {
+        "displayName" : "Cell merge range"
+      },
+      "rowList" : {
+        "displayName" : "Row definition"
+      },
+      "uniqueDefinitions" : {
+        "displayName" : "The only definition"
+      },
+      "analysisType" : {
+        "summary" : "Specify the parsing type used by the worksheet. Different parsing types require different definition methods.",
+        "displayName" : "Analysis Type"
+      },
+      "direction" : {
+        "summary" : "Specify the arrangement direction of the current header row",
+        "displayName" : "Arrangement direction"
+      },
+      "usingCascadingStyle" : {
+        "summary" : "Change style override to style cascading, valid for a single block, the priority order is: header row style < data row style < cell style",
+        "displayName" : "Whether to use cascading styles"
+      }
+    }
+  },
+  "file.ResourceChunkFile" : {
+    "displayName" : "shard file",
+    "base.Field" : {
+      "fileSize" : {
+        "displayName" : "file size"
+      },
+      "partNumber" : {
+        "displayName" : "Shard Number"
+      }
+    }
+  },
+  "file.ExcelModelField" : {
+    "summary" : "Excel Model Fields",
+    "displayName" : "Excel Model Fields",
+    "remark" : "Field",
+    "base.Field" : {
+      "optionLabel" : {
+        "summary" : "Option Field",
+        "displayName" : "Option Field"
+      }
+    }
+  },
+  "file.ExcelRowDefinition" : {
+    "displayName" : "Excel row",
+    "base.Field" : {
+      "style" : {
+        "summary" : "By default, the global style is used in a row. If a cell style is set, the global style will be overwritten; Set the column style for horizontal header rows in the header row; Set the entire row style for the vertical header row; If both the header row and the data row are styled, the style of the data row will be the global style;",
+        "displayName" : "Style"
+      },
+      "cellList" : {
+        "summary" : "Cell List",
+        "displayName" : "Cell List"
+      }
+    }
+  },
+  "file.ExcelSheetDefinition" : {
+    "displayName" : "Excel worksheet",
+    "base.Field" : {
+      "blockDefinitionList" : {
+        "displayName" : "Block definition"
+      },
+      "mergeRangeList" : {
+        "displayName" : "Cell merge range"
+      },
+      "name" : {
+        "summary" : "Specify the worksheet name. When no worksheet name is specified, the display name of the model is used by default. When the model is not bound to be generated, \"Sheet + ${index}\" is used by default as the worksheet name.",
+        "displayName" : "Worksheet Name"
+      },
+      "onceFetchData" : {
+        "summary" : "This property only takes effect when a [fixed format] block is included, and all blocks must use a consistent binding model.",
+        "displayName" : "Retrieve worksheet data in one go"
+      },
+      "autoSizeColumn" : {
+        "summary" : "Auto Fit Column Width",
+        "displayName" : "Auto Fit Column Width"
+      },
+      "uniqueDefinitions" : {
+        "displayName" : "The only definition"
+      }
+    }
+  },
+  "file.ExcelCellDefinition" : {
+    "displayName" : "Excel cells",
+    "base.Field" : {
+      "isStatic" : {
+        "summary" : "Static values will use the configuration value when parsing data and do not read the value of the cell.",
+        "displayName" : "Whether it is a static value"
+      },
+      "field" : {
+        "summary" : "Attribute",
+        "displayName" : "Attribute"
+      },
+      "isFieldValue" : {
+        "summary" : "Mark the content of the cell as the attribute value",
+        "displayName" : "Whether the attribute value is"
+      },
+      "format" : {
+        "summary" : "For formatting methods, please refer to the user manual.",
+        "displayName" : "format"
+      },
+      "style" : {
+        "summary" : "Cell Style",
+        "displayName" : "Cell Style"
+      },
+      "autoSizeColumn" : {
+        "summary" : "Auto column width",
+        "displayName" : "Auto column width"
+      },
+      "type" : {
+        "displayName" : "Value type"
+      },
+      "value" : {
+        "summary" : "The value of the cell",
+        "displayName" : "value"
+      },
+      "translate" : {
+        "summary" : "By default, static values, enums, and boolean fields are automatically translated, while other cases are handled according to the specified values.",
+        "displayName" : "Whether to translate"
+      }
+    }
+  },
+  "file.ExcelUniqueDefinition" : {
+    "displayName" : "Excel Unique Definition",
+    "base.Field" : {
+      "uniques" : {
+        "displayName" : "Unique attribute"
+      },
+      "model" : {
+        "summary" : "Model Code",
+        "displayName" : "Model Encoding"
+      }
+    }
+  },
+  "file.ResourceFileForm" : {
+    "displayName" : "File Form Information",
+    "base.Field" : {
+      "filename" : {
+        "displayName" : "File name"
+      },
+      "fileSize" : {
+        "displayName" : "file size"
+      },
+      "cdnKey" : {
+        "summary" : "Specify CDN Config",
+        "displayName" : "Specify CDN configuration"
+      },
+      "multipartUploadJson" : {
+        "displayName" : "Chunked Upload / Resumable Upload"
+      },
+      "chunkFiles" : {
+        "displayName" : "Shard File Information"
+      },
+      "singleUploadJson" : {
+        "displayName" : "Single File Upload"
+      },
+      "downloadUrl" : {
+        "displayName" : "Download URL"
+      },
+      "contentType" : {
+        "summary" : "File Type (MimeType)",
+        "displayName" : "File Type (MimeType)"
+      },
+      "accept" : {
+        "displayName" : "Accept file types"
+      }
+    }
+  },
+  "file.AbstractExcelTask" : {
+    "displayName" : "Excel Task Abstract Base Class",
+    "base.Field" : {
+      "workbookName" : {
+        "summary" : "Excel Workbook Name",
+        "displayName" : "Excel Workbook Name"
+      },
+      "moduleDefinition" : {
+        "displayName" : "Associated Application"
+      },
+      "module" : {
+        "summary" : "Module for operation import and export",
+        "displayName" : "Module Coding"
+      },
+      "name" : {
+        "displayName" : "Task Name"
+      },
+      "writeUserName" : {
+        "summary" : "Modifier Name",
+        "displayName" : "Modifier Name"
+      },
+      "messages" : {
+        "displayName" : "Task Information List"
+      },
+      "createUserName" : {
+        "summary" : "Creator Name",
+        "displayName" : "Creator Name"
+      },
+      "model" : {
+        "summary" : "Operate import and export models",
+        "displayName" : "Model Code"
+      },
+      "state" : {
+        "displayName" : "Task status"
+      },
+      "workbookDefinition" : {
+        "summary" : "Excel Workbook Definition",
+        "displayName" : "Excel Workbook Definition"
+      },
+      "workbookDefinitionId" : {
+        "summary" : "Excel Workbook Definition ID",
+        "displayName" : "Excel workbook definition ID"
+      }
+    }
+  },
+  "file.ExcelImportTask" : {
+    "displayName" : "Excel Import Task",
+    "base.Field" : {
+      "file" : {
+        "summary" : "Import File",
+        "displayName" : "Import File"
+      },
+      "errorFile" : {
+        "summary" : "When using row-by-row import, a file of import failures will be generated",
+        "displayName" : "Import failed file"
+      },
+      "hasErrorRollback" : {
+        "displayName" : "Rollback on error"
+      },
+      "eachImport" : {
+        "displayName" : "Import line by line"
+      },
+      "maxErrorLength" : {
+        "displayName" : "Maximum number of errors"
+      },
+      "importDataList" : {
+        "displayName" : "Import Data"
+      }
+    }
+  },
+  "file.ResourceFileServer" : {
+    "displayName" : "File server",
+    "base.Field" : {
+      "accessKeyId" : {
+        "summary" : "accessKeyId",
+        "displayName" : "accessKeyId"
+      },
+      "configJson" : {
+        "displayName" : "Configuration Data"
+      },
+      "downloadUrl" : {
+        "displayName" : "Download URL"
+      },
+      "active" : {
+        "displayName" : "Is it valid?"
+      },
+      "type" : {
+        "summary" : "Type",
+        "displayName" : "Type"
+      },
+      "timeout" : {
+        "summary" : "Timeout (ms)",
+        "displayName" : "Timeout, unit: ms"
+      },
+      "bucket" : {
+        "displayName" : "Bucket"
+      },
+      "accessKeySecret" : {
+        "summary" : "accessKeySecret",
+        "displayName" : "accessKeySecret"
+      },
+      "uploadUrl" : {
+        "summary" : "Upload URL/Endpoint",
+        "displayName" : "Upload URL/endpoint"
+      },
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "callbackUrl" : {
+        "displayName" : "Callback URL"
+      },
+      "validTime" : {
+        "summary" : "Valid Time (ms)",
+        "displayName" : "Effective time, unit: ms"
+      },
+      "mainDir" : {
+        "displayName" : "File home directory"
+      }
+    }
+  },
+  "file.ExcelHeaderDefinition" : {
+    "summary" : "Determine the position of the header according to the arrangement direction, the term \\'row\\' in the field description does not only refer to \\'horizontal row,\\' it is determined according to the arrangement direction,",
+    "displayName" : "Excel header",
+    "base.Field" : {
+      "isConfig" : {
+        "summary" : "Configuration rows are not included in calculations and are automatically ignored when exporting, the application range specified by the configuration rows must be within the header range that requires configuration.",
+        "displayName" : "Whether to configure the header"
+      },
+      "isFrozen" : {
+        "summary" : "The freeze function is only effective in non-configured rows and non-hidden rows.",
+        "displayName" : "Freeze or not"
+      }
+    }
+  },
+  "excel.ExcelLocation" : {
+    "displayName" : "Excel international configuration",
+    "base.Field" : {
+      "locationItems" : {
+        "summary" : "Excel i18n Config Item",
+        "displayName" : "Excel Internationalization Configuration Options"
+      },
+      "name" : {
+        "summary" : "Template Name",
+        "displayName" : "Template Name"
+      },
+      "model" : {
+        "summary" : "Model Code",
+        "displayName" : "Model Encoding"
+      },
+      "lang" : {
+        "summary" : "Language",
+        "displayName" : "Language"
+      }
+    }
+  },
+  "file.TaskMessage" : {
+    "displayName" : "Task Message",
+    "base.Field" : {
+      "level" : {
+        "displayName" : "Task message level"
+      },
+      "recordDate" : {
+        "displayName" : "Record time"
+      },
+      "rowIndex" : {
+        "displayName" : "Record line number"
+      },
+      "id" : {
+        "summary" : "ID",
+        "displayName" : "ID"
+      },
+      "message" : {
+        "summary" : "Message Content",
+        "displayName" : "Message content"
+      }
+    }
+  },
+  "file.ExcelExportTask" : {
+    "displayName" : "Excel Export Task",
+    "base.Field" : {
+      "file" : {
+        "displayName" : "Export File"
+      },
+      "requestId" : {
+        "summary" : "For sync download, store full data in Redis first, then retrieve by ID for download",
+        "displayName" : "Single request ID"
+      },
+      "rsql" : {
+        "summary" : "RSQL Filter Condition",
+        "displayName" : "RSQL filter conditions"
+      },
+      "conditionWrapper" : {
+        "summary" : "Query Condition",
+        "displayName" : "Query Conditions"
+      },
+      "selectedFields" : {
+        "summary" : "Select Field",
+        "displayName" : "Select Field"
+      },
+      "sync" : {
+        "summary" : "Sync",
+        "displayName" : "synchronous"
+      },
+      "exportMethod" : {
+        "summary" : "Export Options",
+        "displayName" : "Export Options"
+      },
+      "fileType" : {
+        "displayName" : "Export File Type"
+      }
+    }
+  },
+  "file.ExcelLocationItem" : {
+    "displayName" : "Excel Internationalization Configuration Options",
+    "base.Field" : {
+      "origin" : {
+        "displayName" : "original value"
+      },
+      "target" : {
+        "summary" : "Translation Value",
+        "displayName" : "Translation value"
+      }
+    }
+  },
+  "file.ExcelTypefaceDefinition" : {
+    "displayName" : "Excel font style",
+    "base.Field" : {
+      "strikeout" : {
+        "displayName" : "Strikethrough"
+      },
+      "typefaceName" : {
+        "displayName" : "Custom font"
+      },
+      "color" : {
+        "summary" : "Color",
+        "displayName" : "Color"
+      },
+      "size" : {
+        "summary" : "Size",
+        "displayName" : "Size"
+      },
+      "underline" : {
+        "summary" : "Underline type",
+        "displayName" : "Underline type"
+      },
+      "typeOffset" : {
+        "summary" : "Offset type",
+        "displayName" : "Offset type"
+      },
+      "bold" : {
+        "summary" : "Whether to bold",
+        "displayName" : "Whether to bold"
+      },
+      "italic" : {
+        "displayName" : "Italic"
+      },
+      "typeface" : {
+        "displayName" : "Font"
+      }
+    }
+  },
+  "file.ExcelCellRangeDefinition" : {
+    "displayName" : "Excel cell range definition",
+    "base.Field" : {
+      "endColumnIndex" : {
+        "summary" : "End column index",
+        "displayName" : "End column index"
+      },
+      "endRowIndex" : {
+        "displayName" : "End row index"
+      },
+      "fixedBeginColumnIndex" : {
+        "summary" : "Fixed starting column index",
+        "displayName" : "Fixed starting column index"
+      },
+      "beginColumnIndex" : {
+        "summary" : "Starting column index",
+        "displayName" : "Starting column index"
+      },
+      "fixedEndColumnIndex" : {
+        "summary" : "Fixed end column index",
+        "displayName" : "Fixed end column index"
+      },
+      "beginRowIndex" : {
+        "displayName" : "Starting line index"
+      },
+      "fixedBeginRowIndex" : {
+        "summary" : "Fixed starting row index",
+        "displayName" : "Fixed starting row index"
+      },
+      "fixedEndRowIndex" : {
+        "summary" : "Fixed end row index",
+        "displayName" : "Fixed end row index"
+      }
+    }
+  },
+  "file.ExcelCellStyleDefinition" : {
+    "displayName" : "Excel cell style",
+    "base.Field" : {
+      "fillPatternType" : {
+        "displayName" : "Background Color/Foreground Color Fill Type"
+      },
+      "backgroundColor" : {
+        "displayName" : "Background color"
+      },
+      "topBorderColor" : {
+        "displayName" : "Top border color"
+      },
+      "rightBorderStyle" : {
+        "displayName" : "Right border style"
+      },
+      "bottomBorderColor" : {
+        "displayName" : "Bottom border color"
+      },
+      "foregroundColor" : {
+        "displayName" : "Foreground color"
+      },
+      "fillBorderColor" : {
+        "displayName" : "Full border color"
+      },
+      "bottomBorderStyle" : {
+        "displayName" : "Bottom border style"
+      },
+      "horizontalAlignment" : {
+        "displayName" : "Horizontal alignment"
+      },
+      "rightBorderColor" : {
+        "displayName" : "Right border color"
+      },
+      "shrinkToFit" : {
+        "summary" : "Shrink to Fit",
+        "displayName" : "Shrink to Fit"
+      },
+      "leftBorderColor" : {
+        "displayName" : "Left border color"
+      },
+      "leftBorderStyle" : {
+        "displayName" : "Left border style"
+      },
+      "width" : {
+        "summary" : "Effective for first row only",
+        "displayName" : "Width"
+      },
+      "typefaceDefinition" : {
+        "summary" : "Font",
+        "displayName" : "Font"
+      },
+      "topBorderStyle" : {
+        "displayName" : "Top border style"
+      },
+      "fillBorderStyle" : {
+        "displayName" : "Full border style"
+      },
+      "wrapText" : {
+        "summary" : "Wrap Text",
+        "displayName" : "Wrap Text"
+      },
+      "verticalAlignment" : {
+        "displayName" : "Vertical alignment"
+      },
+      "height" : {
+        "summary" : "Effective for first column only",
+        "displayName" : "Height"
+      }
+    }
+  }
+}

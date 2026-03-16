@@ -1,4 +1,4 @@
-<view type="TABLE" widget="table" model="pamirs.eip.EipSceneInstance" name="场景实例table" excluded-actions="redirectDetailPage,redirectCreatePage,redirectUpdatePage,delete,$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
+<view type="TABLE" widget="table" model="pamirs.eip.EipSceneInstance" name="EipSceneInstanceTable" excluded-actions="redirectDetailPage,redirectCreatePage,redirectUpdatePage,delete,$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
     <template slot="rowActions">
         <action name="dataStatusEnable" label="启用" model="pamirs.eip.EipSceneInstance" text="启用"/>
         <action name="dataStatusDisable" label="禁用" model="pamirs.eip.EipSceneInstance" confirm="禁用后将无法调用，请谨慎操作" text="禁用"/>

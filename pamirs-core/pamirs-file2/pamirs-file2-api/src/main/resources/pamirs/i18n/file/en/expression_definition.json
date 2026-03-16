@@ -1,0 +1,26 @@
+{
+  "validate#base.Function#file.ExcelWorkbookDefinition.create#!IS_NULL(data.type)": {
+    "error": "Template type cannot be empty"
+  },
+  "validate#base.Function#file.ExcelWorkbookDefinition.update#!IS_BLANK(data.name)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#file.ExcelWorkbookDefinition.update#!IS_NULL(data.version)": {
+    "error": "Office version cannot be empty"
+  },
+  "validate#base.Function#file.ExcelWorkbookDefinition.update#!IS_NULL(data.type)": {
+    "error": "Template type cannot be empty"
+  },
+  "validate#base.Function#file.ExcelWorkbookDefinition.create#!IS_NULL(data.version)": {
+    "error": "Office version cannot be empty"
+  },
+  "validate#base.Function#file.ExcelWorkbookDefinition.create#!IS_BLANK(data.name)": {
+    "error": "Name cannot be empty"
+  },
+  "validate#base.Function#file.ExcelWorkbookDefinition.create#!IS_NULL(data.sheetDefinitions)": {
+    "error": "Worksheet JSON cannot be empty"
+  },
+  "validate#base.Function#file.ExcelWorkbookDefinition.update#!IS_NULL(data.sheetDefinitions)": {
+    "error": "Worksheet JSON cannot be empty"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "pro.shushi.pamirs.user.api.hook.UserQueryOneHookAfter.run": {
+    "displayName": "Handle username"
+  },
+  "pro.shushi.pamirs.user.api.hook.UserQueryPageHookAfter.run": {
+    "displayName": "Handle username"
+  },
+  "pro.shushi.pamirs.user.api.hook.UserQueryPageHookAfter": {
+    "run": {
+      "displayName": "Handle username"
+    }
+  },
+  "pro.shushi.pamirs.user.api.hook.UserQueryOneHookAfter": {
+    "run": {
+      "displayName": "Handle username"
+    }
+  }
+}

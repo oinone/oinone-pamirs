@@ -1,0 +1,3306 @@
+{
+  "base.Navigator" : {
+    "summary" : "Navigation",
+    "displayName" : "Navigation",
+    "remark" : "Navigation",
+    "base.Field" : {
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      }
+    }
+  },
+  "base.SharedPageViewAction" : {
+    "summary" : "Shared Page Action",
+    "displayName" : "Shared Page Action",
+    "remark" : "Window Action",
+    "base.Field" : {
+      "queryMode" : {
+        "summary" : "Data Loading Method",
+        "displayName" : "Data Loading Method"
+      },
+      "authorizationCode" : {
+        "summary" : "Authorization Code",
+        "displayName" : "Authorization Code"
+      },
+      "browserTitle" : {
+        "summary" : "Browser Title",
+        "displayName" : "Browser Title"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "invisible" : {
+        "summary" : "Expression for Client Visibility",
+        "displayName" : "Visibility"
+      },
+      "rule" : {
+        "summary" : "Expression for Server-side Filter Action",
+        "displayName" : "Filter Action"
+      },
+      "bindingView" : {
+        "summary" : "Which custom view the action is bound to on the source model",
+        "displayName" : "Bound View"
+      },
+      "language" : {
+        "summary" : "Current Language",
+        "displayName" : "Current Language"
+      },
+      "loadFunction" : {
+        "summary" : "Data Loading Function",
+        "displayName" : "Data Loading Function"
+      },
+      "maskDefinition" : {
+        "summary" : "Master",
+        "displayName" : "Master"
+      },
+      "themeDefinition" : {
+        "summary" : "Theme",
+        "displayName" : "Theme"
+      },
+      "title" : {
+        "summary" : "Page Title",
+        "displayName" : "Page Title"
+      },
+      "sharedParameters" : {
+        "summary" : "Original Share Parameters",
+        "displayName" : "Original Share Parameters"
+      },
+      "load" : {
+        "summary" : "Data Loading Function Code",
+        "displayName" : "Data Loading Function Code"
+      },
+      "resModuleDefinition" : {
+        "summary" : "Target Module",
+        "displayName" : "Target Module"
+      },
+      "moduleDefinition" : {
+        "summary" : "Source Module",
+        "displayName" : "Source Module"
+      },
+      "contextType" : {
+        "summary" : "Context Type",
+        "displayName" : "Context Type"
+      },
+      "context" : {
+        "summary" : "Context",
+        "displayName" : "Context"
+      },
+      "limit" : {
+        "summary" : "Limit",
+        "displayName" : "Limit"
+      },
+      "resModelDefinition" : {
+        "summary" : "Target Model",
+        "displayName" : "Target Model"
+      },
+      "theme" : {
+        "summary" : "Theme API Name",
+        "displayName" : "Theme Name"
+      },
+      "needBaseModules" : {
+        "summary" : "Return Installed Base Applications",
+        "displayName" : "Return Installed Base Applications"
+      },
+      "mask" : {
+        "summary" : "Master API Name",
+        "displayName" : "Master Name"
+      },
+      "optionViewList" : {
+        "summary" : "Optional View List",
+        "displayName" : "Optional View List"
+      },
+      "bindingType" : {
+        "summary" : "Which views the action is bound to on the source model",
+        "displayName" : "Binding Type"
+      },
+      "languageIsoCode" : {
+        "summary" : "Current Language ISO Code",
+        "displayName" : "Current Language ISO Code"
+      },
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "mapping" : {
+        "summary" : "Data Mapping",
+        "displayName" : "Data Mapping"
+      },
+      "dataType" : {
+        "summary" : "View Data Type",
+        "displayName" : "View Data Type"
+      },
+      "optionViewTypes" : {
+        "summary" : "View types supported for switching after opening target model",
+        "displayName" : "Optional View Type"
+      },
+      "label" : {
+        "summary" : "Display Text",
+        "displayName" : "Display Text"
+      },
+      "needCompileView" : {
+        "summary" : "Compile View Instruction",
+        "displayName" : "Is View Compiled"
+      },
+      "needCompileMask" : {
+        "summary" : "Compile Master Instruction",
+        "displayName" : "Is Master Compiled"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "sharedCode" : {
+        "summary" : "Share Code",
+        "displayName" : "Share Code"
+      },
+      "modelDefinition" : {
+        "summary" : "Model",
+        "displayName" : "Model"
+      },
+      "target" : {
+        "summary" : "Open Mode",
+        "displayName" : "Open Mode"
+      },
+      "actionType" : {
+        "summary" : "Type",
+        "displayName" : "Type"
+      },
+      "defaultHomePage" : {
+        "summary" : "Use Default Home Page",
+        "displayName" : "Use Default Home Page"
+      },
+      "disable" : {
+        "summary" : "Disable Rule",
+        "displayName" : "Disable Rule"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "optionViewNames" : {
+        "summary" : "Optional View Name List",
+        "displayName" : "Optional View Name List"
+      },
+      "resView" : {
+        "summary" : "Target View of Action View Jump",
+        "displayName" : "Target View"
+      },
+      "viewType" : {
+        "summary" : "Default view type opened after opening target model",
+        "displayName" : "View Type"
+      },
+      "sessionPath" : {
+        "summary" : "Session Path",
+        "displayName" : "Session Path"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      }
+    }
+  },
+  "base.config.MultiTabTheme" : {
+    "summary" : "Multi-tab Style",
+    "displayName" : "Multi-tab Style",
+    "remark" : "Multi-tab Style",
+    "base.Field" : {
+      "inline" : {
+        "summary" : "Inline",
+        "displayName" : "Inline"
+      },
+      "theme" : {
+        "summary" : "Style",
+        "displayName" : "Style"
+      }
+    }
+  },
+  "base.AbstractView" : {
+    "summary" : "Abstract View Definition",
+    "displayName" : "Abstract View Definition",
+    "remark" : "Abstract View Definition",
+    "base.Field" : {
+      "template" : {
+        "summary" : "Template",
+        "displayName" : "Template"
+      },
+      "thumbnail" : {
+        "summary" : "Thumbnail",
+        "displayName" : "Thumbnail"
+      },
+      "bizType" : {
+        "summary" : "Business Type",
+        "displayName" : "Business Type"
+      },
+      "baseLayoutName" : {
+        "summary" : "Base Layout Name",
+        "displayName" : "Base Layout Name"
+      },
+      "show" : {
+        "summary" : "Visibility",
+        "displayName" : "Visibility"
+      },
+      "active" : {
+        "summary" : "Is Effective",
+        "displayName" : "Is Effective"
+      },
+      "authed" : {
+        "summary" : "Authorized",
+        "displayName" : "Authorized"
+      },
+      "translated" : {
+        "summary" : "Internationalized",
+        "displayName" : "Internationalized"
+      },
+      "priority" : {
+        "summary" : "The smaller the number, the higher the priority",
+        "displayName" : "Priority"
+      },
+      "type" : {
+        "summary" : "View Type",
+        "displayName" : "View Type"
+      },
+      "layout" : {
+        "summary" : "Custom Layout",
+        "displayName" : "Custom Layout"
+      },
+      "compiled" : {
+        "summary" : "Compiled",
+        "displayName" : "Compiled"
+      },
+      "loadLayout" : {
+        "summary" : "Is Layout Loaded",
+        "displayName" : "Is Layout Loaded"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      }
+    }
+  },
+  "base.Menu" : {
+    "summary" : "Menu",
+    "displayName" : "Menu",
+    "remark" : "Menu",
+    "base.Field" : {
+      "parent" : {
+        "summary" : "Parent Menu",
+        "displayName" : "Parent Menu"
+      },
+      "serverAction" : {
+        "summary" : "Server Action",
+        "displayName" : "Server Action"
+      },
+      "mapping" : {
+        "summary" : "Data Mapping",
+        "displayName" : "Data Mapping"
+      },
+      "clientTypes" : {
+        "summary" : "List of Client Types Supported by Application",
+        "displayName" : "List of Client Types Supported by Application"
+      },
+      "defaultPriority" : {
+        "summary" : "Default Icon",
+        "displayName" : "Default Icon"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "module" : {
+        "summary" : "Module Code",
+        "displayName" : "Module Code"
+      },
+      "urlAction" : {
+        "summary" : "URL Action",
+        "displayName" : "URL Action"
+      },
+      "viewAction" : {
+        "summary" : "Window Action",
+        "displayName" : "Window Action"
+      },
+      "icon" : {
+        "summary" : "Icon",
+        "displayName" : "Icon"
+      },
+      "show" : {
+        "summary" : "Is Displayed",
+        "displayName" : "Is Displayed"
+      },
+      "description" : {
+        "summary" : "Menu Description",
+        "displayName" : "Menu Description"
+      },
+      "defaultShow" : {
+        "summary" : "Default Displayed",
+        "displayName" : "Default Displayed"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "actionType" : {
+        "summary" : "Action Type",
+        "displayName" : "Action Type"
+      },
+      "children" : {
+        "summary" : "Sub Menu",
+        "displayName" : "Sub Menu"
+      },
+      "defaultIcon" : {
+        "summary" : "Default Icon",
+        "displayName" : "Default Icon"
+      },
+      "moduleDefinition" : {
+        "summary" : "Module",
+        "displayName" : "Module"
+      },
+      "defaultDisplayName" : {
+        "summary" : "Default Display Name",
+        "displayName" : "Default Display Name"
+      },
+      "clientAction" : {
+        "summary" : "Client Action",
+        "displayName" : "Client Action"
+      },
+      "hint" : {
+        "summary" : "Tip Message",
+        "displayName" : "Tip Message"
+      },
+      "context" : {
+        "summary" : "Context",
+        "displayName" : "Context"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "defaultParentName" : {
+        "summary" : "Default Parent Menu Name",
+        "displayName" : "Default Parent Menu Name"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      }
+    }
+  },
+  "base.AppConfig" : {
+    "summary" : "Application Configuration",
+    "displayName" : "Application Configuration",
+    "remark" : "Application Configuration",
+    "base.Field" : {
+      "sideBarTheme" : {
+        "summary" : "Sidebar Style",
+        "displayName" : "Sidebar Style"
+      },
+      "code" : {
+        "summary" : "Configuration Code",
+        "displayName" : "Configuration Code"
+      },
+      "browserTitle" : {
+        "summary" : "Browser Title",
+        "displayName" : "Browser Title"
+      },
+      "homePageModel" : {
+        "summary" : "Home Page Model Code",
+        "displayName" : "Home Page Model Code"
+      },
+      "loginBackground" : {
+        "summary" : "Login Page Background",
+        "displayName" : "Login Page Background"
+      },
+      "loginPageLogo" : {
+        "summary" : "Login Page Logo",
+        "displayName" : "Login Page Logo"
+      },
+      "loginLayoutType" : {
+        "summary" : "Login Page Layout Type",
+        "displayName" : "Login Page Layout Type"
+      },
+      "mode" : {
+        "summary" : "Theme Mode",
+        "displayName" : "Theme Mode"
+      },
+      "homePageName" : {
+        "summary" : "Home Page Action Name",
+        "displayName" : "Home Page Action Name"
+      },
+      "scope" : {
+        "summary" : "Domain",
+        "displayName" : "Domain"
+      },
+      "logo" : {
+        "summary" : "Flag",
+        "displayName" : "Flag"
+      },
+      "theme" : {
+        "summary" : "Theme",
+        "displayName" : "Theme"
+      },
+      "mask" : {
+        "summary" : "Master",
+        "displayName" : "Master"
+      },
+      "app" : {
+        "summary" : "Entry Application Code",
+        "displayName" : "Entry Application Code"
+      },
+      "companyCode" : {
+        "summary" : "Company Code",
+        "displayName" : "Company Code"
+      },
+      "appSideLogo" : {
+        "summary" : "Collapse Flag",
+        "displayName" : "Collapse Flag"
+      },
+      "favicon" : {
+        "summary" : "Favicon",
+        "displayName" : "Favicon"
+      },
+      "partnerName" : {
+        "summary" : "Enterprise Name",
+        "displayName" : "Enterprise Name"
+      },
+      "smallLogo" : {
+        "summary" : "Small Icon",
+        "displayName" : "Small Icon"
+      },
+      "icpDesc" : {
+        "summary" : "Record Number",
+        "displayName" : "Record Number"
+      },
+      "extend" : {
+        "summary" : "Extension Configuration",
+        "displayName" : "Extension Configuration"
+      },
+      "officialWebsite" : {
+        "summary" : "Enterprise Website",
+        "displayName" : "Enterprise Website"
+      },
+      "defaultHomePage" : {
+        "summary" : "Use Default Home Page",
+        "displayName" : "Use Default Home Page"
+      },
+      "multiTabTheme" : {
+        "summary" : "Multi-tab Bar Style",
+        "displayName" : "Multi-tab Bar Style"
+      },
+      "size" : {
+        "summary" : "Size",
+        "displayName" : "Size"
+      },
+      "style" : {
+        "summary" : "Theme Style",
+        "displayName" : "Theme Style"
+      },
+      "slogan" : {
+        "summary" : "Enterprise Slogan",
+        "displayName" : "Enterprise Slogan"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      }
+    }
+  },
+  "base.AdvancedHomePageConfig" : {
+    "summary" : "Advanced Home Page Configuration",
+    "displayName" : "Advanced Home Page Configuration",
+    "remark" : "Advanced Home Page Configuration",
+    "base.Field" : {
+      "rules" : {
+        "summary" : "Home Page Configuration Rule",
+        "displayName" : "Home Page Configuration Rule"
+      },
+      "state" : {
+        "summary" : "Support Advanced Home Page Configuration",
+        "displayName" : "Support Advanced Home Page Configuration"
+      }
+    }
+  },
+  "base.WidgetGroup" : {
+    "summary" : "Component Group",
+    "displayName" : "Component Group",
+    "remark" : "Component Group",
+    "base.Field" : {
+      "help" : {
+        "summary" : "Help Text",
+        "displayName" : "Help Text"
+      },
+      "displayName" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "active" : {
+        "summary" : "Visibility",
+        "displayName" : "Visibility"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "sys" : {
+        "summary" : "Metadata generated by the system",
+        "displayName" : "System Data"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      }
+    }
+  },
+  "base.AdvancedHomePageModelProxy" : {
+    "summary" : "Home Page Model Proxy",
+    "displayName" : "Home Page Model Proxy",
+    "remark" : "Model",
+    "base.Field" : {
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "remark" : {
+        "summary" : "Storage Remark",
+        "displayName" : "Remark"
+      },
+      "rootModuleModule" : {
+        "summary" : "Root module code, used to filter models under the module and its dependencies",
+        "displayName" : "Root module code, used to filter models under the module and its dependencies"
+      },
+      "isRelationship" : {
+        "displayName" : "Relational model"
+      },
+      "multiTableType" : {
+        "displayName" : "Multiple table types"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "type" : {
+        "displayName" : "Model Type"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "multiTableModel" : {
+        "displayName" : "Multiple Table Parent Model"
+      },
+      "moduleDefinition" : {
+        "displayName" : "Belonging Module"
+      },
+      "optimisticLockerField" : {
+        "displayName" : "Optimistic Lock"
+      },
+      "model" : {
+        "displayName" : "Model Encoding"
+      },
+      "modelFields" : {
+        "displayName" : "Field"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      },
+      "superModels" : {
+        "displayName" : "Parent model",
+        "summary" : "Parent model"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "functions" : {
+        "displayName" : "Function List"
+      },
+      "pkList" : {
+        "displayName" : "Primary key field list"
+      },
+      "multiTableTypeField" : {
+        "displayName" : "Multi-table type field"
+      },
+      "fname" : {
+        "displayName" : "Low no unified name"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "priority" : {
+        "displayName" : "Priority"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "unInheritedFunctionList" : {
+        "displayName" : "Fields and functions not inherited"
+      },
+      "unInheritedFieldList" : {
+        "displayName" : "Fields not inherited"
+      },
+      "module" : {
+        "displayName" : "Module Coding"
+      },
+      "moduleAbbr" : {
+        "displayName" : "Module Abbreviation",
+        "summary" : "Module abbreviation only supports lowercase letters and numbers and cannot exceed 8 characters"
+      },
+      "proxy" : {
+        "displayName" : "Surrogate Model Encoding"
+      },
+      "name" : {
+        "displayName" : "API name"
+      },
+      "uniqueList" : {
+        "displayName" : "Unique Index List"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "multiTable" : {
+        "displayName" : "Multi-table parent model encoding"
+      },
+      "ordering" : {
+        "displayName" : "Sort"
+      },
+      "show" : {
+        "displayName" : "It can be seen"
+      },
+      "dsModule" : {
+        "displayName" : "Data Source Module"
+      },
+      "unInheritedFunctions" : {
+        "displayName" : "Do not inherit the function"
+      },
+      "uniques" : {
+        "displayName" : "Unique Index"
+      },
+      "labelFields" : {
+        "displayName" : "Data Title Field"
+      },
+      "proxyModel" : {
+        "displayName" : "Surrogate model"
+      },
+      "optimisticLocker" : {
+        "displayName" : "Optimistic Lock Field"
+      },
+      "lname" : {
+        "displayName" : "Model code name"
+      },
+      "description" : {
+        "displayName" : "Description",
+        "summary" : "Description Details"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "indexes" : {
+        "displayName" : "Index"
+      },
+      "sequenceConfig" : {
+        "displayName" : "Sequence Generation Configuration",
+        "summary" : "Sequence Generation Configuration"
+      },
+      "indexList" : {
+        "displayName" : "Index List"
+      },
+      "table" : {
+        "displayName" : "Logical Data Table Name"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "dsKey" : {
+        "displayName" : "Logical Data Source Name"
+      },
+      "redundancy" : {
+        "displayName" : "Multiple table redundancy"
+      },
+      "unInheritedFields" : {
+        "displayName" : "Do not inherit fields"
+      },
+      "dataManager" : {
+        "displayName" : "Data Management",
+        "summary" : "Whether the system is allowed to automatically create and update tables based on model changes"
+      },
+      "pk" : {
+        "displayName" : "Primary Key"
+      },
+      "label" : {
+        "displayName" : "Data Title Format"
+      },
+      "categoryId" : {
+        "displayName" : "Group ID"
+      },
+      "category" : {
+        "displayName" : "Grouping"
+      },
+      "sequenceCode" : {
+        "displayName" : "Sequence generation configuration encoding",
+        "summary" : "Sequence Generation Configuration Encoding"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "superModelList" : {
+        "displayName" : "Parent Model List",
+        "summary" : "Parent Model List"
+      }
+    }
+  },
+  "base.ClientAction" : {
+    "summary" : "Client Action",
+    "displayName" : "Client Action",
+    "remark" : "Client Action",
+    "base.Field" : {
+      "bindingType" : {
+        "summary" : "Which views the action is bound to on the source model",
+        "displayName" : "Binding Type"
+      },
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "mapping" : {
+        "summary" : "Data Mapping",
+        "displayName" : "Data Mapping"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "invisible" : {
+        "summary" : "Expression for Client Visibility",
+        "displayName" : "Visibility"
+      },
+      "rule" : {
+        "summary" : "Expression for Server-side Filter Action",
+        "displayName" : "Filter Action"
+      },
+      "bindingView" : {
+        "summary" : "Which custom view the action is bound to on the source model",
+        "displayName" : "Bound View"
+      },
+      "label" : {
+        "summary" : "Display Text",
+        "displayName" : "Display Text"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "modelDefinition" : {
+        "summary" : "Model",
+        "displayName" : "Model"
+      },
+      "compute" : {
+        "summary" : "Calculation Function Code",
+        "displayName" : "Calculation Function Code"
+      },
+      "actionType" : {
+        "summary" : "Type",
+        "displayName" : "Type"
+      },
+      "computeFunction" : {
+        "summary" : "Calculation Function",
+        "displayName" : "Calculation Function"
+      },
+      "disable" : {
+        "summary" : "Disable Rule",
+        "displayName" : "Disable Rule"
+      },
+      "contextType" : {
+        "summary" : "Context Type",
+        "displayName" : "Context Type"
+      },
+      "context" : {
+        "summary" : "Context",
+        "displayName" : "Context"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "sessionPath" : {
+        "summary" : "Session Path",
+        "displayName" : "Session Path"
+      },
+      "fun" : {
+        "summary" : "Client Function Code",
+        "displayName" : "Client Function Code"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      }
+    }
+  },
+  "base.UiTreeNodeMetadata" : {
+    "summary" : "Tree Node Configuration",
+    "displayName" : "Tree Node Configuration",
+    "remark" : "Tree Node Configuration",
+    "base.Field" : {
+      "filter" : {
+        "summary" : "Filter Condition RSQL",
+        "displayName" : "Filter Condition RSQL"
+      },
+      "relField" : {
+        "summary" : "Association Field",
+        "displayName" : "Association Field"
+      },
+      "expandEndLevel" : {
+        "summary" : "Tree Expansion End Level",
+        "displayName" : "Tree Expansion End Level"
+      },
+      "relModel" : {
+        "summary" : "Association Field Model",
+        "displayName" : "Association Field Model"
+      },
+      "icon" : {
+        "summary" : "Icon",
+        "displayName" : "Icon"
+      },
+      "selfRelField" : {
+        "summary" : "Self-association Field",
+        "displayName" : "Self-association Field"
+      },
+      "model" : {
+        "summary" : "Current Node Model",
+        "displayName" : "Current Node Model"
+      },
+      "searchFields" : {
+        "summary" : "Data Title Field List",
+        "displayName" : "Data Title Field List"
+      },
+      "label" : {
+        "summary" : "Data Title",
+        "displayName" : "Data Title"
+      },
+      "key" : {
+        "summary" : "Node Key",
+        "displayName" : "Node Key"
+      },
+      "labelFields" : {
+        "summary" : "Data Title Field List",
+        "displayName" : "Data Title Field List"
+      },
+      "translate" : {
+        "summary" : "Data Title Translation",
+        "displayName" : "Data Title Translation"
+      }
+    }
+  },
+  "base.ViewAction" : {
+    "summary" : "Window Action",
+    "displayName" : "Window Action",
+    "remark" : "Window Action",
+    "base.Field" : {
+      "queryMode" : {
+        "summary" : "Data Loading Method",
+        "displayName" : "Data Loading Method"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "invisible" : {
+        "summary" : "Expression for Client Visibility",
+        "displayName" : "Visibility"
+      },
+      "rule" : {
+        "summary" : "Expression for Server-side Filter Action",
+        "displayName" : "Filter Action"
+      },
+      "bindingView" : {
+        "summary" : "Which custom view the action is bound to on the source model",
+        "displayName" : "Bound View"
+      },
+      "loadFunction" : {
+        "summary" : "Data Loading Function",
+        "displayName" : "Data Loading Function"
+      },
+      "maskDefinition" : {
+        "summary" : "Master",
+        "displayName" : "Master"
+      },
+      "themeDefinition" : {
+        "summary" : "Theme",
+        "displayName" : "Theme"
+      },
+      "title" : {
+        "summary" : "Page Title",
+        "displayName" : "Page Title"
+      },
+      "load" : {
+        "summary" : "Data Loading Function Code",
+        "displayName" : "Data Loading Function Code"
+      },
+      "resModuleDefinition" : {
+        "summary" : "Target Module",
+        "displayName" : "Target Module"
+      },
+      "moduleDefinition" : {
+        "summary" : "Source Module",
+        "displayName" : "Source Module"
+      },
+      "contextType" : {
+        "summary" : "Context Type",
+        "displayName" : "Context Type"
+      },
+      "context" : {
+        "summary" : "Context",
+        "displayName" : "Context"
+      },
+      "limit" : {
+        "summary" : "Limit",
+        "displayName" : "Limit"
+      },
+      "resModelDefinition" : {
+        "summary" : "Target Model",
+        "displayName" : "Target Model"
+      },
+      "theme" : {
+        "summary" : "Theme API Name",
+        "displayName" : "Theme Name"
+      },
+      "needBaseModules" : {
+        "summary" : "Return Installed Base Applications",
+        "displayName" : "Return Installed Base Applications"
+      },
+      "mask" : {
+        "summary" : "Master API Name",
+        "displayName" : "Master Name"
+      },
+      "optionViewList" : {
+        "summary" : "Optional View List",
+        "displayName" : "Optional View List"
+      },
+      "bindingType" : {
+        "summary" : "Which views the action is bound to on the source model",
+        "displayName" : "Binding Type"
+      },
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "mapping" : {
+        "summary" : "Data Mapping",
+        "displayName" : "Data Mapping"
+      },
+      "dataType" : {
+        "summary" : "View Data Type",
+        "displayName" : "View Data Type"
+      },
+      "optionViewTypes" : {
+        "summary" : "View types supported for switching after opening target model",
+        "displayName" : "Optional View Type"
+      },
+      "label" : {
+        "summary" : "Display Text",
+        "displayName" : "Display Text"
+      },
+      "needCompileView" : {
+        "summary" : "Compile View Instruction",
+        "displayName" : "Is View Compiled"
+      },
+      "needCompileMask" : {
+        "summary" : "Compile Master Instruction",
+        "displayName" : "Is Master Compiled"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "modelDefinition" : {
+        "summary" : "Model",
+        "displayName" : "Model"
+      },
+      "target" : {
+        "summary" : "Open Mode",
+        "displayName" : "Open Mode"
+      },
+      "actionType" : {
+        "summary" : "Type",
+        "displayName" : "Type"
+      },
+      "defaultHomePage" : {
+        "summary" : "Use Default Home Page",
+        "displayName" : "Use Default Home Page"
+      },
+      "disable" : {
+        "summary" : "Disable Rule",
+        "displayName" : "Disable Rule"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "optionViewNames" : {
+        "summary" : "Optional View Name List",
+        "displayName" : "Optional View Name List"
+      },
+      "resView" : {
+        "summary" : "Target View of Action View Jump",
+        "displayName" : "Target View"
+      },
+      "viewType" : {
+        "summary" : "Default view type opened after opening target model",
+        "displayName" : "View Type"
+      },
+      "sessionPath" : {
+        "summary" : "Session Path",
+        "displayName" : "Session Path"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      }
+    }
+  },
+  "base.ServerAction" : {
+    "summary" : "Server Action",
+    "displayName" : "Server Action",
+    "remark" : "Server Action",
+    "base.Field" : {
+      "bindingType" : {
+        "summary" : "Which views the action is bound to on the source model",
+        "displayName" : "Binding Type"
+      },
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "mapping" : {
+        "summary" : "Data Mapping",
+        "displayName" : "Data Mapping"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "functionDefinition" : {
+        "summary" : "Function",
+        "displayName" : "Function"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "invisible" : {
+        "summary" : "Expression for Client Visibility",
+        "displayName" : "Visibility"
+      },
+      "rule" : {
+        "summary" : "Expression for Server-side Filter Action",
+        "displayName" : "Filter Action"
+      },
+      "bindingView" : {
+        "summary" : "Which custom view the action is bound to on the source model",
+        "displayName" : "Bound View"
+      },
+      "label" : {
+        "summary" : "Display Text",
+        "displayName" : "Display Text"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "extPointList" : {
+        "summary" : "Extension Point",
+        "displayName" : "Extension Point"
+      },
+      "modelDefinition" : {
+        "summary" : "Model",
+        "displayName" : "Model"
+      },
+      "actionType" : {
+        "summary" : "Type",
+        "displayName" : "Type"
+      },
+      "disable" : {
+        "summary" : "Disable Rule",
+        "displayName" : "Disable Rule"
+      },
+      "contextType" : {
+        "summary" : "Context Type",
+        "displayName" : "Context Type"
+      },
+      "context" : {
+        "summary" : "Context",
+        "displayName" : "Context"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "sessionPath" : {
+        "summary" : "Session Path",
+        "displayName" : "Session Path"
+      },
+      "fun" : {
+        "summary" : "Function Code",
+        "displayName" : "Function Code"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "sys" : {
+        "displayName" : "System Metadata",
+        "summary" : "Metadata generated by the system"
+      }
+    }
+  },
+  "base.MaskDefinition" : {
+    "summary" : "Mask Definition",
+    "displayName" : "Mask Definition",
+    "remark" : "Mask Definition",
+    "base.Field" : {
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "template" : {
+        "summary" : "Template",
+        "displayName" : "Template"
+      },
+      "thumbnail" : {
+        "summary" : "Thumbnail",
+        "displayName" : "Thumbnail"
+      },
+      "bizType" : {
+        "summary" : "Business Type",
+        "displayName" : "Business Type"
+      },
+      "baseLayoutName" : {
+        "summary" : "Base Layout Name",
+        "displayName" : "Base Layout Name"
+      },
+      "show" : {
+        "summary" : "Visibility",
+        "displayName" : "Visibility"
+      },
+      "active" : {
+        "summary" : "Is Effective",
+        "displayName" : "Is Effective"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "authed" : {
+        "summary" : "Authorized",
+        "displayName" : "Authorized"
+      },
+      "translated" : {
+        "summary" : "Internationalized",
+        "displayName" : "Internationalized"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "title" : {
+        "summary" : "Master Title",
+        "displayName" : "Master Title"
+      },
+      "type" : {
+        "summary" : "View Type",
+        "displayName" : "View Type"
+      },
+      "layout" : {
+        "summary" : "Custom Layout",
+        "displayName" : "Custom Layout"
+      },
+      "compiled" : {
+        "summary" : "Compiled",
+        "displayName" : "Compiled"
+      },
+      "loadLayout" : {
+        "summary" : "Is Layout Loaded",
+        "displayName" : "Is Layout Loaded"
+      },
+      "name" : {
+        "summary" : "Master Name",
+        "displayName" : "Master Name"
+      },
+      "baseLayoutDefinition" : {
+        "summary" : "Layout Definition",
+        "displayName" : "Layout Definition"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      }
+    }
+  },
+  "base.UeModel" : {
+    "summary" : "Model",
+    "displayName" : "View Model",
+    "remark" : "Model",
+    "base.Field" : {
+      "isRelationship" : {
+        "summary" : "Relation Model",
+        "displayName" : "Relational model"
+      },
+      "multiTableType" : {
+        "summary" : "Multi-table Type",
+        "displayName" : "Multiple table types"
+      },
+      "writeUid" : {
+        "summary" : "Updated By ID",
+        "displayName" : "Updated By ID"
+      },
+      "functions" : {
+        "summary" : "Function List",
+        "displayName" : "function list"
+      },
+      "moduleName" : {
+        "summary" : "moduleName",
+        "displayName" : "moduleName"
+      },
+      "sign" : {
+        "summary" : "Metadata Signature",
+        "displayName" : "Metadata Signature"
+      },
+      "writeDate" : {
+        "summary" : "Update Time",
+        "displayName" : "Update Time"
+      },
+      "type" : {
+        "summary" : "Model Type",
+        "displayName" : "Model Type"
+      },
+      "superModels" : {
+        "summary" : "Parent model",
+        "displayName" : "Parent model"
+      },
+      "systemSource" : {
+        "summary" : "BASE is created by the system, MANUAL is created manually",
+        "displayName" : "System Source"
+      },
+      "moduleDefinition" : {
+        "summary" : "Belonging Module",
+        "displayName" : "Belonging Module"
+      },
+      "logicDeleteValue" : {
+        "summary" : "logicDeleteValue",
+        "displayName" : "logicDeleteValue"
+      },
+      "multiTableModel" : {
+        "summary" : "Multi-table Parent Model",
+        "displayName" : "Multiple Table Parent Model"
+      },
+      "modelFields" : {
+        "summary" : "Field",
+        "displayName" : "Field"
+      },
+      "multiTableTypeField" : {
+        "summary" : "Multi-table Type Field",
+        "displayName" : "Multi-table type field"
+      },
+      "underCamel" : {
+        "summary" : "underCamel",
+        "displayName" : "underCamel"
+      },
+      "optimisticLockerField" : {
+        "summary" : "Optimistic Lock",
+        "displayName" : "Optimistic Lock"
+      },
+      "model" : {
+        "summary" : "Model Code",
+        "displayName" : "Model Encoding"
+      },
+      "id" : {
+        "summary" : "ID field, unique auto-increment index",
+        "displayName" : "ID"
+      },
+      "createUid" : {
+        "summary" : "Created By ID",
+        "displayName" : "Created By ID"
+      },
+      "pkList" : {
+        "summary" : "Primary Key Field List",
+        "displayName" : "Primary key field list"
+      },
+      "viewList" : {
+        "summary" : "View Reference",
+        "displayName" : "View Reference"
+      },
+      "fname" : {
+        "summary" : "Low-Code/No-Code Name",
+        "displayName" : "low no one name"
+      },
+      "logicDelete" : {
+        "summary" : "logicDelete",
+        "displayName" : "logicDelete"
+      },
+      "unInheritedFunctionList" : {
+        "summary" : "Un-inherited Field Function",
+        "displayName" : "Fields and functions not inherited"
+      },
+      "moduleAbbr" : {
+        "summary" : "Module abbreviation only supports lowercase letters and numbers and cannot exceed 8 characters",
+        "displayName" : "Module abbreviation"
+      },
+      "bitOptions" : {
+        "summary" : "Bit",
+        "displayName" : "position"
+      },
+      "module" : {
+        "summary" : "Module Code",
+        "displayName" : "Module Coding"
+      },
+      "uniques" : {
+        "summary" : "Unique Index",
+        "displayName" : "unique index"
+      },
+      "capitalMode" : {
+        "summary" : "capitalMode",
+        "displayName" : "capitalMode"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "labelFields" : {
+        "summary" : "Data Title Field",
+        "displayName" : "Data Title Field"
+      },
+      "unInheritedFieldList" : {
+        "summary" : "Un-inherited Field List",
+        "displayName" : "Fields not inherited"
+      },
+      "optimisticLocker" : {
+        "summary" : "Optimistic Lock Field",
+        "displayName" : "Optimistic Lock Field"
+      },
+      "collate" : {
+        "summary" : "collate",
+        "displayName" : "collate"
+      },
+      "proxy" : {
+        "summary" : "Proxy Model Code",
+        "displayName" : "Proxy model encoding"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "api name"
+      },
+      "hash" : {
+        "summary" : "Check Code",
+        "displayName" : "Check Code"
+      },
+      "logicNotDeleteValue" : {
+        "summary" : "logicNotDeleteValue",
+        "displayName" : "logicNotDeleteValue"
+      },
+      "charset" : {
+        "summary" : "charset",
+        "displayName" : "charset"
+      },
+      "uniqueList" : {
+        "summary" : "Unique Index List",
+        "displayName" : "Unique Index List"
+      },
+      "multiTable" : {
+        "summary" : "Multi-table Parent Model Code",
+        "displayName" : "Multi-table parent model encoding"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "ordering" : {
+        "summary" : "Sort",
+        "displayName" : "Sort"
+      },
+      "show" : {
+        "summary" : "Visible",
+        "displayName" : "Visible"
+      },
+      "description" : {
+        "summary" : "Describe details",
+        "displayName" : "Description"
+      },
+      "dsModule" : {
+        "summary" : "Data Source Module",
+        "displayName" : "Data Source Module"
+      },
+      "unInheritedFunctions" : {
+        "summary" : "Un-inherited Function",
+        "displayName" : "Does not inherit functions"
+      },
+      "indexList" : {
+        "summary" : "Index List",
+        "displayName" : "Index List"
+      },
+      "remark" : {
+        "summary" : "Storage Remark",
+        "displayName" : "Remark"
+      },
+      "serverActionList" : {
+        "summary" : "Server Action",
+        "displayName" : "Server Action"
+      },
+      "sys" : {
+        "summary" : "Metadata generated by the system",
+        "displayName" : "System metadata"
+      },
+      "proxyModel" : {
+        "summary" : "Proxy Model",
+        "displayName" : "surrogate model"
+      },
+      "sequenceConfig" : {
+        "summary" : "Sequence Generation Configuration",
+        "displayName" : "Sequence Generation Configuration"
+      },
+      "lname" : {
+        "summary" : "Model Code Name",
+        "displayName" : "Model code name"
+      },
+      "sequenceCode" : {
+        "summary" : "Sequence Generation Configuration Encoding",
+        "displayName" : "Sequence Generation Configuration Encoding"
+      },
+      "indexes" : {
+        "summary" : "Index",
+        "displayName" : "Index"
+      },
+      "clientActionList" : {
+        "summary" : "Client action",
+        "displayName" : "Client action"
+      },
+      "redundancy" : {
+        "summary" : "Multi-table Redundancy",
+        "displayName" : "Multiple table redundancy"
+      },
+      "dataManager" : {
+        "summary" : "Whether to allow the system to automatically create and update tables based on model changes",
+        "displayName" : "Data management possible"
+      },
+      "table" : {
+        "summary" : "Logical Table Name",
+        "displayName" : "Logical Data Table Name"
+      },
+      "createDate" : {
+        "summary" : "Create Time",
+        "displayName" : "Create Time"
+      },
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "labelFieldList" : {
+        "summary" : "Data Title Field List",
+        "displayName" : "Data Title Field List"
+      },
+      "logicDeleteColumn" : {
+        "summary" : "logicDeleteColumn",
+        "displayName" : "logicDeleteColumn"
+      },
+      "dsKey" : {
+        "summary" : "Logical Data Source Name",
+        "displayName" : "Logical data source name"
+      },
+      "label" : {
+        "summary" : "Data Title Format",
+        "displayName" : "Data Title Format"
+      },
+      "urlActionList" : {
+        "summary" : "URL Action",
+        "displayName" : "URL Action"
+      },
+      "superModelList" : {
+        "summary" : "Parent Model List",
+        "displayName" : "Parent Model List"
+      },
+      "unInheritedFields" : {
+        "summary" : "Un-inherited Field",
+        "displayName" : "Do not inherit fields"
+      },
+      "viewActionList" : {
+        "summary" : "Window Action",
+        "displayName" : "Window Action"
+      },
+      "attributes" : {
+        "summary" : "Attribute",
+        "displayName" : "Attribute"
+      },
+      "pk" : {
+        "summary" : "Primary Key",
+        "displayName" : "Primary Key"
+      },
+      "category" : {
+        "summary" : "Group",
+        "displayName" : "Group"
+      },
+      "categoryId" : {
+        "summary" : "Group ID",
+        "displayName" : "Group ID"
+      }
+    }
+  },
+  "base.ViewCategory" : {
+    "summary" : "View Group",
+    "displayName" : "View Group",
+    "remark" : "View Group",
+    "base.Field" : {
+      "viewList" : {
+        "summary" : "View Group View Relation",
+        "displayName" : "View Group View Relation"
+      },
+      "moduleList" : {
+        "summary" : "View Group Module Relation",
+        "displayName" : "View Group Module Relation"
+      },
+      "name" : {
+        "summary" : "Group Name",
+        "displayName" : "Group Name"
+      },
+      "active" : {
+        "summary" : "Visibility",
+        "displayName" : "Visibility"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      }
+    }
+  },
+  "base.AdvancedHomePageMenuProxy" : {
+    "summary" : "System Configuration Menu Proxy",
+    "displayName" : "System Configuration Menu Proxy",
+    "remark" : "Menu",
+    "base.Field" : {
+      "parent" : {
+        "summary" : "Parent Menu",
+        "displayName" : "Parent Menu"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "urlAction" : {
+        "summary" : "URL Action",
+        "displayName" : "URL Action"
+      },
+      "icon" : {
+        "summary" : "Icon",
+        "displayName" : "Icon"
+      },
+      "show" : {
+        "summary" : "Is Displayed",
+        "displayName" : "Is Displayed"
+      },
+      "description" : {
+        "summary" : "Menu Description",
+        "displayName" : "Menu Description"
+      },
+      "parentProxy" : {
+        "summary" : "Parent Menu",
+        "displayName" : "Parent Menu"
+      },
+      "children" : {
+        "summary" : "Sub Menu",
+        "displayName" : "Sub Menu"
+      },
+      "moduleDefinition" : {
+        "summary" : "Module",
+        "displayName" : "Module"
+      },
+      "defaultDisplayName" : {
+        "summary" : "Default Display Name",
+        "displayName" : "Default Display Name"
+      },
+      "clientAction" : {
+        "summary" : "Client Action",
+        "displayName" : "Client Action"
+      },
+      "context" : {
+        "summary" : "Context",
+        "displayName" : "Context"
+      },
+      "serverAction" : {
+        "summary" : "Server Action",
+        "displayName" : "Server Action"
+      },
+      "mapping" : {
+        "summary" : "Data Mapping",
+        "displayName" : "Data Mapping"
+      },
+      "clientTypes" : {
+        "summary" : "List of Client Types Supported by Application",
+        "displayName" : "List of Client Types Supported by Application"
+      },
+      "defaultPriority" : {
+        "summary" : "Default Icon",
+        "displayName" : "Default Icon"
+      },
+      "module" : {
+        "summary" : "Module Code",
+        "displayName" : "Module Code"
+      },
+      "viewAction" : {
+        "summary" : "Window Action",
+        "displayName" : "Window Action"
+      },
+      "defaultShow" : {
+        "summary" : "Default Displayed",
+        "displayName" : "Default Displayed"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "actionType" : {
+        "summary" : "Action Type",
+        "displayName" : "Action Type"
+      },
+      "defaultIcon" : {
+        "summary" : "Default Icon",
+        "displayName" : "Default Icon"
+      },
+      "hint" : {
+        "summary" : "Tip Message",
+        "displayName" : "Tip Message"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "defaultParentName" : {
+        "summary" : "Default Parent Menu Name",
+        "displayName" : "Default Parent Menu Name"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      }
+    }
+  },
+  "base.UiTreeNode" : {
+    "summary" : "Tree Node Configuration",
+    "displayName" : "Tree Node Configuration",
+    "remark" : "Tree Node Configuration",
+    "base.Field" : {
+      "metadataKey" : {
+        "summary" : "Node Key",
+        "displayName" : "Node Key"
+      },
+      "nodes" : {
+        "summary" : "Child Node",
+        "displayName" : "Child Node"
+      },
+      "filler" : {
+        "summary" : "When backfilling selected data, pad data if length is insufficient",
+        "displayName" : "Supplementary Data"
+      },
+      "icon" : {
+        "summary" : "Icon",
+        "displayName" : "Icon"
+      },
+      "isLeaf" : {
+        "summary" : "Flag indicating if there are child nodes",
+        "displayName" : "Flag indicating if there are child nodes"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      }
+    }
+  },
+  "base.WidgetDefinition" : {
+    "summary" : "Component",
+    "displayName" : "Component",
+    "remark" : "Component",
+    "base.Field" : {
+      "css" : {
+        "summary" : "Style File Address List",
+        "displayName" : "Style File"
+      },
+      "bizType" : {
+        "summary" : "Component Type",
+        "displayName" : "Component Type"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "icon" : {
+        "summary" : "Icon",
+        "displayName" : "Icon"
+      },
+      "show" : {
+        "summary" : "Is Component Displayed",
+        "displayName" : "Is Component Displayed"
+      },
+      "description" : {
+        "summary" : "Menu Description",
+        "displayName" : "Menu Description"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "sys" : {
+        "summary" : "System Data",
+        "displayName" : "System Data"
+      },
+      "javascript" : {
+        "summary" : "Code File Address List",
+        "displayName" : "Code File"
+      },
+      "filter" : {
+        "summary" : "Component Filter",
+        "displayName" : "Component Filter"
+      },
+      "help" : {
+        "summary" : "Help Text",
+        "displayName" : "Help Text"
+      },
+      "systemSource" : {
+        "summary" : "Source",
+        "displayName" : "Source"
+      },
+      "widgetGroup" : {
+        "summary" : "Group",
+        "displayName" : "Group"
+      },
+      "scope" : {
+        "summary" : "Scope",
+        "displayName" : "Scope"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "category" : {
+        "summary" : "Group Name",
+        "displayName" : "Group Name"
+      },
+      "clazz" : {
+        "summary" : "Action Type",
+        "displayName" : "Action Type"
+      },
+      "group" : {
+        "summary" : "Group",
+        "displayName" : "Group"
+      },
+      "techType" : {
+        "summary" : "Technical Type",
+        "displayName" : "Technical Type"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      }
+    }
+  },
+  "base.UrlAction" : {
+    "summary" : "URL Action",
+    "displayName" : "URL Action",
+    "remark" : "URL Action",
+    "base.Field" : {
+      "bindingType" : {
+        "summary" : "Which views the action is bound to on the source model",
+        "displayName" : "Binding Type"
+      },
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "mapping" : {
+        "summary" : "Data Mapping",
+        "displayName" : "Data Mapping"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "invisible" : {
+        "summary" : "Expression for Client Visibility",
+        "displayName" : "Visibility"
+      },
+      "rule" : {
+        "summary" : "Expression for Server-side Filter Action",
+        "displayName" : "Filter Action"
+      },
+      "bindingView" : {
+        "summary" : "Which custom view the action is bound to on the source model",
+        "displayName" : "Bound View"
+      },
+      "label" : {
+        "summary" : "Display Text",
+        "displayName" : "Display Text"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "modelDefinition" : {
+        "summary" : "Model",
+        "displayName" : "Model"
+      },
+      "target" : {
+        "summary" : "Open Mode",
+        "displayName" : "Open Mode"
+      },
+      "compute" : {
+        "summary" : "Link Calculation Function Code",
+        "displayName" : "Link Calculation Function Code"
+      },
+      "actionType" : {
+        "summary" : "Type",
+        "displayName" : "Type"
+      },
+      "computeFunction" : {
+        "summary" : "Link Calculation Function",
+        "displayName" : "Link Calculation Function"
+      },
+      "disable" : {
+        "summary" : "Disable Rule",
+        "displayName" : "Disable Rule"
+      },
+      "contextType" : {
+        "summary" : "Context Type",
+        "displayName" : "Context Type"
+      },
+      "context" : {
+        "summary" : "Context",
+        "displayName" : "Context"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "sessionPath" : {
+        "summary" : "Session Path",
+        "displayName" : "Session Path"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      }
+    }
+  },
+  "base.Action" : {
+    "summary" : "Action",
+    "displayName" : "Action",
+    "remark" : "Action",
+    "base.Field" : {
+      "bindingType" : {
+        "summary" : "Which views the action is bound to on the source model",
+        "displayName" : "Binding Type"
+      },
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "mapping" : {
+        "summary" : "Data Mapping",
+        "displayName" : "Data Mapping"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "invisible" : {
+        "summary" : "Expression for Client Visibility",
+        "displayName" : "Visibility"
+      },
+      "rule" : {
+        "summary" : "Expression for Server-side Filter Action",
+        "displayName" : "Filter Action"
+      },
+      "bindingView" : {
+        "summary" : "Which custom view the action is bound to on the source model",
+        "displayName" : "Bound View"
+      },
+      "label" : {
+        "summary" : "Display Text",
+        "displayName" : "Display Text"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "modelDefinition" : {
+        "summary" : "Model",
+        "displayName" : "Model"
+      },
+      "actionType" : {
+        "summary" : "Type",
+        "displayName" : "ActionType"
+      },
+      "disable" : {
+        "summary" : "Disable Rule",
+        "displayName" : "Disable Rule"
+      },
+      "contextType" : {
+        "summary" : "Context Type",
+        "displayName" : "Context Type"
+      },
+      "context" : {
+        "summary" : "Context",
+        "displayName" : "Context"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "sessionPath" : {
+        "summary" : "Session Path",
+        "displayName" : "Session Path"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      }
+    }
+  },
+  "base.ViewCategoryModuleRel" : {
+    "summary" : "View Group Application Module Relation",
+    "displayName" : "View Group Application Module Relation",
+    "remark" : "View Group Application Module Relation",
+    "base.Field" : {
+      "moduleId" : {
+        "summary" : "Module ID",
+        "displayName" : "Module ID"
+      },
+      "categoryId" : {
+        "summary" : "Group ID",
+        "displayName" : "Group ID"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "sys" : {
+        "displayName" : "System Metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      }
+    }
+  },
+  "base.AdvancedHomeUeModuleProxy" : {
+    "summary" : "Home Page Configuration Application",
+    "displayName" : "Home Page Configuration Application",
+    "remark" : "Module",
+    "base.Field" : {
+      "moduleExclusions" : {
+        "summary" : "Mutually Exclusive Module Code List",
+        "displayName" : "moduleExclusions"
+      },
+      "defaultCategory" : {
+        "summary" : "Default Category Code",
+        "displayName" : "Default Category Code"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "homePageModel" : {
+        "summary" : "Home Page Model Code",
+        "displayName" : "Home Page Model Code"
+      },
+      "show" : {
+        "summary" : "Visible",
+        "displayName" : "Visible"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "moduleCategory" : {
+        "summary" : "Category",
+        "displayName" : "Category"
+      },
+      "demo" : {
+        "summary" : "Demo Application",
+        "displayName" : "Demo Application"
+      },
+      "maintainer" : {
+        "summary" : "Maintainer",
+        "displayName" : "Maintainer"
+      },
+      "moduleDependencyList" : {
+        "summary" : "Dependency Module List",
+        "displayName" : "Dependency Module List"
+      },
+      "selfBuilt" : {
+        "summary" : "Self-built Application",
+        "displayName" : "Self-built Application"
+      },
+      "homePageName" : {
+        "summary" : "Home Page Action Name",
+        "displayName" : "Home Page Action Name"
+      },
+      "publishedVersion" : {
+        "summary" : "Latest Release Version",
+        "displayName" : "Latest Release Version"
+      },
+      "moduleMiddleWareList" : {
+        "summary" : "Middleware List",
+        "displayName" : "Middleware List"
+      },
+      "web" : {
+        "summary" : "Web Application",
+        "displayName" : "Web Application"
+      },
+      "moduleUpstreams" : {
+        "summary" : "Upstream Module Code List",
+        "displayName" : "moduleUpstreams"
+      },
+      "platformVersion" : {
+        "summary" : "Latest Platform Version",
+        "displayName" : "Latest Platform Version"
+      },
+      "logo" : {
+        "summary" : "Icon",
+        "displayName" : "Icon"
+      },
+      "excludeHooks" : {
+        "summary" : "Exclude Interceptor List",
+        "displayName" : "excludeHooks"
+      },
+      "state" : {
+        "summary" : "Status",
+        "displayName" : "Status"
+      },
+      "abbr" : {
+        "summary" : "Module abbreviation only supports lowercase letters and numbers and cannot exceed 8 characters",
+        "displayName" : "Module Abbreviation"
+      },
+      "boot" : {
+        "summary" : "Boot Module",
+        "displayName" : "Boot Module"
+      },
+      "toBuy" : {
+        "summary" : "Need to Purchase",
+        "displayName" : "Need to Purchase"
+      },
+      "moduleExclusionList" : {
+        "summary" : "Mutually Exclusive Module List",
+        "displayName" : "Mutually Exclusive Module List"
+      },
+      "publishCount" : {
+        "summary" : "Total Publish Count",
+        "displayName" : "Total Publish Count"
+      },
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "website" : {
+        "summary" : "Site",
+        "displayName" : "Site"
+      },
+      "clientTypes" : {
+        "summary" : "List of Client Types Supported by Application",
+        "displayName" : "List of Client Types Supported by Application"
+      },
+      "defaultHomePageName" : {
+        "summary" : "Default Home Page Action Name",
+        "displayName" : "Default Home Page Action Name"
+      },
+      "author" : {
+        "summary" : "Module Author",
+        "displayName" : "Module Author"
+      },
+      "dsKey" : {
+        "summary" : "Logical Data Source Name",
+        "displayName" : "Logical Data Source Name"
+      },
+      "module" : {
+        "summary" : "Module Code",
+        "displayName" : "Module Code"
+      },
+      "priority" : {
+        "summary" : "Determines the order of modules in display and default jump on the home page, default is 100, sorted by priority in ascending order by default",
+        "displayName" : "Priority"
+      },
+      "moduleDependencies" : {
+        "summary" : "Dependency Module Code List",
+        "displayName" : "moduleDependencies"
+      },
+      "url" : {
+        "summary" : "Code Repository Address",
+        "displayName" : "Code Repository Address"
+      },
+      "license" : {
+        "summary" : "License",
+        "displayName" : "License"
+      },
+      "application" : {
+        "summary" : "Is Application",
+        "displayName" : "Is Application"
+      },
+      "latestVersion" : {
+        "summary" : "Installed Version",
+        "displayName" : "Installed Version"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "defaultHomePageModel" : {
+        "summary" : "Default Home Page Model Code",
+        "displayName" : "Default Home Page Model Code"
+      },
+      "contributors" : {
+        "summary" : "Contributor List",
+        "displayName" : "Contributor List"
+      },
+      "category" : {
+        "summary" : "Category Code",
+        "displayName" : "category"
+      },
+      "moduleUpstreamList" : {
+        "summary" : "Upstream Module List",
+        "displayName" : "Upstream Module List"
+      },
+      "defaultLogo" : {
+        "summary" : "Default Icon",
+        "displayName" : "Default Icon"
+      },
+      "metaSource" : {
+        "summary" : "Metadata Source",
+        "displayName" : "Metadata Source"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "homePage" : {
+        "displayName" : "Home Page"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "allMenus" : {
+        "displayName" : "All menus"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      },
+      "topMenus" : {
+        "displayName" : "Top menu"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      }
+    }
+  },
+  "base.SharedPage" : {
+    "summary" : "Shared Page",
+    "displayName" : "Shared Page",
+    "remark" : "Shared Page",
+    "base.Field" : {
+      "languageIsoCode" : {
+        "summary" : "Current Language ISO Code",
+        "displayName" : "Current Language ISO Code"
+      },
+      "browserTitle" : {
+        "summary" : "Browser Title",
+        "displayName" : "Browser Title"
+      },
+      "shareActionModel" : {
+        "summary" : "Share Action Model",
+        "displayName" : "Share Action Model"
+      },
+      "shareActionName" : {
+        "summary" : "Share Action Name",
+        "displayName" : "Share Action Name"
+      },
+      "language" : {
+        "summary" : "Current Language",
+        "displayName" : "Current Language"
+      },
+      "linkText" : {
+        "summary" : "Link Text",
+        "displayName" : "Link Text"
+      },
+      "sharedCode" : {
+        "summary" : "Share Code",
+        "displayName" : "Share Code"
+      },
+      "parameters" : {
+        "summary" : "Page Parameters",
+        "displayName" : "Page Parameters"
+      },
+      "url" : {
+        "summary" : "Share Link",
+        "displayName" : "Share Link"
+      }
+    }
+  },
+  "base.ThemeDefinition" : {
+    "summary" : "Theme",
+    "displayName" : "Theme",
+    "remark" : "Theme",
+    "base.Field" : {
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "name" : {
+        "summary" : "Theme Name",
+        "displayName" : "Theme Name"
+      },
+      "active" : {
+        "summary" : "Is Effective",
+        "displayName" : "Is Effective"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "title" : {
+        "summary" : "Theme Title",
+        "displayName" : "Theme Title"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      }
+    }
+  },
+  "base.View" : {
+    "summary" : "View Definition",
+    "displayName" : "View Definition",
+    "remark" : "View Definition",
+    "base.Field" : {
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "template" : {
+        "summary" : "Template",
+        "displayName" : "Template"
+      },
+      "extension" : {
+        "summary" : "Extended data",
+        "displayName" : "Extended data"
+      },
+      "thumbnail" : {
+        "summary" : "Thumbnail",
+        "displayName" : "Thumbnail"
+      },
+      "bizType" : {
+        "summary" : "Business Type",
+        "displayName" : "Business Type"
+      },
+      "baseLayoutName" : {
+        "summary" : "Base Layout Name",
+        "displayName" : "Base Layout Name"
+      },
+      "show" : {
+        "summary" : "Visibility",
+        "displayName" : "Visibility"
+      },
+      "active" : {
+        "summary" : "Is Effective",
+        "displayName" : "Is Effective"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "authed" : {
+        "summary" : "Authorized",
+        "displayName" : "Authorized"
+      },
+      "translated" : {
+        "summary" : "Internationalized",
+        "displayName" : "Internationalized"
+      },
+      "priority" : {
+        "summary" : "The smaller the number, the higher the priority",
+        "displayName" : "Priority"
+      },
+      "title" : {
+        "summary" : "View title",
+        "displayName" : "View title"
+      },
+      "type" : {
+        "summary" : "View Type",
+        "displayName" : "View Type"
+      },
+      "modelDefinition" : {
+        "summary" : "Model",
+        "displayName" : "Model"
+      },
+      "layout" : {
+        "summary" : "Custom Layout",
+        "displayName" : "Custom Layout"
+      },
+      "compiled" : {
+        "summary" : "Compiled",
+        "displayName" : "Compiled"
+      },
+      "load" : {
+        "summary" : "Data Source",
+        "displayName" : "Data Source"
+      },
+      "loadLayout" : {
+        "summary" : "Is Layout Loaded",
+        "displayName" : "Is Layout Loaded"
+      },
+      "name" : {
+        "summary" : "View Name",
+        "displayName" : "View Name"
+      },
+      "model" : {
+        "summary" : "Model Code",
+        "displayName" : "Model Code"
+      },
+      "baseLayoutDefinition" : {
+        "summary" : "Layout Definition",
+        "displayName" : "Layout Definition"
+      },
+      "category" : {
+        "summary" : "Group",
+        "displayName" : "Group"
+      },
+      "categoryId" : {
+        "summary" : "Group ID",
+        "displayName" : "Group ID"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      }
+    }
+  },
+  "base.LayoutDefinition" : {
+    "summary" : "Layout Definition",
+    "displayName" : "Layout Definition",
+    "remark" : "Layout Definition",
+    "base.Field" : {
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "template" : {
+        "summary" : "Template",
+        "displayName" : "Template"
+      },
+      "thumbnail" : {
+        "summary" : "Thumbnail",
+        "displayName" : "Thumbnail"
+      },
+      "bizType" : {
+        "summary" : "Business Type",
+        "displayName" : "Business Type"
+      },
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "show" : {
+        "summary" : "Visibility",
+        "displayName" : "Visibility"
+      },
+      "active" : {
+        "summary" : "Is Effective",
+        "displayName" : "Is Effective"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "layoutType" : {
+        "summary" : "Layout Type",
+        "displayName" : "Layout Type"
+      },
+      "priority" : {
+        "summary" : "Priority",
+        "displayName" : "Priority"
+      },
+      "title" : {
+        "summary" : "Title",
+        "displayName" : "Title"
+      },
+      "type" : {
+        "summary" : "View Type",
+        "displayName" : "View Type"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "bitOptions" : {
+        "displayName" : "position"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "attributes" : {
+        "displayName" : "Attribute"
+      },
+      "hash" : {
+        "displayName" : "Check code"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "sys" : {
+        "displayName" : "System metadata",
+        "summary" : "Metadata generated by the system"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "sign" : {
+        "displayName" : "Metadata Signature"
+      },
+      "systemSource" : {
+        "displayName" : "System Source",
+        "summary" : "BASE is system-created, MANUAL is manually created"
+      }
+    }
+  },
+  "base.UeModule" : {
+    "summary" : "Module",
+    "displayName" : "View Module",
+    "remark" : "Module",
+    "base.Field" : {
+      "writeUid" : {
+        "summary" : "Updated By ID",
+        "displayName" : "Updated By ID"
+      },
+      "homePageModel" : {
+        "summary" : "Home Page Model Code",
+        "displayName" : "Home Page Model Code"
+      },
+      "sign" : {
+        "summary" : "Metadata Signature",
+        "displayName" : "Metadata Signature"
+      },
+      "writeDate" : {
+        "summary" : "Update Time",
+        "displayName" : "Update Time"
+      },
+      "moduleCategory" : {
+        "summary" : "Category",
+        "displayName" : "Category"
+      },
+      "homePage" : {
+        "summary" : "Homepage",
+        "displayName" : "Home Page"
+      },
+      "maintainer" : {
+        "summary" : "Maintainer",
+        "displayName" : "Maintainer"
+      },
+      "selfBuilt" : {
+        "summary" : "Self-built Application",
+        "displayName" : "Self-built Application"
+      },
+      "homePageName" : {
+        "summary" : "Home Page Action Name",
+        "displayName" : "Home Page Action Name"
+      },
+      "systemSource" : {
+        "summary" : "BASE is system created, MANUAL is manually created",
+        "displayName" : "System Source"
+      },
+      "moduleUpstreams" : {
+        "summary" : "Upstream Module Code List",
+        "displayName" : "moduleUpstreams"
+      },
+      "logo" : {
+        "summary" : "Icon",
+        "displayName" : "Icon"
+      },
+      "excludeHooks" : {
+        "summary" : "Exclude Interceptor List",
+        "displayName" : "excludeHooks"
+      },
+      "id" : {
+        "summary" : "ID field, unique auto-increment index",
+        "displayName" : "ID"
+      },
+      "state" : {
+        "summary" : "Status",
+        "displayName" : "Status"
+      },
+      "abbr" : {
+        "summary" : "Module abbreviation only supports lowercase letters and numbers and cannot exceed 8 characters",
+        "displayName" : "Module Abbreviation"
+      },
+      "toBuy" : {
+        "summary" : "Need to Purchase",
+        "displayName" : "Need to Purchase"
+      },
+      "createUid" : {
+        "summary" : "Created By ID",
+        "displayName" : "Created By ID"
+      },
+      "publishCount" : {
+        "summary" : "Total Publish Count",
+        "displayName" : "Total Publish Count"
+      },
+      "defaultHomePageName" : {
+        "summary" : "Default Home Page Action Name",
+        "displayName" : "Default Home Page Action Name"
+      },
+      "author" : {
+        "summary" : "Module Author",
+        "displayName" : "Module Author"
+      },
+      "bitOptions" : {
+        "summary" : "Bit",
+        "displayName" : "Bit"
+      },
+      "module" : {
+        "summary" : "Module Code",
+        "displayName" : "Module Code"
+      },
+      "priority" : {
+        "summary" : "Determines the order of modules in display and default jump on the home page, default is 100, sorted by priority in ascending order by default",
+        "displayName" : "Priority"
+      },
+      "moduleDependencies" : {
+        "summary" : "Dependency Module Code List",
+        "displayName" : "moduleDependencies"
+      },
+      "license" : {
+        "summary" : "License",
+        "displayName" : "License"
+      },
+      "name" : {
+        "summary" : "API Name",
+        "displayName" : "API Name"
+      },
+      "moduleUpstreamList" : {
+        "summary" : "Upstream Module List",
+        "displayName" : "Upstream Module List"
+      },
+      "hash" : {
+        "summary" : "Check Code",
+        "displayName" : "Check Code"
+      },
+      "moduleExclusions" : {
+        "summary" : "Mutually Exclusive Module Code List",
+        "displayName" : "moduleExclusions"
+      },
+      "defaultCategory" : {
+        "summary" : "Default Category Code",
+        "displayName" : "Default Category Code"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "show" : {
+        "summary" : "Visible",
+        "displayName" : "Visible"
+      },
+      "description" : {
+        "summary" : "Description Details",
+        "displayName" : "Description"
+      },
+      "sys" : {
+        "summary" : "Metadata generated by system",
+        "displayName" : "System Metadata"
+      },
+      "demo" : {
+        "summary" : "Demo Application",
+        "displayName" : "Demo Application"
+      },
+      "moduleDependencyList" : {
+        "summary" : "Dependency Module List",
+        "displayName" : "Dependency Module List"
+      },
+      "publishedVersion" : {
+        "summary" : "Latest Release Version",
+        "displayName" : "Latest Release Version"
+      },
+      "moduleMiddleWareList" : {
+        "summary" : "Middleware List",
+        "displayName" : "Middleware List"
+      },
+      "web" : {
+        "summary" : "Web Application",
+        "displayName" : "Web Application"
+      },
+      "platformVersion" : {
+        "summary" : "Latest Platform Version",
+        "displayName" : "Latest Platform Version"
+      },
+      "boot" : {
+        "summary" : "Boot Module",
+        "displayName" : "Boot Module"
+      },
+      "moduleExclusionList" : {
+        "summary" : "Mutually Exclusive Module List",
+        "displayName" : "Mutually Exclusive Module List"
+      },
+      "createDate" : {
+        "summary" : "Create Time",
+        "displayName" : "Create Time"
+      },
+      "summary" : {
+        "summary" : "Description Summary",
+        "displayName" : "Introduction"
+      },
+      "website" : {
+        "summary" : "Site",
+        "displayName" : "Site"
+      },
+      "clientTypes" : {
+        "summary" : "List of Client Types Supported by Application",
+        "displayName" : "List of Client Types Supported by Application"
+      },
+      "dsKey" : {
+        "summary" : "Logical Data Source Name",
+        "displayName" : "Logical Data Source Name"
+      },
+      "url" : {
+        "summary" : "Code Repository Address",
+        "displayName" : "Code Repository Address"
+      },
+      "application" : {
+        "summary" : "Is Application",
+        "displayName" : "Is Application"
+      },
+      "latestVersion" : {
+        "summary" : "Installed Version",
+        "displayName" : "Installed Version"
+      },
+      "allMenus" : {
+        "summary" : "All Menus",
+        "displayName" : "All menus"
+      },
+      "topMenus" : {
+        "summary" : "Top Menu",
+        "displayName" : "Top menu"
+      },
+      "defaultHomePageModel" : {
+        "summary" : "Default Home Page Model Code",
+        "displayName" : "Default Home Page Model Code"
+      },
+      "attributes" : {
+        "summary" : "Attribute",
+        "displayName" : "Attribute"
+      },
+      "contributors" : {
+        "summary" : "Contributor List",
+        "displayName" : "Contributor List"
+      },
+      "category" : {
+        "summary" : "Category Code",
+        "displayName" : "category"
+      },
+      "defaultLogo" : {
+        "summary" : "Default Icon",
+        "displayName" : "Default Icon"
+      },
+      "metaSource" : {
+        "summary" : "Metadata Source",
+        "displayName" : "Metadata Source"
+      }
+    }
+  },
+  "base.HomePageConfigRules" : {
+    "summary" : "Home Page Configuration Rules",
+    "displayName" : "Home Page Configuration Rules",
+    "remark" : "Home Page Configuration Rules",
+    "base.Field" : {
+      "bindingType" : {
+        "summary" : "Binding Type",
+        "displayName" : "Binding Type"
+      },
+      "bindHomePageModule" : {
+        "summary" : "Used for dropdown selection of model when binding home page",
+        "displayName" : "Bound Application"
+      },
+      "code" : {
+        "summary" : "Rule Code",
+        "displayName" : "Rule Code"
+      },
+      "expression" : {
+        "summary" : "Filter Condition",
+        "displayName" : "Filter Condition"
+      },
+      "expressionJson" : {
+        "summary" : "For frontend interaction, JSON parsing of expressions",
+        "displayName" : "Expression Parsing"
+      },
+      "ruleName" : {
+        "summary" : "Rule Name",
+        "displayName" : "Rule Name"
+      },
+      "bindHomePageView" : {
+        "summary" : "Bound Home Page Page",
+        "displayName" : "Bound Home Page Page"
+      },
+      "bindHomePageMenu" : {
+        "summary" : "Bound Home Page Menu",
+        "displayName" : "Bound Home Page Menu"
+      },
+      "bindHomePageModel" : {
+        "summary" : "Used for dropdown selection of model when binding home page",
+        "displayName" : "Bound Home Page Model"
+      },
+      "enabled" : {
+        "summary" : "Is Enabled",
+        "displayName" : "Is Enabled"
+      }
+    }
+  },
+  "base.config.SideBarTheme" : {
+    "summary" : "Sidebar Style",
+    "displayName" : "Sidebar Style",
+    "remark" : "Sidebar Style",
+    "base.Field" : {
+      "mode" : {
+        "summary" : "Theme",
+        "displayName" : "Theme"
+      },
+      "theme" : {
+        "summary" : "Style",
+        "displayName" : "Style"
+      }
+    }
+  }
+}

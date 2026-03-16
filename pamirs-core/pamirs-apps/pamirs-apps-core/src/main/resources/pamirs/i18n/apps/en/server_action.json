@@ -1,0 +1,19 @@
+{
+  "apps.AppsManagementModule" : {
+    "bindHomePage" : {
+      "displayName" : "Bind Homepage"
+    },
+    "install" : {
+      "displayName" : "Install"
+    },
+    "reload" : {
+      "displayName" : "Restart"
+    },
+    "uninstall" : {
+      "displayName" : "Uninstall"
+    },
+    "upgrade" : {
+      "displayName" : "Upgrade"
+    }
+  }
+}

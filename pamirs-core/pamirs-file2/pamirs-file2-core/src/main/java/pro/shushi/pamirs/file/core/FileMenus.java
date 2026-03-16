@@ -12,17 +12,17 @@ import pro.shushi.pamirs.file.api.model.ExcelImportTask;
 class FileMenus implements ViewActionConstants {
 
     @UxMenu("导入任务")
-    @UxRoute(model = ExcelImportTask.MODEL_MODEL, viewName = "导入任务table", module = FileModule.MODULE_MODULE)
+    @UxRoute(model = ExcelImportTask.MODEL_MODEL, viewName = "ExcelImportTaskTable", module = FileModule.MODULE_MODULE)
     class PamirsFileExportMenu {
     }
 
     @UxMenu("导出任务")
-    @UxRoute(model = ExcelExportTask.MODEL_MODEL, viewName = "导出任务table")
+    @UxRoute(model = ExcelExportTask.MODEL_MODEL, viewName = "ExcelExportTaskTable")
     class PamirsFileImportMenu {
     }
 
 //    @UxMenu("导入/导出模板")
-//    @UxRoute(model = ExcelWorkbookDefinition.MODEL_MODEL, viewName = "Excel工作簿table")
+//    @UxRoute(model = ExcelWorkbookDefinition.MODEL_MODEL, viewName = "ExcelWorkbookDefinitionTable")
 //    class WorkbookDefinitionMenu {
 //    }
 }

@@ -1,4 +1,4 @@
-<view type="TABLE" title="导出任务" name="导出任务table" widget="table" model="file.ExcelExportTask">
+<view type="TABLE" title="导出任务" name="ExcelExportTaskTable" widget="table" model="file.ExcelExportTask">
     <template slot="rowActions">
         <action name="redirectDetailPage" label="详情"/>
     </template>

@@ -3,6 +3,7 @@ package pro.shushi.pamirs.trigger.convert;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.support.CronExpression;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
@@ -67,7 +68,7 @@ public class ScheduleTaskConverter implements ModelConverter<ScheduleTaskAction,
         String namespace = NamespaceAndFunUtils.namespace(source);
         String fun = NamespaceAndFunUtils.fun(source);
         String technicalName = Optional.ofNullable(schedule.name()).filter(StringUtils::isNotBlank).orElse(namespace + CharacterConstants.SEPARATOR_OCTOTHORPE + fun);
-        String displayName = Optional.ofNullable(schedule.displayName()).filter(StringUtils::isNotBlank).orElse(technicalName);
+        String displayName = I18nUtils.translateSchedule(names.getModule(), namespace, technicalName, "displayName", Optional.ofNullable(schedule.displayName()).filter(StringUtils::isNotBlank).orElse(technicalName));
         ScheduleTaskInit.addScheduleAction((ScheduleTaskAction) new ScheduleTaskAction()
                 .setTechnicalName(technicalName)
                 .setLimitExecuteNumber(schedule.limitExecuteNumber())

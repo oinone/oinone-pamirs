@@ -1,4 +1,4 @@
-<view type="TABLE" widget="table" model="pamirs.eip.EipSceneDefinitionProxy" name="场景table" excluded-actions="delete,$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
+<view type="TABLE" widget="table" model="pamirs.eip.EipSceneDefinitionProxy" name="EipSceneDefinitionProxyTable" excluded-actions="delete,$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
     <template slot="rowActions">
         <action name="dataStatusEnable" label="启用" model="pamirs.eip.EipSceneDefinitionProxy" text="启用"/>
         <action name="dataStatusDisable" label="禁用" model="pamirs.eip.EipSceneDefinitionProxy" confirm="禁用场景后,将同时禁用场景下的所有实例，请谨慎操作" text="禁用"/>

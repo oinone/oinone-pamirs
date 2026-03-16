@@ -1,0 +1,7 @@
+{
+  "pro.shushi.pamirs.expression.enmu.ExpressionExpEnumerate" : {
+    "displayName" : "Expression Error Enumeration",
+    "EXPRESSION_OBJ_IS_NULL" : "Expression does not specify an object to act on",
+    "EXPRESSION_BLOCK_FUN_BLANK" : "function does not exist"
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "base.IdModel": {
+    "deleteById": {
+      "displayName": "Delete record by ID"
+    },
+    "generateId": {
+      "displayName": "Generate ID"
+    },
+    "queryById": {
+      "displayName": "Query record by ID"
+    },
+    "updateById": {
+      "displayName": "Update record by ID"
+    }
+  },
+  "base.BaseModel": {
+    "count": {
+      "displayName": "Query total number of records"
+    },
+    "countByWrapper": {
+      "displayName": "Query the total number of records based on conditions"
+    },
+    "create": {
+      "displayName": "Create",
+      "description": "Add"
+    },
+    "createBatch": {
+      "displayName": "Batch create records"
+    },
+    "createBatchWithSize": {
+      "displayName": "Batch Create Records (Create in Batches)"
+    },
+    "createOne": {
+      "displayName": "Create Record"
+    },
+    "createOrUpdate": {
+      "displayName": "Create or update records, return the number of records"
+    },
+    "createOrUpdateBatch": {
+      "displayName": "Batch create or update records"
+    },
+    "createOrUpdateBatchWithResult": {
+      "displayName": "Batch create or update records, return a list of objects"
+    },
+    "createOrUpdateBatchWithSize": {
+      "displayName": "Batch create or update records (in batches), return the number of records"
+    },
+    "createOrUpdateBatchWithSizeWithResult": {
+      "displayName": "Batch create or update records (in batches), return list of objects"
+    },
+    "createOrUpdateWithField": {
+      "displayName": "Create or update records and relationships"
+    },
+    "createOrUpdateWithFieldBatch": {
+      "displayName": "Batch create or update records and relationships"
+    },
+    "createOrUpdateWithResult": {
+      "displayName": "Create or update a record, return an object"
+    },
+    "createWithFieldBatch": {
+      "displayName": "Batch create records and associations"
+    },
+    "delete": {
+      "displayName": "Delete records and associations"
+    },
+    "deleteByEntity": {
+      "displayName": "Delete records that match the conditions"
+    },
+    "deleteByPk": {
+      "displayName": "Delete record based on primary key"
+    },
+    "deleteByPks": {
+      "displayName": "Delete multiple records based on the primary key"
+    },
+    "deleteByUniqueField": {
+      "displayName": "Delete records based on the unique index"
+    },
+    "deleteByUniques": {
+      "displayName": "Delete multiple records based on a unique index"
+    },
+    "deleteByWrapper": {
+      "displayName": "Delete records based on conditions"
+    },
+    "deleteWithFieldBatch": {
+      "displayName": "Delete"
+    },
+    "queryByEntity": {
+      "displayName": "Query a single record"
+    },
+    "queryByPk": {
+      "displayName": "Query records based on the primary key"
+    },
+    "queryByWrapper": {
+      "displayName": "Query a single record based on conditions"
+    },
+    "queryFilters": {
+      "displayName": "Default filter conditions for querying model data"
+    },
+    "queryListByEntity": {
+      "displayName": "Query Record List"
+    },
+    "queryListByEntityWithBatchSize": {
+      "displayName": "Query record list (batch query)"
+    },
+    "queryListByPage": {
+      "displayName": "Paginated query record list"
+    },
+    "queryListByPageAndWrapper": {
+      "displayName": "Query the record list by page according to conditions"
+    },
+    "queryListByWrapper": {
+      "displayName": "Query the record list based on conditions"
+    },
+    "queryPage": {
+      "displayName": "Query the list of records and the total count based on conditions with pagination"
+    },
+    "relationQueryPage": {
+      "displayName": "Query the list of records and total number in pages according to the association relationship"
+    },
+    "update": {
+      "displayName": "Update",
+      "description": "Modify"
+    },
+    "updateBatch": {
+      "displayName": "Batch Update Records"
+    },
+    "updateBatchWithSize": {
+      "displayName": "Batch update records (update in batches)"
+    },
+    "updateByEntity": {
+      "displayName": "Update record of matching conditions"
+    },
+    "updateByPk": {
+      "displayName": "Update record based on primary key"
+    },
+    "updateByUniqueField": {
+      "displayName": "Update records based on unique index"
+    },
+    "updateByWrapper": {
+      "displayName": "Update records based on conditions"
+    },
+    "updateOneWithRelations": {
+      "displayName": "Update oneself and its related data"
+    },
+    "updateWithFieldBatch": {
+      "displayName": "Update Records and Relationships"
+    }
+  },
+  "base.CodeModel": {
+    "deleteByCode": {
+      "displayName": "Delete records based on code"
+    },
+    "generateCode": {
+      "displayName": "Generate code"
+    },
+    "queryByCode": {
+      "displayName": "Query records by code"
+    },
+    "updateByCode": {
+      "displayName": "According to the code update record"
+    }
+  }
+}

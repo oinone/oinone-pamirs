@@ -1,4 +1,4 @@
-<view type="FORM" model="business.PamirsDepartment" name="部门form" title="部门">
+<view type="FORM" model="business.PamirsDepartment" name="PamirsDepartmentForm" title="部门">
     <template slot="actions">
         <action name="$$internal_GotoListTableRouter" label="返回" type="default"/>
         <action name="create" invisible="activeRecord.id" goBack="true" validateForm="true"/>

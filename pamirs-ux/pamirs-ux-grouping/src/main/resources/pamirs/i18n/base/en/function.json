@@ -1,0 +1,13 @@
+{
+  "base.BaseModel" : {
+    "queryGroupingDataByWrapper" : {
+      "displayName" : "Query grouped data"
+    },
+    "queryGroupingPage" : {
+      "displayName" : "Query group information"
+    },
+    "queryGroupingStatistic" : {
+      "displayName" : "Query Group Statistics"
+    }
+  }
+}

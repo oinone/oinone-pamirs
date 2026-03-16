@@ -1,4 +1,4 @@
-<view type="FORM" title="修改用户初始化密码" name="修改用户初始化密码" widget="form" model="user.PamirsUser">
+<view type="FORM" title="修改用户初始化密码" name="PamirsUserFormInitPwd" widget="form" model="user.PamirsUser">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="initialPassword" model="user.PamirsUser" goBack="true" validateForm="true" tag="contextFreeAction"/>

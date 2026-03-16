@@ -1,0 +1,104 @@
+{
+  "resource.ResourceCountry": {
+    "fetchAllData": {
+      "description": "Get data up to national level"
+    },
+    "queryPhoneCodes": {
+      "displayName": "Login page query for national phone number"
+    }
+  },
+  "resource.ResourceIcon": {
+    "queryIconWithFullFontClass": {
+      "displayName": "Query all icons by fullFontClass"
+    },
+    "active": {
+      "displayName": "Take effect"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "disabled": {
+      "displayName": "Invalid"
+    },
+    "queryPage": {
+      "displayName": "Query all icons according to the matching criteria"
+    },
+    "update": {
+      "displayName": "Modify icon",
+      "description": "Modify icon"
+    }
+  },
+  "resource.ResourceLang": {
+    "queryListByEntity": {
+      "description": "query language"
+    },
+    "create": {
+      "displayName": "Create",
+      "description": "Add"
+    },
+    "deleteWithFieldBatch": {
+      "displayName": "Delete"
+    },
+    "queryByEntity": {
+      "displayName": "Query Language"
+    },
+    "queryLoginLanguage": {
+      "displayName": "Login page query language"
+    },
+    "update": {
+      "displayName": "Update",
+      "description": "Modify"
+    }
+  },
+  "resource.ResourceRegion": {
+    "fetchRegionDownloadUrl": {
+      "description": "Get address library file address"
+    },
+    "syncRegion": {
+      "displayName": "Refresh address data"
+    }
+  },
+  "resource.major.ResourceMajorConfig": {
+    "modifyAppSideLogo": {
+      "displayName": "Modify AppSideLogo"
+    },
+    "majorConfig": {
+      "displayName": "System Basic Configuration"
+    },
+    "modifyLoginPageLogo": {
+      "displayName": "Change the login page background image"
+    }
+  },
+  "resource.ResourceCurrency": {
+    "active": {
+      "displayName": "Activate"
+    },
+    "cancel": {
+      "displayName": "Deactivate"
+    }
+  },
+  "resource.ResourceIconGroup": {
+    "create": {
+      "displayName": "Create Group",
+      "description": "Create Group"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "queryAllGroupData": {
+      "displayName": "Query all groups"
+    },
+    "queryGroupData": {
+      "displayName": "Query all groups"
+    },
+    "update": {
+      "displayName": "Modify Group",
+      "description": "Modify Group"
+    }
+  },
+  "resource.ResourceIconUpload": {
+    "uploads": {
+      "displayName": "Upload File"
+    }
+  }
+}

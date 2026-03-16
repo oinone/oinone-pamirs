@@ -1,0 +1,177 @@
+{
+  "pro.shushi.pamirs.meta.base.extpoint.id.DeleteByIdAfterExtPoint" : {
+    "deleteByIdAfter" : {
+      "displayName" : "Delete a single record based on ID post-extension point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.id.DeleteByIdBeforeExtPoint" : {
+    "deleteByIdBefore" : {
+      "displayName" : "Delete a single record based on the id pre-extension point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.id.QueryByIdAfterExtPoint" : {
+    "queryByIdAfter" : {
+      "displayName" : "Query a single record based on ID post-extension point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.id.QueryByIdBeforeExtPoint" : {
+    "queryByIdBefore" : {
+      "displayName" : "Query the front extension point of a single record based on id"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.id.UpdateByIdAfterExtPoint" : {
+    "updateByIdAfter" : {
+      "displayName" : "Update a single record post-extension point based on id"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.id.UpdateByIdBeforeExtPoint" : {
+    "updateByIdBefore" : {
+      "displayName" : "Update the front extension point of a single record based on id"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.CountBeforeExtPoint" : {
+    "countBefore" : {
+      "displayName" : "Get Quantity Pre-extension Point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.CreateAfterExtPoint" : {
+    "createAfter" : {
+      "displayName" : "Added rear extension point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.CreateBatchAfterExtPoint" : {
+    "createBatchAfter" : {
+      "displayName" : "Batch add post-extension points"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.CreateBatchBeforeExtPoint" : {
+    "createBatchBefore" : {
+      "displayName" : "Batch add pre-extension points"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.CreateBeforeExtPoint" : {
+    "createBefore" : {
+      "displayName" : "Add new pre-extension point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.DeleteAfterExtPoint" : {
+    "deleteWithFieldBatchAfter" : {
+      "displayName" : "Remove rear extension point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.DeleteBeforeExtPoint" : {
+    "deleteWithFieldBatchBefore" : {
+      "displayName" : "Delete front extension point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.PageAfterExtPoint" : {
+    "queryPageAfter" : {
+      "displayName" : "Post-extension point for paginated queries"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.PageBeforeExtPoint" : {
+    "queryPageBefore" : {
+      "displayName" : "Pre-extension point for paginated query"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.QueryByPkAfterExtPoint" : {
+    "queryByPkAfter" : {
+      "displayName" : "Extension point after querying a single record based on the primary key"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.QueryByPkBeforeExtPoint" : {
+    "queryByPkBefore" : {
+      "displayName" : "Extension point after querying a single record based on the primary key"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.QueryListAfterExtPoint" : {
+    "queryListByEntityAfter" : {
+      "displayName" : "Post-extension point for query list"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.QueryListBeforeExtPoint" : {
+    "queryListByWrapperBefore" : {
+      "displayName" : "Query List Pre-extension Point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.QueryOneAfterExtPoint" : {
+    "queryByEntityAfter" : {
+      "displayName" : "Post-extension point after querying a single record"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.QueryOneBeforeExtPoint" : {
+    "queryByEntityBefore" : {
+      "displayName" : "Pre-extension point for querying a single record"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.UpdateAfterExtPoint" : {
+    "updateAfter" : {
+      "displayName" : "Update rear extension point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.UpdateBatchAfterExtPoint" : {
+    "updateBatchAfter" : {
+      "displayName" : "Batch update post-extension points"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.UpdateBatchBeforeExtPoint" : {
+    "updateBatchBefore" : {
+      "displayName" : "Batch update pre-extension points"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.UpdateBatchCallbackExtPoint" : {
+    "updateBatchCallback" : {
+      "displayName" : "Conditional Update Callback Extension Point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.UpdateBeforeExtPoint" : {
+    "updateBefore" : {
+      "displayName" : "Update pre-extension point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.UpdateConditionAfterExtPoint" : {
+    "updateByWrapperAfter" : {
+      "displayName" : "Post-extension point for condition update"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.UpdateConditionBeforeExtPoint" : {
+    "updateByWrapperAfter" : {
+      "displayName" : "Condition Update Pre-extension Point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.UpdateConditionCallbackExtPoint" : {
+    "updateByWrapperCallback" : {
+      "displayName" : "Conditional Update Callback Extension Point"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.code.DeleteByCodeAfterExtPoint" : {
+    "deleteByCodeAfter" : {
+      "displayName" : "Post-extension point after deleting a single record based on the code"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.code.DeleteByCodeBeforeExtPoint" : {
+    "deleteByCodeBefore" : {
+      "displayName" : "Pre-extension point for deleting a single record based on the code"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.code.QueryByCodeAfterExtPoint" : {
+    "queryByCodeAfter" : {
+      "displayName" : "Post-extension point after querying a single record based on the code"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.code.QueryByCodeBeforeExtPoint" : {
+    "queryByCodeBefore" : {
+      "displayName" : "Pre-extension point for querying a single record based on the code"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.code.UpdateByCodeAfterExtPoint" : {
+    "updateByCodeAfter" : {
+      "displayName" : "Post-extension point after updating a single record according to the code"
+    }
+  },
+  "pro.shushi.pamirs.meta.base.extpoint.code.UpdateByCodeBeforeExtPoint" : {
+    "updateByCodeBefore" : {
+      "displayName" : "Pre-extension point for updating a single record based on the code"
+    }
+  }
+}

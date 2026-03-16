@@ -1,4 +1,4 @@
-<view widget="form" type="FORM" title="公司信息" name="公司form" model="business.PamirsCompany">
+<view widget="form" type="FORM" title="公司信息" name="PamirsCompanyForm" model="business.PamirsCompany">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" invisible="activeRecord.id &gt; 0" model="business.PamirsCompany" goBack="true" validateForm="true" tag="contextFreeAction"/>

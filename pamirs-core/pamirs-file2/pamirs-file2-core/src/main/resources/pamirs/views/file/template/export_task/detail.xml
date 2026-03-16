@@ -1,4 +1,4 @@
-<view type="DETAIL" title="导出任务" name="导出任务detail" widget="detail" model="file.ExcelExportTask">
+<view type="DETAIL" title="导出任务" name="ExcelExportTaskDetail" widget="detail" model="file.ExcelExportTask">
     <template slot="actions">
         <action name="$$internal_GotoListTableRouter" label="返回" type="default"/>
     </template>

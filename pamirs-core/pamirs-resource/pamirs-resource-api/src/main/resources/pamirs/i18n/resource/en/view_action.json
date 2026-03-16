@@ -1,0 +1,107 @@
+{
+  "resource.ResourceLang": {
+    "resourceLangCreate": {
+      "label": "Create"
+    },
+    "resourceLangEdit": {
+      "label": "Edit"
+    },
+    "resourceLangDetail": {
+      "label": "Details"
+    }
+  },
+  "resource.ResourceIcon": {
+    "iconEditAction": {
+      "displayName": "Edit"
+    },
+    "iconUploadAction": {
+      "displayName": "Upload icon",
+      "label": "Upload icon"
+    }
+  },
+  "resource.ResourceCountry": {
+    "ResourceCountryActionKeyword": {
+      "displayName": "National keyword settings"
+    },
+    "groupCreateCountry": {
+      "displayName": "Add"
+    }
+  },
+  "resource.ResourceProvince": {
+    "ResourceProvinceActionKeyword": {
+      "displayName": "Province keyword settings"
+    },
+    "countryCreateProvince": {
+      "displayName": "Create"
+    }
+  },
+  "resource.ResourceCity": {
+    "ResourceCityActionKeyword": {
+      "displayName": "City keyword settings"
+    },
+    "provinceCreateCity": {
+      "displayName": "Create"
+    }
+  },
+  "resource.ResourceDistrict": {
+    "ResourceDistrictActionKeyword": {
+      "displayName": "District keyword settings"
+    },
+    "cityCreateDirect": {
+      "displayName": "Create"
+    }
+  },
+  "resource.ResourceStreet": {
+    "ResourceStreetActionKeyword": {
+      "displayName": "Street keyword settings"
+    },
+    "districtCreateStreet": {
+      "displayName": "Create"
+    }
+  },
+  "resource.OutResourceRelation": {
+    "countryCreateOutResourceRelation": {
+      "displayName": "Create"
+    },
+    "provinceCreateOutResourceRelation": {
+      "displayName": "Create"
+    },
+    "cityCreateOutResourceRelation": {
+      "displayName": "Create"
+    },
+    "districtCreateOutResourceRelation": {
+      "displayName": "Create"
+    },
+    "streetCreateOutResourceRelation": {
+      "displayName": "Create"
+    },
+    "currencyCreateOutResourceRelation": {
+      "displayName": "Create"
+    },
+    "taxCreateOutResourceRelation": {
+      "displayName": "Create"
+    }
+  },
+  "resource.ResourceRegionMapping": {
+    "countryCreateResourceRegionMapping": {
+      "displayName": "Create"
+    },
+    "provinceCreateResourceRegionMapping": {
+      "displayName": "Create"
+    },
+    "cityCreateResourceRegionMapping": {
+      "displayName": "Create"
+    },
+    "districtCreateResourceRegionMapping": {
+      "displayName": "Create"
+    },
+    "streetCreateResourceRegionMapping": {
+      "displayName": "Create"
+    }
+  },
+  "resource.ResourceRegionProxyModel": {
+    "ResourceRegion": {
+      "title": "Region List"
+    }
+  }
+}

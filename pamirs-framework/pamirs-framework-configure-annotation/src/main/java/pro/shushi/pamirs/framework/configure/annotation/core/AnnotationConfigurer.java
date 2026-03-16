@@ -17,6 +17,7 @@ import pro.shushi.pamirs.framework.configure.annotation.configure.ConfigureSigne
 import pro.shushi.pamirs.framework.configure.annotation.core.cache.FieldMetaCache;
 import pro.shushi.pamirs.framework.configure.annotation.core.check.MetaUniqueChecker;
 import pro.shushi.pamirs.framework.configure.annotation.core.sign.clazz.ModelDefinitionReflectSigner;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.configure.DefinitionConfigurer;
@@ -51,7 +52,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
-import java.text.MessageFormat;
 import java.util.*;
 
 import static pro.shushi.pamirs.framework.configure.annotation.contants.TipsConstants.*;
@@ -217,7 +217,7 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
         // 扫描模块
         Map<String, MetaData> completedModuleMap = new HashMap<>();
         for (String moduleModule : scanModules) {
-            log.info(START_SCAN_MODUlE + moduleModule);
+            log.info(I18nUtils.getMessage(START_SCAN_MODUlE) + moduleModule);
             TimeWatcher.watch(() -> {
                 ModuleDefinition pamirsModule = moduleInfoMap.get(moduleModule);
                 if (null == pamirsModule) {
@@ -237,7 +237,7 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
                 ModuleDependencyResolver.fetchModuleDependencyPackage(dependencySortedModules, dependentPackagePrefix,
                         moduleInfoMap, pamirsModule);
                 for (String dependentModuleModule : dependencySortedModules) {
-                    log.info(START_SCAN_DEPENDENT_MODUlE + dependentModuleModule);
+                    log.info(I18nUtils.getMessage(START_SCAN_DEPENDENT_MODUlE) + dependentModuleModule);
                     TimeWatcher.watch(() -> {
                         String[] dependentPackagePrefixArray = dependentPackagePrefix.get(dependentModuleModule);
                         checkConflict(pamirsModule, moduleModule, dependentModuleModule, dependentPackagePrefixArray);
@@ -257,7 +257,7 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
                 }
 
                 // 扫描本模块
-                log.info(START_SCAN_CURRENT_MODUlE + moduleModule);
+                log.info(I18nUtils.getMessage(START_SCAN_CURRENT_MODUlE) + moduleModule);
                 TimeWatcher.watch(() -> {
                     if (completedModuleMap.containsKey(moduleModule)) {
                         addMetaDataToMeta(meta, metaCrossing, moduleModule, completedModuleMap.get(moduleModule));
@@ -272,9 +272,9 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
                     }
                 });
                 result.getData().add(meta);
-                log.info(TIME_ALL);
+                log.info(I18nUtils.getMessage(TIME_ALL));
             });
-            log.info(COMPLETE_ALL + moduleModule);
+            log.info(I18nUtils.getMessage(COMPLETE_ALL) + moduleModule);
         }
         MetaUniqueChecker.clear();
         result.logMessages(metaConfiguration.getLogLevel());
@@ -308,13 +308,13 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
                     String temp = packagePrefix.replace(dependentPackagePrefix, CharacterConstants.SEPARATOR_EMPTY);
                     if (StringUtils.isBlank(temp) || temp.startsWith(CharacterConstants.SEPARATOR_DOT)) {
                         throw PamirsException.construct(BASE_MODULE_PACKAGE_CONFLICT_ERROR)
-                                .appendMsg(MessageFormat.format("模块中包含了依赖模块的扫描包路径，模块：{0}:{1}，依赖模块：{2}:{3}",
+                                .appendMsg(I18nUtils.getMessage("AnnotationConfigurer.modulePackageConflict",
                                         moduleModule, packagePrefix, dependentModuleModule, dependentPackagePrefix)).errThrow();
                     }
                     temp = dependentPackagePrefix.replace(packagePrefix, CharacterConstants.SEPARATOR_EMPTY);
                     if (StringUtils.isBlank(temp) || temp.startsWith(CharacterConstants.SEPARATOR_DOT)) {
                         throw PamirsException.construct(BASE_MODULE_PACKAGE_CONFLICT_ERROR)
-                                .appendMsg(MessageFormat.format("依赖模块中包含了模块的扫描包路径，模块：{0}:{1}，依赖模块：{2}:{3}",
+                                .appendMsg(I18nUtils.getMessage("AnnotationConfigurer.dependentModulePackageConflict",
                                         moduleModule, packagePrefix, dependentModuleModule, dependentPackagePrefix)).errThrow();
                     }
                 }
@@ -349,7 +349,7 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
 
         TimeWatcher.watch(() -> {
             platformJarVersionCheckerApi.jarVersion(classes);
-        }, "获取Jar版本");
+        }, I18nUtils.getMessage("AnnotationConfigurer.getJarVersion"));
 
         List<Method> methods = new ArrayList<>();
         List<Field> fields = new ArrayList<>();
@@ -389,7 +389,7 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
                 // 非核心元模型Class转换
                 convert(result, names, metaModels, clazz, metaCrossing, metaData);
             }
-        }, SCAN_MODEL);
+        }, I18nUtils.getMessage(SCAN_MODEL));
         TimeWatcher.watch(() -> {
             MetaNames names;
             ModelDefinitionReflectSigner modelDefinitionSigner = (ModelDefinitionReflectSigner) Spider
@@ -407,7 +407,7 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
                 // 非核心元模型Field转换
                 convert(result, names, metaModels, field, metaCrossing, metaData);
             }
-        }, SCAN_FIELD);
+        }, I18nUtils.getMessage(SCAN_FIELD));
         TimeWatcher.watch(() -> {
             MetaNames names;
             // 函数转换
@@ -426,7 +426,7 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
                 // 非核心元模型Method转换
                 convert(result, names, metaModels, method, metaCrossing, metaData);
             }
-        }, SCAN_FUNCTION);
+        }, I18nUtils.getMessage(SCAN_FUNCTION));
     }
 
     @SuppressWarnings({"rawtypes"})
@@ -630,7 +630,7 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
         if (null == modelSigner) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                     .error(BASE_MODEL_NO_REFLECT_SIGNER_ERROR)
-                    .append(MessageFormat.format("请配置元模型{0}的签名器ModelReflectSigner，source:{1}",
+                    .append(I18nUtils.getMessage("AnnotationConfigurer.modelReflectSignerMissing",
                             metaModelClazzName, source.getClass().getName())));
             return result.error();
         }
@@ -645,7 +645,7 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
         if (null == modelSigner) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                     .error(BASE_MODEL_NO_REFLECT_SIGNER_ERROR)
-                    .append(MessageFormat.format("请配置元模型{0}的签名器ModelSigner",
+                    .append(I18nUtils.translate("AnnotationConfigurer.modelSignerMissing",
                             metaModelClazzName)));
             return result.error();
         }

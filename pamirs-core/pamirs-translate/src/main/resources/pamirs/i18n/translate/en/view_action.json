@@ -1,0 +1,18 @@
+{
+  "translation.TranslationItemProxy": {
+    "resourceResourceTranslationDetail": {
+      "label": "Details"
+    },
+    "resourceResourceTranslationCreate": {
+      "label": "Create"
+    },
+    "resourceResourceTranslationEdit": {
+      "label": "Edit"
+    }
+  },
+  "resource.ResourceTranslationItem": {
+    "createResourceTranslationItem": {
+      "displayName": "Create"
+    }
+  }
+}

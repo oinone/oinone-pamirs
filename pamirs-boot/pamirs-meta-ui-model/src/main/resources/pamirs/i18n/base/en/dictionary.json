@@ -1,0 +1,461 @@
+{
+  "base.WidgetType": {
+    "displayName": "Component Type",
+    "ATOMIC_WIDGET": {
+      "displayName": "Atomic components",
+      "help": "Atomic component"
+    },
+    "COMPLEX_WIDGET": {
+      "displayName": "Composite component",
+      "help": "Composite component"
+    }
+  },
+  "base.FileType": {
+    "displayName": "File Type",
+    "FILE": {
+      "displayName": "document",
+      "help": "Document"
+    },
+    "URL": {
+      "displayName": "URL",
+      "help": "Website URL"
+    }
+  },
+  "base.IconType": {
+    "displayName": "icon type",
+    "ICONFONT": {
+      "displayName": "Icon font",
+      "help": "Icon font"
+    },
+    "SVG": {
+      "displayName": "SVG format",
+      "help": "SVG format"
+    },
+    "IMAGE": {
+      "displayName": "Common image formats",
+      "help": "Common image formats"
+    }
+  },
+  "base.TemplateLayoutType": {
+    "displayName": "Template layout type",
+    "MASK": {
+      "displayName": "Master Layout",
+      "help": "Master Layout"
+    },
+    "VIEW": {
+      "displayName": "View Layout",
+      "help": "View Layout"
+    }
+  },
+  "base.ActionTarget": {
+    "displayName": "Page opening method",
+    "ROUTER": {
+      "displayName": "Page Routing",
+      "help": "Page routing"
+    },
+    "DIALOG": {
+      "displayName": "Page pop-up window",
+      "help": "Page popup"
+    },
+    "DRAWER": {
+      "displayName": "Open the drawer",
+      "help": "Open the drawer"
+    },
+    "INNER": {
+      "displayName": "In-page routing",
+      "help": "In-page routing"
+    },
+    "OPEN_WINDOW": {
+      "displayName": "Open new window",
+      "help": "Open a new window"
+    }
+  },
+  "base.AppConfigSizeEnum": {
+    "displayName": "Size",
+    "LARGE": {
+      "displayName": "Big",
+      "help": "big"
+    },
+    "MEDIUM": {
+      "displayName": "middle",
+      "help": "middle"
+    },
+    "SMALL": {
+      "displayName": "Small",
+      "help": "small"
+    }
+  },
+  "base.AppConfigScope": {
+    "displayName": "Application Configuration Domain",
+    "GLOBAL": {
+      "displayName": "Global configuration",
+      "help": "Global Configuration"
+    },
+    "APP": {
+      "displayName": "Application configuration",
+      "help": "Application Configuration"
+    },
+    "PRODUCT": {
+      "displayName": "Product general configuration",
+      "help": "Product General Configuration"
+    },
+    "PRODUCT_APP": {
+      "displayName": "Product Application Configuration",
+      "help": "Product Application Configuration"
+    }
+  },
+  "base.ViewBizType": {
+    "displayName": "View Business Type",
+    "OPERATIONS_MANAGEMENT": {
+      "displayName": "Operations Management",
+      "help": "Operations Management"
+    },
+    "PORTAL": {
+      "displayName": "Official website portal",
+      "help": "Official website portal"
+    },
+    "MALL": {
+      "displayName": "Mall",
+      "help": "Shopping mall"
+    },
+    "COMMON": {
+      "displayName": "Public",
+      "help": "public"
+    }
+  },
+  "base.QueryMode": {
+    "displayName": "Query method",
+    "DOMAIN": {
+      "displayName": "Conditional parameters",
+      "help": "Conditional input parameter"
+    },
+    "ENTITY": {
+      "displayName": "Single-line or multi-line entity input parameters",
+      "help": "Single-line or multi-line entity input parameter"
+    }
+  },
+  "base.WidgetTechType": {
+    "ASYNC": {
+      "displayName": "Asynchronous components",
+      "help": "Asynchronous component"
+    },
+    "STATIC": {
+      "displayName": "Static component",
+      "help": "Static component"
+    },
+    "VUE": {
+      "displayName": "General Components",
+      "help": "Standard components"
+    },
+    "displayName": "Component Technology Type"
+  },
+  "base.Widget": {
+    "displayName": "Component",
+    "SLOT": {
+      "displayName": "Slot",
+      "help": "Slot"
+    },
+    "CONTAINER": {
+      "displayName": "Container",
+      "help": "Container"
+    },
+    "BLOCK": {
+      "displayName": "Block",
+      "help": "Block"
+    },
+    "GROUP": {
+      "displayName": "Group",
+      "help": "Grouping"
+    },
+    "TABS": {
+      "displayName": "Tab",
+      "help": "Tab"
+    },
+    "TAB": {
+      "displayName": "tab page",
+      "help": "Tab page"
+    },
+    "LOGO": "logo",
+    "APP_FINDER": {
+      "displayName": "Application Selection",
+      "help": "App Selection"
+    },
+    "NOTIFICATION": {
+      "displayName": "notify",
+      "help": "Notice"
+    },
+    "DIVIDER": {
+      "displayName": "dividing line",
+      "help": "Divider"
+    },
+    "DIVIDER_VERTICAL": {
+      "displayName": "Vertical dividing line",
+      "help": "Vertical dividing line"
+    },
+    "LANGUAGE": {
+      "displayName": "Language selection",
+      "help": "Language Selection"
+    },
+    "USER_PROFILE": {
+      "displayName": "User",
+      "help": "User"
+    },
+    "NAV_MENU": {
+      "displayName": "Navigation",
+      "help": "Navigation"
+    },
+    "BREADCRUMB": {
+      "displayName": "Breadcrumbs",
+      "help": "Breadcrumbs"
+    },
+    "MAIN_VIEW": {
+      "displayName": "Main View",
+      "help": "Main View"
+    },
+    "READ_ONLY": {
+      "displayName": "read only",
+      "help": "Read-only"
+    },
+    "INPUT": {
+      "displayName": "Input box",
+      "help": "Input box"
+    },
+    "TEXT": {
+      "displayName": "Multiple lines of text",
+      "help": "Multi-line text"
+    },
+    "RICH_TEXT": {
+      "displayName": "rich text",
+      "help": "Rich Text"
+    },
+    "EMAIL": {
+      "displayName": "Email",
+      "help": "Email mailbox"
+    },
+    "PHONE": {
+      "displayName": "Mobile phone",
+      "help": "Mobile phone"
+    },
+    "PASSWORD": {
+      "displayName": "Password",
+      "help": "Password"
+    },
+    "INTEGER": {
+      "displayName": "Integer",
+      "help": "Integer"
+    },
+    "FLOAT": {
+      "displayName": "Decimal",
+      "help": "Decimal"
+    },
+    "CURRENCY": {
+      "displayName": "Amount",
+      "help": "Amount"
+    },
+    "PERCENT": {
+      "displayName": "percentage",
+      "help": "Percentage"
+    },
+    "CHECK_BOX": {
+      "displayName": "Checkbox",
+      "help": "Checkbox"
+    },
+    "SWITCH": {
+      "displayName": "Switch",
+      "help": "Switch"
+    },
+    "SELECT": {
+      "displayName": "Dropdown selection",
+      "help": "Dropdown Select"
+    },
+    "TABLE_SELECT": {
+      "displayName": "Form selection",
+      "help": "Form selection"
+    },
+    "RADIO": {
+      "displayName": "Radio button",
+      "help": "Radio button"
+    },
+    "DATE_PICKER": {
+      "displayName": "Date Picker",
+      "help": "Date Picker"
+    },
+    "DATE_TIME_PICKER": {
+      "displayName": "Date time picker",
+      "help": "Date and Time Picker"
+    },
+    "TIME_PICKER": {
+      "displayName": "Time selector",
+      "help": "Time Picker"
+    },
+    "RANGE_DATE_PICKER": {
+      "displayName": "Date Range Selector",
+      "help": "Date range picker"
+    },
+    "RANGE_DATE_TIME_PICKER": {
+      "displayName": "Date time range selector",
+      "help": "Date and Time Range Picker"
+    },
+    "RANGE_TIME_PICKER": {
+      "displayName": "Time Range Selector",
+      "help": "Time range selector"
+    },
+    "UPLOAD": {
+      "displayName": "File Upload",
+      "help": "File Upload"
+    },
+    "UPLOAD_IMG": {
+      "displayName": "Image upload",
+      "help": "Image Upload"
+    },
+    "BUTTON": {
+      "displayName": "Button",
+      "help": "Button"
+    },
+    "BUTTONS": {
+      "displayName": "button set",
+      "help": "Button set"
+    },
+    "TREE": {
+      "displayName": "Tree control",
+      "help": "Tree control"
+    },
+    "FORM": {
+      "displayName": "Form",
+      "help": "Form"
+    },
+    "TABLE": {
+      "displayName": "sheet",
+      "help": "table"
+    },
+    "DETAIL": {
+      "displayName": "Details",
+      "help": "Details"
+    }
+  },
+  "base.WidgetBizType": {
+    "VIEW": {
+      "displayName": "view component",
+      "help": "View component"
+    },
+    "PACK": {
+      "displayName": "Container component",
+      "help": "Container component"
+    },
+    "ELEMENT": {
+      "displayName": "Element Components",
+      "help": "Element Component"
+    },
+    "FIELD": {
+      "displayName": "Field component",
+      "help": "Field Component"
+    },
+    "ACTION": {
+      "displayName": "Action Components",
+      "help": "Action Component"
+    },
+    "SLOT": {
+      "displayName": "Slot",
+      "help": "Slot"
+    },
+    "displayName": "Component Business Type"
+  },
+  "base.AppConfigModeEnum": {
+    "displayName": "theme mode",
+    "DEFAULT": {
+      "displayName": "light mode",
+      "help": "Light Mode"
+    },
+    "DARK": {
+      "displayName": "Dark Mode",
+      "help": "Dark Mode"
+    }
+  },
+  "base.ActionType": {
+    "displayName": "action type",
+    "SERVER": {
+      "displayName": "Server Action",
+      "help": "Server Action"
+    },
+    "URL": {
+      "displayName": "URL Action",
+      "help": "URL Action"
+    },
+    "VIEW": {
+      "displayName": "Window action",
+      "help": "Window action"
+    },
+    "CLIENT": {
+      "displayName": "Client-side action",
+      "help": "Client-side action"
+    },
+    "COMPOSITION": {
+      "displayName": "Combination move",
+      "help": "Combination move"
+    }
+  },
+  "base.AppConfigLoginLayoutTypeEnum": {
+    "displayName": "Login page layout type",
+    "GLOBAL": {
+      "displayName": "Global configuration",
+      "help": "Global Configuration"
+    },
+    "LEFT_STICK": {
+      "displayName": "Background aligned to the left for login",
+      "help": "Background aligned to the left for login"
+    },
+    "RIGHT_STICK": {
+      "displayName": "Background aligned to the right login",
+      "help": "Background aligned to the right for login"
+    },
+    "CENTER_STICK": {
+      "displayName": "Large background centered login",
+      "help": "Center the login on the large background"
+    },
+    "CENTER_STICK_LOGO": {
+      "displayName": "Full-background centered login, logo is inside the login page",
+      "help": "Full-background centered login, logo is inside the login page"
+    },
+    "STAND_LEFT": {
+      "displayName": "Login on the left",
+      "help": "Login on the left"
+    },
+    "STAND_RIGHT": {
+      "displayName": "Side login",
+      "help": "Side login"
+    }
+  },
+  "base.AppConfigThemeStyleEnum": {
+    "displayName": "Theme Style",
+    "MINIMALISM": {
+      "displayName": "Minimalism",
+      "help": "Minimalist"
+    },
+    "CLASSIC": {
+      "displayName": "Classic",
+      "help": "Classic"
+    }
+  },
+  "base.BindingTypeEnum": {
+    "displayName": "Binding Type",
+    "MENU": {
+      "displayName": "Bind Menu",
+      "help": "Bind Menu"
+    },
+    "VIEW": {
+      "displayName": "Bind View",
+      "help": "Bind View"
+    }
+  },
+  "base.WidgetScopeEnum": {
+    "displayName": "Component Application Scope",
+    "UI_WIDGET": {
+      "displayName": "Component Design",
+      "help": "Component Design"
+    },
+    "UI_PAGE": {
+      "displayName": "Page Design",
+      "help": "Page Design"
+    }
+  }
+}

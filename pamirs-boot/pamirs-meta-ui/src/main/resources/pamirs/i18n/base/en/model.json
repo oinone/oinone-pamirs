@@ -1,0 +1,2610 @@
+{
+  "pro.shushi.pamirs.boot.base.ux.model.mask.UISidebar" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      }
+    },
+    "displayName" : "Sidebar",
+    "summary" : "Sidebar"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.view.UIAction" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "disabled" : {
+        "displayName" : "Disabled",
+        "summary" : "Disabled"
+      },
+      "displayName" : {
+        "displayName" : "Display Name",
+        "summary" : "Display Name"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "label" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "summary" : {
+        "displayName" : "Description",
+        "summary" : "Description"
+      },
+      "url" : {
+        "displayName" : "Link",
+        "summary" : "Link"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "fun" : {
+        "displayName" : "Function Code",
+        "summary" : "Function Code"
+      },
+      "load" : {
+        "displayName" : "Data Load Function",
+        "summary" : "Data Load Function"
+      },
+      "mapping" : {
+        "displayName" : "Data Mapping",
+        "summary" : "Data Mapping"
+      },
+      "mask" : {
+        "displayName" : "Master",
+        "summary" : "Master"
+      },
+      "model" : {
+        "displayName" : "Source Model",
+        "summary" : "Source Model"
+      },
+      "theme" : {
+        "displayName" : "Subject",
+        "summary" : "Subject"
+      },
+      "resModel" : {
+        "displayName" : "Target model",
+        "summary" : "Target model"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "resModuleName" : {
+        "displayName" : "Target Module Name",
+        "summary" : "Target Module Name"
+      },
+      "queryMode" : {
+        "displayName" : "Query Method",
+        "summary" : "Query Method"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "domain" : {
+        "displayName" : "Filter criteria",
+        "summary" : "Filter criteria"
+      },
+      "contextType" : {
+        "displayName" : "Context type",
+        "summary" : "Context type"
+      },
+      "actionType" : {
+        "displayName" : "Action type",
+        "summary" : "Action type"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "dataType" : {
+        "displayName" : "View data type",
+        "summary" : "View data type"
+      },
+      "optionViewTypes" : {
+        "displayName" : "Optional view types",
+        "summary" : "After opening the target model, the types of views that can be switched are supported"
+      },
+      "sessionPath" : {
+        "displayName" : "Session path",
+        "summary" : "Session path"
+      },
+      "compute" : {
+        "displayName" : "Calculation function",
+        "summary" : "Calculation function"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "rule" : {
+        "displayName" : "Filter action",
+        "summary" : "Filter action"
+      },
+      "limit" : {
+        "displayName" : "Query quantity limit",
+        "summary" : "Query quantity limit"
+      },
+      "resModuleDisplayName" : {
+        "displayName" : "Target module display name",
+        "summary" : "Target module display name"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "resModelName" : {
+        "displayName" : "Target Model Name",
+        "summary" : "Target Model Name"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "viewType" : {
+        "displayName" : "View type",
+        "summary" : "View type"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "refs" : {
+        "displayName" : "Reference metadata",
+        "summary" : "Reference metadata"
+      },
+      "filter" : {
+        "displayName" : "Server-side filtering criteria",
+        "summary" : "Server-side filtering criteria"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "resViewName" : {
+        "displayName" : "Target view",
+        "summary" : "Target view"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "function" : {
+        "displayName" : "Data Function Definition",
+        "summary" : "Data Function Definition"
+      },
+      "resModule" : {
+        "displayName" : "Target Module",
+        "summary" : "Target Module"
+      },
+      "target" : {
+        "displayName" : "Opening method",
+        "summary" : "Opening method"
+      }
+    },
+    "displayName" : "View Action",
+    "summary" : "View Action"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.UILayoutCell" : {
+    "base.Field" : {
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      }
+    },
+    "displayName" : "Layout Cell",
+    "summary" : "Layout Cell"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.view.UIField" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "data" : {
+        "displayName" : "Field Code",
+        "summary" : "Field Code"
+      },
+      "defaultValue" : {
+        "displayName" : "Default Value",
+        "summary" : "Default Value"
+      },
+      "disable" : {
+        "displayName" : "Disabled",
+        "summary" : "Disabled"
+      },
+      "disabled" : {
+        "displayName" : "Disabled",
+        "summary" : "Disabled"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "index" : {
+        "displayName" : "Index",
+        "summary" : "Index"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "label" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "model" : {
+        "displayName" : "Model Code",
+        "summary" : "Model Code"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "ordering" : {
+        "displayName" : "Sort",
+        "summary" : "Sort"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "readonly" : {
+        "displayName" : "Read Only",
+        "summary" : "Read Only"
+      },
+      "referenceFields" : {
+        "displayName" : "Relation Field",
+        "summary" : "Relation Field"
+      },
+      "required" : {
+        "displayName" : "Required",
+        "summary" : "Required"
+      },
+      "ttype" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "showClear" : {
+        "displayName" : "Show Clear Button",
+        "summary" : "Show Clear Button"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "load" : {
+        "displayName" : "Data Load Function",
+        "summary" : "Data Load Function"
+      },
+      "mapping" : {
+        "displayName" : "Data Mapping",
+        "summary" : "Data Mapping"
+      },
+      "options" : {
+        "displayName" : "Options",
+        "summary" : "Options"
+      },
+      "options0" : {
+        "displayName" : "Options",
+        "summary" : "Options"
+      },
+      "references" : {
+        "displayName" : "Related Model",
+        "summary" : "Related Model"
+      },
+      "related" : {
+        "displayName" : "Reference Field List",
+        "summary" : "Reference Field List"
+      },
+      "through" : {
+        "displayName" : "Intermediate Model",
+        "summary" : "Intermediate Model"
+      },
+      "unique" : {
+        "displayName" : "Unique",
+        "summary" : "Unique"
+      },
+      "size" : {
+        "displayName" : "Length",
+        "summary" : "Length"
+      },
+      "decimal" : {
+        "displayName" : "Precision",
+        "summary" : "Precision"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "throughRelationFields" : {
+        "displayName" : "Intermediate model relationship field",
+        "summary" : "Intermediate model relationship field"
+      },
+      "autoFillOptions" : {
+        "displayName" : "Populate data dictionary optional",
+        "summary" : "Populate data dictionary optional"
+      },
+      "limit" : {
+        "displayName" : "Quantity limit",
+        "summary" : "Quantity limit"
+      },
+      "storeSerialize" : {
+        "displayName" : "Storage Serialization Function Encoding",
+        "summary" : "Storage Serialization Function Encoding"
+      },
+      "hint" : {
+        "displayName" : "Instruction prompt",
+        "summary" : "Instruction prompt"
+      },
+      "resViewName" : {
+        "displayName" : "Associated View",
+        "summary" : "Associated View"
+      },
+      "max" : {
+        "displayName" : "Maximum value",
+        "summary" : "Maximum value"
+      },
+      "min" : {
+        "displayName" : "Minimum value",
+        "summary" : "Minimum value"
+      },
+      "format" : {
+        "displayName" : "Time presentation format",
+        "summary" : "Time presentation format"
+      },
+      "compute" : {
+        "displayName" : "Calculated Properties",
+        "summary" : "Calculated Properties"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "relationFields" : {
+        "displayName" : "Relationship field",
+        "summary" : "Relationship field"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "domain" : {
+        "displayName" : "Filter criteria",
+        "summary" : "Filter criteria"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "dictionary" : {
+        "displayName" : "Data Field",
+        "summary" : "Data Field"
+      },
+      "queryMode" : {
+        "displayName" : "Data loading method",
+        "summary" : "Data loading method"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "placeholder" : {
+        "displayName" : "Occupant Prompt",
+        "summary" : "Occupant Prompt"
+      },
+      "store" : {
+        "displayName" : "Storage",
+        "summary" : "Storage"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "throughReferenceFields" : {
+        "displayName" : "Intermediate Model Association Field",
+        "summary" : "Intermediate Model Association Field"
+      },
+      "optionFields" : {
+        "displayName" : "Optional field list",
+        "summary" : "Optional field list"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "multi" : {
+        "displayName" : "Multiple values",
+        "summary" : "Multiple values"
+      },
+      "relatedTtype" : {
+        "displayName" : "Reference Type",
+        "summary" : "Reference Type"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "pageSize" : {
+        "displayName" : "Optional pagination",
+        "summary" : "Optional pagination"
+      },
+      "relationStore" : {
+        "displayName" : "Store relationships",
+        "summary" : "Store relationships"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "domainSize" : {
+        "displayName" : "Limit on the number of options",
+        "summary" : "Limit on the number of options"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "autoFill" : {
+        "displayName" : "Auto Fill Default",
+        "summary" : "Auto Fill Default"
+      }
+    },
+    "displayName" : "View Field",
+    "summary" : "View Field"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.UIWidget" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      }
+    },
+    "displayName" : "Component",
+    "summary" : "Component"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.view.UINodes" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      }
+    },
+    "displayName" : "Node View",
+    "summary" : "Node View"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.view.UIElement" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      }
+    },
+    "displayName" : "Functional Component",
+    "summary" : "Functional Component"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.mask.UIContainer" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      }
+    },
+    "displayName" : "Container Component",
+    "summary" : "Container Component"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.metadata.UIDictionary" : {
+    "base.Field" : {
+      "dictionary" : {
+        "displayName" : "Data Dictionary Code",
+        "summary" : "Data Dictionary Code"
+      },
+      "options" : {
+        "displayName" : "Options",
+        "summary" : "Options"
+      }
+    },
+    "displayName" : "Data Dictionary Metadata",
+    "summary" : "Data Dictionary Metadata"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.UIMask" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "title" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "rowGap" : {
+        "displayName" : "Vertical spacing",
+        "summary" : "Vertical spacing"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "display" : {
+        "displayName" : "Layout",
+        "summary" : "Layout"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "gap" : {
+        "displayName" : "Horizontal and vertical spacing",
+        "summary" : "Horizontal and vertical spacing"
+      },
+      "colGap" : {
+        "displayName" : "Horizontal interval",
+        "summary" : "Horizontal interval"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "wrap" : {
+        "displayName" : "Whether to wrap",
+        "summary" : "Whether to wrap"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "cols" : {
+        "displayName" : "Number of horizontal grids",
+        "summary" : "Number of horizontal grids"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "type" : {
+        "displayName" : "View type",
+        "summary" : "View type"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "rows" : {
+        "displayName" : "Number of vertical grids",
+        "summary" : "Number of vertical grids"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "colAlign" : {
+        "displayName" : "Horizontal Alignment",
+        "summary" : "Horizontal Alignment"
+      },
+      "rowAlign" : {
+        "displayName" : "Vertical alignment",
+        "summary" : "Vertical alignment"
+      }
+    },
+    "displayName" : "Mask",
+    "summary" : "Mask"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.view.UITemplate" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      }
+    },
+    "displayName" : "Template Slot Content",
+    "summary" : "Template Slot Content"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.mask.UIBlock" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      }
+    },
+    "displayName" : "Block Element",
+    "summary" : "Block Element"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.UILayout" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "rows" : {
+        "displayName" : "Number of vertical grids",
+        "summary" : "Number of vertical grids"
+      },
+      "colGap" : {
+        "displayName" : "Horizontal interval",
+        "summary" : "Horizontal interval"
+      },
+      "type" : {
+        "displayName" : "View type",
+        "summary" : "View type"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "cols" : {
+        "displayName" : "Number of horizontal grids",
+        "summary" : "Number of horizontal grids"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "colAlign" : {
+        "displayName" : "Horizontal Alignment",
+        "summary" : "Horizontal Alignment"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "gap" : {
+        "displayName" : "Horizontal and vertical spacing",
+        "summary" : "Horizontal and vertical spacing"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "rowGap" : {
+        "displayName" : "Vertical spacing",
+        "summary" : "Vertical spacing"
+      },
+      "rowAlign" : {
+        "displayName" : "Vertical alignment",
+        "summary" : "Vertical alignment"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "wrap" : {
+        "displayName" : "Whether to wrap",
+        "summary" : "Whether to wrap"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "display" : {
+        "displayName" : "Layout",
+        "summary" : "Layout"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      }
+    },
+    "displayName" : "Layout",
+    "summary" : "Layout"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.mask.UIContent" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      }
+    },
+    "displayName" : "Content Area",
+    "summary" : "Content Area"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.metadata.UIMetadata" : {
+    "base.Field" : {
+      "model" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "dictionary" : {
+        "displayName" : "Data Dictionary",
+        "summary" : "Data Dictionary"
+      }
+    },
+    "displayName" : "Metadata Set",
+    "summary" : "Metadata Set"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.part.UINode" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "filter" : {
+        "displayName" : "Filter Condition",
+        "summary" : "Filter Condition, using RSQL protocol"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "title" : {
+        "displayName" : "Title",
+        "summary" : "Cascade - Title"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "label" : {
+        "displayName" : "Data Title",
+        "summary" : "Data Title"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "selfReferences" : {
+        "displayName" : "Self-association",
+        "summary" : "Self-association"
+      },
+      "search" : {
+        "displayName" : "List Association",
+        "summary" : "List Association"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "model" : {
+        "displayName" : "Current model",
+        "summary" : "Current model"
+      },
+      "labelFields" : {
+        "displayName" : "Data Title Field List",
+        "summary" : "Data Title Field List"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "references" : {
+        "displayName" : "Hierarchical association",
+        "summary" : "Hierarchical association"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      }
+    },
+    "displayName" : "Node",
+    "summary" : "Node"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.view.UIVirtualAction" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "disabled" : {
+        "displayName" : "Disabled",
+        "summary" : "Disabled"
+      },
+      "displayName" : {
+        "displayName" : "Display Name",
+        "summary" : "Display Name"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "label" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "summary" : {
+        "displayName" : "Description",
+        "summary" : "Description"
+      },
+      "url" : {
+        "displayName" : "Link",
+        "summary" : "Link"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "fun" : {
+        "displayName" : "Function Code",
+        "summary" : "Function Code"
+      },
+      "load" : {
+        "displayName" : "Data Load Function",
+        "summary" : "Data Load Function"
+      },
+      "mapping" : {
+        "displayName" : "Data Mapping",
+        "summary" : "Data Mapping"
+      },
+      "mask" : {
+        "displayName" : "Master",
+        "summary" : "Master"
+      },
+      "model" : {
+        "displayName" : "Source Model",
+        "summary" : "Source Model"
+      },
+      "theme" : {
+        "displayName" : "Subject",
+        "summary" : "Subject"
+      },
+      "resModelName" : {
+        "displayName" : "Target Model Name",
+        "summary" : "Target Model Name"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "queryMode" : {
+        "displayName" : "Query Method",
+        "summary" : "Query Method"
+      },
+      "actionField" : {
+        "displayName" : "Action field",
+        "summary" : "The actual action performed, the action is obtained from the data in this field"
+      },
+      "compute" : {
+        "displayName" : "Calculation function",
+        "summary" : "Calculation function"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "viewType" : {
+        "displayName" : "View type",
+        "summary" : "View type"
+      },
+      "resViewName" : {
+        "displayName" : "Target view",
+        "summary" : "Target view"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "function" : {
+        "displayName" : "Data Function Definition",
+        "summary" : "Data Function Definition"
+      },
+      "domain" : {
+        "displayName" : "Filter criteria",
+        "summary" : "Filter criteria"
+      },
+      "resModel" : {
+        "displayName" : "Target model",
+        "summary" : "Target model"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "resModuleName" : {
+        "displayName" : "Target Module Name",
+        "summary" : "Target Module Name"
+      },
+      "filter" : {
+        "displayName" : "Server-side filtering criteria",
+        "summary" : "Server-side filtering criteria"
+      },
+      "limit" : {
+        "displayName" : "Query quantity limit",
+        "summary" : "Query quantity limit"
+      },
+      "argument" : {
+        "displayName" : "Parameter Field Name",
+        "summary" : "Parameter Field Name"
+      },
+      "refs" : {
+        "displayName" : "Reference metadata",
+        "summary" : "Reference metadata"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "target" : {
+        "displayName" : "Opening method",
+        "summary" : "Opening method"
+      },
+      "optionViewTypes" : {
+        "displayName" : "Optional view types",
+        "summary" : "After opening the target model, the types of views that can be switched are supported"
+      },
+      "contextType" : {
+        "displayName" : "Context type",
+        "summary" : "Context type"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "resModule" : {
+        "displayName" : "Target Module",
+        "summary" : "Target Module"
+      },
+      "rule" : {
+        "displayName" : "Filter action",
+        "summary" : "Filter action"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "sessionPath" : {
+        "displayName" : "Session path",
+        "summary" : "Session path"
+      },
+      "isVirtual" : {
+        "displayName" : "Whether virtual action",
+        "summary" : "Whether virtual action"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "resModuleDisplayName" : {
+        "displayName" : "Target module display name",
+        "summary" : "Target module display name"
+      },
+      "dataType" : {
+        "displayName" : "View data type",
+        "summary" : "View data type"
+      },
+      "actionType" : {
+        "displayName" : "Action type",
+        "summary" : "Action type"
+      }
+    },
+    "displayName" : "Virtual Action",
+    "summary" : "Virtual Action"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.view.UISlot" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "slotSupport" : {
+        "displayName" : "Support component",
+        "summary" : "Support component"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      }
+    },
+    "displayName" : "Mask Slot",
+    "summary" : "Mask Slot"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.view.UIPack" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "title" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "border" : {
+        "displayName" : "Border",
+        "summary" : "Border"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      }
+    },
+    "displayName" : "Container Component",
+    "summary" : "Container Component"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.part.UIOption" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "displayName" : {
+        "displayName" : "Display Name",
+        "summary" : "Display Name"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "help" : {
+        "displayName" : "Description",
+        "summary" : "Description"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "state" : {
+        "displayName" : "State",
+        "summary" : "State"
+      },
+      "summary" : {
+        "displayName" : "Description",
+        "summary" : "Description"
+      },
+      "value" : {
+        "displayName" : "Value",
+        "summary" : "Value"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "references" : {
+        "displayName" : "Related Model Code",
+        "summary" : "Related Model Code"
+      },
+      "referencesModuleName" : {
+        "displayName" : "Related Module API Name",
+        "summary" : "Related Module API Name"
+      },
+      "related" : {
+        "displayName" : "Reference Field List",
+        "summary" : "Reference Field List"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "referencesUniques" : {
+        "displayName" : "Association model unique key list",
+        "summary" : "Association model unique key list"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "referencesType" : {
+        "displayName" : "Association model type",
+        "summary" : "Association model type"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "referencesModelName" : {
+        "displayName" : "Associated Model API Name",
+        "summary" : "Associated Model API Name"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "referencesLabelFields" : {
+        "displayName" : "Association model header field list",
+        "summary" : "Association model header field list"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "referencesPks" : {
+        "displayName" : "Association model primary key list",
+        "summary" : "Association model primary key list"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      }
+    },
+    "displayName" : "Option",
+    "summary" : "Option"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.mask.UIHeader" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      }
+    },
+    "displayName" : "Header",
+    "summary" : "Header"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.metadata.UIModel" : {
+    "base.Field" : {
+      "model" : {
+        "displayName" : "Model Code",
+        "summary" : "Model Code"
+      },
+      "field" : {
+        "displayName" : "Model Field",
+        "summary" : "Model Field"
+      },
+      "action" : {
+        "displayName" : "Model action",
+        "summary" : "Model action"
+      }
+    },
+    "displayName" : "Model Metadata",
+    "summary" : "Model Metadata"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.mask.UIFooter" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      }
+    },
+    "displayName" : "Footer",
+    "summary" : "Footer"
+  },
+  "pro.shushi.pamirs.boot.base.ux.model.UIView" : {
+    "base.Field" : {
+      "bizType" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "dslNodeType" : {
+        "displayName" : "DSL Type",
+        "summary" : "DSL Type"
+      },
+      "height" : {
+        "displayName" : "Height",
+        "summary" : "Height"
+      },
+      "indexes" : {
+        "displayName" : "Index",
+        "summary" : "Index"
+      },
+      "invisible" : {
+        "displayName" : "Hidden",
+        "summary" : "Hidden"
+      },
+      "model" : {
+        "displayName" : "Model Code",
+        "summary" : "Model Code"
+      },
+      "modelType" : {
+        "displayName" : "Model Type",
+        "summary" : "Model Type"
+      },
+      "name" : {
+        "displayName" : "API Name",
+        "summary" : "API Name"
+      },
+      "ordering" : {
+        "displayName" : "Sort",
+        "summary" : "Sort"
+      },
+      "pk" : {
+        "displayName" : "Primary Key",
+        "summary" : "Primary Key"
+      },
+      "priority" : {
+        "displayName" : "Priority",
+        "summary" : "Priority"
+      },
+      "summary" : {
+        "displayName" : "Description",
+        "summary" : "Description"
+      },
+      "title" : {
+        "displayName" : "Title",
+        "summary" : "Title"
+      },
+      "uniques" : {
+        "displayName" : "Unique Index",
+        "summary" : "Unique Index"
+      },
+      "width" : {
+        "displayName" : "Width",
+        "summary" : "Width"
+      },
+      "context" : {
+        "displayName" : "Context",
+        "summary" : "Context"
+      },
+      "modelName" : {
+        "displayName" : "Model API Name",
+        "summary" : "Model API Name"
+      },
+      "widgets" : {
+        "displayName" : "Subcomponent List",
+        "summary" : "Subcomponent List"
+      },
+      "rowStart" : {
+        "displayName" : "Which grid does the vertical direction start from?",
+        "summary" : "Which grid does the vertical direction start from?"
+      },
+      "wrap" : {
+        "displayName" : "Whether to wrap",
+        "summary" : "Whether to wrap"
+      },
+      "display" : {
+        "displayName" : "Layout",
+        "summary" : "Layout"
+      },
+      "colAlign" : {
+        "displayName" : "Horizontal Alignment",
+        "summary" : "Horizontal Alignment"
+      },
+      "widget" : {
+        "displayName" : "Component Name",
+        "summary" : "Component Name"
+      },
+      "offset" : {
+        "displayName" : "Number of spaces on the left side of the grid",
+        "summary" : "Number of spaces on the left side of the grid"
+      },
+      "cols" : {
+        "displayName" : "Number of horizontal grids",
+        "summary" : "Number of horizontal grids"
+      },
+      "moduleName" : {
+        "displayName" : "Service Module Name",
+        "summary" : "Service Module Name"
+      },
+      "rowSpan" : {
+        "displayName" : "How many grids does the vertical direction occupy",
+        "summary" : "How many grids does the vertical direction occupy"
+      },
+      "gap" : {
+        "displayName" : "Horizontal and vertical spacing",
+        "summary" : "Horizontal and vertical spacing"
+      },
+      "slot" : {
+        "displayName" : "Template slot",
+        "summary" : "Template slot"
+      },
+      "directives" : {
+        "displayName" : "Client command set",
+        "summary" : "Client command set"
+      },
+      "span" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "layout" : {
+        "displayName" : "Basic Layout Name",
+        "summary" : "Basic Layout Name"
+      },
+      "rowGap" : {
+        "displayName" : "Vertical spacing",
+        "summary" : "Vertical spacing"
+      },
+      "enableSequence" : {
+        "displayName" : "Open serial number",
+        "summary" : "Open serial number"
+      },
+      "metadata" : {
+        "displayName" : "Metadata",
+        "summary" : "Metadata"
+      },
+      "colGap" : {
+        "displayName" : "Horizontal interval",
+        "summary" : "Horizontal interval"
+      },
+      "rows" : {
+        "displayName" : "Number of vertical grids",
+        "summary" : "Number of vertical grids"
+      },
+      "type" : {
+        "displayName" : "View type",
+        "summary" : "View type"
+      },
+      "autoFill" : {
+        "displayName" : "Auto-fill",
+        "summary" : "Auto-fill"
+      },
+      "colSpan" : {
+        "displayName" : "How many grids does it occupy horizontally?",
+        "summary" : "How many grids does it occupy horizontally?"
+      },
+      "start" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      },
+      "rowAlign" : {
+        "displayName" : "Vertical alignment",
+        "summary" : "Vertical alignment"
+      },
+      "slotSupport" : {
+        "displayName" : "Template slot supported types",
+        "summary" : "Template slot supported types"
+      },
+      "colStart" : {
+        "displayName" : "Horizontal direction starts at which grid",
+        "summary" : "Horizontal direction starts at which grid"
+      }
+    },
+    "displayName" : "View",
+    "summary" : "View"
+  }
+}

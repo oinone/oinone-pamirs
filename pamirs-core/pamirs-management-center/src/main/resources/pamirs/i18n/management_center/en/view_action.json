@@ -1,0 +1,10 @@
+{
+  "auth.AuthRole": {
+    "userManager": {
+      "displayName": "User Management"
+    },
+    "bingingUser": {
+      "displayName": "Bind User"
+    }
+  }
+}

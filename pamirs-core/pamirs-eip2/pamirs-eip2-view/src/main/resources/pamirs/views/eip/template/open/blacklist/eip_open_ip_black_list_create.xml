@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" title="创建" model="pamirs.eip.EipOpenIpBlacklistProxy" name="开放应用ip黑名单create">
+<view type="FORM" widget="form" title="创建" model="pamirs.eip.EipOpenIpBlacklistProxy" name="EipOpenIpBlacklistProxyFormCreate">
     <template slot="actions">
         <action fun="$$internal_GotoListTableRouter" label="关闭" actionType="CLIENT" type="default"/>
         <action name="create" label="确定" goBack="true" validateForm="true"/>

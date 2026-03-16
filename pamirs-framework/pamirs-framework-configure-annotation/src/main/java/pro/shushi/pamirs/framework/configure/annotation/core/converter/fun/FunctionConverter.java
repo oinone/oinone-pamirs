@@ -4,6 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -126,7 +127,7 @@ public class FunctionConverter implements ModelConverter<FunctionDefinition, Met
         String longPollingKey = Optional.ofNullable(functionAdvancedAnnotation).map(Function.Advanced::longPollingKey).orElse(null);
         Integer longPollingTimeout = Optional.ofNullable(functionAdvancedAnnotation).map(Function.Advanced::longPollingTimeout).orElse(null);
         Long bitOptions = FunctionBitOptions.DEFAULT_VALUE.getOption();
-        function.setDisplayName(displayName)
+        function.setDisplayName(I18nUtils.translateFunction(names.getModule(), namespace, fun, "displayName", StringUtils.defaultIfBlank(displayName, null)))
                 .setNamespace(namespace)
                 .setFun(fun)
                 .setType(ListUtils.toList(type))
@@ -137,7 +138,7 @@ public class FunctionConverter implements ModelConverter<FunctionDefinition, Met
                 .setSource(FunctionSourceEnum.FUNCTION)
                 .setOpenLevel(ListUtils.toList(openLevel))
                 .setIsBuiltin(isBuiltin)
-                .setDescription(description)
+                .setDescription(I18nUtils.translateFunction(names.getModule(), namespace, fun, "description", StringUtils.defaultIfBlank(description, null)))
                 .setGroup(group)
                 .setVersion(version)
                 .setTimeout(timeout)

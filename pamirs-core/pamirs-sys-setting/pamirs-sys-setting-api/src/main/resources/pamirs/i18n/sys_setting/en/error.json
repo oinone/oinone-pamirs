@@ -1,0 +1,10 @@
+{
+  "pro.shushi.pamirs.sys.setting.enmu.HomePageExpEnumerate" : {
+    "displayName" : "Home page configuration error enumeration",
+    "APPS_MANAGEMENT_PARAMS_ILLEGAL_MENU_UNBINDING_VIEW" : "{} menu not bound to a page",
+    "EMPTY_MENU_EXCEPTION" : "The menu cannot be empty",
+    "EMPTY_PAGE_BINDING_EXCEPTION" : "The binding page cannot be empty",
+    "EMPTY_APP_BINDING_EXCEPTION" : "The bound application cannot be empty",
+    "RULE_NAME_NOT_EMPTY_EXCEPTION" : "The rule name cannot be empty"
+  }
+}

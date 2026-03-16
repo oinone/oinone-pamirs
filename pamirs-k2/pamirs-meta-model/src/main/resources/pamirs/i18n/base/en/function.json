@@ -1,0 +1,56 @@
+{
+  "base.EnhanceModel": {
+    "search": {
+      "description": "Search function"
+    },
+    "synchronize": {
+      "description": "Data synchronization function",
+      "displayName": "Synchronize data"
+    }
+  },
+  "base.TransientModel": {
+    "construct": {
+      "description": "Data Constructor",
+      "displayName": "Initialize data"
+    }
+  },
+  "base.BaseModel": {
+    "construct": {
+      "displayName": "Initialize data",
+      "description": "Data Constructor"
+    },
+    "constructBatch": {
+      "displayName": "Batch initialize data"
+    }
+  },
+  "base.ExtPoint": {
+    "construct": {
+      "displayName": "Initialize data"
+    }
+  },
+  "base.Field": {
+    "construct": {
+      "displayName": "Initialize data"
+    }
+  },
+  "base.Function": {
+    "construct": {
+      "displayName": "Initialize data"
+    }
+  },
+  "base.Model": {
+    "construct": {
+      "displayName": "Initialize data"
+    }
+  },
+  "base.Module": {
+    "construct": {
+      "displayName": "Initialize data"
+    }
+  },
+  "base.ModuleCategory": {
+    "construct": {
+      "displayName": "Initialize data"
+    }
+  }
+}

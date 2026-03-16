@@ -11,7 +11,9 @@ import pro.shushi.pamirs.core.common.cache.MemoryIterableSearchCache;
 import pro.shushi.pamirs.core.common.cache.UnsafeCache;
 import pro.shushi.pamirs.core.common.cache.ValueGenerator;
 import pro.shushi.pamirs.framework.common.utils.kryo.KryoUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 import pro.shushi.pamirs.meta.domain.model.DataDictionary;
 import pro.shushi.pamirs.meta.domain.model.DataDictionaryItem;
@@ -25,6 +27,7 @@ import pro.shushi.pamirs.translate.manager.cache.TranslateResourceCache;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -73,7 +76,51 @@ public class DefaultTranslateService implements TranslateService {
     public String getCurrentLang() {
         String lang = PamirsSession.getLang();
         if (StringUtils.isBlank(lang)) {
-            lang = DefaultResourceConstants.CHINESE_LANGUAGE_CODE;
+            Locale locale = I18nUtils.getLocale();
+            String language = locale.getLanguage();
+            String country = locale.getCountry();
+            if (Locale.SIMPLIFIED_CHINESE.getLanguage().equals(language) && StringUtils.isBlank(country)) {
+                // 兼容语言初始化
+                country = Locale.SIMPLIFIED_CHINESE.getCountry();
+            } else if (Locale.US.getLanguage().equals(language) && StringUtils.isBlank(country)) {
+                // 兼容语言初始化
+                country = Locale.US.getCountry();
+            }
+            if (StringUtils.isBlank(country)) {
+                return language;
+            }
+            return language + CharacterConstants.SEPARATOR_HYPHEN + country;
+        }
+        return lang;
+    }
+
+    @Override
+    public String getCurrentLangIsoCode() {
+        String lang = PamirsSession.getLang();
+        if (StringUtils.isBlank(lang)) {
+            Locale locale = I18nUtils.getLocale();
+            String language = locale.getLanguage();
+            String country = locale.getCountry();
+            if (Locale.SIMPLIFIED_CHINESE.getLanguage().equals(language) && StringUtils.isBlank(country)) {
+                // 兼容语言初始化
+                country = Locale.SIMPLIFIED_CHINESE.getCountry();
+            } else if (Locale.US.getLanguage().equals(language) && StringUtils.isNotBlank(country)) {
+                // 兼容语言初始化
+                country = null;
+            }
+            if (StringUtils.isBlank(country)) {
+                return language;
+            }
+            return language + CharacterConstants.SEPARATOR_UNDERLINE + country;
+        } else if (DefaultResourceConstants.ENGLISH_LANGUAGE.getCode().equals(lang)) {
+            // 兼容语言初始化
+            return DefaultResourceConstants.ENGLISH_LANGUAGE.getIsoCode();
+        } else if (DefaultResourceConstants.CHINESE_LANGUAGE.getCode().equals(lang)) {
+            // 兼容语言初始化
+            return DefaultResourceConstants.CHINESE_LANGUAGE.getIsoCode();
+        } else {
+            // 强制使用标准 locale 格式
+            lang = lang.replaceAll("-", "_");
         }
         return lang;
     }

@@ -1,4 +1,4 @@
-<view widget="form" name="货币form" title="货币" model="resource.ResourceCurrency" type="FORM">
+<view widget="form" name="ResourceCurrencyForm" title="货币" model="resource.ResourceCurrency" type="FORM">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
                 type="default"/>

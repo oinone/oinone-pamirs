@@ -1,0 +1,668 @@
+{
+  "logic.LogicTable" : {
+    "base.Field" : {
+      "createDate" : {
+        "displayName" : "Create Time",
+        "summary" : "Create Time"
+      },
+      "createUid" : {
+        "displayName" : "Created By ID",
+        "summary" : "Created By ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time",
+        "summary" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updated By ID",
+        "summary" : "Updated By ID"
+      },
+      "tableCollation" : {
+        "displayName" : "tableCollation",
+        "summary" : "tableCollation"
+      },
+      "characterSetName" : {
+        "displayName" : "characterSetName",
+        "summary" : "characterSetName"
+      },
+      "dsKey" : {
+        "displayName" : "dsKey",
+        "summary" : "dsKey"
+      },
+      "tableComment" : {
+        "displayName" : "tableComment",
+        "summary" : "tableComment"
+      },
+      "module" : {
+        "displayName" : "module",
+        "summary" : "module"
+      },
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "model" : {
+        "displayName" : "model",
+        "summary" : "model"
+      },
+      "tableSchema" : {
+        "displayName" : "tableSchema",
+        "summary" : "tableSchema"
+      },
+      "sharding" : {
+        "displayName" : "sharding",
+        "summary" : "sharding"
+      }
+    },
+    "displayName" : "Logic Table Definition",
+    "summary" : "Logic Table Definition"
+  },
+  "system.SqlServerColumn" : {
+    "base.Field" : {
+      "numericScale" : {
+        "displayName" : "numericScale",
+        "summary" : "numericScale"
+      },
+      "dataLength" : {
+        "displayName" : "dataLength",
+        "summary" : "dataLength"
+      },
+      "dataScale" : {
+        "displayName" : "dataScale",
+        "summary" : "dataScale"
+      },
+      "isIdentity" : {
+        "displayName" : "isIdentity",
+        "summary" : "isIdentity"
+      },
+      "seedValue" : {
+        "displayName" : "seedValue",
+        "summary" : "seedValue"
+      },
+      "tableSchema" : {
+        "displayName" : "tableSchema",
+        "summary" : "tableSchema"
+      },
+      "defaultValue" : {
+        "displayName" : "defaultValue",
+        "summary" : "defaultValue"
+      },
+      "dataType" : {
+        "displayName" : "dataType",
+        "summary" : "dataType"
+      },
+      "charColDeclLength" : {
+        "displayName" : "charColDeclLength",
+        "summary" : "charColDeclLength"
+      },
+      "dataTimePrecision" : {
+        "displayName" : "dataTimePrecision",
+        "summary" : "dataTimePrecision"
+      },
+      "columnComment" : {
+        "displayName" : "columnComment",
+        "summary" : "columnComment"
+      },
+      "columnId" : {
+        "displayName" : "columnId",
+        "summary" : "columnId"
+      },
+      "columnName" : {
+        "displayName" : "columnName",
+        "summary" : "columnName"
+      },
+      "nullable" : {
+        "displayName" : "nullable",
+        "summary" : "nullable"
+      },
+      "charLength" : {
+        "displayName" : "charLength",
+        "summary" : "charLength"
+      },
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "numericPrecision" : {
+        "displayName" : "numericPrecision",
+        "summary" : "numericPrecision"
+      },
+      "characterSetName" : {
+        "displayName" : "characterSetName",
+        "summary" : "characterSetName"
+      },
+      "incrementValue" : {
+        "displayName" : "incrementValue",
+        "summary" : "incrementValue"
+      }
+    },
+    "displayName" : "SQL Server Table Column Definition",
+    "summary" : "SQL Server Table Column Definition"
+  },
+  "system.LogicIndex" : {
+    "base.Field" : {
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "unique" : {
+        "displayName" : "unique",
+        "summary" : "unique"
+      },
+      "column" : {
+        "displayName" : "column",
+        "summary" : "column"
+      },
+      "indexName" : {
+        "displayName" : "indexName",
+        "summary" : "indexName"
+      },
+      "indexList" : {
+        "displayName" : "indexList",
+        "summary" : "indexList"
+      }
+    },
+    "displayName" : "Logic Index Definition",
+    "summary" : "Logic Index Definition"
+  },
+  "system.OracleIndex" : {
+    "base.Field" : {
+      "uniqueness" : {
+        "displayName" : "uniqueness",
+        "summary" : "uniqueness"
+      },
+      "columnName" : {
+        "displayName" : "columnName",
+        "summary" : "columnName"
+      },
+      "indexName" : {
+        "displayName" : "indexName",
+        "summary" : "indexName"
+      },
+      "columnPosition" : {
+        "displayName" : "columnPosition",
+        "summary" : "columnPosition"
+      },
+      "tableSchema" : {
+        "displayName" : "tableSchema",
+        "summary" : "tableSchema"
+      },
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "constraintName" : {
+        "displayName" : "constraintName",
+        "summary" : "constraintName"
+      }
+    },
+    "displayName" : "Oracle Index Definition",
+    "summary" : "Oracle Index Definition"
+  },
+  "system.DatabaseInstance" : {
+    "base.Field" : {
+      "jdbcMajorVersion" : {
+        "displayName" : "jdbcMajorVersion",
+        "summary" : "jdbcMajorVersion"
+      },
+      "driverVersion" : {
+        "displayName" : "driverVersion",
+        "summary" : "driverVersion"
+      },
+      "driverMinorVersion" : {
+        "displayName" : "driverMinorVersion",
+        "summary" : "driverMinorVersion"
+      },
+      "productName" : {
+        "displayName" : "productName",
+        "summary" : "productName"
+      },
+      "jdbcMinorVersion" : {
+        "displayName" : "jdbcMinorVersion",
+        "summary" : "jdbcMinorVersion"
+      },
+      "driverName" : {
+        "displayName" : "driverName",
+        "summary" : "driverName"
+      },
+      "readOnly" : {
+        "displayName" : "readOnly",
+        "summary" : "readOnly"
+      },
+      "driverMajorVersion" : {
+        "displayName" : "driverMajorVersion",
+        "summary" : "driverMajorVersion"
+      },
+      "userName" : {
+        "displayName" : "userName",
+        "summary" : "userName"
+      },
+      "supportsTransactions" : {
+        "displayName" : "supportsTransactions",
+        "summary" : "supportsTransactions"
+      },
+      "productVersion" : {
+        "displayName" : "productVersion",
+        "summary" : "productVersion"
+      },
+      "url" : {
+        "displayName" : "url",
+        "summary" : "url"
+      }
+    },
+    "displayName" : "Database Instance",
+    "summary" : "Database Instance"
+  },
+  "system.Database" : {
+    "base.Field" : {
+      "characterSetName" : {
+        "displayName" : "characterSetName",
+        "summary" : "characterSetName"
+      },
+      "collationName" : {
+        "displayName" : "collationName",
+        "summary" : "collationName"
+      },
+      "schemaName" : {
+        "displayName" : "schemaName",
+        "summary" : "schemaName"
+      }
+    },
+    "displayName" : "Database Definition",
+    "summary" : "Database Definition"
+  },
+  "system.DmColumn" : {
+    "base.Field" : {
+      "dataType" : {
+        "displayName" : "dataType",
+        "summary" : "dataType"
+      },
+      "columnId" : {
+        "displayName" : "columnId",
+        "summary" : "columnId"
+      },
+      "columnName" : {
+        "displayName" : "columnName",
+        "summary" : "columnName"
+      },
+      "nullable" : {
+        "displayName" : "nullable",
+        "summary" : "nullable"
+      },
+      "defaultValue" : {
+        "displayName" : "defaultValue",
+        "summary" : "defaultValue"
+      },
+      "columnComment" : {
+        "displayName" : "columnComment",
+        "summary" : "columnComment"
+      },
+      "isIdentity" : {
+        "displayName" : "isIdentity",
+        "summary" : "isIdentity"
+      },
+      "charColDeclLength" : {
+        "displayName" : "charColDeclLength",
+        "summary" : "charColDeclLength"
+      },
+      "tableSchema" : {
+        "displayName" : "tableSchema",
+        "summary" : "tableSchema"
+      },
+      "dataPrecision" : {
+        "displayName" : "dataPrecision",
+        "summary" : "dataPrecision"
+      },
+      "charLength" : {
+        "displayName" : "charLength",
+        "summary" : "charLength"
+      },
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "dataScale" : {
+        "displayName" : "dataScale",
+        "summary" : "dataScale"
+      },
+      "characterSetName" : {
+        "displayName" : "characterSetName",
+        "summary" : "characterSetName"
+      },
+      "dataLength" : {
+        "displayName" : "dataLength",
+        "summary" : "dataLength"
+      }
+    },
+    "displayName" : "DM Table Column Definition",
+    "summary" : "DM Table Column Definition"
+  },
+  "system.SqlServerIndex" : {
+    "base.Field" : {
+      "columnPosition" : {
+        "displayName" : "columnPosition",
+        "summary" : "columnPosition"
+      },
+      "indexName" : {
+        "displayName" : "indexName",
+        "summary" : "indexName"
+      },
+      "constraintName" : {
+        "displayName" : "constraintName",
+        "summary" : "constraintName"
+      },
+      "tableSchema" : {
+        "displayName" : "tableSchema",
+        "summary" : "tableSchema"
+      },
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "uniqueness" : {
+        "displayName" : "uniqueness",
+        "summary" : "uniqueness"
+      },
+      "columnName" : {
+        "displayName" : "columnName",
+        "summary" : "columnName"
+      }
+    },
+    "displayName" : "SQL Server Index Definition",
+    "summary" : "SQL Server Index Definition"
+  },
+  "system.DmIndex" : {
+    "base.Field" : {
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "constraintName" : {
+        "displayName" : "constraintName",
+        "summary" : "constraintName"
+      },
+      "tableSchema" : {
+        "displayName" : "tableSchema",
+        "summary" : "tableSchema"
+      },
+      "indexName" : {
+        "displayName" : "indexName",
+        "summary" : "indexName"
+      },
+      "columnPosition" : {
+        "displayName" : "columnPosition",
+        "summary" : "columnPosition"
+      },
+      "uniqueness" : {
+        "displayName" : "uniqueness",
+        "summary" : "uniqueness"
+      },
+      "columnName" : {
+        "displayName" : "columnName",
+        "summary" : "columnName"
+      }
+    },
+    "displayName" : "DM Index Definition",
+    "summary" : "DM Index Definition"
+  },
+  "system.OracleColumn" : {
+    "base.Field" : {
+      "sequenceName" : {
+        "displayName" : "sequenceName",
+        "summary" : "sequenceName"
+      },
+      "charLength" : {
+        "displayName" : "charLength",
+        "summary" : "charLength"
+      },
+      "charColDeclLength" : {
+        "displayName" : "charColDeclLength",
+        "summary" : "charColDeclLength"
+      },
+      "characterSetName" : {
+        "displayName" : "characterSetName",
+        "summary" : "characterSetName"
+      },
+      "dataScale" : {
+        "displayName" : "dataScale",
+        "summary" : "dataScale"
+      },
+      "tableSchema" : {
+        "displayName" : "tableSchema",
+        "summary" : "tableSchema"
+      },
+      "columnName" : {
+        "displayName" : "columnName",
+        "summary" : "columnName"
+      },
+      "dataPrecision" : {
+        "displayName" : "dataPrecision",
+        "summary" : "dataPrecision"
+      },
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "nullable" : {
+        "displayName" : "nullable",
+        "summary" : "nullable"
+      },
+      "columnId" : {
+        "displayName" : "columnId",
+        "summary" : "columnId"
+      },
+      "dataLength" : {
+        "displayName" : "dataLength",
+        "summary" : "dataLength"
+      },
+      "defaultValue" : {
+        "displayName" : "defaultValue",
+        "summary" : "defaultValue"
+      },
+      "dataType" : {
+        "displayName" : "dataType",
+        "summary" : "dataType"
+      },
+      "columnComment" : {
+        "displayName" : "columnComment",
+        "summary" : "columnComment"
+      }
+    },
+    "displayName" : "ORACLE Table Column Definition",
+    "summary" : "ORACLE Table Column Definition"
+  },
+  "system.Table" : {
+    "base.Field" : {
+      "tableComment" : {
+        "displayName" : "tableComment",
+        "summary" : "tableComment"
+      },
+      "characterSetName" : {
+        "displayName" : "characterSetName",
+        "summary" : "characterSetName"
+      },
+      "tableCollation" : {
+        "displayName" : "tableCollation",
+        "summary" : "tableCollation"
+      },
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "tableSchema" : {
+        "displayName" : "tableSchema",
+        "summary" : "tableSchema"
+      }
+    },
+    "displayName" : "Table Definition",
+    "summary" : "Table Definition"
+  },
+  "system.Index" : {
+    "base.Field" : {
+      "indexName" : {
+        "displayName" : "indexName",
+        "summary" : "indexName"
+      },
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "unique" : {
+        "displayName" : "unique",
+        "summary" : "unique"
+      },
+      "pk" : {
+        "displayName" : "pk",
+        "summary" : "pk"
+      },
+      "columnName" : {
+        "displayName" : "columnName",
+        "summary" : "columnName"
+      },
+      "seqInIndex" : {
+        "displayName" : "seqInIndex",
+        "summary" : "seqInIndex"
+      },
+      "tableSchema" : {
+        "displayName" : "tableSchema",
+        "summary" : "tableSchema"
+      }
+    },
+    "displayName" : "Index Definition",
+    "summary" : "Index Definition"
+  },
+  "system.Column" : {
+    "base.Field" : {
+      "collationName" : {
+        "displayName" : "collationName",
+        "summary" : "collationName"
+      },
+      "columnType" : {
+        "displayName" : "columnType",
+        "summary" : "columnType"
+      },
+      "defaultValue" : {
+        "displayName" : "defaultValue",
+        "summary" : "defaultValue"
+      },
+      "columnName" : {
+        "displayName" : "columnName",
+        "summary" : "columnName"
+      },
+      "dataType" : {
+        "displayName" : "dataType",
+        "summary" : "dataType"
+      },
+      "tableName" : {
+        "displayName" : "tableName",
+        "summary" : "tableName"
+      },
+      "characterMaximumLength" : {
+        "displayName" : "characterMaximumLength",
+        "summary" : "characterMaximumLength"
+      },
+      "columnComment" : {
+        "displayName" : "columnComment",
+        "summary" : "columnComment"
+      },
+      "ordinalPosition" : {
+        "displayName" : "ordinalPosition",
+        "summary" : "ordinalPosition"
+      },
+      "characterOctetLength" : {
+        "displayName" : "characterOctetLength",
+        "summary" : "characterOctetLength"
+      },
+      "datetimePrecision" : {
+        "displayName" : "datetimePrecision",
+        "summary" : "datetimePrecision"
+      },
+      "extra" : {
+        "displayName" : "extra",
+        "summary" : "extra"
+      },
+      "numericScale" : {
+        "displayName" : "numericScale",
+        "summary" : "numericScale"
+      },
+      "nullable" : {
+        "displayName" : "nullable",
+        "summary" : "nullable"
+      },
+      "numericPrecision" : {
+        "displayName" : "numericPrecision",
+        "summary" : "numericPrecision"
+      },
+      "characterSetName" : {
+        "displayName" : "characterSetName",
+        "summary" : "characterSetName"
+      },
+      "tableSchema" : {
+        "displayName" : "tableSchema",
+        "summary" : "tableSchema"
+      }
+    },
+    "displayName" : "Table Column Definition",
+    "summary" : "Table Column Definition"
+  },
+  "system.ModelTable" : {
+    "base.Field" : {
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      }
+    }
+  },
+  "system.FieldColumn" : {
+    "base.Field" : {
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      }
+    }
+  },
+  "system.ModuleIndex" : {
+    "base.Field" : {
+      "writeDate" : {
+        "displayName" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updater ID"
+      },
+      "createDate" : {
+        "displayName" : "Creation Time"
+      },
+      "createUid" : {
+        "displayName" : "Creator ID"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique auto-increment index"
+      }
+    }
+  }
+}

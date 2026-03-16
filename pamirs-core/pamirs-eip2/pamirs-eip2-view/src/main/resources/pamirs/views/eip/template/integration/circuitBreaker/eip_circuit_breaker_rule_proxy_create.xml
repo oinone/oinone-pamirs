@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" title="创建" model="eip.EipCircuitBreakerRuleProxy" name="熔断配置create">
+<view type="FORM" widget="form" title="创建" model="eip.EipCircuitBreakerRuleProxy" name="EipCircuitBreakerRuleProxyFormCreate">
     <template slot="actions">
         <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
         <action name="create" label="保存" goBack="true" validateForm="true"/>

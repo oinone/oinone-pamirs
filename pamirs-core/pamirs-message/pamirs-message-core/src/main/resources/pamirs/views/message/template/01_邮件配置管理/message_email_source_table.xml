@@ -1,5 +1,4 @@
-<view widget="table" title="邮件服务器" name="邮件服务器table" type="TABLE" model="pamirs.message.EmailSenderSource"
-      excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog" domain="type=='EMAIL_SEND'">
+<view widget="table" title="邮件服务器" name="EmailSenderSourceTable" type="TABLE" model="pamirs.message.EmailSenderSource">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="pamirs.message.EmailSenderSource" text="创建"/>
         <action name="delete" label="删除" model="pamirs.message.EmailSenderSource" text="删除"/>

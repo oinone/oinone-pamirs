@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.meta.api.core.orm.systems.enums;
 
 import org.springframework.core.annotation.AnnotationUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Errors;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
@@ -53,9 +54,9 @@ public class BaseErrorsProcessor implements ErrorsProcessor<ErrorsDefinition> {
         Errors errors = AnnotationUtils.getAnnotation(enumClass, Errors.class);
         String displayName = Optional.ofNullable(errors).map(Errors::displayName).orElse(enumClass.getSimpleName());
         String summary = Optional.ofNullable(errors).map(Errors::summary).orElse(null);
-        errorsDefinition.setDisplayName(displayName)
-                .setSummary(summary)
-                .setClazz(clazz)
+        errorsDefinition.setDisplayName(I18nUtils.translateErrorDefinition(clazz, "displayName", displayName));
+        errorsDefinition.setSummary(I18nUtils.translateErrorDefinition(clazz, "summary", summary));
+        errorsDefinition.setClazz(clazz)
                 .setModule(module)
                 .setSystemSource(source)
         ;
@@ -85,7 +86,7 @@ public class BaseErrorsProcessor implements ErrorsProcessor<ErrorsDefinition> {
                 errorDefinition.setName(one.name())
                         .setClazz(errorClazz)
                         .setCode(TypeUtils.stringValueOf(one.value()))
-                        .setMsg(one.help())
+                        .setMsg(I18nUtils.translateErrorDefinitionItem(errorClazz, one.name(), "msg", one.help()))
                         .setType(ErrorTypeEnum.valueOf(((ExpBaseEnum) one).type().name()))
                         .setState(ActiveEnum.ACTIVE)
                         .setSystemSource(source);

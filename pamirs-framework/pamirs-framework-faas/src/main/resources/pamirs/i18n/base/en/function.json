@@ -1,0 +1,513 @@
+{
+  "base.ExpressionDefinition": {
+    "doExecute": {
+      "displayName": "Execute API"
+    },
+    "doExecuteList": {
+      "displayName": "Batch execution API"
+    },
+    "doValidate": {
+      "displayName": "Verification API"
+    },
+    "doValidateList": {
+      "displayName": "Batch verification API"
+    },
+    "execute": {
+      "displayName": "Execute"
+    },
+    "executeList": {
+      "displayName": "Batch execution"
+    },
+    "validate": {
+      "displayName": "Verification"
+    },
+    "validateList": {
+      "displayName": "Batch verification"
+    }
+  },
+  "expression": {
+    "ABS": {
+      "displayName": "absolute value",
+      "description": "Function example: ABS(number) \nFunction description: Get the absolute value of number"
+    },
+    "ADD": {
+      "displayName": "Add",
+      "description": "Function example: ADD(A,B) \nFunction description: Add A and B"
+    },
+    "ADD_DAY": {
+      "displayName": "Add or subtract specified days",
+      "description": "Function example: ADD_DAY(date,days) \nFunction description: Add/subtract the specified number of days to the specified date, date is the specified date, and days is the specified number of days. When it is a negative number, subtract the number of days from the date."
+    },
+    "ADD_MONTH": {
+      "displayName": "Add or subtract specified months",
+      "description": "Function example: ADD_MONTH(date, months)\nDescription: Add/subtract specified months to/from date, if negative, subtract months from date"
+    },
+    "ADD_WORK_DAY": {
+      "displayName": "Add or subtract working days (skip weekends)",
+      "description": "Function example: ADD_WORK_DAY(date, days)\nDescription: Add/subtract specified days to/from working days (skip weekends)"
+    },
+    "ADD_YEAR": {
+      "displayName": "Add or subtract specified years",
+      "description": "Function example: ADD_YEAR(date, years)\nDescription: Add/subtract specified years to/from date"
+    },
+    "AND": {
+      "displayName": "logical AND",
+      "description": "Function example: AND(A,B) \nFunction description: Returns the logical AND value of condition A and condition B"
+    },
+    "AVG": {
+      "displayName": "average",
+      "description": "Function example: AVG(collection) \nFunction description: Returns the average value of the collection. The parameter collection is a collection or array."
+    },
+    "BETWEEN_AND": {
+      "displayName": "scope",
+      "description": "Function example: BETWEEN_AND(arg, 'a,b') \nFunction description: Determine whether arg is between a and b (left closed, right closed)"
+    },
+    "CEIL": {
+      "displayName": "round up",
+      "description": "Function example: CEIL(number) \nFunction description: Round number up"
+    },
+    "CHECK_CHINESE": {
+      "displayName": "Validate Chinese format",
+      "description": "Function example: CHECK_CHINESE(text)\nDescription: Validate if it matches Chinese rules"
+    },
+    "CHECK_CODE": {
+      "displayName": "Validate encoding",
+      "description": "Function example: CHECK_CODE(text)\nDescription: Can only consist of English letters, numbers, and underscores"
+    },
+    "CHECK_CONTAINS_CHINESE": {
+      "displayName": "Whether to include Chinese verification",
+      "description": "Function example: CHECK_CONTAINS_CHINESE(text) \nFunction description: Verify whether it contains Chinese rules"
+    },
+    "CHECK_EMAIL": {
+      "displayName": "Validate email format",
+      "description": "Function example: CHECK_EMAIL(text)\nDescription: Validate if it matches email rules"
+    },
+    "CHECK_ENG_NUM": {
+      "displayName": "Check format",
+      "description": "Function example: CHECK_ENG_NUM(text) \nFunction description: Can only contain English and numbers"
+    },
+    "CHECK_ID_CARD": {
+      "displayName": "Verify Chinese ID card format",
+      "description": "Function example: CHECK_ID_CARD(text) \nFunction description: Verify whether it complies with the rules of Chinese ID card"
+    },
+    "CHECK_INTEGER": {
+      "displayName": "Check integer format",
+      "description": "Function example: CHECK_INTEGER(text) \nFunction description: Verify whether it conforms to the rules of integers"
+    },
+    "CHECK_IP": {
+      "displayName": "IP address validation",
+      "description": "Function example: CHECK_IP(text)\nDescription: IP address validation"
+    },
+    "CHECK_MAX_SIZE": {
+      "displayName": "Check character range",
+      "description": "Function example: CHECK_MAX_SIZE(text)\nDescription: Enter at most m characters"
+    },
+    "CHECK_MIN_SIZE": {
+      "displayName": "Validate character range",
+      "description": "Function example: CHECK_MIN_SIZE(text)\nDescription: Enter at least m characters"
+    },
+    "CHECK_NUMBER": {
+      "displayName": "Validate number format",
+      "description": "Function example: CHECK_NUMBER(text)\nDescription: Validate if it matches number rules"
+    },
+    "CHECK_PHONE": {
+      "displayName": "Verify mobile phone number",
+      "description": "Function example: CHECK_PHONE(text) \nFunction description: Verify whether it complies with the rules of mobile phone number"
+    },
+    "CHECK_PWD": {
+      "displayName": "Strong password validation",
+      "description": "Function example: CHECK_PWD(text)\nDescription: Validate if it matches strong password rules"
+    },
+    "CHECK_SIZE": {
+      "displayName": "Check character range",
+      "description": "Function example: CHECK_SIZE(text) \nFunction description: Enter m characters"
+    },
+    "CHECK_SIZE_RANGE": {
+      "displayName": "Validate character range",
+      "description": "Function example: CHECK_SIZE_RANGE(text)\nDescription: Enter at most m characters"
+    },
+    "CHECK_TWO_DIG": {
+      "displayName": "Verify if there are two decimal places",
+      "description": "Function example: CHECK_TWO_DIG(text) \nFunction description: Verify whether there are two decimal places"
+    },
+    "CHECK_URL": {
+      "displayName": "Validate URL format",
+      "description": "Function example: CHECK_URL(text)\nDescription: Validate if it matches URL rules"
+    },
+    "CHECK_USER_NAME": {
+      "displayName": "Validate username",
+      "description": "Function example: CHECK_USER_NAME(text)\nDescription: Validate if it matches username rules"
+    },
+    "CONCAT": {
+      "description": "Function example: CONCAT(list, split)\nDescription: Concatenate a string collection using separator, return concatenated string"
+    },
+    "CONTAINS": {
+      "displayName": "Contain",
+      "description": "Function example: CONTAINS(text, subtext)\nDescription: Check if text contains subtext, empty text is treated as empty string"
+    },
+    "COS": {
+      "displayName": "cosine",
+      "description": "Function example: COS(number) \nFunction description: Take the cosine of number"
+    },
+    "COUNT": {
+      "displayName": "Count",
+      "description": "Function example: COUNT(collection)\nDescription: Return total number of collection, collection is collection or array"
+    },
+    "COUNT_DAY": {
+      "displayName": "Days between dates",
+      "description": "Function example: COUNT_DAY(date1, date2)\nDescription: Calculate interval days between two dates, date1 - date2"
+    },
+    "CURRENT_CORP": {
+      "displayName": "Get the current user's company",
+      "description": "Function example: CURRENT_CORP() \nFunction description: Get the current user’s company"
+    },
+    "CURRENT_CORP_ID": {
+      "displayName": "Get current user's company ID",
+      "description": "Function example: CURRENT_CORP_ID()\nDescription: Get current user's company ID"
+    },
+    "CURRENT_DEPARTMENT": {
+      "displayName": "Get current user's department",
+      "description": "Function example: CURRENT_DEPARTMENT()\nDescription: Get current user's department"
+    },
+    "CURRENT_DEPARTMENT_CODE": {
+      "displayName": "Get the current user department code",
+      "description": "Function example: CURRENT_DEPARTMENT_CODE() \nFunction description: Get the current user department code"
+    },
+    "CURRENT_PARTNER": {
+      "displayName": "Get the current user's partners",
+      "description": "Function example: CURRENT_PARTNER() \nFunction description: Get the current user’s partners"
+    },
+    "CURRENT_PARTNER_ID": {
+      "displayName": "Get the current user's partner id",
+      "description": "Function example: CURRENT_PARTNER_ID() \nFunction description: Get the partner id of the current user"
+    },
+    "CURRENT_ROLES": {
+      "displayName": "Get current user's role list",
+      "description": "Function example: CURRENT_ROLES()\nDescription: Get current user's role list"
+    },
+    "CURRENT_ROLE_IDS": {
+      "displayName": "Get the current user's role ID list",
+      "description": "Function example: CURRENT_ROLE_IDS() \nFunction description: Get the current user's role ID list"
+    },
+    "CURRENT_SHOP": {
+      "displayName": "Get current user's shop",
+      "description": "Function example: CURRENT_SHOP()\nDescription: Get current user's shop"
+    },
+    "CURRENT_SHOP_ID": {
+      "displayName": "Get the current user's store ID",
+      "description": "Function example: CURRENT_SHOP_ID() \nFunction description: Get the current user’s store ID"
+    },
+    "CURRENT_UID": {
+      "displayName": "Get current user ID",
+      "description": "Function example: CURRENT_UID()\nDescription: Get current user ID"
+    },
+    "CURRENT_USER": {
+      "displayName": "Get current user",
+      "description": "Function example: CURRENT_USER() \nFunction description: Get the current user"
+    },
+    "CURRENT_USER_NAME": {
+      "displayName": "Get current username",
+      "description": "Function example: CURRENT_USER_NAME()\nDescription: Get current user's username"
+    },
+    "DATE_EQUALS": {
+      "displayName": "equal",
+      "description": "Function example: DATE_EQUALS(date1,date2) \nFunction description: Compare the size of two dates, return true when date1 == date2"
+    },
+    "DAY": {
+      "displayName": "Withdrawal date",
+      "description": "Function example: DAY(date) \nFunction description: Extraction date"
+    },
+    "DIVIDE": {
+      "displayName": "Divide",
+      "description": "Function example: DIVIDE(A, B)\nDescription: Divide A by B"
+    },
+    "ENDS_WITH": {
+      "displayName": "Whether to end with the specified string",
+      "description": "Function example: ENDS_WITH(text,start) \nFunction description: Determine whether the text string text ends with the text string end. If the text is empty, it will be processed as an empty string."
+    },
+    "EQUALS": {
+      "displayName": "Determine whether they are equal",
+      "description": "Function example: EQUALS(A,B) \nFunction description: Determine whether A and B are equal"
+    },
+    "FIELD_GET": {
+      "displayName": "Get object property value by field code",
+      "description": "Function example: FIELD_GET(obj, model, dotExpression)\nDescription: Get property value from object by field code dot expression"
+    },
+    "FLOOR": {
+      "displayName": "Round down",
+      "description": "Function example: FLOOR(number)\nDescription: Round number down"
+    },
+    "GET": {
+      "displayName": "Get object property value",
+      "description": "Function example: GET(obj,dotExpression) \nFunction description: Get attribute values from objects based on attribute point expressions"
+    },
+    "GREATER_EQUAL": {
+      "displayName": "Greater than or equal to",
+      "description": "Function example: GREATER_EQUAL(date1,date2) \nFunction description: Compare the size of two dates, return true when date1 >= date2"
+    },
+    "GREATER_THAN": {
+      "displayName": "greater than",
+      "description": "Function example: GREATER_THAN(date1,date2) \nFunction description: Compare the size of two dates, return true when date1 > date2"
+    },
+    "IF": {
+      "displayName": "conditional function",
+      "description": "Function example: IF(A,B,C) \nFunction description: If IF meets condition A, it returns B, otherwise it returns C. It supports multi-level nested IF functions."
+    },
+    "INDEXOF": {
+      "displayName": "Return first occurrence of substring",
+      "description": "Function example: INDEXOF(\"a,b,c\", \"b\") returns 1\nDescription: Return first occurrence of substring"
+    },
+    "IS_BLANK": {
+      "displayName": "Whether it is an empty string",
+      "description": "Function example: IS_BLANK(text) \nFunction description: Determine whether the text string text is empty"
+    },
+    "IS_NULL": {
+      "displayName": "Check if empty",
+      "description": "Function example: IS_NULL(text or control)\nDescription: Check if text or control is empty, return true if empty, false if not"
+    },
+    "JOIN": {
+      "displayName": "Concatenate string",
+      "description": "Function example: JOIN(text, join)\nDescription: Concatenate text string with join string, empty text is treated as empty string"
+    },
+    "JSON": {
+      "displayName": "Serialize record to JSON string",
+      "description": "Function example: JSON(object)\nDescription: Serialize record object to JSON string"
+    },
+    "LEN": {
+      "displayName": "Get string length",
+      "description": "Function example: LEN(text) \nFunction description: Get the length of the text string text. When the text is empty, it will be processed as an empty string."
+    },
+    "LESS_EQUAL": {
+      "displayName": "less than or equal to",
+      "description": "Function example: LESS_EQUAL(date1,date2) \nFunction description: Compare the size of two dates, return true when date1 <= date2"
+    },
+    "LESS_THAN": {
+      "displayName": "Less than",
+      "description": "Function example: LESS_THAN(date1, date2)\nDescription: Compare two dates, return true if date1 < date2"
+    },
+    "LIST_ADD": {
+      "displayName": "Add element to collection (or array)",
+      "description": "Function example: LIST_ADD(list, item)\nDescription: Add element item to collection list"
+    },
+    "LIST_ADD_BY_INDEX": {
+      "displayName": "Adds an element to a collection (or array) at a specified position",
+      "description": "Function example: LIST_ADD_BY_INDEX(list,index,item) \nFunction description: Add the element item to the index of the collection list"
+    },
+    "LIST_AND": {
+      "displayName": "Perform a logical AND operation on a Boolean set",
+      "description": "Function example: LIST_AND(list) \nFunction description: Perform a logical AND operation on a Boolean set and return a Boolean value"
+    },
+    "LIST_CONTAINS": {
+      "displayName": "Check if collection (or array) contains element",
+      "description": "Function example: LIST_CONTAINS(list, item)\nDescription: Check if collection list contains element item"
+    },
+    "LIST_COUNT": {
+      "displayName": "Get the number of elements in a collection (or array)",
+      "description": "Function example: LIST_COUNT(list)\nDescription: Pass an object collection, get the number of elements in the collection"
+    },
+    "LIST_FIELD_EQUALS": {
+      "displayName": "Determine the matching of attribute values ​​in an object collection (or array)",
+      "description": "Function example: LIST_FIELD_EQUALS(list,model,field,value) \nFunction description: Determine the matching of attribute values in the object collection (or array) and return a Boolean collection"
+    },
+    "LIST_FIELD_IN": {
+      "displayName": "Determine whether the attribute value in the object collection (or array) is in the specified collection (or array)",
+      "description": "Function example: LIST_FIELD_IN(list,model,field,list) \nFunction description: Determine whether the attribute value in the object collection (or array) is in the specified collection (or array) and return a Boolean collection"
+    },
+    "LIST_FIELD_NOT_EQUALS": {
+      "displayName": "Determine attribute value mismatch in object collection (or array)",
+      "description": "Function example: LIST_FIELD_NOT_EQUALS(list, model, field, value)\nDescription: Determine attribute value mismatch in object collection (or array), return boolean collection"
+    },
+    "LIST_FIELD_NOT_IN": {
+      "displayName": "Determine whether the attribute value in the object collection (or array) is not in the specified collection (or array)",
+      "description": "Function example: LIST_FIELD_NOT_IN(list,model,field,list) \nFunction description: Determine whether the attribute value in the object collection (or array) is not in the specified collection (or array), and return a Boolean collection"
+    },
+    "LIST_FIELD_VALUES": {
+      "displayName": "Convert a collection of objects into a collection of properties",
+      "description": "Function example: LIST_FIELD_VALUES(list,model,field) \nFunction description: Pass in a collection of objects, the model and attribute fields of the object, and return a collection of attribute values."
+    },
+    "LIST_GET": {
+      "displayName": "Get collection (or array) elements",
+      "description": "Function example: LIST_GET(list,index) \nFunction description: Get the element whose index is the numeric index in the collection list"
+    },
+    "LIST_IDS": {
+      "displayName": "Get all ids in the collection",
+      "description": "Function example: LIST_IDS(list) \nFunction description: Pass in a collection of objects and obtain a list of all IDs in the collection."
+    },
+    "LIST_IS_EMPTY": {
+      "displayName": "Check if collection (or array) is empty",
+      "description": "Function example: LIST_IS_EMPTY(list)\nDescription: Check if object collection is empty"
+    },
+    "LIST_OR": {
+      "displayName": "Logically OR a Boolean set",
+      "description": "Function example: LIST_OR(list) \nFunction description: Perform a logical OR operation on a Boolean set and return a Boolean value"
+    },
+    "LIST_REMOVE": {
+      "displayName": "Remove element from collection (or array)",
+      "description": "Function example: LIST_REMOVE(list, item)\nDescription: Remove element item from collection list"
+    },
+    "LOG": {
+      "displayName": "Logarithmic operations",
+      "description": "Function example: LOG(a, b) \nFunction description: Calculate the logarithm with base b: log b(a)"
+    },
+    "LOWER": {
+      "displayName": "lower case",
+      "description": "Function example: LOWER(text) \nFunction description: lowercase text string text"
+    },
+    "MAP_CONTAINS_KEY": {
+      "displayName": "Determine whether a key-value pair contains a key",
+      "description": "Function example: MAP_CONTAINS_KEY(map,key) \nFunction description: Determine whether the key-value pair map contains key key"
+    },
+    "MAP_COUNT": {
+      "displayName": "Get the number of keys",
+      "description": "Function example: MAP_COUNT(map)\nDescription: Get the number of key-value pairs in map"
+    },
+    "MAP_GET": {
+      "displayName": "Get value of specified key from key-value pair",
+      "description": "Function example: MAP_GET(map, key)\nDescription: Get value with key from key-value pair"
+    },
+    "MAP_IS_EMPTY": {
+      "displayName": "Check if key-value pair is empty",
+      "description": "Function example: MAP_IS_EMPTY(map)\nDescription: Check if key-value pair map is empty"
+    },
+    "MAP_PUT": {
+      "displayName": "Add key-value to key-value pair",
+      "description": "Function example: MAP_PUT(map,key,value) \nFunction description: Add the key as key and the value as value to the key-value pair map"
+    },
+    "MAP_REMOVE": {
+      "displayName": "Remove elements from a key-value pair",
+      "description": "Function example: MAP_REMOVE(map,key) \nFunction description: Remove the key key from the key-value pair map"
+    },
+    "MATCHES": {
+      "displayName": "Regular expression match",
+      "description": "Function example: MATCHES(text, regex)\nDescription: Validate if string satisfies regular expression match, e.g., regex is [a-zA-Z][a-zA-Z0-9]*$"
+    },
+    "MAX": {
+      "displayName": "Take the maximum value",
+      "description": "Function example: MAX(collection) \nFunction description: Returns the maximum value in the collection, the parameter collection is a collection or array"
+    },
+    "MIN": {
+      "displayName": "Take the minimum value",
+      "description": "Function example: MIN(collection) \nFunction description: Returns the minimum value in the collection, the parameter collection is a collection or array"
+    },
+    "MOD": {
+      "displayName": "Take remainder",
+      "description": "Function example: MOD(A,B) \nFunction description: A takes the remainder of B"
+    },
+    "MONTH": {
+      "displayName": "Extract month",
+      "description": "Function example: MONTH(date)\nDescription: Extract month"
+    },
+    "MULTIPLY": {
+      "displayName": "product",
+      "description": "Function example: MULTIPLY(A,B) \nFunction description: Multiply A and B"
+    },
+    "NNZ_SUBTRACT": {
+      "displayName": "Subtract difference is non-negative",
+      "description": "Function example: NNZ_SUBTRACT(A, B)\nDescription: Subtract B from A, if difference >= 0 use difference, if < 0 set to 0"
+    },
+    "NOT": {
+      "displayName": "logical negation",
+      "description": "Function example: NOT(A) \nFunction description: Returns the value of logical negation condition A"
+    },
+    "NOT_CONTAINS": {
+      "displayName": "Not contain",
+      "description": "Function example: NOT_CONTAINS(text, subtext)\nDescription: Check if text does not contain subtext, empty text is treated as empty string"
+    },
+    "NOW": {
+      "displayName": "Return current time",
+      "description": "Function example: NOW() \nFunction description: Return the current time"
+    },
+    "NOW_STR": {
+      "displayName": "Returns the current time string",
+      "description": "Function example: NOW_STR() \nFunction description: Returns the current time string, accurate to hours, minutes and seconds, in the format of yyyy-MM-dd hh:mm:ss"
+    },
+    "OR": {
+      "displayName": "logical or",
+      "description": "Function example: OR(A,B) \nFunction description: Returns the logical OR value of condition A and condition B"
+    },
+    "PARSE": {
+      "displayName": "Deserialize JSON string",
+      "description": "Function example: PARSE(text)\nDescription: Deserialize JSON text string to collection or map"
+    },
+    "PI": {
+      "displayName": "pi",
+      "description": "Function example: PI() \nFunction description: pi"
+    },
+    "POW": {
+      "displayName": "Exponentiation",
+      "description": "Function example: POW(a, b) \nFunction description: Calculate a raised to the power b"
+    },
+    "REPLACE": {
+      "displayName": "Replace string",
+      "description": "Function example: REPLACE(text, oldtext, newtext)\nDescription: Replace oldtext with newtext in text"
+    },
+    "ROUND": {
+      "displayName": "rounding",
+      "description": "Function example: ROUND(number) \nFunction description: Round number"
+    },
+    "SIN": {
+      "displayName": "sine",
+      "description": "Function example: SIN(number) \nFunction description: Take the sine of number"
+    },
+    "SPLIT": {
+      "displayName": "Split string into collection by separator",
+      "description": "Function example: SPLIT(\"a,b,c\", \",\") returns array [\"a\", \"b\", \"c\"]\nDescription: Split string into collection by separator"
+    },
+    "SQRT": {
+      "displayName": "Square root",
+      "description": "Function example: SQRT(number) \nFunction description: Take the square root of number"
+    },
+    "STARTS_WITH": {
+      "displayName": "Whether to start with the specified string",
+      "description": "Function example: STARTS_WITH(text,start) \nFunction description: Determine whether the text string text starts with the text string start. If the text is empty, it will be processed as an empty string."
+    },
+    "SUBSTRING": {
+      "displayName": "Substring from specified position",
+      "description": "Function example: SUBSTRING(\"Hello\", 1, 3) returns \"ell\"\nDescription: Substring from specified position"
+    },
+    "SUBSTRING_END": {
+      "displayName": "Intercept the substring from the specified position to the end",
+      "description": "Function example: SUBSTRING_END(\"Hello\", 1) returns \"ello\" Function description: intercepts the substring from the specified position to the end"
+    },
+    "SUBTRACT": {
+      "displayName": "Subtract",
+      "description": "Function example: SUBTRACT(A,B) \nFunction description: Subtract A from B"
+    },
+    "SUB_DATETIME_TO_DDHHMMSS": {
+      "displayName": "Time subtraction (get: DD days HH hours MM minutes SS seconds)",
+      "description": "Function example: SUB_DATETIME_TO_DDHHMMSS(endDateTime, startDateTime)\nDescription: Subtract specified time to get DD days HH hours MM minutes SS seconds, endDateTime is end time, startDateTime is start time"
+    },
+    "SUB_DATETIME_TO_SECOND": {
+      "displayName": "Time subtraction (get seconds)",
+      "description": "Function example: SUB_DATE_TO_SECOND(endDateTime, startDateTime)\nDescription: Subtract specified time to get seconds, endDateTime is end time, startDateTime is start time"
+    },
+    "SUM": {
+      "displayName": "Sum",
+      "description": "Function example: SUM(collection) \nFunction description: Returns the sum of collections. The parameter collection is a collection or array."
+    },
+    "TODAY_STR": {
+      "displayName": "Returns today's date string",
+      "description": "Function example: TODAY_STR() \nFunction description: Returns today’s date string, accurate to the day, in the format of yyyy-MM-dd"
+    },
+    "TO_DATE": {
+      "displayName": "Convert to time",
+      "description": "Function example: TO_DATE(date,pattern) \nFunction description: Convert date string to time according to format"
+    },
+    "TRIM": {
+      "displayName": "Filter leading and trailing spaces",
+      "description": "Function example: TRIM(text)\nDescription: Remove leading and trailing spaces from text"
+    },
+    "UPPER": {
+      "displayName": "Uppercase",
+      "description": "Function example: UPPER(text)\nDescription: Uppercase text string"
+    },
+    "UPPER_MONEY": {
+      "displayName": "Amount in capital letters",
+      "description": "Function example: UPPER_MONEY(number) \nFunction description: Returns the upper case of the amount. The parameter number is a numerical value or a string of numerical type."
+    },
+    "YEAR": {
+      "displayName": "Extraction year",
+      "description": "Function example: YEAR(date) \nFunction description: Extract year"
+    }
+  }
+}

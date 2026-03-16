@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" model="pamirs.eip.EipSceneDefinitionProxy" name="场景form" submit="all" excluded-actions="generateInstance">
+<view type="FORM" widget="form" model="pamirs.eip.EipSceneDefinitionProxy" name="EipSceneDefinitionProxyFormBase" submit="all" excluded-actions="generateInstance">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

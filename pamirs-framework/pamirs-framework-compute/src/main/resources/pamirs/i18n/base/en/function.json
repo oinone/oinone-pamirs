@@ -1,0 +1,61 @@
+{
+  "constraint": {
+    "checkDslExpression": {
+      "displayName": "Validate DSL format"
+    },
+    "checkFieldConfig": {
+      "displayName": "Validation field api name (allows to contain '#')"
+    },
+    "checkFieldName": {
+      "displayName": "Validate field API name"
+    },
+    "checkModelName": {
+      "displayName": "Verify model api name"
+    },
+    "checkColumnName": {
+      "displayName": "Validate column name"
+    },
+    "checkComma": {
+      "displayName": "Validate comma expression"
+    },
+    "checkDotExpression": {
+      "displayName": "Checkpoint Expression"
+    },
+    "checkExpression": {
+      "displayName": "Verify expression format"
+    },
+    "checkFieldField": {
+      "displayName": "Checksum Field Encoding"
+    },
+    "checkLtype": {
+      "displayName": "Verification code type"
+    },
+    "checkLtypeT": {
+      "displayName": "Verify code generic types"
+    },
+    "checkModelModel": {
+      "displayName": "Verify model code"
+    },
+    "checkModuleAbbr": {
+      "displayName": "Checksum module abbreviation"
+    },
+    "checkModuleModule": {
+      "displayName": "Checksum module code"
+    },
+    "checkModuleVersion": {
+      "displayName": "Check module version number"
+    },
+    "checkRequired": {
+      "displayName": "Validation required"
+    },
+    "checkRsqlExpression": {
+      "displayName": "Verify the format of query conditions"
+    },
+    "checkRuleExpression": {
+      "displayName": "Validation rule format"
+    },
+    "checkTableName": {
+      "displayName": "Verify table name"
+    }
+  }
+}

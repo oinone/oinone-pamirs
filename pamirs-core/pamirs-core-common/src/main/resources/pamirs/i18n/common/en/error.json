@@ -1,0 +1,15 @@
+{
+  "pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate" : {
+    "DATA_STATUS_ENABLED_TO_ENABLED_ERROR" : "Enabled, cannot repeat operation",
+    "DATA_STATUS_DISABLED_TO_DISABLED_ERROR" : "Disabled, cannot repeat operation",
+    "UNSUPPORTED_OPERATION_ERROR" : "Operation not allowed",
+    "DATA_STATUS_DRAFT_TO_ENABLED_ERROR" : "Draft status cannot be enabled",
+    "PK_UNIQUE_HAS_NULL" : "The values of the primary key and unique key cannot meet the update requirements. Enter at least 1 group primary key or unique key to update the key.",
+    "DELETE_PK_UNIQUE_HAS_NULL" : "The values of the primary key and unique key cannot meet the deletion requirements. Enter at least 1 group primary key or unique key to delete the key.",
+    "SELECT_NULL" : "No data row selected",
+    "SYSTEM_ERROR" : "Unhandled system exception",
+    "DATA_STATUS_DRAFT_TO_DISABLED_ERROR" : "Draft status cannot be disabled",
+    "PLEASE_REFRESH_PAGE" : "Please refresh the page and try again.",
+    "displayName" : "Public Package Error Enumeration"
+  }
+}

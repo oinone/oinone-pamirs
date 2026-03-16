@@ -45,26 +45,26 @@ public class EipMetadataEditor implements MetaDataEditor {
     }
 
     private void createViewAction(InitializationUtil util) {
-        util.createViewAction("eipSceneGenerateInstance", "生成实例", EipSceneDefinitionProxy.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipSceneDefinitionProxy.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, util.getViewNameByViewLoader("场景生成实例form", useModuleSuffix), null);
-        util.createViewAction("eipSceneInstanceUpdateTask", "更新定时配置", EipSceneInstance.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipSceneInstanceProxy.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, util.getViewNameByViewLoader("实例更新定时任务form", useModuleSuffix), null);
-        util.createViewAction("eipSceneInstanceUpdateIncUpdateLog", "更新增量配置", EipSceneInstance.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipSceneInstanceProxy.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, util.getViewNameByViewLoader("实例更新增量日志form", useModuleSuffix), null);
-        util.createViewAction("eipSceneInstanceTestCall", "调用测试", EipSceneInstance.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipSceneInstanceProxy.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, util.getViewNameByViewLoader("实例调用测试form", useModuleSuffix), null);
+        util.createViewAction("eipSceneGenerateInstance", "生成实例", EipSceneDefinitionProxy.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipSceneDefinitionProxy.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "EipSceneDefinitionProxyFormInstance", null);
+        util.createViewAction("eipSceneInstanceUpdateTask", "更新定时配置", EipSceneInstance.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipSceneInstanceProxy.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "EipSceneInstanceProxyFormTimer", null);
+        util.createViewAction("eipSceneInstanceUpdateIncUpdateLog", "更新增量配置", EipSceneInstance.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipSceneInstanceProxy.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "EipSceneInstanceProxyFormLog", null);
+        util.createViewAction("eipSceneInstanceTestCall", "调用测试", EipSceneInstance.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipSceneInstanceProxy.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "EipSceneInstanceProxyFormTest", null);
     }
 
     private void modifyViewAction(InitializationUtil util) {
 
         util.modifyViewAction(EipSceneDefinitionProxy.MODEL_MODEL, InitializationUtil.DEFAULT_CREATE, viewAction ->
-                viewAction.setViewType(ViewTypeEnum.FORM).setResView(util.getView(EipSceneDefinitionProxy.MODEL_MODEL, "场景form")));
+                viewAction.setViewType(ViewTypeEnum.FORM).setResView(util.getView(EipSceneDefinitionProxy.MODEL_MODEL, "EipSceneDefinitionProxyFormBase")));
         util.modifyViewAction(EipSceneDefinitionProxy.MODEL_MODEL, InitializationUtil.DEFAULT_UPDATE, viewAction ->
-                viewAction.setViewType(ViewTypeEnum.FORM).setResView(util.getView(EipSceneDefinitionProxy.MODEL_MODEL, "场景form")));
+                viewAction.setViewType(ViewTypeEnum.FORM).setResView(util.getView(EipSceneDefinitionProxy.MODEL_MODEL, "EipSceneDefinitionProxyFormBase")));
 
     }
 
     private void editInterfaceViewAction(InitializationUtil util) {
-        util.createViewAction("集成接口创建form", "创建", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipIntegrationInterfaceEdit.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.ROUTER, "集成接口创建form", null);
-        util.createViewAction("集成接口修改form", "编辑", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipIntegrationInterfaceEdit.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "集成接口修改form", "context.activeRecord.dataStatus == 'NOT_ENABLED' || context.activeRecord.dataStatus == 'DISABLED'");
-        util.createViewAction("集成接口详情detail", "详情", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipIntegrationInterfaceEdit.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "集成接口详情detail", null);
-        util.createViewAction("集成接口复制form", "复制", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipIntegrationInterfaceEdit.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "集成接口复制form", null);
+        util.createViewAction("EipIntegrationInterfaceActionCreate", "创建", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipIntegrationInterfaceEdit.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.ROUTER, "EipIntegrationInterfaceEditFormCreate", null);
+        util.createViewAction("EipIntegrationInterfaceActionModify", "编辑", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipIntegrationInterfaceEdit.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "EipIntegrationInterfaceEditFormModify", "context.activeRecord.dataStatus == 'NOT_ENABLED' || context.activeRecord.dataStatus == 'DISABLED'");
+        util.createViewAction("EipIntegrationInterfaceActionDetail", "详情", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipIntegrationInterfaceEdit.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "EipIntegrationInterfaceEditDetail", null);
+        util.createViewAction("EipIntegrationInterfaceActionCopy", "复制", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipIntegrationInterfaceEdit.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "EipIntegrationInterfaceEditFormCopy", null);
 
         util.createViewAction("redirectTestPage", "测试", EipIntegrationInterface.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), EipInterfaceTestTransient.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "integration_interface_test_form", null);
     }

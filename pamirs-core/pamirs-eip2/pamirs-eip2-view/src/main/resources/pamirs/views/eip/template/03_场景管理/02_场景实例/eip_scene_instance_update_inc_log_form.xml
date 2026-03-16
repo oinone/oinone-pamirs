@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" model="pamirs.eip.EipSceneInstanceProxy" name="实例更新增量日志form" submit="all" excluded-actions="create,update,updateTask,testCall">
+<view type="FORM" widget="form" model="pamirs.eip.EipSceneInstanceProxy" name="EipSceneInstanceProxyFormLog" submit="all" excluded-actions="create,update,updateTask,testCall">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action label="确定" actionType="COMPOSITION" model="pamirs.eip.EipSceneInstanceProxy" displayName="确定">

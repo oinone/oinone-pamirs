@@ -1,4 +1,4 @@
-<view widget="table" title="邮件模板" name="邮件模板table" type="TABLE" model="pamirs.message.EmailTemplate"
+<view widget="table" title="邮件模板" name="EmailTemplateTable" type="TABLE" model="pamirs.message.EmailTemplate"
       excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="pamirs.message.EmailTemplate" text="创建"/>

@@ -1,4 +1,4 @@
-<view widget="form" type="FORM" model="resource.ResourceDistrict" name="区form" title="区" priority="10">
+<view widget="form" type="FORM" model="resource.ResourceDistrict" name="ResourceDistrictFormBase" title="区" priority="10">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" invisible="activeRecord.id &gt; 0" model="resource.ResourceDistrict" goBack="true" validateForm="true" tag="contextFreeAction"/>

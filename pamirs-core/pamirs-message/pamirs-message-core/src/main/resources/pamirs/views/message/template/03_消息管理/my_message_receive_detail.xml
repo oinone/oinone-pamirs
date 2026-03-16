@@ -1,4 +1,4 @@
-<view widget="detail" type="DETAIL" name="消息列表detail" title="消息详情" model="pamirs.message.UnreadMessage">
+<view widget="detail" type="DETAIL" name="UnreadMessageDetail" title="消息详情" model="pamirs.message.UnreadMessage">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

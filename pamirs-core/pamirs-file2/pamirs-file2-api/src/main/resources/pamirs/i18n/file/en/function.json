@@ -1,0 +1,49 @@
+{
+  "file.ExcelImportTask": {
+    "m2mImport": {
+      "displayName": "m2m import"
+    },
+    "o2mImport": {
+      "displayName": "o2m import"
+    },
+    "createImportTask": {
+      "displayName": "Import"
+    }
+  },
+  "file.ExcelWorkbookDefinition": {
+    "fetchImportTemplateUrl": {
+      "displayName": "Get import template URL"
+    },
+    "fetchImportTemplateUrlByName": {
+      "displayName": "Get import template URL by model and name"
+    },
+    "queryByEntity": {
+      "displayName": "Query the specified Excel workbook definition"
+    },
+    "queryPage": {
+      "displayName": "Query Excel workbook definition list"
+    },
+    "create": {
+      "displayName": "Create"
+    },
+    "update": {
+      "displayName": "Update"
+    }
+  },
+  "file.ExcelExportTask": {
+    "createExportTask": {
+      "displayName": "Export"
+    },
+    "prepareCreateExportTask": {
+      "displayName": "Export Task Preprocessing"
+    }
+  },
+  "file.ResourceFileForm": {
+    "downloadFormData": {
+      "displayName": "Front-end data download"
+    },
+    "uploadFormData": {
+      "displayName": "Front-end data upload"
+    }
+  }
+}

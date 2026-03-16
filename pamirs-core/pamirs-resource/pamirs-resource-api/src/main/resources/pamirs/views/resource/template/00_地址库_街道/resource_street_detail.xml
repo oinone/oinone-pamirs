@@ -1,4 +1,4 @@
-<view widget="detail" type="DETAIL" model="resource.ResourceStreet" name="街道detail" title="街道" submit="all">
+<view widget="detail" type="DETAIL" model="resource.ResourceStreet" name="ResourceStreetDetail" title="街道" submit="all">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
                 type="default"/>

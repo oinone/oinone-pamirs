@@ -99,7 +99,7 @@ public class ViewMaskInitLoader {
                     maskDefinition.setName(maskName);
                     maskDefinition.setType(Optional.ofNullable(rootNodeContent.getAttribute(LambdaUtil.fetchFieldName(UIMask::getType))).map(ViewTypeEnum::valueOf).orElse(null));
                     maskDefinition.setBizType(ViewBizTypeEnum.OPERATIONS_MANAGEMENT);
-                    maskDefinition.setTitle(I18nUtils.translateMask(maskName, "title", Optional.ofNullable(rootNodeContent.getAttribute(LambdaUtil.fetchFieldName(UIMask::getTitle))).orElse(maskName)));
+                    maskDefinition.setTitle(I18nUtils.translateMask(maskName, "title", StringUtils.defaultIfBlank(rootNodeContent.getAttribute(LambdaUtil.fetchFieldName(UIMask::getTitle)), null)));
                     maskDefinition.setPriority(Optional.ofNullable(rootNodeContent.getAttribute(LambdaUtil.fetchFieldName(UIMask::getPriority))).map(Integer::valueOf).orElse(ViewConstants.manualPriority));
                     maskDefinition.setShow(ActiveEnum.ACTIVE);
                     maskDefinition.setActive(ActiveEnum.ACTIVE);

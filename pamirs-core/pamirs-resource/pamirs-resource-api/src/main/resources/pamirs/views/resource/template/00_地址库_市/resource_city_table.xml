@@ -1,4 +1,4 @@
-<view widget="table" model="resource.ResourceCity" name="市table" title="市" type="TABLE">
+<view widget="table" model="resource.ResourceCity" name="ResourceCityTable" title="市" type="TABLE">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="resource.ResourceCity"/>
         <action name="delete" label="删除" model="resource.ResourceCity"/>
@@ -10,7 +10,7 @@
     <template slot="rowActions">
         <action name="redirectDetailPage" label="详情" model="resource.ResourceCity"/>
         <action name="redirectUpdatePage" label="编辑" model="resource.ResourceCity"/>
-        <action name="市关键字设置dialog" label="市关键字设置" model="resource.ResourceCity"/>
+        <action name="ResourceCityActionKeyword" label="市关键字设置" model="resource.ResourceCity"/>
     </template>
     <template slot="search" widget="search">
         <pack gutter="24,24" widget="row">

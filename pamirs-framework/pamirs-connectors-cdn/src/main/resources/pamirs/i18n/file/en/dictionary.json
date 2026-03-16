@@ -1,0 +1,29 @@
+{
+  "file.FileServerTypeEnum": {
+    "displayName": "File server type",
+    "OSS": {
+      "displayName": "Alibaba Cloud OSS",
+      "help": "Alibaba Cloud OSS"
+    },
+    "COS": {
+      "displayName": "Tencent Cloud COS",
+      "help": "Tencent Cloud COS"
+    },
+    "MINIO": {
+      "displayName": "Local",
+      "help": "Local"
+    },
+    "UPYUN": {
+      "displayName": "UPYUN OSS",
+      "help": "UPYUN OSS"
+    },
+    "HUAWEI_OBS": {
+      "displayName": "Huawei Cloud OBS",
+      "help": "Huawei Cloud OBS"
+    },
+    "TENCENT_COS": {
+      "displayName": "Tencent COS",
+      "help": "Tencent COS"
+    }
+  }
+}

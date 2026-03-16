@@ -1,4 +1,4 @@
-<view type="TABLE" title="公司列表" name="公司列表table" widget="table" model="business.PamirsCompany"
+<view type="TABLE" title="公司列表" name="PamirsCompanyTable" widget="table" model="business.PamirsCompany"
       view-action-filter="partnerType == 'COMPANY'">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="business.PamirsCompany" displayName="创建"/>

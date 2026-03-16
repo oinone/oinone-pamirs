@@ -1,0 +1,10 @@
+{
+  "pamirs.message.EmailVerifyTemplate" : {
+    "message_email_verify_template_form" : {
+      "title" : "Email Verification Template"
+    },
+    "message_email_verify_template_detail" : {
+      "title" : "Email Verification Template"
+    }
+  }
+}

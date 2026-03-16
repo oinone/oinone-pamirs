@@ -1,0 +1,32 @@
+{
+  "pro.shushi.pamirs.core.common.extpoint.CreateOverrideExtPoint" : {
+    "createOverride" : {
+      "displayName" : "Add new override extension point"
+    }
+  },
+  "pro.shushi.pamirs.core.common.extpoint.DeleteOneAfterExtPoint" : {
+    "deleteOneAfter" : {
+      "displayName" : "Delete single trailing extension point"
+    }
+  },
+  "pro.shushi.pamirs.core.common.extpoint.DeleteOneBeforeExtPoint" : {
+    "deleteOneBefore" : {
+      "displayName" : "Delete single pre-extension point"
+    }
+  },
+  "pro.shushi.pamirs.core.common.extpoint.DeleteOneOverrideExtPoint" : {
+    "deleteOneOverride" : {
+      "displayName" : "Delete single override extension point"
+    }
+  },
+  "pro.shushi.pamirs.core.common.extpoint.DeleteOverrideExtPoint" : {
+    "deleteWithFieldBatchOverride" : {
+      "displayName" : "Delete override extension point"
+    }
+  },
+  "pro.shushi.pamirs.core.common.extpoint.UpdateOverrideExtPoint" : {
+    "updateOverride" : {
+      "displayName" : "Update and overwrite extension points"
+    }
+  }
+}

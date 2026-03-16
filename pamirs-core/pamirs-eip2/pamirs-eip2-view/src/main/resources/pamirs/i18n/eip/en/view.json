@@ -1,0 +1,70 @@
+{
+  "pamirs.eip.proxy.EipApplicationProxy": {
+    "EipApplicationProxyDetail": {
+      "title": "View key"
+    },
+    "EipApplicationProxyFormFlowCtrl": {
+      "title": "Flow control configuration"
+    },
+    "EipApplicationProxyFormApp": {
+      "title": "Add New Application"
+    },
+    "EipApplicationProxyTable": {
+      "title": "Integrated application"
+    },
+    "EipApplicationProxyFormAuth": {
+      "title": "Authorized adjustment"
+    }
+  },
+  "eip.EipConnGroup": {
+    "EipConnGroupForm": {
+      "title": "Add new business domain"
+    },
+    "EipConnGroupTable": {
+      "title": "business domain"
+    }
+  },
+  "pamirs.eip.EipOpenIpBlacklistProxy": {
+    "EipOpenIpBlacklistProxyFormEdit": {
+      "title": "Modify"
+    },
+    "EipOpenIpBlacklistProxyFormCreate": {
+      "title": "Create"
+    },
+    "EipOpenIpBlacklistProxyTable": {
+      "title": "blacklist"
+    }
+  },
+  "eip.EipCircuitBreakerRuleProxy": {
+    "EipCircuitBreakerRuleProxyFormEdit": {
+      "title": "Edit"
+    },
+    "EipCircuitBreakerRuleProxyFormCreate": {
+      "title": "Create"
+    }
+  },
+  "pamirs.eip.EipOpenInterface": {
+    "EipOpenInterfaceTable": {
+      "title": "open interface"
+    }
+  },
+  "pamirs.eip.proxy.EipLogProxy": {
+    "EipLogProxyTable": {
+      "title": "Log List"
+    },
+    "EipLogProxyDetail": {
+      "title": "Log Details"
+    }
+  },
+  "pamirs.eip.tmodel.EipIntegrationInterfaceEdit": {
+    "EipIntegrationInterfaceEditDetail": {
+      "title": "Details"
+    },
+    "EipIntegrationInterfaceEditFormCopy": {
+      "title": "Copy"
+    },
+    "EipIntegrationInterfaceEditFormCreate": {
+      "title": "Create"
+    }
+  }
+}

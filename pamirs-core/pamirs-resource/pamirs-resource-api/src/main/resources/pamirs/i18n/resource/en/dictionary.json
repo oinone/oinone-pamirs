@@ -1,0 +1,483 @@
+{
+  "resource.AddressSourceTypeEnum": {
+    "displayName": "Address Source Type Enumeration",
+    "HOME": {
+      "displayName": "family",
+      "help": "family"
+    },
+    "WORK": {
+      "displayName": "Work",
+      "help": "Work"
+    },
+    "CUSTOM": {
+      "displayName": "Custom",
+      "help": "Custom"
+    }
+  },
+  "addresstypeenum": {
+    "Country": {
+      "displayName": "Country",
+      "help": "Country"
+    },
+    "Province": {
+      "displayName": "Province",
+      "help": "province"
+    },
+    "City": {
+      "displayName": "city",
+      "help": "City"
+    },
+    "District": {
+      "displayName": "District",
+      "help": "district"
+    },
+    "Street": {
+      "displayName": "Street",
+      "help": "Street"
+    },
+    "displayName": "Address Type Enumeration"
+  },
+  "resource.AuditStatusEnum": {
+    "displayName": "Review Status",
+    "INIT_AUDIT": {
+      "displayName": "Pending submission",
+      "help": "Pending submission"
+    },
+    "PENDING_AUDIT": {
+      "displayName": "Pending Review",
+      "help": "Pending Review"
+    },
+    "AUDITING": {
+      "displayName": "Under review",
+      "help": "Under review"
+    },
+    "SUCCESS": {
+      "displayName": "Approved",
+      "help": "Approved"
+    },
+    "FAILURE": {
+      "displayName": "Review not approved",
+      "help": "Review not approved"
+    },
+    "PENDING_RESUBMIT": {
+      "displayName": "Pending resubmission",
+      "help": "Pending resubmission"
+    },
+    "REDIRECT": {
+      "displayName": "Has been forwarded",
+      "help": "Has been forwarded"
+    },
+    "CANCEL": {
+      "displayName": "Revoked",
+      "help": "Revoked"
+    },
+    "ERROR": {
+      "displayName": "Approval exception",
+      "help": "Approval exception"
+    },
+    "summary": "Review Status"
+  },
+  "bicenum": {
+    "BIC": {
+      "displayName": "BIC Code",
+      "help": "BIC Code"
+    },
+    "SWIFT": {
+      "displayName": "SWIFT Code",
+      "help": "SWIFT Code"
+    },
+    "displayName": ""
+  },
+  "blockslayoutenum": {
+    "RIGHT": {
+      "displayName": "right side",
+      "help": "Right side"
+    },
+    "LEFT": {
+      "displayName": "left side",
+      "help": "Left side"
+    },
+    "displayName": ""
+  },
+  "calendartypeenum": {
+    "Gregorian": {
+      "displayName": "Gregorian calendar",
+      "help": "Gregorian calendar"
+    },
+    "Lunar": {
+      "displayName": "lunar calendar",
+      "help": "Lunar calendar"
+    },
+    "Solar": {
+      "displayName": "solar calendar",
+      "help": "Solar calendar"
+    },
+    "displayName": "Calendar Enumeration"
+  },
+  "resource.CityLevelEnum": {
+    "displayName": "city tier",
+    "ONE": {
+      "displayName": "frontline",
+      "help": "frontline"
+    },
+    "NEW_ONE": {
+      "displayName": "New first-tier",
+      "help": "New first-tier"
+    },
+    "TWO": {
+      "displayName": "second-tier",
+      "help": "second-tier"
+    },
+    "THREE": {
+      "displayName": "third line",
+      "help": "third line"
+    },
+    "FOUR": {
+      "displayName": "four lines",
+      "help": "four lines"
+    },
+    "FIVE": {
+      "displayName": "staff",
+      "help": "staff"
+    },
+    "FIVE_DOWN": {
+      "displayName": "Below the staff lines",
+      "help": "Below the staff lines"
+    }
+  },
+  "resource.CompanyTypeEnum": {
+    "displayName": "Nature of the company",
+    "SELF_EMPLOYEE": {
+      "displayName": "individual business",
+      "help": "individual business"
+    },
+    "JOINT_VENTURES": {
+      "displayName": "Joint venture",
+      "help": "Joint venture"
+    },
+    "SOLE_PROPRIETORSHIP": {
+      "displayName": "wholly-owned",
+      "help": "wholly-owned"
+    },
+    "STATE_OWNED": {
+      "displayName": "state-owned",
+      "help": "state-owned"
+    },
+    "PRIVATE": {
+      "displayName": "Private",
+      "help": "Private"
+    },
+    "OWNERSHIP_BY_THE_WHOLE_PEOPLE": {
+      "displayName": "State ownership",
+      "help": "State ownership"
+    },
+    "COLLECTIVE_OWNERSHIP": {
+      "displayName": "Collective ownership",
+      "help": "Collective ownership"
+    },
+    "STOCK_CORPORATION": {
+      "displayName": "Joint-stock company",
+      "help": "Joint-stock company"
+    },
+    "LTD": {
+      "displayName": "Limited Liability Company",
+      "help": "Limited Liability Company"
+    }
+  },
+  "cryptotypeenum": {
+    "RSA": {
+      "displayName": "RSA Encryption",
+      "help": "RSA Encryption"
+    },
+    "AES": {
+      "displayName": "AES Encryption",
+      "help": "AES Encryption"
+    },
+    "displayName": ""
+  },
+  "currencypositionenum": {
+    "BEFORE": {
+      "displayName": "Currency symbol first",
+      "help": "Currency symbol before"
+    },
+    "AFTER": {
+      "displayName": "The currency symbol is after",
+      "help": "The currency symbol is after"
+    },
+    "displayName": ""
+  },
+  "currencyrateserviceenum": {
+    "DEFAULT_SERVICE": {
+      "displayName": "Aggregated data",
+      "help": "Aggregated Data"
+    }
+  },
+  "currencyroundingenum": {
+    "ROUND_UP": {
+      "displayName": "Straight up",
+      "help": "Directly upward"
+    },
+    "ROUND_DOWN": {
+      "displayName": "Directly downward",
+      "help": "Directly downward"
+    },
+    "ROUND_CEILING": {
+      "displayName": "Positive numbers carry up, negative numbers truncate up",
+      "help": "Positive numbers carry up, negative numbers truncate up"
+    },
+    "ROUND_FLOOR": {
+      "displayName": "Positive numbers round down, negative numbers carry down",
+      "help": "Positive numbers round down, negative numbers carry down"
+    },
+    "ROUND_HALF_UP": {
+      "displayName": "Rounding, if the discarded part >= 0.5, then round up",
+      "help": "Rounding, if the discarded part >= .5, round up"
+    },
+    "ROUND_HALF_DOWN": {
+      "displayName": "Rounding If the discarded part > .5",
+      "help": "Rounding: If the discarded part is >.5, round up"
+    },
+    "ROUND_HALF_EVEN": {
+      "displayName": "If the digit to the left of the discarded part is even, perform ROUND_HALF_DOWN; if the digit to the left of the discarded part is odd, perform ROUND_HALF_UP.",
+      "help": "If the digit to the left of the discarded part is even, perform ROUND_HALF_DOWN; if the digit to the left of the discarded part is odd, perform ROUND_HALF_UP."
+    },
+    "ROUND_UNNECESSARY": {
+      "displayName": "Assert that the requested operation has an exact result, so rounding is not needed",
+      "help": "The operation requested by the assertion has an exact result, so no rounding is necessary."
+    },
+    "displayName": ""
+  },
+  "directionenum": {
+    "LTR": {
+      "displayName": "Read from left to right",
+      "help": "Read from left to right"
+    },
+    "RTL": {
+      "displayName": "Read from right to left",
+      "help": "Read from right to left"
+    },
+    "displayName": ""
+  },
+  "resource.GenderEnum": {
+    "displayName": "Gender",
+    "NULL": {
+      "displayName": "Unknown",
+      "help": "Unknown"
+    },
+    "MALE": {
+      "displayName": "Male",
+      "help": "Male"
+    },
+    "FEMALE": {
+      "displayName": "Female",
+      "help": "Female"
+    }
+  },
+  "resource.IconLibTypeEnum": "Icon Library Type",
+  "mapserviceenum": {
+    "GAODE": {
+      "displayName": "Amap",
+      "help": "Gaode"
+    },
+    "displayName": ""
+  },
+  "menuLayoutEnum": {
+    "HORIZONTAL_MENU": {
+      "displayName": "Horizontal menu",
+      "help": "Horizontal menu"
+    },
+    "VERTICAL_MENU": {
+      "displayName": "vertical menu",
+      "help": "Vertical menu"
+    },
+    "displayName": ""
+  },
+  "resource.NamePositionEnum": {
+    "BEFORE": {
+      "displayName": "first name comes first",
+      "help": "first name comes first"
+    },
+    "AFTER": {
+      "displayName": "last name comes after",
+      "help": "Last name comes last"
+    },
+    "displayName": ""
+  },
+  "resource.OrganizationTypeEnum": {
+    "displayName": "Organization Type",
+    "COMPANY": {
+      "displayName": "Company",
+      "help": "Company"
+    },
+    "INDIVIDUAL_BUSINESS": {
+      "displayName": "Individual business",
+      "help": "Individual business"
+    },
+    "PUBLIC_WELFARE": {
+      "displayName": "Public welfare organization",
+      "help": "Public welfare organization"
+    },
+    "PERSON": {
+      "displayName": "Individual",
+      "help": "Individual"
+    }
+  },
+  "partnerAddressTypeEnum": {
+    "CORP": "Company Address",
+    "DELIVERY": "Delivery Address",
+    "INVOICE": "Invoice mailing address",
+    "WAREHOUSE": "Warehouse Address",
+    "REVERSE": "After-sales return address",
+    "displayName": ""
+  },
+  "partnerBankTypeEnum": {
+    "NORMAL": {
+      "displayName": "Regular bank card",
+      "help": "Regular bank card"
+    },
+    "CUSTOMER": {
+      "displayName": "Custom type",
+      "help": "Custom type"
+    },
+    "displayName": ""
+  },
+  "partnerRelationTypeEnum": {
+    "SALE_CUSTOMER": {
+      "displayName": "Sales customers",
+      "help": "Sales customers"
+    },
+    "PURCHASE_CUSTOMER": {
+      "displayName": "Purchasing Customer",
+      "help": "Purchasing Customer"
+    },
+    "EMPLOYEE": {
+      "displayName": "Affiliated Company",
+      "help": "Affiliated Company"
+    },
+    "DEPARTMENT": {
+      "displayName": "Department",
+      "help": "Department"
+    },
+    "displayName": ""
+  },
+  "poupTypeEnum": {
+    "POPUP": {
+      "displayName": "Pop-up window",
+      "help": "Popup"
+    },
+    "RIGHT_SUSPENSIO": {
+      "displayName": "Float right",
+      "help": "Right-side floating"
+    },
+    "displayName": ""
+  },
+  "timeZoneTypeEnum": "",
+  "resource.TranslateDataSourcesEnum": {
+    "displayName": "Translate Source",
+    "PAGE_ADD": {
+      "displayName": "Add Page",
+      "help": "Add Page"
+    },
+    "FILE_IMPORT_TRANSLATION": {
+      "displayName": "File Import",
+      "help": "File Import"
+    },
+    "BATCH_TRANSLATION": {
+      "displayName": "Batch Create",
+      "help": "Batch Create"
+    },
+    "summary": "Source of Translation"
+  },
+  "resource.TranslateForEnum": {
+    "displayName": "Translation Type",
+    "FRONT_END": {
+      "displayName": "Front-end translation",
+      "help": "Front-end translation"
+    },
+    "BACK_END": {
+      "displayName": "Backend Metadata Translation",
+      "help": "Backend Metadata Translation"
+    },
+    "BACK_END_DATA": {
+      "displayName": "Backend Data Translation",
+      "help": "Backend Data Translation"
+    },
+    "summary": "Translation type"
+  },
+  "resource.TranslationApplicationScopeEnum": {
+    "displayName": "Translation application scope",
+    "MODULE": {
+      "displayName": "Application where the source term is located",
+      "help": "Application where the source term is located"
+    },
+    "GLOBAL": {
+      "displayName": "Global",
+      "help": "Global"
+    },
+    "summary": "Scope of translation application"
+  },
+  "userSignUpType": {
+    "BYSELF": {
+      "displayName": "Self-registration",
+      "help": "Self-registration"
+    },
+    "BACKSTAGE": {
+      "displayName": "Create in the backend",
+      "help": "Create in the backend"
+    },
+    "INVITE": {
+      "displayName": "Invite registration",
+      "help": "Invite to register"
+    },
+    "displayName": ""
+  },
+  "vatLabelEnum": {
+    "VAT": {
+      "displayName": "Value-Added Tax",
+      "help": "Value-Added Tax"
+    },
+    "displayName": ""
+  },
+  "weekStartEnum": {
+    "MONDAY": {
+      "displayName": "Monday",
+      "help": "Monday"
+    },
+    "TUESDAY": {
+      "displayName": "Tuesday",
+      "help": "Tuesday"
+    },
+    "WEDNESDAY": {
+      "displayName": "Wednesday",
+      "help": "Wednesday"
+    },
+    "THURSDAY": {
+      "displayName": "Thursday",
+      "help": "Thursday"
+    },
+    "FRIDAY": {
+      "displayName": "Friday",
+      "help": "Friday"
+    },
+    "SATURDAY": {
+      "displayName": "Saturday",
+      "help": "Saturday"
+    },
+    "SUNDAY": {
+      "displayName": "Sunday",
+      "help": "Sunday"
+    },
+    "displayName": ""
+  },
+  "pamirs.resource.ResourceBankStatusEnum": {
+    "TRUE": {
+      "displayName": "Normal",
+      "help": "Normal"
+    },
+    "DISABLE": {
+      "displayName": "Disable",
+      "help": "Disable"
+    },
+    "displayName": "Bank Account Status"
+  }
+}

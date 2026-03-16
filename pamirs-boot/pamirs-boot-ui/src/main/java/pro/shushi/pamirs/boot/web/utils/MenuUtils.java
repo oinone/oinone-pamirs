@@ -56,9 +56,13 @@ public class MenuUtils {
 
     public static <T extends Action> T configAction(String module, T action, Class<?> menuClazz) {
         UxMenu uxMenu = fetchUxMenuAnnotation(menuClazz);
-        String displayName = Optional.of(uxMenu.label()).filter(StringUtils::isNotBlank).orElse(menuClazz.getSimpleName());
-        action.setDisplayName(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "displayName", displayName));
-        action.setLabel(I18nUtils.translateServerAction(module, action.getModel(), action.getName(), "label", displayName));
+        String name = uxMenu.name();
+        if (StringUtils.isBlank(name)) {
+            name = MenuUtils.fetchMenuName(menuClazz);
+        }
+        String displayName = I18nUtils.translateMenu(module, name, "displayName", Optional.of(uxMenu.label()).filter(StringUtils::isNotBlank).orElse(menuClazz.getSimpleName()));
+        action.setDisplayName(displayName);
+        action.setLabel(displayName);
         return action;
     }
 

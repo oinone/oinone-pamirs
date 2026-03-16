@@ -1,0 +1,391 @@
+{
+  "pamirs.eip.SynchronizationStatusEnum": {
+    "displayName": "Sync Status",
+    "NONE": {
+      "displayName": "No need to synchronize",
+      "help": "No need to synchronize"
+    },
+    "PENDING": {
+      "displayName": "Not synced",
+      "help": "Not synced"
+    },
+    "SUCCESS": {
+      "displayName": "Synchronized",
+      "help": "Synchronized"
+    },
+    "EXCEPTION": {
+      "displayName": "Synchronization exception",
+      "help": "Synchronization exception"
+    },
+    "PART_SUCCESS": {
+      "displayName": "Partial synchronization",
+      "help": "Partial synchronization"
+    }
+  },
+  "pamirs.eip.CircuitBreakerRecoveryStrategyEnum": {
+    "displayName": "Circuit Breaker Recovery Strategy",
+    "SINGLE_PROBE": {
+      "displayName": "Single Detection Recovery",
+      "help": "Determine recovery through a single probe request"
+    }
+  },
+  "eip.CircuitBreakerStatusEnum": {
+    "displayName": "Circuit breaker state",
+    "OPEN": {
+      "displayName": "Circuit breaker",
+      "help": "Circuit breaker"
+    },
+    "CLOSED": {
+      "displayName": "Normal",
+      "help": "Normal"
+    },
+    "HALF_OPEN": {
+      "displayName": "Try to restore",
+      "help": "Try to restore"
+    }
+  },
+  "pamirs.eip.CircuitBreakerTypeEnum": {
+    "displayName": "Circuit Breaker Type",
+    "SLOW_CALL": {
+      "displayName": "Slow call circuit breaker",
+      "help": "Perform circuit breaking based on the proportion of slow calls"
+    },
+    "EXCEPTION": {
+      "displayName": "Abnormal fuse",
+      "help": "Perform circuit breaking based on the proportion of abnormal calls"
+    }
+  },
+  "pamirs.eip.ComponentTypeEnum": {
+    "displayName": "EIP Component Type",
+    "summary": "EIP Component Type",
+    "NORMAL": {
+      "displayName": "Common component",
+      "help": "Common component"
+    },
+    "FILTER": {
+      "displayName": "Conditional component",
+      "help": "Conditional component"
+    },
+    "FUNCTION": {
+      "displayName": "Function component",
+      "help": "Function component"
+    },
+    "PARAM_PROCESSOR": {
+      "displayName": "Parameter Conversion Component",
+      "help": "Parameter Conversion Component"
+    }
+  },
+  "designer.ApiContentType": {
+    "displayName": "Connector Type",
+    "summary": "Connector Type",
+    "APPLICATION_JSON": {
+      "displayName": "application/json",
+      "help": "application/json"
+    },
+    "X_WWW_FORM_URLENCODED": {
+      "displayName": "x-www-form-urlencoded",
+      "help": "x-www-form-urlencoded"
+    },
+    "MULTIPART_FORM_DATA": {
+      "displayName": "multipart/form-data",
+      "help": "multipart/form-data"
+    },
+    "APPLICATION_JSON_FHIR": {
+      "displayName": "application/json+fhir",
+      "help": "application/json+fhir"
+    },
+    "SOAP_XML": {
+      "displayName": "application/soap+xml",
+      "help": "application/soap+xml"
+    },
+    "TEXT_XML": {
+      "displayName": "text/xml",
+      "help": "text/xml"
+    }
+  },
+  "designer.ApiJsonType": {
+    "displayName": "JSON format input parameter type",
+    "summary": "Top-level input parameter type in JSON format",
+    "OBJECT": {
+      "displayName": "The top-level JSON is of object type",
+      "help": "The top-level JSON is of object type"
+    },
+    "LIST": {
+      "displayName": "The top-level JSON is of array type",
+      "help": "The top-level JSON is an array type"
+    }
+  },
+  "designer.ApiMethod": {
+    "displayName": "Connector API request method",
+    "summary": "Connector API request method"
+  },
+  "designer.ApiSchema": {
+    "displayName": "Connector API Protocol",
+    "summary": "Connector API Protocol"
+  },
+  "designer.ConnApiType": {
+    "displayName": "API Type",
+    "summary": "API Type"
+  },
+  "designer.ConnAuthStatus": {
+    "displayName": "Certification Status",
+    "summary": "Certification Status",
+    "AUTHED": {
+      "displayName": "Verified",
+      "help": "Verified"
+    },
+    "UNAUTH": {
+      "displayName": "Not certified",
+      "help": "Add authentication"
+    }
+  },
+  "designer.ConnAuthType": {
+    "displayName": "Authentication method",
+    "summary": "Authentication method",
+    "NO_AUTH": {
+      "displayName": "No authentication required",
+      "help": "No authentication required"
+    },
+    "BASIC": {
+      "displayName": "Basic Auth",
+      "help": "Basic Auth"
+    },
+    "OAUTH2": {
+      "displayName": "OAuth 2.0",
+      "help": "OAuth 2.0"
+    },
+    "CAK": {
+      "displayName": "Common API Key",
+      "help": "Common API Key"
+    },
+    "CUSTOM": {
+      "displayName": "Custom authentication",
+      "help": "Custom authentication"
+    }
+  },
+  "designer.ConnCryptType": {
+    "displayName": "Encryption Method",
+    "summary": "Encryption Method",
+    "NO_CRYPT": {
+      "displayName": "No need to encrypt",
+      "help": "No need to encrypt"
+    }
+  },
+  "designer.ConnType": {
+    "displayName": "Connector Type",
+    "summary": "Connector Type",
+    "APP": {
+      "displayName": "Application",
+      "help": "Application"
+    },
+    "DB": {
+      "displayName": "Database",
+      "help": "Database"
+    },
+    "EXCEL": {
+      "displayName": "File set",
+      "help": "File set"
+    }
+  },
+  "designer.TestConnStatus": {
+    "displayName": "Test connection status",
+    "summary": "Test connection status",
+    "UN_CONN_TEST": {
+      "displayName": "Connection test has not been conducted yet",
+      "help": "Connection test has not been conducted yet"
+    },
+    "CONN_SUCCESS": {
+      "displayName": "Connection successful",
+      "help": "Connection successful"
+    },
+    "CONN_ERROR": {
+      "displayName": "Connection failed",
+      "help": "Connection failed"
+    }
+  },
+  "pamirs.eip.ContextTypeEnum": {
+    "displayName": "Context type",
+    "summary": "Used to specify the source of context when converting interface parameters.",
+    "EXECUTOR": {
+      "displayName": "Actuator Context",
+      "help": "Actuator Context"
+    },
+    "INTERFACE": {
+      "displayName": "Interface Context",
+      "help": "Interface Context"
+    }
+  },
+  "pamirs.eip.EipOpenConverterTypeEnum": {
+    "displayName": "Open Interface Processing Type",
+    "EIP_FUNCTION": {
+      "displayName": "Eip Function - No Return",
+      "help": "Call the function with the specified EIP parameter without handling the function return value"
+    },
+    "EIP_FUNCTION_WITH_RESULT": {
+      "displayName": "Eip function - has return",
+      "help": "Call the function with the specified eip parameter, the return result is OpenEipResult, and it is automatically placed into finalResultKey"
+    },
+    "MODEL_FUNCTION": {
+      "displayName": "model function",
+      "help": "Call the model function, the input parameter must be a single-parameter model, convert the request input parameter to the input parameter, the return result is automatically packaged into a unified format for the open interface, and placed into finalResultKey"
+    },
+    "FUNCTION": {
+      "displayName": "Business function",
+      "help": "Call any function, obtain parameters from the request context based on the function's input parameters, automatically wrap the return result into a unified open interface format, and put it into finalResultKey"
+    }
+  },
+  "pamirs.eip.EipProtocolTypeEnum": {
+    "displayName": "request response protocol",
+    "HTTP": {
+      "displayName": "http",
+      "help": "http"
+    },
+    "SOAP": {
+      "displayName": "soap",
+      "help": "soap"
+    },
+    "SQL": {
+      "displayName": "sql",
+      "help": "sql"
+    }
+  },
+  "pamirs.eip.EipSceneNodeTypeEnum": {
+    "displayName": "Scene Node Type",
+    "FUNCTION": {
+      "displayName": "Function",
+      "help": "Function"
+    },
+    "INTEGRATION_INTERFACE": {
+      "displayName": "Integrated interface",
+      "help": "Integrated interface"
+    },
+    "ROUTE_DEFINITION": {
+      "displayName": "Composite interface",
+      "help": "Composite interface"
+    }
+  },
+  "pamirs.eip.ExchangePatternEnum": {
+    "displayName": "Exchange mode",
+    "summary": "All exchange modes supported by Camel",
+    "InOnly": {
+      "displayName": "Event",
+      "help": "Event"
+    },
+    "InOut": {
+      "displayName": "Message exchange",
+      "help": "Message exchange"
+    },
+    "InOptionalOut": {
+      "displayName": "Message Select Exchange",
+      "help": "Message Select Exchange"
+    }
+  },
+  "eip.FlowControlEffectTypeEnum": {
+    "displayName": "Flow control effect",
+    "RAPID_FAILURE": {
+      "displayName": "Fail fast",
+      "help": "Fail fast"
+    },
+    "QUEUEING_WAIT": {
+      "displayName": "Waiting in line",
+      "help": "Waiting in line"
+    }
+  },
+  "pamirs.eip.HttpMethodEnum": {
+    "displayName": "http request method",
+    "summary": "http request method"
+  },
+  "pamirs.eip.HttpParamTypeEnum": {
+    "displayName": "http request parameter type",
+    "summary": "Used to specify the processing method for parameter conversion",
+    "PATH": {
+      "displayName": "Request Path",
+      "help": "Request Path"
+    },
+    "HEADER": {
+      "displayName": "Request Header",
+      "help": "Request Header"
+    },
+    "BODY": {
+      "displayName": "Request Body",
+      "help": "Request Body"
+    },
+    "METHOD": {
+      "displayName": "Request Method",
+      "help": "Request Method"
+    }
+  },
+  "pamirs.eip.InterfaceTypeEnum": {
+    "displayName": "Interface Type",
+    "INTEGRATION": {
+      "displayName": "Integrated interface",
+      "help": "Integrated interface"
+    },
+    "OPEN": {
+      "displayName": "Open interface",
+      "help": "Open interface"
+    },
+    "ROUTE": {
+      "displayName": "Route Definition",
+      "help": "Route Definition"
+    }
+  },
+  "eip.MetaOrigin": {
+    "displayName": "Connector/Api Source",
+    "summary": "Connector/Api Source",
+    "Oinone": {
+      "displayName": "Oinone Official",
+      "help": "Oinone official, cannot be deleted"
+    },
+    "Custom": {
+      "displayName": "Customize",
+      "help": "Custom"
+    }
+  },
+  "pamirs.eip.EipParamProcessorTypeEnum": {
+    "displayName": "Parameter handler type",
+    "REQUEST": {
+      "displayName": "Request",
+      "help": "Request"
+    },
+    "RESPONSE": {
+      "displayName": "response",
+      "help": "response"
+    }
+  },
+  "pamirs.eip.EipParamTypeEnum": {
+    "displayName": "Parameter type",
+    "summary": "Used to specify the processing method for parameter conversion",
+    "OBJECT": {
+      "help": "Object"
+    },
+    "ENUMERATION": {
+      "displayName": "Enumeration",
+      "help": "Enumeration"
+    },
+    "Long": {
+      "help": "Long type, field length editable"
+    },
+    "Double": {
+      "help": "Double type, field length editable"
+    },
+    "String": {
+      "help": "String type, field length editable"
+    },
+    "Boolean": {
+      "help": "Boolean type, field length is 1"
+    },
+    "Integer": {
+      "help": "Integer type, field length editable"
+    },
+    "Date": {
+      "help": "Date type, field length cannot be edited"
+    },
+    "Void": {
+      "help": "Void type, field length is not editable"
+    },
+    "File": {
+      "help": "File type, field length is not editable, essentially a string, will be converted into a binary stream during parameter conversion"
+    }
+  }
+}

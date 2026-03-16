@@ -1,0 +1,34 @@
+{
+  "base.PamirsFile": {
+    "base.Field": {
+      "isPublic": "Is it public?",
+      "mime": "MIME",
+      "name": "Name",
+      "resId": "Resource ID",
+      "resType": "Resource Type",
+      "size": "Size",
+      "type": "Type",
+      "url": "Path",
+      "writeUid": {
+        "displayName": "Updater ID"
+      },
+      "writeDate": {
+        "displayName": "Update Time"
+      },
+      "code": {
+        "displayName": "Encoding"
+      },
+      "createDate": {
+        "displayName": "Creation Time"
+      },
+      "createUid": {
+        "displayName": "Creator ID"
+      },
+      "id": {
+        "displayName": "ID",
+        "summary": "ID field, unique auto-increment index"
+      }
+    },
+    "displayName": "document"
+  }
+}

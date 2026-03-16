@@ -1,0 +1,85 @@
+{
+  "base.ChannelField" : {
+    "base.Field" : {
+      "analyzer" : "Tokenizer",
+      "channelModel" : "Transmission model",
+      "channelModelId" : "Transmission Model ID",
+      "ikSearchAnalyzer" : "Search Tokenizer",
+      "name" : "Attribute Name",
+      "relation" : "Attribute Association Model",
+      "rowName" : "attribute row name",
+      "rowType" : "Attribute Row Type",
+      "type" : "Attribute Type"
+    },
+    "displayName" : "Transmission Enhancement Model Attributes",
+    "summary" : "Transmission Enhancement Model Attributes"
+  },
+  "channel.ChannelModel" : {
+    "base.Field" : {
+      "alias" : "Alias",
+      "analyzers" : "Tokenizer",
+      "batchSize" : {
+        "displayName" : "Full single-batch capacity",
+        "summary" : "Full synchronization single batch capacity"
+      },
+      "displayName" : "Enhanced model display name",
+      "dumpState" : {
+        "displayName" : "Sync Status",
+        "summary" : "Full sync status"
+      },
+      "increment" : {
+        "displayName" : "Whether to enable incremental sync",
+        "summary" : "Whether to enable incremental sync"
+      },
+      "index" : "Index",
+      "lastSync" : {
+        "displayName" : "Full synchronization success time",
+        "summary" : "Last full sync success time"
+      },
+      "mapping" : {
+        "displayName" : "Index Mapping",
+        "summary" : "Elasitcsearch Index Mapping"
+      },
+      "model" : "Enhanced model name",
+      "module" : "The module where the enhanced model is located",
+      "naming" : "Enhanced Model Identification",
+      "origin" : "Enhanced model",
+      "pos" : {
+        "displayName" : "Index suffix",
+        "summary" : "Index suffix"
+      },
+      "reAlias" : {
+        "displayName" : "Migrate alias",
+        "summary" : "Whether to migrate aliases after full synchronization"
+      },
+      "replicas" : {
+        "displayName" : "Number of sub-books",
+        "summary" : "Number of sub-books"
+      },
+      "shards" : {
+        "displayName" : "Number of shards",
+        "summary" : "Number of shards"
+      },
+      "systemSource" : "Enhanced Model Creation Method",
+      "tenant" : "Tenant"
+    },
+    "displayName" : "Transmission Enhancement Model",
+    "summary" : "Transmission Enhancement Model"
+  },
+  "channel.ElasticIndexLog" : {
+    "base.Field" : {
+      "alias" : "Alias",
+      "cdate" : "Index Creation Time",
+      "idCount" : "Total",
+      "idMax" : "Maximum ID",
+      "idMin" : "Minimum ID",
+      "index" : "Index",
+      "pos" : "subscript",
+      "replicas" : "Copy",
+      "shards" : "Sharding",
+      "tenant" : "Tenant"
+    },
+    "displayName" : "Elastic Index Log",
+    "summary" : "Elastic Index"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "expression.ExpressionDefine": {
+    "queryModelLabelExpByModel": {
+      "displayName": "Query label expression by model ID"
+    },
+    "save": {
+      "displayName": "Confirm",
+      "description": "Create/Update"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "BusinessMenus_PamirsPartnerMenu" : "Partner",
+  "BusinessMenus_PamirsPartnerMenu_PamirsCompanyMenu" : "Company",
+  "BusinessMenus_PamirsPartnerMenu_PamirsPersonMenu" : "Individual",
+  "BusinessMenus_OrganizationalStructureMenu" : "Organization Structure",
+  "BusinessMenus_OrganizationalStructureMenu_PamirsDepartmentMenu" : "Department",
+  "BusinessMenus_OrganizationalStructureMenu_PamirsPositionMenu" : "Position",
+  "BusinessMenus_OrganizationalStructureMenu_PamirsEmployeeMenu" : "Employee"
+}

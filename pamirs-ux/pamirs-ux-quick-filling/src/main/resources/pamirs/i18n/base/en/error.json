@@ -1,0 +1,25 @@
+{
+  "pro.shushi.pamirs.ux.quickfilling.enumeration.QuickFillingExpEnumerate" : {
+    "displayName" : "Quick Reporting Module Error Enumeration",
+    "SELECT_CONVERTER_ERROR" : "Unable to obtain the type conversion function for the specified field model: {}, field: {}, ttype: {}",
+    "CONVERT_ERROR" : "The data does not comply with the rules, please make corrections and continue.",
+    "FIELD_VALIDATE_REQUIRED_ERROR" : "Required",
+    "NON_NUMBER_ERROR" : "Invalid number",
+    "NON_BOOLEAN_ERROR" : "Invalid boolean value",
+    "NON_DATETIME_ERROR" : "Invalid date-time value",
+    "NON_DATE_ERROR" : "Invalid date value",
+    "NON_TIME_ERROR" : "Invalid time value",
+    "NON_YEAR_ERROR" : "Invalid year",
+    "NON_ENUM_ERROR" : "Invalid enumeration value",
+    "NON_MAP_ERROR" : "Invalid key-value pair",
+    "LABEL_FIELDS_EMPTY_ERROR" : "No matching field, please configure the title field or search field model: {}, field: {}, ttype: {}",
+    "NON_MATCH_RELATION_DATA_ERROR" : "No matching data found",
+    "MATCH_MANY_RELATION_DATA_ERROR" : "Multiple matching records found",
+    "COUNTRY_DATA_ERROR" : "No matching country data found",
+    "PROVINCE_DATA_ERROR" : "No matching province/state data found",
+    "CITY_DATA_ERROR" : "No matching city data found",
+    "DISTRICT_DATA_ERROR" : "No matching district/county data found",
+    "STREET_DATA_ERROR" : "No matching street data was found",
+    "SYSTEM_ERROR" : "System exception"
+  }
+}

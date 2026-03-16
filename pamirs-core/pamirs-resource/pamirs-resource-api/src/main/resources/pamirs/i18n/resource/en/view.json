@@ -1,0 +1,126 @@
+{
+  "resource.ResourceCity": {
+    "ResourceCityFormKeyword": {
+      "title": "city"
+    },
+    "ResourceCityDetail": {
+      "title": "city"
+    },
+    "ResourceCityFormBase": {
+      "title": "city"
+    },
+    "ResourceCityTable": {
+      "title": "city"
+    }
+  },
+  "resource.ResourceLang": {
+    "ResourceLangTable": {
+      "title": "language"
+    },
+    "ResourceLangForm": {
+      "title": "editing language"
+    },
+    "ResourceLangDetail": {
+      "title": "Language details"
+    }
+  },
+  "resource.ResourceProvince": {
+    "ResourceProvinceTable": {
+      "title": "Province"
+    },
+    "ResourceProvinceDetail": {
+      "title": "Province"
+    },
+    "ResourceProvinceFormBase": {
+      "title": "Province"
+    },
+    "ResourceProvinceFormKeyword": {
+      "title": "Province"
+    }
+  },
+  "resource.ResourceTax": {
+    "ResourceTaxTable": {
+      "title": "tax rate"
+    },
+    "ResourceTaxForm": {
+      "title": "tax rate"
+    },
+    "ResourceTaxDetail": {
+      "title": "tax rate"
+    }
+  },
+  "resource.ResourceRegionProxyModel": {
+    "ResourceRegionProxyModelTable": {
+      "title": "Region"
+    }
+  },
+  "resource.ResourceCountryGroup": {
+    "ResourceCountryGroupForm": {
+      "title": "Country groupings"
+    },
+    "ResourceCountryGroupTable": {
+      "title": "Country groupings"
+    },
+    "ResourceCountryGroupDetail": {
+      "title": "Country groupings"
+    }
+  },
+  "resource.ResourceStreet": {
+    "ResourceStreetTable": {
+      "title": "Street"
+    },
+    "ResourceStreetDetail": {
+      "title": "Street"
+    },
+    "ResourceStreetFormKeyword": {
+      "title": "Street"
+    },
+    "ResourceStreetFormBase": {
+      "title": "Street"
+    }
+  },
+  "resource.ResourceDistrict": {
+    "ResourceDistrictDetail": {
+      "title": "District"
+    },
+    "ResourceDistrictFormKeyword": {
+      "title": "Zone keyword settings"
+    },
+    "ResourceDistrictTable": {
+      "title": "District"
+    },
+    "ResourceDistrictFormBase": {
+      "title": "District"
+    }
+  },
+  "resource.ResourceCountry": {
+    "ResourceCountryFormKeyword": {
+      "title": "National Keyword Settings"
+    },
+    "ResourceCountryTable": {
+      "title": "Country"
+    },
+    "ResourceCountryFormBase": {
+      "title": "Country"
+    },
+    "ResourceCountryDetail": {
+      "title": "Country"
+    }
+  },
+  "resource.ResourceTaxKind": {
+    "ResourceTaxKindTable": {
+      "title": "tax type"
+    }
+  },
+  "resource.ResourceCurrency": {
+    "ResourceCurrencyForm": {
+      "title": "Currency"
+    },
+    "ResourceCurrencyDetail": {
+      "title": "Currency"
+    },
+    "ResourceCurrencyTable": {
+      "title": "Currency"
+    }
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "resource.ResourceCity": {
+    "ResourceCityTable": {
+      "base.Field": {
+        "code": "City Code",
+        "name": "City Name",
+        "country": "Country/Region",
+        "province": "Province/State",
+        "mappingList": "Keyword"
+      }
+    },
+    "ResourceCityFormBase": {
+      "base.Field": {
+        "code": "City Code",
+        "name": "City Name",
+        "country.code": "Country/Region - Encode",
+        "country.name": "Country/Region - Country/Region Name",
+        "province.code": "Province/State - Encode",
+        "province.name": "Province/State - Province/State Name"
+      }
+    }
+  },
+  "resource.ResourceCountry": {
+    "ResourceCountryTable": {
+      "base.Field": {
+        "flag": "National Flag",
+        "code": "Country/Region Code",
+        "name": "Country/Region Name",
+        "completeName": "Country/Region Detailed Name",
+        "vatLabel": "Consumption Tax Display Name",
+        "phoneCode": "Long Distance Area Code",
+        "currency": "Currency Used",
+        "lang": "Official Language",
+        "mappingList": "Keyword",
+        "countryGroup": "Continent"
+      }
+    },
+    "ResourceCountryFormBase": {
+      "base.Field": {
+        "name": "Country/Region Name",
+        "phoneCode": "Long Distance Area Code",
+        "completeName": "Country/Region Detailed Name",
+        "currency.code": "Currency - Encode",
+        "currency.name": "Currency - Currency Name",
+        "code": "Country/Region Code",
+        "lang.code": "Official Language - Encode",
+        "lang.name": "Official Language - Language Name",
+        "vatLabel": "Consumption Tax Display Name",
+        "countryGroup.code": "Continent - Encode",
+        "countryGroup.name": "Continent - Name",
+        "addrFormat": "Address Display Format"
+      }
+    }
+  },
+  "resource.ResourceDistrict": {
+    "ResourceDistrictTable": {
+      "base.Field": {
+        "code": "District/County Code",
+        "name": "District/County Name",
+        "country": "Country/Region",
+        "province": "Province/State",
+        "city": "City",
+        "mappingList": "Keyword"
+      }
+    },
+    "ResourceDistrictFormBase": {
+      "base.Field": {
+        "code": "District/County Code",
+        "name": "District/County Name",
+        "country.code": "Country/Region - Encode",
+        "country.name": "Country/Region - Country/Region Name",
+        "province.code": "Province/State - Encode",
+        "province.name": "Province/State - Province/State Name",
+        "city.code": "City - Encode",
+        "city.name": "City - City Name"
+      }
+    }
+  },
+  "resource.ResourceLang": {
+    "ResourceLangTable": {
+      "base.Field": {
+        "code": "Language Code",
+        "name": "Language Name",
+        "weekStart": "First Day of Week",
+        "direction": "Writing Habit",
+        "active": "Activation Status"
+      }
+    },
+    "ResourceLangForm": {
+      "base.Field": {
+        "code": "Code",
+        "name": "Language Name",
+        "isoCode": "Language ISO Code",
+        "direction": "Writing Habit",
+        "weekStart": "First Day of Week",
+        "calendarType": "Calendar",
+        "timezoneType": "Time Zone",
+        "addressTypes": "Address Format",
+        "groupingRule": "Number Grouping Rule",
+        "decimalPoint": "Decimal Separator",
+        "thousandsSep": "Integer Separator",
+        "active": "Activation Status",
+        "userCurrentLang": "Current User Language"
+      }
+    }
+  },
+  "resource.ResourceProvince": {
+    "ResourceProvinceTable": {
+      "base.Field": {
+        "code": "Province/State Code",
+        "name": "Province/State Name",
+        "country": "Country/Region",
+        "mappingList": "Keyword"
+      }
+    },
+    "ResourceProvinceFormBase": {
+      "base.Field": {
+        "code": "Province/State Code",
+        "name": "Province/State Name",
+        "country.code": "Country/Region - Encode",
+        "country.name": "Country/Region - Country/Region Name"
+      }
+    }
+  },
+  "resource.ResourceStreet": {
+    "ResourceStreetTable": {
+      "base.Field": {
+        "code": "Street Code",
+        "name": "Street Name",
+        "country": "Country/Region",
+        "province": "Province/State",
+        "city": "City",
+        "district": "District/County",
+        "mappingList": "Keyword"
+      }
+    },
+    "ResourceStreetFormBase": {
+      "base.Field": {
+        "code": "Street Code",
+        "name": "Street Name",
+        "country.code": "Country/Region - Encode",
+        "country.name": "Country/Region - Country/Region Name",
+        "province.code": "Province/State - Encode",
+        "province.name": "Province/State - Province/State Name",
+        "city.code": "City - Encode",
+        "city.name": "City - City Name",
+        "district.code": "District/County - Encode",
+        "district.name": "District/County - District and County Name"
+      }
+    }
+  },
+  "resource.ResourceTax": {
+    "ResourceTaxTable": {
+      "base.Field": {
+        "code": "Tax Rate Code",
+        "name": "Tax Rate Name",
+        "tax": "Tax Rate",
+        "taxKind": "Tax Type"
+      }
+    },
+    "ResourceTaxForm": {
+      "base.Field": {
+        "code": "Tax Rate Code",
+        "name": "Tax Rate Name",
+        "tax": "Tax Rate"
+      }
+    }
+  },
+  "resource.ResourceTaxKind": {
+    "ResourceTaxKindTable": {
+      "base.Field": {
+        "name": "Name"
+      }
+    }
+  },
+  "resource.ResourceCountryGroup": {
+    "ResourceCountryGroupForm": {
+      "base.Field": {
+        "code": "Code",
+        "name": "Name"
+      }
+    }
+  },
+  "resource.ResourceIcon": {
+    "ResourceIconForm": {
+      "base.Field": {
+        "displayName": "Icon Display Name",
+        "group.name": "Group - Group Name",
+        "remark": "Remark"
+      }
+    }
+  }
+}

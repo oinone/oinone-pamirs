@@ -1,0 +1,50 @@
+{
+  "translation.TranslationActivationEnum": {
+    "displayName": "Activate or not",
+    "ALL": {
+      "displayName": "All",
+      "help": "All"
+    },
+    "ACTIVATION": {
+      "displayName": "Activate",
+      "help": "Activate"
+    },
+    "INACTIVATED": {
+      "displayName": "Not activated",
+      "help": "Not activated"
+    },
+    "summary": "Activate or not"
+  },
+  "translation.TranslationMethodEnum": {
+    "displayName": "Translation Method",
+    "FRONT_END": {
+      "displayName": "Front-end translation",
+      "help": "Front-end translation"
+    },
+    "BACK_END": {
+      "displayName": "File Import Translation",
+      "help": "File Import Translation"
+    },
+    "BACK_END_DATA": {
+      "displayName": "Page tool translation",
+      "help": "Page tool translation"
+    },
+    "summary": "Translation method"
+  },
+  "translation.TranslationStatusEnum": {
+    "displayName": "Translation Status",
+    "ALL": {
+      "displayName": "All",
+      "help": "All"
+    },
+    "TRANSLATED": {
+      "displayName": "Translated",
+      "help": "Translated"
+    },
+    "NOT_TRANSLATED": {
+      "displayName": "Untranslated",
+      "help": "Untranslated"
+    },
+    "summary": "Translation Status"
+  }
+}

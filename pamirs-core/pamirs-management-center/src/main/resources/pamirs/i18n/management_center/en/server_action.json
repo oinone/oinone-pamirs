@@ -1,0 +1,16 @@
+{
+  "managementCenter.RoleUserManager": {
+    "updateRoleForUser": {
+      "displayName": "Update",
+      "description": "Modify",
+      "label": "Confirm"
+    }
+  },
+  "managementCenter.UserBindingManager": {
+    "bindingUser": {
+      "displayName": "Update",
+      "description": "Modify",
+      "label": "Confirm"
+    }
+  }
+}

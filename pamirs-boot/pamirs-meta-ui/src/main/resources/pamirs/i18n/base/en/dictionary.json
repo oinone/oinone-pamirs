@@ -1,0 +1,188 @@
+{
+  "base.MaskSlotName": {
+    "displayName": "Master Template Slot Enumeration",
+    "HEADER": {
+      "displayName": "Page Header",
+      "help": "Header"
+    },
+    "APP_BAR": {
+      "displayName": "App bar",
+      "help": "App bar"
+    },
+    "OPERATION_BAR": {
+      "displayName": "Action bar",
+      "help": "Toolbar"
+    },
+    "PROFILE": {
+      "displayName": "User Bar",
+      "help": "User bar"
+    },
+    "CONTENT": {
+      "displayName": "Content area",
+      "help": "Content Area"
+    },
+    "SIDEBAR": {
+      "displayName": "Sidebar",
+      "help": "Sidebar"
+    },
+    "MAIN": {
+      "displayName": "Main content distribution area",
+      "help": "Main Content Distribution Area"
+    },
+    "FOOTER": {
+      "displayName": "Footer",
+      "help": "Footer"
+    }
+  },
+  "base.TemplateSlotName": {
+    "displayName": "Template Slot Enumeration",
+    "ACTIONS": {
+      "displayName": "View-level action list",
+      "help": "View-level action list"
+    },
+    "FIELDS": {
+      "displayName": "View-level field list",
+      "help": "View-level field list"
+    },
+    "ROW_ACTIONS": {
+      "displayName": "Inline Action List",
+      "help": "Inline Action List"
+    },
+    "SEARCH": {
+      "displayName": "search bar",
+      "help": "Search bar"
+    },
+    "SEARCH_FIELDS": {
+      "displayName": "Search toolbar",
+      "help": "Search toolbar"
+    },
+    "SEARCH_ACTION_BAR": {
+      "displayName": "Search Button Bar",
+      "help": "Search button bar"
+    },
+    "ACTION_BAR": {
+      "displayName": "Button bar",
+      "help": "Button bar"
+    },
+    "TABLE_AREA": {
+      "displayName": "Table Area",
+      "help": "Table Area"
+    },
+    "TABLE": {
+      "displayName": "Master Table",
+      "help": "Main Form"
+    },
+    "FORM": {
+      "displayName": "Main Form",
+      "help": "Main Form"
+    },
+    "FORM_FIELDS": {
+      "displayName": "form field area",
+      "help": "Form Field Area"
+    },
+    "DETAIL": {
+      "displayName": "Details area",
+      "help": "Details area"
+    },
+    "DETAIL_FIELDS": {
+      "displayName": "Detail field area",
+      "help": "Details Field Area"
+    }
+  },
+  "base.ContainerType": {
+    "displayName": "Container type",
+    "CONTAINER": {
+      "displayName": "Container",
+      "help": "Container"
+    },
+    "BLOCK": {
+      "displayName": "Block",
+      "help": "Block"
+    },
+    "GROUP": {
+      "displayName": "Group",
+      "help": "Grouping"
+    },
+    "TABS": {
+      "displayName": "Tab",
+      "help": "Tab"
+    },
+    "TAB": {
+      "displayName": "tab page",
+      "help": "Tab page"
+    }
+  },
+  "base.LayoutType": {
+    "displayName": "Layout Mode Enumeration",
+    "GRID": {
+      "displayName": "grid layout",
+      "help": "Grid layout"
+    },
+    "FLEX": {
+      "displayName": "Fluid layout",
+      "help": "Flow layout"
+    }
+  },
+  "base.AlignType": {
+    "displayName": "alignment enum",
+    "START": {
+      "displayName": "Align to the start position",
+      "help": "Align to the start position"
+    },
+    "CENTER": {
+      "displayName": "center alignment",
+      "help": "Center Alignment"
+    },
+    "END": {
+      "displayName": "Align to end position",
+      "help": "Align to end position"
+    },
+    "STRETCH": {
+      "displayName": "Telescopic Alignment",
+      "help": "Stretch Alignment"
+    }
+  },
+  "base.TimeDisplayPattern": {
+    "displayName": "Time display format",
+    "SECOND": "HH:mm:ss",
+    "MINUTE": "HH:mm",
+    "TEXT_SECOND": "A HH:mm:ss",
+    "TEXT_MINUTE": "A HH:mm"
+  },
+  "base.DateDisplayPattern": {
+    "displayName": "Date display format",
+    "TEXT": {
+      "displayName": "Yyyy Year MM Month dd",
+      "help": "yyyy year MM month dd"
+    },
+    "HYPHEN": "hyphen",
+    "SLASH": "end"
+  },
+  "base.AddressPattern": {
+    "displayName": "Address Format",
+    "PROVINCE4": {
+      "displayName": "Province/City/District (County)/Street (Town)",
+      "help": "Province/City/District (County)/Street (Town)"
+    },
+    "PROVINCE3": {
+      "displayName": "Province/City/District (County)",
+      "help": "Province/City/District (County)"
+    },
+    "PROVINCE2": {
+      "displayName": "Province/City",
+      "help": "Province/City"
+    },
+    "PROVINCE1": {
+      "displayName": "Province",
+      "help": "province"
+    },
+    "CITY2": {
+      "displayName": "City/District (County)",
+      "help": "City/District (County)"
+    },
+    "CITY1": {
+      "displayName": "city",
+      "help": "City"
+    }
+  }
+}

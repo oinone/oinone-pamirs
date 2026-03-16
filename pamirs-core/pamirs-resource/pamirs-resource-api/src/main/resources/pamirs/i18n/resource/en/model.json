@@ -1,0 +1,1749 @@
+{
+  "resource.ResourceCity" : {
+    "displayName" : "City",
+    "base.Field" : {
+      "districtList" : {
+        "summary" : "District/County",
+        "displayName" : "District/County"
+      },
+      "country" : {
+        "summary" : "Country",
+        "displayName" : "Country"
+      },
+      "zipCode" : {
+        "displayName" : "Postal code"
+      },
+      "outResourceRelationList" : {
+        "summary" : "External resource association list",
+        "displayName" : "External resource association list"
+      },
+      "province" : {
+        "summary" : "Province/State",
+        "displayName" : "province/state"
+      },
+      "sourceType" : {
+        "summary" : "Source Type",
+        "displayName" : "Source Type"
+      },
+      "countryCode" : {
+        "displayName" : "Country/Region Code"
+      },
+      "provinceCode" : {
+        "summary" : "Province/State Code",
+        "displayName" : "Province/State Code"
+      },
+      "mappingList" : {
+        "summary" : "Keyword Mapping List",
+        "displayName" : "Keyword Mapping List"
+      },
+      "name" : {
+        "displayName" : "City Name"
+      },
+      "phoneCode" : {
+        "summary" : "Area Code",
+        "displayName" : "Long-distance area code"
+      }
+    }
+  },
+  "resource.ResourcePartnerAddress" : {
+    "displayName" : "Partner Address",
+    "base.Field" : {
+      "area" : {
+        "summary" : "Region",
+        "displayName" : "Location area"
+      },
+      "zipCode" : {
+        "summary" : "Zip Code",
+        "displayName" : "Postal code"
+      },
+      "contactManIdentityNo" : {
+        "summary" : "Customs or some courier services require the recipient\\'s ID number",
+        "displayName" : "Contact person's ID number"
+      },
+      "address" : {
+        "summary" : "Address",
+        "displayName" : "Address"
+      },
+      "relationTags" : {
+        "summary" : "Unique identifier for the same related object",
+        "displayName" : "The only distinguishing mark of the same associated object"
+      },
+      "contactEmail" : {
+        "summary" : "Contact Email",
+        "displayName" : "Contact Email"
+      },
+      "addressType" : {
+        "summary" : "Shipping Address Type",
+        "displayName" : "Shipping Address Type"
+      },
+      "outCode" : {
+        "summary" : "External Code",
+        "displayName" : "external encoding"
+      },
+      "relationId" : {
+        "summary" : "O2M reserved field, it is recommended to manually configure the referenceFields of the O2M field to this attribute value",
+        "displayName" : "The unique key value of the associated object"
+      },
+      "remark" : {
+        "summary" : "Remark",
+        "displayName" : "Remarks"
+      },
+      "contactMan" : {
+        "summary" : "Contact Person",
+        "displayName" : "Contact"
+      },
+      "contactLandPhone" : {
+        "summary" : "Generally used by company contacts",
+        "displayName" : "Contact person's landline"
+      },
+      "isDefault" : {
+        "summary" : "Is Default",
+        "displayName" : "Is it the default"
+      },
+      "regionCode" : {
+        "summary" : "The ultimate region code",
+        "displayName" : "Area code"
+      },
+      "contactManRealName" : {
+        "summary" : "Contact Real Name",
+        "displayName" : "Contact's real name"
+      },
+      "fullAddress" : {
+        "summary" : "Display Address",
+        "displayName" : "Display Address"
+      },
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "detailAddress" : {
+        "summary" : "Detailed Address",
+        "displayName" : "Detailed address"
+      },
+      "position" : {
+        "summary" : "Position/Job",
+        "displayName" : "position"
+      },
+      "street2" : {
+        "summary" : "The address component of Designer 4.0 needs to be mapped to the detailed address of the address",
+        "displayName" : "Address - Detailed Address"
+      },
+      "contactPhone" : {
+        "summary" : "Contact Phone",
+        "displayName" : "Contact Number"
+      },
+      "region" : {
+        "summary" : "Address - Region",
+        "displayName" : "Address - Area"
+      }
+    }
+  },
+  "resource.ResourceTranslation" : {
+    "displayName" : "Translation resources",
+    "base.Field" : {
+      "isDict" : {
+        "displayName" : "Is it a dictionary"
+      },
+      "comments" : {
+        "summary" : "Remark",
+        "displayName" : "Remarks"
+      },
+      "dataDictionary" : {
+        "displayName" : "Dictionary"
+      },
+      "langCode" : {
+        "summary" : "Target Language Code",
+        "displayName" : "Target language encoding"
+      },
+      "module" : {
+        "displayName" : "Translate the name of the module"
+      },
+      "moduleName" : {
+        "summary" : "Application Name",
+        "displayName" : "Application Name"
+      },
+      "modelDefinition" : {
+        "summary" : "Model",
+        "displayName" : "Model"
+      },
+      "translationItems" : {
+        "displayName" : "Translation item"
+      },
+      "moduleDefinition" : {
+        "summary" : "Translation Module",
+        "displayName" : "Translation module"
+      },
+      "resLang" : {
+        "summary" : "Source Language",
+        "displayName" : "Source Language"
+      },
+      "model" : {
+        "summary" : "Model/Dictionary",
+        "displayName" : "Model/Dictionary"
+      },
+      "remoteUrl" : {
+        "displayName" : "Remote resource URL"
+      },
+      "state" : {
+        "summary" : "Active State",
+        "displayName" : "active state"
+      },
+      "lang" : {
+        "summary" : "Target Language",
+        "displayName" : "Target language"
+      },
+      "resLangCode" : {
+        "summary" : "Source Language Code",
+        "displayName" : "Source language encoding"
+      }
+    }
+  },
+  "resource.ResourceLang" : {
+    "summary" : "Language",
+    "displayName" : "Language",
+    "base.Field" : {
+      "calendarType" : {
+        "summary" : "Calendar",
+        "displayName" : "Calendar"
+      },
+      "dateFormat" : {
+        "summary" : "Date Format",
+        "displayName" : "Date format"
+      },
+      "decimalPoint" : {
+        "displayName" : "Decimal format"
+      },
+      "addressFormat" : {
+        "summary" : "Value actually used at runtime",
+        "displayName" : "Address Format"
+      },
+      "icon" : {
+        "summary" : "Icon",
+        "displayName" : "Icon"
+      },
+      "resourceDateFormat" : {
+        "summary" : "Date Format",
+        "displayName" : "Date format"
+      },
+      "active" : {
+        "summary" : "Active State",
+        "displayName" : "active state"
+      },
+      "addressTypes" : {
+        "displayName" : "Address Format"
+      },
+      "userCurrentLang" : {
+        "displayName" : "Current user language"
+      },
+      "installState" : {
+        "displayName" : "Language Pack Installation Status"
+      },
+      "timezoneType" : {
+        "summary" : "Timezone",
+        "displayName" : "Time zone"
+      },
+      "weekStart" : {
+        "displayName" : "Start day of the week"
+      },
+      "isoCode" : {
+        "summary" : "Internationalized encoding",
+        "displayName" : "Language ISO code"
+      },
+      "groupingRule" : {
+        "summary" : "Digit Grouping Rule",
+        "displayName" : "Digital Grouping Rules"
+      },
+      "resourceIcon" : {
+        "summary" : "Icon",
+        "displayName" : "Icon"
+      },
+      "timeFormat" : {
+        "summary" : "Time Format",
+        "displayName" : "Time format"
+      },
+      "name" : {
+        "displayName" : "Language Name"
+      },
+      "thousandsSep" : {
+        "summary" : "Integer Format",
+        "displayName" : "Integer format"
+      },
+      "direction" : {
+        "summary" : "Writing Habits",
+        "displayName" : "Writing habits"
+      },
+      "resourceTimeFormat" : {
+        "summary" : "Time Format",
+        "displayName" : "Time format"
+      }
+    }
+  },
+  "resource.BaseResourceModel" : {
+    "summary" : "Abstract base class with outCode model",
+    "displayName" : "Abstract base class with outCode model",
+    "base.Field" : {
+      "outCode" : {
+        "summary" : "External Code",
+        "displayName" : "External Code"
+      }
+    }
+  },
+  "resource.ConditionWrapper" : {
+    "displayName" : "Query Conditions",
+    "base.Field" : {
+      "queryData" : {
+        "summary" : "Transfer data",
+        "displayName" : "Transfer data"
+      },
+      "rsql" : {
+        "summary" : "rsql",
+        "displayName" : "rsql"
+      },
+      "model" : {
+        "summary" : "Model Code",
+        "displayName" : "Model Code"
+      },
+      "sort" : {
+        "summary" : "Sort",
+        "displayName" : "Sort"
+      }
+    }
+  },
+  "base.PamirsExcel" : {
+    "displayName" : "excel file"
+  },
+  "resource.ResourceRegionProxyModel" : {
+    "displayName" : "Regional agent model",
+    "base.Field" : {
+      "country" : {
+        "summary" : "Country",
+        "displayName" : "Country"
+      },
+      "outResourceRelationList" : {
+        "displayName" : "External Resource Association List"
+      },
+      "province" : {
+        "summary" : "Province/State",
+        "displayName" : "province/state"
+      },
+      "city" : {
+        "displayName" : "City"
+      },
+      "street" : {
+        "displayName" : "Street"
+      },
+      "district" : {
+        "displayName" : "District"
+      },
+      "downloadUrl" : {
+        "summary" : "Frontend JS Address",
+        "displayName" : "Frontend address JS address"
+      }
+    }
+  },
+  "resource.ResourceTax" : {
+    "displayName" : "tax rate",
+    "base.Field" : {
+      "outResourceRelationList" : {
+        "displayName" : "External Resource Association List"
+      },
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "taxKind" : {
+        "displayName" : "Tax type"
+      },
+      "tax" : {
+        "summary" : "Tax Rate",
+        "displayName" : "tax rate"
+      },
+      "region" : {
+        "displayName" : "country region"
+      }
+    }
+  },
+  "resource.ResourceCountryGroup" : {
+    "summary" : "By default, country groups for the five continents are provided, and they are not visible, not deletable, and not editable.",
+    "displayName" : "Country Group / Continent",
+    "base.Field" : {
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "countryList" : {
+        "displayName" : "List of countries"
+      }
+    }
+  },
+  "resource.resourceCurrencyTransientModel" : {
+    "displayName" : "Universal Currency Temporary Model",
+    "base.Field" : {
+      "currencyOnlyId" : {
+        "displayName" : "Currency OnlyId"
+      },
+      "currency" : {
+        "summary" : "Currency",
+        "displayName" : "Currency"
+      }
+    }
+  },
+  "resource.ResourceConfigSettings" : {
+    "displayName" : "Application Configuration",
+    "base.Field" : {
+      "models" : {
+        "summary" : "Business configuration model list",
+        "displayName" : "Business configuration model list"
+      },
+      "modules" : {
+        "summary" : "Business application",
+        "displayName" : "Business application"
+      }
+    }
+  },
+  "resource.resourceCurrencyRateTransientModel" : {
+    "displayName" : "General Exchange Rate Temporary Model",
+    "base.Field" : {
+      "rate" : {
+        "displayName" : "Exchange rate"
+      },
+      "rateOnlyId" : {
+        "summary" : "Exchange Rate OnlyId",
+        "displayName" : "Exchange Rate OnlyId"
+      }
+    }
+  },
+  "base.PamirsImage" : {
+    "displayName" : "Picture"
+  },
+  "resource.ResourceCountry" : {
+    "displayName" : "Country",
+    "base.Field" : {
+      "flag" : {
+        "summary" : "National flag",
+        "displayName" : "National flag"
+      },
+      "regionList" : {
+        "summary" : "Region",
+        "displayName" : "district"
+      },
+      "langCode" : {
+        "displayName" : "Language encoding"
+      },
+      "completeName" : {
+        "displayName" : "Full name of country/region"
+      },
+      "provinceList" : {
+        "summary" : "Province",
+        "displayName" : "Province"
+      },
+      "countryGroup" : {
+        "summary" : "Continent",
+        "displayName" : "Continent"
+      },
+      "outResourceRelationList" : {
+        "summary" : "External resource association list",
+        "displayName" : "External resource association list"
+      },
+      "sourceType" : {
+        "summary" : "Source Type",
+        "displayName" : "Source Type"
+      },
+      "mappingList" : {
+        "summary" : "Keyword Mapping List",
+        "displayName" : "Keyword Mapping List"
+      },
+      "addrFormat" : {
+        "summary" : "Address Display Format",
+        "displayName" : "Address display format"
+      },
+      "name" : {
+        "displayName" : "Country/region name"
+      },
+      "phoneCode" : {
+        "summary" : "Area Code",
+        "displayName" : "Long-distance area code"
+      },
+      "currency" : {
+        "displayName" : "Currency used"
+      },
+      "namePosition" : {
+        "summary" : "Rules for displaying names of countries (e.g., given name first in the US, surname first in China)",
+        "displayName" : "Name Display Rules"
+      },
+      "lang" : {
+        "displayName" : "Official language"
+      },
+      "currencyCode" : {
+        "displayName" : "Use currency code"
+      },
+      "countryGroupCode" : {
+        "displayName" : "Continent code"
+      },
+      "vatLabel" : {
+        "summary" : "The country\\'s tax identification label (called VAT in mainland China/UK, called GST in Canada/Australia)",
+        "displayName" : "Excise tax display name"
+      }
+    }
+  },
+  "resource.ResourceCurrencyRate" : {
+    "displayName" : "Exchange rate",
+    "base.Field" : {
+      "rate" : {
+        "summary" : "Exchange rate",
+        "displayName" : "Exchange rate"
+      },
+      "toCurrency" : {
+        "summary" : "Target currency",
+        "displayName" : "Target currency"
+      },
+      "currency" : {
+        "summary" : "Base currency",
+        "displayName" : "Base currency"
+      }
+    }
+  },
+  "resource.ResourceCompanyNature" : {
+    "displayName" : "Nature of the company",
+    "base.Field" : {
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "description" : {
+        "summary" : "Description",
+        "displayName" : "Description"
+      }
+    }
+  },
+  "resource.ResourceValue" : {
+    "displayName" : "Resource key",
+    "base.Field" : {
+      "value" : {
+        "summary" : "Value",
+        "displayName" : "value"
+      },
+      "key" : {
+        "summary" : "Key",
+        "displayName" : "key"
+      }
+    }
+  },
+  "resource.ResourceCurrency" : {
+    "displayName" : "Currency",
+    "base.Field" : {
+      "symbol" : {
+        "summary" : "Currency Symbol",
+        "displayName" : "Currency symbol"
+      },
+      "decimalPlaces" : {
+        "summary" : "Decimal Precision",
+        "displayName" : "Decimal precision"
+      },
+      "outResourceRelationList" : {
+        "summary" : "External resource association list",
+        "displayName" : "External resource association list"
+      },
+      "currencyUnitLabel" : {
+        "summary" : "The integer unit of currency is displayed, for example, the Chinese yuan displays \\'yuan\\'",
+        "displayName" : "Integer unit"
+      },
+      "name" : {
+        "displayName" : "Currency Name"
+      },
+      "active" : {
+        "summary" : "Active",
+        "displayName" : "Activate or not"
+      },
+      "currencySubunitLabel" : {
+        "summary" : "The decimal unit of the currency is displayed, such as the RMB.",
+        "displayName" : "Decimal Unit"
+      },
+      "rounding" : {
+        "summary" : "Obtain the value, using rounding to the nearest precision",
+        "displayName" : "Precise method"
+      },
+      "position" : {
+        "displayName" : "Symbol position"
+      }
+    }
+  },
+  "resource.ResourceRegionMapping" : {
+    "displayName" : "Region Keyword Mapping",
+    "base.Field" : {
+      "keywords" : {
+        "displayName" : "Mapping Keyword"
+      },
+      "relationCode" : {
+        "summary" : "Code of the mapped area",
+        "displayName" : "associative coding"
+      },
+      "model" : {
+        "summary" : "Distinguish whether what is being mapped is a province/city/district",
+        "displayName" : "association model"
+      }
+    }
+  },
+  "resource.RegionNode" : {
+    "displayName" : "Regional Address",
+    "base.Field" : {
+      "children" : {
+        "displayName" : "subordinate"
+      }
+    }
+  },
+  "resource.ResourceAddress" : {
+    "displayName" : "Resource Address",
+    "base.Field" : {
+      "originStreet" : {
+        "summary" : "Street",
+        "displayName" : "Street"
+      },
+      "country" : {
+        "summary" : "Country/Region ID",
+        "displayName" : "Country/Region ID"
+      },
+      "districtCode" : {
+        "summary" : "District/County Code",
+        "displayName" : "District/County Code"
+      },
+      "originRegionDistrict" : {
+        "summary" : "District/County - Region",
+        "displayName" : "District/County - Region"
+      },
+      "city" : {
+        "summary" : "CityId",
+        "displayName" : "CityId"
+      },
+      "cityCode" : {
+        "summary" : "City code",
+        "displayName" : "City code"
+      },
+      "originRegionCountry" : {
+        "summary" : "Country/Region - Region",
+        "displayName" : "Country/Region - Region"
+      },
+      "originRegionStreet" : {
+        "summary" : "Street - Region",
+        "displayName" : "Street - Region"
+      },
+      "streetName" : {
+        "summary" : "Street Name",
+        "displayName" : "Street Name"
+      },
+      "cityName" : {
+        "summary" : "City Name",
+        "displayName" : "City Name"
+      },
+      "province" : {
+        "summary" : "Province/State ID",
+        "displayName" : "Province/State ID"
+      },
+      "countryCode" : {
+        "summary" : "Country code",
+        "displayName" : "Country code"
+      },
+      "street" : {
+        "summary" : "Street ID",
+        "displayName" : "Street ID"
+      },
+      "originCity" : {
+        "summary" : "City",
+        "displayName" : "City"
+      },
+      "street2" : {
+        "summary" : "Address",
+        "displayName" : "Address"
+      },
+      "originRegionProvince" : {
+        "summary" : "Province/State - Region",
+        "displayName" : "Province/State - Region"
+      },
+      "originProvince" : {
+        "summary" : "Province/State",
+        "displayName" : "Province/State"
+      },
+      "districtName" : {
+        "summary" : "District/County Name",
+        "displayName" : "District/County Name"
+      },
+      "provinceCode" : {
+        "summary" : "Province/State Code",
+        "displayName" : "Province/State Code"
+      },
+      "streetCode" : {
+        "summary" : "Street code",
+        "displayName" : "Street code"
+      },
+      "originDistrict" : {
+        "summary" : "District/County",
+        "displayName" : "District/County"
+      },
+      "originRegionCity" : {
+        "summary" : "City - Region",
+        "displayName" : "City - Region"
+      },
+      "sourceType" : {
+        "summary" : "Address Source Type",
+        "displayName" : "Address Source Type"
+      },
+      "district" : {
+        "summary" : "District/County ID",
+        "displayName" : "District/County ID"
+      },
+      "fullAddress" : {
+        "summary" : "Full Address",
+        "displayName" : "Full Address"
+      },
+      "originCountry" : {
+        "summary" : "Country/Region",
+        "displayName" : "Country/Region"
+      },
+      "countryName" : {
+        "summary" : "Country Name",
+        "displayName" : "Country Name"
+      },
+      "provinceName" : {
+        "summary" : "Province/State Name",
+        "displayName" : "Province/State Name"
+      }
+    }
+  },
+  "resource.ResourceAutoCurrencyRateConfig" : {
+    "displayName" : "Automatic exchange rate configuration",
+    "base.Field" : {
+      "lastExecuteTime" : {
+        "displayName" : "Last execution time"
+      },
+      "currencyService" : {
+        "displayName" : "Exchange rate services"
+      },
+      "enable" : {
+        "summary" : "Enable or not",
+        "displayName" : "Enable automatic exchange rate"
+      },
+      "nextExecuteTime" : {
+        "displayName" : "Next execution time"
+      },
+      "intervalTime" : {
+        "displayName" : "Update interval"
+      }
+    }
+  },
+  "resource.ResourceProvince" : {
+    "displayName" : "province/state",
+    "base.Field" : {
+      "country" : {
+        "summary" : "Country/Region",
+        "displayName" : "Country/Region"
+      },
+      "outResourceRelationList" : {
+        "summary" : "External resource association list",
+        "displayName" : "External resource association list"
+      },
+      "sourceType" : {
+        "summary" : "Source Type",
+        "displayName" : "Source Type"
+      },
+      "countryCode" : {
+        "displayName" : "Country/Region Code"
+      },
+      "mappingList" : {
+        "summary" : "Keyword Mapping List",
+        "displayName" : "Keyword Mapping List"
+      },
+      "name" : {
+        "displayName" : "Province/State Name"
+      },
+      "cityList" : {
+        "summary" : "City",
+        "displayName" : "City"
+      }
+    }
+  },
+  "base.PamirsVideo" : {
+    "displayName" : "video"
+  },
+  "resource.ResourceName" : {
+    "base.Field" : {
+      "firstName" : {
+        "displayName" : "surname"
+      },
+      "lastName" : {
+        "displayName" : "Name"
+      },
+      "midName" : {
+        "displayName" : "Middle name"
+      }
+    }
+  },
+  "resource.ResourceStreet" : {
+    "displayName" : "Street",
+    "base.Field" : {
+      "country" : {
+        "summary" : "Country",
+        "displayName" : "Country"
+      },
+      "districtCode" : {
+        "displayName" : "District/County Code"
+      },
+      "outResourceRelationList" : {
+        "summary" : "External resource association list",
+        "displayName" : "External resource association list"
+      },
+      "province" : {
+        "displayName" : "province"
+      },
+      "city" : {
+        "displayName" : "City"
+      },
+      "sourceType" : {
+        "summary" : "Source Type",
+        "displayName" : "Source Type"
+      },
+      "cityCode" : {
+        "displayName" : "City code"
+      },
+      "countryCode" : {
+        "displayName" : "Country code"
+      },
+      "provinceCode" : {
+        "displayName" : "Provincial code"
+      },
+      "district" : {
+        "summary" : "District/County",
+        "displayName" : "District/County"
+      },
+      "mappingList" : {
+        "summary" : "Keyword Mapping List",
+        "displayName" : "Keyword Mapping List"
+      },
+      "name" : {
+        "displayName" : "Street Name"
+      }
+    }
+  },
+  "resource.ResourceRegion" : {
+    "displayName" : "district",
+    "base.Field" : {
+      "country" : {
+        "displayName" : "Country of affiliation"
+      },
+      "parent" : {
+        "summary" : "Parent Node",
+        "displayName" : "parent node"
+      },
+      "outResourceRelationList" : {
+        "summary" : "External resource association list",
+        "displayName" : "External resource association list"
+      },
+      "children" : {
+        "summary" : "Child node",
+        "displayName" : "Child node"
+      },
+      "level" : {
+        "displayName" : "Hierarchy"
+      },
+      "sourceType" : {
+        "summary" : "Source Type",
+        "displayName" : "Source Type"
+      },
+      "countryCode" : {
+        "displayName" : "Country Code"
+      },
+      "hasChildren" : {
+        "summary" : "Whether there are child nodes",
+        "displayName" : "Whether there are child nodes"
+      },
+      "pCode" : {
+        "displayName" : "Parent Node Code"
+      },
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "pid" : {
+        "displayName" : "Parent Node ID"
+      },
+      "type" : {
+        "displayName" : "Address type"
+      }
+    }
+  },
+  "resource.ResourceDistrict" : {
+    "displayName" : "District/County",
+    "base.Field" : {
+      "country" : {
+        "summary" : "Country",
+        "displayName" : "Country"
+      },
+      "zipCode" : {
+        "displayName" : "City area postal code"
+      },
+      "outResourceRelationList" : {
+        "summary" : "External resource association list",
+        "displayName" : "External resource association list"
+      },
+      "province" : {
+        "displayName" : "province"
+      },
+      "city" : {
+        "displayName" : "City"
+      },
+      "sourceType" : {
+        "summary" : "Source Type",
+        "displayName" : "Source Type"
+      },
+      "cityCode" : {
+        "displayName" : "City code"
+      },
+      "countryCode" : {
+        "displayName" : "Country code"
+      },
+      "provinceCode" : {
+        "displayName" : "Provincial code"
+      },
+      "mappingList" : {
+        "summary" : "Keyword Mapping List",
+        "displayName" : "Keyword Mapping List"
+      },
+      "name" : {
+        "displayName" : "District and county name"
+      },
+      "streetList" : {
+        "displayName" : "Street"
+      }
+    }
+  },
+  "resource.ResourceCountryTransientModel" : {
+    "displayName" : "General National Temporary Model",
+    "base.Field" : {
+      "country" : {
+        "summary" : "Country",
+        "displayName" : "Country"
+      },
+      "countryOnlyId" : {
+        "summary" : "Country OnlyId",
+        "displayName" : "Country OnlyId"
+      }
+    }
+  },
+  "ResourceCountryGroupCountryRel" : {
+    "summary" : "Relation between Country and Country Group / Continent",
+    "displayName" : "Relation between Country and Country Group / Continent"
+  },
+  "base.PamirsMobilePhone" : {
+    "summary" : "It can only be a phone number",
+    "displayName" : "Mobile phone number",
+    "base.Field" : {
+      "value" : {
+        "summary" : "value",
+        "displayName" : "value"
+      }
+    }
+  },
+  "resource.ResourceGeneral" : {
+    "displayName" : "General",
+    "base.Field" : {
+      "country" : {
+        "summary" : "Country",
+        "displayName" : "Country"
+      },
+      "currencyRateConfig" : {
+        "summary" : "Exchange rate",
+        "displayName" : "Exchange rate"
+      },
+      "currency" : {
+        "summary" : "Base currency",
+        "displayName" : "Base currency"
+      },
+      "lang" : {
+        "summary" : "Language",
+        "displayName" : "Language"
+      }
+    }
+  },
+  "resource.AbstractResourceTranslationItem" : {
+    "displayName" : "Abstract Translation Resource Item",
+    "base.Field" : {
+      "comments" : {
+        "summary" : "Remark",
+        "displayName" : "Remarks"
+      },
+      "langCode" : {
+        "summary" : "Target Language",
+        "displayName" : "Target language"
+      },
+      "module" : {
+        "summary" : "Translation Module",
+        "displayName" : "Translation module"
+      },
+      "origin" : {
+        "summary" : "Source Term",
+        "displayName" : "Source Term"
+      },
+      "moduleName" : {
+        "summary" : "Application Name",
+        "displayName" : "Application Name"
+      },
+      "translateFor" : {
+        "summary" : "Translation Method",
+        "displayName" : "Translation Method"
+      },
+      "target" : {
+        "summary" : "Translation Value",
+        "displayName" : "Translation value"
+      },
+      "system" : {
+        "summary" : "System Field",
+        "displayName" : "System Field"
+      },
+      "scope" : {
+        "summary" : "Translation Scope",
+        "displayName" : "Translation application scope"
+      },
+      "translation" : {
+        "summary" : "Translate",
+        "displayName" : "Translate"
+      },
+      "model" : {
+        "summary" : "Model/Dictionary",
+        "displayName" : "Model/Dictionary"
+      },
+      "originCode" : {
+        "summary" : "In order to support ultra-long source terms, generate this code through the source terms and use the code as a unique key",
+        "displayName" : "Source Term Code"
+      },
+      "state" : {
+        "summary" : "Active State",
+        "displayName" : "active state"
+      },
+      "dataSource" : {
+        "summary" : "Data Source",
+        "displayName" : "Data source"
+      },
+      "resLangCode" : {
+        "summary" : "Source Language",
+        "displayName" : "Source Language"
+      }
+    }
+  },
+  "CityLevelRelCity" : {
+    "summary" : "Relation between City and City Tier",
+    "displayName" : "Relation between City and City Tier"
+  },
+  "resource.ResourceIconGroup" : {
+    "displayName" : "Icon Grouping",
+    "base.Field" : {
+      "iconNum" : {
+        "displayName" : "Number of icons"
+      },
+      "batchCode" : {
+        "displayName" : "Update batch"
+      },
+      "iconList" : {
+        "displayName" : "All icons"
+      },
+      "name" : {
+        "displayName" : "Group Name"
+      },
+      "sys" : {
+        "displayName" : "Is it system grouping?"
+      }
+    }
+  },
+  "resource.ResourceConfigTranslatable" : {
+    "displayName" : "Configure translation table",
+    "base.Field" : {
+      "namespace" : {
+        "displayName" : "Scope"
+      },
+      "value" : {
+        "summary" : "Value",
+        "displayName" : "value"
+      },
+      "key" : {
+        "summary" : "Key",
+        "displayName" : "key"
+      }
+    }
+  },
+  "resource.ResourceIcon" : {
+    "summary" : "Icon",
+    "displayName" : "Icon",
+    "base.Field" : {
+      "fontClass" : {
+        "displayName" : "Font icon class name"
+      },
+      "libId" : {
+        "displayName" : "Icon library id"
+      },
+      "lib" : {
+        "displayName" : "Icon library"
+      },
+      "displayName" : {
+        "displayName" : "Icon Display Name"
+      },
+      "groupId" : {
+        "displayName" : "group ID"
+      },
+      "show" : {
+        "displayName" : "Show/Hide"
+      },
+      "remark" : {
+        "summary" : "Remark",
+        "displayName" : "Remarks"
+      },
+      "sys" : {
+        "summary" : "Whether system icon",
+        "displayName" : "Whether the system icon"
+      },
+      "type" : {
+        "displayName" : "Icon Type"
+      },
+      "fullFontClass" : {
+        "displayName" : "Full class name of the font icon"
+      },
+      "name" : {
+        "summary" : "Icon Name",
+        "displayName" : "Icon name"
+      },
+      "unicode" : {
+        "summary" : "unicode",
+        "displayName" : "unicode"
+      },
+      "outId" : {
+        "displayName" : "Icon ID"
+      },
+      "group" : {
+        "summary" : "Group",
+        "displayName" : "Grouping"
+      }
+    }
+  },
+  "resource.ResourcePartnerBank" : {
+    "displayName" : "Partner bank account",
+    "base.Field" : {
+      "bankAccount" : {
+        "displayName" : "Bank account number"
+      },
+      "country" : {
+        "displayName" : "Account opening country"
+      },
+      "isDefault" : {
+        "summary" : "Is Default",
+        "displayName" : "Is it the default"
+      },
+      "address" : {
+        "displayName" : "Bank address"
+      },
+      "relationTags" : {
+        "summary" : "Distinguish bank types by default, those without business are NORMAL",
+        "displayName" : "Associated type"
+      },
+      "resourceBank" : {
+        "displayName" : "Account bank"
+      },
+      "phone" : {
+        "summary" : "Phone",
+        "displayName" : "Telephone"
+      },
+      "name" : {
+        "displayName" : "Bank account description"
+      },
+      "resourceBankName" : {
+        "displayName" : "Name of bank where the account is opened"
+      },
+      "relationId" : {
+        "summary" : "O2M reserved field, it is recommended to manually configure the referenceFields of the O2M field to this attribute value",
+        "displayName" : "The unique key value of the associated object"
+      },
+      "email" : {
+        "summary" : "Email",
+        "displayName" : "Email mailbox"
+      }
+    }
+  },
+  "translate.TranslationModuleDefinitionProxy" : {
+    "summary" : "Translation Module",
+    "displayName" : "Translation Module",
+    "remark" : "Module"
+  },
+  "resource.ResourceCityLevel" : {
+    "displayName" : "city tier",
+    "base.Field" : {
+      "code" : {
+        "summary" : "City Level Code",
+        "displayName" : "City Level Code"
+      },
+      "cityLevel" : {
+        "summary" : "city tier",
+        "displayName" : "city tier"
+      },
+      "name" : {
+        "summary" : "City level name",
+        "displayName" : "City level name"
+      },
+      "cityList" : {
+        "displayName" : "City List"
+      }
+    }
+  },
+  "resource.TranslationResourceLangProxy" : {
+    "summary" : "Target language query",
+    "displayName" : "Target language query"
+  },
+  "resource.ResourceTaxKind" : {
+    "displayName" : "Tax type",
+    "base.Field" : {
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      }
+    }
+  },
+  "resource.TreeNode" : {
+    "displayName" : "Tree",
+    "base.Field" : {
+      "code" : {
+        "summary" : "Encode",
+        "displayName" : "coding"
+      },
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "id" : {
+        "summary" : "id",
+        "displayName" : "id"
+      }
+    }
+  },
+  "resource.ResourceCommonTransientModel" : {
+    "displayName" : "General Configuration",
+    "base.Field" : {
+      "country" : {
+        "summary" : "Country",
+        "displayName" : "Country"
+      },
+      "rate" : {
+        "displayName" : "Exchange rate"
+      },
+      "currency" : {
+        "summary" : "Currency",
+        "displayName" : "Currency"
+      },
+      "lang" : {
+        "summary" : "Language",
+        "displayName" : "Language"
+      }
+    }
+  },
+  "resource.ResourceCrypto" : {
+    "displayName" : "Encryption and Decryption Model",
+    "base.Field" : {
+      "publicKey" : {
+        "summary" : "Public Key",
+        "displayName" : "Public Key"
+      }
+    }
+  },
+  "resource.ResourceTheme" : {
+    "displayName" : "theme",
+    "base.Field" : {
+      "popupType" : {
+        "displayName" : "Popup method"
+      },
+      "colorSelectorStyle" : {
+        "displayName" : "Color Picker"
+      },
+      "menuStyle" : {
+        "summary" : "Menu",
+        "displayName" : "Menu"
+      },
+      "blocksLayout" : {
+        "summary" : "Blocks Layout",
+        "displayName" : "Blocks Layout"
+      },
+      "footerColor" : {
+        "summary" : "Footer Color",
+        "displayName" : "Footer color"
+      },
+      "author" : {
+        "displayName" : "Author"
+      },
+      "timeSelectorStyle" : {
+        "displayName" : "Time Picker"
+      },
+      "buttonStyle" : {
+        "summary" : "button",
+        "displayName" : "button"
+      },
+      "footerStyle" : {
+        "summary" : "footer",
+        "displayName" : "footer"
+      },
+      "pageBackGroundColor" : {
+        "displayName" : "Page background color"
+      },
+      "headerStyle" : {
+        "summary" : "header",
+        "displayName" : "header"
+      },
+      "themeOptions" : {
+        "displayName" : "Theme Configuration"
+      },
+      "headerColor" : {
+        "summary" : "Header Color",
+        "displayName" : "Header color"
+      },
+      "isDefault" : {
+        "displayName" : "Default theme?"
+      },
+      "listStyle" : {
+        "summary" : "list",
+        "displayName" : "list"
+      },
+      "mainColor" : {
+        "displayName" : "Primary color"
+      },
+      "menuLayout" : {
+        "displayName" : "Menu layout"
+      },
+      "name" : {
+        "displayName" : "Theme Name"
+      }
+    }
+  },
+  "base.PamirsPhone" : {
+    "displayName" : "Mobile phone or landline number",
+    "base.Field" : {
+      "value" : {
+        "summary" : "value",
+        "displayName" : "value"
+      }
+    }
+  },
+  "resource.OutResourceRelation" : {
+    "displayName" : "external resource relationships",
+    "base.Field" : {
+      "sourceType" : {
+        "summary" : "Used to indicate which external system the external field attribute for this resource storage exists in",
+        "displayName" : "Source Type"
+      },
+      "outCode" : {
+        "summary" : "It is recommended to use external coding for association",
+        "displayName" : "external encoding"
+      },
+      "extra" : {
+        "summary" : "For the necessary data content that needs to be stored, it is recommended to use JSON for storage.",
+        "displayName" : "Extend fields"
+      },
+      "relationCode" : {
+        "summary" : "It is recommended to use the associated code as the unique value for association.",
+        "displayName" : "associative coding"
+      },
+      "model" : {
+        "summary" : "Related Model",
+        "displayName" : "association model"
+      }
+    }
+  },
+  "resource.ResourceDateFormat" : {
+    "displayName" : "Date format",
+    "base.Field" : {
+      "chinese" : {
+        "summary" : "YYYY year MM month DD day",
+        "displayName" : "Chinese format"
+      },
+      "chineseYearMonth" : {
+        "summary" : "YYYY/MM",
+        "displayName" : "Chinese year and month format"
+      },
+      "chineseYearMonthMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Chinese format"
+      },
+      "hyphenMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Hyphen"
+      },
+      "chineseMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Chinese format"
+      },
+      "hyphen" : {
+        "summary" : "YYYY-MM-DD",
+        "displayName" : "Hyphen"
+      },
+      "hyphenYearMonth" : {
+        "summary" : "YYYY-MM",
+        "displayName" : "Hyphenated year and month format"
+      },
+      "slashYearMonth" : {
+        "summary" : "YYYY/MM",
+        "displayName" : "Slash-separated year and month format"
+      },
+      "slash" : {
+        "summary" : "YYYY/MM/DD",
+        "displayName" : "slash"
+      },
+      "hyphenYearMonthMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Hyphenated year and month format"
+      },
+      "slashMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "slash"
+      },
+      "slashYearMonthMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Slash-separated year and month format"
+      }
+    }
+  },
+  "resource.ResourceIndustry" : {
+    "displayName" : "Industry",
+    "base.Field" : {
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "description" : {
+        "summary" : "Description",
+        "displayName" : "Description"
+      }
+    }
+  },
+  "resource.ResourceIconLib" : {
+    "displayName" : "Icon library",
+    "base.Field" : {
+      "jsUrls" : {
+        "summary" : "JS File Link",
+        "displayName" : "js file link"
+      },
+      "cssUrls" : {
+        "summary" : "CSS File Link",
+        "displayName" : "CSS file link"
+      },
+      "groupId" : {
+        "displayName" : "group ID"
+      },
+      "iconList" : {
+        "displayName" : "All icons in the icon library"
+      },
+      "fontUrls" : {
+        "displayName" : "Font file link"
+      },
+      "name" : {
+        "displayName" : "Icon Library Name"
+      },
+      "description" : {
+        "summary" : "Description",
+        "displayName" : "Description"
+      },
+      "outId" : {
+        "displayName" : "Icon library id"
+      },
+      "type" : {
+        "displayName" : "Icon Library Type"
+      },
+      "fontClassPrefix" : {
+        "displayName" : "Icon library prefix"
+      },
+      "group" : {
+        "summary" : "Group",
+        "displayName" : "Grouping"
+      }
+    }
+  },
+  "base.PamirsTelPhone" : {
+    "summary" : "It can only be a landline",
+    "displayName" : "Landline number",
+    "base.Field" : {
+      "value" : {
+        "summary" : "value",
+        "displayName" : "value"
+      }
+    }
+  },
+  "resource.ResourceTimeFormat" : {
+    "displayName" : "Time format",
+    "base.Field" : {
+      "apColonNormalMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Standard Colon Format (AP Style)"
+      },
+      "apColonShort" : {
+        "summary" : "A hh:mm",
+        "displayName" : "Abbreviated colon format (AP style)"
+      },
+      "colonShort" : {
+        "summary" : "HH:mm",
+        "displayName" : "Abbreviated colon format"
+      },
+      "colonShortMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Standard colon format"
+      },
+      "colonNormal" : {
+        "summary" : "HH:mm:ss",
+        "displayName" : "Standard colon format"
+      },
+      "apColonShortMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Abbreviated colon format (AP style)"
+      },
+      "colonNormalSss" : {
+        "summary" : "HH:mm:ss.SSS",
+        "displayName" : "Standard colon millisecond format"
+      },
+      "colonNormalSssMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Standard colon format"
+      },
+      "apColonNormalSss" : {
+        "summary" : "A hh:mm:ss.SSS",
+        "displayName" : "Standard colon-millisecond format (AP style)"
+      },
+      "apColonNormal" : {
+        "summary" : "A hh:mm:ss",
+        "displayName" : "Standard Colon Format (AP Style)"
+      },
+      "colonNormalMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Standard colon format"
+      },
+      "apColonNormalSssMap" : {
+        "summary" : "Front-end display fields",
+        "displayName" : "Standard Colon Format (AP Style)"
+      }
+    }
+  },
+  "base.PamirsMoney" : {
+    "displayName" : "Money",
+    "base.Field" : {
+      "currencyCode" : {
+        "summary" : "currencyCode",
+        "displayName" : "currencyCode"
+      },
+      "value" : {
+        "summary" : "value",
+        "displayName" : "value"
+      }
+    }
+  },
+  "resource.ResourceTranslationItem" : {
+    "displayName" : "Source Term Translation Resource Item"
+  },
+  "base.PamirsRate" : {
+    "summary" : "Range 0-100%",
+    "displayName" : "Percentage",
+    "base.Field" : {
+      "value" : {
+        "summary" : "value",
+        "displayName" : "value"
+      }
+    }
+  },
+  "resource.ResourceConfigSetting" : {
+    "displayName" : "Business Configuration",
+    "base.Field" : {
+      "actualModel" : {
+        "summary" : "Actual Model Name",
+        "displayName" : "Actual Model Name"
+      }
+    }
+  },
+  "resource.major.ResourceMajorConfig" : {
+    "summary" : "System Basic Configuration Information",
+    "displayName" : "System Basic Configuration Information",
+    "base.Field" : {
+      "appSideLogo" : {
+        "summary" : "Recommended size 256x256, dynamically crop size through parameters",
+        "displayName" : "Logo next to the app"
+      },
+      "defaultShopLogo" : {
+        "summary" : "Recommended size 256x256, dynamically crop size through parameters",
+        "displayName" : "Default store logo"
+      },
+      "partnerCode" : {
+        "summary" : "Master Partner Code",
+        "displayName" : "Primary partner code"
+      },
+      "partnerName" : {
+        "displayName" : "Primary Partner Name"
+      },
+      "browserTitle" : {
+        "summary" : "Recommended size 256x256, dynamically crop size through parameters",
+        "displayName" : "Browser default title"
+      },
+      "browserIcon" : {
+        "summary" : "Recommended size 256x256, dynamically crop size through parameters",
+        "displayName" : "Browser favicon"
+      },
+      "partnerUid" : {
+        "summary" : "Master Partner UID",
+        "displayName" : "Main partner UID"
+      },
+      "loginPageLogo" : {
+        "summary" : "Recommended size 256x256, dynamically crop size through parameters",
+        "displayName" : "Login page logo"
+      },
+      "tenantLogoSmall" : {
+        "summary" : "Suggested size 220x74, top",
+        "displayName" : "Tenant logo small size"
+      },
+      "userLoginPrefix" : {
+        "summary" : "Prefix of user.login",
+        "displayName" : "The prefix of user.login"
+      },
+      "tenantLogoFaviconIco" : {
+        "summary" : "Recommended size 64x64",
+        "displayName" : "Tenant's browser ico icon"
+      },
+      "defaultAppLogo" : {
+        "summary" : "Suggested size 256x256, dynamically cropped via parameters",
+        "displayName" : "Default app logo"
+      },
+      "tenantLogo" : {
+        "summary" : "Recommended size 220x74, login page",
+        "displayName" : "Tenant logo"
+      },
+      "partnerId" : {
+        "displayName" : "Primary Partner ID"
+      },
+      "defaultAvatarUrl" : {
+        "summary" : "Recommended size 256x256, dynamically crop size through parameters",
+        "displayName" : "Default user avatar"
+      },
+      "defaultPassword" : {
+        "displayName" : "Account default password"
+      },
+      "partnerShopCode" : {
+        "displayName" : "Main Partner Store Code"
+      },
+      "defaultCsvCharset" : {
+        "summary" : "Default CSV Export Code",
+        "displayName" : "Default CSV Export Code"
+      }
+    }
+  },
+  "resource.ResourceBank" : {
+    "displayName" : "Bank",
+    "base.Field" : {
+      "address" : {
+        "summary" : "Address",
+        "displayName" : "Address"
+      },
+      "phone" : {
+        "displayName" : "Phone number"
+      },
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "logo" : {
+        "summary" : "Bank LOGO",
+        "displayName" : "Bank Logo"
+      },
+      "bicCode" : {
+        "summary" : "Bank Identifier Code, BIC or Swift",
+        "displayName" : "Bank Identification Number"
+      },
+      "bic" : {
+        "summary" : "Bank Identifier Code, BIC or Swift",
+        "displayName" : "Bank Identification Number Prefix"
+      },
+      "email" : {
+        "summary" : "Email Address",
+        "displayName" : "Email address"
+      },
+      "status" : {
+        "displayName" : "Network Status"
+      }
+    }
+  },
+  "resource.ResourceIconUpload" : {
+    "displayName" : "Upload File Transfer Model",
+    "base.Field" : {
+      "urls" : {
+        "summary" : "Upload URL",
+        "displayName" : "Upload URL"
+      },
+      "jsUrls" : {
+        "summary" : "jsUrls",
+        "displayName" : "jsUrls"
+      },
+      "libId" : {
+        "displayName" : "Icon library id"
+      },
+      "cssUrls" : {
+        "summary" : "cssUrls",
+        "displayName" : "cssUrls"
+      },
+      "iconGroupList" : {
+        "summary" : "Group",
+        "displayName" : "Grouping"
+      },
+      "fontUrls" : {
+        "summary" : "fontUrls",
+        "displayName" : "fontUrls"
+      },
+      "sys" : {
+        "summary" : "Whether system icon",
+        "displayName" : "Whether the system icon"
+      }
+    }
+  },
+  "resource.ResourceLangTransientModel" : {
+    "displayName" : "General-purpose language temporary model",
+    "base.Field" : {
+      "langOnlyId" : {
+        "summary" : "Language OnlyId",
+        "displayName" : "Language OnlyId"
+      },
+      "lang" : {
+        "summary" : "Language",
+        "displayName" : "Language"
+      }
+    }
+  },
+  "resource.ResourceConfig" : {
+    "displayName" : "Configuration Table",
+    "base.Field" : {
+      "module" : {
+        "summary" : "Which application belongs to",
+        "displayName" : "Which application belongs to"
+      },
+      "ttype" : {
+        "summary" : "Field Type",
+        "displayName" : "Field Type"
+      },
+      "value" : {
+        "summary" : "Value",
+        "displayName" : "Value"
+      },
+      "key" : {
+        "summary" : "Key",
+        "displayName" : "Key"
+      }
+    }
+  },
+  "base.PamirsEmail" : {
+    "displayName" : "E-mail",
+    "base.Field" : {
+      "value" : {
+        "summary" : "value",
+        "displayName" : "value"
+      }
+    }
+  },
+  "base.PamirsAudio" : {
+    "displayName" : "Audio"
+  },
+  "base.PamirsOffice" : {
+    "summary" : "office/wps/pdf and other office files",
+    "displayName" : "Office document"
+  }
+}

@@ -1,4 +1,4 @@
-<view widget="table" name="街道table" operationWidth="200" title="街道" model="resource.ResourceStreet" type="TABLE">
+<view widget="table" name="ResourceStreetTable" operationWidth="200" title="街道" model="resource.ResourceStreet" type="TABLE">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="resource.ResourceStreet"/>
         <action name="delete" label="删除" model="resource.ResourceStreet"/>
@@ -10,7 +10,7 @@
     <template slot="rowActions">
         <action name="redirectDetailPage" label="详情" model="resource.ResourceStreet"/>
         <action name="redirectUpdatePage" label="编辑" model="resource.ResourceStreet"/>
-        <action name="街道关键字设置dialog" label="街道关键字设置" model="resource.ResourceStreet"/>
+        <action name="ResourceStreetActionKeyword" label="街道关键字设置" model="resource.ResourceStreet"/>
     </template>
     <template slot="search" widget="search">
         <pack gutter="24,24" widget="row">

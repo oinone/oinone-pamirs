@@ -1,4 +1,4 @@
-<view type="DETAIL" model="pamirs.message.SmsTemplate" name="短信模板detail" title="短信模板">
+<view type="DETAIL" model="pamirs.message.SmsTemplate" name="SmsTemplateDetail" title="短信模板">
     <template slot="actions">
         <action name="$$internal_GotoListTableRouter" label="返回" type="default"/>
     </template>

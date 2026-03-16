@@ -1,4 +1,4 @@
-<view widget="form" model="resource.ResourceCountryGroup" type="FORM" name="国家分组form" title="国家分组">
+<view widget="form" model="resource.ResourceCountryGroup" type="FORM" name="ResourceCountryGroupForm" title="国家分组">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" invisible="activeRecord.id &gt; 0" model="resource.ResourceCountryGroup" goBack="true" validateForm="true" tag="contextFreeAction"/>

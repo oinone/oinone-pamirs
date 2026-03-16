@@ -1,4 +1,4 @@
-<view type="FORM" title="任务" name="任务form" widget="form" model="trigger.TaskActionTransientModel">
+<view type="FORM" title="任务" name="TaskActionTransientModelForm" widget="form" model="trigger.TaskActionTransientModel">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" invisible="activeRecord.id" model="trigger.TaskActionTransientModel" goBack="true" validateForm="true" tag="contextFreeAction"/>

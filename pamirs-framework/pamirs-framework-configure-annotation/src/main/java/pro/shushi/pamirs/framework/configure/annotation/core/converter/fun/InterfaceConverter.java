@@ -1,6 +1,11 @@
 package pro.shushi.pamirs.framework.configure.annotation.core.converter.fun;
 
+import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
+import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.api.dto.meta.ExecuteContext;
@@ -8,8 +13,8 @@ import pro.shushi.pamirs.meta.api.dto.meta.MetaNames;
 import pro.shushi.pamirs.meta.common.constants.FunctionDefaultsConstants;
 import pro.shushi.pamirs.meta.domain.fun.InterfaceDefinition;
 import pro.shushi.pamirs.meta.util.MethodUtils;
+import pro.shushi.pamirs.meta.util.NamespaceAndFunUtils;
 
-import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
@@ -44,6 +49,17 @@ public class InterfaceConverter implements ModelConverter<InterfaceDefinition, M
     @Override
     public InterfaceDefinition convert(MetaNames names, Method method, InterfaceDefinition function) {
         function = (InterfaceDefinition) functionConverter.convert(names, method, function);
+
+        String namespace = NamespaceAndFunUtils.namespace(method);
+        String fun = NamespaceAndFunUtils.fun(method);
+        Function functionAnnotation = AnnotationUtils.getAnnotation(method, Function.class);
+        Function.Advanced functionAdvancedAnnotation = AnnotationUtils.getAnnotation(method, Function.Advanced.class);
+
+        String displayName = Optional.ofNullable(functionAdvancedAnnotation).map(Function.Advanced::displayName).filter(StringUtils::isNotBlank).orElse(null);
+        String description = Optional.ofNullable(functionAnnotation).map(Function::summary).orElse(null);
+
+        function.setDisplayName(I18nUtils.translateInterfaces(names.getModule(), namespace, fun, "displayName", displayName));
+        function.setDescription(I18nUtils.translateInterfaces(names.getModule(), namespace, fun, "description", description));
         function.setOpenLevel(null);
         function.setGroup(Optional.ofNullable(function.getGroup()).orElse(FunctionDefaultsConstants.GROUP));
         function.setVersion(Optional.ofNullable(function.getVersion()).orElse(FunctionDefaultsConstants.VERSION));

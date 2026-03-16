@@ -3,6 +3,7 @@ package pro.shushi.pamirs.framework.configure.annotation.core.converter.fun;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
 import pro.shushi.pamirs.meta.api.dto.common.Message;
@@ -18,7 +19,6 @@ import pro.shushi.pamirs.meta.util.SystemSourceUtils;
 
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import java.util.Optional;
 
 import static pro.shushi.pamirs.framework.configure.annotation.emnu.AnnotationExpEnumerate.BASE_EXT_POINT_NO_FUN_NAME_ERROR;
 import static pro.shushi.pamirs.framework.configure.annotation.emnu.AnnotationExpEnumerate.BASE_EXT_POINT_NO_INTERFACE_ERROR;
@@ -76,11 +76,12 @@ public class ExtPointConverter implements ModelConverter<ExtPoint, Method> {
         String name = ExtNamespaceAndNameUtils.name(source);
         SystemSourceEnum systemSource = SystemSourceUtils.fetch(source);
         pro.shushi.pamirs.meta.annotation.ExtPoint extPointAnnotation = AnnotationUtils.findAnnotation(source, pro.shushi.pamirs.meta.annotation.ExtPoint.class);
+        assert extPointAnnotation != null;
         pro.shushi.pamirs.meta.annotation.ExtPoint.name extPointNameAnnotation = AnnotationUtils.getAnnotation(source, pro.shushi.pamirs.meta.annotation.ExtPoint.name.class);
-        metaModelObject.setDisplayName(Optional.ofNullable(extPointAnnotation).map(pro.shushi.pamirs.meta.annotation.ExtPoint::displayName).orElse(extClazz.getSimpleName()))
+        metaModelObject.setDisplayName(I18nUtils.translateExtPoint(names.getModule(), namespace, name, "displayName", StringUtils.defaultIfBlank(extPointAnnotation.displayName(), extClazz.getSimpleName())))
                 .setNamespace(namespace)
                 .setName(name)
-                .setDescription(Optional.ofNullable(extPointAnnotation).map(pro.shushi.pamirs.meta.annotation.ExtPoint::summary).filter(StringUtils::isNotBlank).orElse(null))
+                .setDescription(I18nUtils.translateExtPoint(names.getModule(), namespace, name, "description", StringUtils.defaultIfBlank(extPointAnnotation.summary(), null)))
                 .setClazz(extClazz.getName())
                 .setMethod(source.getName())
                 .setArgumentList(FunctionUtils.convertArgumentList(source))

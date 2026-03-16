@@ -3,6 +3,7 @@ package pro.shushi.pamirs.framework.configure.annotation.core.converter.fun;
 import com.google.common.collect.Lists;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Hook;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
@@ -53,7 +54,7 @@ public class FunctionOfHookConverter implements ModelConverter<FunctionDefinitio
         NamespaceAndFunUtils.fillBeanName(method, function);
         SystemSourceEnum systemSource = SystemSourceUtils.fetch(method);
         assert hookAnnotation != null;
-        function.setDisplayName(hookAnnotation.displayName())
+        function.setDisplayName(I18nUtils.translateHook(names.getModule(), namespace, fun, "displayName", hookAnnotation.displayName()))
                 .setModule(names.getModule())
                 .setNamespace(namespace)
                 .setFun(fun)
@@ -64,7 +65,7 @@ public class FunctionOfHookConverter implements ModelConverter<FunctionDefinitio
                 .setSource(FunctionSourceEnum.HOOK)
                 .setOpenLevel(Lists.newArrayList(FunctionOpenEnum.REMOTE))
                 .setDataManager(false)
-                .setDescription(hookAnnotation.description())
+                .setDescription(I18nUtils.translateHook(names.getModule(), namespace, fun, "summary", hookAnnotation.description()))
                 .setClazz(method.getDeclaringClass().getName())
                 .setMethod(method.getName())
                 .setArgumentList(FunctionUtils.convertArgumentList(method))

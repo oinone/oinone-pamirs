@@ -1,0 +1,125 @@
+{
+  "business.PamirsCompany": {
+    "construct": {
+      "description": "Department structure"
+    },
+    "constructMirror": {
+      "description": "Department dropdown trigger"
+    },
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "deleteWithFieldBatch": {
+      "displayName": "Delete"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Modify"
+    }
+  },
+  "business.PamirsDepartment": {
+    "construct": {
+      "description": "Department structure"
+    },
+    "constructEmployeeList": {
+      "description": "Head of Computing Department"
+    },
+    "constructMirror": {
+      "description": "Department dropdown trigger"
+    },
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "deleteWithFieldBatch": {
+      "displayName": "Delete"
+    },
+    "queryListByFilter": {
+      "displayName": "Department Component Query"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Modify"
+    }
+  },
+  "business.PamirsEmployee": {
+    "construct": {
+      "description": "Employee constructor"
+    },
+    "constructMirror": {
+      "description": "Employee pull-down trigger"
+    },
+    "userCompany": {
+      "displayName": "Query user company on PC",
+      "description": "For temporary use"
+    },
+    "create": {
+      "displayName": "Create",
+      "description": "Add"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "deleteWithFieldBatch": {
+      "displayName": "Delete"
+    },
+    "queryListByFilter": {
+      "displayName": "Employee Component Query"
+    },
+    "update": {
+      "displayName": "Update",
+      "description": "Modify"
+    }
+  },
+  "business.PamirsPerson": {
+    "construct": {
+      "description": "Department structure"
+    },
+    "constructMirror": {
+      "description": "Department dropdown trigger"
+    },
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "deleteWithFieldBatch": {
+      "displayName": "Delete"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Modify"
+    }
+  },
+  "business.PamirsPosition": {
+    "construct": {
+      "description": "Department structure"
+    },
+    "constructMirror": {
+      "description": "Department dropdown trigger"
+    },
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "deleteWithFieldBatch": {
+      "displayName": "Delete"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Modify"
+    }
+  }
+}

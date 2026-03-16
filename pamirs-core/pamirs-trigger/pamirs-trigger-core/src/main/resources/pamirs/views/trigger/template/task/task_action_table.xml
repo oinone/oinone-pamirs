@@ -1,4 +1,4 @@
-<view type="TABLE" title="任务" name="任务table" widget="table" model="trigger.TaskActionTransientModel">
+<view type="TABLE" title="任务" name="TaskActionTransientModelTable" widget="table" model="trigger.TaskActionTransientModel">
     <template slot="actions">
         <action name="delete" label="删除" model="trigger.TaskActionTransientModel" confirm="你真的要删除这些任务吗？删除操作不可恢复！" text="删除"/>
         <action name="cancel" label="取消" model="trigger.TaskActionTransientModel" text="取消"/>

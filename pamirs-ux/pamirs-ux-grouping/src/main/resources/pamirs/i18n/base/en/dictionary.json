@@ -1,0 +1,77 @@
+{
+  "grouping.GroupStatisticMethodEnum": {
+    "displayName": "Statistical Method",
+    "NONE": {
+      "displayName": "Do not display",
+      "help": "Do not display"
+    },
+    "COUNT": {
+      "displayName": "Total records",
+      "help": "Total records"
+    },
+    "NULL": {
+      "displayName": "Not filled in",
+      "help": "Not filled in"
+    },
+    "NOT_NULL": {
+      "displayName": "Filled in",
+      "help": "Filled in"
+    },
+    "NULL_PERCENT": {
+      "displayName": "Percentage not filled in",
+      "help": "Proportion not filled in"
+    },
+    "NOT_NULL_PERCENT": {
+      "displayName": "Proportion filled",
+      "help": "Proportion filled"
+    },
+    "MAX": {
+      "displayName": "Maximum value",
+      "help": "Maximum value"
+    },
+    "MIN": {
+      "displayName": "minimum",
+      "help": "Minimum value"
+    },
+    "UNIQUE": {
+      "displayName": "Unique value",
+      "help": "Unique value"
+    },
+    "UNIQUE_PERCENT": {
+      "displayName": "Proportion of Unique Values",
+      "help": "Proportion of Unique Values"
+    },
+    "EARLIEST_TIME": {
+      "displayName": "earliest time",
+      "help": "earliest time"
+    },
+    "LATEST_TIME": {
+      "displayName": "Latest time",
+      "help": "Latest time"
+    },
+    "TIME_RANGE_DAY": {
+      "displayName": "Time Range (Days)",
+      "help": "Time Range (Days)"
+    },
+    "TIME_RANGE_MONTH": {
+      "displayName": "Time Range (Months)",
+      "help": "Time Range (Months)"
+    },
+    "TIME_RANGE_YEAR": {
+      "displayName": "Time Range (Years)",
+      "help": "Time Range (Years)"
+    },
+    "SUM": {
+      "displayName": "Sum",
+      "help": "Sum"
+    },
+    "AVERAGE": {
+      "displayName": "Average",
+      "help": "Average"
+    },
+    "MEDIAN": {
+      "displayName": "Median",
+      "help": "Median"
+    }
+  }
+}

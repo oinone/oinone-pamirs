@@ -85,15 +85,15 @@ public class BaseEnumProcessor implements EnumProcessor<DataDictionary> {
         SystemSourceEnum source = Optional.ofNullable(AnnotationUtils.getAnnotation(enumClass, Base.class))
                 .map(Base::value).orElse(null);
         Dict dict = AnnotationUtils.getAnnotation(enumClass, Dict.class);
-        String displayName = Optional.ofNullable(dict).map(Dict::displayName).filter(StringUtils::isNotBlank).orElse(enumClass.getSimpleName());
-        String name = Optional.ofNullable(dict).map(Dict::name).filter(StringUtils::isNotBlank).orElse(StringUtils.uncapitalize(enumClass.getSimpleName()));
-        String summary = Optional.ofNullable(dict).map(Dict::summary).orElse(null);
         int type = Optional.ofNullable(dict).map(Dict::type).orElse(1);
-        dataDictionary.setDisplayName(displayName)
-                .setName(name)
+        String name = Optional.ofNullable(dict).map(Dict::name).filter(StringUtils::isNotBlank).orElse(StringUtils.uncapitalize(enumClass.getSimpleName()));
+        String displayName = Optional.ofNullable(dict).map(Dict::displayName).filter(StringUtils::isNotBlank).orElse(enumClass.getSimpleName());
+        String summary = Optional.ofNullable(dict).map(Dict::summary).orElse(null);
+        dataDictionary.setDisplayName(I18nUtils.translateDataDictionary(module, dictionary, "displayName", displayName));
+        dataDictionary.setSummary(I18nUtils.translateDataDictionary(module, dictionary, "summary", summary));
+        dataDictionary.setName(name)
                 .setDictionary(dictionary)
-                .setSummary(summary)
-                .setOptions(fetchEnumValues(enumClass))
+                .setOptions(fetchEnumValues(module, enumClass))
                 .setModule(module)
                 .setValueType(BaseEnum.getEnumByValue(TtypeEnum.class, fetchEnumValueTtype(enumClass)))
                 .setLname(enumObject)
@@ -106,13 +106,14 @@ public class BaseEnumProcessor implements EnumProcessor<DataDictionary> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<DataDictionaryItem> fetchEnumValues(Class enumClass) {
+    public List<DataDictionaryItem> fetchEnumValues(String module, Class enumClass) {
         try {
             if (!IEnum.class.isAssignableFrom(enumClass)) {
                 throw PamirsException.construct(BASE_ENUM_TYPE_ERROR_ERROR).appendMsg("class:" + enumClass).errThrow();
             }
             SystemSourceEnum source = Optional.ofNullable(AnnotationUtils.getAnnotation(enumClass, Base.class))
                     .map(Base::value).orElse(null);
+            String dictionary = fetchDictionaryFromClass(enumClass);
             boolean showHelp = Optional.ofNullable(AnnotationUtils.getAnnotation(enumClass, Dict.class))
                     .map(Dict::showHelp)
                     .orElse(false);
@@ -123,15 +124,15 @@ public class BaseEnumProcessor implements EnumProcessor<DataDictionary> {
                 String displayName = one.displayName();
                 String name = one.name();
                 DataDictionaryItem dataDictionaryItem = new DataDictionaryItem()
-                        .setDisplayName(displayName)
                         .setName(name)
                         .setValue(TypeUtils.stringValueOf(one.value()))
                         .setState(ActiveEnum.ACTIVE)
                         .setSource(source);
+                dataDictionaryItem.setDisplayName(I18nUtils.translateDataDictionaryItem(module, dictionary, name, "displayName", displayName));
                 if (showHelp) {
                     String help = one.help();
                     if (StringUtils.isNotBlank(help)) {
-                        dataDictionaryItem.setHelp(help);
+                        dataDictionaryItem.setHelp(I18nUtils.translateDataDictionaryItem(module, dictionary, name, "help", help));
                     }
                 }
                 enumValues.add(dataDictionaryItem);

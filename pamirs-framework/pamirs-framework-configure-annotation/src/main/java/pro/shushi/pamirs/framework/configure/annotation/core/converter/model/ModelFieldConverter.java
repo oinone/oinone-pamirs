@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.configure.annotation.core.cache.FieldMetaCache;
 import pro.shushi.pamirs.framework.configure.annotation.emnu.AnnotationExpEnumerate;
 import pro.shushi.pamirs.framework.configure.contants.NameConstants;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.compute.systems.type.TypeProcessor;
@@ -30,7 +31,6 @@ import pro.shushi.pamirs.meta.util.TypeUtils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -82,8 +82,8 @@ public class ModelFieldConverter implements ModelConverter<ModelField, Field> {
             result.error();
             result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                     .error(BASE_FIELD_UN_SUPPORT_TYPE_ERROR)
-                    .append(MessageFormat.format("，类{0}字段{1}的类型{2}暂不支持",
-                            field.getDeclaringClass().getName(), field.getName(), field.getType().getName())));
+                    .append(I18nUtils.getMessage("ModelFieldConverter.unsupportedType",
+                            field.getDeclaringClass().getName(), field.getName(), TypeUtils.getActualType(field).getTypeName())));
             context.error().broken();
         }
         boolean conflict = false;
@@ -96,9 +96,8 @@ public class ModelFieldConverter implements ModelConverter<ModelField, Field> {
                     result.error();
                     result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                             .error(BASE_FIELD_TYPE_CONFLICT_ERROR)
-                            .append(MessageFormat
-                                    .format("类 {0} 字段 {1} 不能配置多个业务类型注解，重复注解{2}",
-                                            field.getDeclaringClass().getName(), field.getName(), annotation.annotationType().getName())));
+                            .append(I18nUtils.getMessage("ModelFieldConverter.conflictingTypeAnnotations",
+                                    field.getDeclaringClass().getName(), field.getName(), annotation.annotationType().getName())));
                     context.error().broken();
                     break;
                 }
@@ -111,18 +110,16 @@ public class ModelFieldConverter implements ModelConverter<ModelField, Field> {
     public ModelField convert(MetaNames names, Field field, ModelField modelField) {
         String model = names.getModel();
         pro.shushi.pamirs.meta.annotation.Field fieldAnnotation = AnnotationUtils.getAnnotation(field, pro.shushi.pamirs.meta.annotation.Field.class);
-        if (null == fieldAnnotation) {
-            return null;
-        }
+        assert fieldAnnotation != null;
         pro.shushi.pamirs.meta.annotation.Field.Advanced fieldAdvancedAnnotation = AnnotationUtils.getAnnotation(field, pro.shushi.pamirs.meta.annotation.Field.Advanced.class);
         pro.shushi.pamirs.meta.annotation.Field.field fieldFieldAnnotation = AnnotationUtils.getAnnotation(field, pro.shushi.pamirs.meta.annotation.Field.field.class);
         pro.shushi.pamirs.meta.annotation.Field.Override fieldOverrideAnnotation = AnnotationUtils.getAnnotation(field, pro.shushi.pamirs.meta.annotation.Field.Override.class);
         SystemSourceEnum systemSource = SystemSourceUtils.fetch(field);
         String fieldField = Optional.ofNullable(fieldFieldAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.field::value).orElse(field.getName());
         String fieldName = Optional.ofNullable(fieldAdvancedAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Advanced::name).filter(StringUtils::isNotBlank).orElse(field.getName());
-        String displayName = Optional.of(fieldAnnotation.displayName()).filter(StringUtils::isNotBlank).orElse(fieldName);
         boolean multi = FieldUtils.isMulti(field, fieldAnnotation);
-        modelField.setDisplayName(displayName)
+        modelField.setDisplayName(I18nUtils.translateField(names.getModule(), model, fieldName, "displayName", StringUtils.defaultIfBlank(fieldAnnotation.displayName(), fieldName)))
+                .setSummary(I18nUtils.translateField(names.getModule(), model, fieldName, "summary", StringUtils.defaultIfBlank(fieldAnnotation.summary(), modelField.getDisplayName())))
                 .setLname(field.getName())
                 .setColumn(Optional.ofNullable(fieldAdvancedAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Advanced::column).filter(StringUtils::isNotBlank).orElse(null))
                 .setColumnDefinition(Optional.ofNullable(fieldAdvancedAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Advanced::columnDefinition).filter(StringUtils::isNotBlank).map(String::trim).orElse(null))
@@ -141,8 +138,8 @@ public class ModelFieldConverter implements ModelConverter<ModelField, Field> {
                 .setStore(fieldAnnotation.store().value())
                 .setRequestSerialize(Optional.of(fieldAnnotation.requestSerialize()).filter(v -> !pro.shushi.pamirs.meta.annotation.Field.serialize.NON.equals(v)).filter(StringUtils::isNotBlank).orElse(null))
                 .setStoreSerialize(Optional.of(fieldAnnotation.serialize()).filter(v -> !pro.shushi.pamirs.meta.annotation.Field.serialize.NON.equals(v)).filter(StringUtils::isNotBlank).orElse(null))
-                .setDefaultValue(Optional.of(fieldAnnotation.defaultValue()).filter(StringUtils::isNotBlank).orElse(null))
-                .setCompute(Optional.of(fieldAnnotation.compute()).filter(StringUtils::isNotBlank).orElse(null))
+                .setDefaultValue(I18nUtils.translateField(names.getModule(), model, fieldName, "defaultValue", StringUtils.defaultIfBlank(fieldAnnotation.defaultValue(), null)))
+                .setCompute(StringUtils.defaultIfBlank(fieldAnnotation.compute(), null))
                 .setRequired(fieldAnnotation.required())
                 .setImmutable(fieldAnnotation.immutable())
                 .setIndex(fieldAnnotation.index())
@@ -185,13 +182,6 @@ public class ModelFieldConverter implements ModelConverter<ModelField, Field> {
                 .setInverse(false)
                 .setSystemSource(systemSource);
 
-        // 字段备注(Summary)检查; 防止生成DDL执行失败
-        String summary = Optional.of(fieldAnnotation.summary()).filter(StringUtils::isNotBlank).orElse(displayName);
-        if (summary != null) {
-            summary = summary.replaceAll("'", "");
-        }
-        modelField.setSummary(summary);
-
         // 计算字段长度
         TypeProcessor typeProcessor = Spider.getDefaultExtension(TypeProcessor.class);
         Integer size = typeProcessor.fetchDefaultSize(modelField.getTtype(), modelField.getLtype(), modelField.getMulti());
@@ -232,7 +222,7 @@ public class ModelFieldConverter implements ModelConverter<ModelField, Field> {
         pro.shushi.pamirs.meta.annotation.Field.Sequence sequenceAnnotation = FieldUtils.findAnnotation(field, pro.shushi.pamirs.meta.annotation.Field.Sequence.class);
         if (null != sequenceAnnotation) {
             SequenceConfig sequenceConfig = new SequenceConfig()
-                    .setDisplayName(modelField.getDisplayName() + NameConstants.SEQUENCE_CONFIG_NAME_FIELD_PREFIX + model + CharacterConstants.RIGHT_BRACKET)
+                    .setDisplayName(I18nUtils.getMessage(NameConstants.SEQUENCE_CONFIG_NAME_FIELD_PREFIX, modelField.getDisplayName(), model))
                     .setModule(names.getModule())
                     .setPrefix(sequenceAnnotation.prefix())
                     .setSuffix(sequenceAnnotation.suffix())

@@ -1,0 +1,18 @@
+{
+  "pamirs.message.MessageChannel": {
+    "top_bar_message_channel_detail": {
+      "displayName": "Top Bar Message Details"
+    },
+    "MessageChannelAction": {
+      "displayName": "Channel Management Details"
+    }
+  },
+  "pamirs.message.MessageFollower": {
+    "MessageFollowerActionAddFollower": {
+      "displayName": "Add followers"
+    },
+    "MessageFollowerActionAddChannel": {
+      "displayName": "Add Channel"
+    }
+  }
+}

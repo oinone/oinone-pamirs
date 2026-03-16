@@ -1,0 +1,19 @@
+{
+  "pamirs.message.PamirsMessage" : {
+    "createAfter" : {
+      "displayName" : "Create a post extension point"
+    },
+    "createBatchAfter" : {
+      "displayName" : "Create a list post extension point"
+    },
+    "updateAfter" : {
+      "displayName" : "Update post extension points"
+    },
+    "updateBatchCallback" : {
+      "displayName" : "Update list callback extension point"
+    },
+    "updateByWrapperCallback" : {
+      "displayName" : "Update conditional callback extension point"
+    }
+  }
+}

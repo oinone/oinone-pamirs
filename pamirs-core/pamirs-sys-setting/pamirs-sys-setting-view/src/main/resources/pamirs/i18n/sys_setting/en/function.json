@@ -1,0 +1,29 @@
+{
+  "sysSetting.SysSettings" : {
+    "construct" : {
+      "description" : "structure"
+    }
+  },
+  "base.AdvancedHomePageMenuProxy" : {
+    "queryListByWrapper" : {
+      "displayName" : "Query the record list based on conditions"
+    },
+    "queryPage" : {
+      "displayName" : "Query Menu"
+    }
+  },
+  "sysSetting.GlobalAppConfigProxy" : {
+    "construct" : {
+      "displayName" : "Initialize data"
+    },
+    "saveAdvancedHomePage" : {
+      "displayName" : "Save advanced home page configuration"
+    },
+    "saveSysStyleSetting" : {
+      "displayName" : "Save system style configuration"
+    },
+    "saveTranslationManageSetting" : {
+      "displayName" : "Translation Management Configuration"
+    }
+  }
+}

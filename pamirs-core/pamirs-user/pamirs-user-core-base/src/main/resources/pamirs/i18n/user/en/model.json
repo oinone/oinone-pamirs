@@ -1,0 +1,310 @@
+{
+  "user.UserQueryPreferStore" : {
+    "base.Field" : {
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "partnerId" : {
+        "displayName" : "User ID",
+        "summary" : "User ID"
+      },
+      "resModel" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "resViewName" : {
+        "displayName" : "Page",
+        "summary" : "Page"
+      },
+      "searchPrefer" : {
+        "displayName" : "Query preferences",
+        "summary" : "Query Preference"
+      },
+      "groupPrefer" : {
+        "displayName" : "Grouping Preference",
+        "summary" : "Group Preference"
+      },
+      "filter" : {
+        "displayName" : "filter",
+        "summary" : "Filter"
+      },
+      "createDate" : {
+        "displayName" : "Create Time",
+        "summary" : "Create Time"
+      },
+      "createUid" : {
+        "displayName" : "Created By ID",
+        "summary" : "Created By ID"
+      },
+      "id" : {
+        "summary" : "ID field, unique auto-increment index",
+        "displayName" : "ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time",
+        "summary" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updated By ID",
+        "summary" : "Updated By ID"
+      }
+    },
+    "displayName" : "User query preferences"
+  },
+  "user.PamirsUserProxy" : {
+    "base.Field" : {
+      "roleCode" : {
+        "displayName" : "Character Encoding",
+        "summary" : "Role Code"
+      },
+      "avatarBig" : {
+        "summary" : "Large Avatar",
+        "displayName" : "Large Avatar"
+      },
+      "avatarMedium" : {
+        "summary" : "Medium Avatar",
+        "displayName" : "Medium avatar"
+      },
+      "avatarUrl" : {
+        "summary" : "Avatar Link",
+        "displayName" : "Profile picture link"
+      },
+      "birthday" : {
+        "summary" : "Birthday",
+        "displayName" : "Birthday"
+      },
+      "code" : {
+        "displayName" : "Encode",
+        "summary" : "Encode"
+      },
+      "country" : {
+        "summary" : "Country",
+        "displayName" : "Country"
+      },
+      "createDate" : {
+        "displayName" : "Create Time",
+        "summary" : "Create Time"
+      },
+      "createUid" : {
+        "displayName" : "Created By ID",
+        "summary" : "Created By ID"
+      },
+      "createUserName" : {
+        "displayName" : "Creator Name",
+        "summary" : "Creator Name"
+      },
+      "currency" : {
+        "summary" : "Currency",
+        "displayName" : "Currency"
+      },
+      "id" : {
+        "summary" : "ID field, unique auto-increment index",
+        "displayName" : "ID"
+      },
+      "idCard" : {
+        "summary" : "ID Card Number",
+        "displayName" : "ID card number"
+      },
+      "lang" : {
+        "summary" : "Language",
+        "displayName" : "Language"
+      },
+      "langId" : {
+        "summary" : "Language ID",
+        "displayName" : "Language ID"
+      },
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "nickname" : {
+        "summary" : "Nickname",
+        "displayName" : "Nickname"
+      },
+      "realname" : {
+        "summary" : "Real Name",
+        "displayName" : "Real Name"
+      },
+      "regDate" : {
+        "summary" : "Register Date",
+        "displayName" : "Registration date"
+      },
+      "roles" : {
+        "summary" : "Role",
+        "displayName" : "Character"
+      },
+      "source" : {
+        "summary" : "User Source",
+        "displayName" : "User Source"
+      },
+      "thirdParties" : {
+        "summary" : "Third-party Login",
+        "displayName" : "Third-party login"
+      },
+      "timeZoneType" : {
+        "summary" : "Timezone",
+        "displayName" : "Time zone"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time",
+        "summary" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updated By ID",
+        "summary" : "Updated By ID"
+      },
+      "writeUserName" : {
+        "displayName" : "Modifier Name",
+        "summary" : "Modifier Name"
+      },
+      "phoneCode" : {
+        "displayName" : "Mobile area code",
+        "summary" : "Mobile area code"
+      },
+      "theme" : {
+        "displayName" : "theme",
+        "summary" : "System theme selected by the user"
+      },
+      "avatarMediumId" : {
+        "displayName" : "avatarMediumId",
+        "summary" : "avatarMediumId"
+      },
+      "email" : {
+        "displayName" : "Email address",
+        "summary" : "Email address"
+      },
+      "phone" : {
+        "displayName" : "Phone number",
+        "summary" : "Phone number"
+      },
+      "signUpType" : {
+        "displayName" : "User-Created Type",
+        "summary" : "How did the user create"
+      },
+      "password" : {
+        "displayName" : "Password",
+        "summary" : "Password"
+      },
+      "isInitialPassword" : {
+        "displayName" : "Is it the initial password?",
+        "summary" : "Is it the initial password?"
+      },
+      "themeId" : {
+        "displayName" : "themeId",
+        "summary" : "themeId"
+      },
+      "userType" : {
+        "displayName" : "Account Type",
+        "summary" : "Account Type"
+      },
+      "countryId" : {
+        "displayName" : "countryId",
+        "summary" : "countryId"
+      },
+      "active" : {
+        "displayName" : "Activate or not",
+        "summary" : "Whether the account is activated, default is activated"
+      },
+      "login" : {
+        "displayName" : "Log in to account",
+        "summary" : "Log in to account"
+      },
+      "avatarBigId" : {
+        "displayName" : "avatarBigId",
+        "summary" : "avatarBigId"
+      },
+      "initialPassword" : {
+        "displayName" : "Initial password",
+        "summary" : "Initial password"
+      },
+      "currencyId" : {
+        "displayName" : "currencyId",
+        "summary" : "currencyId"
+      },
+      "contactPhone" : {
+        "displayName" : "Contact Number",
+        "summary" : "Contact Number"
+      },
+      "contactEmail" : {
+        "displayName" : "Contact Email",
+        "summary" : "Contact Email"
+      },
+      "gender" : {
+        "displayName" : "Gender",
+        "summary" : "Male, Female, Confidential"
+      }
+    },
+    "displayName" : "User export agent"
+  },
+  "user.ThirdPartyLoginTransient" : {
+    "base.Field" : {
+      "url" : {
+        "displayName" : "Jump URL",
+        "summary" : "Jump URL"
+      }
+    },
+    "displayName" : "Third-party Login Transient Model",
+    "summary" : "Third-party Login Transient Model"
+  },
+  "pro.shushi.pamirs.user.core.base.model.DingTalkUserTransient" : {
+    "base.Field" : {
+      "requestAuthCode" : {
+        "displayName" : "requestAuthCode",
+        "summary" : "requestAuthCode"
+      },
+      "token" : {
+        "displayName" : "token",
+        "summary" : "token"
+      }
+    },
+    "displayName" : "DingTalk User Transient Model",
+    "summary" : "DingTalk User Transient Model"
+  },
+  "user.ThirdLoginInfo" : {
+    "base.Field" : {
+      "active" : {
+        "displayName" : "Active",
+        "summary" : "Active"
+      },
+      "code" : {
+        "displayName" : "Encode",
+        "summary" : "Encode"
+      },
+      "createDate" : {
+        "displayName" : "Create Time",
+        "summary" : "Create Time"
+      },
+      "createUid" : {
+        "displayName" : "Created By ID",
+        "summary" : "Created By ID"
+      },
+      "iconUrl" : {
+        "displayName" : "Icon URL",
+        "summary" : "Icon URL"
+      },
+      "id" : {
+        "summary" : "ID field, unique auto-increment index",
+        "displayName" : "ID"
+      },
+      "link" : {
+        "displayName" : "Icon Hyperlink",
+        "summary" : "Icon Hyperlink"
+      },
+      "thirdLoginType" : {
+        "displayName" : "Login Type",
+        "summary" : "Login Type"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time",
+        "summary" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updated By ID",
+        "summary" : "Updated By ID"
+      }
+    },
+    "displayName" : "Third-party Login Type",
+    "summary" : "Third-party Login Type"
+  }
+}

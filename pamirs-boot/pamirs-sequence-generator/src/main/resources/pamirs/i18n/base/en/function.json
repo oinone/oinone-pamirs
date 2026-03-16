@@ -1,0 +1,27 @@
+{
+  "sequence": {
+    "UUID": {
+      "displayName": "Get UUID"
+    },
+    "DATE": {
+      "displayName": "Get Date",
+      "description": "Date"
+    },
+    "DATE_ORDERLY_SEQ": {
+      "displayName": "Obtain date-ordered serial number",
+      "description": "Date Strictly Ordered Serial Number"
+    },
+    "DATE_SEQ": {
+      "displayName": "Obtain date serial number",
+      "description": "Date Serial Number"
+    },
+    "ORDERLY_SEQ": {
+      "displayName": "Obtain a strongly ordered serial number",
+      "description": "Self-incrementing sequential number"
+    },
+    "SEQ": {
+      "displayName": "Obtain auto-increment serial number",
+      "description": "Auto-increment serial number"
+    }
+  }
+}

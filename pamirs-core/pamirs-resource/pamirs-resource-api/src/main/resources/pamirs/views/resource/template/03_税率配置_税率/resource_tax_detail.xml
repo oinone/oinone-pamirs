@@ -1,4 +1,4 @@
-<view widget="detail" model="resource.ResourceTax" name="税率detail" title="税率" type="DETAIL">
+<view widget="detail" model="resource.ResourceTax" name="ResourceTaxDetail" title="税率" type="DETAIL">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

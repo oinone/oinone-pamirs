@@ -1,4 +1,4 @@
-<view type="TABLE" title="导入/导出模板" name="Excel工作簿table" widget="table" model="file.ExcelWorkbookDefinition">
+<view type="TABLE" title="导入/导出模板" name="ExcelWorkbookDefinitionTable" widget="table" model="file.ExcelWorkbookDefinition">
     <template slot="action">
         <!--        <action name="redirectCreatePage" label="创建" model="file.ExcelWorkbookDefinition" text="创建"/>-->
         <!--        <action name="delete" label="删除" model="file.ExcelWorkbookDefinition" text="删除"/>-->

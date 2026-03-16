@@ -1,7 +1,9 @@
 package pro.shushi.pamirs.framework.configure.annotation.core.converter.fun;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.ExtPoint;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
@@ -51,13 +53,14 @@ public class FunctionOfExtPointConverter implements ModelConverter<FunctionDefin
 
     @Override
     public FunctionDefinition convert(MetaNames names, Method method, FunctionDefinition function) {
+        Class<?> extClazz = method.getDeclaringClass();
         ExtPoint extPointAnnotation = AnnotationUtils.getAnnotation(method, ExtPoint.class);
         String namespace = ExtNamespaceAndNameUtils.namespace(method);
         String name = ExtNamespaceAndNameUtils.name(method);
         NamespaceAndFunUtils.fillBeanName(method, function);
         SystemSourceEnum systemSource = SystemSourceUtils.fetch(method);
         assert extPointAnnotation != null;
-        function.setDisplayName(extPointAnnotation.displayName())
+        function.setDisplayName(I18nUtils.translateExtPoint(names.getModule(), namespace, name, "displayName", StringUtils.defaultIfBlank(extPointAnnotation.displayName(), extClazz.getSimpleName())))
                 .setModule(names.getModule())
                 .setNamespace(namespace)
                 .setFun(name)
@@ -67,7 +70,7 @@ public class FunctionOfExtPointConverter implements ModelConverter<FunctionDefin
                 .setSource(FunctionSourceEnum.EXTPOINT)
                 .setOpenLevel(null)
                 .setDataManager(false)
-                .setDescription(extPointAnnotation.summary())
+                .setDescription(I18nUtils.translateExtPoint(names.getModule(), namespace, name, "description", StringUtils.defaultIfBlank(extPointAnnotation.summary(), null)))
                 .setClazz(method.getDeclaringClass().getName())
                 .setMethod(method.getName())
                 .setArgumentList(FunctionUtils.convertArgumentList(method))

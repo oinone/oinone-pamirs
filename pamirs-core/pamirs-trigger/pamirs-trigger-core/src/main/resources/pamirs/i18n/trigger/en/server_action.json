@@ -1,0 +1,29 @@
+{
+  "trigger.TaskActionTransientModel" : {
+    "cancel" : {
+      "displayName" : "Cancel"
+    },
+    "create" : {
+      "displayName" : "Confirm",
+      "description" : "Add"
+    },
+    "delete" : {
+      "displayName" : "Delete"
+    },
+    "recovery" : {
+      "displayName" : "Restore"
+    },
+    "update" : {
+      "displayName" : "Confirm",
+      "description" : "Modify"
+    }
+  },
+  "trigger.TriggerTaskAction" : {
+    "create" : {
+      "displayName" : "Create"
+    },
+    "update" : {
+      "displayName" : "Update"
+    }
+  }
+}

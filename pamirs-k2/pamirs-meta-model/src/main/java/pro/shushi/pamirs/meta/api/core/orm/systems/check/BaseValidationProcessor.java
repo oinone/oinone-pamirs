@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.meta.api.core.orm.systems.check;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.annotation.validation.Validation;
 import pro.shushi.pamirs.meta.api.core.compute.systems.constraint.ValidationProcessor;
@@ -64,8 +65,13 @@ public class BaseValidationProcessor implements ValidationProcessor {
             expressionDefinition.setType(type)
                     .setModel(model).setLocation(location).setExpression(expression);
         }
-        expressionDefinition.setScope(scope).setModule(module).setRemark(remark).setTips(tips)
-                .setError(error).setErrorType(errorType).setLevel(level).setPriority(priority);
+        expressionDefinition.setScope(scope).setModule(module)
+                .setRemark(I18nUtils.translateExpressionDefinition(module, expressionSign, "remark", remark))
+                .setTips(I18nUtils.translateExpressionDefinition(module, expressionSign, "tips", tips))
+                .setError(I18nUtils.translateExpressionDefinition(module, expressionSign, "error", error))
+                .setErrorType(errorType)
+                .setLevel(level)
+                .setPriority(priority);
         return expressionDefinition;
     }
 
@@ -106,8 +112,10 @@ public class BaseValidationProcessor implements ValidationProcessor {
             computeDefinition.setType(type)
                     .setModel(model).setLocation(location).setFun(check);
         }
-        computeDefinition.setScope(scope).setModule(module).setRemark(remark).setTips(tips).setPriority(priority);
+        computeDefinition.setScope(scope).setModule(module)
+                .setRemark(I18nUtils.translateComputeDefinition(module, checkSign, "remark", remark))
+                .setTips(I18nUtils.translateComputeDefinition(module, checkSign, "tips", tips))
+                .setPriority(priority);
         return computeDefinition;
     }
-
 }

@@ -12,7 +12,7 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
  * date 2020/2/23 5:53 下午
  */
 @Base
-@Dict(dictionary = "base.ViewType", displayName = "视图类型")
+@Dict(dictionary = ViewTypeEnum.DICTIONARY, displayName = "视图类型")
 public enum ViewTypeEnum implements IEnum<String> {
 
     CUSTOM("CUSTOM", "自定义视图类型", "自定义视图类型"),
@@ -27,6 +27,8 @@ public enum ViewTypeEnum implements IEnum<String> {
     CHART("CHART", "图表", "图表"),
     TREE("TREE", "树", "树"),
     ;
+
+    public static final String DICTIONARY = "base.ViewType";
 
     private final String value;
 

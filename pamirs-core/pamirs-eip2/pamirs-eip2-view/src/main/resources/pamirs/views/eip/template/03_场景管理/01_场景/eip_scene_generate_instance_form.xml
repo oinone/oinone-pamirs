@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" model="pamirs.eip.EipSceneDefinitionProxy" name="场景生成实例form">
+<view type="FORM" widget="form" model="pamirs.eip.EipSceneDefinitionProxy" name="EipSceneDefinitionProxyFormInstance">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action label="确定" actionType="COMPOSITION" model="pamirs.eip.tmodel.EipIntegrationInterfaceEdit" displayName="确定">

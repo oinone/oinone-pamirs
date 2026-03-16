@@ -1,0 +1,22 @@
+{
+  "tools.ModelOverview": {
+    "searchByModel": {
+      "displayName": "Query and compare"
+    }
+  },
+  "tools.FunctionOverview": {
+    "searchByFun": {
+      "displayName": "Query and compare"
+    }
+  },
+  "tools.DictionaryOverview": {
+    "searchByDict": {
+      "displayName": "Query and compare"
+    }
+  },
+  "tools.ExtPointOverview": {
+    "searchByExtPoint": {
+      "displayName": "Query and compare"
+    }
+  }
+}

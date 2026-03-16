@@ -57,11 +57,12 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
         Integer basePriority = Optional.ofNullable(menuAnnotation).map(UxMenus::basePriority).orElse(0);
         Map<String, Menu> menuMap = new HashMap<>();
         Class[] declaredClasses = source.getDeclaredClasses();
-        menus(module, metaModelObject, menuMap, null, declaredClasses, basePriority);
+        menus(names.getModule(), module, metaModelObject, menuMap, null, declaredClasses, basePriority);
         return menuMap;
     }
 
-    private void menus(String module, Map<String, Menu> context, Map<String, Menu> menuMap, Menu parent, Class[] declaredClasses, Integer basePriority) {
+    private void menus(String originModule, String module,
+                       Map<String, Menu> context, Map<String, Menu> menuMap, Menu parent, Class[] declaredClasses, Integer basePriority) {
         if (ArrayUtils.isEmpty(declaredClasses)) {
             return;
         }
@@ -70,17 +71,18 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
             if (null == clazz) {
                 continue;
             }
-            Menu menu = fetchMenu(module, context, menuMap, parent, clazz, basePriority, basePriority + i);
+            Menu menu = fetchMenu(originModule, module, context, menuMap, parent, clazz, basePriority, basePriority + i);
             if (null == menu) {
                 continue;
             }
             Class[] childDeclaredClasses = clazz.getDeclaredClasses();
-            menus(module, context, menuMap, menu, childDeclaredClasses, basePriority);
+            menus(originModule, module, context, menuMap, menu, childDeclaredClasses, basePriority);
             i--;
         }
     }
 
-    private Menu fetchMenu(String module, Map<String, Menu> context, Map<String, Menu> menuMap, Menu parent, Class clazz, long basePriority, long defaultPriority) {
+    private Menu fetchMenu(String originModule, String module,
+                           Map<String, Menu> context, Map<String, Menu> menuMap, Menu parent, Class clazz, long basePriority, long defaultPriority) {
         UxMenu uxMenu = AnnotationFetcher.get().findAnnotation(clazz, UxMenu.class);
         if (null == uxMenu) {
             return null;
@@ -109,8 +111,8 @@ public class MenuConverter implements ModelConverter<Map<String, Menu>, Class> {
 
         // 处理菜单
         menu.setName(name);
-        menu.setDefaultDisplayName(I18nUtils.translateMenu(module, name, "displayName", Optional.of(uxMenu.label()).filter(StringUtils::isNotBlank).orElse(clazz.getSimpleName())));
-        menu.setDescription(I18nUtils.translateMenu(module, name, "description", Optional.of(uxMenu.summary()).filter(StringUtils::isNotBlank).orElse(menu.getDisplayName())));
+        menu.setDefaultDisplayName(I18nUtils.translateMenu(originModule, name, "displayName", Optional.of(uxMenu.label()).filter(StringUtils::isNotBlank).orElse(clazz.getSimpleName())));
+        menu.setDescription(I18nUtils.translateMenu(originModule, name, "description", Optional.of(uxMenu.summary()).filter(StringUtils::isNotBlank).orElse(menu.getDisplayName())));
         menu.setModule(module);
         menu.setClientTypes(clientTypeEnums);
         menu.setDefaultPriority(priority);

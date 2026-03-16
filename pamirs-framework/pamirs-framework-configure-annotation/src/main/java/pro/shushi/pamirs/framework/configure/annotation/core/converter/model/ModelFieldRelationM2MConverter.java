@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
@@ -101,7 +102,8 @@ public class ModelFieldRelationM2MConverter implements ModelConverter<ModelField
                 .setTtype(TtypeEnum.M2M)
         ;
         Optional.ofNullable(fieldRelationAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.many2many::throughDisplayName).filter(StringUtils::isNotBlank)
-                .ifPresent(displayName -> modelField.addAttribute(FieldAttributeConstants.THROUGH_DISPLAY_NAME, displayName));
+                .ifPresent(displayName -> modelField.addAttribute(FieldAttributeConstants.THROUGH_DISPLAY_NAME,
+                        I18nUtils.translateField(names.getModule(), modelField.getModel(), modelField.getName(), "throughDisplayName", displayName)));
         Optional.ofNullable(pageFieldRelationAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Page::value)
                 .ifPresent(page -> modelField.addAttribute(FieldAttributeConstants.PAGE, page));
         return modelField;

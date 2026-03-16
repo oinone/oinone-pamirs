@@ -1,0 +1,21 @@
+{
+  "apps.AppCategoryModule" : {
+    "appModuleList" : {
+      "displayName" : "Application List"
+    }
+  },
+  "app.AppConfigTransient" : {
+    "gatewayModuleSetting" : {
+      "displayName" : "Product Settings Details"
+    },
+    "gatewaySetting" : {
+      "displayName" : "Enterprise Settings Details"
+    },
+    "saveGatewaySetting" : {
+      "displayName" : "Enterprise Settings Save"
+    },
+    "saveModuleSetting" : {
+      "displayName" : "Save Product Settings"
+    }
+  }
+}

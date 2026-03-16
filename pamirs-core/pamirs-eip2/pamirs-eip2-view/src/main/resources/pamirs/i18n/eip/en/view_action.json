@@ -1,0 +1,95 @@
+{
+  "pamirs.eip.EipOpenRateLimitPolicy": {
+    "EditOpenRateLimitPolicy": {
+      "displayName": "Edit flow control policy",
+      "label": "Edit flow control policy"
+    },
+    "BatchUpdateRateLimit": {
+      "displayName": "Batch Update Flow Control Policy",
+      "label": "Batch Update Flow Control Policy"
+    }
+  },
+  "pamirs.eip.proxy.EipLogProxy": {
+    "EipLogDetail": {
+      "displayName": "Interface Log Details",
+      "label": "Details"
+    }
+  },
+  "eip.EipCircuitBreakerRuleProxy": {
+    "EipCircuitBreakerRuleProxyActionCreate": {
+      "displayName": "Create",
+      "label": "Create"
+    },
+    "EipCircuitBreakerRuleProxyActionEdit": {
+      "displayName": "Update",
+      "label": "Update"
+    }
+  },
+  "pamirs.eip.proxy.EipApplicationProxy": {
+    "EipApplicationOperationRateLimit": {
+      "displayName": "Flow Control Configuration",
+      "label": "Flow Control Configuration"
+    },
+    "EipApplicationAuth": {
+      "displayName": "Authorized adjustment",
+      "label": "Authorized adjustment"
+    },
+    "EipApplicationPrivateDetail": {
+      "displayName": "View integrated app keys",
+      "label": "View key"
+    },
+    "EipApplicationCreate": {
+      "displayName": "Create an integrated application",
+      "label": "New Application"
+    }
+  },
+  "pamirs.eip.EipOpenIpBlacklistProxy": {
+    "EipOpenIpBlacklistEdit": {
+      "displayName": "Edit",
+      "label": "Edit"
+    },
+    "EipOpenIpBlacklistCreate": {
+      "displayName": "Create",
+      "label": "Create"
+    }
+  },
+  "eip.EipConnGroup": {
+    "EipConnGroupCreate": {
+      "displayName": "Add Business Domain",
+      "label": "Add Business Domain"
+    }
+  },
+  "pamirs.eip.EipSceneDefinitionProxy": {
+    "eipSceneGenerateInstance": {
+      "displayName": "Generate instance"
+    }
+  },
+  "pamirs.eip.EipSceneInstance": {
+    "eipSceneInstanceUpdateTask": {
+      "displayName": "Update scheduled configuration"
+    },
+    "eipSceneInstanceUpdateIncUpdateLog": {
+      "displayName": "Update incremental configuration"
+    },
+    "eipSceneInstanceTestCall": {
+      "displayName": "Call test"
+    }
+  },
+  "pamirs.eip.EipIntegrationInterface": {
+    "EipIntegrationInterfaceActionCreate": {
+      "displayName": "Create"
+    },
+    "EipIntegrationInterfaceActionModify": {
+      "displayName": "Edit"
+    },
+    "EipIntegrationInterfaceActionDetail": {
+      "displayName": "Details"
+    },
+    "EipIntegrationInterfaceActionCopy": {
+      "displayName": "Copy"
+    },
+    "redirectTestPage": {
+      "displayName": "Test"
+    }
+  }
+}

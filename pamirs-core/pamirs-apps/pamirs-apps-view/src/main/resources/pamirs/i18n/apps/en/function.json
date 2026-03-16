@@ -1,0 +1,35 @@
+{
+  "app.AppConfigTransient" : {
+    "gatewayModuleSetting" : {
+      "displayName" : "Product Settings Details"
+    },
+    "gatewaySetting" : {
+      "displayName" : "Company Settings Details"
+    },
+    "saveGatewaySetting" : {
+      "displayName" : "Enterprise Settings Save"
+    },
+    "saveModuleSetting" : {
+      "displayName" : "Save Product Settings"
+    }
+  },
+  "app.AppTrialGuidance" : {
+    "guidanceInfo" : {
+      "displayName" : "Application Guidance Information",
+      "description" : "Application Guidance Information"
+    }
+  },
+  "apps.AppCategoryModule" : {
+    "appModuleList" : {
+      "displayName" : "Application List"
+    }
+  },
+  "apps.AppsModuleMenuProxy" : {
+    "queryListByWrapper" : {
+      "displayName" : "Query the record list based on conditions"
+    },
+    "queryPage" : {
+      "displayName" : "Query Menu"
+    }
+  }
+}

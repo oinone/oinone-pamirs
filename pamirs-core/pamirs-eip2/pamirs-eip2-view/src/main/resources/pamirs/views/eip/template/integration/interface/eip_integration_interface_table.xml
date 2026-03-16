@@ -1,4 +1,4 @@
-<view type="TABLE" widget="table" model="pamirs.eip.EipIntegrationInterface" name="集成接口table">
+<view type="TABLE" widget="table" model="pamirs.eip.EipIntegrationInterface" name="EipIntegrationInterfaceTable">
     <template slot="search">
         <field data="connGroup" label="业务域" required="false"/>
         <field data="name" label="API名称" required="false"/>
@@ -12,7 +12,7 @@
     </template>
     <template slot="actions">
         <!--    <action name="delete" label="删除" model="pamirs.eip.EipIntegrationInterface" text="删除"/>-->
-        <!--    <action name="集成接口创建form" label="创建" model="pamirs.eip.EipIntegrationInterface" text="创建"/>-->
+        <!--    <action name="EipIntegrationInterfaceActionCreate" label="创建" model="pamirs.eip.EipIntegrationInterface" text="创建"/>-->
 
     </template>
     <template slot="rowActions">
@@ -20,8 +20,8 @@
         <action name="dataStatusDisable" invisible="true"/>
         <action name="ignoreLogFrequency" invisible="true"/>
         <action name="cancelIgnoreLogFrequency" invisible="true"/>
-        <!--    <action name="集成接口详情detail" label="详情" model="pamirs.eip.EipIntegrationInterface"/>-->
-        <!--    <action name="集成接口复制form" label="复制" model="pamirs.eip.EipIntegrationInterface"/>-->
+        <!--    <action name="EipIntegrationInterfaceActionDetail" label="详情" model="pamirs.eip.EipIntegrationInterface"/>-->
+        <!--    <action name="EipIntegrationInterfaceActionCopy" label="复制" model="pamirs.eip.EipIntegrationInterface"/>-->
         <action name="redirectTestPage" invisible="activeRecord.dataStatus!=&apos;ENABLED&apos;"/>
     </template>
     <template slot="fields">

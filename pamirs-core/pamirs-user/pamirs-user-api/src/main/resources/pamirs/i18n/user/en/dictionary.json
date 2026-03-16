@@ -1,0 +1,142 @@
+{
+  "user.enum.userBehaviorEventEnum": {
+    "displayName": "User behavior events",
+    "MODIFY_PASSWORD_BY_PHONE": {
+      "displayName": "Change Password via Mobile Verification",
+      "help": "Change Password via Mobile Verification"
+    },
+    "MODIFY_PASSWORD_BYPHONE_SEND_CODE": {
+      "displayName": "Send verification code to change mobile phone password",
+      "help": "Send verification code to change mobile phone password"
+    },
+    "MODIFY_PHONE": {
+      "displayName": "Change phone number",
+      "help": "Change phone number"
+    },
+    "MODIFY_PHONE_OLD_PHONE_CODE": {
+      "displayName": "Send verification code for changing phone number - original phone",
+      "help": "Send verification code for changing phone number - original phone"
+    },
+    "MODIFY_PHONE_NEW_PHONE_CODE": {
+      "displayName": "Send verification code for changing phone number - new phone",
+      "help": "Send verification code for changing phone number - new phone"
+    },
+    "MODIFY_PHONE_SEND_EMAIL": {
+      "displayName": "Send verification code for changing phone number or email",
+      "help": "Send verification code for changing phone number or email"
+    },
+    "MODIFY_PASSWORD_BY_EMAIL": {
+      "displayName": "Email verification to change password",
+      "help": "Email verification to change password"
+    },
+    "MODIFY_PASSWORD_SEND_RESET_EMAIL": {
+      "displayName": "Send reset password email",
+      "help": "Send reset password email"
+    },
+    "MODIFY_EMAIL": {
+      "displayName": "Change email",
+      "help": "Change email"
+    },
+    "MODIFY_EMAIL_SEND_OLD_EMAIL": {
+      "displayName": "Change Email - Send Confirmation Email to Original Email",
+      "help": "Change Email - Send Confirmation Email to Original Email"
+    },
+    "MODIFY_EMAIL_SEND_NEW_EMAIL": {
+      "displayName": "Change Email - Send Confirmation Email to New Address",
+      "help": "Change Email - Send Confirmation Email to New Address"
+    },
+    "MODIFY_EMAIL_SEND_PHONE_CODE": {
+      "displayName": "Change Email - Mobile Verification Code",
+      "help": "Change Email - Mobile Verification Code"
+    },
+    "ADD_CORP_SEND_PHONE_CODE": {
+      "displayName": "Join team mobile verification code",
+      "help": "Join team mobile verification code"
+    },
+    "ADD_CORP_SEND_EMAIL_CODE": {
+      "displayName": "Team join email verification code",
+      "help": "Team join email verification code"
+    },
+    "SIGN_UP_PHONE": {
+      "displayName": "Mobile number registration",
+      "help": "Mobile number registration"
+    },
+    "SIGN_UP_EMAIL": {
+      "displayName": "Email Registration",
+      "help": "Email Registration"
+    },
+    "LOGIN_BY_WECHAT_MA": {
+      "displayName": "WeChat Mini Program Login",
+      "help": "WeChat Mini Program Login"
+    },
+    "LOGIN_BY_PHONE_CODE": {
+      "displayName": "Login with mobile verification code",
+      "help": "Login with mobile verification code"
+    },
+    "SEND_LOGIN_BY_PHONE_CODE": {
+      "displayName": "Send mobile verification code",
+      "help": "Send mobile verification code"
+    },
+    "LOGIN_BY_EMAIL_CODE": {
+      "displayName": "Email verification code login",
+      "help": "Email verification code login"
+    },
+    "SEND_LOGIN_BY_EMAIL_CODE": {
+      "displayName": "Send email verification code",
+      "help": "Send email verification code"
+    }
+  },
+  "userLoginTypeEnum": {
+    "COOKIE": {
+      "displayName": "cookie login",
+      "help": "cookie login"
+    },
+    "TOKEN": {
+      "displayName": "token login",
+      "help": "token login"
+    },
+    "OAUTH": {
+      "displayName": "Service login-free call",
+      "help": "Service login-free call"
+    },
+    "displayName": ""
+  },
+  "user.UserSourceEnum": {
+    "displayName": "User data source",
+    "BUILD_IN": {
+      "displayName": "Built-in",
+      "help": "Built-in"
+    },
+    "SYSTEM": {
+      "displayName": "system",
+      "help": "system"
+    },
+    "MANUAL": {
+      "displayName": "User Creation",
+      "help": "User Creation"
+    },
+    "THIRD_PARTY": {
+      "displayName": "third party",
+      "help": "third party"
+    },
+    "summary": "User data source"
+  },
+  "userThirdPartyTypeEnum": {
+    "WORK_WEIXIN": {
+      "displayName": "Enterprise WeChat"
+    },
+    "WEIXIN": {
+      "displayName": "WeChat"
+    },
+    "WEIXIN_MINI_PROGRAM": {
+      "displayName": "WeChat Mini Program"
+    },
+    "WEIBO": {
+      "displayName": "Micro-blog"
+    },
+    "DINGTALK": {
+      "displayName": "DingTalk"
+    },
+    "displayName": "Third-party account type"
+  }
+}

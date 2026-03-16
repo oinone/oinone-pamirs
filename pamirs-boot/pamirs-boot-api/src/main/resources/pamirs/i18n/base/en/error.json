@@ -1,0 +1,14 @@
+{
+  "pro.shushi.pamirs.boot.common.enmu.BootExpEnumerate" : {
+    "displayName" : "System Launcher Error Enumeration",
+    "SYSTEM_ERROR" : "System exception",
+    "BASE_BOOT_MODULE_IN_JAR_ERROR" : "The startup module contains JAR files or modules that do not exist in the database",
+    "BASE_BOOT_META_DATA_COMPUTE_ERROR" : "Metadata calculation error",
+    "BASE_BOOT_LOAD_META_FROM_ANNOTATION_ERROR" : "Failed to obtain metadata. Please check the ERROR-level logs above and correct the metadata annotations.",
+    "BASE_BOOT_MODULE_MISSING_ERROR" : "The startup module contains a non-existent module",
+    "BASE_BOOT_EXCLUSION_MODULE_CONFLICT_ERROR" : "The start module contains modules that are already installed in the mutually exclusive module",
+    "BASE_BOOT_RELOAD_MODULE_NOT_INSTALLED_ERROR" : "The restart module contains uninstalled modules",
+    "BASE_BOOT_RELOAD_MODULE_NOT_INSTALLED2_ERROR" : "The restart module contains uninstalled modules",
+    "BASE_BOOT_META_ONLINE_OWNSIGN_CHECK_ERROR" : "In metadata online mode (-PmetaOnline=NEVER), ownSign must be configured."
+  }
+}

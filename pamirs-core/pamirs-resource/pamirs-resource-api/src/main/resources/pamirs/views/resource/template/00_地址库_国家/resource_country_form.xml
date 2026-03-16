@@ -1,4 +1,4 @@
-<view widget="form" name="国家form" title="国家" model="resource.ResourceCountry" type="FORM" priority="10">
+<view widget="form" name="ResourceCountryFormBase" title="国家" model="resource.ResourceCountry" type="FORM" priority="10">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
                 type="default"/>

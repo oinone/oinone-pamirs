@@ -1,4 +1,4 @@
-<view widget="table" operationWidth="200" model="resource.ResourceProvince" title="省" name="省table" type="TABLE">
+<view widget="table" operationWidth="200" model="resource.ResourceProvince" title="省" name="ResourceProvinceTable" type="TABLE">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="resource.ResourceProvince"/>
         <action name="delete" label="删除" model="resource.ResourceProvince"/>
@@ -10,7 +10,7 @@
     <template slot="rowActions">
         <action name="redirectDetailPage" label="详情" model="resource.ResourceProvince"/>
         <action name="redirectUpdatePage" label="编辑" model="resource.ResourceProvince"/>
-        <action name="省关键字设置dialog" label="省关键字设置" model="resource.ResourceProvince"/>
+        <action name="ResourceProvinceActionKeyword" label="省关键字设置" model="resource.ResourceProvince"/>
     </template>
 
     <template slot="search" widget="search">

@@ -38,7 +38,7 @@ public class ResourceRegionExportTemplate extends AbstractExcelExportFetchDataEx
 
     @Override
     public List<ExcelWorkbookDefinition> generator() {
-        return Collections.singletonList(WorkbookDefinitionBuilder.newInstance(ResourceRegionProxyModel.MODEL_MODEL, "地区信息")
+        return Collections.singletonList(WorkbookDefinitionBuilder.newInstance(ResourceRegionProxyModel.MODEL_MODEL, "ResourceRegionExportTemplate")
                 .setType(ExcelTemplateTypeEnum.EXPORT)
                 .createSheet().setName("国家")
                 .createBlock(ResourceCountry.MODEL_MODEL, ExcelAnalysisTypeEnum.FIXED_HEADER, ExcelDirectionEnum.HORIZONTAL,

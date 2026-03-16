@@ -1,0 +1,13 @@
+{
+  "base.AppSwitcherModuleProxy" : {
+    "like" : {
+      "displayName" : "Favorite"
+    },
+    "sortOrderNumber" : {
+      "displayName" : "Favorites App Sorting Settings"
+    },
+    "unLike" : {
+      "displayName" : "Unfavorite"
+    }
+  }
+}

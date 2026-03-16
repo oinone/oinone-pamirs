@@ -1,0 +1,26 @@
+{
+  "pro.shushi.pamirs.trigger.enmu.TriggerExpEnumerate" : {
+    "displayName" : "Trigger Module Error Enumeration",
+    "SYSTEM_ERROR" : "System exception",
+    "BASE_MODULE_STATE_NOT_SUPPORT_ERROR" : "The current state of the module does not support the operation",
+    "BASE_NO_MODULE_FOR_DB_ERROR" : "There is no data for the current module in the database",
+    "BASE_JAR_MODULE_NOT_SUPPORT_ERROR" : "The module versions of the application group are outdated!",
+    "BASE_ACQUIRE_DISTRIBUTE_LOCK_ERROR" : "Failed to seize the lock",
+    "BASE_MODULE_NOT_SELF_ERROR" : "The current module is not a self-built application and cannot be uninstalled.",
+    "BASE_MODULE_AUTHOR_NOT_SUPPORT_ERROR" : "The author of the current module is Mathematical Formula, deletion is not allowed!",
+    "BASE_SQL_ERROR" : "SQL Error",
+    "BASE_SPREAD_DEPENDENCY_MODULE_ERROR" : "Tile query dependency module exception",
+    "BASE_HAS_EXCLUSION_INSTALLED_MODULE" : "Oops! A conflicting module is already installed, startup failed",
+    "TRIGGER_SQL_ERROR" : "SQL Error",
+    "AUTO_TIMER_ERROR" : "Analyze the abnormal delay time of autoTrigger and return the current time",
+    "EVENT_ZK_ERROR" : "Failed to initialize zk data",
+    "TRIGGER_ZK_INIT_ERROR" : "Failed to initialize scheduler",
+    "FUNCTION_NOT_FOUND" : "The execution function has not been loaded",
+    "TARGET_FUNCTION_NOT_FOUND" : "The target function has not been loaded",
+    "TARGET_FUNCTION_LIST_NULL" : "The objective function list is not allowed to be empty",
+    "NOTIFY_DEFINITION_IS_EXIST" : "Only one message notification is allowed for the same execution function, and duplicate creation is not allowed.",
+    "NOTIFY_FUNCTION_DEFINITION_IS_EXIST" : "The same objective function can only receive messages from one execution function, and duplicate creation is not allowed.",
+    "CRON_FUNCTION_PARAMS_CONFIG_ERROR" : "The execution function passes in parameters, and the ModelModel and dataJson parameters must be configured.",
+    "CRON_EXPRESSION_INVALID" : "Invalid cron expression"
+  }
+}

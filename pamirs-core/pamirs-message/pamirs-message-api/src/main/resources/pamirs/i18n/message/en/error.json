@@ -1,0 +1,29 @@
+{
+  "pro.shushi.pamirs.message.enmu.MessageExpEnumerate" : {
+    "displayName" : "Message Module Error Enumeration",
+    "MAIL_USER_NOT_LOGIN" : "User is not logged in",
+    "SYSTEM_ERROR" : "System exception",
+    "MAIL_SQL_ERROR" : "Database query exception",
+    "MAIL_CLIENT_ARG_ERROR" : "Frontend parameter exception",
+    "MAIL_SMS_TEMPLATE_ERROR" : "SMS sending failed: SMS template not found",
+    "MAIL_SMS_TEMPLATE_CODE_CHANNEL_ERROR" : "No sending channel corresponding to the SMS template was found",
+    "MAIL_EMAIL_VERIFY_TEMPLATE_ERROR" : "Failed to send email verification code: sending template not found",
+    "MAIL_SMS_VERIFY_CODE_SAVE_ERROR" : "Failed to send SMS verification code: Failed to save SMS verification code",
+    "MAIL_SMS_VERIFY_CODE_UPDATE_ERROR" : "Failed to send SMS verification code: Failed to update SMS verification code",
+    "MAIL_EMAIL_VERIFY_CODE_SAVE_ERROR" : "Failed to send email verification code: Failed to save email verification code",
+    "MAIL_EMAIL_VERIFY_CODE_UPDATE_ERROR" : "Failed to send SMS verification code: Failed to update email verification code",
+    "MAIL_EMAIL_REPLACE_ERROR" : "Email template conversion error",
+    "MAIL_NO_PARTNER_OR_MESSAGE_ERROR" : "No message recipient or message not written",
+    "MAIL_NO_WECHATWORK_CONFIG_ERROR" : "Enterprise WeChat configuration message error",
+    "MAIL_DDING_NO_PARTNER" : "Please check if the message recipient is incorrect",
+    "MAIL_CONFIG_ERROR" : "SMS template configuration exception",
+    "MAIL_SEND_SMS_ERROR" : "SMS request exception",
+    "MAIL_SENDER_CONFIG_SMTP_USER_REPEAT_ERROR" : "SMTP username is duplicated; this username has already been created",
+    "MAIL_SENDER_CONFIG_SMTP_HOST_REPEAT_ERROR" : "SMTP server address is duplicated; this address has already been created",
+    "EMAIL_VERIFY_TEMPLATE_TEMPLATE_TYPE_REPEAT_ERROR" : "The email verification template type is duplicate; this type has already been created.",
+    "EMAIL_VERIFY_TEMPLATE_TITLE_REPEAT_ERROR" : "Email subject is duplicated; this subject has already been created",
+    "MAIL_SENDER_CONFIG_SMTP_HOST_USER_REPEAT_ERROR" : "The SMTP server address and username are duplicated; this address has already been created",
+    "MAIL_SENDER_CONFIG_IS_NULL" : "No available mail server configuration found",
+    "CHANNEL_ISNOT_EXIST" : "No corresponding channel"
+  }
+}

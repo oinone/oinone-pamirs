@@ -1,0 +1,18 @@
+{
+  "base.HomePageConfigRules" : {
+    "homePageRulesConfig" : {
+      "title" : "Global Homepage Rule Configuration"
+    }
+  },
+  "sysSetting.GlobalAppConfigProxy" : {
+    "GlobalAppConfigProxy_SysStyle_Form" : {
+      "title" : "System Style Configuration"
+    },
+    "advanced_home_page_configuration" : {
+      "title" : "Advanced Home Configuration"
+    },
+    "SysSettingMenus_GlobalMenu_TranslateMenu" : {
+      "title" : "Translation Management Configuration"
+    }
+  }
+}

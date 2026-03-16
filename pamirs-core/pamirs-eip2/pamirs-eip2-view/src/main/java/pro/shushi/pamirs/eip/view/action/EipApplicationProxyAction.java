@@ -29,16 +29,16 @@ import java.util.List;
 @Model.model(EipApplicationProxy.MODEL_MODEL)
 @UxRouteButton(
         action = @UxAction(name = "EipApplicationCreate", displayName = "创建集成应用", label = "新增应用", contextType = ActionContextTypeEnum.CONTEXT_FREE),
-        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "集成应用form", openType = ActionTargetEnum.DRAWER))
+        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "EipApplicationProxyFormApp", openType = ActionTargetEnum.DRAWER))
 @UxRouteButton(
         action = @UxAction(name = "EipApplicationAuth", displayName = "授权调整", label = "授权调整", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "集成应用接口授权form", openType = ActionTargetEnum.DRAWER))
+        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "EipApplicationProxyFormAuth", openType = ActionTargetEnum.DRAWER))
 @UxRouteButton(
         action = @UxAction(name = "EipApplicationPrivateDetail", displayName = "查看集成应用密钥", label = "查看密钥", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "集成应用密钥detail", openType = ActionTargetEnum.DIALOG))
+        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "EipApplicationProxyProxyDetail", openType = ActionTargetEnum.DIALOG))
 @UxRouteButton(
         action = @UxAction(name = "EipApplicationOperationRateLimit", displayName = "流控配置", label = "流控配置", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "应用流控配置from", openType= ActionTargetEnum.ROUTER))
+        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "EipApplicationProxyFormFlowCtrl", openType= ActionTargetEnum.ROUTER))
 public class EipApplicationProxyAction {
 
     @Autowired

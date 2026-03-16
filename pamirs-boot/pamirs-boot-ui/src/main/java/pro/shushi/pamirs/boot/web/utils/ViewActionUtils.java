@@ -34,7 +34,7 @@ public class ViewActionUtils {
 
     public static String viewActionTitle(DataContainerTypeEnum dataType, String modelDisplayName, String actionDisplayName) {
         if (DataContainerTypeEnum.LIST.equals(dataType)) {
-            modelDisplayName = modelDisplayName + ViewActionConstants.redirectTablePage.title;
+            modelDisplayName = modelDisplayName + I18nUtils.getMessage(ViewActionConstants.redirectTablePage.title);
         } else {
             if (actionDisplayName != null && !actionDisplayName.contains("internalGoto")) {
                 modelDisplayName = modelDisplayName + actionDisplayName;

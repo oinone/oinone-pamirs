@@ -1,0 +1,17 @@
+{
+  "pro.shushi.pamirs.message.engine.sms.SMSSender" : {
+    "addTemplate" : {
+      "displayName" : "Custom SMS Template Application Extension Point"
+    },
+    "queryTemplate" : {
+      "displayName" : "Custom SMS Template Query Audit Status Extension Point"
+    },
+    "send" : {
+      "displayName" : "Custom SMS sending extension point"
+    },
+    "sendOrThrow" : {
+      "displayName" : "Custom SMS sending extension point",
+      "description" : "A platform exception message will be thrown if the SMS fails to send."
+    }
+  }
+}

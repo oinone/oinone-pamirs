@@ -1,0 +1,8 @@
+{
+  "pro.shushi.pamirs.ux.draft.enums.DraftExpEnumerate" : {
+    "displayName" : "Draft Module Error Enumeration",
+    "SYSTEM_ERROR" : "System exception",
+    "DRAFT_CODE_IS_NULL" : "Draft code cannot be empty",
+    "DRAFT_MODEL_IS_NULL" : "The draft model cannot be empty"
+  }
+}

@@ -22,16 +22,16 @@ import java.util.List;
 @Model.Advanced(name = "resourceLang", unique = {"code"})
 @Model(displayName = "语言", labelFields = "name")
 @UxRouteButton(
-        action = @UxAction(name = "resourceLangCreate", label = "创建", contextType = ActionContextTypeEnum.CONTEXT_FREE, bindingView = "语言table", bindingType = ViewTypeEnum.TABLE),
-        value = @UxRoute(model = ResourceLang.MODEL_MODEL, viewName = "语言form", viewType = ViewTypeEnum.FORM, openType = ActionTargetEnum.ROUTER)
+        action = @UxAction(name = "resourceLangCreate", label = "创建", contextType = ActionContextTypeEnum.CONTEXT_FREE, bindingView = "ResourceLangTable", bindingType = ViewTypeEnum.TABLE),
+        value = @UxRoute(model = ResourceLang.MODEL_MODEL, viewName = "ResourceLangForm", viewType = ViewTypeEnum.FORM, openType = ActionTargetEnum.ROUTER)
 )
 @UxRouteButton(
         action = @UxAction(name = "resourceLangDetail", label = "详情", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = ResourceLang.MODEL_MODEL, viewName = "语言detail", viewType = ViewTypeEnum.DETAIL, openType = ActionTargetEnum.ROUTER)
+        value = @UxRoute(model = ResourceLang.MODEL_MODEL, viewName = "ResourceLangDetail", viewType = ViewTypeEnum.DETAIL, openType = ActionTargetEnum.ROUTER)
 )
 @UxRouteButton(
         action = @UxAction(name = "resourceLangEdit", label = "编辑", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = ResourceLang.MODEL_MODEL, viewName = "语言form", viewType = ViewTypeEnum.FORM, openType = ActionTargetEnum.ROUTER)
+        value = @UxRoute(model = ResourceLang.MODEL_MODEL, viewName = "ResourceLangForm", viewType = ViewTypeEnum.FORM, openType = ActionTargetEnum.ROUTER)
 )
 public class ResourceLang extends CodeModel {
 

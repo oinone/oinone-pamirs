@@ -1,4 +1,4 @@
-<view widget="form" type="FORM" model="resource.ResourceDistrict" name="区关键字设置form" title="区关键字设置" priority="100">
+<view widget="form" type="FORM" model="resource.ResourceDistrict" name="ResourceDistrictFormKeyword" title="区关键字设置" priority="100">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
                 type="default"/>

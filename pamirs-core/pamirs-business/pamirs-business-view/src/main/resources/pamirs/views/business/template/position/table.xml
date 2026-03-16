@@ -1,4 +1,4 @@
-<view type="TABLE" title="岗位列表" name="岗位列表table" widget="table" model="business.PamirsPosition">
+<view type="TABLE" title="岗位列表" name="PamirsPositionTable" widget="table" model="business.PamirsPosition">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" displayName="创建"/>
         <action name="delete" label="删除" displayName="删除"/>

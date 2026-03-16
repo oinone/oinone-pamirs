@@ -1,0 +1,393 @@
+{
+  "mail.enmu.DefaultAvatarEnum": {
+    "CHATURL": {
+      "displayName": "chat avatar",
+      "help": "chat avatar"
+    },
+    "CHANNELURL": {
+      "displayName": "channel avatar",
+      "help": "channel avatar"
+    },
+    "MODELMAILURL": {
+      "displayName": "Model message avatar",
+      "help": "Model message avatar"
+    },
+    "SYSTEMMAILURL": {
+      "displayName": "System Message Avatar",
+      "help": "System Message Avatar"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.EmailPostPartnerTypeEnum": {
+    "PARTNER": {
+      "displayName": "Designated personnel",
+      "help": "Designated personnel"
+    },
+    "ADDRESS": {
+      "displayName": "Fixed email address",
+      "help": "Fixed email address"
+    },
+    "FIELD": {
+      "displayName": "Model field",
+      "help": "Model field"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.EmailSendSecurityEnum": {
+    "NONE": {
+      "displayName": "None",
+      "help": "None"
+    },
+    "STARTTLS": "starttls",
+    "SSL": "ssl",
+    "displayName": ""
+  },
+  "mail.enmu.MessageChannelOpenTypeEnum": {
+    "PUBLIC": {
+      "displayName": "Everyone",
+      "help": "Everyone"
+    },
+    "PRIVATE": {
+      "displayName": "Private channel",
+      "help": "Private channel"
+    },
+    "GROUPS": {
+      "displayName": "Group Channel",
+      "help": "Group Channel"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.MessageChannelTypeEnum": {
+    "CHAT": {
+      "displayName": "Chat",
+      "help": "Chat"
+    },
+    "CHANNEL": {
+      "displayName": "Chat Channel Group",
+      "help": "Chat Channel Group"
+    },
+    "SYSTEM_MAIL": {
+      "displayName": "System Notification Channel",
+      "help": "System Notification Channel"
+    },
+    "SYSTEM_MAIL_BROADCAST": {
+      "displayName": "Broadcast Message Channel",
+      "help": "Broadcast Message Channel"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.MessageEngineTypeEnum": {
+    "EMAIL_SEND": {
+      "displayName": "Send email",
+      "help": "Send email"
+    },
+    "SMS_SEND": {
+      "displayName": "Send a text message",
+      "help": "Send a text message"
+    },
+    "APP_PUSH": {
+      "displayName": "app push",
+      "help": "app push"
+    },
+    "WECHAT_PUSH": {
+      "displayName": "WeChat Push Notification",
+      "help": "WeChat Push Notification"
+    },
+    "THIRD_PUSH": {
+      "displayName": "Third-party app push",
+      "help": "Third-party app push"
+    },
+    "MAIL_SEND": {
+      "help": "Send internal message"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.MessageGroupTypeEnum": {
+    "CHAT": {
+      "displayName": "Chat",
+      "help": "Chat"
+    },
+    "CHANNEL": {
+      "displayName": "Chat Channel Group",
+      "help": "Chat Channel Group"
+    },
+    "MODEL_MAIL": {
+      "displayName": "Model Message",
+      "help": "Model Message"
+    },
+    "SYSTEM_MAIL": {
+      "displayName": "System Notification",
+      "help": "System Notification"
+    },
+    "SYSTEM_MAIL_BROADCAST": {
+      "displayName": "Broadcast message",
+      "help": "Broadcast message"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.MessageMasterEnum": {
+    "OTHER": {
+      "displayName": "Other people's messages",
+      "help": "Other people's messages"
+    },
+    "SELF": {
+      "displayName": "Personal messages",
+      "help": "Personal messages"
+    },
+    "displayName": ""
+  },
+  "furniture.enum.MessagePosition": {
+    "BEFORE": {
+      "displayName": "front",
+      "help": "front"
+    },
+    "AFTER": {
+      "displayName": "behind",
+      "help": "behind"
+    }
+  },
+  "mail.enmu.MessageTypeEnum": {
+    "COMMENT": {
+      "displayName": "Comment",
+      "help": "Comment"
+    },
+    "NOTIFICATION": {
+      "displayName": "Notice",
+      "help": "Notice"
+    },
+    "BROADCAST": {
+      "displayName": "Broadcast",
+      "help": "Broadcast"
+    },
+    "WORKFLOW": {
+      "displayName": "Workflow",
+      "help": "Workflow"
+    },
+    "COPY": {
+      "displayName": "CC",
+      "help": "CC"
+    },
+    "SHARING": {
+      "displayName": "Workflow Sharing",
+      "help": "Workflow Sharing"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.MessageUserEnum": {
+    "DISTRIBUTOR": {
+      "displayName": "Distributor",
+      "help": "Distributor"
+    },
+    "UPDATER": {
+      "displayName": "Updater",
+      "help": "Updater"
+    },
+    "CREATER": {
+      "displayName": "Creator",
+      "help": "Creator"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.ModelTtypeEnum": {
+    "NULL": {
+      "displayName": "Null pointer",
+      "help": "Null pointer"
+    },
+    "INT": {
+      "displayName": "Integer",
+      "help": "Integer"
+    },
+    "LONG": {
+      "displayName": "Long integer",
+      "help": "Long integer"
+    },
+    "FLOAT": {
+      "displayName": "floating-point number",
+      "help": "floating-point number"
+    },
+    "BOOLEAN": {
+      "displayName": "BOOL value",
+      "help": "BOOL value"
+    },
+    "STRING": {
+      "displayName": "String",
+      "help": "String"
+    },
+    "TEXT": {
+      "displayName": "Text line",
+      "help": "Text line"
+    },
+    "HTML": {
+      "displayName": "Rich Text",
+      "help": "Rich Text"
+    },
+    "ENUM": {
+      "displayName": "enumeration value",
+      "help": "enumeration value"
+    },
+    "MULTI_ENUM": {
+      "displayName": "Multiple choice enumeration values",
+      "help": "Multiple choice enumeration values"
+    },
+    "DATE": {
+      "displayName": "Date and Time",
+      "help": "Date and Time"
+    },
+    "MONEY": {
+      "displayName": "Amount",
+      "help": "Amount"
+    },
+    "displayName": "",
+    "one2one": {
+      "displayName": "one-on-one",
+      "help": "one-on-one"
+    },
+    "many2one": {
+      "displayName": "Many-to-one",
+      "help": "Many-to-one"
+    },
+    "one2many": {
+      "displayName": "One-to-many",
+      "help": "One-to-many"
+    },
+    "many2many": {
+      "displayName": "Many-to-many",
+      "help": "Many-to-many"
+    }
+  },
+  "mail.enmu.SMSActionEnum": {
+    "SEND_SMS": {
+      "displayName": "Single text message",
+      "help": "Single text message"
+    },
+    "SEND_BATCH_SMS": {
+      "displayName": "Bulk SMS",
+      "help": "Bulk SMS"
+    },
+    "QUERY_SMS_TEMPLATE": {
+      "displayName": "Query SMS template",
+      "help": "Query SMS template"
+    },
+    "ADD_SMS_TEMPLATE": {
+      "displayName": "Add new SMS template",
+      "help": "Add new SMS template"
+    },
+    "MODIFY_SMS_TEMPLATE": {
+      "displayName": "Update SMS template",
+      "help": "Update SMS template"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.SMSChannelEnum": {
+    "ALIYUN": {
+      "displayName": "Alibaba Cloud",
+      "help": "Alibaba Cloud"
+    },
+    "ALIYUN_NOTIFY": {
+      "displayName": "Alibaba Cloud Notification Type",
+      "help": "Alibaba Cloud Notification Type"
+    },
+    "CUSTOM": {
+      "displayName": "Custom",
+      "help": "Custom"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.SMSTemplateStatusEnum": {
+    "displayName": "SMS Template Review Status",
+    "PENDING_AUDIT": {
+      "displayName": "Pending Review",
+      "help": "Pending Review"
+    },
+    "AUDITING": {
+      "displayName": "Under review",
+      "help": "Under review"
+    },
+    "SUCCESS": {
+      "displayName": "Approved",
+      "help": "Approved"
+    },
+    "FAILURE": {
+      "displayName": "Review not approved",
+      "help": "Review not approved"
+    }
+  },
+  "mail.enmu.ThirdSendMessageType": {
+    "TEXT": {
+      "displayName": "Text",
+      "help": "Text"
+    },
+    "IMG": {
+      "displayName": "Picture",
+      "help": "Picture"
+    },
+    "VOICE": {
+      "displayName": "Voice",
+      "help": "Voice"
+    },
+    "VIDEO": {
+      "displayName": "video",
+      "help": "video"
+    },
+    "FILE": {
+      "displayName": "Document",
+      "help": "Document"
+    },
+    "TEXTCARD": {
+      "displayName": "Text Card",
+      "help": "Text Card"
+    },
+    "NEWS": {
+      "displayName": "Image and text message",
+      "help": "Image and text message"
+    },
+    "MD": {
+      "displayName": "markdown message",
+      "help": "markdown message"
+    },
+    "displayName": ""
+  },
+  "mail.enmu.SMSTemplateTypeEnum": {
+    "displayName": "SMS type",
+    "SIGN_IN": {
+      "displayName": "Login confirmation",
+      "help": "Login Confirmation"
+    },
+    "SIGN_UP": {
+      "displayName": "User registration",
+      "help": "User Registration"
+    },
+    "CHANGE_PWD": {
+      "displayName": "Change password",
+      "help": "Change Password"
+    },
+    "CHANGE_PHONE": {
+      "displayName": "Change mobile number",
+      "help": "Change phone number"
+    },
+    "CHANGE_EMAIL": {
+      "displayName": "Change Email",
+      "help": "Change email"
+    },
+    "NEW_PHONE": {
+      "displayName": "New mobile phone number verification code",
+      "help": "Verification code for the new phone number"
+    },
+    "NEW_EMAIL": {
+      "displayName": "New email verification code",
+      "help": "New email verification code"
+    },
+    "ADD_CORP": {
+      "displayName": "Join the team",
+      "help": "Join the team"
+    },
+    "NOTIFY": {
+      "displayName": "Notification SMS",
+      "help": "Notification message"
+    },
+    "PAY": {
+      "displayName": "Payment verification code",
+      "help": "Payment verification code"
+    }
+  }
+}

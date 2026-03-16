@@ -1,4 +1,4 @@
-<view widget="table" name="货币table" operationWidth="200" title="货币" model="resource.ResourceCurrency" type="TABLE">
+<view widget="table" name="ResourceCurrencyTable" operationWidth="200" title="货币" model="resource.ResourceCurrency" type="TABLE">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="resource.ResourceCurrency"/>
         <action name="delete" label="删除" model="resource.ResourceCurrency"/>

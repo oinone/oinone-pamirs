@@ -1,0 +1,26 @@
+{
+  "pro.shushi.pamirs.channel.enmu.ChannelExpEnumerate" : {
+    "displayName" : "Enhanced Model Module Error Enumeration",
+    "SYSTEM_ERROR" : "System exception",
+    "CHANNEL_PREPARE_ERROR" : "Synchronous preparation, query configuration model exception",
+    "CHANNEL_PREPARE_ERROR_0" : "Synchronization preparation, parameter is illegal",
+    "CHANNEL_DUMP_ERROR" : "Full synchronization failed",
+    "CHANNEL_DUMP_DISRUPTOR_ERROR" : "Exception in constructing synchronous queue parameters",
+    "CHANNEL_TENANT_ERROR" : "Tenant parameter does not exist",
+    "CHANNEL_DUMP_MANAGER_ERROR" : "Synchronous preparation has not been completed",
+    "CHANNEL_ENHANCE_MODEL_NODATA_ERROR" : "The synchronous model has no data",
+    "CHANNEL_ENHANCE_MODEL_INCREMENT_OPEN_ERROR" : "Model incremental synchronization is enabled",
+    "CHANNEL_ENHANCE_MODEL_INCREMENT_CLOSE_ERROR" : "Model incremental synchronization is turned off",
+    "CHANNEL_INCREMENT_OPEN_ILLEGAL_ARG_ERROR" : "The parameter for enabling incremental synchronization is invalid",
+    "CHANNEL_INCREMENT_CLOSE_ILLEGAL_ARG_ERROR" : "The parameter to disable incremental synchronization is invalid",
+    "CHANNEL_BINLOG_EVENT_CONSUME_ERROR" : "Incremental synchronization consumes message exception",
+    "CHANNEL_INCREMENT_SWITCH_NOT_OPEN_ERROR" : "Incremental synchronization switch is not turned on",
+    "CHANNEL_FULL_DUMP_FIRST_ID_ILLEGAL_ERROR" : "Exception occurred while retrieving the starting ID for full synchronization",
+    "CHANNEL_FULL_DUMP_LAST_ID_ILLEGAL_ERROR" : "Exception occurred while obtaining full synchronization end ID",
+    "CHANNEL_ENHANCE_MODEL_INCREMENT_OPEN_FAIL_ERROR" : "Failed to enable incremental model synchronization",
+    "CHANNEL_ENHANCE_MODEL_INCREMENT_CLOSE_FAIL_ERROR" : "Failed to disable model incremental synchronization",
+    "CHANNEL_ENHANCE_MODEL_TABLE_2_MODEL_ERROR" : "Failed to find model by table name",
+    "CHANNEL_CREATE_INDEX_ERROR" : "Failed to create index",
+    "CHANNEL_CREATE_MAPPING_ERROR" : "Failed to create index Mapping"
+  }
+}

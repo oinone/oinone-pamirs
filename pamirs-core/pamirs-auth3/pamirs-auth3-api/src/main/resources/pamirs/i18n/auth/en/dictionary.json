@@ -1,0 +1,158 @@
+{
+  "auth.AuthorizationSourceEnum": {
+    "displayName": "Source of permission data",
+    "BUILD_IN": {
+      "displayName": "Built-in",
+      "help": "Built-in and cannot be modified"
+    },
+    "SYSTEM": {
+      "displayName": "system",
+      "help": "Built into the system, allows users to modify"
+    },
+    "MANUAL": {
+      "displayName": "User Creation",
+      "help": "User Creation"
+    },
+    "summary": "Permission data source"
+  },
+  "auth.FieldAuthorizedValueEnum": {
+    "displayName": "Field Permission Authorization Value",
+    "READ": {
+      "displayName": "Read permission",
+      "help": "Read permission"
+    },
+    "WRITE": {
+      "displayName": "Write permission",
+      "help": "Write permission"
+    },
+    "NON_NULL": {
+      "displayName": "Non-Empty Permissions",
+      "help": "If enabled, it is not allowed to set the specified field to null"
+    },
+    "summary": "Field Permission Authorization Value"
+  },
+  "auth.ModelAuthorizedValueEnum": {
+    "displayName": "Model Permission Authorization Value",
+    "QUERY": {
+      "displayName": "Query permissions",
+      "help": "Query Permissions"
+    },
+    "CREATE": {
+      "displayName": "Create permissions",
+      "help": "Create Permission"
+    },
+    "UPDATE": {
+      "displayName": "Update permissions",
+      "help": "Update Permissions"
+    },
+    "DELETE": {
+      "displayName": "Delete permissions",
+      "help": "Delete permission"
+    },
+    "summary": "Model permission authorization value"
+  },
+  "auth.ResourceAuthorizedValueEnum": {
+    "displayName": "Resource Permission Authorization Value",
+    "ACCESS": {
+      "displayName": "Access rights",
+      "help": "Access permission"
+    },
+    "MANAGEMENT": {
+      "displayName": "Management permissions",
+      "help": "Management Permissions"
+    },
+    "DESIGN": {
+      "displayName": "Design permissions",
+      "help": "Design Permissions"
+    },
+    "summary": "Resource permission authorization value"
+  },
+  "auth.RowAuthorizedValueEnum": {
+    "displayName": "Row permission authorization value",
+    "READ": {
+      "displayName": "Read permission",
+      "help": "Read permission"
+    },
+    "WRITE": {
+      "displayName": "Write permission",
+      "help": "Write permission"
+    },
+    "DELETE": {
+      "displayName": "Delete permissions",
+      "help": "Delete permission"
+    },
+    "summary": "Row permission authorization value"
+  },
+  "auth.ResourcePermissionSubtypeEnum": {
+    "displayName": "Resource subtype",
+    "MODULE": {
+      "displayName": "module",
+      "help": "module"
+    },
+    "HOMEPAGE": {
+      "displayName": "Home",
+      "help": "Home"
+    },
+    "MENU": {
+      "displayName": "Menu",
+      "help": "Menu"
+    },
+    "VIEW": {
+      "displayName": "View",
+      "help": "View"
+    },
+    "SERVER_ACTION": {
+      "displayName": "Server Action",
+      "help": "Server Action"
+    },
+    "VIEW_ACTION": {
+      "displayName": "Window action",
+      "help": "Window action"
+    },
+    "URL_ACTION": {
+      "displayName": "URL Action",
+      "help": "URL Action"
+    },
+    "CLIENT_ACTION": {
+      "displayName": "Client-side action",
+      "help": "Client-side action"
+    },
+    "FUNCTION": {
+      "displayName": "function",
+      "help": "Function"
+    },
+    "CUSTOM": {
+      "displayName": "Custom resources",
+      "help": "Custom resources"
+    },
+    "summary": "Resource Subtype"
+  },
+  "auth.ResourcePermissionTypeEnum": {
+    "displayName": "Resource Type",
+    "MODULE": {
+      "displayName": "module",
+      "help": "module"
+    },
+    "MENU": {
+      "displayName": "Menu",
+      "help": "Menu"
+    },
+    "VIEW": {
+      "displayName": "View",
+      "help": "View"
+    },
+    "ACTION": {
+      "displayName": "action",
+      "help": "Action"
+    },
+    "FUNCTION": {
+      "displayName": "function",
+      "help": "Function"
+    },
+    "CUSTOM": {
+      "displayName": "Custom resources",
+      "help": "Custom resources"
+    },
+    "summary": "Resource type"
+  }
+}

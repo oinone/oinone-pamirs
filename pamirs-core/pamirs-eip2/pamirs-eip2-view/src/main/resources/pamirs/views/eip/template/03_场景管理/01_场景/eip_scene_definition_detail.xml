@@ -1,4 +1,4 @@
-<view type="DETAIL" widget="detail" model="pamirs.eip.EipSceneDefinitionProxy" name="场景detail" submit="all" excluded-actions="generateInstance">
+<view type="DETAIL" widget="detail" model="pamirs.eip.EipSceneDefinitionProxy" name="EipSceneDefinitionProxyDetail" submit="all" excluded-actions="generateInstance">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

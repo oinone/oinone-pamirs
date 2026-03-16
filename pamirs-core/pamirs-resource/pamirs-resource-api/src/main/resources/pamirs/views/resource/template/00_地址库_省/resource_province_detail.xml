@@ -1,4 +1,4 @@
-<view widget="detail" model="resource.ResourceProvince" title="省" name="省detail" type="DETAIL">
+<view widget="detail" model="resource.ResourceProvince" title="省" name="ResourceProvinceDetail" type="DETAIL">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

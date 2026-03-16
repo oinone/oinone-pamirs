@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" title="编辑" model="eip.EipCircuitBreakerRuleProxy" name="熔断配置edit">
+<view type="FORM" widget="form" title="编辑" model="eip.EipCircuitBreakerRuleProxy" name="EipCircuitBreakerRuleProxyFormEdit">
     <template slot="actions">
         <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
         <action name="update" label="更新" goBack="true" validateForm="true"

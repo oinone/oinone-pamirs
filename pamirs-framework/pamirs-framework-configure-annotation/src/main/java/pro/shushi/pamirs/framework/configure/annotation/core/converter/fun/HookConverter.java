@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
 import pro.shushi.pamirs.meta.api.core.faas.HookAfter;
@@ -72,7 +73,7 @@ public class HookConverter implements ModelConverter<Hook, Method> {
         String executeFun = NamespaceAndFunUtils.fun(source);
         SystemSourceEnum systemSource = SystemSourceUtils.fetch(source);
         assert hookAnnotation != null;
-        hook.setDisplayName(hookAnnotation.displayName())
+        hook.setDisplayName(I18nUtils.translateHook(names.getModule(), executeNamespace, executeFun, "displayName", hookAnnotation.displayName()))
                 .setExecuteNamespace(executeNamespace)
                 .setExecuteFun(executeFun)
                 .setFunctionTypes(Optional.of(hookAnnotation.functionTypes()).filter(ArrayUtils::isNotEmpty).map(Lists::newArrayList).orElse(null))
@@ -80,7 +81,7 @@ public class HookConverter implements ModelConverter<Hook, Method> {
                 .setModel(Optional.of(hookAnnotation.model()).filter(ArrayUtils::isNotEmpty).map(Lists::newArrayList).orElse(null))
                 .setFun(Optional.of(hookAnnotation.fun()).filter(ArrayUtils::isNotEmpty).map(Lists::newArrayList).orElse(null))
                 .setPriority(hookAnnotation.priority())
-                .setDescription(hookAnnotation.description())
+                .setDescription(I18nUtils.translateHook(names.getModule(), executeNamespace, executeFun, "description", hookAnnotation.description()))
                 .setActive(hookAnnotation.active())
                 .setSystemSource(systemSource);
         Optional.ofNullable(hook.getFunctionTypes()).ifPresent(v -> v.sort(Comparator.comparing(FunctionTypeEnum::value)));

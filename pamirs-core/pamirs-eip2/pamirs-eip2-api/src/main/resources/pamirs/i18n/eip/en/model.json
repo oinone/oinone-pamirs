@@ -1,0 +1,2263 @@
+{
+  "ApplicationRelOpenInterface" : {
+    "base.Field" : {
+      "appKey" : {
+        "displayName" : "appKey",
+        "summary" : "appKey"
+      }
+    },
+    "displayName" : "Relation between Open Application and Open Interface",
+    "summary" : "Relation between Open Application and Open Interface"
+  },
+  "IntegrationInterfaceRelGroup" : {
+    "displayName" : "Relation between Integrated interface and Application Interface Permission Group",
+    "summary" : "Relation between Integrated interface and Application Interface Permission Group"
+  },
+  "OpenInterfaceRelGroup" : {
+    "displayName" : "Relation between Application Interface Permission Group and Open interface",
+    "summary" : "Relation between Application Interface Permission Group and Open interface"
+  },
+  "designer.ConnDbType" : {
+    "base.Field" : {
+      "basic" : {
+        "displayName" : "Basic type"
+      },
+      "displayName" : {
+        "displayName" : "Display Name",
+        "summary" : "Display Name"
+      },
+      "driver" : {
+        "displayName" : "Drive"
+      },
+      "help" : {
+        "displayName" : "Help",
+        "summary" : "Help"
+      }
+    },
+    "displayName" : "Database type"
+  },
+  "designer.EipConnector" : {
+    "base.Field" : {
+      "authFun" : {
+        "displayName" : "Custom authentication function Fun",
+        "summary" : "Custom Auth Function Fun"
+      },
+      "authFunc" : {
+        "displayName" : "Custom authentication function",
+        "summary" : "Custom Auth Function"
+      },
+      "authNamespace" : {
+        "displayName" : "Custom Authentication Function Namespace",
+        "summary" : "Custom Auth Function Namespace"
+      },
+      "authStatus" : {
+        "displayName" : "Certification Status",
+        "summary" : "Auth Status"
+      },
+      "authType" : {
+        "displayName" : "Authentication method",
+        "summary" : "Auth Method"
+      },
+      "basicDbType" : {
+        "displayName" : "Basic Database/File Types",
+        "summary" : "Base Database/File Type"
+      },
+      "connBasicDbType" : {
+        "displayName" : "Basic database type relationships",
+        "summary" : "Base Database Type Relation"
+      },
+      "connCryptType" : {
+        "displayName" : "Encryption Method",
+        "summary" : "Encryption Method"
+      },
+      "connDBType" : {
+        "displayName" : "Specific database type relationships",
+        "summary" : "Specific Database Type Relation"
+      },
+      "connStatus" : {
+        "displayName" : "Connection Status",
+        "summary" : "Connection Status"
+      },
+      "connectorAuth" : {
+        "displayName" : "Authentication method",
+        "summary" : "Auth Method"
+      },
+      "connectorAuthId" : {
+        "displayName" : "Authentication Method ID",
+        "summary" : "Auth Method ID"
+      },
+      "database" : {
+        "displayName" : "Source Database Name",
+        "summary" : "Source Database Name"
+      },
+      "dbType" : {
+        "displayName" : "Database/File Type",
+        "summary" : "Database/File Type"
+      },
+      "desc" : {
+        "displayName" : "Application Description",
+        "summary" : "App Description"
+      },
+      "extParam" : {
+        "displayName" : "Extended parameters",
+        "summary" : "Extended Parameters"
+      },
+      "group" : {
+        "displayName" : "business domain",
+        "summary" : "Business Domain"
+      },
+      "groupCode" : {
+        "displayName" : "Business Domain Code",
+        "summary" : "Business Domain Code"
+      },
+      "host" : {
+        "displayName" : "Server address",
+        "summary" : "Server Address"
+      },
+      "ipWhites" : {
+        "displayName" : "IP Whitelist",
+        "summary" : "IP Whitelist"
+      },
+      "logo" : {
+        "displayName" : "Logo",
+        "summary" : "Logo"
+      },
+      "name" : {
+        "displayName" : "Application Name",
+        "summary" : "Application Name"
+      },
+      "origin" : {
+        "displayName" : "Source",
+        "summary" : "Source"
+      },
+      "password" : {
+        "displayName" : "Password",
+        "summary" : "Password"
+      },
+      "port" : {
+        "displayName" : "Port",
+        "summary" : "Port"
+      },
+      "sid" : {
+        "displayName" : "SID",
+        "summary" : "Oracle database SID"
+      },
+      "testConnStatus" : {
+        "displayName" : "Test Connection Status",
+        "summary" : "Test Connection Status"
+      },
+      "type" : {
+        "displayName" : "Connector Type",
+        "summary" : "Connector Type"
+      },
+      "user" : {
+        "displayName" : "Account",
+        "summary" : "Account"
+      }
+    },
+    "displayName" : "Connector"
+  },
+  "designer.EipConnectorAuth" : {
+    "base.Field" : {
+      "appKey" : {
+        "displayName" : "App Key",
+        "summary" : "App Key"
+      },
+      "appKeyId" : {
+        "displayName" : "App Key Id",
+        "summary" : "App Key Id"
+      },
+      "appSecret" : {
+        "displayName" : "App Secret",
+        "summary" : "App Secret"
+      },
+      "appSecretId" : {
+        "displayName" : "App Secret Id",
+        "summary" : "App Secret Id"
+      },
+      "authType" : {
+        "displayName" : "Authentication method",
+        "summary" : "Auth Method"
+      },
+      "authUrl" : {
+        "displayName" : "Redirect to the authorization page"
+      },
+      "connectorId" : {
+        "displayName" : "Connector ID",
+        "summary" : "Connector ID"
+      },
+      "password" : {
+        "displayName" : "Password",
+        "summary" : "Password"
+      },
+      "token" : {
+        "displayName" : "OAuth2 Token",
+        "summary" : "OAuth2 Token"
+      },
+      "user" : {
+        "displayName" : "Account",
+        "summary" : "Account"
+      }
+    },
+    "displayName" : "Connector Certification"
+  },
+  "designer.EipConnectorResource" : {
+    "base.Field" : {
+      "bodyParamsJson" : {
+        "displayName" : "Body parameter Json",
+        "summary" : "Body Parameter JSON"
+      },
+      "connType" : {
+        "displayName" : "Connector Type",
+        "summary" : "Connector Type"
+      },
+      "connector" : {
+        "displayName" : "App/DB",
+        "summary" : "App/DB"
+      },
+      "connectorId" : {
+        "displayName" : "Connector ID",
+        "summary" : "Connector ID"
+      },
+      "contentType" : {
+        "displayName" : "Content Type",
+        "summary" : "Content Type"
+      },
+      "creator" : {
+        "displayName" : "Creator",
+        "summary" : "Created By"
+      },
+      "dataList" : {
+        "displayName" : "Data"
+      },
+      "dataStatus" : {
+        "displayName" : "Enabled",
+        "summary" : "Enable State"
+      },
+      "declaration" : {
+        "displayName" : "Namespace",
+        "summary" : "Namespace"
+      },
+      "desc" : {
+        "displayName" : "API description",
+        "summary" : "API Description"
+      },
+      "excelTypeTransform" : {
+        "displayName" : "Excel type conversion",
+        "summary" : "Excel Type Conversion"
+      },
+      "fields" : {
+        "displayName" : "Metadata field",
+        "summary" : "Metadata Field"
+      },
+      "headerParamsJson" : {
+        "displayName" : "Header Parameter Json",
+        "summary" : "Header Parameter JSON"
+      },
+      "inOutConverterFun" : {
+        "displayName" : "Input and Output Converter Fun",
+        "summary" : "Input/Output Converter Fun"
+      },
+      "inOutConverterFunDefine" : {
+        "displayName" : "Input-output converter"
+      },
+      "inOutConverterNamespace" : {
+        "displayName" : "Input-Output Converter Namespace",
+        "summary" : "Input/Output Converter Namespace"
+      },
+      "interfaceName" : {
+        "displayName" : "Technical name",
+        "summary" : "Technical Name"
+      },
+      "isAuthApi" : {
+        "displayName" : "Whether to authorize the API",
+        "summary" : "Whether to authorize API"
+      },
+      "isIgnoreLogFrequency" : {
+        "displayName" : "Whether to ignore log recording frequency limits",
+        "summary" : "Whether to ignore log recording frequency limits"
+      },
+      "isPublishMcpTool" : {
+        "displayName" : "Whether to release as an MCP tool",
+        "summary" : "Whether to release as MCP tool"
+      },
+      "isPublishOpenInterface" : {
+        "displayName" : "Whether to release as an open API",
+        "summary" : "Whether to release as open API"
+      },
+      "isSingleResultSet" : {
+        "displayName" : "Is it a single result set",
+        "summary" : "Is Single Result Set"
+      },
+      "jsonType" : {
+        "displayName" : "JSON format type",
+        "summary" : "JSON Format Type"
+      },
+      "method" : {
+        "displayName" : "Connector API request method"
+      },
+      "name" : {
+        "displayName" : "API name",
+        "summary" : "API Name"
+      },
+      "origin" : {
+        "displayName" : "API categories",
+        "summary" : "source"
+      },
+      "path" : {
+        "displayName" : "Request Path",
+        "summary" : "Request Path"
+      },
+      "pathParamsJson" : {
+        "displayName" : "Path Parameter Json",
+        "summary" : "Path Parameter JSON"
+      },
+      "preview" : {
+        "displayName" : "Preview",
+        "summary" : "Preview"
+      },
+      "queryParamsJson" : {
+        "displayName" : "Query parameter Json",
+        "summary" : "Query Parameter JSON"
+      },
+      "responseJson" : {
+        "displayName" : "Response JSON",
+        "summary" : "Response JSON"
+      },
+      "schema" : {
+        "displayName" : "Connector API Protocol",
+        "summary" : "Connector API Protocol"
+      },
+      "sql" : {
+        "displayName" : "SQL",
+        "summary" : "SQL, only used when the connector is db"
+      },
+      "statusCode" : {
+        "displayName" : "Response Status Code",
+        "summary" : "Multiple uses, separated by commas"
+      },
+      "total" : {
+        "displayName" : "Number of data rows",
+        "summary" : "File set type"
+      },
+      "type" : {
+        "displayName" : "API Type",
+        "summary" : "Restful, WebService"
+      }
+    },
+    "displayName" : "Connector resources"
+  },
+  "eip.CircuitBreakerRecord" : {
+    "base.Field" : {
+      "circuitBreakerRule" : {
+        "displayName" : "Fuse rule"
+      },
+      "circuitBreakerRuleCode" : {
+        "displayName" : "Circuit breaker rule coding"
+      },
+      "circuitBreakerRuleName" : {
+        "displayName" : "Fuse Rule Name"
+      },
+      "endTime" : {
+        "displayName" : "Circuit breaker end time"
+      },
+      "integrationInterface" : {
+        "displayName" : "Integrated interface",
+        "summary" : "Integration Interface"
+      },
+      "interfaceName" : {
+        "displayName" : "Interface technical name",
+        "summary" : "Interface Technical Name"
+      },
+      "startTime" : {
+        "displayName" : "Circuit breaker start time"
+      }
+    },
+    "displayName" : "Interface Circuit Breaker Record"
+  },
+  "eip.CircuitBreakerRecordProxy" : {
+    "displayName" : "Interface Circuit Breaker Record Proxy"
+  },
+  "eip.EipCallParam" : {
+    "base.Field" : {
+      "key" : {
+        "displayName" : "Key",
+        "summary" : "Key"
+      },
+      "paramType" : {
+        "displayName" : "Parameter type",
+        "summary" : "Parameter Type"
+      },
+      "value" : {
+        "displayName" : "value",
+        "summary" : "Value"
+      }
+    },
+    "displayName" : "Call parameters"
+  },
+  "eip.EipCircuitBreakerRule" : {
+    "base.Field" : {
+      "circuitBreakerDuration" : {
+        "displayName" : "Fuse duration",
+        "summary" : "Unit: Second"
+      },
+      "circuitBreakerType" : {
+        "displayName" : "Circuit Breaker Type"
+      },
+      "failureRateThreshold" : {
+        "displayName" : "Abnormal fusing ratio threshold",
+        "summary" : "Percentage"
+      },
+      "integrationInterfaceList" : {
+        "displayName" : "Integrated interface",
+        "summary" : "Integration Interface"
+      },
+      "minRequestCount" : {
+        "displayName" : "Minimum number of requests"
+      },
+      "recoveryStrategy" : {
+        "displayName" : "Fuse recovery strategy",
+        "summary" : "Fuse recovery strategy"
+      },
+      "ruleName" : {
+        "displayName" : "Rule name",
+        "summary" : "2~50 characters, only supports Chinese and English, numbers, and underscores"
+      },
+      "slowCallResponseTime" : {
+        "displayName" : "Slow call determination threshold",
+        "summary" : "Unit: ms"
+      },
+      "slowCallThreshold" : {
+        "displayName" : "Slow call circuit breaker ratio threshold",
+        "summary" : "Percentage"
+      },
+      "statisticalDuration" : {
+        "displayName" : "Statistics Duration",
+        "summary" : "Unit: second"
+      }
+    },
+    "displayName" : "Circuit breaker rule"
+  },
+  "eip.EipCircuitBreakerRuleProxy" : {
+    "base.Field" : {
+      "integrationInterface" : {
+        "displayName" : "Integration Interface",
+        "summary" : "Used for query"
+      },
+      "threshold" : {
+        "displayName" : "Melting ratio threshold",
+        "summary" : "Melting ratio threshold"
+      }
+    },
+    "displayName" : "Circuit breaker configuration agent"
+  },
+  "eip.EipConnGroup" : {
+    "base.Field" : {
+      "description" : {
+        "displayName" : "Description",
+        "summary" : "Description"
+      },
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      }
+    },
+    "displayName" : "Connector Group",
+    "summary" : "Connector Group"
+  },
+  "eip.EipIntegrate" : {
+    "base.Field" : {
+      "connectId" : {
+        "displayName" : "Connector ID",
+        "summary" : "Connector ID"
+      },
+      "dataStatus" : {
+        "displayName" : "Data Status",
+        "summary" : "Data State"
+      },
+      "description" : {
+        "displayName" : "App Introduction",
+        "summary" : "App Introduction"
+      },
+      "group" : {
+        "displayName" : "business domain",
+        "summary" : "Business Domain"
+      },
+      "groupCode" : {
+        "displayName" : "Business Domain Code",
+        "summary" : "Business Domain Code"
+      },
+      "interfaceList" : {
+        "displayName" : "Integrated Interface List"
+      },
+      "logo" : {
+        "displayName" : "App Logo",
+        "summary" : "App Logo"
+      },
+      "name" : {
+        "displayName" : "Application Name",
+        "summary" : "Application Name"
+      }
+    },
+    "displayName" : "Integration Application",
+    "summary" : "Used for data interaction between systems"
+  },
+  "eip.EipParamMapping" : {
+    "base.Field" : {
+      "actionName" : {
+        "displayName" : "Server Action Name"
+      },
+      "bodyMapping" : {
+        "displayName" : "Body Parameter Mapping",
+        "summary" : "Body Parameter Mapping"
+      },
+      "headerMapping" : {
+        "displayName" : "Header parameter mapping",
+        "summary" : "Header Parameter Mapping"
+      },
+      "integrationInterface" : {
+        "displayName" : "Integrated interface",
+        "summary" : "Integration Interface"
+      },
+      "interfaceName" : {
+        "displayName" : "Integrated Interface Technology Name"
+      },
+      "isDb" : {
+        "displayName" : "Is it a DB connector?",
+        "summary" : "Is DB Connector"
+      },
+      "model" : {
+        "displayName" : "Model Encoding",
+        "summary" : "Model Code"
+      },
+      "pathMapping" : {
+        "displayName" : "Path Parameter Mapping",
+        "summary" : "Path Parameter Mapping"
+      },
+      "queryMapping" : {
+        "displayName" : "Query Parameter Mapping",
+        "summary" : "Query Parameter Mapping"
+      },
+      "responseMapping" : {
+        "displayName" : "Response parameter mapping",
+        "summary" : "Response Parameter Mapping"
+      },
+      "serverAction" : {
+        "displayName" : "Server Action"
+      },
+      "view" : {
+        "displayName" : "View",
+        "summary" : "View"
+      },
+      "viewName" : {
+        "displayName" : "View Name"
+      }
+    },
+    "displayName" : "Interface and Eip parameter mapping",
+    "summary" : "Mapping relationship between published interface and integrated interface"
+  },
+  "eip.api.EipLogCount" : {
+    "base.Field" : {
+      "failCallCount" : {
+        "displayName" : "Number of failed calls"
+      },
+      "fastCall" : {
+        "displayName" : "Number of calls in 300-500ms",
+        "summary" : "300-500ms Call Count"
+      },
+      "interfaceName" : {
+        "displayName" : "Interface technical name",
+        "summary" : "Interface Technical Name"
+      },
+      "interfaceType" : {
+        "displayName" : "Interface Type",
+        "summary" : "Interface Type"
+      },
+      "moderateCall" : {
+        "displayName" : "500-1000ms Call Count",
+        "summary" : "500-1000ms Call Count"
+      },
+      "slowCall" : {
+        "displayName" : "1s-3s Call Count",
+        "summary" : "1s-3s Call Count"
+      },
+      "slowestCall" : {
+        "displayName" : "8s-30s Call Count",
+        "summary" : "8s-30s Call Count"
+      },
+      "successCallCount" : {
+        "displayName" : "Number of Successful Calls"
+      },
+      "timeoutCall" : {
+        "displayName" : ">30s Call Count",
+        "summary" : ">30s Call Count"
+      },
+      "ultraFastCall" : {
+        "displayName" : "Number of calls under 100ms",
+        "summary" : "<100ms Call Count"
+      },
+      "veryFastCall" : {
+        "displayName" : "Number of calls in 100-300ms",
+        "summary" : "100-300ms Call Count"
+      },
+      "verySlowCall" : {
+        "displayName" : "3s-8s Call Count",
+        "summary" : "3s-8s Call Count"
+      }
+    },
+    "displayName" : "Integrated/open interface call statistics"
+  },
+  "pamirs.eip.AbstractEipApi" : {
+    "base.Field" : {
+      "connGroup" : {
+        "displayName" : "Business Grouping",
+        "summary" : "Business Group"
+      },
+      "connGroupCode" : {
+        "displayName" : "Business Group Code",
+        "summary" : "Business Group Code"
+      },
+      "dataStatus" : {
+        "displayName" : "Data Status",
+        "summary" : "Data State"
+      },
+      "description" : {
+        "displayName" : "Interface Description",
+        "summary" : "Interface Description"
+      },
+      "exchangePattern" : {
+        "displayName" : "Exchange mode",
+        "summary" : "Camel built-in exchange mode"
+      },
+      "interfaceName" : {
+        "displayName" : "Interface technical name",
+        "summary" : "Interface Technical Name"
+      },
+      "isDBManaged" : {
+        "displayName" : "Whether it is managed",
+        "summary" : "Whether it is managed"
+      },
+      "isEnabledLog" : {
+        "displayName" : "Log Enabled",
+        "summary" : "Log Enabled"
+      },
+      "isIgnoreLogFrequency" : {
+        "displayName" : "Whether to ignore log recording frequency limits",
+        "summary" : "Whether to ignore log recording frequency limits"
+      },
+      "lib" : {
+        "displayName" : "Integrated library"
+      },
+      "libCode" : {
+        "displayName" : "Integrated library coding"
+      },
+      "module" : {
+        "displayName" : "Module Coding",
+        "summary" : "Module Code"
+      },
+      "moduleDefinition" : {
+        "displayName" : "module",
+        "summary" : "Module"
+      },
+      "name" : {
+        "displayName" : "Interface name",
+        "summary" : "Interface Name"
+      },
+      "protocolTypeEnum" : {
+        "displayName" : "request response protocol",
+        "summary" : "request response protocol"
+      }
+    },
+    "displayName" : "Abstract base class for integrated API"
+  },
+  "pamirs.eip.AbstractEipParamConverterProcessor" : {
+    "base.Field" : {
+      "convertParamList" : {
+        "displayName" : "Conversion parameter list",
+        "summary" : "Conversion parameter list"
+      },
+      "converterFun" : {
+        "displayName" : "Custom converter function name"
+      },
+      "converterFunction" : {
+        "displayName" : "Custom converter function"
+      },
+      "converterNamespace" : {
+        "displayName" : "Custom converter function namespace"
+      },
+      "paramConverterCallbackFun" : {
+        "displayName" : "Parameter conversion callback function name",
+        "summary" : "Parameter conversion callback function name"
+      },
+      "paramConverterCallbackFunction" : {
+        "displayName" : "Parameter conversion callback function"
+      },
+      "paramConverterCallbackNamespace" : {
+        "displayName" : "Parameter conversion callback function namespace",
+        "summary" : "Parameter conversion callback function namespace"
+      },
+      "paramConverterFun" : {
+        "displayName" : "Parameter conversion function name"
+      },
+      "paramConverterFunction" : {
+        "displayName" : "Parameter conversion function"
+      },
+      "paramConverterNamespace" : {
+        "displayName" : "Parameter conversion function namespace"
+      }
+    },
+    "displayName" : "Abstract base class of the parameter conversion handler"
+  },
+  "pamirs.eip.AbstractEipParamProcessor" : {
+    "base.Field" : {
+      "authenticationProcessorFun" : {
+        "displayName" : "Authentication Processor Function Name"
+      },
+      "authenticationProcessorFunction" : {
+        "displayName" : "Authentication handler function"
+      },
+      "authenticationProcessorNamespace" : {
+        "displayName" : "Authentication Processor Function Namespace"
+      },
+      "deserializationFun" : {
+        "displayName" : "Deserialization function name",
+        "summary" : "Deserialize Function Name"
+      },
+      "deserializationFunction" : {
+        "displayName" : "Deserialization function",
+        "summary" : "Deserialize Function"
+      },
+      "deserializationNamespace" : {
+        "displayName" : "Deserialization function namespace",
+        "summary" : "Deserialize Function Namespace"
+      },
+      "finalResultKey" : {
+        "displayName" : "final result key value"
+      },
+      "inOutConverterFun" : {
+        "displayName" : "Input-output converter function name",
+        "summary" : "Input-output converter function name"
+      },
+      "inOutConverterFunction" : {
+        "displayName" : "Input/Output Converter Function",
+        "summary" : "Input/Output Converter Function"
+      },
+      "inOutConverterNamespace" : {
+        "displayName" : "Input-output converter function namespace",
+        "summary" : "Input-output converter function namespace"
+      },
+      "serializableFun" : {
+        "displayName" : "Serialization Function Name",
+        "summary" : "Serialize Function Name"
+      },
+      "serializableFunction" : {
+        "displayName" : "serialization function",
+        "summary" : "Serialize Function"
+      },
+      "serializableNamespace" : {
+        "displayName" : "Serialization Function Namespace",
+        "summary" : "Serialize Function Namespace"
+      },
+      "signatureFun" : {
+        "displayName" : "Signature verification function name"
+      },
+      "signatureFunction" : {
+        "displayName" : "Signature verification handler function"
+      },
+      "signatureNamespace" : {
+        "displayName" : "Signature verification function namespace"
+      }
+    },
+    "displayName" : "Abstract base class of the parameter processor"
+  },
+  "pamirs.eip.AbstractSingleInterface" : {
+    "base.Field" : {
+      "callCount" : {
+        "displayName" : "Number of calls"
+      },
+      "contextSupplierFun" : {
+        "displayName" : "Context Provider Method Name"
+      },
+      "contextSupplierFunction" : {
+        "displayName" : "Context provider function"
+      },
+      "contextSupplierNamespace" : {
+        "displayName" : "Context Provider Method Namespace"
+      },
+      "dynamicProtocolCacheSize" : {
+        "displayName" : "Maximum value of dynamic protocol cache"
+      },
+      "failCallCount" : {
+        "displayName" : "Number of failed calls"
+      },
+      "fastCall" : {
+        "displayName" : "Number of calls in 300-500ms",
+        "summary" : "300-500ms Call Count"
+      },
+      "isDynamic" : {
+        "displayName" : "Whether it is a dynamic integration interface",
+        "summary" : "Whether it is dynamic integration interface"
+      },
+      "moderateCall" : {
+        "displayName" : "Number of calls between 500-1000ms",
+        "summary" : "500-1000ms Call Count"
+      },
+      "slowCall" : {
+        "displayName" : "Number of calls in 1s-3s",
+        "summary" : "1s-3s Call Count"
+      },
+      "slowestCall" : {
+        "displayName" : "Number of calls in 8s-30s",
+        "summary" : "8s-30s Call Count"
+      },
+      "successCallCount" : {
+        "displayName" : "Number of Successful Calls"
+      },
+      "timeoutCall" : {
+        "displayName" : "Number of calls greater than 30s",
+        "summary" : ">30s Call Count"
+      },
+      "ultraFastCall" : {
+        "displayName" : "Number of calls under 100ms",
+        "summary" : "<100ms Call Count"
+      },
+      "uri" : {
+        "displayName" : "Interface routing",
+        "summary" : "Camel built-in routing rules"
+      },
+      "veryFastCall" : {
+        "displayName" : "Number of calls in 100-300ms",
+        "summary" : "100-300ms Call Count"
+      },
+      "verySlowCall" : {
+        "displayName" : "Number of calls in 3s-8s",
+        "summary" : "3s-8s Call Count"
+      }
+    },
+    "displayName" : "Abstract base class of a single interface"
+  },
+  "pamirs.eip.AbstractTemplate" : {
+    "base.Field" : {
+      "name" : {
+        "displayName" : "Template Name",
+        "summary" : "Template Name"
+      }
+    },
+    "displayName" : "Abstract base class defined by templates"
+  },
+  "pamirs.eip.EipApplication" : {
+    "base.Field" : {
+      "appKey" : {
+        "displayName" : "Application appKey",
+        "summary" : "App appKey"
+      },
+      "authentication" : {
+        "displayName" : "Certification information",
+        "summary" : "Auth Info"
+      },
+      "dataStatus" : {
+        "displayName" : "Data Status",
+        "summary" : "Data State"
+      },
+      "description" : {
+        "displayName" : "App Introduction",
+        "summary" : "App Introduction"
+      },
+      "ipBlackList" : {
+        "displayName" : "IP Blacklist",
+        "summary" : "IP Blacklist"
+      },
+      "ipWhiteHttpResult" : {
+        "displayName" : "Response Result",
+        "summary" : "Response result when restricted by IP whitelist rules"
+      },
+      "ipWhiteList" : {
+        "displayName" : "IP whitelist",
+        "summary" : "IP Whitelist"
+      },
+      "ipWhiteRespHttpCode" : {
+        "displayName" : "Response Status Code",
+        "summary" : "Response status code when restricted by IP whitelist rules"
+      },
+      "logo" : {
+        "displayName" : "App Logo",
+        "summary" : "App Logo"
+      },
+      "name" : {
+        "displayName" : "Application Name",
+        "summary" : "Application Name"
+      },
+      "openInterfaceList" : {
+        "displayName" : "Open API List",
+        "summary" : "Total list of open interfaces in the interface permission group"
+      },
+      "requestDecryptFun" : {
+        "displayName" : "Request preprocessing function name",
+        "summary" : "Request Pre-process Function Name"
+      },
+      "requestDecryptNamespace" : {
+        "displayName" : "Request pre-processing function namespace",
+        "summary" : "Request Pre-process Function Namespace"
+      },
+      "responseEncryptionFun" : {
+        "displayName" : "Response Pre-process Function Name",
+        "summary" : "Response Pre-process Function Name"
+      },
+      "responseEncryptionNamespace" : {
+        "displayName" : "Response Pre-process Function Namespace",
+        "summary" : "Response Pre-process Function Namespace"
+      }
+    },
+    "displayName" : "Open Application",
+    "summary" : "Used for data interaction between systems"
+  },
+  "pamirs.eip.EipAuthentication" : {
+    "base.Field" : {
+      "appKey" : {
+        "displayName" : "Application Key",
+        "summary" : "Application Key"
+      },
+      "appSecret" : {
+        "displayName" : "Application Secret",
+        "summary" : "Application Secret"
+      },
+      "encryptType" : {
+        "displayName" : "Encryption Type",
+        "summary" : "Encryption Type"
+      },
+      "privateKey" : {
+        "displayName" : "RSA Private Key",
+        "summary" : "RSA Private Key"
+      },
+      "publicKey" : {
+        "displayName" : "RSA public key",
+        "summary" : "RSA Public Key"
+      }
+    },
+    "displayName" : "Integrated Certification",
+    "summary" : "Authentication information for integrated applications"
+  },
+  "pamirs.eip.EipComponentDefinition" : {
+    "base.Field" : {
+      "alwaysUsingRequestParams" : {
+        "displayName" : "Whether to always use call parameters as request parameters",
+        "summary" : "Applied to the component: the scenario of integrated interface"
+      },
+      "convertFun" : {
+        "displayName" : "Handler function name"
+      },
+      "convertFunction" : {
+        "displayName" : "Handler function",
+        "summary" : "Required when the component type is \\'FILTER\\'"
+      },
+      "convertNamespace" : {
+        "displayName" : "Handler function namespace"
+      },
+      "filterComponentDefinitions" : {
+        "displayName" : "List of components corresponding to filter criteria",
+        "summary" : "Required when the component type is \\'FILTER\\'"
+      },
+      "filterFun" : {
+        "displayName" : "Filter function name"
+      },
+      "filterFunction" : {
+        "displayName" : "Filter function",
+        "summary" : "Required when the component type is \\'FILTER\\'"
+      },
+      "filterNamespace" : {
+        "displayName" : "Filter function namespace"
+      },
+      "integrationInterface" : {
+        "displayName" : "Integrated interface",
+        "summary" : "Required when the component type is \\'NORMAL\\'"
+      },
+      "interfaceName" : {
+        "displayName" : "interface name list"
+      },
+      "paramProcessor" : {
+        "displayName" : "Parameter Processor"
+      },
+      "type" : {
+        "displayName" : "Component Type"
+      }
+    },
+    "displayName" : "Component Definition"
+  },
+  "pamirs.eip.EipConvertParam" : {
+    "base.Field" : {
+      "callbackFun" : {
+        "displayName" : "Parameter conversion callback function name",
+        "summary" : "Parameter conversion callback function name"
+      },
+      "callbackFunction" : {
+        "displayName" : "Parameter conversion callback function",
+        "summary" : "Parameter conversion callback function"
+      },
+      "callbackNamespace" : {
+        "displayName" : "Parameter conversion callback function namespace",
+        "summary" : "Parameter conversion callback function namespace"
+      },
+      "defaultValue" : {
+        "displayName" : "Default value",
+        "summary" : "Default Value"
+      },
+      "desc" : {
+        "displayName" : "Remarks"
+      },
+      "httpParamTypeEnum" : {
+        "displayName" : "Request Parameter Type",
+        "summary" : "Request Parameter Type"
+      },
+      "inParam" : {
+        "displayName" : "Input parameter"
+      },
+      "inParamType" : {
+        "displayName" : "Input parameter type"
+      },
+      "isKeepNull" : {
+        "displayName" : "Whether to retain null values",
+        "summary" : "Whether to retain null values"
+      },
+      "mappingParameterList" : {
+        "displayName" : "Mapping List"
+      },
+      "originContextType" : {
+        "displayName" : "Input Parameter Source Type"
+      },
+      "outParam" : {
+        "displayName" : "Output parameter"
+      },
+      "outParamType" : {
+        "displayName" : "Output type"
+      },
+      "required" : {
+        "displayName" : "Is it required?",
+        "summary" : "Required"
+      },
+      "size" : {
+        "displayName" : "field length"
+      },
+      "targetContextType" : {
+        "displayName" : "Output Parameter Source Type"
+      }
+    },
+    "displayName" : "Parameter Definition"
+  },
+  "pamirs.eip.EipExceptionParamProcessor" : {
+    "base.Field" : {
+      "exceptionPredictFun" : {
+        "displayName" : "Exception determination function name",
+        "summary" : "Exception determination function name"
+      },
+      "exceptionPredictFunction" : {
+        "displayName" : "Exception determination function",
+        "summary" : "Exception determination function"
+      },
+      "exceptionPredictNamespace" : {
+        "displayName" : "Exception Determination Function Namespace",
+        "summary" : "Exception Determination Function Namespace"
+      },
+      "integrationInterface" : {
+        "displayName" : "Integrated interface",
+        "summary" : "Integration Interface"
+      }
+    },
+    "displayName" : "Exception Parameter Handler"
+  },
+  "pamirs.eip.EipIncUpdateCursor" : {
+    "base.Field" : {
+      "consumerAlias" : {
+        "displayName" : "Interface caller alias"
+      },
+      "endTime" : {
+        "displayName" : "End time",
+        "summary" : "End Time"
+      },
+      "interfaceName" : {
+        "displayName" : "EIP Method Name",
+        "summary" : "EIP Method Name"
+      },
+      "lastUpdateTime" : {
+        "displayName" : "Last request time"
+      },
+      "params" : {
+        "displayName" : "request parameters"
+      },
+      "startTime" : {
+        "displayName" : "Start Time",
+        "summary" : "Start Time"
+      }
+    },
+    "displayName" : "Incremental cursor"
+  },
+  "pamirs.eip.EipIncrementalParam" : {
+    "base.Field" : {
+      "currentValue" : {
+        "displayName" : "Current Value",
+        "summary" : "Current Value"
+      },
+      "inParam" : {
+        "displayName" : "Input parameter"
+      },
+      "initializationValue" : {
+        "displayName" : "Initial value",
+        "summary" : "Initial value"
+      },
+      "integrationInterface" : {
+        "displayName" : "Integrated interface",
+        "summary" : "Integration Interface"
+      },
+      "interfaceName" : {
+        "displayName" : "Interface name",
+        "summary" : "Interface Name"
+      },
+      "originContextType" : {
+        "displayName" : "Source context type",
+        "summary" : "Source context type"
+      },
+      "outParam" : {
+        "displayName" : "Output parameter"
+      },
+      "tags" : {
+        "displayName" : "Incremental label",
+        "summary" : "Used to mark which calling link the incremental parameter belongs to. The setting is invalid."
+      },
+      "targetContextType" : {
+        "displayName" : "Target context type",
+        "summary" : "Target context type"
+      }
+    },
+    "displayName" : "Incremental parameter"
+  },
+  "pamirs.eip.EipIncrementalProcessor" : {
+    "base.Field" : {
+      "converterFun" : {
+        "displayName" : "Custom converter function name"
+      },
+      "converterFunction" : {
+        "displayName" : "Custom converter function"
+      },
+      "converterNamespace" : {
+        "displayName" : "Custom converter function namespace"
+      },
+      "incrementalParamConverterCallbackFun" : {
+        "displayName" : "Parameter conversion callback function name",
+        "summary" : "Parameter conversion callback function name"
+      },
+      "incrementalParamConverterCallbackFunction" : {
+        "displayName" : "Parameter conversion callback function",
+        "summary" : "Parameter conversion callback function"
+      },
+      "incrementalParamConverterCallbackNamespace" : {
+        "displayName" : "Parameter conversion callback function namespace",
+        "summary" : "Parameter conversion callback function namespace"
+      },
+      "incrementalParamConverterFun" : {
+        "displayName" : "Incremental parameter callback function name"
+      },
+      "incrementalParamConverterFunction" : {
+        "displayName" : "Incremental parameter callback function"
+      },
+      "incrementalParamConverterNamespace" : {
+        "displayName" : "Incremental Parameter Callback Function Namespace"
+      },
+      "integrationInterface" : {
+        "displayName" : "Integrated interface",
+        "summary" : "Integration Interface"
+      }
+    },
+    "displayName" : "Incremental Processor"
+  },
+  "pamirs.eip.EipIntegrationFile" : {
+    "base.Field" : {
+      "dataStatus" : {
+        "displayName" : "Data Status",
+        "summary" : "Data State"
+      },
+      "description" : {
+        "displayName" : "Interface Description",
+        "summary" : "Interface Description"
+      },
+      "fileHeader" : {
+        "displayName" : "Integrate file header information"
+      },
+      "interfaceName" : {
+        "displayName" : "Interface technical name",
+        "summary" : "Interface Technical Name"
+      },
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "url" : {
+        "displayName" : "File address"
+      }
+    },
+    "displayName" : "Integrated File"
+  },
+  "pamirs.eip.EipIntegrationFileHeader" : {
+    "base.Field" : {
+      "eipExcel" : {
+        "displayName" : "EipExcel",
+        "summary" : "EipExcel"
+      }
+    },
+    "displayName" : "Integrated file header"
+  },
+  "pamirs.eip.EipIntegrationInterface" : {
+    "base.Field" : {
+      "circuitBreakerRule" : {
+        "displayName" : "Fuse rule",
+        "summary" : "Fuse rule"
+      },
+      "circuitBreakerRuleCode" : {
+        "displayName" : "Circuit breaker rule coding"
+      },
+      "eipIntegrate" : {
+        "displayName" : "Integrated application"
+      },
+      "exceptionParamProcessor" : {
+        "displayName" : "Exception Parameter Handler"
+      },
+      "incrementalList" : {
+        "displayName" : "Incremental conditions",
+        "summary" : "Field.serialize.JSON"
+      },
+      "incrementalProcessor" : {
+        "displayName" : "Incremental Processor"
+      },
+      "integrateId" : {
+        "displayName" : "Integrated application ID"
+      },
+      "orderNumber" : {
+        "displayName" : "Sort Index"
+      },
+      "paging" : {
+        "displayName" : "Paginator"
+      },
+      "requestParamProcessor" : {
+        "displayName" : "Request Parameter Processor",
+        "summary" : "Request Parameter Handler"
+      },
+      "responseParamProcessor" : {
+        "displayName" : "Response Parameter Processor",
+        "summary" : "Response Parameter Handler"
+      },
+      "searchDate" : {
+        "displayName" : "Search date",
+        "summary" : "Search date"
+      }
+    },
+    "displayName" : "Integrated interface"
+  },
+  "pamirs.eip.EipInterfaceAuthGroup" : {
+    "base.Field" : {
+      "dataStatus" : {
+        "displayName" : "Data Status",
+        "summary" : "Data State"
+      },
+      "description" : {
+        "displayName" : "Description",
+        "summary" : "Description"
+      },
+      "integrationInterfaceList" : {
+        "displayName" : "Integrated Interface List",
+        "summary" : "Integrated Interface List"
+      },
+      "interfaceType" : {
+        "displayName" : "Interface Type",
+        "summary" : "Interface Type"
+      },
+      "name" : {
+        "displayName" : "Permission Group Name"
+      },
+      "openInterfaceList" : {
+        "displayName" : "Open API List",
+        "summary" : "Open API List"
+      }
+    },
+    "displayName" : "Application Interface Permission Group",
+    "summary" : "Application Interface Permission Group: Temporarily used for open interfaces"
+  },
+  "pamirs.eip.EipInterfaceTestTransient" : {
+    "base.Field" : {
+      "actualRequestData" : {
+        "displayName" : "Real request data",
+        "summary" : "Real Request Data"
+      },
+      "executeContextData" : {
+        "displayName" : "Execution Context",
+        "summary" : "The execution context uses JSON serialization"
+      },
+      "integrationInterface" : {
+        "displayName" : "Integrated interface",
+        "summary" : "Integration Interface"
+      },
+      "interfaceName" : {
+        "displayName" : "Interface name",
+        "summary" : "Interface Name"
+      },
+      "isDevelopment" : {
+        "displayName" : "Is it for development testing?",
+        "summary" : "Is Dev Test"
+      },
+      "requestData" : {
+        "displayName" : "Body parameter",
+        "summary" : "Body Parameter"
+      },
+      "requestHeaderData" : {
+        "displayName" : "Header Parameter",
+        "summary" : "Header Parameter"
+      },
+      "requestParams" : {
+        "displayName" : "Example of request parameters",
+        "summary" : "Request Parameter Example"
+      },
+      "requestPathData" : {
+        "displayName" : "Path parameter",
+        "summary" : "Path Parameter"
+      },
+      "requestQueryData" : {
+        "displayName" : "Query Parameter",
+        "summary" : "Query Parameter"
+      },
+      "responseData" : {
+        "displayName" : "Response Data",
+        "summary" : "Response Data"
+      },
+      "tip" : {
+        "displayName" : "Prompt message",
+        "summary" : "Hint Message"
+      }
+    },
+    "displayName" : "Interface testing"
+  },
+  "pamirs.eip.EipLib" : {
+    "base.Field" : {
+      "application" : {
+        "displayName" : "Integrated application"
+      },
+      "applicationCode" : {
+        "displayName" : "Integrated application coding"
+      },
+      "integrationInterfaceList" : {
+        "displayName" : "Integrated Interface List"
+      },
+      "name" : {
+        "displayName" : "Integrated library name"
+      },
+      "openInterfaceList" : {
+        "displayName" : "Open API List"
+      },
+      "routeDefinitionList" : {
+        "displayName" : "Route definition list"
+      }
+    },
+    "displayName" : "Integrated library"
+  },
+  "pamirs.eip.EipLog" : {
+    "base.Field" : {
+      "errorMsg" : {
+        "displayName" : "Exception Information",
+        "summary" : "Exception Info"
+      },
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique self-increasing index"
+      },
+      "interfaceName" : {
+        "displayName" : "Interface technical name",
+        "summary" : "Interface Technical Name"
+      },
+      "interfaceType" : {
+        "displayName" : "Interface Type",
+        "summary" : "Interface Type"
+      },
+      "invokeDate" : {
+        "displayName" : "Call time",
+        "summary" : "Call Time"
+      },
+      "invokeEndDate" : {
+        "displayName" : "Call Completion Time",
+        "summary" : "Call Completion Time"
+      },
+      "isSuccess" : {
+        "displayName" : "Whether the call was successful",
+        "summary" : "Whether call was successful"
+      },
+      "requestHeaderData" : {
+        "displayName" : "Request header data",
+        "summary" : "Request Header Data"
+      },
+      "requestOriginData" : {
+        "displayName" : "Original request data",
+        "summary" : "Original Request Data"
+      },
+      "requestTargetData" : {
+        "displayName" : "Real request data",
+        "summary" : "Real Request Data"
+      },
+      "responseData" : {
+        "displayName" : "Response Data",
+        "summary" : "Response Data"
+      },
+      "responseHeaderData" : {
+        "displayName" : "Response header data",
+        "summary" : "Response Header Data"
+      }
+    },
+    "displayName" : "API call log"
+  },
+  "pamirs.eip.EipLogDailyCount" : {
+    "base.Field" : {
+      "countDate" : {
+        "displayName" : "Statistics Date",
+        "summary" : "Statistic Date"
+      },
+      "failCallCount" : {
+        "displayName" : "Number of failed calls"
+      },
+      "fastCall" : {
+        "displayName" : "Number of calls in 300-500ms",
+        "summary" : "300-500ms Call Count"
+      },
+      "interfaceName" : {
+        "displayName" : "Interface technical name",
+        "summary" : "Interface Technical Name"
+      },
+      "interfaceType" : {
+        "displayName" : "Interface Type",
+        "summary" : "Interface Type"
+      },
+      "moderateCall" : {
+        "displayName" : "500-1000ms Call Count",
+        "summary" : "500-1000ms Call Count"
+      },
+      "slowCall" : {
+        "displayName" : "1s-3s Call Count",
+        "summary" : "1s-3s Call Count"
+      },
+      "slowestCall" : {
+        "displayName" : "8s-30s Call Count",
+        "summary" : "8s-30s Call Count"
+      },
+      "successCallCount" : {
+        "displayName" : "Number of Successful Calls"
+      },
+      "timeoutCall" : {
+        "displayName" : ">30s Call Count",
+        "summary" : ">30s Call Count"
+      },
+      "ultraFastCall" : {
+        "displayName" : "Number of calls under 100ms",
+        "summary" : "<100ms Call Count"
+      },
+      "veryFastCall" : {
+        "displayName" : "Number of calls in 100-300ms",
+        "summary" : "100-300ms Call Count"
+      },
+      "verySlowCall" : {
+        "displayName" : "3s-8s Call Count",
+        "summary" : "3s-8s Call Count"
+      }
+    },
+    "displayName" : "EIP log daily call statistics"
+  },
+  "pamirs.eip.EipLogStrategy" : {
+    "base.Field" : {
+      "interfaceName" : {
+        "displayName" : "Interface technical name",
+        "summary" : "Interface Technical Name"
+      },
+      "interfaceType" : {
+        "displayName" : "Interface Type",
+        "summary" : "Interface Type"
+      },
+      "isIgnoreFrequency" : {
+        "displayName" : "Whether log frequency limit",
+        "summary" : "Whether log frequency limit"
+      }
+    },
+    "displayName" : "Logging strategy"
+  },
+  "pamirs.eip.EipMappingParameter" : {
+    "base.Field" : {
+      "from" : {
+        "displayName" : "Find value",
+        "summary" : "Find value"
+      },
+      "to" : {
+        "displayName" : "Target value",
+        "summary" : "Target value"
+      }
+    },
+    "displayName" : "Mapping parameter definition"
+  },
+  "pamirs.eip.EipOpenInterface" : {
+    "base.Field" : {
+      "authenticationProcessorFun" : {
+        "displayName" : "Authentication Processor Function Name"
+      },
+      "authenticationProcessorFunction" : {
+        "displayName" : "Authentication handler function"
+      },
+      "authenticationProcessorNamespace" : {
+        "displayName" : "Authentication Processor Function Namespace"
+      },
+      "converterFun" : {
+        "displayName" : "Result handling function name",
+        "summary" : "Result Handler Function Name"
+      },
+      "converterFunction" : {
+        "displayName" : "Result handling function",
+        "summary" : "Result Handler Function"
+      },
+      "converterNamespace" : {
+        "displayName" : "Result handling function namespace",
+        "summary" : "Result Handler Function Namespace"
+      },
+      "converterType" : {
+        "displayName" : "Processing method",
+        "summary" : "Handling Method"
+      },
+      "deserializationFun" : {
+        "displayName" : "Deserialization function name",
+        "summary" : "Deserialize Function Name"
+      },
+      "deserializationFunction" : {
+        "displayName" : "Deserialization function",
+        "summary" : "Deserialize Function"
+      },
+      "deserializationNamespace" : {
+        "displayName" : "Deserialization function namespace",
+        "summary" : "Deserialize Function Namespace"
+      },
+      "finalResultKey" : {
+        "displayName" : "final result key value"
+      },
+      "inOutConverterFun" : {
+        "displayName" : "Input-output converter function name"
+      },
+      "inOutConverterFunction" : {
+        "displayName" : "Input-output converter function",
+        "summary" : "Input/Output Converter Function"
+      },
+      "inOutConverterNamespace" : {
+        "displayName" : "Input-output converter function namespace"
+      },
+      "requestDecryptFun" : {
+        "displayName" : "Request preprocessing function name",
+        "summary" : "Request Pre-process Function Name"
+      },
+      "requestDecryptNamespace" : {
+        "displayName" : "Request pre-processing function namespace",
+        "summary" : "Request Pre-process Function Namespace"
+      },
+      "requestParamProcessor" : {
+        "displayName" : "Request Parameter Processor",
+        "summary" : "Request Parameter Handler"
+      },
+      "responseEncryptionFun" : {
+        "displayName" : "Response Pre-process Function Name",
+        "summary" : "Response Pre-process Function Name"
+      },
+      "responseEncryptionNamespace" : {
+        "displayName" : "Response Pre-process Function Namespace",
+        "summary" : "Response Pre-process Function Namespace"
+      },
+      "responseParamProcessor" : {
+        "displayName" : "Response Parameter Processor",
+        "summary" : "Response Parameter Handler"
+      },
+      "searchDate" : {
+        "displayName" : "Search date",
+        "summary" : "Search date"
+      },
+      "serializableFun" : {
+        "displayName" : "Serialization Function Name",
+        "summary" : "Serialize Function Name"
+      },
+      "serializableFunction" : {
+        "displayName" : "serialization function",
+        "summary" : "Serialize Function"
+      },
+      "serializableNamespace" : {
+        "displayName" : "Serialization Function Namespace",
+        "summary" : "Serialize Function Namespace"
+      },
+      "uri" : {
+        "displayName" : "Interface routing",
+        "summary" : "Camel built-in routing rules"
+      }
+    },
+    "displayName" : "Open interface"
+  },
+  "pamirs.eip.EipOpenIpBlacklist" : {
+    "base.Field" : {
+      "application" : {
+        "displayName" : "open applications"
+      },
+      "applicationCode" : {
+        "displayName" : "Open Application Coding"
+      },
+      "createUser" : {
+        "displayName" : "Creator",
+        "summary" : "Created By"
+      },
+      "httpCode" : {
+        "displayName" : "Response Status Code",
+        "summary" : "Response status code when restricted by IP blacklist rules"
+      },
+      "httpResult" : {
+        "displayName" : "Response Result",
+        "summary" : "Response result when restricted by IP blacklist rules"
+      },
+      "ip" : {
+        "displayName" : "IP/IP network segment",
+        "summary" : "IP/IP Segment"
+      }
+    },
+    "displayName" : "Open application IP blacklist"
+  },
+  "pamirs.eip.EipOpenIpBlacklistProxy" : {
+    "displayName" : "Enable application IP blacklist proxy"
+  },
+  "pamirs.eip.EipOpenParamProcessor" : {
+    "displayName" : "Open Interface Parameter Processor"
+  },
+  "pamirs.eip.EipOpenRateLimitPolicy" : {
+    "base.Field" : {
+      "application" : {
+        "displayName" : "open applications"
+      },
+      "applicationCode" : {
+        "displayName" : "Application Coding"
+      },
+      "flowControlEffect" : {
+        "displayName" : "Flow control effect"
+      },
+      "interfaceName" : {
+        "displayName" : "Open Interface Technology Name",
+        "summary" : "Open Interface Technical Name"
+      },
+      "openInterface" : {
+        "displayName" : "Open interface",
+        "summary" : "Open Interface"
+      },
+      "qps" : {
+        "displayName" : "Single-machine QPS threshold",
+        "summary" : "Single Machine QPS Threshold"
+      },
+      "timeout" : {
+        "displayName" : "Timeout Duration"
+      }
+    },
+    "displayName" : "Open Interface Flow Control Policy"
+  },
+  "pamirs.eip.EipPaging" : {
+    "base.Field" : {
+      "endPage" : {
+        "displayName" : "Ending page number"
+      },
+      "pageSize" : {
+        "displayName" : "Number of data rows per page"
+      },
+      "predictFun" : {
+        "displayName" : "Paging decision function name",
+        "summary" : "Paging decision function name"
+      },
+      "predictFunction" : {
+        "displayName" : "Paging Decision Function",
+        "summary" : "Paging Decision Function"
+      },
+      "predictNamespace" : {
+        "displayName" : "Paging determination function namespace",
+        "summary" : "Paging determination function namespace"
+      },
+      "processorFun" : {
+        "displayName" : "Pagination handler function name"
+      },
+      "processorFunction" : {
+        "displayName" : "Pagination handler function"
+      },
+      "processorNamespace" : {
+        "displayName" : "Pagination handler function namespace"
+      },
+      "startPage" : {
+        "displayName" : "starting page number"
+      }
+    },
+    "displayName" : "Paginator"
+  },
+  "pamirs.eip.EipParamMappingItem" : {
+    "base.Field" : {
+      "key" : {
+        "displayName" : "Parameter Name",
+        "summary" : "Parameter Name"
+      },
+      "to" : {
+        "displayName" : "Mapping field value"
+      },
+      "valueExpr" : {
+        "displayName" : "value expression",
+        "summary" : "Value Expression"
+      }
+    },
+    "displayName" : "Mapping parameter definition"
+  },
+  "pamirs.eip.EipParamProcessor" : {
+    "base.Field" : {
+      "integrationInterface" : {
+        "displayName" : "Integration Interface",
+        "summary" : "Integration Interface"
+      },
+      "type" : {
+        "displayName" : "Parameter handler type",
+        "summary" : "Parameter handler type"
+      }
+    },
+    "displayName" : "Parameter Processor"
+  },
+  "pamirs.eip.EipRouteDefinition" : {
+    "base.Field" : {
+      "definitions" : {
+        "displayName" : "Component Definition List",
+        "summary" : "Component Definition List"
+      }
+    },
+    "displayName" : "Route Definition",
+    "summary" : "The final form of all interface definitions in the Camel context. No interface definitions are made, only processes are defined."
+  },
+  "pamirs.eip.EipSceneDefinition" : {
+    "base.Field" : {
+      "dataSourceNodeDefinitions" : {
+        "displayName" : "List of Data Source Systems"
+      },
+      "dataStatus" : {
+        "displayName" : "Data Status",
+        "summary" : "Data State"
+      },
+      "dataTargetNodeDefinitions" : {
+        "displayName" : "Data receiving system list"
+      },
+      "name" : {
+        "displayName" : "Scene Name"
+      },
+      "sceneInstances" : {
+        "displayName" : "Scene Instance List"
+      },
+      "sceneName" : {
+        "displayName" : "Scene technical name"
+      }
+    },
+    "displayName" : "Scene Definition"
+  },
+  "pamirs.eip.EipSceneDefinitionProxy" : {
+    "base.Field" : {
+      "dataSourceNode" : {
+        "displayName" : "Data source node"
+      },
+      "dataSourceStr" : {
+        "displayName" : "Data source system list text"
+      },
+      "dataTargetNode" : {
+        "displayName" : "Data receiving node"
+      },
+      "dataTargetStr" : {
+        "displayName" : "Data Reception System List Text"
+      },
+      "defaultStartTime" : {
+        "displayName" : "Default increment start time"
+      },
+      "initTask" : {
+        "displayName" : "Whether to initialize scheduled tasks",
+        "summary" : "Whether to initialize scheduled tasks"
+      },
+      "instanceBody" : {
+        "displayName" : "Scene Instance Input Parameters"
+      },
+      "instanceNum" : {
+        "displayName" : "Number of instances"
+      },
+      "limitRetryNumber" : {
+        "displayName" : "Maximum number of retries",
+        "summary" : "Max Retry Count"
+      },
+      "nextRetryTimeUnit" : {
+        "displayName" : "Next retry time unit",
+        "summary" : "Time units for delaying backward based on execution time"
+      },
+      "nextRetryTimeValue" : {
+        "displayName" : "Next retry execution time",
+        "summary" : "According to the delay time counted from the execution time backwards, for example, if this value is set to 1 under the MINUTES unit, it means the function will be re-executed 1 minute after execution."
+      },
+      "periodTimeUnit" : {
+        "displayName" : "Execution cycle time unit",
+        "summary" : "The time unit calculated backward based on the next execution time"
+      },
+      "periodTimeValue" : {
+        "displayName" : "Execution cycle time",
+        "summary" : "The time calculated based on the next execution time. For example, under the MINUTES unit, if this value is set to 1, it means the specified function will be executed again 1 minute after execution."
+      },
+      "useIncUpdateLog" : {
+        "displayName" : "Enable incremental logging"
+      }
+    },
+    "displayName" : "Scene Definition Proxy Model"
+  },
+  "pamirs.eip.EipSceneInstance" : {
+    "base.Field" : {
+      "dataSourceNodeDefinition" : {
+        "displayName" : "Data source node"
+      },
+      "dataStatus" : {
+        "displayName" : "Data Status",
+        "summary" : "Data State"
+      },
+      "dataTargetNodeDefinition" : {
+        "displayName" : "Data receiving node"
+      },
+      "defaultStartTime" : {
+        "displayName" : "Default increment start time",
+        "summary" : "Default increment start time"
+      },
+      "eipRouteDefinition" : {
+        "displayName" : "Route Definition",
+        "summary" : "Automatically register based on scenario instances"
+      },
+      "initTask" : {
+        "displayName" : "Whether to initialize scheduled tasks",
+        "summary" : "Whether to initialize scheduled tasks"
+      },
+      "instanceBody" : {
+        "displayName" : "Scene Instance Input Parameters"
+      },
+      "limitRetryNumber" : {
+        "displayName" : "Max Retry Count",
+        "summary" : "Max Retry Count"
+      },
+      "name" : {
+        "displayName" : "scene instance name"
+      },
+      "nextRetryTimeUnit" : {
+        "displayName" : "Next Retry Time Unit",
+        "summary" : "Delay Time Unit After Execution"
+      },
+      "nextRetryTimeValue" : {
+        "displayName" : "Next retry execution time",
+        "summary" : "According to the delay time counted from the execution time backwards, for example, if this value is set to 1 under the MINUTES unit, it means the function will be re-executed 1 minute after execution."
+      },
+      "periodTimeUnit" : {
+        "displayName" : "Execution cycle time unit",
+        "summary" : "The time unit calculated backward based on the next execution time"
+      },
+      "periodTimeValue" : {
+        "displayName" : "Execution cycle time",
+        "summary" : "The time calculated based on the next execution time. For example, under the MINUTES unit, if this value is set to 1, it means the specified function will be executed again 1 minute after execution."
+      },
+      "routeInterfaceName" : {
+        "displayName" : "Router Definition Technical Name"
+      },
+      "sceneDefinition" : {
+        "displayName" : "Scene Definition"
+      },
+      "useIncUpdateLog" : {
+        "displayName" : "Enable incremental logging",
+        "summary" : "Enable incremental logging"
+      }
+    },
+    "displayName" : "Scenario instance"
+  },
+  "pamirs.eip.EipSceneInstanceProxy" : {
+    "base.Field" : {
+      "incUpdateLogEndTime" : {
+        "displayName" : "End time",
+        "summary" : "End Time"
+      },
+      "incUpdateLogLastUpdateTime" : {
+        "displayName" : "Last incremental completion time"
+      },
+      "incUpdateLogParams" : {
+        "displayName" : "request parameters"
+      },
+      "incUpdateLogStartTime" : {
+        "displayName" : "Start Time",
+        "summary" : "Start Time"
+      },
+      "scheduleExecuteNumber" : {
+        "displayName" : "Cumulative execution times"
+      },
+      "scheduleLastExecuteTime" : {
+        "displayName" : "Last execution time"
+      },
+      "scheduleNextExecuteTime" : {
+        "displayName" : "Next execution time"
+      }
+    },
+    "displayName" : "Scene Instance Proxy Model"
+  },
+  "pamirs.eip.EipSceneNodeDefinition" : {
+    "base.Field" : {
+      "dataModule" : {
+        "displayName" : "Data system"
+      },
+      "dataModuleModule" : {
+        "displayName" : "Data system identification"
+      },
+      "eipIntegrationInterface" : {
+        "displayName" : "Call the integrated interface"
+      },
+      "eipRouteDefinition" : {
+        "displayName" : "Call the combination interface"
+      },
+      "function" : {
+        "displayName" : "Call function"
+      },
+      "inConvertParamList" : {
+        "displayName" : "Scene input parameter conversion list"
+      },
+      "inConverterFunction" : {
+        "displayName" : "Scene Input Parameter Conversion Function"
+      },
+      "inFinalResultKey" : {
+        "displayName" : "Final result key-value of scene input parameter conversion"
+      },
+      "name" : {
+        "displayName" : "Node Name",
+        "summary" : "Node Name"
+      },
+      "nodeTypeEnum" : {
+        "displayName" : "Node Processor Type",
+        "summary" : "Call an interface or call a function"
+      },
+      "outConvertParamList" : {
+        "displayName" : "Scene parameter conversion parameter list"
+      },
+      "outConverterFunction" : {
+        "displayName" : "Scene Output Parameter Conversion Function"
+      },
+      "outFinalResultKey" : {
+        "displayName" : "Final result key-value of scene output parameter conversion"
+      },
+      "type" : {
+        "displayName" : "Scene Node Type",
+        "summary" : "Distinguish whether it is a node of the data providing system or a node of the data processing system"
+      }
+    },
+    "displayName" : "Scene node definition"
+  },
+  "pamirs.eip.EipSingletonConfig" : {
+    "base.Field" : {
+      "schema" : {
+        "displayName" : "schema",
+        "summary" : "schema"
+      }
+    },
+    "displayName" : "Eip Single Configuration Storage Base Class",
+    "summary" : "Eip Single Configuration Storage Base Class"
+  },
+  "pamirs.eip.SynchronizationInfo" : {
+    "base.Field" : {
+      "displayName" : {
+        "displayName" : "Display Name",
+        "summary" : "Display Name"
+      },
+      "ids" : {
+        "displayName" : "ids",
+        "summary" : "ids, comma-separated"
+      },
+      "interfaceName" : {
+        "displayName" : "Service Unique Identifier",
+        "summary" : "The only one within the model"
+      },
+      "message" : {
+        "displayName" : "Synchronous Information"
+      },
+      "modelModel" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "synchronizationStatus" : {
+        "displayName" : "Sync Status"
+      }
+    },
+    "displayName" : "Synchronous Information"
+  },
+  "pamirs.eip.SynchronizationInfoDefinition" : {
+    "base.Field" : {
+      "dataStatus" : {
+        "displayName" : "Data Status",
+        "summary" : "Data State"
+      },
+      "displayName" : {
+        "displayName" : "Display Name",
+        "summary" : "Display Name"
+      },
+      "interfaceName" : {
+        "displayName" : "Service Unique Identifier",
+        "summary" : "The only one within the model"
+      },
+      "modelModel" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "module" : {
+        "displayName" : "Module Coding",
+        "summary" : "Module Code"
+      },
+      "moduleDefinition" : {
+        "displayName" : "module",
+        "summary" : "Module"
+      }
+    },
+    "displayName" : "Synchronous Service Definition"
+  },
+  "pamirs.eip.SynchronizationInfoTransient" : {
+    "base.Field" : {
+      "definitions" : {
+        "displayName" : "Interface List"
+      },
+      "ids" : {
+        "displayName" : "ids",
+        "summary" : "ids, comma-separated"
+      },
+      "interfaceNames" : {
+        "displayName" : "Service Unique Identifier",
+        "summary" : "The only one in the model, used in the front end"
+      },
+      "modelModel" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      }
+    },
+    "displayName" : "Synchronous Information Temporary Model"
+  },
+  "pamirs.eip.proxy.EipApplicationProxy" : {
+    "base.Field" : {
+      "appSecret" : {
+        "displayName" : "Application Secret",
+        "summary" : "Application Secret"
+      },
+      "encryptKeyType" : {
+        "displayName" : "Encryption key type",
+        "summary" : "Encryption Key Type"
+      },
+      "encryptType" : {
+        "displayName" : "Encryption Type",
+        "summary" : "Encryption Type"
+      },
+      "publicKey" : {
+        "displayName" : "RSA public key",
+        "summary" : "RSA Public Key"
+      },
+      "rateLimitPolicyList" : {
+        "displayName" : "API Flow Control Policy",
+        "summary" : "API Flow Control Strategy"
+      },
+      "requestDecryptFunc" : {
+        "displayName" : "Request pre-processing function",
+        "summary" : "Request Pre-process Function"
+      },
+      "responseEncryptionFunc" : {
+        "displayName" : "Response preprocessing function",
+        "summary" : "Response Pre-process Function"
+      }
+    },
+    "displayName" : "Application of proxy model",
+    "summary" : "Application of proxy model"
+  },
+  "pamirs.eip.proxy.EipLogProxy" : {
+    "base.Field" : {
+      "interfaceConnGroup" : {
+        "displayName" : "Business Grouping",
+        "summary" : "Business Group"
+      },
+      "interfaceDescription" : {
+        "displayName" : "Interface Description",
+        "summary" : "Interface Description"
+      },
+      "interfaceDisplayName" : {
+        "displayName" : "Interface name",
+        "summary" : "Interface Name"
+      },
+      "interfaceModuleDefinition" : {
+        "displayName" : "module",
+        "summary" : "Module"
+      },
+      "interfaceUri" : {
+        "displayName" : "Interface routing",
+        "summary" : "Interface Route"
+      },
+      "invokeMillisecond" : {
+        "displayName" : "Call duration",
+        "summary" : "Call Duration"
+      }
+    },
+    "displayName" : "Interface Log Proxy Model",
+    "summary" : "Application of proxy model"
+  },
+  "pamirs.eip.tmodel.EipContextVariable" : {
+    "base.Field" : {
+      "key" : {
+        "displayName" : "key",
+        "summary" : "Key"
+      },
+      "value" : {
+        "displayName" : "value",
+        "summary" : "Value"
+      }
+    },
+    "displayName" : "Map Mapping Parameter Definition"
+  },
+  "pamirs.eip.tmodel.EipIntegrationInterfaceEdit" : {
+    "base.Field" : {
+      "contextSupplierFunction" : {
+        "displayName" : "Context provider function"
+      },
+      "contextVariableList" : {
+        "displayName" : "context list"
+      },
+      "converterFunction" : {
+        "displayName" : "Custom converter function"
+      },
+      "dataStatus" : {
+        "displayName" : "Data Status",
+        "summary" : "Data State"
+      },
+      "exceptionParamProcessor" : {
+        "displayName" : "Exception Parameter Handler"
+      },
+      "exceptionPredictFunction" : {
+        "displayName" : "Abnormality Determination Function"
+      },
+      "expConvertParamList" : {
+        "displayName" : "Exception information conversion parameter list"
+      },
+      "headerConvertParamList" : {
+        "displayName" : "Request Header Parameter List"
+      },
+      "httpMethodEnum" : {
+        "displayName" : "http request method",
+        "summary" : "http request method"
+      },
+      "id" : {
+        "displayName" : "interface id"
+      },
+      "interfaceName" : {
+        "displayName" : "Interface technical name",
+        "summary" : "Interface Technical Name"
+      },
+      "isEnabledLog" : {
+        "displayName" : "Enable logging?",
+        "summary" : "Log Enabled"
+      },
+      "lib" : {
+        "displayName" : "Integrated library"
+      },
+      "moduleDefinition" : {
+        "displayName" : "Belonging Module",
+        "summary" : "Belonging Module"
+      },
+      "name" : {
+        "displayName" : "Interface name",
+        "summary" : "Interface Name"
+      },
+      "paramConverterFunction" : {
+        "displayName" : "Request Parameter Conversion Function"
+      },
+      "protocolTypeEnum" : {
+        "displayName" : "request response protocol",
+        "summary" : "request response protocol"
+      },
+      "reqAuthenticationProcessorFunction" : {
+        "displayName" : "Request authentication handler function"
+      },
+      "reqConvertParamList" : {
+        "displayName" : "Request conversion parameter list",
+        "summary" : "Request Transform Parameter List"
+      },
+      "reqFinalResultKey" : {
+        "displayName" : "Request final result key value"
+      },
+      "reqInOutConverterFunction" : {
+        "displayName" : "Request to input and output conversion function"
+      },
+      "requestParamProcessor" : {
+        "displayName" : "Request Parameter Processor",
+        "summary" : "Request Parameter Handler"
+      },
+      "respConvertParamList" : {
+        "displayName" : "Response Conversion Parameter List",
+        "summary" : "Response Transform Parameter List"
+      },
+      "respFinalResultKey" : {
+        "displayName" : "Response final result key value"
+      },
+      "respInOutConverterFunction" : {
+        "displayName" : "Response input-output conversion function"
+      },
+      "responseParamProcessor" : {
+        "displayName" : "Response Parameter Processor",
+        "summary" : "Response Parameter Handler"
+      },
+      "uri" : {
+        "displayName" : "Interface routing path"
+      },
+      "uriConvertParamList" : {
+        "displayName" : "Request path parameter list"
+      }
+    },
+    "displayName" : "Integrated interface creation"
+  },
+  "pamirs.eip.tmodel.EipSendRequestTransient" : {
+    "base.Field" : {
+      "actionName" : {
+        "displayName" : "Server Action Name"
+      },
+      "interfaceName" : {
+        "displayName" : "Interface technical name",
+        "summary" : "Interface Technical Name"
+      },
+      "model" : {
+        "displayName" : "Model Encoding",
+        "summary" : "Model Code"
+      },
+      "requestData" : {
+        "displayName" : "request parameters"
+      },
+      "responseData" : {
+        "displayName" : "Response Parameters"
+      },
+      "viewName" : {
+        "displayName" : "View Name"
+      }
+    },
+    "displayName" : "Integrated interface request sent"
+  },
+  "pamirs.eip.tmodel.EipTypeTransform" : {
+    "base.Field" : {
+      "format" : {
+        "displayName" : "Format",
+        "summary" : "Format"
+      },
+      "index" : {
+        "displayName" : "subscript"
+      },
+      "name" : {
+        "displayName" : "Field Name",
+        "summary" : "Field Name"
+      },
+      "originType" : {
+        "displayName" : "primitive type"
+      },
+      "sheetName" : {
+        "displayName" : "sheet name",
+        "summary" : "Sheet Name"
+      },
+      "targetType" : {
+        "displayName" : "target type"
+      }
+    },
+    "displayName" : "Integrated interface Excel type conversion"
+  }
+}

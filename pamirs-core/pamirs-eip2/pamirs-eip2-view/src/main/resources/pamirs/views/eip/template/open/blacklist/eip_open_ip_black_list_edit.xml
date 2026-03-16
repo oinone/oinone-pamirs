@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" title="修改" model="pamirs.eip.EipOpenIpBlacklistProxy" name="开放应用ip黑名单edit">
+<view type="FORM" widget="form" title="修改" model="pamirs.eip.EipOpenIpBlacklistProxy" name="EipOpenIpBlacklistProxyFormEdit">
     <template slot="actions">
         <action fun="$$internal_GotoListTableRouter" label="关闭" actionType="CLIENT" type="default"/>
         <action name="update" label="确定" goBack="true" validateForm="true"/>

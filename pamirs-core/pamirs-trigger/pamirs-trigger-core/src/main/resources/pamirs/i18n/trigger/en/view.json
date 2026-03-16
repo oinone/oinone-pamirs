@@ -1,0 +1,24 @@
+{
+  "trigger.TriggerTaskAction": {
+    "TriggerTaskActionTable": {
+      "title": "Trigger task"
+    },
+    "TriggerTaskActionDetail": {
+      "title": "Trigger task"
+    },
+    "TriggerTaskActionForm": {
+      "title": "Trigger task"
+    }
+  },
+  "trigger.TaskActionTransientModel": {
+    "TaskActionTransientModelDetail": {
+      "title": "Task"
+    },
+    "TaskActionTransientModelTable": {
+      "title": "Task"
+    },
+    "TaskActionTransientModelForm": {
+      "title": "Task"
+    }
+  }
+}

@@ -24,10 +24,10 @@ import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 @Model.model(EipOpenIpBlacklistProxy.MODEL_MODEL)
 @UxRouteButton(
         action = @UxAction(name = "EipOpenIpBlacklistCreate", displayName = "创建", label = "创建", contextType = ActionContextTypeEnum.CONTEXT_FREE),
-        value = @UxRoute(model = EipOpenIpBlacklistProxy.MODEL_MODEL, viewName = "开放应用ip黑名单create", openType = ActionTargetEnum.DIALOG))
+        value = @UxRoute(model = EipOpenIpBlacklistProxy.MODEL_MODEL, viewName = "EipOpenIpBlacklistProxyFormCreate", openType = ActionTargetEnum.DIALOG))
 @UxRouteButton(
         action = @UxAction(name = "EipOpenIpBlacklistEdit", displayName = "编辑", label = "编辑", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = EipOpenIpBlacklistProxy.MODEL_MODEL, viewName = "开放应用ip黑名单edit", openType = ActionTargetEnum.DIALOG))
+        value = @UxRoute(model = EipOpenIpBlacklistProxy.MODEL_MODEL, viewName = "EipOpenIpBlacklistProxyFormEdit", openType = ActionTargetEnum.DIALOG))
 public class EipOpenIpBlacklistProxyAction {
 
     @Validation(ruleWithTips = {

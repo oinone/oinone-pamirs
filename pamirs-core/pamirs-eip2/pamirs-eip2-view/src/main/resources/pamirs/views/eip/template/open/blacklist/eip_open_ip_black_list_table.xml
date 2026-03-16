@@ -1,4 +1,4 @@
-<view widget="table" type="TABLE" title="黑名单" model="pamirs.eip.EipOpenIpBlacklistProxy" name="开放应用黑名单table">
+<view widget="table" type="TABLE" title="黑名单" model="pamirs.eip.EipOpenIpBlacklistProxy" name="EipOpenIpBlacklistProxyTable">
     <template slot="search">
         <field data="ip" label="IP/IP网段"/>
         <field data="application" label="应用名称" searchFields="code,name"/>

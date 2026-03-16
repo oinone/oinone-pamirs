@@ -1,0 +1,26 @@
+{
+  "file.ExcelExportTask" : {
+    "fetchExportData" : {
+      "displayName" : "Obtain exported data"
+    }
+  },
+  "file.ExcelImportTask" : {
+    "importAfterProperties" : {
+      "displayName" : "Post-processing after importing all data"
+    },
+    "importData" : {
+      "displayName" : "Custom Import Data"
+    },
+    "importM2mData" : {
+      "displayName" : "Custom import of many-to-many data"
+    },
+    "importO2mData" : {
+      "displayName" : "Custom import of many-to-many data"
+    }
+  },
+  "pro.shushi.pamirs.file.api.executor.ExcelExportExecutor" : {
+    "fetchExportData" : {
+      "displayName" : "Obtain exported data"
+    }
+  }
+}

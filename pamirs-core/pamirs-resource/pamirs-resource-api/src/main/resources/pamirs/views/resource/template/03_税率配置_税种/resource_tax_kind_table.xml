@@ -1,4 +1,4 @@
-<view widget="table" name="税种table" operationWidth="200" title="税种" model="resource.ResourceTaxKind" type="TABLE">
+<view widget="table" name="ResourceTaxKindTable" operationWidth="200" title="税种" model="resource.ResourceTaxKind" type="TABLE">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="resource.ResourceTaxKind"/>
         <action name="delete" label="删除" model="resource.ResourceTaxKind"/>

@@ -1,4 +1,4 @@
-<view widget="form" type="FORM" name="邮件服务器form" title="邮件服务器" model="pamirs.message.EmailSenderSource">
+<view widget="form" type="FORM" name="EmailSenderSourceForm" title="邮件服务器" model="pamirs.message.EmailSenderSource">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" invisible="activeRecord.id" model="pamirs.message.EmailSenderSource" goBack="true" validateForm="true" tag="contextFreeAction"/>

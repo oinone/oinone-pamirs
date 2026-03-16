@@ -1,4 +1,4 @@
-<view type="TABLE" title="导入任务" name="导入任务table" widget="table" model="file.ExcelImportTask">
+<view type="TABLE" title="导入任务" name="ExcelImportTaskTable" widget="table" model="file.ExcelImportTask">
     <template slot="rowActions">
         <action name="redirectDetailPage" label="详情"/>
     </template>

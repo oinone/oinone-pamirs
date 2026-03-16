@@ -1,0 +1,32 @@
+{
+  "validate#base.Function#trigger.TriggerTaskAction.update#!IS_NULL(data.model)": {
+    "error": "Trigger model cannot be empty"
+  },
+  "validate#base.Function#trigger.TriggerTaskAction.create#!IS_NULL(data.condition)": {
+    "error": "Trigger condition cannot be empty"
+  },
+  "validate#base.Function#trigger.TriggerTaskAction.update#!IS_NULL(data.condition)": {
+    "error": "Trigger condition cannot be empty"
+  },
+  "validate#base.Function#trigger.TriggerTaskAction.create#!IS_BLANK(data.technicalName)": {
+    "error": "Technical name cannot be empty"
+  },
+  "validate#base.Function#trigger.TriggerTaskAction.update#!IS_BLANK(data.displayName)": {
+    "error": "Display name cannot be empty"
+  },
+  "validate#base.Function#trigger.TriggerTaskAction.create#!IS_BLANK(data.displayName)": {
+    "error": "Display name cannot be empty"
+  },
+  "validate#base.Function#trigger.TriggerTaskAction.update#!IS_NULL(data.active)": {
+    "error": "Is active cannot be empty"
+  },
+  "validate#base.Function#trigger.TriggerTaskAction.create#!IS_NULL(data.active)": {
+    "error": "Is active cannot be empty"
+  },
+  "validate#base.Function#trigger.TriggerTaskAction.create#!IS_NULL(data.model)": {
+    "error": "Trigger model cannot be empty"
+  },
+  "validate#base.Function#trigger.TriggerTaskAction.update#!IS_BLANK(data.technicalName)": {
+    "error": "Technical name cannot be empty"
+  }
+}

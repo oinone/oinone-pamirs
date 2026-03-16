@@ -1,0 +1,6 @@
+{
+  "SysSettingMenus_GlobalMenu_SysStyleMenu" : "System Style Config",
+  "SysSettingMenus_GlobalMenu_AdvancedHomePageConfigMenu" : "Advanced Home Page Config",
+  "SysSettingMenus_ApplicationMenu" : "Application Configuration",
+  "SysSettingMenus_ApplicationMenu_GlobalTranslationManageMenu" : "Translation Management Configuration"
+}

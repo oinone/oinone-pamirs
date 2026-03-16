@@ -1,0 +1,1279 @@
+{
+  "pamirs.business.BindingModeEnum": {
+    "displayName": "User binding method",
+    "CREATE_BINDING": {
+      "displayName": "Create and bind users",
+      "help": "Create and bind users"
+    },
+    "BINDING_EXISTING": {
+      "displayName": "Bind Existing User",
+      "help": "Bind Existing User"
+    }
+  },
+  "business.CompanyInitEnum": {
+    "displayName": "Tenant initialization scenario",
+    "INIT_TENANT": {
+      "displayName": "Initialize tenant",
+      "help": "Initialize tenant"
+    },
+    "INIT_APPS": {
+      "displayName": "Initialize application",
+      "help": "Initialize application"
+    },
+    "INIT_TENANT_APPS": {
+      "displayName": "Initialize tenants and applications",
+      "help": "Initialize tenants and applications"
+    }
+  },
+  "business.CompanyProgressEnum": {
+    "displayName": "Tenant initialization process status",
+    "CREATED": {
+      "displayName": "Creation completed",
+      "help": "Creation completed"
+    },
+    "SET_DOMAIN": {
+      "displayName": "Set domain name",
+      "help": "Set domain name"
+    },
+    "CHOOSE_APP": {
+      "displayName": "Select the app to install",
+      "help": "Select the app to install"
+    },
+    "INSTALL_APP": {
+      "displayName": "Install application",
+      "help": "Install application"
+    },
+    "DEPLOYED": {
+      "displayName": "Deployment successful",
+      "help": "Deployment successful"
+    }
+  },
+  "business.EntType": {
+    "displayName": "Enterprise - Industry Type",
+    "ENT_HU_LIAN_WANG_XIN_XI_JI_SHU": {
+      "displayName": "Internet/Information Technology",
+      "help": "Internet/Information Technology"
+    },
+    "ENT_JI_SUAN_JI_RUAN_JIAN": {
+      "displayName": "Computer software",
+      "help": "Computer software"
+    },
+    "ENT_YING_JIAN_SHE_SHI_FU_WU": {
+      "displayName": "Hardware facilities services",
+      "help": "Hardware facilities services"
+    },
+    "ENT_DIAN_ZI_SHANG_WU": {
+      "displayName": "E-commerce",
+      "help": "E-commerce"
+    },
+    "ENT_YOU_XI": {
+      "displayName": "Game",
+      "help": "Game"
+    },
+    "ENT_QI_YE_YING_YONG": {
+      "displayName": "Enterprise applications",
+      "help": "Enterprise applications"
+    },
+    "ENT_JI_SHI_TONG_XUN": {
+      "displayName": "Instant messaging",
+      "help": "Instant messaging"
+    },
+    "ENT_YING_YIN_SHI_PIN": {
+      "displayName": "Audio and video",
+      "help": "Audio and video"
+    },
+    "ENT_SHE_JIAO_WANG_LUO": {
+      "displayName": "Social network",
+      "help": "Social network"
+    },
+    "ENT_WANG_LUO_AN_QUAN": {
+      "displayName": "Cybersecurity",
+      "help": "Cybersecurity"
+    },
+    "ENT_RUAN_JIAN_KAI_FA": {
+      "displayName": "Software Development",
+      "help": "Software Development"
+    },
+    "ENT_DIAN_XIN_YUN_YING_FU_WU": {
+      "displayName": "Telecommunications Operation Services",
+      "help": "Telecommunications Operation Services"
+    },
+    "ENT_XI_TONG_JI_CHENG": {
+      "displayName": "System Integration",
+      "help": "System Integration"
+    },
+    "ENT_GUANG_BO_DIAN_SHI_CHUAN_SHU": {
+      "displayName": "Broadcast television transmission",
+      "help": "Broadcast television transmission"
+    },
+    "ENT_WEI_XING_CHUAN_SHU_FU_WU": {
+      "displayName": "Satellite transmission service",
+      "help": "Satellite transmission service"
+    },
+    "ENT_QI_TA_RUAN_JIAN_FU_WU": {
+      "displayName": "Other software services",
+      "help": "Other software services"
+    },
+    "ENT_XIN_XI_JI_SHU_ZI_XUN": {
+      "displayName": "Information Technology Consulting",
+      "help": "Information Technology Consulting"
+    },
+    "ENT_QI_TA_HU_LIAN_WANG": {
+      "displayName": "Other internet",
+      "help": "Other internet"
+    },
+    "ENT_PEI_XUN_FU_WU": {
+      "displayName": "Training services",
+      "help": "Training services"
+    },
+    "ENT_PEI_XUN_FU_WU_JI_GOU": {
+      "displayName": "Training service organization",
+      "help": "Training service organization"
+    },
+    "ENT_ZAI_XIAN_PEI_XUN": {
+      "displayName": "Online training",
+      "help": "Online training"
+    },
+    "ENT_ZHI_YE_PEI_XUN": {
+      "displayName": "Vocational training",
+      "help": "Vocational training"
+    },
+    "ENT_QI_TA_PEI_XUN_FU_WU": {
+      "displayName": "Other training services",
+      "help": "Other training services"
+    },
+    "ENT_JIAO_YU_HANG_YE": {
+      "displayName": "Education industry",
+      "help": "Education industry"
+    },
+    "ENT_XUE_QIAN_JIAO_YU": {
+      "displayName": "Preschool Education",
+      "help": "Preschool Education"
+    },
+    "ENT_CHU_ZHONG_DENG_JIAO_YU": {
+      "displayName": "Junior secondary education",
+      "help": "Junior secondary education"
+    },
+    "ENT_ZHONG_DENG_ZHI_YE_JIAO_YU": {
+      "displayName": "Secondary vocational education",
+      "help": "Secondary vocational education"
+    },
+    "ENT_GAO_DENG_ZHI_YE_JIAO_YU": {
+      "displayName": "Higher Vocational Education",
+      "help": "Higher Vocational Education"
+    },
+    "ENT_GAO_DENG_JIAO_YU": {
+      "displayName": "Higher Education",
+      "help": "Higher Education"
+    },
+    "ENT_JIAO_YU_PEI_XUN_JI_GOU": {
+      "displayName": "Education and training institutions",
+      "help": "Education and training institutions"
+    },
+    "ENT_JI_NENG_PEI_XUN": {
+      "displayName": "Skills training",
+      "help": "Skills training"
+    },
+    "ENT_ZAI_XIAN_JIAO_YU": {
+      "displayName": "Online education",
+      "help": "Online education"
+    },
+    "ENT_TE_SHU_JIAO_YU": {
+      "displayName": "Special education",
+      "help": "Special education"
+    },
+    "ENT_JIAO_YU_FU_WU_JI_GOU": {
+      "displayName": "Educational service organization",
+      "help": "Educational service organization"
+    },
+    "ENT_JIAO_YU_HANG_ZHENG_JI_GOU": {
+      "displayName": "Educational administrative organization",
+      "help": "Educational administrative organization"
+    },
+    "ENT_JIAO_YU_YAN_JIU_JI_GOU": {
+      "displayName": "Educational research institution",
+      "help": "Educational research institution"
+    },
+    "ENT_KE_HOU_FU_WU": {
+      "displayName": "After-school service",
+      "help": "After-school service"
+    },
+    "ENT_QI_TA_JIAO_YU": {
+      "displayName": "Other education",
+      "help": "Other education"
+    },
+    "ENT_ZHI_ZAO_YE": {
+      "displayName": "Manufacturing",
+      "help": "Manufacturing"
+    },
+    "ENT_FANG_ZHI_YE": {
+      "displayName": "Textile industry",
+      "help": "Textile industry"
+    },
+    "ENT_PI_GE_MAO_YU_XIE": {
+      "displayName": "Skin/Leather/Fur/Feather/Shoes",
+      "help": "Skin/Leather/Fur/Feather/Shoe Feather/Shoe"
+    },
+    "ENT_MU_CAI_CAO_BIAN_ZHI_ZAO": {
+      "displayName": "Wood and straw weaving manufacturing",
+      "help": "Wood and straw weaving manufacturing"
+    },
+    "ENT_ZAO_ZHI_HE_ZHI_ZHI_PIN": {
+      "displayName": "Paper and paper products",
+      "help": "Paper and paper products"
+    },
+    "ENT_SHI_HUA_LIAN_JIAO_RAN_LIAO": {
+      "displayName": "Petrochemical/Coking/Fuel",
+      "help": "Petrochemical/Coking/Fuel"
+    },
+    "ENT_HUA_GONG_YUAN_LIAO_ZHI_PIN": {
+      "displayName": "Chemical raw materials and products",
+      "help": "Chemical raw materials and products"
+    },
+    "ENT_XIANG_JIAO_HE_SU_LIAO": {
+      "displayName": "Rubber and plastic",
+      "help": "Rubber and plastic"
+    },
+    "ENT_FEI_JIN_SHU_KUANG_WU": {
+      "displayName": "Non-metallic minerals",
+      "help": "Non-metallic minerals"
+    },
+    "ENT_HEI_SE_JIN_SHU_YE_LIAN": {
+      "displayName": "Black metal smelting",
+      "help": "Black metal smelting"
+    },
+    "ENT_YOU_SE_JIN_SHU_YE_LIAN": {
+      "displayName": "Non-ferrous metal smelting",
+      "help": "Non-ferrous metal smelting"
+    },
+    "ENT_TONG_YONG_SHE_BEI_ZHI_ZAO": {
+      "displayName": "General Equipment Manufacturing",
+      "help": "General Equipment Manufacturing"
+    },
+    "ENT_ZHUAN_YONG_SHE_BEI_ZHI_ZAO": {
+      "displayName": "Specialized Equipment Manufacturing",
+      "help": "Specialized Equipment Manufacturing"
+    },
+    "ENT_QI_TA_YUN_SHU_SHE_BEI": {
+      "displayName": "Other transportation equipment",
+      "help": "Other transportation equipment"
+    },
+    "ENT_DIAN_QI_JI_XIE_QI_CAI": {
+      "displayName": "Electrical machinery/equipment",
+      "help": "Electrical machinery/equipment Electrical machinery/equipment"
+    },
+    "ENT_YI_QI_YI_BIAO_ZHI_ZAO": {
+      "displayName": "Instrument and meter manufacturing",
+      "help": "Instrument and meter manufacturing"
+    },
+    "ENT_FEI_QI_ZI_YUAN_LI_YONG": {
+      "displayName": "Utilization of waste resources",
+      "help": "Utilization of waste resources"
+    },
+    "ENT_JIN_SHU_JI_XIE_XIU_LI": {
+      "displayName": "Metal/Mechanical Repair",
+      "help": "Metal/Mechanical Repair Metal/Mechanical Repair"
+    },
+    "ENT_YIN_SHUA_HE_JI_LU_MEI_JIE_FU_ZHI_YE": {
+      "displayName": "Printing and recorded media replication industry",
+      "help": "Printing and recorded media replication industry"
+    },
+    "ENT_YI_YAO_ZHI_ZAO_YE": {
+      "displayName": "Pharmaceutical Manufacturing Industry",
+      "help": "Pharmaceutical Manufacturing Industry"
+    },
+    "ENT_NONG_FU_SHI_PIN_JIA_GONG_YE": {
+      "displayName": "Agricultural and sideline food processing industry",
+      "help": "Agricultural and sideline food processing industry"
+    },
+    "ENT_QI_TA_ZHI_ZAO_YE": {
+      "displayName": "Other Manufacturing Industries",
+      "help": "Other Manufacturing Industries"
+    },
+    "ENT_MAO_YI_PI_FA_LING_SHOU": {
+      "displayName": "Trade/Wholesale/Retail",
+      "help": "Trade/Wholesale/Retail"
+    },
+    "ENT_LIN_SHI_CU_XIAO": {
+      "displayName": "Temporary Promotion",
+      "help": "Temporary Promotion"
+    },
+    "ENT_JIN_CHU_KOU": {
+      "displayName": "Import and export",
+      "help": "Import and export"
+    },
+    "ENT_PI_FA": {
+      "displayName": "Wholesale",
+      "help": "Wholesale"
+    },
+    "ENT_SHANG_DIAN_CHAO_SHI": {
+      "displayName": "Shop/Supermarket",
+      "help": "Shop/Supermarket Shop/Supermarket"
+    },
+    "ENT_DIAN_SHI_DIAN_HUA_XIAO_SHOU": {
+      "displayName": "TV/telephone sales",
+      "help": "TV/telephone sales TV/telephone sales"
+    },
+    "ENT_LING_SHOU": {
+      "displayName": "Retail",
+      "help": "Retail"
+    },
+    "ENT_LING_SHOU_FU_WU": {
+      "displayName": "Retail services",
+      "help": "Retail services"
+    },
+    "ENT_QI_TA_MAO_YI": {
+      "displayName": "Other trade",
+      "help": "Other trade"
+    },
+    "ENT_FANG_DI_CHAN_YE": {
+      "displayName": "Real estate industry",
+      "help": "Real estate industry"
+    },
+    "ENT_FANG_DI_CHAN_KAI_FA": {
+      "displayName": "Real estate development",
+      "help": "Real estate development"
+    },
+    "ENT_FANG_DI_CHAN_ZHONG_JIE": {
+      "displayName": "Real estate agent",
+      "help": "Real estate agent"
+    },
+    "ENT_FANG_DI_CHAN_DAI_LI": {
+      "displayName": "Real estate agent",
+      "help": "Real estate agent"
+    },
+    "ENT_FANG_DI_CHAN_CE_HUA": {
+      "displayName": "Real Estate Planning",
+      "help": "Real Estate Planning"
+    },
+    "ENT_FANG_DI_CHAN_ZU_LIN": {
+      "displayName": "Real estate leasing",
+      "help": "Real estate leasing"
+    },
+    "ENT_WU_YE_GUAN_LI": {
+      "displayName": "Property management",
+      "help": "Property management"
+    },
+    "ENT_SHANG_YE_DI_CHAN": {
+      "displayName": "Commercial real estate",
+      "help": "Commercial real estate"
+    },
+    "ENT_ZHU_ZHAI_DI_CHAN": {
+      "displayName": "Residential real estate",
+      "help": "Residential real estate"
+    },
+    "ENT_GONG_YE_DI_CHAN": {
+      "displayName": "Industrial real estate",
+      "help": "Industrial real estate"
+    },
+    "ENT_YANG_LAO_DI_CHAN": {
+      "displayName": "Senior housing real estate",
+      "help": "Senior housing real estate"
+    },
+    "ENT_CHAN_YE_YUAN_QU": {
+      "displayName": "Industrial Park",
+      "help": "Industrial Park"
+    },
+    "ENT_DI_CHAN_HANG_ZHENG_JI_GOU": {
+      "displayName": "Real Estate Administrative Organization",
+      "help": "Real Estate Administrative Organization"
+    },
+    "ENT_DI_CHAN_FU_WU_JI_GOU": {
+      "displayName": "Real estate service agency",
+      "help": "Real estate service agency"
+    },
+    "ENT_QI_TA_DI_CHAN": {
+      "displayName": "Other real estate",
+      "help": "Other real estate"
+    },
+    "ENT_JIAN_ZHU_YE": {
+      "displayName": "Construction industry",
+      "help": "Construction industry"
+    },
+    "ENT_JIAN_ZHU_SHE_JI": {
+      "displayName": "Architectural Design",
+      "help": "Architectural Design"
+    },
+    "ENT_JIAN_ZHU_JIAN_CAI": {
+      "displayName": "Building Materials",
+      "help": "Building Materials"
+    },
+    "ENT_JIA_JU_JIAN_CAI": {
+      "displayName": "Home building materials",
+      "help": "Home building materials"
+    },
+    "ENT_JIAN_ZHU_HANG_ZHENG_JI_GOU": {
+      "displayName": "Building administrative authority",
+      "help": "Building administrative authority"
+    },
+    "ENT_JIAN_ZHU_FU_WU_JI_GOU": {
+      "displayName": "Architectural service organization",
+      "help": "Architectural service organization"
+    },
+    "ENT_FANG_WU_JIAN_ZHU": {
+      "displayName": "Building construction",
+      "help": "Building construction"
+    },
+    "ENT_TU_MU_GONG_CHENG": {
+      "displayName": "Civil Engineering",
+      "help": "Civil Engineering"
+    },
+    "ENT_JIAN_ZHU_AN_ZHUANG": {
+      "displayName": "Construction and Installation",
+      "help": "Construction and Installation"
+    },
+    "ENT_ZHUANG_XIU_ZHUANG_HUANG": {
+      "displayName": "Renovation and decoration",
+      "help": "Renovation and decoration"
+    },
+    "ENT_QI_TA_JIAN_ZHU_YE": {
+      "displayName": "Other construction industries",
+      "help": "Other construction industries"
+    },
+    "ENT_JIN_RONG_YE": {
+      "displayName": "Finance industry",
+      "help": "Finance industry"
+    },
+    "ENT_YIN_HANG": {
+      "displayName": "Bank",
+      "help": "Bank"
+    },
+    "ENT_BAO_XIAN": {
+      "displayName": "Insurance",
+      "help": "Insurance"
+    },
+    "ENT_ZHENG_QUAN": {
+      "displayName": "Securities",
+      "help": "Securities"
+    },
+    "ENT_TOU_ZI": {
+      "displayName": "Investment",
+      "help": "Investment"
+    },
+    "ENT_JI_JIN": {
+      "displayName": "Fund",
+      "help": "Fund"
+    },
+    "ENT_HU_LIAN_WANG_JIN_RONG": {
+      "displayName": "Internet finance",
+      "help": "Internet finance"
+    },
+    "ENT_QI_TA_JIN_RONG_YE": {
+      "displayName": "Other financial industries",
+      "help": "Other financial industries"
+    },
+    "ENT_FU_WU_YE": {
+      "displayName": "Service industry",
+      "help": "Service industry"
+    },
+    "ENT_LIAN_SUO_JIU_DIAN": {
+      "displayName": "Chain hotel",
+      "help": "Chain hotel"
+    },
+    "ENT_PU_TONG_JIU_DIAN": {
+      "displayName": "Regular hotel",
+      "help": "Regular hotel"
+    },
+    "ENT_QI_TA_JIU_DIAN_ZHU_XIU": {
+      "displayName": "Other hotel accommodations",
+      "help": "Other hotel accommodations"
+    },
+    "ENT_PU_TONG_CAN_YIN": {
+      "displayName": "Ordinary catering",
+      "help": "Ordinary catering"
+    },
+    "ENT_LIAN_SUO_CAN_YIN": {
+      "displayName": "Chain restaurants",
+      "help": "Chain restaurants"
+    },
+    "ENT_WAI_MAI_CAN_YIN": {
+      "displayName": "Takeout dining",
+      "help": "Takeout dining"
+    },
+    "ENT_QI_TA_CAN_YIN": {
+      "displayName": "Other Catering",
+      "help": "Other Catering"
+    },
+    "ENT_LU_YOU_JING_DIAN_CHANG_SUO": {
+      "displayName": "Tourist attractions/places",
+      "help": "Tourist attractions/places"
+    },
+    "ENT_YU_LE_JIAN_SHEN": {
+      "displayName": "Entertainment and Fitness",
+      "help": "Entertainment and Fitness"
+    },
+    "ENT_JIA_ZHENG_FU_WU": {
+      "displayName": "Housekeeping services",
+      "help": "Housekeeping services"
+    },
+    "ENT_ZHONG_JIE_DAI_LI": {
+      "displayName": "Intermediary agent",
+      "help": "Intermediary agent"
+    },
+    "ENT_WANG_BA": {
+      "displayName": "Internet cafe",
+      "help": "Internet cafe"
+    },
+    "ENT_CHU_HANG_JIAO_TONG_FU_WU": {
+      "displayName": "Travel and Transportation Services",
+      "help": "Travel and Transportation Services"
+    },
+    "ENT_LU_HANG_SHE": {
+      "displayName": "Travel agency",
+      "help": "Travel agency"
+    },
+    "ENT_QI_TA_LU_YOU_FU_WU": {
+      "displayName": "Other travel services",
+      "help": "Other travel services"
+    },
+    "ENT_KE_PIAO_FU_WU": {
+      "displayName": "Ticketing Services",
+      "help": "Ticketing Services"
+    },
+    "ENT_QI_TA_FU_WU_YE": {
+      "displayName": "Other service industries",
+      "help": "Other service industries"
+    },
+    "ENT_YUN_SHU_WU_LIU_CANG_CHU": {
+      "displayName": "Transportation / Logistics / Warehousing",
+      "help": "Transportation / Logistics / Warehousing"
+    },
+    "ENT_CANG_CHU_YE": {
+      "displayName": "Warehousing industry",
+      "help": "Warehousing industry"
+    },
+    "ENT_DAO_LU_YUN_SHU_YE": {
+      "displayName": "Road transportation industry",
+      "help": "Road transportation industry"
+    },
+    "ENT_TIE_LU_YUN_SHU_YE": {
+      "displayName": "Railway transportation industry",
+      "help": "Railway transportation industry"
+    },
+    "ENT_SHUI_SHANG_YUN_SHU_YE": {
+      "displayName": "Water transportation industry",
+      "help": "Water transportation industry"
+    },
+    "ENT_HANG_KONG_YUN_SHU_YE": {
+      "displayName": "Air transportation industry",
+      "help": "Air transportation industry"
+    },
+    "ENT_GUAN_DAO_YUN_SHU_YE": {
+      "displayName": "Pipeline transportation industry",
+      "help": "Pipeline transportation industry"
+    },
+    "ENT_QI_TA_YUN_SHU_YE": {
+      "displayName": "Other transportation industries",
+      "help": "Other transportation industries"
+    },
+    "ENT_ZHUANG_XIE_BAN_YUN_YE": {
+      "displayName": "Loading and unloading industry",
+      "help": "Loading and unloading industry"
+    },
+    "ENT_YUN_SHU_DAI_LI_YE": {
+      "displayName": "Freight forwarding industry",
+      "help": "Freight forwarding industry"
+    },
+    "ENT_KE_PIAO_DAI_LI_YE": {
+      "displayName": "Ticketing Agency Industry",
+      "help": "Ticketing Agency Industry"
+    },
+    "ENT_YOU_ZHENG_FU_WU": {
+      "displayName": "Postal services",
+      "help": "Postal services"
+    },
+    "ENT_KUAI_DI_FU_WU": {
+      "displayName": "Express delivery service",
+      "help": "Express delivery service"
+    },
+    "ENT_PEI_SONG_LAN_SHOU_FU_WU": {
+      "displayName": "Delivery and Pickup Service",
+      "help": "Delivery and Pickup Service"
+    },
+    "ENT_QI_TA_KUAI_DI_FU_WU": {
+      "displayName": "Other courier services",
+      "help": "Other courier services"
+    },
+    "ENT_WEN_TI_YU_LE_CHUAN_MEI": {
+      "displayName": "Culture/Entertainment/Media",
+      "help": "Culture/Entertainment/Media"
+    },
+    "ENT_XIN_WEN": {
+      "displayName": "News",
+      "help": "News"
+    },
+    "ENT_GUANG_GAO_GONG_GUAN": {
+      "displayName": "Advertising/Public Relations",
+      "help": "Advertising/Public Relations"
+    },
+    "ENT_BAO_ZHI_ZA_ZHI": {
+      "displayName": "Newspaper/Magazine",
+      "help": "Newspaper/Magazine"
+    },
+    "ENT_GUANG_BO": {
+      "displayName": "Broadcast",
+      "help": "Broadcast"
+    },
+    "ENT_YING_SHI": {
+      "displayName": "Film and television",
+      "help": "Film and television"
+    },
+    "ENT_CHU_BAN": {
+      "displayName": "Publish",
+      "help": "Publish"
+    },
+    "ENT_WEN_HUA_YI_SHU_YE": {
+      "displayName": "Cultural and Arts Industry",
+      "help": "Cultural and Arts Industry"
+    },
+    "ENT_TI_YU": {
+      "displayName": "Sports",
+      "help": "Sports"
+    },
+    "ENT_DONG_MAN": {
+      "displayName": "anime",
+      "help": "anime"
+    },
+    "ENT_MEI_TI": {
+      "displayName": "Media",
+      "help": "Media"
+    },
+    "ENT_QI_TA_WEN_TI": {
+      "displayName": "Other genres",
+      "help": "Other genres"
+    },
+    "ENT_QI_TA_YU_LE": {
+      "displayName": "Other Entertainment",
+      "help": "Other Entertainment"
+    },
+    "ENT_QI_TA_CHUAN_MEI": {
+      "displayName": "Other media",
+      "help": "Other media"
+    },
+    "ENT_SHANG_YE_FU_WU_ZU_LIN": {
+      "displayName": "Commercial Services / Leasing",
+      "help": "Commercial Services / Leasing"
+    },
+    "ENT_HUI_JI_SHEN_JI_FU_WU": {
+      "displayName": "Accounting and auditing services",
+      "help": "Accounting and auditing services"
+    },
+    "ENT_REN_LI_ZI_YUAN_FU_WU": {
+      "displayName": "Human Resources Services",
+      "help": "Human Resources Services"
+    },
+    "ENT_GUAN_LI_ZI_XUN_FU_WU": {
+      "displayName": "Management Consulting Services",
+      "help": "Management Consulting Services"
+    },
+    "ENT_FA_LU_FU_WU": {
+      "displayName": "Legal services",
+      "help": "Legal services"
+    },
+    "ENT_JIAN_CE_REN_ZHENG_FU_WU": {
+      "displayName": "Testing and Certification Services",
+      "help": "Testing and Certification Services"
+    },
+    "ENT_FAN_YI_FU_WU": {
+      "displayName": "Translation Services",
+      "help": "Translation Services"
+    },
+    "ENT_ZI_XUN_DIAO_CHA_FU_WU": {
+      "displayName": "Consulting and survey services",
+      "help": "Consulting and survey services"
+    },
+    "ENT_ZHI_SHI_CHAN_QUAN_FU_WU": {
+      "displayName": "Intellectual Property Services",
+      "help": "Intellectual Property Services"
+    },
+    "ENT_AN_QUAN_BAO_HU_FU_WU": {
+      "displayName": "Security protection services",
+      "help": "Security protection services"
+    },
+    "ENT_QI_TA_SHANG_WU_FU_WU": {
+      "displayName": "Other business services",
+      "help": "Other business services"
+    },
+    "ENT_JI_XIE_SHE_BEI_ZU_LIN": {
+      "displayName": "Machinery and equipment rental",
+      "help": "Machinery and equipment rental"
+    },
+    "ENT_WEN_HUA_YONG_PIN_ZU_LIN": {
+      "displayName": "Cultural Supplies Rental",
+      "help": "Cultural Supplies Rental"
+    },
+    "ENT_QI_TA_ZU_LIN": {
+      "displayName": "Other leases",
+      "help": "Other leases"
+    },
+    "ENT_YI_LIAO_YI_YAO": {
+      "displayName": "Medical and pharmaceutical",
+      "help": "Medical and pharmaceutical"
+    },
+    "ENT_JI_CENG_YI_LIAO_WEI_SHENG_JI_GOU": {
+      "displayName": "Primary medical and health institutions",
+      "help": "Primary medical and health institutions"
+    },
+    "ENT_MIN_YING_YI_YUAN": {
+      "displayName": "Private hospital",
+      "help": "Private hospital"
+    },
+    "ENT_GONG_LI_YI_YUAN": {
+      "displayName": "Public hospital",
+      "help": "Public hospital"
+    },
+    "ENT_SHE_QU_YI_YUAN": {
+      "displayName": "Community hospital",
+      "help": "Community hospital"
+    },
+    "ENT_YI_LIAO_RUAN_JIAN": {
+      "displayName": "Medical software",
+      "help": "Medical software"
+    },
+    "ENT_MEI_RONG_ZHENG_XING": {
+      "displayName": "Cosmetic surgery",
+      "help": "Cosmetic surgery"
+    },
+    "ENT_YAO_PIN_QI_XIE": {
+      "displayName": "Pharmaceuticals and medical devices",
+      "help": "Pharmaceuticals and medical devices"
+    },
+    "ENT_JIAN_KANG_GUAN_LI": {
+      "displayName": "Health management",
+      "help": "Health management"
+    },
+    "ENT_YAO_DIAN_LIAN_SUO": {
+      "displayName": "Pharmacy chain",
+      "help": "Pharmacy chain"
+    },
+    "ENT_YI_LIAO_CHUANG_XIN": {
+      "displayName": "Medical Innovation",
+      "help": "Medical Innovation"
+    },
+    "ENT_JI_BING_FANG_KONG_JI_GOU": {
+      "displayName": "Disease Prevention and Control Agency",
+      "help": "Disease Prevention and Control Agency"
+    },
+    "ENT_HU_LI_XIU_YANG_JI_GOU": {
+      "displayName": "Nursing and convalescent institution",
+      "help": "Nursing and convalescent institution"
+    },
+    "ENT_QI_TA_YI_LIAO_JI_GOU": {
+      "displayName": "Other medical institutions",
+      "help": "Other medical institutions"
+    },
+    "ENT_KE_YAN_FU_WU": {
+      "displayName": "Research Services",
+      "help": "Research Services"
+    },
+    "ENT_SHI_YAN_YAN_JIU_SUO": {
+      "displayName": "Laboratory / Research Institute",
+      "help": "Laboratory / Research Institute"
+    },
+    "ENT_ZHUAN_YE_JI_SHU_FU_WU": {
+      "displayName": "Professional technical services",
+      "help": "Professional technical services"
+    },
+    "ENT_KE_JI_TUI_GUANG_YING_YONG": {
+      "displayName": "Technology Promotion and Application",
+      "help": "Technology Promotion and Application"
+    },
+    "ENT_GONG_GONG_HUAN_JING": {
+      "displayName": "Public/Environment",
+      "help": "Public/Environment"
+    },
+    "ENT_SHENG_TAI_HUAN_JING_ZHI_LI": {
+      "displayName": "Ecological environment management",
+      "help": "Ecological environment management"
+    },
+    "ENT_SHUI_LI_GUAN_LI": {
+      "displayName": "Water resources management",
+      "help": "Water resources management"
+    },
+    "ENT_JU_MIN_FU_WU": {
+      "displayName": "Resident Services",
+      "help": "Resident Services"
+    },
+    "ENT_JU_MIN_FU_WU_YE": {
+      "displayName": "Resident Services Industry",
+      "help": "Resident Services Industry"
+    },
+    "ENT_CHAN_PIN_XIU_LI_YE": {
+      "displayName": "Product Repair Industry",
+      "help": "Product Repair Industry"
+    },
+    "ENT_JU_MING_QI_TA_FU_WU_YE": {
+      "displayName": "Other service industries",
+      "help": "Other service industries"
+    },
+    "ENT_SHU_ZI_SHE_QU": {
+      "displayName": "Digital community",
+      "help": "Digital community"
+    },
+    "ENT_SHU_ZI_XIAO_QU": {
+      "displayName": "Digital Community",
+      "help": "Digital Community"
+    },
+    "ENT_KAI_CAI_YE": {
+      "displayName": "Mining industry",
+      "help": "Mining industry"
+    },
+    "ENT_MEI_TAN": {
+      "displayName": "coal",
+      "help": "coal"
+    },
+    "ENT_SHI_YOU_TIAN_RAN_QI_LIAN_HUA_SHI_HUA": {
+      "displayName": "Oil/Natural Gas/Refining/Petrochemical",
+      "help": "Oil/Natural Gas/Refining/Petrochemical"
+    },
+    "ENT_HEI_SE_JIN_SHU": {
+      "displayName": "Black metal",
+      "help": "Black metal"
+    },
+    "ENT_YOU_SE_JIN_SHU": {
+      "displayName": "Non-ferrous metals",
+      "help": "Non-ferrous metals"
+    },
+    "ENT_FEI_JIN_SHU": {
+      "displayName": "Non-metal",
+      "help": "Non-metal"
+    },
+    "ENT_KAI_CAI_FU_ZHU_HUO_DONG": {
+      "displayName": "Mining support activities",
+      "help": "Mining support activities"
+    },
+    "ENT_QI_TA_CAI_KUANG_YE": {
+      "displayName": "Other mining industries",
+      "help": "Other mining industries"
+    },
+    "ENT_NONG_LIN_MU_YU": {
+      "displayName": "Agriculture / Forestry / Animal Husbandry / Fishery",
+      "help": "Agriculture / Forestry / Animal Husbandry / Fishery"
+    },
+    "ENT_NONG_YE": {
+      "displayName": "Agriculture",
+      "help": "Agriculture"
+    },
+    "ENT_LIN_YE": {
+      "displayName": "Forestry",
+      "help": "Forestry"
+    },
+    "ENT_CHU_MU_YE": {
+      "displayName": "Animal husbandry",
+      "help": "Animal husbandry"
+    },
+    "ENT_YU_YE": {
+      "displayName": "Fisheries",
+      "help": "Fisheries"
+    },
+    "ENT_NONG_LIN_MU_YU_FU_WU": {
+      "displayName": "Agriculture, forestry, animal husbandry, and fishery services",
+      "help": "Agriculture, forestry, animal husbandry, and fishery services"
+    },
+    "ENT_DIAN_RE_RAN_QI_SHUI_GONG_YING": {
+      "displayName": "Electricity/Heating/Gas/Water Supply",
+      "help": "Electricity/Heating/Gas/Water Supply"
+    },
+    "ENT_DIAN_RE_SHENG_CHAN_GONG_YING": {
+      "displayName": "Electricity/Heat Production and Supply",
+      "help": "Electricity/Heat Production and Supply"
+    },
+    "ENT_RAN_QI_SHENG_CHAN_GONG_YING": {
+      "displayName": "Gas production and supply",
+      "help": "Gas production and supply"
+    },
+    "ENT_SHUI_SHENG_CHAN_GONG_YING": {
+      "displayName": "Water Production and Supply",
+      "help": "Water Production and Supply"
+    }
+  },
+  "business.GovType": {
+    "displayName": "Government - Organization Type",
+    "GOV_DANG_QUN": {
+      "displayName": "Party and Masses",
+      "help": "Party and Masses"
+    },
+    "GOV_DANG_WEI": {
+      "displayName": "Party Committee",
+      "help": "Party Committee"
+    },
+    "GOV_JI_WEI": {
+      "displayName": "Discipline Inspection Commission",
+      "help": "Discipline Inspection Commission"
+    },
+    "GOV_TUAN_WEI": {
+      "displayName": "Communist Youth League Committee",
+      "help": "Communist Youth League Committee"
+    },
+    "GOV_MIN_SHENG": {
+      "displayName": "people's livelihood",
+      "help": "people's livelihood"
+    },
+    "GOV_MIN_ZHENG": {
+      "displayName": "Civil Affairs",
+      "help": "Civil Affairs"
+    },
+    "GOV_WEN_HUA": {
+      "displayName": "Culture",
+      "help": "Culture"
+    },
+    "GOV_GUANG_DIAN": {
+      "displayName": "Radio and Television",
+      "help": "Radio and Television"
+    },
+    "GOV_REN_SHE": {
+      "displayName": "Human Resources and Social Security",
+      "help": "Human Resources and Social Security"
+    },
+    "GOV_JIAO_TONG": {
+      "displayName": "Traffic",
+      "help": "Traffic"
+    },
+    "GOV_WEI_SHENG": {
+      "displayName": "Hygiene",
+      "help": "Hygiene"
+    },
+    "GOV_YI_BAO": {
+      "displayName": "Medical insurance",
+      "help": "Medical insurance"
+    },
+    "GOV_ZHENG_FA": {
+      "displayName": "Politics and Law",
+      "help": "Politics and Law"
+    },
+    "GOV_GONG_AN": {
+      "displayName": "Public security",
+      "help": "Public security"
+    },
+    "GOV_JIAN_CHA_YUAN": {
+      "displayName": "Procuratorate",
+      "help": "Procuratorate"
+    },
+    "GOV_FA_YUAN": {
+      "displayName": "court",
+      "help": "court"
+    },
+    "GOV_SI_FA": {
+      "displayName": "Judicial",
+      "help": "Judicial"
+    },
+    "GOV_JING_FA": {
+      "displayName": "Economic Development",
+      "help": "Economic Development"
+    },
+    "GOV_FA_GAI_WEI": {
+      "displayName": "National Development and Reform Commission",
+      "help": "National Development and Reform Commission"
+    },
+    "GOV_JING_XIN_WEI": {
+      "displayName": "Economic and Information Technology Committee",
+      "help": "Economic and Information Technology Committee"
+    },
+    "GOV_SHANG_WU_JU": {
+      "displayName": "Commerce Bureau",
+      "help": "Commerce Bureau"
+    },
+    "GOV_TONG_JI_JU": {
+      "displayName": "Bureau of Statistics",
+      "help": "Bureau of Statistics"
+    },
+    "GOV_CHENG_JIAN": {
+      "displayName": "Urban construction",
+      "help": "Urban construction"
+    },
+    "GOV_GUI_HUA": {
+      "displayName": "Planning",
+      "help": "Planning"
+    },
+    "GOV_GUO_TU": {
+      "displayName": "territory",
+      "help": "territory"
+    },
+    "GOV_JIAN_SHE": {
+      "displayName": "Construction",
+      "help": "Construction"
+    },
+    "GOV_JIAN_GUAN": {
+      "displayName": "Regulation",
+      "help": "Regulation"
+    },
+    "GOV_SHUI_WU": {
+      "displayName": "Taxation",
+      "help": "Taxation"
+    },
+    "GOV_HAI_GUAN": {
+      "displayName": "Customs",
+      "help": "Customs"
+    },
+    "GOV_GONG_SHANG": {
+      "displayName": "Industry and Commerce",
+      "help": "Industry and Commerce"
+    },
+    "GOV_HUAN_BAO": {
+      "displayName": "Environmental protection",
+      "help": "Environmental protection"
+    },
+    "GOV_WU_JIA": {
+      "displayName": "Prices",
+      "help": "Prices"
+    },
+    "GOV_YAO_PIN": {
+      "displayName": "Medicine",
+      "help": "Medicine"
+    },
+    "GOV_SHI_WEI": {
+      "displayName": "Municipal Party Committee",
+      "help": "Municipal Party Committee"
+    },
+    "GOV_SHI_ZHENG_FU": {
+      "displayName": "City Government",
+      "help": "City Government"
+    },
+    "GOV_XIAN_WEI": {
+      "displayName": "County Party Committee",
+      "help": "County Party Committee"
+    },
+    "GOV_XIAN_ZHENG_FU": {
+      "displayName": "County Government",
+      "help": "County Government"
+    },
+    "GOV_SHENG_WEI": {
+      "displayName": "Provincial Party Committee",
+      "help": "Provincial Party Committee"
+    },
+    "GOV_SHENG_ZHENG_FU": {
+      "displayName": "Provincial Government",
+      "help": "Provincial Government"
+    },
+    "GOV_ZHEN_JI_ZHENG_FU": {
+      "displayName": "Town-level government",
+      "help": "Town-level government"
+    },
+    "GOV_GONG_GONG_SHE_SHI_GUAN_LI": {
+      "displayName": "Public Facilities Management",
+      "help": "Public Facilities Management"
+    },
+    "GOV_JI_CENG_ZHI_LI": {
+      "displayName": "grassroots governance",
+      "help": "grassroots governance"
+    },
+    "GOV_QI_TA_ZHENG_FU_BU_MEN": {
+      "displayName": "Other government departments",
+      "help": "Other government departments"
+    },
+    "GOV_QI_TA_SHI_YE_DAN_WEI": {
+      "displayName": "Other public institutions",
+      "help": "Other public institutions"
+    }
+  },
+  "business.JoinStateEnum": {
+    "displayName": "Team Management Join Status",
+    "WAIT_AUDIT": {
+      "displayName": "Waiting for application review...",
+      "help": "Waiting for application review..."
+    },
+    "INIT_ENT": {
+      "displayName": "Initializing the enterprise...",
+      "help": "Initializing the enterprise..."
+    }
+  },
+  "business.OrgType": {
+    "displayName": "Other - Organization Type",
+    "ORG_GONG_YI": {
+      "displayName": "Public welfare organization",
+      "help": "Public welfare organization"
+    },
+    "ORG_HANG_YE_XIE_HUI": {
+      "displayName": "Industry Association",
+      "help": "Industry Association"
+    },
+    "ORG_ZONG_JIAO": {
+      "displayName": "Religious organization",
+      "help": "Religious organization"
+    },
+    "ORG_XUE_SHEN": {
+      "displayName": "Student organization",
+      "help": "Student organization"
+    },
+    "ORG_GONG_QING_TUAN": {
+      "displayName": "Communist Youth League",
+      "help": "Communist Youth League"
+    },
+    "ORG_GUO_JI": {
+      "displayName": "International organizations",
+      "help": "International organizations"
+    },
+    "ORG_FEI_YING_LI": {
+      "displayName": "Non-profit organization",
+      "help": "Non-profit organization"
+    },
+    "ORG_GONG_HUI": {
+      "displayName": "Trade union",
+      "help": "Trade union"
+    },
+    "ORG_JI_JIN_HUI": {
+      "displayName": "Foundation",
+      "help": "Foundation"
+    },
+    "ORG_WEI_HUI": {
+      "displayName": "Village Committee / Residents' Committee",
+      "help": "Village Committee / Residents' Committee"
+    },
+    "ORG_OTHERS": {
+      "displayName": "Other social organizations",
+      "help": "Other social organizations"
+    }
+  },
+  "business.PositionType": {
+    "displayName": "Job Type",
+    "POS_CEO": {
+      "displayName": "Legal person / CEO / Boss",
+      "help": "Legal person / CEO / Boss"
+    },
+    "POS_REN_SHI": {
+      "displayName": "HR Manager",
+      "help": "HR Manager"
+    },
+    "POS_CAI_WU": {
+      "displayName": "Finance Manager",
+      "help": "Finance Manager"
+    },
+    "POS_XIAO_SHOU": {
+      "displayName": "Sales Manager",
+      "help": "Sales Manager"
+    },
+    "POS_XING_ZHENG": {
+      "displayName": "Administrative Supervisor",
+      "help": "Administrative Supervisor"
+    },
+    "POS_IT": {
+      "displayName": "IT Manager",
+      "help": "IT Manager"
+    },
+    "POS_SHIC_HANG": {
+      "displayName": "Marketing Manager",
+      "help": "Marketing Manager"
+    },
+    "POS_YUN_YING": {
+      "displayName": "Operations Supervisor",
+      "help": "Operations Supervisor"
+    },
+    "POS_PU_TONG": {
+      "displayName": "Ordinary employee",
+      "help": "Ordinary employee"
+    },
+    "POS_OTHERS": {
+      "displayName": "Other",
+      "help": "Other"
+    }
+  },
+  "business.StaffSizeEnum": {
+    "displayName": "Staff size",
+    "SS_1_9": {
+      "displayName": "1-9",
+      "help": "1-9"
+    },
+    "SS_10_20": {
+      "displayName": "10-20",
+      "help": "10-20"
+    },
+    "SS_21_50": {
+      "displayName": "21-50",
+      "help": "21-50"
+    },
+    "SS_51_100": {
+      "displayName": "51-100",
+      "help": "51-100"
+    },
+    "SS_101_200": {
+      "displayName": "101-200",
+      "help": "101-200"
+    },
+    "SS_201_500": {
+      "displayName": "201-500",
+      "help": "201-500"
+    },
+    "SS_501_2000": {
+      "displayName": "501-2000",
+      "help": "501-2000"
+    },
+    "SS_2000": {
+      "displayName": ">2000",
+      "help": ">2000"
+    }
+  },
+  "business.TeamAuthEnum": {
+    "displayName": "Certification Status",
+    "AUTHED": {
+      "displayName": "Verified",
+      "help": "Verified"
+    },
+    "UNAUTH": {
+      "displayName": "Unverified",
+      "help": "Verified"
+    }
+  },
+  "business.TeamType": {
+    "displayName": "Organization Type",
+    "ENTERPRISE": {
+      "displayName": "Enterprise",
+      "help": "Enterprise"
+    },
+    "GOVERNMENT": {
+      "displayName": "government",
+      "help": "government"
+    },
+    "OTHERS": {
+      "displayName": "Other",
+      "help": "Other"
+    }
+  },
+  "business.ThirdPartyEnum": {
+    "displayName": "Organization Type",
+    "WECHAT": {
+      "displayName": "WeChat",
+      "help": "WeChat"
+    },
+    "DING_TALK": {
+      "displayName": "DingTalk",
+      "help": "DingTalk"
+    }
+  },
+  "business.BusinessPartnerTypeEnum": {
+    "NONE": {
+      "displayName": "unknown",
+      "help": "Unknown"
+    },
+    "COMPANY": {
+      "displayName": "Company",
+      "help": "Company"
+    },
+    "PERSON": {
+      "displayName": "Personal",
+      "help": "Individual"
+    },
+    "displayName": "Subject type"
+  },
+  "himalaya.trade.BusinessPartnerOptionBitEnum": {
+    "ORGANIZATION": {
+      "displayName": "Organizational Structure Management Label",
+      "help": "Organizational Structure Management Label"
+    },
+    "SALE": {
+      "displayName": "Sales Tag",
+      "help": "Sales Tag"
+    },
+    "SUPPLIER": {
+      "displayName": "Supply Marking",
+      "help": "Supply Mark"
+    },
+    "displayName": "Partner Tag"
+  },
+  "pamirs.major.BizChannelEnum": {
+    "displayName": "Business Channel",
+    "DEFAULT": {
+      "displayName": "Default Channel",
+      "help": "Default channel"
+    }
+  }
+}

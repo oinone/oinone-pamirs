@@ -1,0 +1,157 @@
+{
+  "user.PamirsUserTransient": {
+    "login": {
+      "displayName": "Log in",
+      "description": "Login using cookies"
+    },
+    "loginByVerificationCode": {
+      "displayName": "Log in",
+      "description": "Login with mobile number and verification code, using Cookie method"
+    },
+    "loginPlatform": {
+      "displayName": "Login",
+      "description": "Login with cookie method, login to multi-tenant platform, will not jump automatically"
+    },
+    "tokenLoginByVerificationCode": {
+      "displayName": "Log in",
+      "description": "Log in with mobile phone number and verification code, using TOKEN"
+    },
+    "tokenLoginSimple": {
+      "displayName": "Login",
+      "description": "Login using token"
+    },
+    "checkVerificationCode": {
+      "displayName": "Verify verification code",
+      "description": "Is this verification code correct for the mobile phone or email verification code?"
+    },
+    "firstResetPassword": {
+      "displayName": "Change the initial password",
+      "description": "Change the initial password upon first login"
+    },
+    "forgetPassword": {
+      "displayName": "Forgot password"
+    },
+    "loginByMA": {
+      "displayName": "Mini Program Login",
+      "description": "Mini Program Login"
+    },
+    "loginMAPhone": {
+      "displayName": "WeChat Mini Program phone number",
+      "description": "WeChat Mini Program phone number"
+    },
+    "loginVerificationCode": {
+      "displayName": "Send SMS verification code",
+      "description": "This verification code is used for logging in with a phone number and verification code"
+    },
+    "logout": {
+      "displayName": "Log out"
+    },
+    "modifyCurrentUserPassword": {
+      "displayName": "Change Password"
+    },
+    "modifyEmail": {
+      "displayName": "Change Email"
+    },
+    "modifyMobilePassword": {
+      "displayName": "Change Password on Mobile"
+    },
+    "modifyPhone": {
+      "displayName": "Change phone number"
+    },
+    "registerByEmail": {
+      "displayName": "Send email verification code",
+      "description": "Email Registration"
+    },
+    "sendConfirmEmail": {
+      "displayName": "Send email",
+      "description": "Password change email"
+    },
+    "sendEmailVerificationCodeForLogin": {
+      "displayName": "Send email verification code",
+      "description": "This verification code is used for email verification code login"
+    },
+    "sendNewEmailConfirmationEmail": {
+      "displayName": "Send email verification code",
+      "description": "Change Email - Send Confirmation Email to New Address"
+    },
+    "sendOriginalEmailConfirmationEmail": {
+      "displayName": "Send email verification code",
+      "description": "Change Email - Send Confirmation Email to Original Email"
+    },
+    "sendPasswordResetEmail": {
+      "displayName": "Send email verification code",
+      "description": "Send reset password email"
+    },
+    "sendPhoneNumberEmailVerificationCodeForChange": {
+      "displayName": "Send email verification code",
+      "description": "Send verification code for changing phone number or email"
+    },
+    "sendSmsVerificationCode": {
+      "displayName": "Send SMS verification code",
+      "description": "This verification code is the mobile verification code for changing the password"
+    },
+    "sendTeamJoinEmailVerificationCode": {
+      "displayName": "Send email verification code",
+      "description": "Team join email verification code"
+    },
+    "signUp": {
+      "displayName": "Register"
+    },
+    "signUpMobile": {
+      "displayName": "Register",
+      "description": "For mobile registration use"
+    },
+    "signUpVerificationCode": {
+      "displayName": "Registration verification code"
+    }
+  },
+  "user.PamirsUser": {
+    "active": {
+      "displayName": "Activate"
+    },
+    "create": {
+      "displayName": "Confirm",
+      "description": "Create User"
+    },
+    "modifyUserInfo": {
+      "displayName": "Confirm",
+      "description": "Edit User"
+    },
+    "unActive": {
+      "displayName": "Freeze"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Edit User"
+    },
+    "updateBasicInfo": {
+      "displayName": "Confirm",
+      "description": "Modify current user information"
+    },
+    "userInfo": {
+      "displayName": "Query user information",
+      "description": "Query user information"
+    }
+  },
+  "user.PamirsUserModifyPwdTran": {
+    "resetPwd": {
+      "displayName": "Reset Password"
+    }
+  },
+  "user.PamirsUserRoleTransient": {
+    "modifyUserRole": {
+      "displayName": "Confirm",
+      "description": "Modify User Role"
+    }
+  },
+  "user.TopBarLangTransientModel": {
+    "activeLang": {
+      "displayName": "Switch Language"
+    }
+  },
+  "user.UserListFieldPreferStore": {
+    "save": {
+      "displayName": "Save user view field preferences"
+    }
+  }
+}

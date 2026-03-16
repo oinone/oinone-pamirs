@@ -1,0 +1,12 @@
+{
+  "myMessageReceive_menu": "Message List",
+  "emailTemplate_menu": "Email Template",
+  "emailSource_menu": "Email Server",
+  "emailSignature_menu": "Email Signature",
+  "emailVerifyTemplate_menu": "Email Verification Template",
+  "smsSource_menu": "SMS Channel",
+  "messageChannelManagement_menu": "Channel Management",
+  "smsConfigurationManagement_menu": "SMS Configuration Management",
+  "smsTemplate_menu": "SMS Template",
+  "emailConfigurationManagement_menu": "Email Configuration Management"
+}

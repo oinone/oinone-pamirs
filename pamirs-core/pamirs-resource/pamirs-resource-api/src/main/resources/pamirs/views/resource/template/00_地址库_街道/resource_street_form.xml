@@ -1,4 +1,4 @@
-<view widget="form" type="FORM" model="resource.ResourceStreet" name="街道form" title="街道" submit="all" priority="10">
+<view widget="form" type="FORM" model="resource.ResourceStreet" name="ResourceStreetFormBase" title="街道" submit="all" priority="10">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
                 type="default"/>

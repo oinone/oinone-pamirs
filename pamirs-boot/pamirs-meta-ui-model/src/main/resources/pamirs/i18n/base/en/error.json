@@ -1,0 +1,14 @@
+{
+  "pro.shushi.pamirs.boot.base.enmu.BaseExpEnumerate" : {
+    "displayName" : "Basic error enumeration",
+    "BASE_USER_NOT_LOGIN_ERROR" : "User is not logged in",
+    "BASE_HOME_IS_NOT_EXISTS_ERROR" : "Entry application not found or no access permission",
+    "BASE_HOME_PAGE_IS_NOT_EXISTS_ERROR" : "Home page not found",
+    "BASE_PAGE_IS_NOT_EXISTS_ERROR" : "Page not found",
+    "BASE_ACTION_MODEL_IS_EMPTY_ERROR" : "Action model not configured",
+    "BASE_SYSTEM_CONFIG_IS_NOT_COMPLETED_ERROR" : "Module parameter configuration not completed",
+    "BASE_VIEW_ACTION_CONFIG_MODEL_ERROR" : "Action configuration error",
+    "BASE_CLIENT_ACTION_CONFIG_MODEL_ERROR" : "Action configuration error",
+    "BASE_URL_ACTION_CONFIG_MODEL_ERROR" : "Action configuration error"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "file.ExcelWorkbookDefinition": {
+    "ExcelWorkbookDefinitionDetail": {
+      "title": "Import/export templates"
+    },
+    "ExcelWorkbookDefinitionTable": {
+      "title": "Import/export templates"
+    },
+    "ExcelWorkbookDefinitionForm": {
+      "title": "Import/export templates"
+    }
+  },
+  "file.ExcelImportTask": {
+    "import_dialog": {
+      "title": "Import"
+    },
+    "ExcelImportTaskDetail": {
+      "title": "Import Task"
+    },
+    "ExcelImportTaskTable": {
+      "title": "Import Task"
+    }
+  },
+  "file.ExcelExportTask": {
+    "export_dialog": {
+      "title": "Export"
+    },
+    "ExcelExportTaskTable": {
+      "title": "Export tasks"
+    },
+    "ExcelExportTaskDetail": {
+      "title": "Export tasks"
+    }
+  }
+}

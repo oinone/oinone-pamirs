@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
 import pro.shushi.pamirs.framework.session.tenant.component.PamirsTenantSession;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -66,7 +67,7 @@ public class TriggerTaskConverter implements ModelConverter<TriggerTaskAction, M
                 .setNextRetryTimeValue(3)
                 .setTaskType(Optional.ofNullable(trigger.taskType()).map(t -> t.getValue()).orElse(TaskType.BASE_SCHEDULE_TASK.getValue()))
                 .setNextRetryTimeUnit(TimeUnitEnum.SECOND)
-                .setDisplayName(trigger.displayName())
+                .setDisplayName(I18nUtils.translateTrigger(names.getModule(), namespace, trigger.name(), "displayName", trigger.displayName()))
                 .setDescription(trigger.displayName() + ":" + namespace + "$$" + fun)
                 .setTenant(PamirsTenantSession.getTenant())
                 .setEnv(PamirsTenantSession.getEnv())

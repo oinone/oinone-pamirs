@@ -1,0 +1,10 @@
+{
+  "pro.shushi.pamirs.resource.api.hook.SingletonModelUpdateHookBefore.run": {
+    "displayName": "Handle modifications to SingletonModel"
+  },
+  "pro.shushi.pamirs.resource.api.hook.SingletonModelUpdateHookBefore": {
+    "run": {
+      "displayName": "Handle modifications to SingletonModel"
+    }
+  }
+}

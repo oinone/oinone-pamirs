@@ -364,6 +364,7 @@ public class InitializationUtil {
      * @param name 视图名称
      * @return 视图名称
      */
+    @Deprecated
     public String getViewNameByViewLoader(String name) {
         return getViewNameByViewLoader(name, true);
     }
@@ -375,6 +376,7 @@ public class InitializationUtil {
      * @param useModuleSuffix 是否使用模块后缀
      * @return 视图名称
      */
+    @Deprecated
     public String getViewNameByViewLoader(String name, boolean useModuleSuffix) {
         if (useModuleSuffix) {
             return name + CharacterConstants.SEPARATOR_UNDERLINE + module;
@@ -492,7 +494,11 @@ public class InitializationUtil {
                 .setName(name)
                 .setDisplayName(I18nUtils.translateViewAction(module, originModel, name, "displayName", displayName))
                 .setContextType(contextType);
-        if (StringUtils.isNotBlank(resViewName)) {
+        if (StringUtils.isBlank(resViewName)) {
+            viewAction.setResView(null)
+                    .setResModel(null)
+                    .setResViewName(null);
+        } else {
             viewAction.setResView(getView(targetModel, resViewName))
                     .setResModel(targetModel)
                     .setResViewName(resViewName);
@@ -511,6 +517,7 @@ public class InitializationUtil {
         if (viewActionConsumer != null) {
             viewActionConsumer.accept(viewAction);
         }
+        viewAction.setTitle(I18nUtils.translateViewAction(module, originModel, name, "title", viewAction.getTitle()));
         pushViewAction(viewAction);
         return viewAction;
     }
@@ -531,6 +538,7 @@ public class InitializationUtil {
             return;
         }
         consumer.accept(viewAction);
+        viewAction.setTitle(I18nUtils.translateViewAction(module, model, name, "title", viewAction.getTitle()));
         if (viewAction.getResView() == null && StringUtils.isNotBlank(viewAction.getResViewName())) {
             viewAction.setResView(getView(model, viewAction.getResViewName()));
         }
@@ -864,7 +872,7 @@ public class InitializationUtil {
                                      String parentMenuName, String model, String resViewName,
                                      Consumer<ViewAction> viewActionConsumer) {
         ModelDefinition modelDefinition = finder(ModelDefinition.MODEL_MODEL, model);
-        String title = Optional.ofNullable(modelDefinition).map(v -> v.getDisplayName() + ViewActionConstants.redirectTablePage.title).orElse(null);
+        String title = Optional.ofNullable(modelDefinition).map(v -> v.getDisplayName() + I18nUtils.getMessage(ViewActionConstants.redirectTablePage.title)).orElse(null);
         return createViewActionMenu(menuName, displayName, priority, parentMenuName, model, title, resViewName, viewActionConsumer);
     }
 
@@ -1017,7 +1025,7 @@ public class InitializationUtil {
             mask = new MaskDefinition();
         }
         mask.setName(name)
-                .setTitle(I18nUtils.translateMask(name, "title", name))
+                .setTitle(null)
                 .setTemplate(getXmlTemplate(MaskDefinition.MODEL_MODEL, xmlPath, false))
                 .setActive(ActiveEnum.ACTIVE);
         pushMask(mask);
@@ -1044,7 +1052,7 @@ public class InitializationUtil {
         if (sequenceConfig == null) {
             sequenceConfig = new SequenceConfig();
         }
-        sequenceConfig.setDisplayName(displayName)
+        sequenceConfig.setDisplayName(I18nUtils.translateSequence(module, code, "displayName", displayName))
                 .setCode(code)
                 .setModule(module)
                 .setPrefix(CharacterConstants.SEPARATOR_EMPTY)

@@ -1,4 +1,4 @@
-<view type="DETAIL" title="触发任务" name="触发任务detail" widget="detail" model="trigger.TriggerTaskAction">
+<view type="DETAIL" title="触发任务" name="TriggerTaskActionDetail" widget="detail" model="trigger.TriggerTaskAction">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

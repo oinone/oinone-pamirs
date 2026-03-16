@@ -1,4 +1,4 @@
-<view type="form" model="resource.ResourceIcon" name="图标form">
+<view type="form" model="resource.ResourceIcon" name="ResourceIconForm">
     <template slot="actions">
         <action name="update" goBack="true" label="确定" widget="iconEditConfirmAction"/>
     </template>

@@ -1,0 +1,76 @@
+{
+  "resource.major.ResourceMajorConfig": {
+    "modifyAppSideLogo": {
+      "displayName": "Modify AppSideLogo",
+      "label": "Modify AppSideLogo"
+    },
+    "majorConfig": {
+      "displayName": "System Basic Configuration"
+    },
+    "modifyLoginPageLogo": {
+      "displayName": "Change the login page background image"
+    }
+  },
+  "resource.ResourceCurrency": {
+    "active": {
+      "displayName": "Activate"
+    },
+    "cancel": {
+      "displayName": "Deactivate"
+    }
+  },
+  "resource.ResourceIcon": {
+    "active": {
+      "displayName": "Take effect"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "disabled": {
+      "displayName": "Invalid"
+    },
+    "update": {
+      "displayName": "Modify icon",
+      "description": "Modify icon"
+    }
+  },
+  "resource.ResourceIconGroup": {
+    "create": {
+      "displayName": "Create Group",
+      "description": "Create Group"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "update": {
+      "displayName": "Modify Group",
+      "description": "Modify Group"
+    }
+  },
+  "resource.ResourceIconUpload": {
+    "uploads": {
+      "displayName": "Upload File"
+    }
+  },
+  "resource.ResourceLang": {
+    "create": {
+      "displayName": "Create",
+      "description": "Add",
+      "label": "Confirm"
+    },
+    "delete": {
+      "displayName": "Delete",
+      "label": "Delete"
+    },
+    "update": {
+      "displayName": "Update",
+      "description": "Modify",
+      "label": "Confirm"
+    }
+  },
+  "resource.ResourceRegion": {
+    "syncRegion": {
+      "displayName": "Refresh address data"
+    }
+  }
+}

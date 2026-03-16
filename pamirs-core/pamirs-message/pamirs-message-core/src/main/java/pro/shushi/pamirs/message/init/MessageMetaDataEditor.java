@@ -36,11 +36,11 @@ public class MessageMetaDataEditor implements MetaDataEditor {
         //顶部栏消息详情 不要删除
         util.createViewAction("top_bar_message_channel_detail",
                 "顶部栏消息详情", MessageChannel.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), MessageChannel.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "message_channel_detail_4_topbar");
-        util.createViewAction("频道管理detail",
-                "频道管理详情", MessageChannel.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), MessageChannel.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "频道管理detail");
+        util.createViewAction("MessageChannelAction",
+                "频道管理详情", MessageChannel.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), MessageChannel.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "MessageChannelDetail");
 
-        util.createViewAction("添加关注者", "添加关注者", MessageFollower.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), MessageFollower.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
-        util.createViewAction("添加频道", "添加频道", MessageFollower.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), MessageFollower.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("MessageFollowerActionAddFollower", "添加关注者", MessageFollower.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), MessageFollower.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("MessageFollowerActionAddChannel", "添加频道", MessageFollower.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), MessageFollower.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
 
     }
 
@@ -48,23 +48,23 @@ public class MessageMetaDataEditor implements MetaDataEditor {
     }
 
     private void menuInit(InitializationUtil util) {
-        util.createViewActionMenu("messageChannelManagement_menu", "频道管理", 1L, null, MessageChannel.MODEL_MODEL, "频道管理table", null);
+        util.createViewActionMenu("messageChannelManagement_menu", "频道管理", 1L, null, MessageChannel.MODEL_MODEL, "MessageChannelTable", null);
 
         util.createViewActionMenu("emailConfigurationManagement_menu", "邮件配置管理", 2L, null);
-        util.createViewActionMenu("emailSource_menu", "邮件服务器", 1L, "emailConfigurationManagement_menu", EmailSenderSource.MODEL_MODEL, "邮件服务器table", _viewAction -> {
+        util.createViewActionMenu("emailSource_menu", "邮件服务器", 1L, "emailConfigurationManagement_menu", EmailSenderSource.MODEL_MODEL, "EmailSenderSourceTable", _viewAction -> {
             _viewAction.setDomain("type=='EMAIL_SEND'");
         });
-        util.createViewActionMenu("emailSignature_menu", "邮件签名", 2L, "emailConfigurationManagement_menu", EmailUserSign.MODEL_MODEL, "邮件签名table", null);
-        util.createViewActionMenu("emailTemplate_menu", "邮件模板", 3L, "emailConfigurationManagement_menu", EmailTemplate.MODEL_MODEL, "邮件模板table", null);
-        util.createViewActionMenu("emailVerifyTemplate_menu", "邮箱验证模板", 4L, "emailConfigurationManagement_menu", EmailVerifyTemplate.MODEL_MODEL, "邮箱验证模板table", null);
+        util.createViewActionMenu("emailSignature_menu", "邮件签名", 2L, "emailConfigurationManagement_menu", EmailUserSign.MODEL_MODEL, "EmailUserSignTable", null);
+        util.createViewActionMenu("emailTemplate_menu", "邮件模板", 3L, "emailConfigurationManagement_menu", EmailTemplate.MODEL_MODEL, "EmailTemplateTable", null);
+        util.createViewActionMenu("emailVerifyTemplate_menu", "邮箱验证模板", 4L, "emailConfigurationManagement_menu", EmailVerifyTemplate.MODEL_MODEL, "EmailVerifyTemplateTable", null);
 
         util.createViewActionMenu("smsConfigurationManagement_menu", "短信配置管理", 3L, null);
-        util.createViewActionMenu("smsSource_menu", "短信通道", 1L, "smsConfigurationManagement_menu", SmsChannelConfig.MODEL_MODEL, "短信通道table", _viewAction -> {
+        util.createViewActionMenu("smsSource_menu", "短信通道", 1L, "smsConfigurationManagement_menu", SmsChannelConfig.MODEL_MODEL, "SmsChannelConfigTable", _viewAction -> {
             _viewAction.setDomain("type=='SMS_SEND'");
         });
-        util.createViewActionMenu("smsTemplate_menu", "短信模板", 2L, "smsConfigurationManagement_menu", SmsTemplate.MODEL_MODEL, "短信模板table", null);
+        util.createViewActionMenu("smsTemplate_menu", "短信模板", 2L, "smsConfigurationManagement_menu", SmsTemplate.MODEL_MODEL, "SmsTemplateTable", null);
 
-        util.createViewActionMenu("myMessageReceive_menu", "消息列表", 4L, null, UnreadMessage.MODEL_MODEL, "消息列表table", null);
+        util.createViewActionMenu("myMessageReceive_menu", "消息列表", 4L, null, UnreadMessage.MODEL_MODEL, "UnreadMessageTable", null);
     }
 
     private void homepageInit(InitializationUtil util) {

@@ -1,0 +1,28 @@
+{
+  "file.ExcelImportTask" : {
+    "m2mImport" : {
+      "displayName" : "m2m import",
+      "label" : "m2m import"
+    },
+    "o2mImport" : {
+      "displayName" : "o2m import",
+      "label" : "o2m import"
+    },
+    "createImportTask" : {
+      "displayName" : "Import"
+    }
+  },
+  "file.ExcelExportTask" : {
+    "createExportTask" : {
+      "displayName" : "Export"
+    }
+  },
+  "file.ExcelWorkbookDefinition" : {
+    "create" : {
+      "displayName" : "Create"
+    },
+    "update" : {
+      "displayName" : "Update"
+    }
+  }
+}

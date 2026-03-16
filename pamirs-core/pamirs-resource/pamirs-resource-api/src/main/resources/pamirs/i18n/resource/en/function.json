@@ -1,0 +1,7 @@
+{
+  "resource.major.ResourceMajorConfig": {
+    "construct": {
+      "description": "System basic configuration info constructor"
+    }
+  }
+}

@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.configure.annotation.core.check.MetaUniqueChecker;
+import pro.shushi.pamirs.framework.configure.contants.NameConstants;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Dict;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -155,10 +157,10 @@ public class ModuleConverter implements ModelConverter<ModuleDefinition, Class> 
         moduleDefinition.setModule(module)
                 .setName(name)
                 .setAbbr(abbr)
-                .setDisplayName(displayName)
+                .setDisplayName(I18nUtils.translateModule(names.getModule(), "displayName", displayName))
                 .setDsKey(dsKey)
-                .setSummary(summary)
-                .setDescription(description)
+                .setSummary(I18nUtils.translateModule(names.getModule(), "summary", summary))
+                .setDescription(I18nUtils.translateModule(names.getModule(), "description", description))
                 .setClientTypes(clientTypeEnums)
                 .setShow(show)
                 .setPriority(priority)

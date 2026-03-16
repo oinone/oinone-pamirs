@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" model="pamirs.eip.EipRouteDefinition" name="组合接口form" submit="all">
+<view type="FORM" widget="form" model="pamirs.eip.EipRouteDefinition" name="EipRouteDefinitionForm" submit="all">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" invisible="activeRecord.id &gt; 0" model="pamirs.eip.EipRouteDefinition" goBack="true" validateForm="true" tag="contextFreeAction"/>

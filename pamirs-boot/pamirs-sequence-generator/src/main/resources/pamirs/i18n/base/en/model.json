@@ -1,0 +1,38 @@
+{
+  "base.LeafAlloc" : {
+    "base.Field" : {
+      "createDate" : {
+        "displayName" : "Create Time",
+        "summary" : "Create Time"
+      },
+      "createUid" : {
+        "displayName" : "Created By ID",
+        "summary" : "Created By ID"
+      },
+      "writeDate" : {
+        "displayName" : "Update Time",
+        "summary" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updated By ID",
+        "summary" : "Updated By ID"
+      },
+      "step" : "Step size",
+      "maxId" : "The maximum ID value of the number segment",
+      "id" : {
+        "displayName" : "ID",
+        "summary" : "ID field, unique self-increasing index"
+      },
+      "code" : {
+        "displayName" : "Sequence Identifier",
+        "summary" : "Sequence Unique Identifier"
+      },
+      "needLoad" : {
+        "displayName" : "Do you need to load",
+        "summary" : "true: Yes, false: No"
+      },
+      "updateTime" : "Sequence Update Time"
+    },
+    "displayName" : "sequence"
+  }
+}

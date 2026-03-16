@@ -1,0 +1,7 @@
+{
+  "resource.ResourceTranslationItem": {
+    "$$internal_DeleteOne": {
+      "label": "Delete"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "base.Module" : {
+    "auth" : "Authority"
+  }
+}

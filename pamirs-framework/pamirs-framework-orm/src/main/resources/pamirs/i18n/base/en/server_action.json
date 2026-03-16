@@ -1,0 +1,18 @@
+{
+  "base.BaseModel": {
+    "create": {
+      "displayName": "Create",
+      "description": "Add",
+      "label": "Confirm"
+    },
+    "delete": {
+      "displayName": "Delete",
+      "label": "Delete"
+    },
+    "update": {
+      "displayName": "Update",
+      "description": "Modify",
+      "label": "Confirm"
+    }
+  }
+}

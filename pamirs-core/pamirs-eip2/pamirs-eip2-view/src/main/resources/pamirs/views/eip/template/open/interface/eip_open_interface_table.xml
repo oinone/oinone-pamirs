@@ -1,4 +1,4 @@
-<view type="TABLE" widget="table" title="开放接口" model="pamirs.eip.EipOpenInterface" name="开放接口table">
+<view type="TABLE" widget="table" title="开放接口" model="pamirs.eip.EipOpenInterface" name="EipOpenInterfaceTable">
     <template slot="search">
         <field data="connGroup" label="业务域" required="false"/>
         <field data="name" label="API名称" required="false"/>

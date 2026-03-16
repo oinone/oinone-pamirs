@@ -1,0 +1,46 @@
+{
+  "file.ExcelExportTask": {
+    "ExcelExportTaskTable": {
+      "base.Field": {
+        "id": "Task Code",
+        "moduleDefinition": "Owned Application",
+        "name": "Task Name",
+        "workbookName": "Associated Business Document Type",
+        "state": "Status",
+        "rsql": "Filter Condition",
+        "file": "Associated File",
+        "createUserName": "Initiator",
+        "createDate": "Initiation Time"
+      }
+    },
+    "export_dialog": {
+      "base.Field": {
+        "workbookDefinition.model": "Export Template - Model Encoding",
+        "workbookDefinition.name": "Export Template - Name",
+        "workbookDefinition.displayName": "Export Template - Display Name"
+      }
+    }
+  },
+  "file.ExcelImportTask": {
+    "ExcelImportTaskTable": {
+      "base.Field": {
+        "id": "Task Code",
+        "moduleDefinition": "Owned Application",
+        "name": "Task Name",
+        "workbookName": "Associated Business Document Type",
+        "state": "Status",
+        "file": "Import File",
+        "errorFile": "Import Error File",
+        "createUserName": "Initiator",
+        "createDate": "Initiation Time"
+      }
+    },
+    "import_dialog": {
+      "base.Field": {
+        "workbookDefinition.model": "Import Template - Model Encoding",
+        "workbookDefinition.name": "Import Template - Name",
+        "workbookDefinition.displayName": "Import Template - Display Name"
+      }
+    }
+  }
+}

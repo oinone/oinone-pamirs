@@ -55,7 +55,7 @@ public interface EnumProcessor<T> extends BaseEnumApi, CommonApi {
      * @param <D>       数据字典项模型类
      * @return 返回值
      */
-    <D> List<D> fetchEnumValues(Class<?> enumClass);
+    <D> List<D> fetchEnumValues(String module, Class<?> enumClass);
 
     /**
      * 获取枚举字段内部值的业务类型

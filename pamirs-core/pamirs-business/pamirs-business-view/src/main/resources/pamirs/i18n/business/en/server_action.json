@@ -1,0 +1,89 @@
+{
+  "business.PamirsEmployee": {
+    "userCompany": {
+      "displayName": "Query user company on PC",
+      "label": "Query user company on PC",
+      "description": "Temporary use"
+    },
+    "create": {
+      "displayName": "Create",
+      "description": "Add",
+      "label": "Confirm"
+    },
+    "delete": {
+      "displayName": "Delete"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "update": {
+      "displayName": "Update",
+      "description": "Modify",
+      "label": "Confirm"
+    }
+  },
+  "business.PamirsCompany": {
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "delete": {
+      "displayName": "Delete"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Modify"
+    }
+  },
+  "business.PamirsDepartment": {
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "delete": {
+      "displayName": "Delete"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Modify"
+    }
+  },
+  "business.PamirsPerson": {
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "delete": {
+      "displayName": "Delete"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Modify"
+    }
+  },
+  "business.PamirsPosition": {
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "delete": {
+      "displayName": "Delete"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Modify"
+    }
+  }
+}

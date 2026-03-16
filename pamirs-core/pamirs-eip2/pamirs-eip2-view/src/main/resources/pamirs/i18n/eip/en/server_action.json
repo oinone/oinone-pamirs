@@ -1,0 +1,171 @@
+{
+  "pamirs.eip.proxy.EipApplicationProxy": {
+    "regenerateSecret": {
+      "displayName": "Refresh Secret",
+      "label": "Refresh Secret"
+    },
+    "dataStatusDisable": {
+      "displayName": "Disable"
+    },
+    "dataStatusEnable": {
+      "displayName": "Enable"
+    },
+    "updateRateLimitPolicyList": {
+      "displayName": "Update flow control configuration"
+    }
+  },
+  "eip.EipCircuitBreakerRuleProxy": {
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "deleteOne": {
+      "displayName": "Delete"
+    },
+    "update": {
+      "displayName": "Update",
+      "description": "Modify",
+      "label": "Confirm"
+    }
+  },
+  "eip.EipConnGroup": {
+    "deleteOne": {
+      "displayName": "Delete"
+    }
+  },
+  "pamirs.eip.EipIntegrationInterface": {
+    "cancelIgnoreLogFrequency": {
+      "displayName": "Cancel ignoring log recording frequency limits"
+    },
+    "dataStatusDisable": {
+      "displayName": "Disable"
+    },
+    "dataStatusEnable": {
+      "displayName": "Publish"
+    },
+    "ignoreLogFrequency": {
+      "displayName": "Ignore log recording frequency limits"
+    }
+  },
+  "pamirs.eip.EipInterfaceAuthGroup": {
+    "dataStatusDisable": {
+      "displayName": "Disable"
+    },
+    "dataStatusEnable": {
+      "displayName": "Enable"
+    }
+  },
+  "pamirs.eip.EipInterfaceTestTransient": {
+    "mockParamConverter": {
+      "displayName": "Simulation Parameter Conversion"
+    },
+    "test": {
+      "displayName": "Test"
+    }
+  },
+  "pamirs.eip.EipOpenInterface": {
+    "cancelIgnoreLogFrequency": {
+      "displayName": "Cancel ignoring log recording frequency limits"
+    },
+    "dataStatusDisable": {
+      "displayName": "Disable"
+    },
+    "dataStatusEnable": {
+      "displayName": "Enable"
+    },
+    "ignoreLogFrequency": {
+      "displayName": "Ignore log recording frequency limits"
+    }
+  },
+  "pamirs.eip.EipOpenIpBlacklistProxy": {
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Modify"
+    }
+  },
+  "pamirs.eip.EipOpenRateLimitPolicy": {
+    "createBatch": {
+      "displayName": "Confirm",
+      "description": "Add"
+    }
+  },
+  "pamirs.eip.EipRouteDefinition": {
+    "dataStatusDisable": {
+      "displayName": "Disable"
+    },
+    "dataStatusEnable": {
+      "displayName": "Enable"
+    }
+  },
+  "pamirs.eip.EipSceneDefinitionProxy": {
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "dataStatusDisable": {
+      "displayName": "Disable"
+    },
+    "dataStatusEnable": {
+      "displayName": "Enable"
+    },
+    "generateInstance": {
+      "displayName": "Confirm",
+      "description": "Generate instance based on scenario definition"
+    },
+    "update": {
+      "displayName": "Confirm",
+      "description": "Modify"
+    }
+  },
+  "pamirs.eip.EipSceneInstance": {
+    "create": {
+      "displayName": "Confirm",
+      "description": "Add"
+    },
+    "dataStatusDisable": {
+      "displayName": "Disable"
+    },
+    "dataStatusEnable": {
+      "displayName": "Enable"
+    }
+  },
+  "pamirs.eip.EipSceneInstanceProxy": {
+    "testCall": {
+      "displayName": "Confirm",
+      "description": "Modify incremental log configuration"
+    },
+    "updateIncUpdateLog": {
+      "displayName": "Confirm",
+      "description": "Modify incremental log configuration"
+    },
+    "updateTask": {
+      "displayName": "Confirm",
+      "description": "Modify scheduled task configuration"
+    }
+  },
+  "pamirs.eip.SynchronizationInfoTransient": {
+    "push": {
+      "displayName": "Synchronous Information"
+    }
+  },
+  "pamirs.eip.tmodel.EipIntegrationInterfaceEdit": {
+    "copy": {
+      "displayName": "Copy interface"
+    },
+    "create": {
+      "displayName": "Create interface"
+    },
+    "update": {
+      "displayName": "Modify interface"
+    }
+  },
+  "pamirs.eip.tmodel.EipSendRequestTransient": {
+    "sendRequest": {
+      "displayName": "Send request"
+    }
+  }
+}

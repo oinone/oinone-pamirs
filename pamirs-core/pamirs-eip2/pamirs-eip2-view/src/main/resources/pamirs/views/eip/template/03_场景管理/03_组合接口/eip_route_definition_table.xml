@@ -1,4 +1,4 @@
-<view type="TABLE" widget="table" model="pamirs.eip.EipRouteDefinition" name="组合接口table" excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
+<view type="TABLE" widget="table" model="pamirs.eip.EipRouteDefinition" name="EipRouteDefinitionTable" excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="pamirs.eip.EipRouteDefinition" text="创建"/>
         <action name="delete" label="删除" model="pamirs.eip.EipRouteDefinition" text="删除"/>

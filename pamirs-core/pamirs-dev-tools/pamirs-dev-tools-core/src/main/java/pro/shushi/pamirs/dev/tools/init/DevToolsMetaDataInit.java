@@ -5,7 +5,6 @@ import pro.shushi.pamirs.boot.base.enmu.ActionTargetEnum;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
 import pro.shushi.pamirs.core.common.InitializationUtil;
-import pro.shushi.pamirs.core.common.loader.BizInitLoader;
 import pro.shushi.pamirs.dev.tools.DevToolsModule;
 import pro.shushi.pamirs.dev.tools.model.DictionaryOverview;
 import pro.shushi.pamirs.dev.tools.model.ExtPointOverview;
@@ -31,36 +30,31 @@ public class DevToolsMetaDataInit implements MetaDataEditor {
         if (util == null) {
             return;
         }
-
-        final boolean useModuleSuffix = true;
-
-        BizInitLoader.init(util, DevToolsModule.MODULE_MODULE, useModuleSuffix);
-
-        initViewAction(util, useModuleSuffix);
+        initViewAction(util);
         menuInit(util);
     }
 
-    private void initViewAction(InitializationUtil util, boolean useModuleSuffix) {
+    private void initViewAction(InitializationUtil util) {
         Map<String, Object> modelContext = new HashMap<>();
         modelContext.put("model", "rootRecord.model");
-        util.createViewAction("searchByModel", "查询对比", ModelOverview.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), ModelOverview.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, util.getViewNameByViewLoader("model_overview_detail", false), null)
+        util.createViewAction("searchByModel", "查询对比", ModelOverview.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), ModelOverview.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "model_overview_detail", null)
                 .setContext(modelContext);
 
         Map<String, Object> funContext = new HashMap<>();
         funContext.put("namespace", "rootRecord.namespace");
         funContext.put("fun", "rootRecord.fun");
-        util.createViewAction("searchByFun", "查询对比", FunctionOverview.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), FunctionOverview.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, util.getViewNameByViewLoader("function_overview_detail", false), null)
+        util.createViewAction("searchByFun", "查询对比", FunctionOverview.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), FunctionOverview.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "function_overview_detail", null)
                 .setContext(funContext);
 
         Map<String, Object> dictContext = new HashMap<>();
         dictContext.put("dictionary", "rootRecord.dictionary");
-        util.createViewAction("searchByDict", "查询对比", DictionaryOverview.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), DictionaryOverview.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, util.getViewNameByViewLoader("dictionary_overview_detail", false), null)
+        util.createViewAction("searchByDict", "查询对比", DictionaryOverview.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), DictionaryOverview.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "dictionary_overview_detail", null)
                 .setContext(dictContext);
 
         Map<String, Object> extContext = new HashMap<>();
         extContext.put("namespace", "rootRecord.namespace");
         funContext.put("name", "rootRecord.name");
-        util.createViewAction("searchByExtPoint", "查询对比", ExtPointOverview.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), ExtPointOverview.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, util.getViewNameByViewLoader("extpoint_overview_detail", false), null)
+        util.createViewAction("searchByExtPoint", "查询对比", ExtPointOverview.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), ExtPointOverview.MODEL_MODEL, ViewTypeEnum.DETAIL, ActionContextTypeEnum.SINGLE, ActionTargetEnum.ROUTER, "extpoint_overview_detail", null)
                 .setContext(extContext);
 
     }

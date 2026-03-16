@@ -1,0 +1,278 @@
+{
+  "auth.RoleQueryFilter" : {
+    "displayName" : "Character Query Condition Model",
+    "base.Field" : {
+      "rsql" : {
+        "summary" : "RSQL Filter Condition",
+        "displayName" : "RSQL filter conditions"
+      },
+      "roleCodes" : {
+        "summary" : "Role Code",
+        "displayName" : "Character Encoding"
+      },
+      "userRole" : {
+        "summary" : "Current User Bound Role",
+        "displayName" : "Roles currently assigned to the user"
+      }
+    }
+  },
+  "auth.AuthRoleResourcePermission" : {
+    "displayName" : "Role-Associated Resource Permission Item",
+    "base.Field" : {
+      "permissionId" : {
+        "displayName" : "Resource Permission Item ID"
+      },
+      "permissionType" : {
+        "displayName" : "Resource Permission Item Type"
+      },
+      "role" : {
+        "summary" : "Role",
+        "displayName" : "Character"
+      },
+      "permissionSubtype" : {
+        "displayName" : "Resource Permission Item Subtype"
+      },
+      "roleId" : {
+        "summary" : "Role ID",
+        "displayName" : "Role ID"
+      },
+      "authorizedValue" : {
+        "displayName" : "Permission value"
+      },
+      "permission" : {
+        "displayName" : "Resource Permission Item"
+      },
+      "source" : {
+        "displayName" : "Source of authorization"
+      }
+    }
+  },
+  "auth.AuthResourceAuthorization" : {
+    "displayName" : "Resource Permission Item Authorization",
+    "base.Field" : {
+      "groupName" : {
+        "summary" : "Permission Group Name",
+        "displayName" : "Permission Group Name"
+      },
+      "resourceId" : {
+        "summary" : "Resource ID",
+        "displayName" : "Resource ID"
+      },
+      "resourceCode" : {
+        "summary" : "Resource Code",
+        "displayName" : "Resource Code"
+      },
+      "roleId" : {
+        "summary" : "Role ID",
+        "displayName" : "Role ID"
+      },
+      "groupId" : {
+        "displayName" : "Permission Group ID"
+      },
+      "authorizedEnumList" : {
+        "summary" : "Permission Enum Value",
+        "displayName" : "Permission Enum Value"
+      },
+      "authorizedValue" : {
+        "summary" : "Permission Value",
+        "displayName" : "Permission Value"
+      }
+    }
+  },
+  "auth.AuthRole" : {
+    "displayName" : "Role",
+    "base.Field" : {
+      "code" : {
+        "summary" : "Encode",
+        "displayName" : "Code"
+      },
+      "name" : {
+        "summary" : "Name",
+        "displayName" : "Name"
+      },
+      "writeUserName" : {
+        "summary" : "Modifier",
+        "displayName" : "Modifier"
+      },
+      "active" : {
+        "summary" : "Active State",
+        "displayName" : "Active"
+      },
+      "description" : {
+        "summary" : "Description",
+        "displayName" : "Description"
+      },
+      "createUserName" : {
+        "summary" : "Created By",
+        "displayName" : "Creator"
+      },
+      "source" : {
+        "summary" : "Role Source",
+        "displayName" : "Role Source"
+      },
+      "roleType" : {
+        "summary" : "Role Type",
+        "displayName" : "Role Type"
+      },
+      "roleTypeCode" : {
+        "summary" : "Role Type Code",
+        "displayName" : "Role Type Code"
+      }
+    }
+  },
+  "auth.AuthPathMapping" : {
+    "displayName" : "Permission path mapping",
+    "base.Field" : {
+      "permissionNodeId" : {
+        "displayName" : "Authority node ID"
+      },
+      "code" : {
+        "displayName" : "Path Encoding"
+      },
+      "originPath" : {
+        "summary" : "Source Path",
+        "displayName" : "Source Path"
+      },
+      "nodeJson" : {
+        "summary" : "Permission Node JSON",
+        "displayName" : "Permission Node JSON"
+      },
+      "permissionNodeType" : {
+        "displayName" : "Permission Node Type"
+      },
+      "source" : {
+        "summary" : "Permission Source",
+        "displayName" : "Permission Source"
+      },
+      "targetPathList" : {
+        "summary" : "Target Path",
+        "displayName" : "Target Path"
+      }
+    }
+  },
+  "auth.AuthRoleType" : {
+    "displayName" : "Character type",
+    "base.Field" : {
+      "code" : {
+        "displayName" : "Type Code"
+      },
+      "name" : {
+        "displayName" : "Type Name"
+      },
+      "writeUserName" : {
+        "summary" : "Modifier",
+        "displayName" : "Modifier"
+      },
+      "description" : {
+        "summary" : "Description",
+        "displayName" : "Description"
+      },
+      "createUserName" : {
+        "summary" : "Created By",
+        "displayName" : "Creator"
+      },
+      "source" : {
+        "displayName" : "Source of character type"
+      },
+      "type" : {
+        "summary" : "Type",
+        "displayName" : "Type"
+      }
+    }
+  },
+  "auth.AuthResourcePermission" : {
+    "displayName" : "Resource Permission Item",
+    "base.Field" : {
+      "path" : {
+        "summary" : "Resource Path",
+        "displayName" : "Resource Path"
+      },
+      "code" : {
+        "summary" : "Resource Code",
+        "displayName" : "Resource encoding"
+      },
+      "subtype" : {
+        "summary" : "Resource Subtype",
+        "displayName" : "Resource Subtype"
+      },
+      "displayName" : {
+        "summary" : "Resource Display Name",
+        "displayName" : "Resource Display Name"
+      },
+      "module" : {
+        "summary" : "Resource Module",
+        "displayName" : "Resource Module"
+      },
+      "name" : {
+        "summary" : "Resource Name",
+        "displayName" : "Resource name"
+      },
+      "active" : {
+        "summary" : "Active",
+        "displayName" : "Active"
+      },
+      "model" : {
+        "summary" : "Resource Model",
+        "displayName" : "Resource Model"
+      },
+      "source" : {
+        "summary" : "Permission Source",
+        "displayName" : "Permission Source"
+      },
+      "type" : {
+        "summary" : "Resource Type",
+        "displayName" : "Resource Type"
+      }
+    }
+  },
+  "auth.UserRoleRel" : {
+    "displayName" : "User Associated Role",
+    "base.Field" : {
+      "roleId" : {
+        "summary" : "Role ID",
+        "displayName" : "Role ID"
+      },
+      "active" : {
+        "summary" : "Active State",
+        "displayName" : "active state"
+      },
+      "source" : {
+        "displayName" : "Source of authorization"
+      },
+      "userId" : {
+        "summary" : "User ID",
+        "displayName" : "User ID"
+      }
+    }
+  },
+  "auth.AuthGroupResourcePermission" : {
+    "displayName" : "Permission group associated resource permission items",
+    "base.Field" : {
+      "permissionId" : {
+        "displayName" : "Resource Permission Item ID"
+      },
+      "permissionType" : {
+        "summary" : "Resource Type",
+        "displayName" : "Resource Type"
+      },
+      "permissionSubtype" : {
+        "summary" : "Resource Subtype",
+        "displayName" : "Resource Subtype"
+      },
+      "groupId" : {
+        "displayName" : "Permission Group ID"
+      },
+      "authorizedValue" : {
+        "summary" : "Permission Value",
+        "displayName" : "Permission Value"
+      },
+      "permission" : {
+        "summary" : "Resource Permission Item",
+        "displayName" : "Resource Permission Item"
+      },
+      "permissionCode" : {
+        "displayName" : "Resource Permission Item Code"
+      }
+    }
+  }
+}

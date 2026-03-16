@@ -1,4 +1,4 @@
-<view type="DETAIL" title="用户表详情" name="用户表detail" widget="detail" model="user.PamirsUser">
+<view type="DETAIL" title="用户表详情" name="PamirsUserDetail" widget="detail" model="user.PamirsUser">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

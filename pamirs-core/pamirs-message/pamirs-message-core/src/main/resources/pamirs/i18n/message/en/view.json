@@ -1,0 +1,56 @@
+{
+  "pamirs.message.UnreadMessage": {
+    "UnreadMessageTable": {
+      "title": "Message List"
+    },
+    "UnreadMessageDetail": {
+      "title": "Message details"
+    }
+  },
+  "pamirs.message.MessageChannel": {
+    "MessageChannelDetail": {
+      "title": "Channel Management"
+    },
+    "MessageChannelTable": {
+      "title": "Channel Management"
+    },
+    "MessageChannelForm": {
+      "title": "Channel Management"
+    },
+    "message_channel_detail_4_topbar": {
+      "title": "Top Bar Channel Details"
+    }
+  },
+  "pamirs.message.EmailTemplate": {
+    "EmailTemplateForm": {
+      "title": "Email template"
+    },
+    "EmailTemplateDetail": {
+      "title": "Email template"
+    }
+  },
+  "pamirs.message.SmsTemplate": {
+    "SmsTemplateDetail": {
+      "title": "SMS template"
+    },
+    "SmsTemplateForm": {
+      "title": "SMS template"
+    },
+    "SmsTemplateTable": {
+      "title": "SMS template"
+    }
+  },
+  "pamirs.message.SmsChannelConfig": {
+    "SmsChannelConfigForm": {
+      "title": "SMS Channel"
+    },
+    "SmsChannelConfigDetail": {
+      "title": "SMS Channel"
+    }
+  },
+  "pamirs.message.EmailVerifyTemplate": {
+    "EmailVerifyTemplateTable": {
+      "title": "Email Verification Template"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "base.Action" : {
+    "construct" : {
+      "displayName" : "Initialize data"
+    }
+  },
+  "base.ServerAction" : {
+    "construct" : {
+      "displayName" : "Initialize data"
+    }
+  },
+  "base.UeModel" : {
+    "construct" : {
+      "displayName" : "Initialize data"
+    }
+  },
+  "base.ViewAction" : {
+    "construct" : {
+      "displayName" : "Initialize data"
+    }
+  }
+}

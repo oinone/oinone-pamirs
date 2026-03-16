@@ -1,4 +1,4 @@
-<view type="TABLE" widget="table" model="eip.CircuitBreakerRecordProxy" name="熔断记录代理table">
+<view type="TABLE" widget="table" model="eip.CircuitBreakerRecordProxy" name="CircuitBreakerRecordProxyTable">
     <template slot="search">
         <field data="circuitBreakerRuleCode" label="规则编码" operator="EQUAL" required="false"/>
         <field data="integrationInterface" label="集成接口" searchFields="name,interfaceName"

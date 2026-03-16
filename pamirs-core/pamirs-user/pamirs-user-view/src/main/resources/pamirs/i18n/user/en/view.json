@@ -1,0 +1,40 @@
+{
+  "user.PamirsUserModifyPwdTran": {
+    "modify_pwd_dialog_view": {
+      "title": "Reset Password"
+    }
+  },
+  "user.PamirsUserTransient": {
+    "modify_initial_pwd_view": {
+      "title": "Modify the initial password"
+    },
+    "modify_pwd_view": {
+      "title": "Change password"
+    }
+  },
+  "user.PamirsUser": {
+    "PamirsUserFormBase": {
+      "title": "User form"
+    },
+    "PamirsUserTable": {
+      "title": "User Table List"
+    },
+    "create_user_view": {
+      "title": "Create User"
+    },
+    "PamirsUserDetail": {
+      "title": "User Table Details"
+    },
+    "modify_user_info": {
+      "title": "Modify User"
+    },
+    "PamirsUserFormInitPwd": {
+      "title": "Modify user initialization password"
+    }
+  },
+  "user.PamirsUserRoleTransient": {
+    "modify_user_role": {
+      "title": "Modify Role"
+    }
+  }
+}

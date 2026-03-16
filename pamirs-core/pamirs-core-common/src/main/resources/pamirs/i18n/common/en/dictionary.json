@@ -1,0 +1,71 @@
+{
+  "partner.DataStatusEnum": {
+    "displayName": "Data Status",
+    "DRAFT": {
+      "displayName": "Draft",
+      "help": "Draft"
+    },
+    "NOT_ENABLED": {
+      "displayName": "Not Enabled",
+      "help": "Not Enabled"
+    },
+    "ENABLED": {
+      "displayName": "Enabled",
+      "help": "Enabled"
+    },
+    "DISABLED": {
+      "displayName": "Disabled",
+      "help": "Disabled"
+    }
+  },
+  "resource.EncryptTypeEnum": {
+    "displayName": "Encryption Type",
+    "RSA": {
+      "displayName": "RSA Encryption",
+      "help": "RSA Encryption"
+    },
+    "AES": {
+      "displayName": "AES Encryption",
+      "help": "AES Encryption"
+    }
+  },
+  "resource.TimeUnitEnum": {
+    "displayName": "Calendar time unit",
+    "YEAR": {
+      "displayName": "Year",
+      "help": "Year"
+    },
+    "MONTH": {
+      "displayName": "Moon",
+      "help": "Moon"
+    },
+    "DAY_OF_YEAR": {
+      "displayName": "day",
+      "help": "Day calculated by year"
+    },
+    "DAY_OF_MONTH": {
+      "displayName": "day",
+      "help": "Day calculated by month"
+    },
+    "DAY_OF_WEEK": {
+      "displayName": "day",
+      "help": "Day calculated by week"
+    },
+    "DAY_OF_WEEK_IN_MONTH": {
+      "displayName": "day",
+      "help": "Day calculated based on the week in the current month"
+    },
+    "HOUR_OF_DAY": {
+      "displayName": "time",
+      "help": "Time calculated by days"
+    },
+    "MINUTE": {
+      "displayName": "minute",
+      "help": "minute"
+    },
+    "SECOND": {
+      "displayName": "second",
+      "help": "second"
+    }
+  }
+}

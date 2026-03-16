@@ -1,4 +1,4 @@
-<view widget="form" type="FORM" name="短信通道form" title="短信通道" model="pamirs.message.SmsChannelConfig">
+<view widget="form" type="FORM" name="SmsChannelConfigForm" title="短信通道" model="pamirs.message.SmsChannelConfig">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" tag="contextFreeAction" invisible="activeRecord.id > 0" validateForm="true" goBack="true"/>

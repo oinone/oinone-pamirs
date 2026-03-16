@@ -1,4 +1,4 @@
-<view widget="form" model="resource.ResourceTax" name="税率form" title="税率" type="FORM" priority="10">
+<view widget="form" model="resource.ResourceTax" name="ResourceTaxForm" title="税率" type="FORM" priority="10">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" invisible="activeRecord.id &gt; 0" model="resource.ResourceTax" goBack="true" validateForm="true" tag="contextFreeAction"/>

@@ -20,17 +20,17 @@ import pro.shushi.pamirs.trigger.tmodel.TaskActionTransientModel;
 @UxMenus /*可以注解到该模块的任意类上，建议同一个模块中只配置一处*/
 class TriggerMenus implements ViewActionConstants {
     @UxMenu("执行任务")
-    @UxRoute(model = TaskActionTransientModel.MODEL_MODEL, viewName = "任务table", module = TriggerModule.MODULE_MODULE)
+    @UxRoute(model = TaskActionTransientModel.MODEL_MODEL, viewName = "TaskActionTransientModelTable", module = TriggerModule.MODULE_MODULE)
     class PamirsOrganizationMenu {
     }
 
     @UxMenu("计划任务")
-    @UxRoute(model = TaskActionTransientModel.MODEL_MODEL, viewName = "任务table")
+    @UxRoute(model = TaskActionTransientModel.MODEL_MODEL, viewName = "TaskActionTransientModelTable")
     class PamirsDepartmentMenu {
     }
 
     @UxMenu("触发任务")
-    @UxRoute(model = TriggerTaskAction.MODEL_MODEL, viewName = "触发任务table")
+    @UxRoute(model = TriggerTaskAction.MODEL_MODEL, viewName = "TriggerTaskActionTable")
     class PamirsPositionMenu {
     }
 }

@@ -1,4 +1,4 @@
-<view type="FORM" title="导入/导出模板" name="Excel工作簿form" widget="form" model="file.ExcelWorkbookDefinition">
+<view type="FORM" title="导入/导出模板" name="ExcelWorkbookDefinitionForm" widget="form" model="file.ExcelWorkbookDefinition">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" invisible="activeRecord.id" model="file.ExcelWorkbookDefinition" goBack="true" validateForm="true" tag="contextFreeAction"/>

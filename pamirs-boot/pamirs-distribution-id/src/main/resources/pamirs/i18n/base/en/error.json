@@ -1,0 +1,12 @@
+{
+  "base.ErrorDefinition" : {
+    "pro.shushi.pamirs.sid.enmu.SidExpEnumerate" : {
+      "displayName" : "Distributed ID Errors",
+      "SYSTEM_ERROR" : "System Error",
+      "BASE_GENERATE_UNIQUE_ID_ERROR" : "Failed to generate unique ID",
+      "BASE_GENERATE_UNIQUE_ID_ADD_WORKNODE_ERROR" : "Failed to add worker node for ID generation service",
+      "BASE_GENERATE_MODEL_SEQUENCE_CONFIG_NOT_EXIST_ERROR" : "Model code generation rule does not exist",
+      "BASE_GENERATE_FIELD_SEQUENCE_CONFIG_NOT_EXIST_ERROR" : "Field code generation rule does not exist"
+    }
+  }
+}

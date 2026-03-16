@@ -1,0 +1,160 @@
+{
+  "resource.I18NCurrencyConfig" : {
+    "base.Field" : {
+      "currencySubunitLabel" : {
+        "displayName" : "Decimal unit",
+        "summary" : "Decimal Unit"
+      },
+      "currencyUnitLabel" : {
+        "displayName" : "Integer unit",
+        "summary" : "Integer Unit"
+      },
+      "decimalPlaces" : {
+        "displayName" : "Decimal precision",
+        "summary" : "Decimal Precision"
+      },
+      "decimalPoint" : {
+        "displayName" : "Decimal point format",
+        "summary" : "Decimal Point Format"
+      },
+      "direction" : {
+        "displayName" : "Writing direction",
+        "summary" : "Writing Direction"
+      },
+      "groupingRule" : {
+        "displayName" : "Digital Grouping Rules",
+        "summary" : "Digit Grouping Rule"
+      },
+      "position" : {
+        "displayName" : "Currency symbol position",
+        "summary" : "Currency Symbol Position"
+      },
+      "symbol" : {
+        "displayName" : "Currency symbol",
+        "summary" : "Currency Symbol"
+      },
+      "thousandsSep" : {
+        "displayName" : "Integer format",
+        "summary" : "Integer Format"
+      }
+    },
+    "displayName" : "Currency allocation"
+  },
+  "resource.I18NDateConfig" : {
+    "base.Field" : {
+      "baseTimezoneType" : {
+        "displayName" : "Reference time zone",
+        "summary" : "Base Timezone"
+      },
+      "dateFormat" : {
+        "displayName" : "Date format",
+        "summary" : "Date Format"
+      },
+      "direction" : {
+        "displayName" : "Writing direction",
+        "summary" : "Writing Direction"
+      },
+      "timeFormat" : {
+        "displayName" : "Time format",
+        "summary" : "Time Format"
+      },
+      "timeZoneType" : {
+        "displayName" : "Time zone",
+        "summary" : "Timezone"
+      },
+      "weekStart" : {
+        "displayName" : "The start date of the week",
+        "summary" : "Week Start Date"
+      }
+    },
+    "displayName" : "Date Configuration"
+  },
+  "resource.I18NFloatConfig" : {
+    "base.Field" : {
+      "decimalPlaces" : {
+        "displayName" : "Decimal precision",
+        "summary" : "Decimal Precision"
+      },
+      "decimalPoint" : {
+        "displayName" : "Decimal point format",
+        "summary" : "Decimal Point Format"
+      },
+      "direction" : {
+        "displayName" : "Writing direction",
+        "summary" : "Writing Direction"
+      },
+      "groupingRule" : {
+        "displayName" : "Digital Grouping Rules",
+        "summary" : "Digit Grouping Rule"
+      },
+      "thousandsSep" : {
+        "displayName" : "Integer format, thousands separator",
+        "summary" : "Integer Format, Thousands Separator"
+      }
+    },
+    "displayName" : "Floating-point configuration"
+  },
+  "resource.I18NIntegerConfig" : {
+    "base.Field" : {
+      "direction" : {
+        "displayName" : "Writing direction",
+        "summary" : "Writing Direction"
+      },
+      "groupingRule" : {
+        "displayName" : "Digital Grouping Rules",
+        "summary" : "Digit Grouping Rule"
+      },
+      "thousandsSep" : {
+        "displayName" : "Integer format, thousands separator",
+        "summary" : "Integer Format, Thousands Separator"
+      }
+    },
+    "displayName" : "Integer Configuration"
+  },
+  "resource.I18NStringConfig" : {
+    "base.Field" : {
+      "addrFormat" : {
+        "displayName" : "Address display format",
+        "summary" : "Address Display Format"
+      },
+      "direction" : {
+        "displayName" : "Writing direction",
+        "summary" : "Writing Direction"
+      },
+      "namePosition" : {
+        "displayName" : "Name Display Rules",
+        "summary" : "Rules for displaying names of countries (e.g., given name first in the US, surname first in China)"
+      },
+      "phoneCode" : {
+        "displayName" : "Long-distance area code",
+        "summary" : "Area Code"
+      }
+    },
+    "displayName" : "String Configuration"
+  },
+  "resource.InternationalTransient" : {
+    "base.Field" : {
+      "currencyConfig" : {
+        "displayName" : "Currency allocation",
+        "summary" : "Currency Config"
+      },
+      "dateConfig" : {
+        "displayName" : "Date Configuration",
+        "summary" : "Date Config"
+      },
+      "floatConfig" : {
+        "displayName" : "Float Config",
+        "summary" : "Float Config"
+      },
+      "integerConfig" : {
+        "displayName" : "Integer Config",
+        "summary" : "Integer Config"
+      },
+      "stringConfig" : {
+        "displayName" : "String Config",
+        "summary" : "String Config"
+      }
+    },
+    "displayName" : "Internationalized Model"
+  }
+}

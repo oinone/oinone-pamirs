@@ -1,4 +1,4 @@
-<view widget="detail" type="DETAIL" model="pamirs.message.MessageChannel" title="频道管理" name="频道管理detail">
+<view widget="detail" type="DETAIL" model="pamirs.message.MessageChannel" title="频道管理" name="MessageChannelDetail">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

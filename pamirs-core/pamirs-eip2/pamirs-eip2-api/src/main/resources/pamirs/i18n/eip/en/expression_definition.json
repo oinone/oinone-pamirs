@@ -1,0 +1,14 @@
+{
+  "validate#base.Function#pamirs.eip.EipOpenIpBlacklistProxy.update#!IS_BLANK(data.applicationCode)": {
+    "error": "Open application cannot be empty"
+  },
+  "validate#base.Function#pamirs.eip.EipOpenIpBlacklistProxy.create#!IS_BLANK(data.applicationCode)": {
+    "error": "Open application cannot be empty"
+  },
+  "validate#base.Function#pamirs.eip.EipOpenIpBlacklistProxy.update#!IS_BLANK(data.ip)": {
+    "error": "IP/IP segment cannot be empty"
+  },
+  "validate#base.Function#pamirs.eip.EipOpenIpBlacklistProxy.create#!IS_BLANK(data.ip)": {
+    "error": "IP/IP segment cannot be empty"
+  }
+}

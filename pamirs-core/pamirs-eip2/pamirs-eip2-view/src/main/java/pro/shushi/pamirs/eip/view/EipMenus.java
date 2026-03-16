@@ -36,17 +36,17 @@ class EipMenus {
     @UxMenu("开放管理")
     class EipOpenMenu {
         @UxMenu("开放接口")
-        @UxRoute(model = EipOpenInterface.MODEL_MODEL, viewName = "开放接口table")
+        @UxRoute(model = EipOpenInterface.MODEL_MODEL, viewName = "EipOpenInterfaceTable")
         class EipOpenInterfaceMenu {
         }
 
         @UxMenu("应用")
-        @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "集成应用table")
+        @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "EipApplicationProxyTable")
         class EipApplicationProxyMenu {
         }
 
         @UxMenu("黑名单")
-        @UxRoute(model = EipOpenIpBlacklistProxy.MODEL_MODEL, viewName = "开放应用黑名单table")
+        @UxRoute(model = EipOpenIpBlacklistProxy.MODEL_MODEL, viewName = "EipOpenIpBlacklistProxyTable")
         class EipOpenIpBlacklistProxyMenu {
         }
     }
@@ -60,7 +60,7 @@ class EipMenus {
      **/
 
     @UxMenu("接口日志")
-    @UxRoute(model = EipLogProxy.MODEL_MODEL, viewName = "EIP日志table")
+    @UxRoute(model = EipLogProxy.MODEL_MODEL, viewName = "EipLogProxyTable")
     class EipLogMenu {
     }
 

@@ -1,0 +1,16 @@
+{
+  "channel.ChannelModel" : {
+    "closeIncrement" : {
+      "displayName" : "Turn off incremental",
+      "description" : "Turn off incremental"
+    },
+    "dump" : {
+      "displayName" : "Full synchronization",
+      "description" : "Full synchronization"
+    },
+    "openIncrement" : {
+      "displayName" : "Enable Incremental",
+      "description" : "Enable Incremental"
+    }
+  }
+}

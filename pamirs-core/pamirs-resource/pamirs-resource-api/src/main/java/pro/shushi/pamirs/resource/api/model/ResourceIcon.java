@@ -18,7 +18,7 @@ import pro.shushi.pamirs.resource.api.enmu.IconLibTypeEnum;
         value = @UxRoute(model = ResourceIcon.MODEL_MODEL, viewName = "iconUploadManagement", openType = ActionTargetEnum.ROUTER))
 @UxRouteButton(
         action = @UxAction(name = "iconEditAction", displayName = "编辑", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = ResourceIcon.MODEL_MODEL, viewName = "图标form", openType = ActionTargetEnum.DIALOG))
+        value = @UxRoute(model = ResourceIcon.MODEL_MODEL, viewName = "ResourceIconForm", openType = ActionTargetEnum.DIALOG))
 public class ResourceIcon extends IdModel {
 
     public static final String MODEL_MODEL = "resource.ResourceIcon";

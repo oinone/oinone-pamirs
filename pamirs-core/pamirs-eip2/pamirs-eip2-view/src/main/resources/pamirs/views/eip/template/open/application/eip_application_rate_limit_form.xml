@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" title="流控配置" model="pamirs.eip.proxy.EipApplicationProxy" name="应用流控配置from">
+<view type="FORM" widget="form" title="流控配置" model="pamirs.eip.proxy.EipApplicationProxy" name="EipApplicationProxyFormFlowCtrl">
     <template slot="actions">
         <action fun="$$internal_GotoListTableRouter" label="返回" actionType="CLIENT" type="default"/>
         <action name="updateRateLimitPolicyList" label="保存" goBack="true" validateForm="true"/>

@@ -1,4 +1,4 @@
-<view widget="table" name="语言table" operationWidth="200" title="语言" model="resource.ResourceLang" type="TABLE">
+<view widget="table" name="ResourceLangTable" operationWidth="200" title="语言" model="resource.ResourceLang" type="TABLE">
     <template slot="actions">
         <action name="resourceLangCreate" label="创建" model="resource.ResourceLang"/>
         <action name="delete" label="删除" model="resource.ResourceLang"/>

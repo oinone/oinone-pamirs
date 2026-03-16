@@ -3,6 +3,7 @@ package pro.shushi.pamirs.framework.configure.annotation.core.converter.fun;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.ExtPoint;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
@@ -82,12 +83,12 @@ public class ExtPointImplementationConverter implements ModelConverter<ExtPointI
         String executeFun = NamespaceAndFunUtils.fun(source);
         SystemSourceEnum systemSource = SystemSourceUtils.fetch(source);
         assert extPointImplementAnnotation != null;
-        metaModelObjects.setDisplayName(extPointImplementAnnotation.displayName())
+        metaModelObjects.setDisplayName(I18nUtils.translateExtPointImplementation(names.getModule(), namespace, name, "displayName", extPointImplementAnnotation.displayName()))
                 .setNamespace(namespace)
                 .setName(name)
                 .setExecuteNamespace(executeNamespace)
                 .setExecuteFun(executeFun)
-                .setDescription(extPointImplementAnnotation.summary())
+                .setDescription(I18nUtils.translateExtPointImplementation(names.getModule(), namespace, name, "description", extPointImplementAnnotation.summary()))
                 .setExpression(extPointImplementAnnotation.expression())
                 .setPriority(extPointImplementAnnotation.priority())
                 .setSystemSource(systemSource)

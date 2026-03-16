@@ -1,0 +1,13 @@
+{
+  "sysSetting.GlobalAppConfigProxy" : {
+    "saveAdvancedHomePage" : {
+      "displayName" : "Save advanced home page configuration"
+    },
+    "saveSysStyleSetting" : {
+      "displayName" : "Save system style configuration"
+    },
+    "saveTranslationManageSetting" : {
+      "displayName" : "Translation Management Configuration"
+    }
+  }
+}

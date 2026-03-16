@@ -1,4 +1,4 @@
-<view widget="form" name="频道管理form" title="频道管理" type="FORM" model="pamirs.message.MessageChannel">
+<view widget="form" name="MessageChannelForm" title="频道管理" type="FORM" model="pamirs.message.MessageChannel">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" tag="contextFreeAction" invisible="activeRecord.id > 0" validateForm="true" goBack="true"/>

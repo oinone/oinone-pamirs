@@ -1,0 +1,22 @@
+{
+  "pro.shushi.pamirs.file.api.enmu.FileExpEnumerate" : {
+    "displayName" : "File Module Error Enumeration",
+    "FILE_SERVER_NOT_FOUND_ERROR" : "File server not found",
+    "FILE_NOT_EXIST" : "The file path does not exist",
+    "FILE_NOT_SUPPORTED" : "File processing method not currently supported, please contact the developer for technical support",
+    "FILE_DOWNLOAD_ERROR" : "File download failed",
+    "FILENAME_IS_NULL_ERROR" : "The file name cannot be empty",
+    "UPLOAD_COMPLETED_DATA_IS_NULL_ERROR" : "Uploaded data cannot be empty",
+    "IMPORT_TEMPLATE_NOT_EXIST" : "Import template does not exist",
+    "EXPORT_TEMPLATE_NOT_EXIST" : "Export template does not exist",
+    "EXPORT_MODEL_NOT_ALLOWED" : "Non-storage models do not allow the use of default exports. Please contact the developer for technical support.",
+    "EXPORT_METHOD_IS_ERROR" : "Incorrect export method",
+    "EXPORT_REQUEST_NOT_EXIST" : "The export request has expired, please export again.",
+    "EXPORT_MODEL_IS_NULL" : "Export model code cannot be empty",
+    "EXPORT_MODEL_NOT_EXIST" : "The exported model does not exist",
+    "EXPORT_FIELD_IS_NOT_SELECTED" : "No export fields selected",
+    "EXPORT_MODEL_FIELD_NOT_EXIST" : "The exported model field does not exist",
+    "TEMPLATE_NOT_EXIST" : "Template information not found",
+    "SYSTEM_ERROR" : "System exception"
+  }
+}

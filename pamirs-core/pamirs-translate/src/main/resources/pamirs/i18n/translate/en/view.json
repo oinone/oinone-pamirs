@@ -1,0 +1,21 @@
+{
+  "translation.TranslationItemProxy" : {
+    "translationEdit" : {
+      "title" : "Translation Editor"
+    },
+    "translationItemTable" : {
+      "title" : "Translation"
+    },
+    "translationDetail" : {
+      "title" : "Translation details"
+    }
+  },
+  "resource.ResourceTranslation" : {
+    "translationForm" : {
+      "title" : "Creating Translation Resources"
+    },
+    "translationManage" : {
+      "title" : "Translation"
+    }
+  }
+}

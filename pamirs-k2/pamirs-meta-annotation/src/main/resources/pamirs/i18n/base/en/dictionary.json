@@ -1,0 +1,1053 @@
+{
+  "base.TimePeriodEnum": {
+    "displayName": "Time period",
+    "YEAR": {
+      "displayName": "On a yearly basis",
+      "help": "On a yearly basis"
+    },
+    "MONTH": {
+      "displayName": "On a monthly cycle",
+      "help": "On a monthly cycle"
+    },
+    "DAY": {
+      "displayName": "Using the day as a cycle",
+      "help": "Using the day as a cycle"
+    },
+    "summary": "Time period"
+  },
+  "base.FunctionScope": {
+    "displayName": "Function domain",
+    "BOTH": {
+      "displayName": "General function",
+      "help": "General function"
+    },
+    "CLIENT": {
+      "displayName": "Client-side function",
+      "help": "Client-side function"
+    },
+    "SERVER": {
+      "displayName": "Server function",
+      "help": "Server function"
+    }
+  },
+  "base.ActionContextType": {
+    "displayName": "Action context",
+    "SINGLE": {
+      "displayName": "Single line",
+      "help": "Single line"
+    },
+    "BATCH": {
+      "displayName": "Multiple lines",
+      "help": "Only appears in multiple lines, such as the action of merging packages"
+    },
+    "SINGLE_AND_BATCH": {
+      "displayName": "Single-line and multi-line",
+      "help": "Single-line and multi-line"
+    },
+    "CONTEXT_FREE": {
+      "displayName": "Context-free",
+      "help": "Context-free"
+    }
+  },
+  "base.CheckStrategy": {
+    "displayName": "Verification Policy",
+    "RETURN_WHEN_COMPLETED": {
+      "displayName": "Return the result after all verification is completed",
+      "help": "Return the result after all verifications are completed"
+    },
+    "RETURN_WHEN_ERROR": {
+      "displayName": "Return the result immediately if there is a verification error",
+      "help": "Return the result immediately if there is a verification error"
+    }
+  },
+  "base.Mime": "MIME type",
+  "base.NullableBool": {
+    "displayName": "Nullable Boolean type",
+    "NULL": {
+      "displayName": "Not selected",
+      "help": "empty"
+    },
+    "TRUE": {
+      "displayName": "Yes",
+      "help": "True"
+    },
+    "FALSE": {
+      "displayName": "No",
+      "help": "Fake"
+    }
+  },
+  "base.FieldTrack": {
+    "displayName": "Field Tracking Type",
+    "NON": {
+      "displayName": "Do not track",
+      "help": "Do not track"
+    },
+    "ALWAYS": {
+      "displayName": "Forever",
+      "help": "Forever"
+    },
+    "ON_CHANGE": {
+      "displayName": "Change",
+      "help": "Change"
+    }
+  },
+  "base.FunctionCategory": {
+    "displayName": "Function Classification",
+    "MATH": {
+      "displayName": "Mathematical function",
+      "help": "Mathematical function"
+    },
+    "TEXT": {
+      "displayName": "Text function",
+      "help": "Text function"
+    },
+    "REGEX": {
+      "displayName": "Regular function",
+      "help": "Regular function"
+    },
+    "TIME": {
+      "displayName": "time function",
+      "help": "Time function"
+    },
+    "COLLECTION": {
+      "displayName": "Aggregate function",
+      "help": "Aggregate function"
+    },
+    "MAP": {
+      "displayName": "Key-value pair function",
+      "help": "Key-value pair function"
+    },
+    "OBJECT": {
+      "displayName": "Objective function",
+      "help": "Objective function"
+    },
+    "CONTEXT": {
+      "displayName": "Context function",
+      "help": "Context function"
+    },
+    "LOGIC": {
+      "displayName": "Logic function",
+      "help": "Logic function"
+    },
+    "INSERT_ONE": {
+      "displayName": "Add a new single record",
+      "help": "Add a new single record"
+    },
+    "INSERT_BATCH": {
+      "displayName": "Batch Add",
+      "help": "Batch Add"
+    },
+    "UPDATE_ONE": {
+      "displayName": "Update a single record",
+      "help": "Update a single record"
+    },
+    "UPDATE_BATCH": {
+      "displayName": "Batch Update",
+      "help": "Batch update"
+    },
+    "DELETE_ONE": {
+      "displayName": "Delete a single record",
+      "help": "Delete a single record"
+    },
+    "DELETE_BATCH": {
+      "displayName": "Batch Delete",
+      "help": "Batch Delete"
+    },
+    "QUERY_ONE": {
+      "displayName": "Query a single record",
+      "help": "Query a single record"
+    },
+    "QUERY_LIST": {
+      "displayName": "Query multiple records",
+      "help": "Query multiple records"
+    },
+    "QUERY_PAGE": {
+      "displayName": "Paginated query",
+      "help": "Paginated query"
+    },
+    "CONSTRAINT": {
+      "displayName": "Model verification",
+      "help": "Model verification"
+    },
+    "OTHER": {
+      "displayName": "Other functions",
+      "help": "Other functions"
+    },
+    "CUSTOM_DESIGNER": {
+      "displayName": "Designer Customization",
+      "help": "Designer Customization"
+    },
+    "EIP_IN_OUT": {
+      "displayName": "Input-output converter",
+      "help": "Input-output converter"
+    },
+    "AI_TOOL": {
+      "displayName": "AI tools",
+      "help": "AI tool"
+    }
+  },
+  "base.Charset": {
+    "displayName": "Character set",
+    "DEFAULT": "default",
+    "UTF8": "utf8",
+    "UTF8MB4": "utf8mb4",
+    "UTF16": "utf16",
+    "UTF32": "utf32",
+    "LATIN1": "latin1",
+    "GB18030": "gb18030",
+    "GB2312": "gb2312",
+    "GBK": "gbk",
+    "ASCII": "ascii",
+    "BIG5": "big5"
+  },
+  "base.DataSourceProtocol": {
+    "displayName": "Data source protocol type",
+    "MYSQL": {
+      "displayName": "MYSQL data source",
+      "help": "MYSQL data source"
+    },
+    "ORACLE": {
+      "displayName": "ORACLE Data Source",
+      "help": "ORACLE Data Source"
+    },
+    "OCEAN_BASE": {
+      "displayName": "OceanBase data source",
+      "help": "OceanBase Data Source"
+    },
+    "SQL_SERVER": {
+      "displayName": "SQL Server data source",
+      "help": "SQL Server Data Source"
+    },
+    "DM": {
+      "displayName": "DM data source",
+      "help": "DM data source"
+    },
+    "POSTGRE_SQL": {
+      "displayName": "PostgreSQL data source",
+      "help": "PostgreSQL Data Source"
+    },
+    "GAUSS_DB": {
+      "displayName": "GaussDB data source",
+      "help": "GaussDB Data Source"
+    },
+    "KDB8": "jdbc:kingbase8",
+    "NDS": {
+      "displayName": "NDS data source",
+      "help": "NDS Data Source"
+    },
+    "ElasticSearch": {
+      "displayName": "ElasticSearch search engine",
+      "help": "ElasticSearch search engine"
+    }
+  },
+  "base.SoftwareLicense": {
+    "displayName": "Software Copyright Agreement Type",
+    "GPL2ORLATER": "GPL2_OR_LATER",
+    "GPL3ORLATER": "GPL3_OR_LATER"
+  },
+  "base.OnCascade": {
+    "displayName": "Related operations",
+    "NO_ACTION": {
+      "displayName": "No action",
+      "help": "No operation"
+    },
+    "SET_NULL": {
+      "displayName": "set null value",
+      "help": "Set null"
+    },
+    "CASCADE": {
+      "displayName": "Cascade operation",
+      "help": "Cascading operation"
+    },
+    "RESTRICT": {
+      "displayName": "Limit Operation",
+      "help": "Restrict operations"
+    }
+  },
+  "base.DateFormat": {
+    "displayName": "Time format",
+    "DATETIME": "yyyy-MM-dd HH:mm:ss",
+    "DATETIME_SSS": "yyyy-MM-dd HH:mm:ss.SSS",
+    "TIMESTAMP": {
+      "displayName": "Timestamp",
+      "help": "Integer timestamp"
+    },
+    "DATE": "yyyy-MM-dd",
+    "TIME": "HH:mm:ss",
+    "YEAR": "yyyy",
+    "DATETIME_EEE_ZZ": "EEE MMM dd HH:mm:ss zzz yyyy",
+    "DATETIME_E_MM_Z": "E MMM dd yyyy HH:mm:ss z"
+  },
+  "base.Collation": {
+    "displayName": "Character Set Validation Rules",
+    "DEFAULT": "default",
+    "BIN": "bin",
+    "GENERAL_CI": "general_ci",
+    "GENERAL_CS": "general_cs"
+  },
+  "base.BinaryTransferType": {
+    "displayName": "Binary transfer type",
+    "BYTE_ARRAY": {
+      "displayName": "Binary array",
+      "help": "Binary array"
+    },
+    "STRING": {
+      "displayName": "String",
+      "help": "String"
+    }
+  },
+  "base.FunctionSource": {
+    "displayName": "function source",
+    "FUNCTION": {
+      "displayName": "function",
+      "help": "Function"
+    },
+    "ACTION": {
+      "displayName": "Server Action",
+      "help": "Server Action"
+    },
+    "EXTPOINT": {
+      "displayName": "Extension point",
+      "help": "Extension point"
+    },
+    "HOOK": {
+      "displayName": "Platform Extension Mechanism",
+      "help": "Platform Extension Mechanism"
+    }
+  },
+  "base.SortDirection": {
+    "displayName": "Sort Type",
+    "ASC": {
+      "displayName": "Ascending order",
+      "help": "Ascending order"
+    },
+    "DESC": {
+      "displayName": "Descending order",
+      "help": "Descending order"
+    }
+  },
+  "base.ExtPointType": {
+    "displayName": "Extension Point Type",
+    "BEFORE": {
+      "displayName": "Front-mounted",
+      "help": "Preset"
+    },
+    "POINT": {
+      "displayName": "Execution point",
+      "help": "Execution point"
+    },
+    "AFTER": {
+      "displayName": "Rear-mounted",
+      "help": "rear-mounted"
+    }
+  },
+  "base.FunctionScene": {
+    "displayName": "Function scenario",
+    "CONSTRAINT": {
+      "displayName": "Model Constraints",
+      "help": "Model constraint function"
+    },
+    "SERIALIZE": {
+      "displayName": "Model serialization",
+      "help": "Model serialization function"
+    },
+    "SEQUENCE": {
+      "displayName": "model sequence generator",
+      "help": "Model sequence generator function"
+    },
+    "RSQL": {
+      "displayName": "Model query",
+      "help": "Model query expression"
+    },
+    "EXPRESSION": {
+      "displayName": "model expression",
+      "help": "Model Calculation Expression"
+    },
+    "BUSINESS_SHOP": {
+      "displayName": "model expression",
+      "help": "Model Calculation Expression"
+    },
+    "BUSINESS_CORP": {
+      "displayName": "model expression",
+      "help": "Model Calculation Expression"
+    }
+  },
+  "base.Sequence": {
+    "displayName": "Sequence generation method",
+    "SEQ": {
+      "displayName": "Auto-increment serial number",
+      "help": "Auto-increment serial number"
+    },
+    "ORDERLY_SEQ": {
+      "displayName": "Self-incrementing ordered serial number",
+      "help": "Self-incrementing sequential number"
+    },
+    "DATE_SEQ": {
+      "displayName": "Date Serial Number",
+      "help": "Date Serial Number"
+    },
+    "DATE_ORDERLY_SEQ": {
+      "displayName": "Date Strictly Ordered Serial Number",
+      "help": "Date Ordered Serial Number"
+    },
+    "DATE": {
+      "displayName": "Date",
+      "help": "Date"
+    },
+    "DISTRIBUTION": {
+      "displayName": "Distributed ID",
+      "help": "Distributed ID"
+    }
+  },
+  "base.DataSource": {
+    "displayName": "Data Source Type",
+    "MYSQL": {
+      "displayName": "MYSQL data source",
+      "help": "MYSQL data source"
+    },
+    "ORACLE": {
+      "displayName": "ORACLE Data Source",
+      "help": "ORACLE Data Source"
+    },
+    "OCEAN_BASE": {
+      "displayName": "OceanBase data source",
+      "help": "OceanBase Data Source"
+    },
+    "SQL_SERVER": {
+      "displayName": "SQL Server data source",
+      "help": "SQL Server Data Source"
+    },
+    "DM": {
+      "displayName": "DM data source",
+      "help": "DM data source"
+    },
+    "KDB": {
+      "displayName": "KDB Data Source",
+      "help": "KDB Data Source"
+    },
+    "POSTGRE_SQL": {
+      "displayName": "PostgreSQL data source",
+      "help": "PostgreSQL Data Source"
+    },
+    "GAUSS_DB": {
+      "displayName": "GaussDB data source",
+      "help": "GaussDB Data Source"
+    },
+    "ElasticSearch": {
+      "displayName": "ElasticSearch search engine",
+      "help": "ElasticSearch search engine"
+    }
+  },
+  "base.Serialize": {
+    "displayName": "Serialization method",
+    "JSON": {
+      "displayName": "JSON serialization",
+      "help": "JSON serialization"
+    },
+    "COMMA": {
+      "displayName": "Concatenate collection elements with commas",
+      "help": "Concatenate collection elements with commas"
+    },
+    "DOT": {
+      "displayName": "Concatenate set elements with dots",
+      "help": "Concatenate set elements with dots"
+    },
+    "BIT": {
+      "displayName": "Sum of squares",
+      "help": "Sum of squares"
+    }
+  },
+  "base.TenantIsolationLevel": {
+    "displayName": "Tenant Isolation Level",
+    "SINGLE": {
+      "displayName": "Single-tenant",
+      "help": "Single-tenant"
+    },
+    "DATA": {
+      "displayName": "Data Isolation",
+      "help": "Data Isolation"
+    },
+    "LOGICAL": {
+      "displayName": "Logical isolation",
+      "help": "Logical isolation"
+    },
+    "PHYSICAL": {
+      "displayName": "Physical isolation",
+      "help": "Physical isolation"
+    }
+  },
+  "base.KeyGenerator": {
+    "displayName": "ID generation method",
+    "NON": {
+      "displayName": "None",
+      "help": "None"
+    },
+    "AUTO_INCREMENT": {
+      "displayName": "Database auto-increment ID",
+      "help": "Database auto-increment ID"
+    },
+    "DISTRIBUTION": {
+      "displayName": "Distributed ID",
+      "help": "Distributed ID"
+    }
+  },
+  "base.SystemSource": {
+    "displayName": "System Source",
+    "KERNEL": {
+      "displayName": "Kernel",
+      "help": "Kernel"
+    },
+    "BASE": {
+      "displayName": "System native",
+      "help": "System native"
+    },
+    "ABSTRACT_INHERITED": {
+      "displayName": "Abstract inheritance",
+      "help": "Abstract inheritance"
+    },
+    "TRANSIENT_INHERITED": {
+      "displayName": "Temporary inheritance",
+      "help": "Temporary inheritance"
+    },
+    "EXTEND_INHERITED": {
+      "displayName": "Table-per-hierarchy inheritance",
+      "help": "Single Table Inheritance"
+    },
+    "MULTI_TABLE_INHERITED": {
+      "displayName": "Multiple Table Inheritance",
+      "help": "Multiple inheritance"
+    },
+    "PROXY_INHERITED": {
+      "displayName": "Substitute inheritance",
+      "help": "Substitute inheritance"
+    },
+    "RELATION": {
+      "displayName": "Relationship generation",
+      "help": "Relationship generation"
+    },
+    "SYSTEM": {
+      "displayName": "System Generated",
+      "help": "System Generated"
+    },
+    "MANUAL": {
+      "displayName": "Add manually",
+      "help": "Manual addition"
+    },
+    "UI": {
+      "displayName": "Interface Added",
+      "help": "Interface Added"
+    },
+    "UPSTREAM": {
+      "displayName": "Upstream inheritance",
+      "help": "Upstream inheritance"
+    }
+  },
+  "base.DateUnit": {
+    "displayName": "Time unit",
+    "SECOND": {
+      "displayName": "Seconds",
+      "help": "second"
+    },
+    "MINUTE": {
+      "displayName": "points",
+      "help": "minute; point; divide; fraction"
+    },
+    "HOUR": {
+      "displayName": "Hour",
+      "help": "hour"
+    },
+    "DAY": {
+      "displayName": "sky",
+      "help": "Sky"
+    },
+    "WEEK": {
+      "displayName": "week",
+      "help": "Zhou"
+    },
+    "MONTH": {
+      "displayName": "Moon",
+      "help": "Moon"
+    },
+    "YEAR": {
+      "displayName": "Year",
+      "help": "Year"
+    }
+  },
+  "base.InheritedType": {
+    "displayName": "Inheritance Type",
+    "ABSTRACT": {
+      "displayName": "abstract base class",
+      "help": "Abstract base class"
+    },
+    "TRANSIENT": {
+      "displayName": "Temporary Model Inheritance",
+      "help": "Temporary model inheritance"
+    },
+    "EXTENDS": {
+      "displayName": "extended inheritance",
+      "help": "Extended inheritance, same table"
+    },
+    "MULTI": {
+      "displayName": "Multiple table inheritance",
+      "help": "Multiple table inheritance, the parent model remains unchanged, the child model obtains the parent model's fields, model constraints, and actions to generate a new model, different tables"
+    },
+    "PROXY": {
+      "displayName": "Substitute inheritance",
+      "help": "Substitute inheritance"
+    }
+  },
+  "base.MessageLevel": {
+    "displayName": "Information Level",
+    "DEBUG": {
+      "displayName": "Debug",
+      "help": "Debug"
+    },
+    "INFO": {
+      "displayName": "Information",
+      "help": "Information"
+    },
+    "SUCCESS": {
+      "displayName": "Success",
+      "help": "Success"
+    },
+    "WARN": {
+      "displayName": "Warning",
+      "help": "Warning"
+    },
+    "ERROR": {
+      "displayName": "Error",
+      "help": "Error"
+    }
+  },
+  "base.DataContainerType": {
+    "displayName": "Data container",
+    "OBJECT": {
+      "displayName": "Object",
+      "help": "Object"
+    },
+    "LIST": {
+      "displayName": "list",
+      "help": "List"
+    }
+  },
+  "base.Rtype": {
+    "O2O": {
+      "displayName": "one-on-one",
+      "help": "one-on-one"
+    },
+    "O2M": {
+      "displayName": "one-to-many",
+      "help": "One-to-many"
+    },
+    "M2O": {
+      "displayName": "Many-to-one",
+      "help": "Many-to-one"
+    },
+    "M2M": {
+      "displayName": "many to many",
+      "help": "Many-to-many"
+    },
+    "displayName": "Relationship Type"
+  },
+  "base.MetaSource": {
+    "displayName": "Metadata Source",
+    "CODE": {
+      "displayName": "Code",
+      "help": "Code"
+    },
+    "DATA": {
+      "displayName": "Data",
+      "help": "Data"
+    }
+  },
+  "base.Active": {
+    "displayName": "active state",
+    "ACTIVE": {
+      "displayName": "Activate",
+      "help": "Activate"
+    },
+    "INACTIVE": {
+      "displayName": "Invalid",
+      "help": "Invalid"
+    }
+  },
+  "base.HookType": {
+    "displayName": "Interceptor Type",
+    "BEFORE": {
+      "displayName": "Front-mounted",
+      "help": "Preset"
+    },
+    "AFTER": {
+      "displayName": "Rear-mounted",
+      "help": "rear-mounted"
+    }
+  },
+  "base.ViewType": {
+    "displayName": "View Type",
+    "CUSTOM": {
+      "displayName": "Custom view type",
+      "help": "Custom view type"
+    },
+    "DETAIL": {
+      "displayName": "Details",
+      "help": "Details"
+    },
+    "FORM": {
+      "displayName": "Form",
+      "help": "Form"
+    },
+    "TABLE": {
+      "displayName": "Form",
+      "help": "table"
+    },
+    "SEARCH": {
+      "displayName": "Search",
+      "help": "Search"
+    },
+    "CALENDAR": {
+      "displayName": "Calendar",
+      "help": "Calendar"
+    },
+    "KANBAN": {
+      "displayName": "Signboard",
+      "help": "Signboard"
+    },
+    "GALLERY": {
+      "displayName": "Gallery",
+      "help": "Gallery"
+    },
+    "CHART": {
+      "displayName": "Chart",
+      "help": "Chart"
+    },
+    "TREE": {
+      "displayName": "Tree",
+      "help": "Tree"
+    }
+  },
+  "base.FunctionLanguageType": {
+    "displayName": "Functional language",
+    "JAVA": {
+      "displayName": "Java code",
+      "help": "Java code"
+    },
+    "DSL": {
+      "displayName": "Custom Code",
+      "help": "Custom Code"
+    },
+    "JS": {
+      "displayName": "JS code",
+      "help": "JS code"
+    },
+    "MVEL": {
+      "displayName": "Dynamic expression",
+      "help": "Dynamic expression"
+    },
+    "EXPRESSION": {
+      "displayName": "Expression",
+      "help": "Expression"
+    },
+    "GROOVY": {
+      "displayName": "groovy code",
+      "help": "groovy code"
+    }
+  },
+  "base.ComputeScene": {
+    "displayName": "Computing scenario",
+    "VALIDATE": {
+      "displayName": "Check type",
+      "help": "Validation-type calculation, returns a Boolean result"
+    },
+    "COMPUTE": {
+      "displayName": "Computational",
+      "help": "Value Retrieval and Logical Calculation"
+    },
+    "RSQL": {
+      "displayName": "Query Conditional Type",
+      "help": "Conditions for assembling query data"
+    }
+  },
+  "base.FieldStrategy": {
+    "displayName": "Field data management strategy",
+    "IGNORED": {
+      "displayName": "Ignore",
+      "help": "Ignore"
+    },
+    "NOT_NULL": {
+      "displayName": "Non-empty",
+      "help": "Non-empty"
+    },
+    "NOT_EMPTY": {
+      "displayName": "non-empty string",
+      "help": "Non-empty string"
+    },
+    "DEFAULT": {
+      "displayName": "Default",
+      "help": "Default, whether to set a value"
+    },
+    "NOT_CHANGE": {
+      "displayName": "Not changed",
+      "help": "Unchanged"
+    },
+    "NEVER": {
+      "displayName": "Never",
+      "help": "Never"
+    }
+  },
+  "base.ModuleState": {
+    "displayName": "Module Enumeration",
+    "UNINSTALLABLE": {
+      "displayName": "Cannot be installed",
+      "help": "Cannot be installed"
+    },
+    "UNINSTALLED": {
+      "displayName": "Not installed",
+      "help": "Not installed"
+    },
+    "TOINSTALL": {
+      "displayName": "Installing",
+      "help": "Installing"
+    },
+    "TOUPGRADE": {
+      "displayName": "Upgrading",
+      "help": "Upgrading"
+    },
+    "INSTALLED": {
+      "displayName": "Installed",
+      "help": "Installed"
+    },
+    "TOREMOVE": {
+      "displayName": "Uninstalling",
+      "help": "Uninstalling"
+    }
+  },
+  "base.ErrorType": {
+    "displayName": "Error Type",
+    "SYSTEM_ERROR": {
+      "displayName": "System error",
+      "help": "System error"
+    },
+    "GENERIC_ERROR": {
+      "displayName": "Common mistake",
+      "help": "Common mistake"
+    },
+    "REMOTE_ERROR": {
+      "displayName": "Remote error",
+      "help": "Remote error"
+    },
+    "BIZ_ERROR": {
+      "displayName": "Business error",
+      "help": "Business error"
+    },
+    "SECURITY_ERROR": {
+      "displayName": "Permission error",
+      "help": "Permission error"
+    },
+    "DATA_ERROR": {
+      "displayName": "Data error",
+      "help": "Data error"
+    },
+    "LOGIC_ERROR": {
+      "displayName": "Logical error",
+      "help": "Logical error"
+    }
+  },
+  "base.BinaryType": {
+    "displayName": "Binary type",
+    "IMAGE": {
+      "displayName": "Picture",
+      "help": "Picture"
+    },
+    "FILE": {
+      "displayName": "File",
+      "help": "Document"
+    }
+  },
+  "base.FunctionType": {
+    "displayName": "Function type",
+    "CREATE": {
+      "displayName": "increase",
+      "help": "Add New"
+    },
+    "DELETE": {
+      "displayName": "Delete",
+      "help": "Delete"
+    },
+    "UPDATE": {
+      "displayName": "change",
+      "help": "Update"
+    },
+    "QUERY": {
+      "displayName": "Check",
+      "help": "Query"
+    }
+  },
+  "base.DateType": {
+    "displayName": "Time Type",
+    "DATETIME": {
+      "displayName": "date time",
+      "help": "Date and Time"
+    },
+    "YEAR": {
+      "displayName": "Year",
+      "help": "Year"
+    },
+    "DATE": {
+      "displayName": "Date",
+      "help": "Date"
+    },
+    "TIME": {
+      "displayName": "time",
+      "help": "Time"
+    }
+  },
+  "base.FunctionOpen": {
+    "displayName": "Function access level",
+    "LOCAL": {
+      "displayName": "Local call",
+      "help": "Local call"
+    },
+    "REMOTE": {
+      "displayName": "remote call",
+      "help": "Remote call"
+    },
+    "API": {
+      "displayName": "open interface",
+      "help": "Open interface"
+    }
+  },
+  "base.ClientTypeEnum": {
+    "displayName": "Client type enum",
+    "PC": {
+      "displayName": "PC version",
+      "help": "PC version"
+    },
+    "MOBILE": {
+      "displayName": "Mobile end",
+      "help": "Mobile"
+    },
+    "PAD": {
+      "displayName": "PAD end",
+      "help": "PAD end"
+    },
+    "summary": "Client Type Enumeration"
+  },
+  "base.ModelType": {
+    "displayName": "Model Type",
+    "STORE": {
+      "displayName": "Storage model",
+      "help": "Storage model"
+    },
+    "TRANSIENT": {
+      "displayName": "transmission model",
+      "help": "Transmission model"
+    },
+    "ABSTRACT": {
+      "displayName": "abstract model",
+      "help": "Abstract model"
+    },
+    "PROXY": {
+      "displayName": "agent model",
+      "help": "Surrogate model"
+    }
+  },
+  "base.Ttype": {
+    "displayName": "Business type",
+    "M2M": {
+      "displayName": "many to many",
+      "help": "Many-to-many"
+    },
+    "O2M": {
+      "displayName": "one-to-many",
+      "help": "One-to-many"
+    },
+    "M2O": {
+      "displayName": "Many-to-one",
+      "help": "Many-to-one"
+    },
+    "O2O": {
+      "displayName": "one-on-one",
+      "help": "one-on-one"
+    },
+    "BINARY": {
+      "displayName": "binary",
+      "help": "Binary"
+    },
+    "INTEGER": {
+      "displayName": "Integer",
+      "help": "Short integer (10 significant digits) and long integer (19 significant digits)"
+    },
+    "FLOAT": {
+      "displayName": "floating point number",
+      "help": "Single-precision floating-point numbers (7 significant digits) and double-precision floating-point numbers (15 significant digits)"
+    },
+    "BOOLEAN": {
+      "displayName": "Boolean",
+      "help": "Boolean, value is true or false"
+    },
+    "STRING": {
+      "displayName": "text",
+      "help": "String"
+    },
+    "TEXT": {
+      "displayName": "Multiple lines of text",
+      "help": "Multi-line text"
+    },
+    "HTML": {
+      "displayName": "rich text",
+      "help": "Rich Text"
+    },
+    "ENUM": {
+      "displayName": "enumerate",
+      "help": "Enumeration"
+    },
+    "DATETIME": {
+      "displayName": "date time",
+      "help": "Date and Time"
+    },
+    "YEAR": {
+      "displayName": "Year",
+      "help": "Year"
+    },
+    "DATE": {
+      "displayName": "Date",
+      "help": "Date"
+    },
+    "TIME": {
+      "displayName": "time",
+      "help": "Time"
+    },
+    "UID": {
+      "displayName": "User ID",
+      "help": "User ID"
+    },
+    "PHONE": {
+      "displayName": "Phone number",
+      "help": "Mobile phone number"
+    },
+    "EMAIL": {
+      "displayName": "Email",
+      "help": "Email mailbox"
+    },
+    "MONEY": {
+      "displayName": "Amount",
+      "help": "Amount"
+    },
+    "MAP": {
+      "displayName": "key value pair",
+      "help": "Key-value pair"
+    },
+    "OBJ": {
+      "displayName": "Generics",
+      "help": "Generic"
+    },
+    "VOID": {
+      "displayName": "none",
+      "help": "None"
+    },
+    "RELATED": {
+      "displayName": "Quotation",
+      "help": "Reference type"
+    }
+  }
+}

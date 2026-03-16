@@ -1,4 +1,4 @@
-<view type="TABLE" title="触发任务" name="触发任务table" widget="table" model="trigger.TriggerTaskAction">
+<view type="TABLE" title="触发任务" name="TriggerTaskActionTable" widget="table" model="trigger.TriggerTaskAction">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="trigger.TriggerTaskAction"/>
         <action name="delete" label="删除" model="trigger.TriggerTaskAction"/>

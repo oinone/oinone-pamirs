@@ -1,0 +1,26 @@
+{
+  "designer.ApiParamOrigin": {
+    "displayName": "Source of response parameters",
+    "summary": "Source of response parameters"
+  },
+  "designer.OpenAuthType": {
+    "displayName": "Open interface authentication method",
+    "summary": "Open interface authentication method",
+    "NONE": {
+      "displayName": "No access authentication",
+      "help": "No access authentication"
+    },
+    "OCA": {
+      "displayName": "Non encrypted access authentication",
+      "help": "Non encrypted access authentication"
+    },
+    "MD5": {
+      "displayName": "MD5 encrypted access authentication",
+      "help": "MD5 encrypted access authentication"
+    },
+    "CUSTOM": {
+      "displayName": "Custom authentication",
+      "help": "Custom authentication"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "trigger.TriggerTimeAnchorEnum": {
+    "displayName": "Trigger timing",
+    "summary": "Trigger timing",
+    "START": {
+      "displayName": "At the beginning",
+      "help": "At the beginning"
+    },
+    "FINISHED": {
+      "displayName": "Perfect tense",
+      "help": "Perfect tense"
+    }
+  },
+  "trigger.TriggerConditionEnum": {
+    "displayName": "Trigger Scene",
+    "summary": "Trigger Scene",
+    "ON_CREATE": {
+      "displayName": "At creation",
+      "help": "At creation"
+    },
+    "ON_UPDATE": {
+      "displayName": "When updating",
+      "help": "When updating"
+    },
+    "ON_DELETE": {
+      "displayName": "When deleting",
+      "help": "When deleting"
+    }
+  }
+}

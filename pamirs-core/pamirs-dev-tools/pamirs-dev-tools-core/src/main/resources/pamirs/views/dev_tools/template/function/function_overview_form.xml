@@ -1,4 +1,4 @@
-<view model="tools.FuncationOverview" type="form">
+<view model="tools.FunctionOverview" type="form">
     <template slot="actionBar">
         <action bizStyle="DEFAULT" cancelText="取消" confirm="确认要执行动作吗？" confirmPosition="BM" confirmType="POPPER" context-fun="rootRecord.fun" context-namespace="rootRecord.namespace" disabled="false" enableConfirm="false" enterText="确定" invisible="false" label="查询" labelInvisible="false" name="searchByFun" readonly="false" required="false" type="PRIMARY" widget="ViewAction"/>
     </template>

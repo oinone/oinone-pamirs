@@ -1,0 +1,42 @@
+{
+  "static.ExtPointImplementation" : {
+    "displayName" : "Extension Point Implementation",
+    "summary" : "Extension Point Implementation"
+  },
+  "static.ModuleCategory" : {
+    "displayName" : "Application classification",
+    "summary" : "Application classification"
+  },
+  "static.ModelData" : {
+    "displayName" : "Install Registry",
+    "summary" : "Install Registry"
+  },
+  "static.DataDictionary" : {
+    "displayName" : "data dictionary",
+    "summary" : "data dictionary"
+  },
+  "static.ModelField" : {
+    "displayName" : "Field Definition",
+    "summary" : "Field Definition"
+  },
+  "static.SequenceConfig" : {
+    "displayName" : "Sequence Generation Configuration",
+    "summary" : "Sequence Generation Configuration"
+  },
+  "static.ModuleDefinition" : {
+    "displayName" : "module",
+    "summary" : "module"
+  },
+  "static.Hook" : {
+    "displayName" : "Interceptor",
+    "summary" : "Interceptor"
+  },
+  "static.ExtPoint" : {
+    "displayName" : "Extension point",
+    "summary" : "Extension point"
+  },
+  "static.Function" : {
+    "displayName" : "function definition",
+    "summary" : "function definition"
+  }
+}

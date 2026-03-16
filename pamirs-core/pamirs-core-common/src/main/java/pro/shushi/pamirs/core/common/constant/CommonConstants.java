@@ -25,4 +25,8 @@ public class CommonConstants {
     public static String getDefaultAppLogoUrl() {
         return FileClientFactory.getClient().getStaticUrl() + "/pamirs/image/logo/default.png";
     }
+
+    public static String getDefaultBrandLogoUrl() {
+        return FileClientFactory.getClient().getStaticUrl() + "/pamirs/image/logo/default_brand_logo.png";
+    }
 }

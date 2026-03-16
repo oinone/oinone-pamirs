@@ -1,0 +1,131 @@
+{
+  "translate.TranslationModuleProxy" : {
+    "displayName" : "Tree Structure Query Application",
+    "remark" : "Module",
+    "summary" : "Tree Structure Query Application"
+  },
+  "translation.AbstractTranslationItem" : {
+    "base.Field" : {
+      "comments" : {
+        "displayName" : "Remarks",
+        "summary" : "Remark"
+      },
+      "file" : {
+        "displayName" : "Import File",
+        "summary" : "Import File"
+      },
+      "lang" : {
+        "displayName" : "Target language",
+        "summary" : "Target Language"
+      },
+      "langCode" : {
+        "displayName" : "Target language encoding",
+        "summary" : "Target Language Code"
+      },
+      "module" : {
+        "displayName" : "Application",
+        "summary" : "Application"
+      },
+      "moduleDefinition" : {
+        "displayName" : "Translation module",
+        "summary" : "Translation Module"
+      },
+      "origin" : {
+        "displayName" : "Source Term",
+        "summary" : "Source Term"
+      },
+      "resLang" : {
+        "displayName" : "Source Language",
+        "summary" : "Source Language"
+      },
+      "resLangCode" : {
+        "displayName" : "Source language encoding",
+        "summary" : "Source Language Code"
+      },
+      "scope" : {
+        "displayName" : "Scope of translation items",
+        "summary" : "Translation Item Scope"
+      },
+      "state" : {
+        "displayName" : "active state",
+        "summary" : "Active State"
+      },
+      "target" : {
+        "displayName" : "Translation value",
+        "summary" : "Translation Value"
+      },
+      "translateFor" : {
+        "displayName" : "Translation Method",
+        "summary" : "Translation Method"
+      },
+      "workbookId" : {
+        "displayName" : "Template ID",
+        "summary" : "Template ID"
+      }
+    },
+    "displayName" : "Import File"
+  },
+  "translation.TranslationItemChange" : {
+    "displayName" : "Change Translation Scope",
+    "summary" : "Change Translation Scope"
+  },
+  "translation.TranslationItemExportProxy" : {
+    "base.Field" : {
+      "isTranslate" : {
+        "displayName" : "Has it been translated?",
+        "summary" : "Translated"
+      },
+      "lang" : {
+        "displayName" : "Target language",
+        "summary" : "Target Language"
+      },
+      "moduleDefinition" : {
+        "displayName" : "Translation module",
+        "summary" : "Translation Module"
+      },
+      "resLang" : {
+        "displayName" : "Source Language",
+        "summary" : "Source Language"
+      },
+      "resLangInclude" : {
+        "displayName" : "Source term contains",
+        "summary" : "Source Term Contains"
+      },
+      "rsql" : {
+        "displayName" : "rsql",
+        "summary" : "rsql"
+      },
+      "targetInclude" : {
+        "displayName" : "Translation value contains",
+        "summary" : "Translation Value Contains"
+      }
+    },
+    "displayName" : "Export translation file"
+  },
+  "translation.TranslationItemImport" : {
+    "displayName" : "Import Translation File",
+    "summary" : "Import Translation File"
+  },
+  "translation.TranslationItemProxy" : {
+    "base.Field" : {
+      "action" : {
+        "displayName" : "frontend behavior",
+        "summary" : "frontend behavior"
+      },
+      "lang" : {
+        "displayName" : "Target language",
+        "summary" : "Target Language"
+      },
+      "moduleDefinition" : {
+        "displayName" : "Translation module",
+        "summary" : "Translation Module"
+      },
+      "resLang" : {
+        "displayName" : "Source Language",
+        "summary" : "Source Language"
+      }
+    },
+    "displayName" : "Page Dialog Translation Item",
+    "summary" : "Page Dialog Translation Item"
+  }
+}

@@ -1,4 +1,4 @@
-<view type="TABLE" model="pamirs.message.SmsTemplate" name="短信模板table" title="短信模板">
+<view type="TABLE" model="pamirs.message.SmsTemplate" name="SmsTemplateTable" title="短信模板">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建"/>
         <action name="delete" label="删除"/>

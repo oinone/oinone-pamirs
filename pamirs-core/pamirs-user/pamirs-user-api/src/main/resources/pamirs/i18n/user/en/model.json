@@ -1,0 +1,473 @@
+{
+  "resource.ResourceUserLog" : {
+    "base.Field" : {
+      "user" : {
+        "displayName" : "user",
+        "summary" : "User"
+      }
+    }
+  },
+  "user.PamirsPassword" : {
+    "base.Field" : {
+      "initialPassword" : {
+        "displayName" : "Initial password",
+        "summary" : "Initial password"
+      },
+      "password" : {
+        "displayName" : "Password",
+        "summary" : "Password"
+      },
+      "userId" : {
+        "displayName" : "User ID",
+        "summary" : "User ID"
+      }
+    },
+    "displayName" : "User password"
+  },
+  "user.PamirsTenantTransient" : {
+    "base.Field" : {
+      "displayName" : {
+        "displayName" : "Display Name",
+        "summary" : "Display Name"
+      },
+      "tenant" : {
+        "displayName" : "Tenant code",
+        "summary" : "for data transmission"
+      }
+    },
+    "displayName" : "Tenant",
+    "summary" : "Interaction selection for a single user belonging to multiple tenants"
+  },
+  "user.PamirsUser" : {
+    "base.Field" : {
+      "active" : {
+        "displayName" : "Activate or not",
+        "summary" : "Whether the account is activated, default is activated"
+      },
+      "avatarBig" : {
+        "displayName" : "Large Avatar",
+        "summary" : "Large Avatar"
+      },
+      "avatarMedium" : {
+        "displayName" : "Medium avatar",
+        "summary" : "Medium Avatar"
+      },
+      "avatarUrl" : {
+        "displayName" : "Profile picture link",
+        "summary" : "Avatar Link"
+      },
+      "birthday" : {
+        "displayName" : "Birthday",
+        "summary" : "Birthday"
+      },
+      "contactEmail" : {
+        "displayName" : "Contact Email",
+        "summary" : "Contact Email"
+      },
+      "contactPhone" : {
+        "displayName" : "Contact Number",
+        "summary" : "Contact Number"
+      },
+      "country" : {
+        "displayName" : "Country",
+        "summary" : "Country"
+      },
+      "createUserName" : {
+        "displayName" : "Creator Name",
+        "summary" : "Creator Name"
+      },
+      "currency" : {
+        "displayName" : "Currency",
+        "summary" : "Currency"
+      },
+      "email" : {
+        "displayName" : "Email address",
+        "summary" : "Email address"
+      },
+      "gender" : {
+        "displayName" : "Gender",
+        "summary" : "Male, Female, Confidential"
+      },
+      "idCard" : {
+        "displayName" : "ID card number",
+        "summary" : "ID Card Number"
+      },
+      "initialPassword" : {
+        "displayName" : "Initial password",
+        "summary" : "Initial password"
+      },
+      "isInitialPassword" : {
+        "displayName" : "Is it the initial password?",
+        "summary" : "Is it the initial password?"
+      },
+      "lang" : {
+        "displayName" : "Language",
+        "summary" : "Language"
+      },
+      "langId" : {
+        "displayName" : "Language ID",
+        "summary" : "Language ID"
+      },
+      "login" : {
+        "displayName" : "Log in to account",
+        "summary" : "Log in to account"
+      },
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "nickname" : {
+        "displayName" : "Nickname",
+        "summary" : "Nickname"
+      },
+      "password" : {
+        "displayName" : "Password",
+        "summary" : "Password"
+      },
+      "phone" : {
+        "displayName" : "Phone number",
+        "summary" : "Phone number"
+      },
+      "phoneCode" : {
+        "displayName" : "Mobile area code",
+        "summary" : "Mobile area code"
+      },
+      "realname" : {
+        "displayName" : "Real Name",
+        "summary" : "Real Name"
+      },
+      "regDate" : {
+        "displayName" : "Registration date",
+        "summary" : "Register Date"
+      },
+      "roles" : {
+        "displayName" : "Character",
+        "summary" : "Role"
+      },
+      "signUpType" : {
+        "displayName" : "User-Created Type",
+        "summary" : "How did the user create"
+      },
+      "source" : {
+        "displayName" : "User Source",
+        "summary" : "User Source"
+      },
+      "theme" : {
+        "displayName" : "theme",
+        "summary" : "System theme selected by the user"
+      },
+      "thirdParties" : {
+        "displayName" : "Third-party login",
+        "summary" : "Third-party Login"
+      },
+      "timeZoneType" : {
+        "displayName" : "Time zone",
+        "summary" : "Timezone"
+      },
+      "userType" : {
+        "displayName" : "Account Type",
+        "summary" : "Account Type"
+      },
+      "writeUserName" : {
+        "displayName" : "Modifier Name",
+        "summary" : "Modifier Name"
+      }
+    },
+    "displayName" : "User Table"
+  },
+  "user.PamirsUserModifyPwdTran" : {
+    "base.Field" : {
+      "confirmLogin" : {
+        "displayName" : "Account confirmed",
+        "summary" : "Account Confirmation"
+      },
+      "id" : {
+        "displayName" : "User ID",
+        "summary" : "User ID"
+      },
+      "login" : {
+        "displayName" : "Account",
+        "summary" : "Account"
+      },
+      "resetPassword" : {
+        "displayName" : "New password after reset",
+        "summary" : "New Password After Reset"
+      }
+    }
+  },
+  "user.PamirsUserRoleTransient" : {
+    "base.Field" : {
+      "roleList" : {
+        "displayName" : "Character List",
+        "summary" : "Role List"
+      },
+      "userList" : {
+        "displayName" : "User List",
+        "summary" : "User List"
+      }
+    },
+    "displayName" : "User role authorization temporary model"
+  },
+  "user.PamirsUserThirdParty" : {
+    "base.Field" : {
+      "lastLoginTime" : {
+        "displayName" : "Last login time",
+        "summary" : "Last Login Time"
+      },
+      "openid" : {
+        "displayName" : "openid",
+        "summary" : "openid"
+      },
+      "thirdPartyType" : {
+        "displayName" : "Three-party login type",
+        "summary" : "Third-party Login Type"
+      },
+      "unionId" : {
+        "displayName" : "unionId",
+        "summary" : "unionId"
+      },
+      "user" : {
+        "displayName" : "User",
+        "summary" : "User"
+      },
+      "userId" : {
+        "displayName" : "User ID",
+        "summary" : "User ID"
+      }
+    },
+    "displayName" : "User third-party login"
+  },
+  "user.PamirsUserTransient" : {
+    "base.Field" : {
+      "autoLogin" : {
+        "displayName" : "Automatic login, 7 days without logging in",
+        "summary" : "Auto login, 7 days free login"
+      },
+      "avatarUrl" : {
+        "displayName" : "Avatar",
+        "summary" : "Avatar"
+      },
+      "birthday" : {
+        "displayName" : "Date of Birth",
+        "summary" : "Date of Birth"
+      },
+      "broken" : {
+        "displayName" : "Interrupt or not",
+        "summary" : "Whether to Interrupt"
+      },
+      "confirmPassword" : {
+        "displayName" : "Confirm Password",
+        "summary" : "Confirm Password"
+      },
+      "email" : {
+        "displayName" : "Email address",
+        "summary" : "Email Address"
+      },
+      "errorCode" : {
+        "displayName" : "Error Code",
+        "summary" : "Error Code"
+      },
+      "errorField" : {
+        "displayName" : "Incorrect field",
+        "summary" : "Error Field"
+      },
+      "errorMsg" : {
+        "displayName" : "error message",
+        "summary" : "Error Message"
+      },
+      "gender" : {
+        "displayName" : "Gender",
+        "summary" : "Gender"
+      },
+      "inviteCode" : {
+        "displayName" : "Invitation Code",
+        "summary" : "Invitation Code"
+      },
+      "login" : {
+        "displayName" : "Log in to account",
+        "summary" : "Login Account"
+      },
+      "msgType" : {
+        "displayName" : "Verification code type",
+        "summary" : "Used to modify the phone and change the password based on the phone"
+      },
+      "name" : {
+        "displayName" : "Username",
+        "summary" : "Username"
+      },
+      "needRedirect" : {
+        "displayName" : "Do you need to redirect to the homepage?",
+        "summary" : "Whether to redirect to homepage"
+      },
+      "newEmail" : {
+        "displayName" : "New email address",
+        "summary" : "Used to modify the email"
+      },
+      "newPhone" : {
+        "displayName" : "New phone",
+        "summary" : "Used for modifying mobile phones"
+      },
+      "newVerificationCode" : {
+        "displayName" : "New phone verification code",
+        "summary" : "Used for modifying mobile phones"
+      },
+      "nickname" : {
+        "displayName" : "Nickname",
+        "summary" : "Nickname"
+      },
+      "openid" : {
+        "displayName" : "openid",
+        "summary" : "openid"
+      },
+      "password" : {
+        "displayName" : "Password",
+        "summary" : "Password"
+      },
+      "phone" : {
+        "displayName" : "Mobile phone",
+        "summary" : "Mobile"
+      },
+      "phoneCode" : {
+        "displayName" : "Mobile Area Code",
+        "summary" : "Mobile Area Code"
+      },
+      "picCode" : {
+        "displayName" : "Image verification code, entered incorrectly three times",
+        "summary" : "Image Captcha, 3 failed attempts"
+      },
+      "rawPassword" : {
+        "displayName" : "Old password",
+        "summary" : "Old Password"
+      },
+      "realname" : {
+        "displayName" : "Real Name",
+        "summary" : "Real Name"
+      },
+      "redirect" : {
+        "displayName" : "Jump",
+        "summary" : "Redirect"
+      },
+      "redirectUrl" : {
+        "displayName" : "Logout URL",
+        "summary" : "Logout URL"
+      },
+      "source" : {
+        "displayName" : "source",
+        "summary" : "Source"
+      },
+      "tenant" : {
+        "displayName" : "Owned tenant",
+        "summary" : "Belonging Tenant"
+      },
+      "tenants" : {
+        "displayName" : "Optional Tenant List",
+        "summary" : "Optional Tenant List"
+      },
+      "token" : {
+        "displayName" : "token",
+        "summary" : "token"
+      },
+      "unionId" : {
+        "displayName" : "unionId",
+        "summary" : "unionId"
+      },
+      "user" : {
+        "displayName" : "User",
+        "summary" : "User"
+      },
+      "userBehaviorEvent" : {
+        "displayName" : "User behavior events",
+        "summary" : "User Behavior Event"
+      },
+      "verificationCode" : {
+        "displayName" : "CAPTCHA",
+        "summary" : "Captcha"
+      }
+    },
+    "displayName" : "User Login and Registration Temporary Model",
+    "summary" : "User temporary model"
+  },
+  "user.TopBarActionGroup" : {
+    "base.Field" : {
+      "actions" : {
+        "displayName" : "Button List",
+        "summary" : "Button List"
+      }
+    },
+    "displayName" : "Button group on the top bar"
+  },
+  "user.TopBarLangTransientModel" : {
+    "base.Field" : {
+      "id" : {
+        "displayName" : "Selected language pack",
+        "summary" : "Selected Language Pack"
+      },
+      "langList" : {
+        "displayName" : "lang list",
+        "summary" : "Language List"
+      }
+    }
+  },
+  "user.TopBarUserBlock" : {
+    "base.Field" : {
+      "actionGroups" : {
+        "displayName" : "Button group list",
+        "summary" : "Button Group List"
+      },
+      "pamirsUser" : {
+        "displayName" : "User",
+        "summary" : "User"
+      },
+      "userAvatarAction" : {
+        "displayName" : "User avatar button",
+        "summary" : "User Avatar Button"
+      }
+    },
+    "displayName" : "User module in the top bar"
+  },
+  "user.UserListFieldPreferStore" : {
+    "base.Field" : {
+      "extend" : {
+        "displayName" : "Extended Configuration",
+        "summary" : "Extended Configuration"
+      },
+      "fieldLeftFixed" : {
+        "displayName" : "Fix the left side of the field",
+        "summary" : "Field Fixed Left"
+      },
+      "fieldOrder" : {
+        "displayName" : "Field Order",
+        "summary" : "Field Order"
+      },
+      "fieldPrefer" : {
+        "displayName" : "Hidden fields",
+        "summary" : "Hidden Field"
+      },
+      "fieldRightFixed" : {
+        "displayName" : "The right side of the field is fixed",
+        "summary" : "Field Fixed Right"
+      },
+      "fieldWidth" : {
+        "displayName" : "field width",
+        "summary" : "Field Width"
+      },
+      "name" : {
+        "displayName" : "Name",
+        "summary" : "Name"
+      },
+      "partnerId" : {
+        "displayName" : "User ID",
+        "summary" : "User ID"
+      },
+      "resModel" : {
+        "displayName" : "Model",
+        "summary" : "Model"
+      },
+      "viewName" : {
+        "displayName" : "Page",
+        "summary" : "Page"
+      }
+    },
+    "displayName" : "User List Field Preferences"
+  }
+}

@@ -88,31 +88,31 @@ public class ResourceInit implements MetaDataEditor, InstallDataInit, UpgradeDat
     }
 
     private void viewActionInit(InitializationUtil util) {
-        util.createViewAction("国家关键字设置dialog", "国家关键字设置", ResourceCountry.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceCountry.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "国家关键字设置form");
-        util.createViewAction("省关键字设置dialog", "省关键字设置", ResourceProvince.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceProvince.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "省关键字设置form");
-        util.createViewAction("市关键字设置dialog", "市关键字设置", ResourceCity.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceCity.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "市关键字设置form");
-        util.createViewAction("区关键字设置dialog", "区关键字设置", ResourceDistrict.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceDistrict.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "区关键字设置form");
-        util.createViewAction("街道关键字设置dialog", "街道关键字设置", ResourceStreet.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceStreet.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "街道关键字设置form");
+        util.createViewAction("ResourceCountryActionKeyword", "国家关键字设置", ResourceCountry.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceCountry.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "ResourceCountryFormKeyword");
+        util.createViewAction("ResourceProvinceActionKeyword", "省关键字设置", ResourceProvince.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceProvince.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "ResourceProvinceFormKeyword");
+        util.createViewAction("ResourceCityActionKeyword", "市关键字设置", ResourceCity.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceCity.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "ResourceCityFormKeyword");
+        util.createViewAction("ResourceDistrictActionKeyword", "区关键字设置", ResourceDistrict.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceDistrict.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "ResourceDistrictFormKeyword");
+        util.createViewAction("ResourceStreetActionKeyword", "街道关键字设置", ResourceStreet.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceStreet.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "ResourceStreetFormKeyword");
 
-        util.createViewAction("groupCreateCountry", "添加", ResourceCountry.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceCountry.MODEL_MODEL, ViewTypeEnum.TABLE, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "国家分组form");
-        util.createViewAction("countryCreateProvince", "创建", ResourceProvince.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceProvince.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "国家form");
-        util.createViewAction("provinceCreateCity", "创建", ResourceCity.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceCity.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "省form");
-        util.createViewAction("cityCreateDirect", "创建", ResourceDistrict.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceDistrict.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "市form");
-        util.createViewAction("districtCreateStreet", "创建", ResourceStreet.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceStreet.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "区form");
+        util.createViewAction("groupCreateCountry", "添加", ResourceCountry.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceCountry.MODEL_MODEL, ViewTypeEnum.TABLE, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("countryCreateProvince", "创建", ResourceProvince.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceProvince.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("provinceCreateCity", "创建", ResourceCity.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceCity.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("cityCreateDirect", "创建", ResourceDistrict.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceDistrict.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("districtCreateStreet", "创建", ResourceStreet.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceStreet.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
 
-        util.createViewAction("countryCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "国家form");
-        util.createViewAction("provinceCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "省form");
-        util.createViewAction("cityCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "市form");
-        util.createViewAction("districtCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "区form");
-        util.createViewAction("streetCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "街道form");
-        util.createViewAction("currencyCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "货币form");
-        util.createViewAction("taxCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "税率form");
+        util.createViewAction("countryCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("provinceCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("cityCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("districtCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("streetCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("currencyCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("taxCreateOutResourceRelation", "创建", OutResourceRelation.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), OutResourceRelation.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
 
-        util.createViewAction("countryCreateResourceRegionMapping", "创建", ResourceRegionMapping.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceRegionMapping.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "国家关键字设置form");
-        util.createViewAction("provinceCreateResourceRegionMapping", "创建", ResourceRegionMapping.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceRegionMapping.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "省关键字设置form");
-        util.createViewAction("cityCreateResourceRegionMapping", "创建", ResourceRegionMapping.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceRegionMapping.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "市关键字设置form");
-        util.createViewAction("districtCreateResourceRegionMapping", "创建", ResourceRegionMapping.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceRegionMapping.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "区关键字设置form");
-        util.createViewAction("streetCreateResourceRegionMapping", "创建", ResourceRegionMapping.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceRegionMapping.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "街道关键字设置form");
+        util.createViewAction("countryCreateResourceRegionMapping", "创建", ResourceRegionMapping.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceRegionMapping.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("provinceCreateResourceRegionMapping", "创建", ResourceRegionMapping.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceRegionMapping.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("cityCreateResourceRegionMapping", "创建", ResourceRegionMapping.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceRegionMapping.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("districtCreateResourceRegionMapping", "创建", ResourceRegionMapping.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceRegionMapping.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
+        util.createViewAction("streetCreateResourceRegionMapping", "创建", ResourceRegionMapping.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), ResourceRegionMapping.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, null);
 
     }
 
@@ -127,28 +127,28 @@ public class ResourceInit implements MetaDataEditor, InstallDataInit, UpgradeDat
 
     private void menuInit(InitializationUtil util) {
         //region 地址库
-        util.createViewActionMenu("地址库", "地址库", 1L, null);
-        util.createViewActionMenu("地区", "地区", 1L, "地址库", ResourceRegionProxyModel.MODEL_MODEL, "地区列表", "地区table", viewAction -> viewAction.setFilter("hasChildren == 0"));
-        util.createViewActionMenu("国家分组", "国家分组", 2L, "地址库", ResourceCountryGroup.MODEL_MODEL, "国家分组table", null);
-        util.createViewActionMenu("国家", "国家", 3L, "地址库", ResourceCountry.MODEL_MODEL, "国家table", null);
-        util.createViewActionMenu("省", "省", 4L, "地址库", ResourceProvince.MODEL_MODEL, "省table", null);
-        util.createViewActionMenu("市", "市", 5L, "地址库", ResourceCity.MODEL_MODEL, "市table", null);
-        util.createViewActionMenu("区", "区", 6L, "地址库", ResourceDistrict.MODEL_MODEL, "区table", null);
-        util.createViewActionMenu("街道", "街道", 7L, "地址库", ResourceStreet.MODEL_MODEL, "街道table", null);
+        util.createViewActionMenu("AddressLib", "地址库", 1L, null);
+        util.createViewActionMenu("ResourceRegion", "地区", 1L, "AddressLib", ResourceRegionProxyModel.MODEL_MODEL, "ResourceRegionProxyModelTable", viewAction -> viewAction.setFilter("hasChildren == 0"));
+        util.createViewActionMenu("ResourceCountryGroup", "国家分组", 2L, "AddressLib", ResourceCountryGroup.MODEL_MODEL, "ResourceCountryGroupTable", null);
+        util.createViewActionMenu("ResourceCountry", "国家", 3L, "AddressLib", ResourceCountry.MODEL_MODEL, "ResourceCountryTable", null);
+        util.createViewActionMenu("ResourceProvince", "省", 4L, "AddressLib", ResourceProvince.MODEL_MODEL, "ResourceProvinceTable", null);
+        util.createViewActionMenu("ResourceCity", "市", 5L, "AddressLib", ResourceCity.MODEL_MODEL, "ResourceCityTable", null);
+        util.createViewActionMenu("ResourceDistrict", "区", 6L, "AddressLib", ResourceDistrict.MODEL_MODEL, "ResourceDistrictTable", null);
+        util.createViewActionMenu("ResourceStreet", "街道", 7L, "AddressLib", ResourceStreet.MODEL_MODEL, "ResourceStreetTable", null);
         //endregion
 
-        util.createViewActionMenu("货币", "货币", 2L, null, ResourceCurrency.MODEL_MODEL, "货币table", null);
-        util.createViewActionMenu("语言", "语言", 3L, null, ResourceLang.MODEL_MODEL, "语言table", null);
+        util.createViewActionMenu("ResourceCurrency", "货币", 2L, null, ResourceCurrency.MODEL_MODEL, "ResourceCurrencyTable", null);
+        util.createViewActionMenu("ResourceLang", "语言", 3L, null, ResourceLang.MODEL_MODEL, "ResourceLangTable", null);
 
-        util.createViewActionMenu("税率配置", "税率", 4L, null);
-        util.createViewActionMenu("税种", "税种", 1L, "税率配置", ResourceTaxKind.MODEL_MODEL, "税种table", null);
-        util.createViewActionMenu("税率", "税率", 2L, "税率配置", ResourceTax.MODEL_MODEL, "税率table", null);
+        util.createViewActionMenu("ResourceTaxConfig", "税率", 4L, null);
+        util.createViewActionMenu("ResourceTaxKind", "税种", 1L, "ResourceTaxConfig", ResourceTaxKind.MODEL_MODEL, "ResourceTaxKindTable", null);
+        util.createViewActionMenu("ResourceTax", "税率", 2L, "ResourceTaxConfig", ResourceTax.MODEL_MODEL, "ResourceTaxTable", null);
 
-        util.createViewActionMenu("图标管理", "图标管理", 6L, null, ResourceIcon.MODEL_MODEL, "iconManagement", null);
+        util.createViewActionMenu("ResourceIcon", "图标管理", 6L, null, ResourceIcon.MODEL_MODEL, "iconManagement", null);
     }
 
     private void homepageInit(InitializationUtil util) {
-        util.setHomepageByMenu("地区");
+        util.setHomepageByMenu("ResourceRegion");
     }
 
     private void initResourceCountryGroup() {

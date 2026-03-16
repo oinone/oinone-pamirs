@@ -1,0 +1,12 @@
+{
+  "pamirs.message.EmailVerifyTemplate": {
+    "message_email_verify_template_form": {
+      "base.Field": {
+        "title": "Email Subject",
+        "templateType": "Email Verification Template Type",
+        "timeInterval": "Verification Code Valid Time",
+        "body": "Email Content"
+      }
+    }
+  }
+}

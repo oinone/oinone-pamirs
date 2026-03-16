@@ -1,0 +1,36 @@
+{
+  "sysSetting.LoginTypeEnum": {
+    "displayName": "Certification Status",
+    "NAME_PHONE": {
+      "displayName": "Login with username or phone number (including mini program login)",
+      "help": "Login with username or phone number (including mini program login)"
+    },
+    "NAME_EMAIL": {
+      "displayName": "Login with username or email (including mini program login)",
+      "help": "Login with username or email (including mini program login)"
+    },
+    "NAME_PHONE_EMAIL_PV": {
+      "displayName": "Username/phone number/email login (including mini program login), and verification code login uses mobile verification code",
+      "help": "Username/phone number/email login (including mini program login), and verification code login uses mobile verification code"
+    },
+    "NAME_PHONE_EMAIL_EV": {
+      "displayName": "Username/phone number/email login (including mini program login), and login with verification code uses email verification code",
+      "help": "Username/phone number/email login (including mini program login), and login with verification code uses email verification code"
+    },
+    "NAME_PHONE_EMAIL_ALL": {
+      "displayName": "Username/phone number/email login (including mini program login), verification code login can use phone/email verification code",
+      "help": "Username/phone number/email login (including mini program login), verification code login can use phone/email verification code"
+    }
+  },
+  "sysSetting.TenantDomainEnum": {
+    "displayName": "Tenant Domain Access Method",
+    "L1_DOMAIN": {
+      "displayName": "Top-level path",
+      "help": "https://www.oinone.top/top-level-path/"
+    },
+    "L3_DOMAIN": {
+      "displayName": "third-level domain",
+      "help": "https://third-level-domain.oinone.top"
+    }
+  }
+}

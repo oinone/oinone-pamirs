@@ -1,0 +1,7 @@
+{
+  "base.EnhanceModel" : {
+    "queryPage" : {
+      "displayName" : "Query the list of records and the total count by conditions with pagination"
+    }
+  }
+}

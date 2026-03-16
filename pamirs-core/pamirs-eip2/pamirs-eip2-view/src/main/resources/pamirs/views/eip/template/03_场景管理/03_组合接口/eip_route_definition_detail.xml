@@ -1,4 +1,4 @@
-<view type="DETAIL" widget="detail" model="pamirs.eip.EipRouteDefinition" name="组合接口detail">
+<view type="DETAIL" widget="detail" model="pamirs.eip.EipRouteDefinition" name="EipRouteDefinitionDetail">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

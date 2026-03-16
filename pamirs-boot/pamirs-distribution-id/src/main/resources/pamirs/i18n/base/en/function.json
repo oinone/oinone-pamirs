@@ -1,0 +1,8 @@
+{
+  "sequence" : {
+    "DISTRIBUTION" : {
+      "displayName" : "Get distributed ID",
+      "description" : "Distributed ID"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" model="pamirs.eip.EipSceneInstanceProxy" name="实例调用测试form" submit="all">
+<view type="FORM" widget="form" model="pamirs.eip.EipSceneInstanceProxy" name="EipSceneInstanceProxyFormTest" submit="all">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action label="测试" actionType="COMPOSITION" model="pamirs.eip.EipSceneInstanceProxy" displayName="测试">

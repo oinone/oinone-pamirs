@@ -1,0 +1,10 @@
+{
+  "my.MyPamirsUserProxy" : {
+    "construct" : {
+      "displayName" : "Initialize data"
+    },
+    "modifyUserInfo" : {
+      "displayName" : "Edit personal information"
+    }
+  }
+}

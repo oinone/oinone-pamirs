@@ -1,0 +1,46 @@
+{
+  "apps.AppsModuleCategoryProxy": {
+    "fetchCateTree": {
+      "description": "Get application category tree"
+    }
+  },
+  "apps.TechniqueVi": {
+    "fetchDetail": {
+      "description": "Query module data"
+    }
+  },
+  "apps.model.BusinessScreenRelation": {
+    "fetchRelation": {
+      "description": "Query module dependencies"
+    }
+  },
+  "apps.AppMenu": {
+    "fetchSingleMenuTree": {
+      "displayName": "Query a single menu tree",
+      "description": "Query a single menu tree"
+    }
+  },
+  "apps.AppsManagementModule": {
+    "bindHomePage": {
+      "displayName": "Bind Homepage"
+    },
+    "install": {
+      "displayName": "Install"
+    },
+    "reload": {
+      "displayName": "Restart"
+    },
+    "uninstall": {
+      "displayName": "Uninstall"
+    },
+    "upgrade": {
+      "displayName": "Upgrade"
+    }
+  },
+  "apps.model.BusinessScreenTransient": {
+    "construct": {
+      "displayName": "Business Dashboard",
+      "description": "Business Dashboard Construction"
+    }
+  }
+}

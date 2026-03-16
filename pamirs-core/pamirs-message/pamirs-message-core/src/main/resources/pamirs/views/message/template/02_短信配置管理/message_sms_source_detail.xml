@@ -1,4 +1,4 @@
-<view widget="detail" type="DETAIL" name="短信通道detail" title="短信通道" model="pamirs.message.SmsChannelConfig">
+<view widget="detail" type="DETAIL" name="SmsChannelConfigDetail" title="短信通道" model="pamirs.message.SmsChannelConfig">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

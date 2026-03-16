@@ -37,7 +37,7 @@ public class UserMetadataEdit implements MetaDataEditor {
 
     private void initViewAction(InitializationUtil util) {
         util.createViewAction("create_user_view_action", "创建", PamirsUser.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), PamirsUser.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.ROUTER, "create_user_view");
-        util.createViewAction("initial_password_view_action", "设置初始化密码", PamirsUser.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), PamirsUser.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "修改用户初始化密码");
+        util.createViewAction("initial_password_view_action", "设置初始化密码", PamirsUser.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), PamirsUser.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "PamirsUserFormInitPwd");
         util.createViewAction("reset_password_view_action", "重置密码", PamirsUser.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.TABLE), PamirsUserModifyPwdTran.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.SINGLE, ActionTargetEnum.DIALOG, "modify_pwd_dialog_view");
         util.createViewAction("modify_initial_pwd_view_action", "修改初始密码", PamirsUserTransient.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), PamirsUserTransient.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.ROUTER, "modify_initial_pwd_view");
         util.createViewAction("modify_pwd_view_action", "修改密码", PamirsUserTransient.MODEL_MODEL, InitializationUtil.getOptions(ViewTypeEnum.FORM), PamirsUserTransient.MODEL_MODEL, ViewTypeEnum.FORM, ActionContextTypeEnum.CONTEXT_FREE, ActionTargetEnum.DIALOG, "modify_pwd_view");

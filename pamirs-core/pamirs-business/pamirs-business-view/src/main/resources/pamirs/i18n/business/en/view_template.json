@@ -1,0 +1,22 @@
+{
+  "business.PamirsPerson": {
+    "PamirsPersonTable": {
+      "base.Field": {
+        "code": "Personal Code",
+        "name": "Personal Name",
+        "dataStatus": "Data Status",
+        "createUserName": "Creator",
+        "writeUserName": "Updater",
+        "createDate": "Creation Time",
+        "writeDate": "Modification Time"
+      }
+    },
+    "PamirsPersonForm": {
+      "base.Field": {
+        "code": "Personal Code",
+        "name": "Personal Name",
+        "dataStatus": "Data Status"
+      }
+    }
+  }
+}

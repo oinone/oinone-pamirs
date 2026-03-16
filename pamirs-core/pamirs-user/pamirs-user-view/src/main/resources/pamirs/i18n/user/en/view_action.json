@@ -1,0 +1,27 @@
+{
+  "user.PamirsUser": {
+    "create_user_view_action": {
+      "displayName": "Create"
+    },
+    "initial_password_view_action": {
+      "displayName": "Set Initial Password"
+    },
+    "reset_password_view_action": {
+      "displayName": "Reset Password"
+    },
+    "modify_user_info_action": {
+      "displayName": "Modify user basic information"
+    },
+    "modify_user_role_action": {
+      "displayName": "Modify user role"
+    }
+  },
+  "user.PamirsUserTransient": {
+    "modify_initial_pwd_view_action": {
+      "displayName": "Change Initial Password"
+    },
+    "modify_pwd_view_action": {
+      "displayName": "Change Password"
+    }
+  }
+}

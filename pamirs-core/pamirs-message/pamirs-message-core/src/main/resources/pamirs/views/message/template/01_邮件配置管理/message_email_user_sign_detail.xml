@@ -1,4 +1,4 @@
-<view widget="detail" model="pamirs.message.EmailUserSign" type="DETAIL" name="邮件签名detail" title="邮件签名">
+<view widget="detail" model="pamirs.message.EmailUserSign" type="DETAIL" name="EmailUserSignDetail" title="邮件签名">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

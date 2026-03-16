@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.ExtPoint;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
@@ -20,7 +21,6 @@ import pro.shushi.pamirs.meta.util.NamespaceAndFunUtils;
 import pro.shushi.pamirs.meta.util.SystemSourceUtils;
 
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 
 import static pro.shushi.pamirs.framework.configure.annotation.emnu.AnnotationExpEnumerate.BASE_EXT_POINT_FUN_CONFLICT_ERROR;
 
@@ -53,20 +53,21 @@ public class FunctionOfExtPointImplementationConverter implements ModelConverter
     }
 
     @Override
-    public FunctionDefinition convert(MetaNames names, Method method, FunctionDefinition function) {
-        ExtPoint.Implement extPointImplementAnnotation = AnnotationUtils.getAnnotation(method, ExtPoint.Implement.class);
-        String executeNamespace = NamespaceAndFunUtils.namespace(method);
-        String fun = NamespaceAndFunUtils.fun(method);
+    public FunctionDefinition convert(MetaNames names, Method source, FunctionDefinition function) {
+        ExtPoint.Implement extPointImplementAnnotation = AnnotationUtils.getAnnotation(source, ExtPoint.Implement.class);
+        String executeNamespace = NamespaceAndFunUtils.namespace(source);
+        String fun = NamespaceAndFunUtils.fun(source);
         if (StringUtils.isNotBlank(function.getClazz()) && StringUtils.isNotBlank(function.getMethod())
-                && !method.getDeclaringClass().getName().equals(function.getClazz()) && !method.getName().equals(function.getMethod())) {
+                && !source.getDeclaringClass().getName().equals(function.getClazz()) && !source.getName().equals(function.getMethod())) {
             throw PamirsException.construct(BASE_EXT_POINT_FUN_CONFLICT_ERROR)
-                    .appendMsg(MessageFormat.format("扩展点实例函数编码冲突，请使用@Function.fun注解修改函数编码解决冲突，class:{0}，method:{1}", method.getDeclaringClass().getName(), method.getName())).errThrow();
+                    .appendMsg(I18nUtils.getMessage("FunctionOfExtPointImplementationConverter.conflict", source.getDeclaringClass().getName(), source.getName())).errThrow();
         }
-        String name = ExtNamespaceAndNameUtils.name(method);
-        NamespaceAndFunUtils.fillBeanName(method, function);
-        SystemSourceEnum systemSource = SystemSourceUtils.fetch(method);
+        String namespace = ExtNamespaceAndNameUtils.namespace(source);
+        String name = ExtNamespaceAndNameUtils.name(source);
+        NamespaceAndFunUtils.fillBeanName(source, function);
+        SystemSourceEnum systemSource = SystemSourceUtils.fetch(source);
         assert extPointImplementAnnotation != null;
-        function.setDisplayName(extPointImplementAnnotation.displayName())
+        function.setDisplayName(I18nUtils.translateExtPointImplementation(names.getModule(), namespace, name, "displayName", extPointImplementAnnotation.displayName()))
                 .setModule(names.getModule())
                 .setNamespace(executeNamespace)
                 .setFun(fun)
@@ -77,11 +78,11 @@ public class FunctionOfExtPointImplementationConverter implements ModelConverter
                 .setSource(FunctionSourceEnum.EXTPOINT)
                 .setOpenLevel(Lists.newArrayList(FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE))
                 .setDataManager(false)
-                .setDescription(extPointImplementAnnotation.summary())
-                .setClazz(method.getDeclaringClass().getName())
-                .setMethod(method.getName())
-                .setArgumentList(FunctionUtils.convertArgumentList(method))
-                .setReturnType(FunctionUtils.convertReturnType(method))
+                .setDescription(I18nUtils.translateExtPointImplementation(names.getModule(), namespace, name, "description", extPointImplementAnnotation.summary()))
+                .setClazz(source.getDeclaringClass().getName())
+                .setMethod(source.getName())
+                .setArgumentList(FunctionUtils.convertArgumentList(source))
+                .setReturnType(FunctionUtils.convertReturnType(source))
                 .setSystemSource(systemSource)
         ;
         return function;

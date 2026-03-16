@@ -1,0 +1,133 @@
+{
+  "expression.ExpressionBlock" : {
+    "base.Field" : {
+      "blockType" : {
+        "displayName" : "Expression Block Area Type",
+        "summary" : "Expression Block Area Type"
+      },
+      "cellList" : {
+        "displayName" : "All the smallest units in the expression block area",
+        "summary" : "All the smallest units in the expression block area"
+      },
+      "fun" : {
+        "displayName" : "Built-in function",
+        "summary" : "Built-in Function Extension Field"
+      },
+      "funArgList" : {
+        "displayName" : "Built-in function parameters",
+        "summary" : "Built-in function parameters, one parameter per block"
+      }
+    },
+    "displayName" : "Model Designer Expression Block Area Definition"
+  },
+  "expression.ExpressionCell" : {
+    "base.Field" : {
+      "cellType" : {
+        "displayName" : "Minimum unit type of expression",
+        "summary" : "Minimum unit type of expression"
+      }
+    },
+    "displayName" : "Model Designer Expression Minimum Unit Definition"
+  },
+  "expression.ExpressionConnectDisplay" : {
+    "base.Field" : {
+      "connector" : {
+        "displayName" : "Hyphen",
+        "summary" : "Hyphen"
+      }
+    },
+    "displayName" : "Model Designer Expression Connection Display"
+  },
+  "expression.ExpressionDHistory" : {
+    "base.Field" : {
+      "code" : {
+        "displayName" : "coding",
+        "summary" : "Encode"
+      },
+      "version" : {
+        "displayName" : "expression belonging line",
+        "summary" : "Key that can uniquely identify a row"
+      }
+    },
+    "displayName" : "Model Designer Expression Definition History"
+  },
+  "expression.ExpressionDefine" : {
+    "base.Field" : {
+      "code" : {
+        "displayName" : "coding",
+        "summary" : "Encode"
+      },
+      "expressionDisplay" : {
+        "displayName" : "Expression display",
+        "summary" : "Expression Display"
+      },
+      "expressionType" : {
+        "displayName" : "Expression type",
+        "summary" : "Expression type"
+      },
+      "field" : {
+        "displayName" : "Expression Assignment Field",
+        "summary" : "Expression belongs to a variable, for example: filter, can be understood as a column"
+      },
+      "key" : {
+        "displayName" : "expression belonging line",
+        "summary" : "Key that can uniquely identify a row"
+      },
+      "model" : {
+        "displayName" : "Expression Attribution Model",
+        "summary" : "The object to which the expression belongs, for example: base.View, can be understood as a table"
+      },
+      "rowList" : {
+        "displayName" : "Set of expressions",
+        "summary" : "Expression Set"
+      }
+    },
+    "displayName" : "Model Designer Expression Definition"
+  },
+  "expression.ExpressionDisplay" : {
+    "base.Field" : {
+      "bitEnum" : {
+        "displayName" : "Is it a binary enumeration?",
+        "summary" : "Is it a binary enumeration?"
+      },
+      "multi" : {
+        "displayName" : "multi-valued fields",
+        "summary" : "multi-valued fields"
+      },
+      "original" : {
+        "displayName" : "Original Quantity Display",
+        "summary" : "Usually the actual operating technical variable or value"
+      },
+      "store" : {
+        "displayName" : "Whether to save",
+        "summary" : "Whether to save"
+      },
+      "translation" : {
+        "displayName" : "Post-translation volume display",
+        "summary" : "Usually the display name is in Chinese"
+      },
+      "ttype" : {
+        "displayName" : "Business Type",
+        "summary" : "Business Type"
+      },
+      "value" : {
+        "displayName" : "value",
+        "summary" : "For front-end use"
+      }
+    },
+    "displayName" : "Model Designer Expression Display"
+  },
+  "expression.ExpressionRow" : {
+    "base.Field" : {
+      "blockList" : {
+        "displayName" : "operator placeholder",
+        "summary" : "Placeholder on the left side of the operator"
+      },
+      "rowType" : {
+        "displayName" : "Expression line type",
+        "summary" : "Expression line type"
+      }
+    },
+    "displayName" : "Model Designer Expression Line Definition"
+  }
+}

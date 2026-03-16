@@ -1,0 +1,354 @@
+{
+  "apps.AppCategoryModuleList" : {
+    "displayName" : "Initialize tenant application list",
+    "base.Field" : {
+      "moduleList" : {
+        "displayName" : "Optional applications"
+      },
+      "name" : {
+        "displayName" : "Category Name"
+      }
+    }
+  },
+  "app.AppTrialGuidanceProcess" : {
+    "displayName" : "Inner Page Trial Guide Process",
+    "base.Field" : {
+      "isDefault" : {
+        "summary" : "Whether to display by default",
+        "displayName" : "Whether to display by default"
+      },
+      "processName" : {
+        "displayName" : "Process Name"
+      },
+      "roles" : {
+        "summary" : "Role",
+        "displayName" : "Character"
+      },
+      "state" : {
+        "summary" : "State",
+        "displayName" : "state"
+      },
+      "nodeList" : {
+        "displayName" : "Process Node"
+      }
+    }
+  },
+  "apps.TechniqueViValue" : {
+    "displayName" : "Data information",
+    "base.Field" : {
+      "code" : {
+        "summary" : "Encode",
+        "displayName" : "coding"
+      },
+      "name" : {
+        "displayName" : "Data name"
+      },
+      "position" : {
+        "displayName" : "Positioning"
+      },
+      "value" : {
+        "summary" : "Value",
+        "displayName" : "value"
+      }
+    }
+  },
+  "apps.AppsManagementModule" : {
+    "summary" : "Apps Management Module",
+    "displayName" : "Apps Management Module",
+    "remark" : "Module",
+    "base.Field" : {
+      "appsModuleExclusionList" : {
+        "summary" : "Mutually Exclusive Module List",
+        "displayName" : "Mutually Exclusive Module List"
+      },
+      "moduleType" : {
+        "summary" : "Application Type",
+        "displayName" : "Application Type"
+      },
+      "appsModuleDependencyList" : {
+        "summary" : "Dependency Module List",
+        "displayName" : "Dependency Module List"
+      },
+      "like" : {
+        "summary" : "Is Application Favorited",
+        "displayName" : "Is Application Favorited"
+      },
+      "bindHomePageView" : {
+        "summary" : "Bound Home Page Page",
+        "displayName" : "Bound Home Page Page"
+      },
+      "canUpgrade" : {
+        "summary" : "Can Upgrade",
+        "displayName" : "Can Upgrade"
+      },
+      "urlHomePage" : {
+        "summary" : "URL Home Page",
+        "displayName" : "URL Home Page"
+      },
+      "appsModuleUpstreamList" : {
+        "summary" : "Upstream Module List",
+        "displayName" : "Upstream Module List"
+      },
+      "bindHomePageMenu" : {
+        "summary" : "Bound Home Page Menu",
+        "displayName" : "Bound Home Page Menu"
+      },
+      "bindHomePageModel" : {
+        "summary" : "Used for dropdown selection of model when binding home page",
+        "displayName" : "Bound Home Page Model"
+      },
+      "status" : {
+        "summary" : "Is Application Installed",
+        "displayName" : "Is Application Installed"
+      }
+    }
+  },
+  "apps.AppsModuleMenuProxy" : {
+    "summary" : "Apps Module Menu Proxy",
+    "displayName" : "Apps Module Menu Proxy",
+    "remark" : "Menu",
+    "base.Field" : {
+      "parentProxy" : {
+        "summary" : "Parent Menu",
+        "displayName" : "Parent Menu"
+      }
+    }
+  },
+  "apps.model.BusinessScreenRelation" : {
+    "summary" : "Module dependencies, mutual exclusion, dependent relationships",
+    "displayName" : "Module dependencies, mutual exclusion, dependent relationships",
+    "remark" : "Module",
+    "base.Field" : {
+      "upNodes" : {
+        "summary" : "Dependency Module List",
+        "displayName" : "Dependency Module List"
+      },
+      "downPaths" : {
+        "summary" : "Dependency Module List",
+        "displayName" : "Dependency Module List"
+      },
+      "downNodes" : {
+        "summary" : "Dependency Module List",
+        "displayName" : "Dependency Module List"
+      },
+      "upPaths" : {
+        "summary" : "Dependency Module List",
+        "displayName" : "Dependency Module List"
+      }
+    }
+  },
+  "app.AppTrialGuidanceProcessNode" : {
+    "displayName" : "Inner page guide node",
+    "base.Field" : {
+      "nodeName" : {
+        "summary" : "Node Name",
+        "displayName" : "Node Name"
+      },
+      "nodeDepth" : {
+        "displayName" : "Node position"
+      },
+      "nodeLink" : {
+        "displayName" : "Jump link"
+      },
+      "role" : {
+        "displayName" : "Use role"
+      },
+      "accessToken" : {
+        "summary" : "Access Token",
+        "displayName" : "access token"
+      }
+    }
+  },
+  "apps.AppCategoryModule" : {
+    "displayName" : "Initialize tenant application",
+    "base.Field" : {
+      "redirectUrl" : {
+        "summary" : "Module Jump URL",
+        "displayName" : "Module jump URL"
+      },
+      "level" : {
+        "displayName" : "Hierarchy"
+      },
+      "module" : {
+        "summary" : "Module module",
+        "displayName" : "Module"
+      },
+      "icon" : {
+        "displayName" : "Module Icon"
+      },
+      "name" : {
+        "summary" : "B2C (Online Store), DMS (Distribution Management System), OMS (Omni-channel Retail)",
+        "displayName" : "module name"
+      },
+      "description" : {
+        "summary" : "Describe details",
+        "displayName" : "Description"
+      },
+      "progress" : {
+        "summary" : "0-100",
+        "displayName" : "Progress"
+      }
+    }
+  },
+  "apps.AppsModuleCategoryProxy" : {
+    "displayName" : "Application-based proxy",
+    "base.Field" : {
+      "children" : {
+        "displayName" : "Subcategory List"
+      },
+      "like" : {
+        "displayName" : "Is the app favorited?"
+      },
+      "displayName" : {
+        "summary" : "Display Name",
+        "displayName" : "Display Name"
+      },
+      "moduleNum" : {
+        "displayName" : "Number of applications"
+      },
+      "appModules" : {
+        "summary" : "Module",
+        "displayName" : "module"
+      },
+      "status" : {
+        "displayName" : "Is the app installed"
+      }
+    }
+  },
+  "apps.AppMenu" : {
+    "summary" : "Product Homepage Settings",
+    "displayName" : "Product Homepage Settings",
+    "remark" : "Menu"
+  },
+  "app.AppConfigTransient" : {
+    "displayName" : "Application/Enterprise Settings Model",
+    "base.Field" : {
+      "companyCode" : {
+        "displayName" : "Enterprise Code"
+      },
+      "domainTimes" : {
+        "summary" : "Remaining times to change the domain name",
+        "displayName" : "Remaining times to change the domain name"
+      },
+      "gatewayModule" : {
+        "summary" : "Settings of the first app in portal settings",
+        "displayName" : "Portal application"
+      },
+      "domain" : {
+        "summary" : "Current service domain settings",
+        "displayName" : "Domain Settings"
+      },
+      "gatewayMenu" : {
+        "summary" : "Homepage settings in the portal",
+        "displayName" : "Portal Homepage"
+      },
+      "logo" : {
+        "summary" : "Logo",
+        "displayName" : "Logo"
+      },
+      "workbenchAsFist" : {
+        "summary" : "Set the workbench as the homepage?",
+        "displayName" : "Set the workbench as the homepage"
+      },
+      "searchable" : {
+        "summary" : "Whether support search",
+        "displayName" : "Whether support search"
+      },
+      "tenant" : {
+        "summary" : "Tenant",
+        "displayName" : "Tenant"
+      },
+      "homepage" : {
+        "displayName" : "App Home"
+      }
+    }
+  },
+  "apps.AppsModuleModelProxy" : {
+    "displayName" : "Apps Module Model Proxy",
+    "remark" : "Model",
+    "base.Field" : {
+      "rootModuleModule" : {
+        "displayName" : "Root module encoding, used to filter models under modules and their dependent modules"
+      }
+    }
+  },
+  "apps.TechniqueVi" : {
+    "displayName" : "Apps management module",
+    "base.Field" : {
+      "hpaPaaSList" : {
+        "summary" : "hpaPaaS",
+        "displayName" : "hpaPaaS"
+      },
+      "aPaaSList" : {
+        "summary" : "aPaaS",
+        "displayName" : "aPaaS"
+      },
+      "iPaaSList" : {
+        "summary" : "iPaas",
+        "displayName" : "iPaas"
+      },
+      "uiPaaSList" : {
+        "summary" : "uiPaaS",
+        "displayName" : "uiPaaS"
+      }
+    }
+  },
+  "apps.AppsModuleCategory" : {
+    "displayName" : "App Application Categories"
+  },
+  "apps.ModuleRelationPath" : {
+    "displayName" : "Module Association-Line",
+    "base.Field" : {
+      "fromModule" : {
+        "summary" : "form",
+        "displayName" : "form"
+      },
+      "toModule" : {
+        "summary" : "to",
+        "displayName" : "to"
+      }
+    }
+  },
+  "app.AppTrialGuidance" : {
+    "displayName" : "Internal page trial guide",
+    "base.Field" : {
+      "processList" : {
+        "displayName" : "Trial Guide"
+      },
+      "trialDays" : {
+        "displayName" : "Valid days"
+      },
+      "tenantName" : {
+        "displayName" : "Domain Settings"
+      },
+      "module" : {
+        "summary" : "Chinese name",
+        "displayName" : "Corresponding module"
+      },
+      "moduleName" : {
+        "summary" : "English name",
+        "displayName" : "Corresponding module name"
+      },
+      "moduleLogo" : {
+        "summary" : "Module Logo",
+        "displayName" : "ModuleLogo"
+      },
+      "accessToken" : {
+        "summary" : "Access Token",
+        "displayName" : "access token"
+      }
+    }
+  },
+  "apps.model.BusinessScreenTransient" : {
+    "displayName" : "Business Large Screen",
+    "base.Field" : {
+      "categories" : {
+        "summary" : "Category",
+        "displayName" : "Classification"
+      },
+      "id" : {
+        "displayName" : "Pass on"
+      }
+    }
+  }
+}

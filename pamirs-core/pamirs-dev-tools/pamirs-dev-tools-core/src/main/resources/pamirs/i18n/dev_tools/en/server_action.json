@@ -1,0 +1,31 @@
+{
+  "tools.DictionaryOverview" : {
+    "dictionaryByCode" : {
+      "displayName" : "Query dictionary based on Dictionary",
+      "label" : "Query dictionary based on Dictionary"
+    }
+  },
+  "tools.ExtPointOverview" : {
+    "extPointByNamespace" : {
+      "displayName" : "Query fun based on namespace",
+      "label" : "Query fun based on namespace"
+    }
+  },
+  "tools.FunctionOverview" : {
+    "funByNamespace" : {
+      "displayName" : "Query fun based on namespace",
+      "label" : "Query fun based on namespace"
+    }
+  },
+  "tools.ModelOverview" : {
+    "modelByModel" : {
+      "displayName" : "Query based on model",
+      "label" : "Query based on model"
+    }
+  },
+  "tools.SequenceOverview" : {
+    "sequenceByCode" : {
+      "displayName" : "Query by sequence code"
+    }
+  }
+}

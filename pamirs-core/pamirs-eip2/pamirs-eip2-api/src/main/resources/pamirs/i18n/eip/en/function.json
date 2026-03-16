@@ -1,0 +1,89 @@
+{
+  "pamirs.eip.EipSingletonConfig": {
+    "construct": {
+      "description": "Libra open docking information"
+    }
+  },
+  "pamirs.eip.default.namespace": {
+    "EIP_AUTHENTICATION_PROCESSOR_defaultOAuthAuthorizationConverterCallback": {
+      "displayName": "OAuth Authorization parameter conversion function"
+    },
+    "EIP_AUTHENTICATION_PROCESSOR_defaultTokenAuthenticationProcessor": {
+      "displayName": "Open API Token validity authentication"
+    },
+    "EIP_AUTHENTICATION_PROCESSOR_eipBasicAuthorizationProcessor": {
+      "displayName": "Basic integrated interface certification"
+    },
+    "EIP_AUTHENTICATION_PROCESSOR_eipCakAuthorizationProcessor": {
+      "displayName": "CommonApiKey integrated interface authentication"
+    },
+    "EIP_COMPUTE_dateFormatTz": {
+      "description": "Format date data like \"yyyy-MM-dd'T'HH:mm:ss.SS'Z'\""
+    },
+    "EIP_DESERIALIZATION_defaultJSONDeserializationConverter": {
+      "displayName": "Default JSON deserialization"
+    },
+    "EIP_DESERIALIZATION_defaultSOAPDeserializationConverter": {
+      "displayName": "Default SOAP deserialization"
+    },
+    "EIP_DESERIALIZATION_defaultStringDeserializationConverter": {
+      "displayName": "Default JSON serialization"
+    },
+    "EIP_EXCEPTION_PREDICT_defaultHttpStatusExp": {
+      "displayName": "Http response status abnormality determination"
+    },
+    "EIP_IN_OUT_CONVERTER_DefaultHl7FhirDataInOutConverter": {
+      "displayName": "Default Hl7-FHIR-JSON input/output converter"
+    },
+    "EIP_IN_OUT_CONVERTER_OpenApiHl7FhirJsonParamConvert": {
+      "displayName": "Open interface HL7_FHIR_JSON service"
+    },
+    "EIP_IN_OUT_CONVERTER_defaultFormUrlencodedInOutConverter": {
+      "displayName": "Default application/x-www-form-urlencoded input and output converter"
+    },
+    "EIP_IN_OUT_CONVERTER_defaultMultipartFormDataInOutConverter": {
+      "displayName": "Default multipart/form-data input and output converter"
+    },
+    "EIP_IN_OUT_CONVERTER_defaultOpenApiGetAccessTokenConverter": {
+      "displayName": "Open interface to obtain Token"
+    },
+    "EIP_IN_OUT_CONVERTER_defaultSOAPInOutConverter": {
+      "displayName": "Default SOAP input/output converter"
+    },
+    "EIP_IN_OUT_CONVERTER_defaultSqlInOutConverter": {
+      "displayName": "camel-sql default input and output converter"
+    },
+    "EIP_IN_OUT_CONVERTER_jsonNullableInOutConverter": {
+      "displayName": "JSON converter - allow null values"
+    },
+    "EIP_SERIALIZABLE_defaultJSONSerializableConverter": {
+      "displayName": "Default JSON serialization"
+    },
+    "EIP_SERIALIZABLE_defaultSOAPSerializableConverter": {
+      "displayName": "Default SOAP serialization"
+    },
+    "EIP_SERIALIZABLE_defaultStringSerializableConverter": {
+      "displayName": "Default JSON serialization"
+    },
+    "EIP_AUTHENTICATION_PROCESSOR_defaultApplicationAuthenticationProcessor": {
+      "displayName": "Open Interface Integration Application Validity Certification"
+    },
+    "EIP_AUTHENTICATION_PROCESSOR_defaultAuthenticationProcessor": {
+      "displayName": "Open API encryption request authentication"
+    },
+    "EIP_AUTHENTICATION_PROCESSOR_defaultMD5SignatureAuthenticationProcessor": {
+      "displayName": "Open API Signature Verification Request Authentication"
+    },
+    "EIP_AUTHENTICATION_PROCESSOR_defaultNoEncryptAuthenticationProcessor": {
+      "displayName": "Open interface non-encrypted request authentication"
+    },
+    "EIP_IN_OUT_CONVERTER_defaultInOutConverter": {
+      "displayName": "Default Input/Output Converter"
+    }
+  },
+  "pamirs.eip.EipOpenInterface": {
+    "EIP_IN_OUT_CONVERTER_openApiCallIntegrationApiConverter": {
+      "displayName": "Open API call integration interface"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "base.WorkerNode": {
+    "base.Field": {
+      "port": {
+        "displayName": "Host Port",
+        "summary": "Host Port"
+      },
+      "hostName": {
+        "displayName": "Host Name",
+        "summary": "Host Name"
+      },
+      "launchDate": {
+        "displayName": "Node start time",
+        "summary": "Node start time"
+      },
+      "createDate": {
+        "displayName": "Create Time",
+        "summary": "Create Time"
+      },
+      "createUid": {
+        "displayName": "Created By ID",
+        "summary": "Created By ID"
+      },
+      "id": {
+        "summary": "ID field, unique auto-increment index",
+        "displayName": "ID"
+      },
+      "type": {
+        "displayName": "Node Type",
+        "summary": "Node Type"
+      },
+      "writeDate": {
+        "displayName": "Update Time",
+        "summary": "Update Time"
+      },
+      "writeUid": {
+        "displayName": "Updated By ID",
+        "summary": "Updated By ID"
+      }
+    },
+    "displayName": "Primary key generation work node"
+  },
+  "static.WorkerNode": {
+    "displayName": "Primary key generation work node",
+    "summary": "Primary key generation work node",
+    "base.Field": {
+      "port": {
+        "displayName": "Host Port",
+        "summary": "Host Port"
+      },
+      "hostName": {
+        "displayName": "Host Name",
+        "summary": "Host Name"
+      },
+      "launchDate": {
+        "displayName": "Node start time",
+        "summary": "Node start time"
+      },
+      "createDate": {
+        "displayName": "Create Time",
+        "summary": "Create Time"
+      },
+      "createUid": {
+        "displayName": "Created By ID",
+        "summary": "Created By ID"
+      },
+      "id": {
+        "summary": "ID field, unique auto-increment index",
+        "displayName": "ID"
+      },
+      "type": {
+        "displayName": "Node Type",
+        "summary": "Node Type"
+      },
+      "writeDate": {
+        "displayName": "Update Time",
+        "summary": "Update Time"
+      },
+      "writeUid": {
+        "displayName": "Updated By ID",
+        "summary": "Updated By ID"
+      }
+    }
+  }
+}

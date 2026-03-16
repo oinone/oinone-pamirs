@@ -6,7 +6,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.configure.annotation.core.check.MetaUniqueChecker;
 import pro.shushi.pamirs.framework.configure.contants.NameConstants;
-import pro.shushi.pamirs.framework.configure.simulate.service.MetaSimulator;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Dict;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -38,7 +38,6 @@ import pro.shushi.pamirs.meta.util.ModelUtils;
 import pro.shushi.pamirs.meta.util.SystemSourceUtils;
 
 import java.lang.annotation.Annotation;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -80,16 +79,15 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
             if (null != modelModelAnnotation || null != modelAdvancedAnnotation) {
                 result.addMessage(new Message().setLevel(InformationLevelEnum.WARN)
                         .msg(BASE_MODEL_NO_MODEL_ERROR)
-                        .append(MessageFormat
-                                .format("请为模型类配置@Model，当前模型类没有为模型类配置@Model，但是配置了@Model子注解，系统会忽略子注解配置，class:{0}，model:{1}",
-                                        source.getName(), null != modelModelAnnotation ? modelModelAnnotation.value() : null)));
+                        .append(I18nUtils.getMessage("ModelDefinitionConverter.modelAnnotationMissing",
+                                source.getName(), null != modelModelAnnotation ? modelModelAnnotation.value() : null)));
             } else {
                 return result;
             }
         } else {
             if (0 == modelAnnotation.labelFields().length && StringUtils.isBlank(modelAnnotation.label())) {
                 result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
-                        .append(MessageFormat.format("label与labelFields用于前端交互的展示标题，至少设置一项，否则可能会展示为空白，class:{0}", source.getName())));
+                        .append(I18nUtils.translate("ModelDefinitionConverter.labelMissing", source.getName())));
 //            result.error();
             }
         }
@@ -97,17 +95,15 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
         if (null == modelModelAnnotation) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
                     .msg(BASE_MODEL_NO_MODEL_VALUE_INFO)
-                    .append(MessageFormat
-                            .format("，这样升级的时候可以不用改动此处配置，否则系统会自动给model属性填充全限定类名，升级的时候需要显式配置@Model.model且值为全限定类名，class:{0}",
-                                    source.getName())));
+                    .append(I18nUtils.translate("ModelDefinitionConverter.modelValueAutoFill",
+                            source.getName())));
         }
 
         if (StringUtils.isNotBlank(Optional.ofNullable(modelAdvancedAnnotation).map(Model.Advanced::table).orElse(null))) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
                     .msg(BASE_MODEL_HAS_TABLE_INFO)
-                    .append(MessageFormat
-                            .format("，系统会自动给table属性填充技术名称name的驼峰转下划线表名，若需要自定义可忽略警告，class:{0}，model:{1}",
-                                    source.getName(), modelAdvancedAnnotation.table())));
+                    .append(I18nUtils.getMessage("ModelDefinitionConverter.tableAutoFill",
+                            source.getName(), modelAdvancedAnnotation.table())));
 
         }
 
@@ -115,16 +111,14 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
         if (ArrayUtils.isNotEmpty(inherited)) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
                     .msg(BASE_MODEL_HAS_INHERITED_INFO)
-                    .append(MessageFormat
-                            .format("，系统会自动给inherited属性填充父类model，若需要自定义可忽略警告，class:{0}，model:{1}",
-                                    source.getName(), inherited)));
+                    .append(I18nUtils.getMessage("ModelDefinitionConverter.inheritedAutoFill",
+                            source.getName(), inherited)));
         } else {
             if (null != modelAnnotation && StringUtils.isBlank(modelAnnotation.displayName())) {
                 result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
                         .msg(BASE_MODEL_NO_DISPLAY_NAME_ERROR)
-                        .append(MessageFormat
-                                .format("建议配置@Model的displayName属性，可用于模型的显示与说明，class:{0}",
-                                        source.getName())));
+                        .append(I18nUtils.translate("ModelDefinitionConverter.displayNameSuggestion",
+                                source.getName())));
             }
 
         }
@@ -139,9 +133,8 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
                     || null != funAnnotation || null != dictAnnotation) {
                 result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                         .error(BASE_MODEL_CONFIG_CONFLICT_ERROR)
-                        .append(MessageFormat
-                                .format("请不要在模型类上配置@Module、@Module.module 、@Module.Advanced、@Fun、@Dict注解，class:{0}",
-                                        source.getName())));
+                        .append(I18nUtils.translate("ModelDefinitionConverter.conflictingAnnotations",
+                                source.getName())));
                 context.broken().error();
                 return result.error();
             }
@@ -267,11 +260,11 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
                 .setLname(source.getName())
                 .setModel(modelModel)
                 .setName(name)
-                .setDisplayName(displayName)
+                .setDisplayName(I18nUtils.translateModel(names.getModule(), modelModel, "displayName", displayName))
                 .setTable(table)
                 .setDsKey(dsKey)
-                .setSummary(summary)
-                .setRemark(remark)
+                .setSummary(I18nUtils.translateModel(names.getModule(), modelModel, "summary", summary))
+                .setRemark(I18nUtils.translateModel(names.getModule(), modelModel, "remark", remark))
                 .setSuperModels(inherited)
                 .setIndexes(indexes)
                 .setUniques(uniques)
@@ -323,7 +316,7 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
         }
         if (null != modelCodeAnnotation) {
             SequenceConfig sequenceConfig = new SequenceConfig();
-            sequenceConfig.setDisplayName(model.getDisplayName() + NameConstants.SEQUENCE_CONFIG_NAME_PREFIX);
+            sequenceConfig.setDisplayName(I18nUtils.getMessage(NameConstants.SEQUENCE_CONFIG_NAME_PREFIX, model.getDisplayName()));
             sequenceConfig.setModule(names.getModule());
             sequenceConfig.setPrefix(modelCodeAnnotation.prefix());
             sequenceConfig.setSuffix(modelCodeAnnotation.suffix());
@@ -349,7 +342,7 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
 
         // 填充模型
         model.setLabelFields(PStringUtils.trim(Objects.requireNonNull(modelAnnotation).labelFields()));
-        model.setLabel(Optional.of(modelAnnotation.label()).filter(StringUtils::isNotBlank).orElse(null));
+        model.setLabel(I18nUtils.translateModel(names.getModule(), modelModel, "label", StringUtils.defaultIfBlank(modelAnnotation.label(), null)));
         return model;
     }
 

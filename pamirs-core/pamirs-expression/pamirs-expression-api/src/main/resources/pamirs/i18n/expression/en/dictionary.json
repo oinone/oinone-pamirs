@@ -1,0 +1,114 @@
+{
+  "expression.ExpressionBlockType": {
+    "displayName": "Expression Block Area Type",
+    "FUN": {
+      "displayName": "Built-in function",
+      "help": "Built-in function"
+    },
+    "CONSTANT": {
+      "displayName": "Constant",
+      "help": "Constant"
+    },
+    "VARIABLE": {
+      "displayName": "variable",
+      "help": "Variable"
+    },
+    "CONNECTOR": {
+      "displayName": "Hyphen",
+      "help": "Hyphen"
+    },
+    "LEFT_BRACKET": {
+      "displayName": "Left parenthesis",
+      "help": "Left parenthesis"
+    },
+    "RIGHT_BRACKET": {
+      "displayName": "Right parenthesis",
+      "help": "Right parenthesis"
+    },
+    "summary": "Expression Block Area Type"
+  },
+  "expression.ExpressionCellType": {
+    "displayName": "Minimum unit type of expression",
+    "FUN": {
+      "displayName": "Built-in function",
+      "help": "Built-in function"
+    },
+    "CONSTANT": {
+      "displayName": "Constant",
+      "help": "Constant"
+    },
+    "VARIABLE": {
+      "displayName": "variable",
+      "help": "Variable"
+    },
+    "FIELD": {
+      "displayName": "Field",
+      "help": "Database field, only used by rsql"
+    },
+    "OPTION": {
+      "displayName": "Option",
+      "help": "Data Dictionary/Boolean"
+    },
+    "LEFT_BRACKET": {
+      "displayName": "Left parenthesis",
+      "help": "Left parenthesis"
+    },
+    "RIGHT_BRACKET": {
+      "displayName": "Right parenthesis",
+      "help": "Right parenthesis"
+    },
+    "SESSION": {
+      "displayName": "Context",
+      "help": "Login Context"
+    },
+    "summary": "Minimum unit type of expression"
+  },
+  "expression.ExpressionRowType": {
+    "displayName": "Expression line type",
+    "FUN": {
+      "displayName": "Built-in function",
+      "help": "Built-in function"
+    },
+    "CONSTANT": {
+      "displayName": "Constant",
+      "help": "Constant"
+    },
+    "VARIABLE": {
+      "displayName": "variable",
+      "help": "Variable"
+    },
+    "LEFT_BRACKET": {
+      "displayName": "Left parenthesis",
+      "help": "Left parenthesis"
+    },
+    "RIGHT_BRACKET": {
+      "displayName": "Right parenthesis",
+      "help": "Right parenthesis"
+    },
+    "MIX": {
+      "displayName": "Mixed",
+      "help": "Mix"
+    },
+    "summary": "Expression line type"
+  },
+  "expression.ExpressionType": {
+    "displayName": "Expression type",
+    "BOOLEAN_CONDITION": {
+      "displayName": "Boolean expression",
+      "help": "Boolean expression"
+    },
+    "RSQL_CONDITION": {
+      "displayName": "rsql expression",
+      "help": "rsql expression"
+    },
+    "OPERATION": {
+      "displayName": "Arithmetic expression",
+      "help": "Arithmetic expression"
+    },
+    "CONDITION": {
+      "displayName": "Conditional expression",
+      "help": "Conditional expression"
+    },
+    "summary": "Expression type"
+  }
+}

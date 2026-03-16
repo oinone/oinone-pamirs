@@ -1,0 +1,15 @@
+{
+  "pro.shushi.pamirs.sequence.enmu.ExpEnumBid": {
+    "displayName": "Sequence module error enum",
+    "summary": "Sequence module error enum",
+    "ID_GEN_ERROR": "Error: ID generation failed",
+    "ID_GEN_NOT_EXIST_LEAFALLOC_CONFIG_ERROR": "Error: Please configure the sequence (LeafAlloc) rule before using the ID generator",
+    "ID_GEN_NOT_EXIST_SEQUENCE_CONFIG_CONFIG_ERROR": "Error: Please configure the sequence generation settings (SequenceConfig) before using the ID generator",
+    "ID_GEN_EXCEPTION_ID_IDCACHE_INIT_FALSE": "Error: IDCache failed to initialize successfully",
+    "ID_GEN_EXCEPTION_ID_KEY_NOT_EXISTS": "Error: key does not exist",
+    "ID_GEN_EXCEPTION_ID_TWO_SEGMENTS_ARE_NULL": "Error: When neither Segment in SegmentBuffer is loaded from DB",
+    "ID_GEN_LEAF_NOT_INIT_OK_ERROR": "Error: ID generator not initialized",
+    "SEQUENCE_TYPE_ERROR": "Error: Sequence type declaration error, please use the SequenceNameConstants constant to use the sequence.",
+    "SYSTEM_ERROR": "Error: System Exception"
+  }
+}

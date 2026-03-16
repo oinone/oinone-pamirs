@@ -1,0 +1,19 @@
+{
+  "base.BaseModel" : {
+    "createDraft" : {
+      "displayName" : "Create Draft"
+    },
+    "deleteDraft" : {
+      "displayName" : "Delete draft"
+    },
+    "queryDraft" : {
+      "displayName" : "Query Draft"
+    },
+    "queryDraftByWrapper" : {
+      "displayName" : "Query Draft"
+    },
+    "updateDraft" : {
+      "displayName" : "Update Draft"
+    }
+  }
+}

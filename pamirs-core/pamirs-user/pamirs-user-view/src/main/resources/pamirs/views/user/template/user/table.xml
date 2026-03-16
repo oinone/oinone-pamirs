@@ -1,4 +1,4 @@
-<view type="TABLE" title="用户表列表" name="用户表table" widget="table" model="user.PamirsUser" priority="10">
+<view type="TABLE" title="用户表列表" name="PamirsUserTable" widget="table" model="user.PamirsUser" priority="10">
     <template slot="actions">
         <action name="create_user_view_action" label="创建" model="user.PamirsUser" displayName="创建"/>
         <action name="delete" label="删除" model="user.PamirsUser" displayName="删除"/>

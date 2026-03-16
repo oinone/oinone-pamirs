@@ -1,4 +1,4 @@
-<view type="FORM" widget="form" model="pamirs.eip.EipIntegrationInterface" name="集成接口form" submit="all">
+<view type="FORM" widget="form" model="pamirs.eip.EipIntegrationInterface" name="EipIntegrationInterfaceForm" submit="all">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" label="确定" model="pamirs.eip.EipIntegrationInterface"/>

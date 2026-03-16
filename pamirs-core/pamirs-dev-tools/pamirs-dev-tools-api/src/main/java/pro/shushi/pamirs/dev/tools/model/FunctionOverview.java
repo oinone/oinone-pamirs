@@ -10,7 +10,7 @@ public class FunctionOverview extends TransientModel {
 
     private static final long serialVersionUID = 4246858238262336231L;
 
-    public static final String MODEL_MODEL = "tools.FuncationOverview";
+    public static final String MODEL_MODEL = "tools.FunctionOverview";
 
     @Field.String
     @Field(displayName = "命令空间")

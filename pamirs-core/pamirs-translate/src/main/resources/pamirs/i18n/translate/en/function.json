@@ -1,0 +1,69 @@
+{
+  "resource.ResourceTranslation": {
+    "construct": {
+      "description": "Translation resource constructor"
+    },
+    "constructMirror": {
+      "description": "Translation resource drop-down trigger"
+    },
+    "create": {
+      "displayName": "Create",
+      "description": "Add"
+    },
+    "createOrUpdateAndRefreshBatch": {
+      "displayName": "Confirm and refresh"
+    }
+  },
+  "translation.TranslationItemChange": {
+    "construct": {
+      "description": "Modify translation file initialization"
+    },
+    "importTranslationChange": {
+      "displayName": "Import changes to translation application scope"
+    }
+  },
+  "translation.TranslationItemExportProxy": {
+    "construct": {
+      "description": "Export translation file constructor"
+    },
+    "export": {
+      "displayName": "Export translation file"
+    }
+  },
+  "translation.TranslationItemImport": {
+    "construct": {
+      "description": "Import translation file initialization"
+    },
+    "importTranslation": {
+      "displayName": "Import translation file"
+    }
+  },
+  "translation.TranslationItemProxy": {
+    "construct": {
+      "description": "Translation resource structure"
+    },
+    "active": {
+      "displayName": "Activate"
+    },
+    "create": {
+      "displayName": "Create",
+      "description": "Add"
+    },
+    "deleteWithFieldBatch": {
+      "displayName": "Delete"
+    },
+    "queryByChangePage": {
+      "displayName": "Toolbox change translation open display"
+    },
+    "queryByInsertPage": {
+      "displayName": "Add translation to toolbox to open display"
+    },
+    "refreshRemoteResource": {
+      "displayName": "Refresh remote resources"
+    },
+    "update": {
+      "displayName": "Update",
+      "description": "Modify"
+    }
+  }
+}

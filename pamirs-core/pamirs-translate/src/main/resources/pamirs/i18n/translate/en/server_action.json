@@ -1,0 +1,48 @@
+{
+  "resource.ResourceTranslation": {
+    "create": {
+      "displayName": "Create",
+      "description": "Add",
+      "label": "Confirm"
+    },
+    "createOrUpdateAndRefreshBatch": {
+      "displayName": "Confirm and refresh"
+    }
+  },
+  "translation.TranslationItemChange": {
+    "importTranslationChange": {
+      "displayName": "Import changes to translation application scope"
+    }
+  },
+  "translation.TranslationItemExportProxy": {
+    "export": {
+      "displayName": "Export translation file"
+    }
+  },
+  "translation.TranslationItemImport": {
+    "importTranslation": {
+      "displayName": "Import translation file"
+    }
+  },
+  "translation.TranslationItemProxy": {
+    "active": {
+      "displayName": "Activate"
+    },
+    "create": {
+      "displayName": "Create",
+      "description": "Add",
+      "label": "Confirm"
+    },
+    "delete": {
+      "displayName": "Delete"
+    },
+    "refreshRemoteResource": {
+      "displayName": "Refresh remote resources"
+    },
+    "update": {
+      "displayName": "Update",
+      "description": "Modify",
+      "label": "Confirm"
+    }
+  }
+}

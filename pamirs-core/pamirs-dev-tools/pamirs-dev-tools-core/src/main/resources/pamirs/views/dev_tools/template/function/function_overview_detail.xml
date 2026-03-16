@@ -1,4 +1,4 @@
-<view model="tools.FuncationOverview" type="detail">
+<view model="tools.FunctionOverview" type="detail">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
     </template>

@@ -1,0 +1,34 @@
+{
+  "core.common.CommonConditionWrapper" : {
+    "base.Field" : {
+      "queryData" : {
+        "displayName" : "Transfer data",
+        "summary" : "Transfer data"
+      },
+      "model" : {
+        "displayName" : "Model Code",
+        "summary" : "Model Code"
+      },
+      "sort" : {
+        "displayName" : "Sort",
+        "summary" : "Sort"
+      },
+      "rsql" : {
+        "displayName" : "rsql",
+        "summary" : "rsql"
+      }
+    },
+    "displayName" : "Query Conditions"
+  },
+  "core.common.CommonGQLFields" : {
+    "base.Field" : {
+      "relationFields" : "Relationship Field",
+      "field" : {
+        "displayName" : "Field Name",
+        "summary" : "If and only if the relationship field has a value"
+      },
+      "fields" : "Ordinary fields"
+    },
+    "displayName" : "GQL fields"
+  }
+}

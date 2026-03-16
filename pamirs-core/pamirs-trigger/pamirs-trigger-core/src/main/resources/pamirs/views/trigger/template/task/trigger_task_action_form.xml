@@ -1,4 +1,4 @@
-<view type="FORM" title="触发任务" name="触发任务form" widget="form" model="trigger.TriggerTaskAction">
+<view type="FORM" title="触发任务" name="TriggerTaskActionForm" widget="form" model="trigger.TriggerTaskAction">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter" type="default"/>
         <action name="create" invisible="activeRecord.id" model="trigger.TriggerTaskAction" goBack="true" validateForm="true" label="确定" tag="contextFreeAction"/>

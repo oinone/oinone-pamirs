@@ -1,4 +1,4 @@
-<view widget="table" model="pamirs.message.EmailUserSign" type="TABLE" name="邮件签名table" title="邮件签名"
+<view widget="table" model="pamirs.message.EmailUserSign" type="TABLE" name="EmailUserSignTable" title="邮件签名"
       excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="pamirs.message.EmailUserSign" text="创建"/>

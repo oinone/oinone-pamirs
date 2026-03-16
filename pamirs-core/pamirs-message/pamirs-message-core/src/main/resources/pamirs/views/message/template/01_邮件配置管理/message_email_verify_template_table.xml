@@ -1,4 +1,4 @@
-<view widget="table" title="邮箱验证模板" name="邮箱验证模板table" type="TABLE" model="pamirs.message.EmailVerifyTemplate"
+<view widget="table" title="邮箱验证模板" name="EmailVerifyTemplateTable" type="TABLE" model="pamirs.message.EmailVerifyTemplate"
       excluded-actions="$$internal_GotoListImportDialog,$$internal_GotoListExportDialog">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="pamirs.message.EmailVerifyTemplate" text="创建"/>

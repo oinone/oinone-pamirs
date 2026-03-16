@@ -1,0 +1,32 @@
+{
+  "managementCenter.RoleUserManager" : {
+    "base.Field" : {
+      "roleId" : {
+        "displayName" : "Character ID",
+        "summary" : "Role ID"
+      },
+      "roleName" : {
+        "displayName" : "Character Name",
+        "summary" : "Role Name"
+      },
+      "users" : {
+        "displayName" : "User",
+        "summary" : "User"
+      }
+    },
+    "displayName" : "Role User Management"
+  },
+  "managementCenter.UserBindingManager" : {
+    "base.Field" : {
+      "bindingUsers" : {
+        "displayName" : "User List",
+        "summary" : "User List"
+      },
+      "roles" : {
+        "displayName" : "Character List",
+        "summary" : "Role List"
+      }
+    },
+    "displayName" : "User Binding Model"
+  }
+}

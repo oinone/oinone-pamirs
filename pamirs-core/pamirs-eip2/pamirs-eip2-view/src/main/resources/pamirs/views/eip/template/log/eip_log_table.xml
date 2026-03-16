@@ -1,4 +1,4 @@
-<view type="TABLE" widget="table" model="pamirs.eip.proxy.EipLogProxy" title="日志列表" name="EIP日志table">
+<view type="TABLE" widget="table" model="pamirs.eip.proxy.EipLogProxy" title="日志列表" name="EipLogProxyTable">
 
     <template slot="search">
         <field data="interfaceDisplayName" label="API名称" required="false"/>

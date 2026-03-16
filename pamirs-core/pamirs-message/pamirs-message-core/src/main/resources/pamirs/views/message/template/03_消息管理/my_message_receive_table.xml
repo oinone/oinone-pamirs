@@ -1,4 +1,4 @@
-<view widget="table" model="pamirs.message.UnreadMessage" name="消息列表table" type="TABLE" title="消息列表">
+<view widget="table" model="pamirs.message.UnreadMessage" name="UnreadMessageTable" type="TABLE" title="消息列表">
 
     <template slot="rowActions">
         <action name="redirectDetailPage" label="详情" model="pamirs.message.UnreadMessage" text="详情"/>

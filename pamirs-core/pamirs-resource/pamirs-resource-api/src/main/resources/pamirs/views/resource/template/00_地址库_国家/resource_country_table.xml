@@ -1,4 +1,4 @@
-<view widget="table" name="国家table" operationWidth="200" title="国家" model="resource.ResourceCountry" type="TABLE">
+<view widget="table" name="ResourceCountryTable" operationWidth="200" title="国家" model="resource.ResourceCountry" type="TABLE">
     <template slot="actions">
         <action name="redirectCreatePage" label="创建" model="resource.ResourceCountry"/>
         <action name="delete" label="删除" model="resource.ResourceCountry"/>
@@ -10,7 +10,7 @@
     <template slot="rowActions">
         <action name="redirectDetailPage" label="详情" model="resource.ResourceCountry"/>
         <action name="redirectUpdatePage" label="编辑" model="resource.ResourceCountry"/>
-        <action name="国家关键字设置dialog" label="国家关键字设置" model="resource.ResourceCountry"/>
+        <action name="ResourceCountryActionKeyword" label="国家关键字设置" model="resource.ResourceCountry"/>
     </template>
     <template slot="search" widget="search">
         <pack gutter="24,24" widget="row">

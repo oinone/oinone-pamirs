@@ -24,10 +24,10 @@ import java.util.List;
 @Model.model(EipOpenRateLimitPolicy.MODEL_MODEL)
 @UxRouteButton(
         action = @UxAction(name = "BatchUpdateRateLimit", displayName = "批量更新流控策略", label = "批量更新流控策略", contextType = ActionContextTypeEnum.SINGLE_AND_BATCH),
-        value = @UxRoute(model = EipOpenRateLimitPolicy.MODEL_MODEL, viewName = "批量更新流控策略from", openType= ActionTargetEnum.DIALOG))
+        value = @UxRoute(model = EipOpenRateLimitPolicy.MODEL_MODEL, openType= ActionTargetEnum.DIALOG))
 @UxRouteButton(
         action = @UxAction(name = "EditOpenRateLimitPolicy", displayName = "编辑流控策略", label = "编辑流控策略", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = EipOpenRateLimitPolicy.MODEL_MODEL, viewName = "编辑流控策略from", openType= ActionTargetEnum.DIALOG))
+        value = @UxRoute(model = EipOpenRateLimitPolicy.MODEL_MODEL, openType= ActionTargetEnum.DIALOG))
 public class EipOpenRateLimitPolicyAction {
 
     @Resource

@@ -1,4 +1,4 @@
-<view widget="detail" type="DETAIL" model="pamirs.message.EmailSenderSource" title="邮件服务器" name="邮件服务器detail">
+<view widget="detail" type="DETAIL" model="pamirs.message.EmailSenderSource" title="邮件服务器" name="EmailSenderSourceDetail">
     <template slot="actions">
         <action name="internalGotoListTableRouter" label="返回" actionType="CLIENT" fun="$$internal_GotoListTableRouter"
                 type="default"/>

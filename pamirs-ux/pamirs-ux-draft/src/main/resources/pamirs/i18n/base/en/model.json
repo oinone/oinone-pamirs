@@ -1,0 +1,34 @@
+{
+  "draft.Draft" : {
+    "base.Field" : {
+      "createDate" : {
+        "displayName" : "Create Time",
+        "summary" : "Create Time"
+      },
+      "createUid" : {
+        "displayName" : "Created By ID",
+        "summary" : "Created By ID"
+      },
+      "id" : {
+        "summary" : "ID field, unique auto-increment index",
+        "displayName" : "ID"
+      },
+      "model" : "Model Encoding",
+      "path" : "Resource Path",
+      "userId" : "User ID",
+      "writeDate" : {
+        "displayName" : "Update Time",
+        "summary" : "Update Time"
+      },
+      "writeUid" : {
+        "displayName" : "Updated By ID",
+        "summary" : "Updated By ID"
+      },
+      "code" : "Draft Code",
+      "invalidDate" : "Expiration Time",
+      "draftData" : "Draft data",
+      "dataPks" : "Draft Data Primary Key"
+    },
+    "displayName" : "Draft"
+  }
+}

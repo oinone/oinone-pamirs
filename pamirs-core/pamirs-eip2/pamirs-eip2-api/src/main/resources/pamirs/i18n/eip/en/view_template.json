@@ -1,0 +1,110 @@
+{
+  "eip.CircuitBreakerRecordProxy": {
+    "CircuitBreakerRecordProxyTable": {
+      "base.Field": {
+        "interfaceName": "Interface Technical Name",
+        "integrationInterface": "Integration Interface",
+        "startTime": "Circuit Breaker Start Time",
+        "endTime": "Circuit Breaker End Time",
+        "circuitBreakerRuleCode": "Rule Code",
+        "circuitBreakerRuleName": "Rule Name"
+      }
+    }
+  },
+  "pamirs.eip.EipIntegrationInterface": {
+    "EipIntegrationInterfaceTable": {
+      "base.Field": {
+        "eipIntegrate": "Application Name",
+        "connGroup": "Business Domain",
+        "name": "API Name",
+        "uri": "Interface Routing",
+        "interfaceName": "Technical Name",
+        "moduleDefinition": "Owned Module",
+        "isEnabledLog": "Is Log Enabled",
+        "createDate": "Creation Time",
+        "writeDate": "Update Time",
+        "createUserName": "Creator",
+        "dataStatus": "Enable Status",
+        "isIgnoreLogFrequency": "Ignore Log Frequency Configuration",
+        "callCount": "Total Invocation Count",
+        "successCallCount": "Success Count",
+        "failCallCount": "Failure Count"
+      }
+    },
+    "EipIntegrationInterfaceForm": {
+      "base.Field": {
+        "name": "Name",
+        "uri": "Interface Routing",
+        "interfaceName": "Technical Name",
+        "exchangePattern": "Exchange Mode",
+        "moduleDefinition.module": "Module - Module Code",
+        "moduleDefinition.displayName": "Module - Display Name",
+        "isEnabledLog": "Is Log Enabled",
+        "contextSupplierFunction.namespace": "Context Provider Function - Function Namespace",
+        "contextSupplierFunction.fun": "Context Provider Function - Function Code",
+        "contextSupplierFunction.displayName": "Context Provider Function - Display Name"
+      }
+    }
+  },
+  "pamirs.eip.EipRouteDefinition": {
+    "EipRouteDefinitionTable": {
+      "base.Field": {
+        "name": "Name",
+        "interfaceName": "Technical Name",
+        "isEnabledLog": "Is Log Enabled",
+        "dataStatus": "Status",
+        "createDate": "Creation Time",
+        "writeDate": "Modification Time"
+      }
+    },
+    "EipRouteDefinitionForm": {
+      "base.Field": {
+        "name": "Name",
+        "interfaceName": "Technical Name",
+        "moduleDefinition.module": "Module - Module Code",
+        "moduleDefinition.displayName": "Module - Display Name",
+        "isEnabledLog": "Is Log Enabled"
+      }
+    }
+  },
+  "pamirs.eip.EipSceneDefinitionProxy": {
+    "EipSceneDefinitionProxyTable": {
+      "base.Field": {
+        "name": "Scene Name",
+        "sceneName": "Scene Technical Name",
+        "dataSourceStr": "Supported Data Source System",
+        "dataTargetStr": "Supported Data Receiving System",
+        "instanceNum": "Instance Count",
+        "dataStatus": "Status",
+        "createDate": "Creation Time",
+        "writeDate": "Modification Time"
+      }
+    }
+  },
+  "pamirs.eip.EipSceneInstance": {
+    "EipSceneInstanceTable": {
+      "base.Field": {
+        "code": "Instance Code",
+        "name": "Instance Name",
+        "dataSourceNodeDefinition": "Data Source",
+        "dataTargetNodeDefinition": "Data Receiving",
+        "initTask": "Scheduled Execution",
+        "dataStatus": "Status",
+        "createDate": "Creation Time",
+        "writeDate": "Modification Time"
+      }
+    }
+  },
+  "pamirs.eip.EipSceneInstanceProxy": {
+    "EipSceneInstanceProxyFormLog": {
+      "base.Field": {
+        "useIncUpdateLog": "Enable Incremental Log",
+        "defaultStartTime": "Default Incremental Start Time",
+        "incUpdateLogStartTime": "Incremental Start Time",
+        "incUpdateLogEndTime": "Incremental End Time",
+        "incUpdateLogParams": "Incremental Parameter",
+        "incUpdateLogLastUpdateTime": "Last Incremental Completion Time"
+      }
+    }
+  }
+}

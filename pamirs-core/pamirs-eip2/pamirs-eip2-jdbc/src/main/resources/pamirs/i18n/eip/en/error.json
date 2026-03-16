@@ -1,0 +1,7 @@
+{
+  "pro.shushi.pamirs.eip.jdbc.enumeration.EipJdbcExpEnumeration" : {
+    "displayName" : "Integrated JDBC Error Enumeration",
+    "EIP_DESIGNER_CHOOSE_DB_API" : "Please select database API",
+    "EIP_DESIGNER_PRECALL_DB_API_ERROR" : "Please pass the parameters:"
+  }
+}

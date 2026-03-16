@@ -1,0 +1,7 @@
+{
+  "pro.shushi.pamirs.ux.grouping.enumeration.GroupingExpEnumerate" : {
+    "displayName" : "Group Module Error Enumeration",
+    "QUERY_RELATION_FIELD_IS_NOT_FOUND" : "Cannot find the field in the association query: model: {}, field: {}",
+    "SYSTEM_ERROR" : "System exception"
+  }
+}

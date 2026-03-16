@@ -1,0 +1,20 @@
+{
+  "base.PlatformEnvironmentTypeEnum" : {
+    "displayName" : "Platform environment change logging type",
+    "CREATE" : "create",
+    "UPDATE" : "Modify",
+    "DELETE" : "Delete",
+    "summary" : "Platform Environment Change Logging Type"
+  },
+  "base.ModuleMiddlewareTypeEnum" : {
+    "displayName" : "Middleware Type Enumeration",
+    "CACHE" : "Cache",
+    "CONFIGURATION_CENTER" : "Configuration Center",
+    "MESSAGE_QUEUE" : "Message Queue",
+    "SEARCH" : "Search",
+    "SERVICE_CENTER" : "Service Center",
+    "DATABASE" : "Relational database",
+    "OBJECT_STORAGE" : "Object Storage",
+    "summary" : "Middleware Type Enumeration"
+  }
+}
