@@ -61,7 +61,7 @@ public class IconfontUploadServiceImpl implements ResourceIconUploadApi {
 
                 ResourceIconUpload resourceIconUpload = manipulatingFiles(result, requestFile);
                 resourceIconUploadList.add(resourceIconUpload);
-                log.info("{}:文件上传成功", downloadUrl);
+                log.info("{}: File upload success", downloadUrl);
             } catch (Exception e) {
                 throw PamirsException.construct(ExpEnumerate.DECOMPRESSION_FAILURE, e).errThrow();
             }

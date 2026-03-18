@@ -51,7 +51,7 @@ public class ResourceRegionMappingFunction {
         T result = queryRegionByName(clazz, keywords, parentCode);
         if (result != null) {
             if (log.isDebugEnabled()) {
-                log.debug("关键字:{} 从:{} 直接匹配到数据", keywords, clazz.getName());
+                log.debug("Keyword:{} matched data directly from:{}", keywords, clazz.getName());
             }
             return result;
         }
@@ -62,7 +62,7 @@ public class ResourceRegionMappingFunction {
         }
         List<String> codes = mappings.stream().map(ResourceRegionMapping::getRelationCode).collect(Collectors.toList());
         if (log.isDebugEnabled()) {
-            log.debug("关键字:{} 通过关键字匹配到地区codes:{} ", keywords, JSON.toJSONString(codes));
+            log.debug("Keyword:{} matched region codes by keyword:{} ", keywords, JSON.toJSONString(codes));
         }
         //根据匹配到的关键字code,以及指定的parent,确认地区编码
         String parentFieldName = StringUtils.isBlank(parentCode) ? null : _getParentFieldName(clazz);
@@ -123,7 +123,7 @@ public class ResourceRegionMappingFunction {
         } else if (clazz.equals(ResourceStreet.class)) {
             return "district_code";
         }
-        log.error("地区关键字匹配,传入的地区级别class异常:{}", clazz.getName());
+        log.error("Region keyword match, passed region level class exception:{}", clazz.getName());
         return null;
     }
 }

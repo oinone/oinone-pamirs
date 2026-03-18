@@ -34,7 +34,7 @@ public class SystemInitializationIconImpl implements ResourceSystemInitializatio
     @Override
     public void writeData(Resource resource) {
         if (!resource.exists() || !Objects.requireNonNull(resource.getFilename()).endsWith(".zip")) {
-            log.error("文件非法");
+            log.error("File illegal");
             return;
         }
         try {
@@ -42,7 +42,7 @@ public class SystemInitializationIconImpl implements ResourceSystemInitializatio
             IconUnZipUtils.Result result = IconUnZipUtils.unzipFromStream(resource.getInputStream());
             //操作文件
             manipulatingFile(result);
-            log.info("{}:文件上传成功", resource.getFilename());
+            log.info("{}: File upload success", resource.getFilename());
         } catch (Exception e) {
             throw PamirsException.construct(ExpEnumerate.DECOMPRESSION_FAILURE, e).errThrow();
         }

@@ -20,6 +20,7 @@ import pro.shushi.pamirs.resource.api.spi.api.ResourceSystemInitializationIcon;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executor;
 
 import static pro.shushi.pamirs.framework.common.config.AsyncTaskExecutorConfiguration.FIXED_THREAD_POOL_EXECUTOR;
