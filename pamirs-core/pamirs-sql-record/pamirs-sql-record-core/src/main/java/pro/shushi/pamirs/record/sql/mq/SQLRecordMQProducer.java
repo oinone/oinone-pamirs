@@ -21,7 +21,7 @@ public class SQLRecordMQProducer {
 
     public boolean send(String topic, List<Row> messages) {
         if (null == messages || messages.isEmpty()) {
-            log.debug("消息列表数据为空");
+            log.debug("Message list data is empty");
             return true;
         }
 
@@ -30,7 +30,7 @@ public class SQLRecordMQProducer {
                 NotifySendResult sendResult = EventEngine.systemNotifyProducer()
                         .sendOrderly(topic, msg.getEventType().name(), msg, String.valueOf(msg.getId()));
                 if (!sendResult.isSuccess()) {
-                    log.error("SQLRecord 发送事件失败 {} 原因", sendResult.getNotifyResult(), sendResult.getThrowable());
+                    log.error("SQLRecord send event failed {} reason", sendResult.getNotifyResult(), sendResult.getThrowable());
                     throw new RuntimeException(sendResult.getThrowable());
                 }
             }

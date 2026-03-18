@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.resource.PamirsFile;
 import pro.shushi.pamirs.core.common.FetchUtil;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.core.common.TranslateUtils;
 import pro.shushi.pamirs.file.api.config.ExcelConstant;
 import pro.shushi.pamirs.file.api.config.FileProperties;
@@ -153,7 +154,7 @@ public class ExcelImportTaskAction extends AbstractExcelImportTaskAction<ExcelIm
         }
         if (!isSuccess) {
             if (PamirsSession.getMessageHub().isSuccess()) {
-                PamirsSession.getMessageHub().error("导入失败，请查看导入记录中的错误信息进行更正");
+                PamirsSession.getMessageHub().error(I18nUtils.getMessage("pamirs.file.excel.import.error.checkRecord"));
             }
         }
     }

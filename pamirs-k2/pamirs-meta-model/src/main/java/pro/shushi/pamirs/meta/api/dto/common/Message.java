@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.meta.api.dto.common;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
@@ -77,7 +78,7 @@ public class Message extends TransientModel {
 
     public Message msg(ExpBaseEnum error) {
         this.setCode(error.code() + "");
-        this.setMessage(error.msg());
+        this.setMessage(I18nUtils.translateErrorDefinitionItem(error.getClass().getName(), error.name(), "msg", error.msg()));
         this.setErrorType(ErrorTypeEnum.valueOf(error.type().getType()));
         return this;
     }

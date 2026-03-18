@@ -111,7 +111,7 @@ public class ExcelHelper {
         }
         String format;
         if (decimal == null) {
-            format = ExcelValueTypeEnum.NUMBER.getDefaultFormat();
+            format = ExcelValueTypeEnum.NUMBER.defaultFormat();
         } else {
             format = String.format("0.%0" + decimal + "d", 0);
         }

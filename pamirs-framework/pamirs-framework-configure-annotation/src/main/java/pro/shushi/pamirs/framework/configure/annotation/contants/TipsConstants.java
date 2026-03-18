@@ -9,20 +9,20 @@ package pro.shushi.pamirs.framework.configure.annotation.contants;
  */
 public interface TipsConstants {
 
-    String START_SCAN_MODUlE = "开始扫描模块元数据:";
+    String START_SCAN_MODUlE = "TipsConstants.startScanModule";
 
-    String START_SCAN_DEPENDENT_MODUlE = "##开始扫描依赖模块元数据:";
+    String START_SCAN_DEPENDENT_MODUlE = "TipsConstants.startScanDependentModule";
 
-    String START_SCAN_CURRENT_MODUlE = "#开始扫描模块元数据:";
+    String START_SCAN_CURRENT_MODUlE = "TipsConstants.startScanCurrentModule";
 
-    String TIME_ALL = "总计耗时";
+    String TIME_ALL = "TipsConstants.timeAll";
 
-    String COMPLETE_ALL = "完成扫描模块元数据:";
+    String COMPLETE_ALL = "TipsConstants.completeAll";
 
-    String SCAN_MODEL = "模型扫描";
+    String SCAN_MODEL = "TipsConstants.scanModel";
 
-    String SCAN_FIELD = "字段扫描";
+    String SCAN_FIELD = "TipsConstants.scanField";
 
-    String SCAN_FUNCTION = "函数扫描";
+    String SCAN_FUNCTION = "TipsConstants.scanFunction";
 
 }

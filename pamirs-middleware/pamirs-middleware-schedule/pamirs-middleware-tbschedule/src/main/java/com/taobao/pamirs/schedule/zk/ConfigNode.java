@@ -1,5 +1,7 @@
 package com.taobao.pamirs.schedule.zk;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
+
 /**
  * 配置信息
  *
@@ -61,10 +63,10 @@ public class ConfigNode {
 
     public String toString() {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("配置根目录：").append(rootPath).append("\n");
-        buffer.append("配置类型：").append(configType).append("\n");
-        buffer.append("任务名称：").append(name).append("\n");
-        buffer.append("配置的值：").append(value).append("\n");
+        buffer.append(I18nUtils.getMessage("pamirs-middleware-tbschedule.ConfigNode.root_path")).append(rootPath).append("\n");
+        buffer.append(I18nUtils.getMessage("pamirs-middleware-tbschedule.ConfigNode.config_type")).append(configType).append("\n");
+        buffer.append(I18nUtils.getMessage("pamirs-middleware-tbschedule.ConfigNode.task_name")).append(name).append("\n");
+        buffer.append(I18nUtils.getMessage("pamirs-middleware-tbschedule.ConfigNode.config_value")).append(value).append("\n");
         return buffer.toString();
     }
 }

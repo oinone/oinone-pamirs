@@ -74,7 +74,7 @@ public interface TranslateMetaBaseService<T extends MetaBaseModel> {
 
         long start2 = System.currentTimeMillis();
 
-        log.info("翻译元数据查询结果, 模型：{} 数量: {}, 查询数据耗时:{}", model, mapList.size(), (start2 - start1) + "ms");
+        log.info("Translation metadata query result, model: {} count: {}, query data cost: {}", model, mapList.size(), (start2 - start1) + "ms");
 
         return BeanDefinitionUtils.getBean(DataConverter.class).out(model, mapList);
     }
@@ -84,7 +84,7 @@ public interface TranslateMetaBaseService<T extends MetaBaseModel> {
         try {
             modelConfig = PamirsSession.getContext().getModelConfig(model);
         } catch (Throwable exp) {
-            log.error("获取模型异常: {}", model);
+            log.error("Get model exception: {}", model);
         }
 
         return null == modelConfig ? "" : modelConfig.getModule();
@@ -157,7 +157,7 @@ public interface TranslateMetaBaseService<T extends MetaBaseModel> {
 
         long start2 = System.currentTimeMillis();
 
-        log.info("翻译项数据计算,耗时:{}", (start2 - start1) + "ms");
+        log.info("Translation item data calculation, cost: {}", (start2 - start1) + "ms");
 
         return itemList;
     }

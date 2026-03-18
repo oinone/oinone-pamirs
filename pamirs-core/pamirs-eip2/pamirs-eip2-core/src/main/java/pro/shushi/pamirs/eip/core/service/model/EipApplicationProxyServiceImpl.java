@@ -12,6 +12,7 @@ import pro.shushi.pamirs.eip.api.model.EipAuthentication;
 import pro.shushi.pamirs.eip.api.pmodel.EipApplicationProxy;
 import pro.shushi.pamirs.eip.api.service.model.EipApplicationProxyService;
 import pro.shushi.pamirs.eip.api.service.model.EipApplicationService;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
@@ -119,11 +120,11 @@ public class EipApplicationProxyServiceImpl implements EipApplicationProxyServic
         }
         EipAuthentication authentication = eipApplication.fieldQuery(EipApplicationProxy::getAuthentication).getAuthentication();
         if (authentication == null) {
-            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("集成应用认证信息异常").errThrow();
+            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.eip.application.auth.error")).errThrow();
         }
         EncryptTypeEnum encryptType = authentication.getEncryptType();
         if (encryptType == null) {
-            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("无法识别的加密类型").errThrow();
+            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.eip.application.encrypt.unknown")).errThrow();
         }
         try {
             String secretValue = appKey + System.currentTimeMillis();
@@ -135,11 +136,11 @@ public class EipApplicationProxyServiceImpl implements EipApplicationProxyServic
                     authentication.setAppSecret(EncryptHelper.encryptByKey(EncryptHelper.getSecretKeySpec(encryptType.getValue(), authentication.getPublicKey()), secretValue));
                     break;
                 default:
-                    throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("无法识别的加密类型").errThrow();
+                    throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.eip.application.encrypt.unknown")).errThrow();
             }
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException |
                  BadPaddingException | IllegalBlockSizeException | IOException e) {
-            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR, e).appendMsg("刷新Secret失败，请联系技术人员进行处理").errThrow();
+            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR, e).appendMsg(I18nUtils.getMessage("pamirs.eip.application.secret.refresh.failed")).errThrow();
         }
         authentication.updateById();
         authentication.unsetPrivateKey();

@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.framework.compute.InheritedComputeTemplate;
 import pro.shushi.pamirs.framework.compute.emnu.ComputeExpEnumerate;
 import pro.shushi.pamirs.framework.compute.retry.RetryManager;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.compute.context.ComputeContext;
@@ -178,7 +179,7 @@ public class InheritedModelComputer implements ModelComputer<Meta, ModelDefiniti
                 }
                 if (extendInherited > 1 || multiTableInherited > 1) {
                     result.error();
-                    result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append("存储模型不可扩展继承多个存储模型或者多表继承多个存储模型, model:" + currentModel.getModel()));
+                    result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append(I18nUtils.getMessage("pamirs-framework-compute.InheritedModelComputer.store_model_multiple_inherit_error") + currentModel.getModel()));
                     break;
                 }
             }
@@ -196,7 +197,7 @@ public class InheritedModelComputer implements ModelComputer<Meta, ModelDefiniti
                 case PROXY:
                 case TRANSIENT:
                     result.error();
-                    result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append("存储模型的父模型只能是抽象基类或存储模型, model:" + currentModel.getModel()));
+                    result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append(I18nUtils.getMessage("pamirs-framework-compute.InheritedModelComputer.store_model_parent_error") + currentModel.getModel()));
                     break;
             }
         } else if (ModelTypeEnum.PROXY.equals(currentModel.getType())) {
@@ -205,21 +206,21 @@ public class InheritedModelComputer implements ModelComputer<Meta, ModelDefiniti
                     // 代理继承父子模型都是代理模型时，代理的模型必需一致，且代理的模型一致的情况下是允许多重继承的
                     if (!currentModel.getProxy().equals(superModel.getProxy())) {
                         result.error();
-                        result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append("代理继承父子模型的代理模型不一致, model:" + currentModel.getModel()));
+                        result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append(I18nUtils.getMessage("pamirs-framework-compute.InheritedModelComputer.proxy_inherit_inconsistent_error") + currentModel.getModel()));
                     }
                     break;
                 case STORE:
                     if (!currentModel.getProxy().equals(superModel.getModel())
                             && !superModel.getSuperModels().contains(currentModel.getProxy())) {
                         result.error();
-                        result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append("代理继承子模型的代理模型与父模型不一致, model:" + currentModel.getModel()));
+                        result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append(I18nUtils.getMessage("pamirs-framework-compute.InheritedModelComputer.proxy_child_inconsistent_error") + currentModel.getModel()));
                     }
                     break;
                 case ABSTRACT:
                     break;
                 case TRANSIENT:
                     result.error();
-                    result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append("代理继承的父模型只能是存储模型或代理模型, model:" + currentModel.getModel()));
+                    result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append(I18nUtils.getMessage("pamirs-framework-compute.InheritedModelComputer.proxy_parent_type_error") + currentModel.getModel()));
                     break;
             }
         } else if (ModelTypeEnum.ABSTRACT.equals(currentModel.getType())) {
@@ -230,7 +231,7 @@ public class InheritedModelComputer implements ModelComputer<Meta, ModelDefiniti
                 case PROXY:
                 case TRANSIENT:
                     result.error();
-                    result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append("抽象基类的父模型只能是抽象基类, model:" + currentModel.getModel()));
+                    result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append(I18nUtils.getMessage("pamirs-framework-compute.InheritedModelComputer.abstract_parent_type_error") + currentModel.getModel()));
                     break;
             }
         } else if (ModelTypeEnum.TRANSIENT.equals(currentModel.getType())) {
@@ -241,7 +242,7 @@ public class InheritedModelComputer implements ModelComputer<Meta, ModelDefiniti
                 case STORE:
                 case PROXY:
                     result.error();
-                    result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append("传输模型的父模型只能是抽象基类或者传输模型, model:" + currentModel.getModel()));
+                    result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR).append(I18nUtils.getMessage("pamirs-framework-compute.InheritedModelComputer.transient_parent_type_error") + currentModel.getModel()));
                     break;
             }
         }

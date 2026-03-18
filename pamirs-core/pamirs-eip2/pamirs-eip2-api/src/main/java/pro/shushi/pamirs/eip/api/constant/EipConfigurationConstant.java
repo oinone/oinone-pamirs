@@ -26,7 +26,7 @@ public class EipConfigurationConstant {
 
     public static final String EIP_SYSTEM_USER_CODE = "eip_system";
 
-    public static final String EIP_SYSTEM_USER_NAME = "集成接口系统用户";
+    public static final String EIP_SYSTEM_USER_NAME = "EipConfigurationConstant.user.name";
 
     //endregion
 

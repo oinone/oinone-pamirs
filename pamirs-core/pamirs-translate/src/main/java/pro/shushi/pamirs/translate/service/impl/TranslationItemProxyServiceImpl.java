@@ -21,6 +21,7 @@ import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.cdn.pojo.CdnFile;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
@@ -447,7 +448,7 @@ public class TranslationItemProxyServiceImpl implements TranslationItemProxyServ
                                 .put(translation.getOrigin(), translation.getTarget());
                     }
                 } catch (Exception e) {
-                    log.error("刷新远程翻译资源异常", e);
+                    log.error("Refresh remote translation resource exception", e);
                 } finally {
                     countDown.countDown();
                 }
@@ -457,7 +458,7 @@ public class TranslationItemProxyServiceImpl implements TranslationItemProxyServ
         try {
             countDown.await();
         } catch (InterruptedException e) {
-            log.error("刷新远程翻译资源异常", e);
+            log.error("Refresh remote translation resource exception", e);
         }
 
         IWrapper<ResourceTranslation> translationWrapper = Pops.<ResourceTranslation>lambdaQuery()
@@ -546,7 +547,7 @@ public class TranslationItemProxyServiceImpl implements TranslationItemProxyServ
                                     }
                                 }
                             } catch (Exception e) {
-                                log.error("刷新远程翻译资源出错", e);
+                                log.error("Refresh remote translation resource error", e);
                             }
                         }
                     }, TtlAsyncTaskExecutor.getExecutorService());
@@ -577,10 +578,7 @@ public class TranslationItemProxyServiceImpl implements TranslationItemProxyServ
             translationItemlistDb.stream().filter(item -> !data.getModule().equals(item.getModule()))
                     .map(item -> {
                         ModuleDefinition moduleDefinition = PamirsSession.getContext().getModule(item.getModule());
-                        return errorBuilder.append(" 已存在应用为: ")
-                                .append(moduleDefinition.getDisplayName())
-                                .append(" ,源术语为 ").append(item.getOrigin())
-                                .append(" 的全局翻译项. ");
+                        return errorBuilder.append(I18nUtils.getMessage("TranslationItemProxyServiceImpl.global_translation_conflict", moduleDefinition.getDisplayName(), item.getOrigin()));
                     })
                     .collect(Collectors.toList());
         }
@@ -639,7 +637,7 @@ public class TranslationItemProxyServiceImpl implements TranslationItemProxyServ
                         }
                     }
                 } catch (Throwable e) {
-                    log.error("查询全局所属应用的翻译值异常", e);
+                    log.error("Query global application translation value exception", e);
                 } finally {
                     countDown.countDown();
                 }
@@ -649,7 +647,7 @@ public class TranslationItemProxyServiceImpl implements TranslationItemProxyServ
         try {
             countDown.await();
         } catch (InterruptedException e) {
-            log.error("查询全局所属应用的翻译值异常", e);
+            log.error("Query global application translation value exception", e);
         }
         String targetLanguageISOCode = Optional.ofNullable(queryByCode(data.getLangCode()))
                 .map(ResourceLang::getIsoCode)
@@ -701,7 +699,7 @@ public class TranslationItemProxyServiceImpl implements TranslationItemProxyServ
                         }
                     }
                 } catch (Throwable e) {
-                    log.info("查询源术语所属应用的翻译值异常", e);
+                    log.info("Query source term application translation value exception", e);
                 } finally {
                     countDown.countDown();
                 }
@@ -710,7 +708,7 @@ public class TranslationItemProxyServiceImpl implements TranslationItemProxyServ
         try {
             countDown.await();
         } catch (InterruptedException e) {
-            log.error("查询源术语所属应用的翻译值异常", e);
+            log.error("Query source term application translation value exception", e);
         }
         //清理oss上存在的文件
 //        fileClient.deleteByFolder(generatorPath(data.getModuleName()));
@@ -792,7 +790,7 @@ public class TranslationItemProxyServiceImpl implements TranslationItemProxyServ
                 translationItemPageNodeVisitor.setCurrentContext(context);
                 DslParser.visit(uiView, translationItemPageNodeVisitor);
             } catch (Exception e) {
-                log.error("解析XML文件 模型为：{}", viewAction.getModel());
+                log.error("Parse XML file model: {}", viewAction.getModel());
             }
         }
 

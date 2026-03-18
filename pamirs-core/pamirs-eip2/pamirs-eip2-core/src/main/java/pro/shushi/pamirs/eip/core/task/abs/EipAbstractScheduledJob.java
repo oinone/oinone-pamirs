@@ -63,11 +63,11 @@ public abstract class EipAbstractScheduledJob implements ScheduleAction {
     @Override
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE})
     public Result<Void> execute(ScheduleItem scheduleItem) {
-        log.info("开始执行定时任务-{}", getDisplayName());
+        log.info("Start executing scheduled task - {}", getDisplayName());
         long start = System.currentTimeMillis();
         doExecute(scheduleItem);
         long end = System.currentTimeMillis();
-        log.info("结束执行定时任务-{},耗时[{}ms]", getDisplayName(), (end - start));
+        log.info("End executing scheduled task - {}, time elapsed [{}ms]", getDisplayName(), (end - start));
         Result<Void> result = new Result<>();
         result.setSuccess(true);
         return result;

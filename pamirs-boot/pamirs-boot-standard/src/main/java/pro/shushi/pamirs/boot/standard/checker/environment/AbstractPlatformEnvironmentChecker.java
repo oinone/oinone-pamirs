@@ -18,6 +18,7 @@ import pro.shushi.pamirs.boot.standard.entity.EnvironmentCheckResult;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentKey;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentKeySet;
 import pro.shushi.pamirs.boot.standard.utils.PlatformEnvironmentGenerator;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.lambda.Getter;
 import pro.shushi.pamirs.meta.common.lambda.LambdaUtil;

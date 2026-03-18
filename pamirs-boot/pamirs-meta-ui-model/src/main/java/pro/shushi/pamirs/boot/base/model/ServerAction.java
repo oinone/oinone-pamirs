@@ -59,29 +59,6 @@ public class ServerAction extends Action {
     @Function(openLevel = FunctionOpenEnum.API)
     @Function.Advanced(displayName = "初始化数据", type = FunctionTypeEnum.QUERY)
     public ServerAction construct(ServerAction data) {
-//        if (null == data || null == data.getFunctionDefinition()) {
-//            return data;
-//        }
-//        FunctionDefinition functionDefinition = data.getFunctionDefinition();
-//        if (StringUtils.isBlank(functionDefinition.getDisplayName())) {
-//            functionDefinition.setDisplayName(data.getDisplayName());
-//        }
-//        if (StringUtils.isBlank(functionDefinition.getName())) {
-//            functionDefinition.setName(data.getName());
-//        }
-//        if (CollectionUtils.isEmpty(functionDefinition.getArgumentList())) {
-//            functionDefinition.setArgumentList(new ArrayList<>(Lists.newArrayList((Argument) new Argument()
-//                    .setName(VariableNameConstants.model)
-//                    .setLtype(HashMap.class.getName())
-//                    .setTtype(TtypeEnum.M2O)
-//                    .setModel(data.getModel()))));
-//        }
-//        if (null == functionDefinition.getReturnType()) {
-//            functionDefinition.setReturnType(new Type()
-//                    .setLtype(HashMap.class.getName())
-//                    .setTtype(TtypeEnum.M2O)
-//                    .setModel(data.getModel()));
-//        }
         return data;
     }
 

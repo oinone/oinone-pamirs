@@ -87,7 +87,7 @@ public class UserLoginChecker implements IUserLoginChecker {
             //用户输入的信息错误
             count = userOperationRecordService.recordLoginErrorCount(userTransient.getLogin());
             if (count == 3) {
-                log.error("错误次数在60s内超过了三次需要输入图形验证码，用户输入的登录账号/手机号/email为{}", userTransient.getLogin());
+                log.error("The number of errors exceeded three times within 60s, requiring graphic verification code. The login account/phone/email entered by the user is {}", userTransient.getLogin());
                 broken(userTransient.setErrorMsg(USER_LOGIN_PIC_CODE_ERROR.msg())
                         .setErrorCode(USER_LOGIN_PIC_CODE_ERROR.code())
                         .setErrorField(UserConstant.FIELD_PIC_CODE));

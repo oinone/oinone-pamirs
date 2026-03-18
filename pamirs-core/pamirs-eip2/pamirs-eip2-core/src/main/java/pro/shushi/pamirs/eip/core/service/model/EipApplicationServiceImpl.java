@@ -16,6 +16,7 @@ import pro.shushi.pamirs.eip.api.service.model.EipApplicationService;
 import pro.shushi.pamirs.eip.api.strategy.service.EipOpenRateLimitPolicyService;
 import pro.shushi.pamirs.eip.api.util.EipIpUtil;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
@@ -139,11 +140,11 @@ public class EipApplicationServiceImpl implements EipApplicationService {
                     authentication.setAppSecret(EncryptHelper.encryptByKey(key, appKey + System.currentTimeMillis()));
                     break;
                 default:
-                    throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("无法识别的加密类型").errThrow();
+                    throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.eip.application.encrypt.unknown")).errThrow();
             }
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException |
                  IllegalBlockSizeException | IOException e) {
-            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR, e).appendMsg("无法生成应用密钥，请稍后再试").errThrow();
+            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR, e).appendMsg(I18nUtils.getMessage("pamirs.eip.application.key.generate.failed")).errThrow();
         }
         authentication.construct();
         data.setAuthentication(authentication.create());

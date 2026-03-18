@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.meta.dsl.signal;
 
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
@@ -87,7 +88,7 @@ public class Read extends Tx implements Exe {
             rsql = TypeUtils.stringValueOf(LogicFunInvoker.rsql(rsql, fetchParam(context)));
         } catch (Exception e) {
             throw PamirsException.construct(BASE_READ_RSQL_HANDLE_ERROR, e)
-                    .appendMsg(LogicFunInvoker.fetchCurrentStateName(context) + "read失败:" + rsql).errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.signal.read.failed", LogicFunInvoker.fetchCurrentStateName(context), rsql)).errThrow();
         }
     }
 

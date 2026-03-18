@@ -5,6 +5,7 @@ import org.apache.camel.ExtendedExchange;
 import pro.shushi.pamirs.eip.api.IEipApi;
 import pro.shushi.pamirs.eip.api.IEipProcessor;
 import pro.shushi.pamirs.eip.api.constant.EipConfigurationConstant;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 
@@ -67,6 +68,6 @@ public abstract class AbstractProcessor<T extends IEipApi> implements IEipProces
             log.error("eip open interface user id is exist. id={}", userId, new RuntimeException());
         }
         PamirsSession.setUserId(EipConfigurationConstant.EIP_SYSTEM_USER_ID);
-        PamirsSession.setUserName(EipConfigurationConstant.EIP_SYSTEM_USER_NAME);
+        PamirsSession.setUserName(I18nUtils.getMessage(EipConfigurationConstant.EIP_SYSTEM_USER_NAME));
     }
 }

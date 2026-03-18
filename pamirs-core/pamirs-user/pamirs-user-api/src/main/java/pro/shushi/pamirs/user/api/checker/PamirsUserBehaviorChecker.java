@@ -40,7 +40,7 @@ public class PamirsUserBehaviorChecker {
         }
         if (!loginPicCode.equalsIgnoreCase(inputPicCode)) {
             //图形验证码错误
-            log.info("用户输入的图形验证码错误，用户输入的数据为{}，系统中的验证码是{},用户账号是{}", inputPicCode, loginPicCode, login);
+            log.info("The graphic verification code entered by the user is incorrect. The data entered by the user is {}, the verification code in the system is {}, and the user account is {}", inputPicCode, loginPicCode, login);
             throw PamirsException.construct(USER_LOGIN_PIC_CODE_ERROR).errThrow();
         }
     }
@@ -62,8 +62,6 @@ public class PamirsUserBehaviorChecker {
      */
     public void checkInitialPasswordFormat(String pwd) {
         if (null == pwd || !PamirsUserDataChecker.checkInitPassword(pwd)) {
-            //图形验证码错误
-            log.info("{}，用户输入的数据为{},用户账号是{}", USER_CREATE_AND_UPDATE_INIT_PASSWORD_FORMAT_ERROR.msg(), pwd);
             throw PamirsException.construct(USER_CREATE_AND_UPDATE_INIT_PASSWORD_FORMAT_ERROR).errThrow();
         }
     }
@@ -84,7 +82,6 @@ public class PamirsUserBehaviorChecker {
      */
     public void verifyConfirmPasswordAndPassword(String password, String confirmPassword) {
         if (null == password || !password.equals(confirmPassword)) {
-            log.error(USER_DO_NOT_MATCH_PASSWORD_ERROR.msg());
             throw PamirsException.construct(USER_DO_NOT_MATCH_PASSWORD_ERROR).errThrow();
         }
     }

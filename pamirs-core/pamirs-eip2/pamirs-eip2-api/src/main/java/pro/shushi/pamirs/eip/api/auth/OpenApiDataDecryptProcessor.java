@@ -15,6 +15,7 @@ import pro.shushi.pamirs.eip.api.context.EipInterfaceContext;
 import pro.shushi.pamirs.eip.api.model.EipApplication;
 import pro.shushi.pamirs.eip.api.model.EipAuthentication;
 import pro.shushi.pamirs.eip.api.serializable.DefaultJSONSerializable;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 
@@ -37,12 +38,12 @@ public class OpenApiDataDecryptProcessor extends AbstractOpenApiAuthenticationPr
             return true;
         } else if (size == 1) {
             if (!interfaceContext.containsKey(EipContextConstant.RESULT_KEY)) {
-                error(exchange, "500003", "数据结构有误，无法进行认证");
+                error(exchange, "500003", I18nUtils.getMessage("OpenApiDataDecryptProcessor.data_structure_error"));
                 return false;
             }
             data = interfaceContext.getString(EipContextConstant.RESULT_KEY);
         } else {
-            error(exchange, "500004", "数据结构有误，无法进行认证");
+            error(exchange, "500004", I18nUtils.getMessage("OpenApiDataDecryptProcessor.data_structure_error"));
             return false;
         }
         try {
@@ -54,12 +55,12 @@ public class OpenApiDataDecryptProcessor extends AbstractOpenApiAuthenticationPr
                     data = EncryptHelper.decryptByKey(EncryptHelper.getSecretKeySpec(encryptType.getValue(), authentication.getPrivateKey()), data);
                     break;
                 default:
-                    error(exchange, "500001", String.format("无法识别的加密类型 [AppKey %s]", appKey));
+                    error(exchange, "500001", I18nUtils.getMessage("OpenApiDataDecryptProcessor.encrypt_type_unknown", appKey));
                     return false;
             }
         } catch (Exception e) {
-            error(exchange, "500002", "无法解析的传入数据");
-            log.error("开放接口数据加密异常", e);
+            error(exchange, "500002", I18nUtils.getMessage("OpenApiDataDecryptProcessor.parse_data_error"));
+            log.error("Open interface data encryption exception", e);
             return false;
         }
         IEipOpenInterface<SuperMap> eipOpenApi = (IEipOpenInterface<SuperMap>) context.getApi();

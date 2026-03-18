@@ -42,6 +42,7 @@ import pro.shushi.pamirs.file.api.service.ExcelFileService;
 import pro.shushi.pamirs.file.api.service.ExcelImportService;
 import pro.shushi.pamirs.file.api.service.ExcelWorkbookDefinitionService;
 import pro.shushi.pamirs.file.api.util.*;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.framework.connectors.cdn.client.FileClient;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.cdn.pojo.CdnFile;
@@ -109,7 +110,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
                 HttpServletResponse response = Optional.ofNullable(RequestContextHolder.getRequestAttributes())
                         .map(_req -> (ServletRequestAttributes) _req)
                         .map(ServletRequestAttributes::getResponse)
-                        .orElseThrow(() -> PamirsException.construct(SYSTEM_ERROR).appendMsg("未获取到Http响应信息").errThrow());
+                        .orElseThrow(() -> PamirsException.construct(SYSTEM_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.excel.response.notFound")).errThrow());
                 try {
                     String _fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.name());
                     response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
@@ -119,7 +120,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
                     sos.flush();
                 } catch (IOException exp) {
                     throw PamirsException.construct(SYSTEM_ERROR, exp)
-                            .appendMsg("未获取到Http响应信息")
+                            .appendMsg(I18nUtils.getMessage("pamirs.file.excel.response.notFound"))
                             .errThrow();
                 }
 
@@ -166,14 +167,14 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         }
         if (e instanceof NoDataException) {
             exportTask.setState(ExcelTaskStateEnum.FAILURE);
-            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "未选择数据，无需导出");
+            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.export.noData"));
         } else if (e instanceof ExcelTemplateException) {
             exportTask.setState(ExcelTaskStateEnum.FAILURE);
-            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, ExcelConstant.TEMPLATE_IS_NULL);
+            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage(ExcelConstant.TEMPLATE_IS_NULL));
         } else {
             log.error("Excel export error.", e);
             exportTask.setState(ExcelTaskStateEnum.FAILURE);
-            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "导出数据过程中出现不可预知的异常");
+            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.export.error.unknown"));
             exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, EasyExcelHelper.getErrorMessage(e));
         }
     }
@@ -200,7 +201,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         if (!isSuccess) {
             if (PamirsSession.getMessageHub().isSuccess()) {
                 PamirsSession.getMessageHub()
-                        .error("导入失败，请查看导入记录中的错误信息进行更正");
+                        .error(I18nUtils.getMessage("pamirs.file.excel.import.error.checkRecord"));
             }
         }
     }
@@ -210,13 +211,13 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         ExcelImportTask importTask = (ExcelImportTask) new ExcelImportTask().setMessages(new ArrayList<>());
         if (StringUtils.isBlank(fileUrl)) {
             importTask.setState(ExcelTaskStateEnum.FAILURE);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "文件路径不存在");
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.file.path.notExist"));
             return importTask;
         }
         ExcelWorkbookDefinition workbookDefinition = new ExcelWorkbookDefinition().setName(templateName).queryOne();
         if (workbookDefinition == null) {
             importTask.setState(ExcelTaskStateEnum.FAILURE);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "找不到导入模板");
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.import.template.notFound"));
             return importTask;
         }
         ExcelDefinitionContext definitionContext = ExcelWorkbookDefinitionUtil.getDefinitionContext(workbookDefinition);
@@ -235,13 +236,13 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         ExcelImportTask importTask = (ExcelImportTask) new ExcelImportTask().setMessages(new ArrayList<>());
         if (StringUtils.isBlank(fileUrl)) {
             importTask.setState(ExcelTaskStateEnum.FAILURE);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "文件路径不存在");
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.file.path.notExist"));
             return importTask;
         }
         workbookDefinition = FetchUtil.fetchOne(workbookDefinition);
         if (workbookDefinition == null) {
             importTask.setState(ExcelTaskStateEnum.FAILURE);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "找不到导入模板");
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.import.template.notFound"));
             return importTask;
         }
         ExcelDefinitionContext definitionContext = ExcelWorkbookDefinitionUtil.getDefinitionContext(workbookDefinition);
@@ -331,16 +332,16 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     private RefreshWorkbookDefinitionResult refreshDefinitionContext0(ExcelWorkbookDefinition data) {
         String model = data.getModel();
         if (StringUtils.isBlank(model)) {
-            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("模板模型不允许为空").errThrow();
+            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.excel.template.model.notNull")).errThrow();
         }
         String name = data.getName();
         if (StringUtils.isBlank(name)) {
-            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("模版名称不允许为空").errThrow();
+            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.excel.template.name.notNull")).errThrow();
         }
         if (data.getSheetList() == null && StringUtils.isBlank(data.getSheetDefinitions())) {
             data = FetchUtil.fetchOne(data);
             if (StringUtils.isBlank(data.getSheetDefinitions())) {
-                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("无法初始化没有表定义的模板").errThrow();
+                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.excel.template.sheet.notInit")).errThrow();
             }
             data.analysisSheetDefinitions();
         }
@@ -369,7 +370,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
                 e = e.getCause();
             }
             log.error("do import error. url: {}", url, e);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, ExcelConstant.DEFAULT_ERROR_MESSAGE);
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage(ExcelConstant.DEFAULT_ERROR_MESSAGE));
             importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, EasyExcelHelper.getErrorMessage(e));
         }
         return updateImportTask(importTask, importContext);
@@ -386,7 +387,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         }
         if (isNeedGeneratorErrorFile) {
             generatorErrorFile0(importTask, importContext.getDefinitionContext(), errorDataList);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "请根据错误数据后面的提示内容进行修正");
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.error.fix.hint"));
         }
         return isNeedGeneratorErrorFile;
     }
@@ -395,7 +396,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     private void generatorErrorFile0(ExcelImportTask importTask, ExcelDefinitionContext context, List<List<Map<Integer, String>>> errorDataList) {
         Result<List<List<Map<String, String>>>> result = ExcelImportErrorFileHelper.generatorErrorFile(context).get(errorDataList);
         if (!result.isSuccess()) {
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "错误信息收集失败");
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.error.collect.failed"));
             importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, result.getErrorMessage());
             return;
         }
@@ -426,8 +427,8 @@ public class ExcelFileServiceImpl implements ExcelFileService {
                 }
             }
         } catch (Throwable e) {
-            log.error("错误信息收集失败: importTaskId: {}", importTask.getId(), e);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "错误信息收集失败");
+            log.error("Failed to collect error information: importTaskId: {}", importTask.getId(), e);
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.error.collect.failed"));
             importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, EasyExcelHelper.getErrorMessage(e));
         }
     }
@@ -435,7 +436,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     private FileClient getFileClient() {
         FileClient fileClient = FileClientFactory.getClient();
         if (fileClient == null) {
-            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("未找到文件服务器，无法执行导出").errThrow();
+            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.excel.fileServer.notFound")).errThrow();
         }
         return fileClient;
     }
@@ -444,7 +445,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         FileClient fileClient = FileClientFactory.getClient();
         if (fileClient == null) {
             exportTask.setState(ExcelTaskStateEnum.FAILURE);
-            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "未找到文件服务器，无法执行导出");
+            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.fileServer.notFound"));
             exportTask.updateById();
             return null;
         }
@@ -476,10 +477,10 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         }
         if (isSuccess) {
             importTask.setState(ExcelTaskStateEnum.SUCCESS)
-                    .addTaskMessage(TaskMessageLevelEnum.INFO, "导入成功");
+                    .addTaskMessage(TaskMessageLevelEnum.INFO, I18nUtils.getMessage("pamirs.file.excel.import.success"));
         } else {
             importTask.setState(ExcelTaskStateEnum.FAILURE)
-                    .addTaskMessage(TaskMessageLevelEnum.ERROR, "导入失败");
+                    .addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.import.failure"));
         }
         if (importTask.getId() != null) {
             importTask.updateById();
@@ -494,11 +495,11 @@ public class ExcelFileServiceImpl implements ExcelFileService {
             if (searchErrorMessage(exportTask.getMessages())) {
                 isSuccess = true;
                 exportTask.setState(ExcelTaskStateEnum.SUCCESS)
-                        .addTaskMessage(TaskMessageLevelEnum.INFO, "导出成功");
+                        .addTaskMessage(TaskMessageLevelEnum.INFO, I18nUtils.getMessage("pamirs.file.excel.export.success"));
             } else {
                 isSuccess = false;
                 exportTask.setState(ExcelTaskStateEnum.FAILURE)
-                        .addTaskMessage(TaskMessageLevelEnum.ERROR, "导出失败");
+                        .addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.export.failure"));
             }
         } else {
             isSuccess = ExcelTaskStateEnum.SUCCESS.equals(state);

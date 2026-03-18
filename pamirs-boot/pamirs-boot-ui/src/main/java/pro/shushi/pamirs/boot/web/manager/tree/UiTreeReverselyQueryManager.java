@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.model.tree.UiTreeNode;
 import pro.shushi.pamirs.boot.base.model.tree.UiTreeNodeMetadata;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.config.Configs;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
@@ -45,7 +46,7 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
      */
     public List<UiTreeNode> queryKeywords4InnerSelfTree(UiTreeNode parentNode, String keywords, UiTreeNodeMetadata currentNodeMetadata, UiTreeNodeMetadata nextNodeMetadata) {
         if (StringUtils.isEmpty(keywords)) {
-            throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).appendMsg("未指定搜索关键字").errThrow();
+            throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).appendMsg(I18nUtils.getMessage("pamirs.boot.ui.tree.query.keywordsMissing")).errThrow();
         }
         List<UiTreeNode> result = new ArrayList<>();
 
@@ -118,7 +119,7 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
      */
     public List<UiTreeNode> queryKeywords4Tree(String keywords, List<UiTreeNodeMetadata> metadataList) {
         if (StringUtils.isEmpty(keywords)) {
-            throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).appendMsg("未指定搜索关键字").errThrow();
+            throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).appendMsg(I18nUtils.getMessage("pamirs.boot.ui.tree.query.keywordsMissing")).errThrow();
         }
         List<UiTreeNode> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(metadataList)) {
@@ -154,7 +155,7 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
      */
     public List<UiTreeNode> reverselyQuery(List<UiTreeNode> leafNodes, List<UiTreeNodeMetadata> metadataList) {
         if (CollectionUtils.isEmpty(leafNodes)) {
-            throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).appendMsg("未指定叶子节点").errThrow();
+            throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).appendMsg(I18nUtils.getMessage("pamirs.boot.ui.tree.query.leafNodesMissing")).errThrow();
         }
         List<UiTreeNode> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(metadataList)) {
@@ -177,7 +178,7 @@ public class UiTreeReverselyQueryManager extends AbstractUiTreeQueryManager {
 
                 List<String> uniques = matchUniques(modelConfig, leafDatas.get(0));
                 if (CollectionUtils.isEmpty(uniques)) {
-                    throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).appendMsg("叶子结点数据缺少唯一键").errThrow();
+                    throw PamirsException.construct(BootUxdExpEnumerate.SYSTEM_ERROR).appendMsg(I18nUtils.getMessage("pamirs.boot.ui.tree.query.leafNodeUniqueKeyMissing")).errThrow();
                 }
                 queryWrapper.in(
                         uniques.stream().map(field -> Configs.wrap(PamirsSession.getContext().getModelField(model, field)).getColumn()).collect(Collectors.toList()),

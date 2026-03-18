@@ -23,6 +23,7 @@ import pro.shushi.pamirs.eip.api.entity.openapi.OpenEipResult;
 import pro.shushi.pamirs.eip.api.model.EipApplication;
 import pro.shushi.pamirs.eip.api.model.EipAuthentication;
 import pro.shushi.pamirs.framework.session.tenant.component.PamirsTenantSession;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -63,7 +64,7 @@ public class OpenApiGetAccessTokenConverter implements IEipConverter<SuperMap> {
 
     @Override
     public void convert(IEipContext<SuperMap> context, ExtendedExchange exchange) {
-        String appKey = fetchString(context, exchange, OpenApiConstant.APP_KEY_KEY, "100001", "属性appKey不能为空");
+        String appKey = fetchString(context, exchange, OpenApiConstant.APP_KEY_KEY, "100001", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.app_key_required"));
         if (appKey == null) {
             return;
         }
@@ -97,27 +98,27 @@ public class OpenApiGetAccessTokenConverter implements IEipConverter<SuperMap> {
      * @param appKey   集成应用唯一标识
      */
     private boolean verificationAppSecret(IEipContext<SuperMap> context, ExtendedExchange exchange, String appKey) {
-        String appSecret = fetchString(context, exchange, OpenApiConstant.APP_SECRET_KEY, "100002", "属性appSecret不能为空");
+        String appSecret = fetchString(context, exchange, OpenApiConstant.APP_SECRET_KEY, "100002", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.app_secret_required"));
         if (appSecret == null) {
             return false;
         }
         EipApplication eipApplication = new EipApplication().setAppKey(appKey).queryOne();
         if (eipApplication == null) {
-            error(context, "200001", String.format("不存在的集成应用 [AppKey %s]", appKey));
+            error(context, "200001", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.app_not_exist", appKey));
             return false;
         }
         if (!DataStatusEnum.ENABLED.equals(eipApplication.getDataStatus())) {
-            error(context, "200002", String.format("集成应用状态异常 [AppKey %s]", appKey));
+            error(context, "200002", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.app_status_abnormal", appKey));
             return false;
         }
         EipAuthentication eipAuthentication = eipApplication.fieldQuery(EipApplication::getAuthentication).getAuthentication();
         if (eipAuthentication == null) {
-            error(context, "200003", String.format("集成应用无认证信息 [AppKey %s]", appKey));
+            error(context, "200003", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.app_auth_missing", appKey));
             return false;
         }
         EncryptTypeEnum encryptType = eipAuthentication.getEncryptType();
         if (encryptType == null) {
-            error(context, "200004", String.format("无法识别的加密类型 [AppKey %s]", appKey));
+            error(context, "200004", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.encrypt_type_unknown", appKey));
             return false;
         }
         try {
@@ -130,15 +131,15 @@ public class OpenApiGetAccessTokenConverter implements IEipConverter<SuperMap> {
                     privateKey = EncryptHelper.getSecretKeySpec(encryptType.getValue(), eipAuthentication.getPrivateKey());
                     break;
                 default:
-                    error(context, "200005", String.format("无法识别的加密类型 [AppKey %s]", appKey));
+                    error(context, "200005", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.encrypt_type_unknown", appKey));
                     return false;
             }
             if (!compareSecretValue(context, appKey, EncryptHelper.decryptByKey(privateKey, appSecret), EncryptHelper.decryptByKey(privateKey, eipAuthentication.getAppSecret()))) {
                 return false;
             }
         } catch (Exception e) {
-            error(context, "200006", "无法解析的AppSecret");
-            log.error("无法解析的AppSecret", e);
+            error(context, "200006", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.app_secret_parse_error"));
+            log.error("Unable to parse AppSecret", e);
             return false;
         }
         return true;
@@ -149,8 +150,8 @@ public class OpenApiGetAccessTokenConverter implements IEipConverter<SuperMap> {
             return EncryptHelper.encryptByKey(EncryptHelper.getSecretKeySpec(EncryptTypeEnum.AES.getValue(),
                     openApiConfiguration.getRoute().getAesKey()), appKey + System.currentTimeMillis());
         } catch (Exception e) {
-            error(context, "200007", "服务器正忙，请稍后再试");
-            log.error("Token获取失败", e);
+            error(context, "200007", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.server_busy"));
+            log.error("Token acquisition failed", e);
             return null;
         }
     }
@@ -164,11 +165,11 @@ public class OpenApiGetAccessTokenConverter implements IEipConverter<SuperMap> {
         SecretValue value1 = SecretValue.parse(secretValue1, length),
                 value2 = SecretValue.parse(secretValue2, length);
         if (!appKey.equals(value1.appKey)) {
-            error(context, "200008", "AppKey与AppSecret不匹配");
+            error(context, "200008", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.app_key_secret_mismatch"));
             return false;
         }
         if (value1.timestamp != value2.timestamp) {
-            error(context, "200009", "AppSecret已过期");
+            error(context, "200009", I18nUtils.getMessage("OpenApiGetAccessTokenConverter.app_secret_expired"));
             return false;
         }
         return true;

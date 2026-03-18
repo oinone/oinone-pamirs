@@ -95,7 +95,7 @@ public class PamirsUserDataChecker {
         UserPatternCheckApi checkApi = Spider.getLoader(UserPatternCheckApi.class).getDefaultExtension();
         if (null == pwd || !checkApi.checkPassword(pwd)) {
             //密码 验证码错误
-            log.info("{}，用户输入的数据为{},用户账号是{}", USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR.msg(), pwd, login);
+            log.info("{}, user input data is {}, user account is {}", USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR.msg(), pwd, login);
             throw PamirsException.construct(USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR).errThrow();
         }
     }

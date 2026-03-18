@@ -22,12 +22,14 @@ public class MetadataConstants {
     public static final String MASK = "base.MaskDefinition";
     public static final String LAYOUT = "base.LayoutDefinition";
     public static final String VIEW = "base.View";
+    public static final String VIEW_TEMPLATE = "base.ViewTemplate";
 
     public static final String INTERFACES = "base.Interfaces";
     public static final String FUNCTION = "base.Function";
     public static final String EXPRESSION_DEFINITION = "base.ExpressionDefinition";
     public static final String COMPUTE_DEFINITION = "base.ComputeDefinition";
 
+    public static final String ACTION = "base.Action";
     public static final String SERVER_ACTION = "base.ServerAction";
     public static final String VIEW_ACTION = "base.ViewAction";
     public static final String URL_ACTION = "base.UrlAction";

@@ -1,5 +1,7 @@
 package pro.shushi.pamirs.boot.standard.checker.constants;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
+
 /**
  * 环境检查常量
  *
@@ -7,10 +9,22 @@ package pro.shushi.pamirs.boot.standard.checker.constants;
  */
 public class EnvironmentCheckConstants {
 
-    public static final String IMMUTABLE_TIP = "请保持与其他环境配置参数一致; 其他环境值: ";
+    public static final String IMMUTABLE_TIP = "EnvironmentCheckConstants.IMMUTABLE_TIP";
 
-    public static final String PRODUCT_ENVIRONMENT_CLOSED_TIP = "生产环境建议关闭此配置，以提高性能";
+    public static final String PRODUCT_ENVIRONMENT_CLOSED_TIP = "EnvironmentCheckConstants.PRODUCT_ENVIRONMENT_CLOSED_TIP";
 
-    public static final String PRODUCT_ENVIRONMENT_ENABLED_TIP = "生产环境建议开启此配置，以提高性能";
+    public static final String PRODUCT_ENVIRONMENT_ENABLED_TIP = "EnvironmentCheckConstants.PRODUCT_ENVIRONMENT_ENABLED_TIP";
+
+    public static String getImmutableTip() {
+        return I18nUtils.getMessage(IMMUTABLE_TIP);
+    }
+
+    public static String getProductEnvironmentClosedTip() {
+        return I18nUtils.getMessage(PRODUCT_ENVIRONMENT_CLOSED_TIP);
+    }
+
+    public static String getProductEnvironmentEnabledTip() {
+        return I18nUtils.getMessage(PRODUCT_ENVIRONMENT_ENABLED_TIP);
+    }
 
 }

@@ -22,6 +22,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
 import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.ObjectHelper;
 import pro.shushi.pamirs.core.common.TreeHelper;
@@ -52,21 +53,21 @@ import pro.shushi.pamirs.meta.api.dto.config.TxConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
-import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 
+import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.function.BiFunction;
+
 import java.util.function.Consumer;
 
 import static pro.shushi.pamirs.meta.common.util.TypeReferences.TR_MAP_SS;
-
 @Slf4j
-public class ExcelWorkbookDefinitionUtil {
 
+public class ExcelWorkbookDefinitionUtil {
     public static final BiFunction<EasyExcelBlockDefinition, String[], String> EASY_EXCEL_FIXED_HEADER_FILL_KEY_GENERATOR = (blockDefinition, fields) -> {
         boolean isFirst = true;
         StringBuilder builder = new StringBuilder();
@@ -82,10 +83,8 @@ public class ExcelWorkbookDefinitionUtil {
         }
         return builder.toString();
     };
-
     /**
      * <h>获取Excel定义上下文</h>
-     * <p>
      * 1、获取工作表定义的JSON字符串（以下简称定义）
      * 2、解析定义
      * 3、获取定义的哈希值
@@ -167,7 +166,7 @@ public class ExcelWorkbookDefinitionUtil {
         if (TranslateServiceHolder.get().needTranslate()) {
             taskName = ExcelConstant.IMPORT_TASK_NAME_TRANSLATE + context.translate(taskName);
         } else {
-            taskName = ExcelConstant.IMPORT_TASK_NAME + taskName;
+            taskName = I18nUtils.getMessage(ExcelConstant.IMPORT_TASK_NAME) + taskName;
         }
         importTask.setEachImport(eachImport)
                 .setHasErrorRollback(hasErrorRollback)
@@ -221,7 +220,7 @@ public class ExcelWorkbookDefinitionUtil {
         importTask.setEachImport(eachImport)
                 .setHasErrorRollback(hasErrorRollback)
                 .setMaxErrorLength(maxErrorLength)
-                .setName(ExcelConstant.IMPORT_TASK_NAME + workbookName)
+                .setName(I18nUtils.getMessage(ExcelConstant.IMPORT_TASK_NAME) + workbookName)
                 .setWorkbookDefinition(workbookDefinition)
                 .setWorkbookName(workbookDefinition.getName())
                 .setState(ExcelTaskStateEnum.PROCESSING)
@@ -408,18 +407,18 @@ public class ExcelWorkbookDefinitionUtil {
                 try {
                     templateInputStream = rewriteExportTemplate(sheetDefinition, writer, writeSheet, dataSize);
                     if (templateInputStream == null) {
-                        log.error("重写模板失败");
+                        log.error("Failed to rewrite template");
                         dataSize = 1;
                     }
                 } catch (IOException e) {
-                    log.error("重写模板失败", e);
+                    log.error("Failed to rewrite template", e);
                     dataSize = 1;
                 }
             }
             if (templateInputStream != null) {
                 ExcelWriter replaceWriter = rebuildExcelWriter(writer, templateInputStream, new DefaultEasyExcelLoopMergeWriteHandler(sheetDefinition));
                 if (replaceWriter == null) {
-                    log.error("重定向写入失败");
+                    log.error("Redirect write failed");
                     dataSize = 1;
                 } else {
                     writer = replaceWriter;
@@ -915,7 +914,7 @@ public class ExcelWorkbookDefinitionUtil {
                         String format = cell.getFormat();
                         //仅对布尔的格式化进行默认设置
                         if (ExcelValueTypeEnum.BOOLEAN.equals(valueType) && StringUtils.isBlank(format)) {
-                            format = valueType.getDefaultFormat();
+                            format = valueType.defaultFormat();
                             cell.setFormat(format);
                         }
                         String bindingModel = easyExcelBlockDefinition.getBindingModel();
@@ -1014,9 +1013,9 @@ public class ExcelWorkbookDefinitionUtil {
                         valueType = ExcelValueTypeEnum.STRING;
                     }
                     String format = cell.getFormat();
-                    //仅对布尔的格式化进行默认设置
+                    // 仅对布尔的格式化进行默认设置
                     if (ExcelValueTypeEnum.BOOLEAN.equals(valueType) && StringUtils.isBlank(format)) {
-                        format = valueType.getDefaultFormat();
+                        format = valueType.defaultFormat();
                         cell.setFormat(format);
                     }
                     String bindingModel = easyExcelBlockDefinition.getBindingModel();

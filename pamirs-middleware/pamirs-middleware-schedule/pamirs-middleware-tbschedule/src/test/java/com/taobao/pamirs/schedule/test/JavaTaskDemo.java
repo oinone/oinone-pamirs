@@ -23,7 +23,7 @@ public class JavaTaskDemo implements IStrategyTask, Runnable {
     @Override
     public void run() {
         while (stop == false) {
-            log.error("执行任务：" + this.parameter);
+            log.error("Execute task: " + this.parameter);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

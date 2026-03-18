@@ -15,6 +15,7 @@ import pro.shushi.pamirs.eip.api.service.model.EipOpenInterfaceService;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
@@ -57,7 +58,7 @@ public class EipOpenInterfaceServiceImpl implements EipOpenInterfaceService {
                         .from(EipOpenInterface.MODEL_MODEL)
                         .eq(EipOpenInterface::getUri, data.getUri())
         ) > 0) {
-            throw PamirsException.construct(EipExpEnumerate.OPEN_INTERFACE_CREATE_REQUEST_ERROR).appendMsg("uri重复").errThrow();
+            throw PamirsException.construct(EipExpEnumerate.OPEN_INTERFACE_CREATE_REQUEST_ERROR).appendMsg(I18nUtils.getMessage("pamirs.eip.interface.uri.duplicate")).errThrow();
         }
         // 处理忽略日志频率配置
         if (data.getIsIgnoreLogFrequency() != null) {
@@ -93,7 +94,7 @@ public class EipOpenInterfaceServiceImpl implements EipOpenInterfaceService {
                         .ne(EipOpenInterface::getId, data.getId())
                         .eq(EipOpenInterface::getUri, data.getUri())
         ) > 0) {
-            throw PamirsException.construct(EipExpEnumerate.OPEN_INTERFACE_CREATE_REQUEST_ERROR).appendMsg("uri重复").errThrow();
+            throw PamirsException.construct(EipExpEnumerate.OPEN_INTERFACE_CREATE_REQUEST_ERROR).appendMsg(I18nUtils.getMessage("pamirs.eip.interface.uri.duplicate")).errThrow();
         }
         // 处理忽略日志频率配置
         Boolean isIgnoreLogFrequency = data.getIsIgnoreLogFrequency();

@@ -50,7 +50,7 @@ public class TestParser {
             position = raf.getFilePointer();
             return new ReadResult(position, line);
         } catch (IOException exp) {
-//            log.error("读取行失败:", exp);
+//            log.error("Failed to read line:", exp);
             exp.printStackTrace();
             return ReadResult.empty();
         }

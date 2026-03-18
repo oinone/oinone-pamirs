@@ -32,7 +32,7 @@ public class BooleanChecker implements EnvironmentKey.Checker {
         String oldValue = historyEnvironment.getValue();
         String newValue = currentEnvironment.getValue();
         if (immutable && !oldValue.equals(newValue)) {
-            context.addError(currentEnvironment, EnvironmentCheckConstants.IMMUTABLE_TIP + historyEnvironment.getValue());
+            context.addError(currentEnvironment, EnvironmentCheckConstants.getImmutableTip() + historyEnvironment.getValue());
         }
         if (newValue.equals(String.valueOf(predict))) {
             context.addContext(currentEnvironment);

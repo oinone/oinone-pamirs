@@ -92,7 +92,7 @@ class TBScheduleProcessorNotSleep<T> implements IScheduleProcessor, Runnable {
             isMutilTask = true;
         }
         if (taskTypeInfo.getFetchDataNumber() < taskTypeInfo.getThreadNumber() * 10) {
-            logger.warn("参数设置不合理，系统性能不佳。【每次从数据库获取的数量fetchnum】 >= 【线程数量threadnum】 *【最少循环次数10】 ");
+            logger.warn("Unreasonable parameter settings, poor system performance. [fetchnum] >= [threadnum] * [10]");
         }
         for (int i = 0; i < taskTypeInfo.getThreadNumber(); i++) {
             this.startThread(i);
@@ -217,18 +217,18 @@ class TBScheduleProcessorNotSleep<T> implements IScheduleProcessor, Runnable {
             try {
                 if (this.taskTypeInfo.getSleepTimeInterval() > 0) {
                     if (logger.isTraceEnabled()) {
-                        logger.trace("处理完一批数据后休眠：" + this.taskTypeInfo.getSleepTimeInterval());
+                        logger.trace("Sleep after processing a batch of data: " + this.taskTypeInfo.getSleepTimeInterval());
                     }
                     this.isSleeping = true;
                     Thread.sleep(taskTypeInfo.getSleepTimeInterval());
                     this.isSleeping = false;
 
                     if (logger.isTraceEnabled()) {
-                        logger.trace("处理完一批数据后休眠后恢复");
+                        logger.trace("Resume after sleep");
                     }
                 }
             } catch (Throwable ex) {
-                logger.error("休眠时错误", ex);
+                logger.error("Error during sleep", ex);
             }
 
             putLastRunningTaskList();// 将running队列的数据拷贝到可能重复的队列中
@@ -247,7 +247,7 @@ class TBScheduleProcessorNotSleep<T> implements IScheduleProcessor, Runnable {
                     }
                 } else {
                     if (logger.isDebugEnabled()) {
-                        logger.debug("没有任务分配");
+                        logger.debug("No task assigned");
                     }
                 }
                 addFetchNum(taskList.size());
@@ -256,7 +256,7 @@ class TBScheduleProcessorNotSleep<T> implements IScheduleProcessor, Runnable {
                     if (this.scheduleManager.isContinueWhenData() == true) {
                         if (taskTypeInfo.getSleepTimeNoData() > 0) {
                             if (logger.isDebugEnabled()) {
-                                logger.debug("没有读取到需要处理的数据,sleep " + taskTypeInfo.getSleepTimeNoData());
+                                logger.debug("No data read, sleep " + taskTypeInfo.getSleepTimeNoData());
                             }
                             this.isSleeping = true;
                             Thread.sleep(taskTypeInfo.getSleepTimeNoData());
@@ -266,7 +266,7 @@ class TBScheduleProcessorNotSleep<T> implements IScheduleProcessor, Runnable {
                 }
                 return this.taskList.size();
             } catch (Throwable ex) {
-                logger.error("获取任务数据错误", ex);
+                logger.error("Error fetching task data", ex);
             }
             return 0;
         } finally {
@@ -333,9 +333,9 @@ class TBScheduleProcessorNotSleep<T> implements IScheduleProcessor, Runnable {
                 if (executeTask == null) {
                     if (fetchDataNum.intValue() >= this.taskTypeInfo.getFetchDataCountEachSchedule()
                             && this.taskTypeInfo.getFetchDataCountEachSchedule() != -1) {
-                        this.scheduleManager.pause("达到调度次数上限，暂停调度");
+                        this.scheduleManager.pause("Reached the upper limit of scheduling times, pause scheduling");
                         if (logger.isTraceEnabled()) {
-                            logger.trace("达到执行次数上限{}，暂停调度", this.taskTypeInfo.getFetchDataCountEachSchedule());
+                            logger.trace("Reached the upper limit of execution times {}, pause scheduling", this.taskTypeInfo.getFetchDataCountEachSchedule());
                         }
                     } else {
                         this.loadScheduleData();
@@ -374,7 +374,7 @@ class TBScheduleProcessorNotSleep<T> implements IScheduleProcessor, Runnable {
                         addFailNum(((Object[]) executeTask).length,
                                 scheduleManager.scheduleCenter.getSystemTime() - startTime);
                     }
-                    logger.error("Task :" + executeTask + " 处理失败", ex);
+                    logger.error("Task :" + executeTask + " process failed", ex);
                 } finally {
                     this.runningTaskList.remove(executeTask);
                 }

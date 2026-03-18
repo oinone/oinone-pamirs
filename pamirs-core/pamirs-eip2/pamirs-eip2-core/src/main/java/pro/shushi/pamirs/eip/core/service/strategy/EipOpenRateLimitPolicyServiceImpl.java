@@ -16,6 +16,7 @@ import pro.shushi.pamirs.eip.api.strategy.service.EipOpenRateLimitPolicyService;
 import pro.shushi.pamirs.eip.api.strategy.service.EipOpenRateLimitStateSyncService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -191,7 +192,7 @@ public class EipOpenRateLimitPolicyServiceImpl implements EipOpenRateLimitPolicy
     public void refreshLocal(String appKey, String interfaceName) {
         EipApplication eipApplication = new EipApplication().setAppKey(appKey).queryOne();
         if (eipApplication == null) {
-            log.error("未查询到集成应用信息，appKey:{}", appKey);
+            log.error("Integration application info not found, appKey: {}", appKey);
             return;
         }
         EipOpenRateLimitPolicy rateLimitPolicy = Models.data().queryOneByWrapper(
@@ -200,15 +201,15 @@ public class EipOpenRateLimitPolicyServiceImpl implements EipOpenRateLimitPolicy
                         .eq(EipOpenRateLimitPolicy::getApplicationCode, eipApplication.getCode())
                         .eq(EipOpenRateLimitPolicy::getInterfaceName, interfaceName));
         if (rateLimitPolicy == null) {
-            log.warn("未查询到流控配置，注销开放接口流控配置，appKey:{},interfaceName:{}", appKey, interfaceName);
+            log.warn("Flow control config not found, unregister open interface flow control config, appKey: {}, interfaceName: {}", appKey, interfaceName);
             Spider.getDefaultExtension(OpenRateLimitApi.class).unregisterPolicy(appKey, interfaceName);
             return;
         }
         if (rateLimitPolicy.getQps() == null || rateLimitPolicy.getFlowControlEffect() == null) {
-            log.warn("注销开放接口流控配置，appKey:{},interfaceName:{}", appKey, interfaceName);
+            log.warn("Unregister open interface flow control config, appKey: {}, interfaceName: {}", appKey, interfaceName);
             Spider.getDefaultExtension(OpenRateLimitApi.class).unregisterPolicy(appKey, interfaceName);
         } else {
-            log.info("注册开放接口流控配置，appKey:{},interfaceName:{}", appKey, interfaceName);
+            log.info("Register open interface flow control config, appKey: {}, interfaceName: {}", appKey, interfaceName);
             Models.data().fieldQuery(rateLimitPolicy, EipOpenRateLimitPolicy::getApplication);
             Spider.getDefaultExtension(OpenRateLimitApi.class).registerPolicy(rateLimitPolicy);
         }
@@ -225,15 +226,15 @@ public class EipOpenRateLimitPolicyServiceImpl implements EipOpenRateLimitPolicy
         String apiName = resolveInterfaceName(policy);
         if (qps == null) {
             throw PamirsException.construct(EipExpEnumerate.PARAM_RATE_LIMIT_PARAM_NULL)
-                    .appendMsg(apiName + " 缺少单机QPS阈值").errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.eip.rateLimit.qps.missing", apiName)).errThrow();
         }
         if (flowControlEffect == null) {
             throw PamirsException.construct(EipExpEnumerate.PARAM_RATE_LIMIT_PARAM_NULL)
-                    .appendMsg(apiName + " 缺少流控效果").errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.eip.rateLimit.effect.missing", apiName)).errThrow();
         }
         if (FlowControlEffectTypeEnum.QUEUEING_WAIT.equals(flowControlEffect) && timeout == null) {
             throw PamirsException.construct(EipExpEnumerate.PARAM_RATE_LIMIT_PARAM_NULL)
-                    .appendMsg(apiName + " 缺少超时时长").errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.eip.rateLimit.timeout.missing", apiName)).errThrow();
         }
     }
 

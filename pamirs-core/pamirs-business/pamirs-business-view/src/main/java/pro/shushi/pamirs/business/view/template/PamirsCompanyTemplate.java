@@ -13,6 +13,7 @@ import pro.shushi.pamirs.file.api.format.RichTextFormat;
 import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.file.api.util.ExcelHelper;
 import pro.shushi.pamirs.file.api.util.ExcelTemplateInit;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +30,7 @@ public class PamirsCompanyTemplate implements ExcelTemplateInit {
 
     @Override
     public List<ExcelWorkbookDefinition> generator() {
-        WorkbookDefinitionBuilder builder = WorkbookDefinitionBuilder.newInstance(PamirsCompany.MODEL_MODEL, TEMPLATE_NAME).setDisplayName("公司-导入导出");
+        WorkbookDefinitionBuilder builder = WorkbookDefinitionBuilder.newInstance(PamirsCompany.MODEL_MODEL, TEMPLATE_NAME).setDisplayName(I18nUtils.getMessage("business.template.company.title"));
 
         PamirsCompanyTemplate.createCompanySheet(builder);
 
@@ -38,7 +39,7 @@ public class PamirsCompanyTemplate implements ExcelTemplateInit {
 
     private static void createCompanySheet(WorkbookDefinitionBuilder builder) {
         builder.setEachImport(true)
-                .createSheet().setName("员工")
+                .createSheet().setName(I18nUtils.getMessage("business.template.company.sheet"))
                 .createBlock(PamirsCompany.MODEL_MODEL, ExcelAnalysisTypeEnum.FIXED_HEADER, ExcelDirectionEnum.HORIZONTAL, "A1:F3")
                 .createMergeRange("A1:F1")
                 .createHeader().setStyleBuilder(ExcelHelper.createDefaultStyle()).setIsConfig(Boolean.TRUE)
@@ -47,10 +48,10 @@ public class PamirsCompanyTemplate implements ExcelTemplateInit {
                 .createCell().setField("dataStatus").setStyleBuilder(ExcelHelper.createDefaultStyle().setWidth(6000))
                 .setType(ExcelValueTypeEnum.ENUMERATION)
                 .setFormat(JSON.toJSONString(MapHelper.newInstance()
-                        .put("DRAFT", "草稿")
-                        .put("NOT_ENABLED", "未启用")
-                        .put("ENABLED", "已启用")
-                        .put("DISABLED", "已禁用")
+                        .put("DRAFT", I18nUtils.getMessage("business.template.company.status.draft"))
+                        .put("NOT_ENABLED", I18nUtils.getMessage("business.template.company.status.not_enabled"))
+                        .put("ENABLED", I18nUtils.getMessage("business.template.company.status.enabled"))
+                        .put("DISABLED", I18nUtils.getMessage("business.template.company.status.disabled"))
                         .build()))
                 .and()
                 .createCell().setField("parent.code").setStyleBuilder(ExcelHelper.createDefaultStyle().setWidth(6000)).and()
@@ -61,10 +62,7 @@ public class PamirsCompanyTemplate implements ExcelTemplateInit {
                 .setStyleBuilder(ExcelHelper.createDefaultStyle(v -> v.setBold(Boolean.TRUE))
                         .setWrapText(true)
                         .setVerticalAlignment(ExcelVerticalAlignmentEnum.TOP).setHeight(1500))
-                .createCell().setValue("1. 红色为必填字段。\n" +
-                        "2. 公司编码相同新数据直接覆盖旧数据。\n" +
-                        "3. 数据状态可选项：草稿,未启用,以启用,已禁用。未填写时默认状态为已启用状态。\n" +
-                        "4. 公司不能选择自身作为上级公司。")
+                .createCell().setValue(I18nUtils.getMessage("business.template.company.desc"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 93, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).build()))
                         .add(new RichTextFormat(0, 11, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
@@ -78,19 +76,19 @@ public class PamirsCompanyTemplate implements ExcelTemplateInit {
                 .createCell().and()
                 .and()
                 .createHeader().setStyleBuilder(ExcelHelper.createDefaultStyle(v -> v.setBold(Boolean.TRUE)).setHorizontalAlignment(ExcelHorizontalAlignmentEnum.CENTER))
-                .createCell().setValue("公司编码")
+                .createCell().setValue(I18nUtils.getMessage("business.template.company.header.code"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 4, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
                         .build()))
                 .and()
-                .createCell().setValue("公司名称")
+                .createCell().setValue(I18nUtils.getMessage("business.template.company.header.name"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 4, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
                         .build()))
                 .and()
-                .createCell().setValue("数据状态").and()
-                .createCell().setValue("上级公司编码").and()
-                .createCell().setValue("上级公司名称").and()
-                .createCell().setValue("备注");
+                .createCell().setValue(I18nUtils.getMessage("business.template.company.header.status")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.company.header.parentCode")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.company.header.parentName")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.company.header.remark"));
     }
 }

@@ -16,6 +16,7 @@ import pro.shushi.pamirs.file.api.model.ExcelCellDefinition;
 import pro.shushi.pamirs.file.api.model.ExcelCellRangeDefinition;
 import pro.shushi.pamirs.file.api.model.ExcelExportTask;
 import pro.shushi.pamirs.file.api.model.ExcelHeaderDefinition;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.resource.api.model.ResourceMajorConfig;
 
@@ -90,7 +91,7 @@ public class CSVWorkbookHelper {
             csvMaxSupportLength = BeanDefinitionUtils.getBean(FileProperties.class).getExportProperty().getCsvMaxSupportLength();
         }
         if (targets.size() > csvMaxSupportLength) {
-            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, String.format("CSV格式最大支持%d行数据导出，请添加过滤条件再进行导出操作", csvMaxSupportLength));
+            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("ExcelExportHelper.csv_max_support_length", csvMaxSupportLength));
             return;
         }
         fillHeader(exportContext, blockDefinition, rowList);

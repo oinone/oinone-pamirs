@@ -26,6 +26,7 @@ import pro.shushi.pamirs.eip.api.model.EipInterfaceTestTransient;
 import pro.shushi.pamirs.eip.api.model.EipParamProcessor;
 import pro.shushi.pamirs.eip.api.service.EipInterfaceTestService;
 import pro.shushi.pamirs.eip.api.util.EipHelper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -55,7 +56,7 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
         }
         return data.setIsDevelopment(Boolean.FALSE)
                 .setInterfaceName("")
-                .setTip("请确认接口调用环境是否为可测试环境，否则可能带来不可挽回的后果")
+                .setTip(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.confirm_test_env"))
                 .setResponseData("");
     }
 
@@ -84,23 +85,23 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
 //        }
         StringBuilder finalRequestParamsBuilder = new StringBuilder();
         String finalResultKey = paramProcessor.getFinalResultKey();
-        finalRequestParamsBuilder.append("最终请求出参键值: ");
+        finalRequestParamsBuilder.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.final_req_out_key"));
         if (StringUtils.isBlank(finalResultKey)) {
-            finalRequestParamsBuilder.append("全部");
+            finalRequestParamsBuilder.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.all"));
         } else {
             finalRequestParamsBuilder.append(finalResultKey);
         }
         finalRequestParamsBuilder.append("\n");
         if (executorContextParamsBuilder.length() >= 1) {
-            finalRequestParamsBuilder.append("上下文参数:\n").append(executorContextParamsBuilder.toString());
+            finalRequestParamsBuilder.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.context_params")).append(executorContextParamsBuilder.toString());
         }
         if (interfaceContextParamsBuilder.length() >= 1) {
-            finalRequestParamsBuilder.append("请求参数:\n").append(interfaceContextParamsBuilder.toString());
+            finalRequestParamsBuilder.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.request_params")).append(interfaceContextParamsBuilder.toString());
         }
 //        if (incrementalParamsBuilder.length() >= 1) {
 //            finalRequestParamsBuilder.append("增量参数:\n").append(incrementalParamsBuilder.toString());
 //        }
-        return data.setTip("请确认接口调用环境是否为可测试环境，否则可能带来不可挽回的后果")
+        return data.setTip(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.confirm_test_env"))
                 .setInterfaceName("")
                 .setResponseData("")
                 .setRequestParams(finalRequestParamsBuilder.toString());
@@ -108,25 +109,25 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
 
     private void appendRequestParams(StringBuilder sb, IEipConvertParam<SuperMap> convertParam) {
         if (convertParam.getRequired()) {
-            sb.append("(必填) ");
+            sb.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.required"));
         } else {
             sb.append("           ");
         }
-        sb.append("入参: ");
+        sb.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.input_param"));
         String inParam = convertParam.getInParam();
         if (StringUtils.isBlank(inParam)) {
-            sb.append("无");
+            sb.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.none"));
         } else {
             sb.append(inParam);
         }
-        sb.append("\n           出参: ").append(convertParam.getOutParam());
+        sb.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.output_param")).append(convertParam.getOutParam());
         Object defaultValue = convertParam.getDefaultValue();
         if (ObjectHelper.isNotBlank(defaultValue)) {
-            sb.append("; 默认值: ").append(StringHelper.valueOf(defaultValue));
+            sb.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.default_value")).append(StringHelper.valueOf(defaultValue));
         }
         Boolean isKeepNull = convertParam.getIsKeepNull();
         if (isKeepNull != null) {
-            sb.append("; 保留空值: ").append(isKeepNull);
+            sb.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.keep_null")).append(isKeepNull);
         }
         if (ParamTypeEnum.ENUMERATION.equals(convertParam.getInParamType())) {
             for (Map.Entry<String, String> mapping : Optional.ofNullable(convertParam.getConvertMap()).map(Map::entrySet).orElse(new HashSet<>())) {
@@ -137,16 +138,16 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
     }
 
     private void appendRequestParams(StringBuilder sb, EipIncrementalParam incrementalParam) {
-        sb.append("         ").append("入参: ");
+        sb.append("         ").append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.input_param"));
         String inParam = incrementalParam.getInParam();
         if (StringUtils.isBlank(inParam)) {
-            sb.append("无");
+            sb.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.none"));
         } else {
             sb.append(inParam);
         }
-        sb.append(" 出参: ").append(incrementalParam.getOutParam())
-                .append(" 初始值: ").append(incrementalParam.getInitializationValue())
-                .append(" 当前值: ").append(incrementalParam.getCurrentValue())
+        sb.append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.output_param")).append(incrementalParam.getOutParam())
+                .append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.initial_value")).append(incrementalParam.getInitializationValue())
+                .append(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.current_value")).append(incrementalParam.getCurrentValue())
                 .append("\n");
     }
 
@@ -177,9 +178,9 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
         IEipContext<?> context = mockParamSerializable(data, integrationInterface);
         EipResult<?> result = EipInterfaceContext.call((IEipIntegrationInterface) integrationInterface, context.getExecutorContext(), context.getInterfaceContext());
         if (result.getSuccess()) {
-            data.setTip("调用成功");
+            data.setTip(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.call_success"));
         } else {
-            data.setTip("调用失败: " + result.getErrorCode() + " - " + result.getErrorMessage());
+            data.setTip(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.call_failed") + result.getErrorCode() + " - " + result.getErrorMessage());
         }
         try {
             String responseData = result.getResult(String.class);

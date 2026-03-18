@@ -61,7 +61,7 @@ public class SQLRecordInterceptor implements Interceptor {
                 }
             }
         } catch (Throwable exp) {
-            log.error("获取SQL上下文异常", exp);
+            log.error("Get SQL context exception", exp);
         }
         return result;
     }

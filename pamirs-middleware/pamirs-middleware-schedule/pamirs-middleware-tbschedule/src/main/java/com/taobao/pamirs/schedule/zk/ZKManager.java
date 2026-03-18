@@ -71,10 +71,10 @@ public class ZKManager {
 
     private void sessionEvent(CountDownLatch connectionLatch, WatchedEvent event) {
         if (event.getState() == KeeperState.SyncConnected) {
-            log.info("收到ZK连接成功事件！");
+            log.info("Received ZK connection successful event!");
             connectionLatch.countDown();
         } else if (event.getState() == KeeperState.Expired) {
-            log.error("会话超时，等待重新建立ZK连接...");
+            log.error("Session timeout, waiting to re-establish ZK connection...");
             try {
                 reConnection();
             } catch (Exception e) {
@@ -82,21 +82,21 @@ public class ZKManager {
             }
         } // Disconnected：Zookeeper会自动处理Disconnected状态重连
         else if (event.getState() == KeeperState.Disconnected) {
-            log.info("与ZK断开连接，等待重新建立ZK连接...");
+            log.info("Disconnected from ZK, waiting to re-establish ZK connection...");
             try {
                 reConnection();
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
         } else {
-            log.info("tb_hj_schedule 会话有其他状态的值，event.getState() =" + event.getState() + ", event  value=" + event
+            log.info("tb_hj_schedule session has other status values, event.getState() =" + event.getState() + ", event value=" + event
                     .toString());
             connectionLatch.countDown();
         }
     }
 
     public void close() throws InterruptedException {
-        log.info("关闭zookeeper连接");
+        log.info("Close zookeeper connection");
         if (zk == null) {
             return;
         }
@@ -150,7 +150,7 @@ public class ZKManager {
                     throw new Exception(
                             "TBSchedule程序版本 " + Version.getVersion() + " 不兼容Zookeeper中的数据版本 " + dataVersion);
                 }
-                log.info("当前的程序版本:" + Version.getVersion() + " 数据版本: " + dataVersion);
+                log.info("Current program version:" + Version.getVersion() + " Data version: " + dataVersion);
             }
         }
     }

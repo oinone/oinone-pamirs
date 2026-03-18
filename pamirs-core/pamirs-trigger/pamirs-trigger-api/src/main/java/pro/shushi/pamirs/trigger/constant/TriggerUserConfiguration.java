@@ -9,5 +9,5 @@ public class TriggerUserConfiguration {
 
     public static final String TRIGGER_SYSTEM_USER_CODE = "trigger_system";
 
-    public static final String TRIGGER_SYSTEM_USER_NAME = "触发任务系统用户";
+    public static final String TRIGGER_SYSTEM_USER_NAME = "TriggerUserConfiguration.user.name";
 }

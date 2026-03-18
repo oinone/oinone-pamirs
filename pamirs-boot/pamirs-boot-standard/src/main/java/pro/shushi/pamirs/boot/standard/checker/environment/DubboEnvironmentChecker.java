@@ -7,6 +7,7 @@ import pro.shushi.pamirs.boot.standard.config.EnvironmentProtectedConfig;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentCheckContext;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentKey;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentKeySet;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.constants.NamespaceConstants;
 import pro.shushi.pamirs.meta.common.spi.HoldKeeper;
 import pro.shushi.pamirs.meta.domain.PlatformEnvironment;
@@ -19,7 +20,7 @@ import pro.shushi.pamirs.meta.domain.PlatformEnvironment;
 @Component
 public class DubboEnvironmentChecker extends AbstractPlatformEnvironmentChecker implements PlatformEnvironmentChecker {
 
-    private static final String DUBBO_SERIALIZATION_ERROR = "dubbo序列化必须配置为: pamirs";
+    private static final String DUBBO_SERIALIZATION_ERROR = "DubboEnvironmentChecker.DUBBO_SERIALIZATION_ERROR";
 
     private static final HoldKeeper<Boolean> isUsingDistributionFaas = new HoldKeeper<>();
 
@@ -60,7 +61,7 @@ public class DubboEnvironmentChecker extends AbstractPlatformEnvironmentChecker 
             }
             String newValue = currentEnvironment.getValue();
             if (!NamespaceConstants.pamirs.equals(newValue)) {
-                context.addError(currentEnvironment, DUBBO_SERIALIZATION_ERROR);
+                context.addError(currentEnvironment, I18nUtils.getMessage(DUBBO_SERIALIZATION_ERROR));
             }
             return currentEnvironment;
         }
@@ -70,7 +71,7 @@ public class DubboEnvironmentChecker extends AbstractPlatformEnvironmentChecker 
             if (!isUsingDistributionFaas()) {
                 return null;
             }
-            context.addError(historyEnvironment, DUBBO_SERIALIZATION_ERROR);
+            context.addError(historyEnvironment, I18nUtils.getMessage(DUBBO_SERIALIZATION_ERROR));
             return null;
         }
     }

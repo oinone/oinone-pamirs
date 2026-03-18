@@ -56,7 +56,7 @@ public class TranslateErrorManager {
             }
             result.setErrors(errors);
         } catch (Throwable exp) {
-            log.error("翻译Exp发生异常", exp);
+            log.error("Translate Exp exception occurred", exp);
         }
     }
 }

@@ -6,6 +6,7 @@ import pro.shushi.pamirs.eip.api.enmu.CircuitBreakerStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate;
 import pro.shushi.pamirs.eip.api.strategy.listener.EipCircuitBreakerStatusChangeListener;
 import pro.shushi.pamirs.eip.api.strategy.service.EipCircuitBreakerStateSyncService;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
@@ -26,7 +27,7 @@ public class EipCircuitBreakerStateSyncServiceImpl extends AbstractEipDistribute
 
     @Override
     protected String getDisplayName() {
-        return "集成接口熔断器";
+        return I18nUtils.getMessage("EipCircuitBreakerStateSyncServiceImpl.displayName");
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.taobao.pamirs.schedule.strategy.ScheduleStrategyRunntime;
 import com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooKeeper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.middleware.schedule.spring.ScheduleSystemInfo;
 
 import java.io.Writer;
@@ -57,8 +58,8 @@ public class ScheduleStrategyDataManager4ZK {
         if (this.getZooKeeper().exists(zkPath, false) == null) {
             this.getZooKeeper().create(zkPath, valueString.getBytes(), this.zkManager.getAcl(), CreateMode.PERSISTENT);
         } else {
-            throw new Exception("调度策略" + scheduleStrategy.getStrategyName()
-                    + "已经存在,如果确认需要重建，请先调用deleteMachineStrategy(String taskType)删除");
+            throw new Exception(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.strategy_exists") + scheduleStrategy.getStrategyName()
+                    + I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.strategy_exists_suffix"));
         }
     }
 
@@ -92,7 +93,7 @@ public class ScheduleStrategyDataManager4ZK {
     public void deleteMachineStrategy(String taskType, boolean isForce) throws Exception {
         String zkPath = this.PATH_Strategy + "/" + taskType;
         if (isForce == false && this.getZooKeeper().getChildren(zkPath, null).size() > 0) {
-            throw new Exception("不能删除" + taskType + "的运行策略，会导致必须重启整个应用才能停止失去控制的调度进程。" + "可以先清空IP地址，等所有的调度器都停止后再删除调度策略");
+            throw new Exception(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.cannot_delete_strategy") + taskType + I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.cannot_delete_strategy_middle"));
         }
         ZKTools.deleteTree(this.getZooKeeper(), zkPath);
     }
@@ -189,13 +190,13 @@ public class ScheduleStrategyDataManager4ZK {
                 String valueString = new String(value);
                 result = this.gson.fromJson(valueString, ScheduleStrategyRunntime.class);
                 if (null == result) {
-                    throw new Exception("gson 反序列化异常,对象为null");
+                    throw new Exception(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.gson_null_obj"));
                 }
                 if (null == result.getStrategyName()) {
-                    throw new Exception("gson 反序列化异常,策略名字为null");
+                    throw new Exception(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.gson_null_strategy_name"));
                 }
                 if (null == result.getUuid()) {
-                    throw new Exception("gson 反序列化异常,uuid为null");
+                    throw new Exception(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.gson_null_uuid"));
                 }
             } else {
                 result = new ScheduleStrategyRunntime();
@@ -303,7 +304,7 @@ public class ScheduleStrategyDataManager4ZK {
     public void updateManagerFactoryInfo(String uuid, boolean isStart) throws Exception {
         String zkPath = this.PATH_ManagerFactory + "/" + uuid;
         if (this.getZooKeeper().exists(zkPath, false) == null) {
-            throw new Exception("任务管理器不存在:" + uuid);
+            throw new Exception(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.task_manager_not_exist") + uuid);
         }
         this.getZooKeeper().setData(zkPath, Boolean.toString(isStart).getBytes(), -1);
     }
@@ -311,7 +312,7 @@ public class ScheduleStrategyDataManager4ZK {
     public ManagerFactoryInfo loadManagerFactoryInfo(String uuid) throws Exception {
         String zkPath = this.PATH_ManagerFactory + "/" + uuid;
         if (this.getZooKeeper().exists(zkPath, false) == null) {
-            throw new Exception("任务管理器不存在:" + uuid);
+            throw new Exception(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.task_manager_not_exist") + uuid);
         }
         byte[] value = this.getZooKeeper().getData(zkPath, false, null);
         ManagerFactoryInfo result = new ManagerFactoryInfo();
@@ -334,14 +335,14 @@ public class ScheduleStrategyDataManager4ZK {
             ZKTools.createPath(getZooKeeper(), path, CreateMode.PERSISTENT, zkManager.getAcl());
             String y_node = path + "/" + configNode.getName();
             if (getZooKeeper().exists(y_node, false) == null) {
-                writer.append("<font color=\"red\">成功导入新配置信息\n</font>");
+                writer.append(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.import_success"));
                 getZooKeeper()
                         .create(y_node, configNode.getValue().getBytes(), zkManager.getAcl(), CreateMode.PERSISTENT);
             } else if (isUpdate) {
-                writer.append("<font color=\"red\">该配置信息已经存在，并且强制更新了\n</font>");
+                writer.append(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.config_exists_forced_update"));
                 getZooKeeper().setData(y_node, configNode.getValue().getBytes(), -1);
             } else {
-                writer.append("<font color=\"red\">该配置信息已经存在，如果需要更新，请配置强制更新\n</font>");
+                writer.append(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.config_exists_need_force"));
             }
         }
         writer.append(configNode.toString());
@@ -354,9 +355,9 @@ public class ScheduleStrategyDataManager4ZK {
         StringBuffer buffer = new StringBuffer();
         for (String type : new String[]{"baseTaskType", "strategy"}) {
             if (type.equals("baseTaskType")) {
-                writer.write("<h2>基本任务配置列表：</h2>\n");
+                writer.write(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.basic_task_config_list"));
             } else {
-                writer.write("<h2>基本策略配置列表：</h2>\n");
+                writer.write(I18nUtils.getMessage("pamirs-middleware-tbschedule.ScheduleStrategyDataManager4ZK.basic_strategy_config_list"));
             }
             String bTTypePath = rootPath + "/" + type;
             List<String> fNodeList = getZooKeeper().getChildren(bTTypePath, false);

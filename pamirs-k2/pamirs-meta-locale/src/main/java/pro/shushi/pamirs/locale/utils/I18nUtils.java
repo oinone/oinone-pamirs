@@ -193,6 +193,22 @@ public class I18nUtils {
         return translate(code, defaultMessage);
     }
 
+    public static String translateFieldInViewTemplate(String modelModel, String viewName, String fieldName, String property, String defaultMessage) {
+        String code = MetadataConstants.VIEW_TEMPLATE + MetadataConstants.SPLIT + modelModel + MetadataConstants.SPLIT + viewName
+                + MetadataConstants.SPLIT + MetadataConstants.FIELD
+                + MetadataConstants.SPLIT + fieldName
+                + MetadataConstants.SPLIT + property;
+        return translate(code, defaultMessage);
+    }
+
+    public static String translateActionInViewTemplate(String modelModel, String viewName, String actionName, String property, String defaultMessage) {
+        String code = MetadataConstants.VIEW_TEMPLATE + MetadataConstants.SPLIT + modelModel + MetadataConstants.SPLIT + viewName
+                + MetadataConstants.SPLIT + MetadataConstants.ACTION
+                + MetadataConstants.SPLIT + actionName
+                + MetadataConstants.SPLIT + property;
+        return translate(code, defaultMessage);
+    }
+
     public static String translateServerAction(String module, String modelModel, String name, String field, String defaultMessage) {
         String code = module + MetadataConstants.SPLIT + MetadataConstants.SERVER_ACTION
                 + MetadataConstants.SPLIT + modelModel

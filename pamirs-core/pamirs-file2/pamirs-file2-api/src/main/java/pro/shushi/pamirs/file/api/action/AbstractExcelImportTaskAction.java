@@ -14,23 +14,25 @@ import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.file.api.service.ExcelFileService;
 import pro.shushi.pamirs.file.api.util.EasyExcelHelper;
 import pro.shushi.pamirs.file.api.util.ExcelWorkbookDefinitionUtil;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
+import pro.shushi.pamirs.file.api.util.ResourceFileHelper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
+
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 import java.util.Optional;
-
 /**
  * @author Adamancy Zhang
  * @date 2020-11-10 12:25
  */
 @Slf4j
+
 public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
 
     protected ExcelFileService excelFileService;
 
     private FileProperties fileProperties;
-
     public AbstractExcelImportTaskAction(FileProperties fileProperties, ExcelFileService excelFileService) {
         this.fileProperties = fileProperties;
         this.excelFileService = excelFileService;
@@ -63,14 +65,16 @@ public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
             try {
                 doImport(data, definitionContext);
             } catch (Throwable t) {
-                log.error("导入数据过程中出现不可预知的异常", t);
+                log.error("Unpredictable exception occurred during data import", t);
                 data.setState(ExcelTaskStateEnum.FAILURE);
                 data.addTaskMessage(TaskMessageLevelEnum.ERROR, EasyExcelHelper.getErrorMessage(t));
                 data.updateById();
             }
-        } catch (Throwable t) {
-            PamirsSession.getMessageHub().info("导入文件异常");
-            log.error("导入数据过程中出现不可预知的异常", t);
+        } catch (Throwable e) {
+            log.error("doImport error.", e);
+            if (PamirsSession.getMessageHub().isSuccess()) {
+                PamirsSession.getMessageHub().info(I18nUtils.getMessage("pamirs.file.excel.import.exception"));
+            }
         }
 
         return data;

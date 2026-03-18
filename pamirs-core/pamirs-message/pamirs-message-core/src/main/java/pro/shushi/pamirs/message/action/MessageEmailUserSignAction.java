@@ -11,6 +11,7 @@ import pro.shushi.pamirs.meta.annotation.validation.Validation;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.WriteWithFieldApi;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.constant.ExpConstants;
 
 import static pro.shushi.pamirs.message.enmu.MessageExpEnumerate.BIZ_ERROR;
@@ -36,7 +37,7 @@ public class MessageEmailUserSignAction {
         if (StringUtils.isNotBlank(data.getName()) && Models.origin().count(Pops.<EmailUserSign>lambdaQuery()
                 .from(EmailUserSign.MODEL_MODEL)
                 .eq(EmailUserSign::getName, data.getName())) > 0) {
-            throw PamirsException.construct(BIZ_ERROR).appendMsg("邮件签名已经存在，不能重复").errThrow();
+            throw PamirsException.construct(BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.message.email.sign.duplicate")).errThrow();
         }
         return defaultWriteWithFieldApi.createWithField(data);
     }
@@ -52,7 +53,7 @@ public class MessageEmailUserSignAction {
                 .from(EmailUserSign.MODEL_MODEL)
                 .ne(EmailUserSign::getId, data.getId())
                 .eq(EmailUserSign::getName, data.getName())) > 0) {
-            throw PamirsException.construct(BIZ_ERROR).appendMsg("邮件签名已经存在，不能重复").errThrow();
+            throw PamirsException.construct(BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.message.email.sign.duplicate")).errThrow();
         }
         return defaultWriteWithFieldApi.updateWithField(data);
     }

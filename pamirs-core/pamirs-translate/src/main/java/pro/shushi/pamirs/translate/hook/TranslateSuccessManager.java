@@ -38,7 +38,7 @@ public class TranslateSuccessManager {
                 extObj.put(ClientGraphQLError.MESSAGES, msgList);
             }
         } catch (Throwable exp) {
-            log.error("翻译Exp发生异常", exp);
+            log.error("Translate Exp exception occurred", exp);
         }
     }
 }

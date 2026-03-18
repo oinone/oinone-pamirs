@@ -32,6 +32,10 @@ import java.util.*;
 @Component
 public class AppConfigTranslationExtend implements AppConfigLoaderExtendApi {
 
+    private static final String CURRENT_LANGUAGE_KEY = "currentLanguage";
+
+    private static final String CURRENT_LANGUAGE_ISO_CODE_KEY = "currentLanguageIsoCode";
+
     private static final String RESOURCE_TRANSLATIONS_KEY = "resourceTranslations";
 
     @Autowired
@@ -51,6 +55,8 @@ public class AppConfigTranslationExtend implements AppConfigLoaderExtendApi {
         }
         AppConfig globalAppConfig = getOrAddGlobalAppConfig(appConfigs);
         Map<String, Object> extend = globalAppConfig.getExtend();
+        extend.put(CURRENT_LANGUAGE_KEY, TranslateServiceHolder.get().getCurrentLang());
+        extend.put(CURRENT_LANGUAGE_ISO_CODE_KEY, TranslateServiceHolder.get().getCurrentLangIsoCode());
         extend.put(RESOURCE_TRANSLATIONS_KEY, resourceTranslations);
         return appConfigs;
     }

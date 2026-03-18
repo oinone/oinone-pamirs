@@ -39,21 +39,21 @@ public class RecordFilterManager {
 
             String[] dbTable = StringUtils.split(_filter, ".");
             if (dbTable.length < 2) {
-                log.error("过滤表达式异常{}", _filter);
+                log.error("Filter expression exception {}", _filter);
                 continue;
             }
 
             String table = dbTable[1];
             List<String> models = PamirsSession.getContext().getModelsByTable(table);
             if (CollectionUtils.isEmpty(models)) {
-                log.error("未通过表名获取到模型{}", table);
+                log.error("Model not found by table name {}", table);
                 FILTER_SET.put(_filter, filter.getFilterType());
                 continue;
             }
             for (String model : models) {
                 ModelConfig modelCfg = PamirsSession.getContext().getModelConfig(model);
                 if (null == modelCfg) {
-                    log.error("未获取到模型{}", model);
+                    log.error("Model not obtained {}", model);
                     continue;
                 }
 

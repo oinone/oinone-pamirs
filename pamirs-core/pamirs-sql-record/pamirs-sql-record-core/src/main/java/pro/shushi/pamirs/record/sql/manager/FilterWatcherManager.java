@@ -55,7 +55,7 @@ public class FilterWatcherManager {
                 client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(sqlRecordRoot);
             }
         } catch (Exception exp) {
-            log.error("创建节点异常: [{}]", sqlRecordRoot, exp);
+            log.error("Exception creating node: [{}]", sqlRecordRoot, exp);
         }
         String myPath = sqlRecordRoot + "/" + MY_ID;
         try {
@@ -63,7 +63,7 @@ public class FilterWatcherManager {
                 client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(myPath, "0".getBytes(StandardCharsets.UTF_8));
             }
         } catch (Exception exp) {
-            log.error("创建MyPath节点异常: [{}]", myPath, exp);
+            log.error("Exception creating MyPath node: [{}]", myPath, exp);
         }
 
         NodeCache nodeCache = new NodeCache(client, myPath);
@@ -71,7 +71,7 @@ public class FilterWatcherManager {
         try {
             nodeCache.start();
         } catch (Exception e) {
-            log.error("监听节点异常", e);
+            log.error("Exception listening to node", e);
         }
     }
 
@@ -90,7 +90,7 @@ public class FilterWatcherManager {
 
         @Override
         public void nodeChanged() throws Exception {
-            log.info("刷新事件触发");
+            log.info("Refresh event triggered");
             ChildData childData = nodeCache.getCurrentData();
             String myPath = nodeCache.getPath();
             if (null == childData) {
@@ -118,9 +118,9 @@ public class FilterWatcherManager {
                 if (StringUtils.isNotBlank(oldTenant)) {
                     PamirsTenantSession.setTenant(oldTenant);
                 }
-                log.info("刷新Filter");
+                log.info("Refresh Filter");
                 client.setData().forPath(myPath, "0".getBytes(StandardCharsets.UTF_8));
-                log.info("重置刷新状态");
+                log.info("Reset refresh status");
             }
         }
     }
@@ -143,13 +143,13 @@ public class FilterWatcherManager {
                                 client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(myPath, "0".getBytes(StandardCharsets.UTF_8));
                             }
                         }
-                        log.info("重新连接成功 [{}]", myPath);
+                        log.info("Reconnection successful [{}]", myPath);
                         break;
                     } catch (InterruptedException e) {
-                        log.info("重新连接中断");
+                        log.info("Reconnection interrupted");
                         break;
                     } catch (Exception exp) {
-                        log.error("重新连接创建MyPath节点异常: [{}]", myPath, exp);
+                        log.error("Exception creating MyPath node during reconnection: [{}]", myPath, exp);
                     }
                 }
             }
@@ -165,7 +165,7 @@ public class FilterWatcherManager {
         try {
             children = client.getChildren().forPath(sqlRecordRoot);
         } catch (Exception exp) {
-            log.error("获取子节点异常: [{}]", sqlRecordRoot, exp);
+            log.error("Exception getting child nodes: [{}]", sqlRecordRoot, exp);
         }
 
         if (CollectionUtils.isEmpty(children)) {
@@ -179,7 +179,7 @@ public class FilterWatcherManager {
                     client.setData().forPath(sqlRecordRoot + "/" + child, "1".getBytes(StandardCharsets.UTF_8));
                 }
             } catch (Exception exp) {
-                log.error("更新子节点异常: [{}]", child, exp);
+                log.error("Exception updating child node: [{}]", child, exp);
             }
         }
         recordFilterManager.initFilterCache();

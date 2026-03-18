@@ -27,7 +27,7 @@ public class ScheduleWatcher implements Watcher {
     @Override
     public void process(WatchedEvent event) {
         if (log.isInfoEnabled()) {
-            log.info("已经触发了" + event.getType() + ":" + event.getState() + "事件！" + event.getPath());
+            log.info("Triggered " + event.getType() + ":" + event.getState() + " event! " + event.getPath());
         }
         if (event.getType() == Event.EventType.NodeChildrenChanged) {
             String path = event.getPath();
@@ -45,7 +45,7 @@ public class ScheduleWatcher implements Watcher {
                     }
                 }
             } else {
-                log.info("已经触发了" + event.getType() + ":" + event.getState() + "事件！" + event.getPath());
+                log.info("Triggered " + event.getType() + ":" + event.getState() + " event! " + event.getPath());
             }
         } else if (event.getState() == KeeperState.AuthFailed) {
             log.info("tb_hj_schedule zk status =KeeperState.AuthFailed！");
@@ -59,7 +59,7 @@ public class ScheduleWatcher implements Watcher {
                 log.error(e.getMessage(), e);
             }
         } else if (event.getState() == KeeperState.NoSyncConnected) {
-            log.info("tb_hj_schedule zk status =KeeperState.NoSyncConnected！等待重新建立ZK连接.. ");
+            log.info("tb_hj_schedule zk status =KeeperState.NoSyncConnected! Waiting to re-establish ZK connection.. ");
             try {
                 manager.reConnection();
             } catch (Exception e) {
@@ -70,9 +70,9 @@ public class ScheduleWatcher implements Watcher {
         } else if (event.getState() == KeeperState.Unknown) {
             log.info("tb_hj_schedule zk status =KeeperState.Unknown！");
         } else if (event.getState() == KeeperState.SyncConnected) {
-            log.info("收到ZK连接成功事件！");
+            log.info("Received ZK connection successful event!");
         } else if (event.getState() == KeeperState.Expired) {
-            log.error("会话超时，等待重新建立ZK连接...");
+            log.error("Session timeout, waiting to re-establish ZK connection...");
             try {
                 manager.reConnection();
             } catch (Exception e) {

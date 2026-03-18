@@ -157,7 +157,7 @@ public class AuthCompileHelper {
             subView.setName(resViewName);
             return subView;
         } catch (Exception e) {
-            log.error("解析视图异常 视图名称:{} ，模型编码 {}", resViewName, model, e);
+            log.error("Parse view exception view name: {}, model code {}", resViewName, model, e);
         }
         return null;
     }
@@ -172,7 +172,7 @@ public class AuthCompileHelper {
         }
         String template = view.getTemplate();
         if (StringUtils.isEmpty(template)) {
-            log.warn("subViewForAction-template is null. 【{},{},{}】", uiAction.getModel(), uiAction.getName(), uiAction.getDisplayName());
+            log.warn("subViewForAction-template is null. [{},{},{}]", uiAction.getModel(), uiAction.getName(), uiAction.getDisplayName());
             return null;
         }
 
@@ -182,7 +182,7 @@ public class AuthCompileHelper {
             subView.setName(view.getName());
             return subView;
         } catch (Exception e) {
-            log.error("解析视图异常 视图名称:{} ，模型编码 {}", view.getName(), resModel, e);
+            log.error("Parse view exception view name: {}, model code {}", view.getName(), resModel, e);
         }
         return null;
     }

@@ -2,9 +2,9 @@ package pro.shushi.pamirs.resource.core.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import pro.shushi.pamirs.core.common.constant.CommonConstants;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
-import pro.shushi.pamirs.resource.api.constants.DefaultResourceConstants;
 import pro.shushi.pamirs.resource.api.model.ResourceMajorConfig;
 import pro.shushi.pamirs.resource.api.service.ResourceMajorConfigService;
 
@@ -25,7 +25,7 @@ public class ResourceMajorConfigServiceImpl implements ResourceMajorConfigServic
             resourceMajorConfig = new ResourceMajorConfig();
         }
         if (StringUtils.isBlank(resourceMajorConfig.getDefaultAppLogo())) {
-            resourceMajorConfig.setDefaultAppLogo(DefaultResourceConstants.DEFAULT_BRAND_LOGO);
+            resourceMajorConfig.setDefaultAppLogo(CommonConstants.getDefaultBrandLogoUrl());
         }
         return resourceMajorConfig;
     }

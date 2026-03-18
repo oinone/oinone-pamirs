@@ -145,7 +145,7 @@ public class TBScheduleManagerFactory implements ApplicationContextAware {
                 result.initialTaskParameter(strategy.getStrategyName(), strategy.getTaskParameter());
             }
         } catch (Exception e) {
-            logger.error("strategy 获取对应的java or bean 出错,schedule并没有加载该任务,请确认" + strategy.getStrategyName(), e);
+            logger.error("Strategy get corresponding java or bean error, schedule did not load this task, please confirm " + strategy.getStrategyName(), e);
         }
         return result;
     }
@@ -160,7 +160,7 @@ public class TBScheduleManagerFactory implements ApplicationContextAware {
                 stsInfo = this.getScheduleStrategyManager().loadManagerFactoryInfo(this.getUuid());
             } catch (Exception e) {
                 isException = true;
-                logger.error("获取服务器信息有误：uuid=" + this.getUuid(), e);
+                logger.error("Error getting server info: uuid=" + this.getUuid(), e);
             }
             if (isException == true) {
                 try {
@@ -226,7 +226,7 @@ public class TBScheduleManagerFactory implements ApplicationContextAware {
             }
             return true;
         } catch (Exception e) {
-            logger.error("判断Leader出错：uuif=" + uuid, e);
+            logger.error("Error determining Leader: uuid=" + uuid, e);
             return true;
         }
     }
@@ -244,7 +244,7 @@ public class TBScheduleManagerFactory implements ApplicationContextAware {
                 try {
                     task.stop(run.getStrategyName());
                 } catch (Throwable e) {
-                    logger.error("注销任务错误：strategyName=" + run.getStrategyName(), e);
+                    logger.error("Error unregistering task: strategyName=" + run.getStrategyName(), e);
                 }
             }
             // 不足，增加调度器
@@ -252,7 +252,7 @@ public class TBScheduleManagerFactory implements ApplicationContextAware {
             while (list.size() < run.getRequestNum()) {
                 IStrategyTask result = this.createStrategyTask(strategy);
                 if (null == result) {
-                    logger.error("strategy 对应的配置有问题。strategy name=" + strategy.getStrategyName());
+                    logger.error("Problem with strategy config. strategy name=" + strategy.getStrategyName());
                 }
                 list.add(result);
             }
@@ -270,7 +270,7 @@ public class TBScheduleManagerFactory implements ApplicationContextAware {
                     try {
                         task.stop(strategyName);
                     } catch (Throwable e) {
-                        logger.error("注销任务错误：strategyName=" + strategyName, e);
+                        logger.error("Error unregistering task: strategyName=" + strategyName, e);
                     }
                 }
                 this.managerMap.remove(name);
@@ -282,7 +282,7 @@ public class TBScheduleManagerFactory implements ApplicationContextAware {
                     try {
                         task.stop(strategyName);
                     } catch (Throwable e) {
-                        logger.error("注销任务错误：strategyName=" + strategyName, e);
+                        logger.error("Error unregistering task: strategyName=" + strategyName, e);
                     }
                 }
                 this.managerMap.remove(strategyName);
@@ -320,13 +320,13 @@ public class TBScheduleManagerFactory implements ApplicationContextAware {
                         zk.close();
                     }
                 } catch (Exception e) {
-                    logger.error("stopAll zk getZooKeeper异常！", e);
+                    logger.error("stopAll zk getZooKeeper exception!", e);
                 }
             }
             this.uuid = null;
-            logger.info("stopAll 停止服务成功！");
+            logger.info("stopAll stop service successfully!");
         } catch (Throwable e) {
-            logger.error("stopAll 停止服务失败：" + e.getMessage(), e);
+            logger.error("stopAll stop service failed: " + e.getMessage(), e);
         } finally {
             lock.unlock();
         }
@@ -351,7 +351,7 @@ public class TBScheduleManagerFactory implements ApplicationContextAware {
             this.uuid = null;
             this.init();
         } catch (Throwable e) {
-            logger.error("重启服务失败：" + e.getMessage(), e);
+            logger.error("Restart service failed: " + e.getMessage(), e);
         }
     }
 
@@ -440,7 +440,7 @@ class ManagerFactoryTimerTask extends java.util.TimerTask {
             Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
             if (this.factory.zkManager.checkZookeeperState() == false) {
                 if (count > 5) {
-                    log.error("Zookeeper连接失败，关闭所有的任务后，重新连接Zookeeper服务器......");
+                    log.error("Zookeeper connection failed, closing all tasks and reconnecting to Zookeeper server......");
                     this.factory.reStart();
 
                 } else {

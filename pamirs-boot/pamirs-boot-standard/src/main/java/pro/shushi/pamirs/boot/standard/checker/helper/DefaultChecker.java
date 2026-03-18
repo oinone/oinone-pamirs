@@ -36,7 +36,7 @@ public class DefaultChecker implements EnvironmentKey.Checker {
                     if (oldValue != null && oldValue.startsWith("${") && oldValue.endsWith("}")) {
                         break;
                     }
-                    addError(context, currentEnvironment, getErrorMessage(key.getMessage(), EnvironmentCheckConstants.IMMUTABLE_TIP + oldValue));
+                    addError(context, currentEnvironment, getErrorMessage(key.getMessage(), EnvironmentCheckConstants.getImmutableTip() + oldValue));
                 }
                 break;
             case ADD:
@@ -46,7 +46,7 @@ public class DefaultChecker implements EnvironmentKey.Checker {
                     if (oldValue.startsWith("${") && oldValue.endsWith("}")) {
                         break;
                     }
-                    addError(context, currentEnvironment, getErrorMessage(key.getMessage(), EnvironmentCheckConstants.IMMUTABLE_TIP + oldValue));
+                    addError(context, currentEnvironment, getErrorMessage(key.getMessage(), EnvironmentCheckConstants.getImmutableTip() + oldValue));
                 }
                 break;
             case ERROR:

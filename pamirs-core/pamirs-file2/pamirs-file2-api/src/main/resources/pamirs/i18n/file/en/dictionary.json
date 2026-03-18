@@ -390,7 +390,8 @@
     },
     "BOOLEAN": {
       "displayName": "Boolean",
-      "help": "Boolean"
+      "help": "Boolean",
+      "defaultFormat": "{\"true\":\"Yes\",\"false\":\"No\"}"
     },
     "CALENDAR": {
       "displayName": "Calendar",

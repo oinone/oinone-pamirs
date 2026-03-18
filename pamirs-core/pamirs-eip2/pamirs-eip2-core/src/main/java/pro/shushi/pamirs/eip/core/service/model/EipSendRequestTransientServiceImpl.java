@@ -136,7 +136,7 @@ public class EipSendRequestTransientServiceImpl implements EipSendRequestTransie
 
         for (EipParamMappingItem responseMapping : paramMapping.getResponseMapping()) {
             if (StringUtils.isBlank(responseMapping.getValueExpr())) {
-                log.error("响应参数映射失败，取值表达式为空，from:{}，to:{}", responseMapping.getKey(), responseMapping.getTo());
+                log.error("Response parameter mapping failed, value expression is empty, from:{}, to:{}", responseMapping.getKey(), responseMapping.getTo());
                 throw PamirsException.construct(EipExpEnumerate.EIP_RESPONSE_VALUE_EXP_IS_NULL).errThrow();
             }
             // 根据表达式获取接口返回的数据
@@ -195,14 +195,14 @@ public class EipSendRequestTransientServiceImpl implements EipSendRequestTransie
         for (String fieldName : relationFieldKeys) {
             ModelFieldConfig modelFieldConfig = PamirsSession.getContext().getModelField(model, fieldName);
             if (modelFieldConfig == null) {
-                log.error("获取字段信息失败，模型编码：{}，字段名称：{}", model, fieldName);
+                log.error("Failed to get field info, model code: {}, field name: {}", model, fieldName);
                 continue;
             }
 
             Object relationData = modelDataMap.get(fieldName);
             if (RtypeEnum.isRelationOne(modelFieldConfig.getTtype())) {
                 if (!(relationData instanceof Map)) {
-                    log.error("接口返回数据与模型关系字段映射失败，应为Map类型，实际：{}，字段类型：{}，字段名称：{}",
+                    log.error("Interface response data mapping to model relation field failed, should be Map type, actual: {}, field type: {}, field name: {}",
                             relationData.getClass().getSimpleName(), modelFieldConfig.getTtype(), fieldName);
                     modelDataMap.remove(fieldName);
                     continue;
@@ -213,13 +213,13 @@ public class EipSendRequestTransientServiceImpl implements EipSendRequestTransie
                 try {
                     DataMap dbDataMap = genericMapper.selectOneByEntity(dataMap);
                     if (MapUtils.isEmpty(dbDataMap)) {
-                        log.warn("映射{}关系字段数据失败，数据库中不存在此数据，模型编码：{}，字段名称：{}，查询条件：{}",
+                        log.warn("Mapping {} relation field data failed, data does not exist in database, model code: {}, field name: {}, query condition: {}",
                                 modelFieldConfig.getTtype(), modelFieldConfig.getModel(), fieldName, JsonUtils.toJSONString(dataMap));
                     } else {
                         modelDataMap.put(fieldName, dbDataMap);
                     }
                 } catch (Exception e) {
-                    log.error("查询M2O/O2O关系字段数据失败，字段名称：{}，查询条件：{}", fieldName, JsonUtils.toJSONString(dataMap), e);
+                    log.error("Query M2O/O2O relation field data failed, field name: {}, query condition: {}", fieldName, JsonUtils.toJSONString(dataMap), e);
                 }
             } else if (TtypeEnum.isBasicType(modelFieldConfig.getTtype())) {
                 if (relationData instanceof List) {
@@ -230,7 +230,7 @@ public class EipSendRequestTransientServiceImpl implements EipSendRequestTransie
                     }
                 }
                 modelDataMap.remove(fieldName);
-                log.error("映射失败，未能识别的数据，字段名称:{}，数据：{}", fieldName, JsonUtils.toJSONString(relationData));
+                log.error("Mapping failed, unrecognized data, field name: {}, data: {}", fieldName, JsonUtils.toJSONString(relationData));
             }
         }
     }
@@ -274,7 +274,7 @@ public class EipSendRequestTransientServiceImpl implements EipSendRequestTransie
         if (multiLevel == -1) {
             if (resultList.size() > 1) {
                 // 所有字段都不是多值且返回数据为多个，无法映射列表
-                log.error("响应参数映射失败，表达式：{}，响应参数：{}", targetPath, JsonUtils.toJSONString(resultList));
+                log.error("Response parameter mapping failed, expression: {}, response parameter: {}", targetPath, JsonUtils.toJSONString(resultList));
                 throw PamirsException.construct(EipExpEnumerate.EIP_RESPONSE_PARAM_NO_MATCH).errThrow();
             } else {
                 modelDataMap.put(targetPath, resultList.get(0));
@@ -295,7 +295,7 @@ public class EipSendRequestTransientServiceImpl implements EipSendRequestTransie
 
         Object targetFieldData = modelDataMap.get(prefix);
         if (targetFieldData != null && !(targetFieldData instanceof List)) {
-            log.error("尝试获取List类型数据失败，参数信息：{}", JsonUtils.toJSONString(targetFieldData));
+            log.error("Attempt to get List type data failed, parameter info: {}", JsonUtils.toJSONString(targetFieldData));
             throw PamirsException.construct(EipExpEnumerate.EIP_RESPONSE_PARAM_NO_MATCH).errThrow();
         }
 
@@ -311,7 +311,7 @@ public class EipSendRequestTransientServiceImpl implements EipSendRequestTransie
                 if (data instanceof Map) {
                     item = FetchUtil.cast(data);
                 } else {
-                    log.error("响应参数映射失败，数据类型：{}，数据：{}", data.getClass().getSimpleName(), JsonUtils.toJSONString(data));
+                    log.error("Response parameter mapping failed, data type: {}, data: {}", data.getClass().getSimpleName(), JsonUtils.toJSONString(data));
                     throw PamirsException.construct(EipExpEnumerate.EIP_RESPONSE_PARAM_NO_MATCH).errThrow();
                 }
             } else {
@@ -328,7 +328,7 @@ public class EipSendRequestTransientServiceImpl implements EipSendRequestTransie
         try (JSONValidator validator = JSONValidator.from(result)) {
             return JSONValidator.Type.Array.equals(validator.getType()) ? JSON.parseArray(result) : JSON.parseObject(result);
         } catch (Exception e) {
-            log.error("JSON数据解析失败", e);
+            log.error("JSON data parsing failed", e);
             throw PamirsException.construct(EipExpEnumerate.EIP_JSON_PARSING_ERROR).errThrow();
         }
     }
@@ -337,7 +337,7 @@ public class EipSendRequestTransientServiceImpl implements EipSendRequestTransie
         try {
             return Exp.run(expression, context);
         } catch (Exception e) {
-            log.error("表达式识别失败，表达式：{}，数据：{}", expression, JsonUtils.toJSONString(context), e);
+            log.error("Expression recognition failed, expression: {}, data: {}", expression, JsonUtils.toJSONString(context), e);
             throw PamirsException.construct(EipExpEnumerate.EIP_REQUEST_EXPRESSION_ERROR).appendMsg(expression).errThrow();
         }
     }

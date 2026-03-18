@@ -3,6 +3,7 @@ package pro.shushi.pamirs.translate.template;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.core.common.CollectionHelper;
 import pro.shushi.pamirs.core.common.MapHelper;
 import pro.shushi.pamirs.file.api.builder.TypefaceDefinitionBuilder;

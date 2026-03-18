@@ -12,6 +12,7 @@ import pro.shushi.pamirs.boot.common.supplier.MetaDataSupplier;
 import pro.shushi.pamirs.boot.standard.enmu.BootStandardExpEnumerate;
 import pro.shushi.pamirs.boot.standard.utils.MetadataUpdateChecker;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.WriteApi;
@@ -115,7 +116,7 @@ public class StandardMetaDataUpgrader implements MetaDataUpgraderApi {
                 Map<String, List<MetaBaseModel>> dataMap = dataListMap.get(model);
                 removeMeta(includeModuleModuleSet, excludeModuleModuleSet, metaDataMap, model, updateMeta, dataMap);
             }
-        }, "元数据差量计算全部完成");
+        }, I18nUtils.getMessage("StandardMetaDataUpgrader.diffComputeAllCompleted"));
     }
 
     private <T extends R, R extends MetaBaseModel> void collectComputeDataList(Set<String> includeModules,

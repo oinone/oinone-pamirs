@@ -9,8 +9,10 @@ import pro.shushi.pamirs.boot.common.api.init.InstallDataInit;
 import pro.shushi.pamirs.boot.common.api.init.UpgradeDataInit;
 import pro.shushi.pamirs.core.common.LifecycleExecutorHelper;
 import pro.shushi.pamirs.framework.common.config.AsyncTaskExecutorConfiguration;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.translate.TranslateModule;
+import pro.shushi.pamirs.translate.service.TranslationItemProxyService;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +29,9 @@ public class TranslateDataInit implements InstallDataInit, UpgradeDataInit {
 
     @Autowired
     private SystemTranslationItemInit systemTranslationItemInit;
+
+    @Autowired
+    private TranslationItemProxyService translationItemProxyService;
 
     @Autowired(required = false)
     @Qualifier(AsyncTaskExecutorConfiguration.FIXED_THREAD_POOL_EXECUTOR)
@@ -47,6 +52,9 @@ public class TranslateDataInit implements InstallDataInit, UpgradeDataInit {
     private void init() {
         LifecycleExecutorHelper.execute(globalFixedThreadPoolExecutor, () -> {
             systemTranslationItemInit.init();
+            if (I18nUtils.isTranslate()) {
+                translationItemProxyService.refreshRemoteResource();
+            }
         });
     }
 

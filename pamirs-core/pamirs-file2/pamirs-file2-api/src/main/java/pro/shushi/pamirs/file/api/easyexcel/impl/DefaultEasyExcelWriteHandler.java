@@ -22,6 +22,7 @@ import pro.shushi.pamirs.file.api.entity.EasyExcelBlockDefinition;
 import pro.shushi.pamirs.file.api.entity.EasyExcelSheetDefinition;
 import pro.shushi.pamirs.file.api.model.ExcelCellRangeDefinition;
 import pro.shushi.pamirs.file.api.util.analysis.ExcelFixedHeaderAnalysisHelper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.resource.api.enmu.ExpEnumerate;
@@ -93,7 +94,7 @@ public class DefaultEasyExcelWriteHandler implements SheetWriteHandler, RowWrite
         }
         //todo
         if (currentSheet == null) {
-            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("无法获取正确的工作表").errThrow();
+            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.excel.sheet.notFound")).errThrow();
         }
         currentSheet.setWorkbook(writeWorkbookHolder.getCachedWorkbook());
         currentSheet.setSheet(writeSheetHolder.getCachedSheet());

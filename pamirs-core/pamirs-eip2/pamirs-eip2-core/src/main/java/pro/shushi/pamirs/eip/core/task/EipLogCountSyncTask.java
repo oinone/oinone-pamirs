@@ -3,6 +3,7 @@ package pro.shushi.pamirs.eip.core.task;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
 import pro.shushi.pamirs.eip.core.task.abs.EipAbstractScheduledJob;
 import pro.shushi.pamirs.meta.annotation.Fun;
@@ -14,8 +15,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 /**
- * 接口日志统计定时任务，每12小时执行一次
- * @deprecated 6.x please using {@link EipLogDailyCountSyncTask} ，大版本升级时使用升级sql取消此任务
+ * Interface log statistics scheduled task, executed every 12 hours
+ * @deprecated 6.x please using {@link EipLogDailyCountSyncTask} , When upgrading the major version, use the upgrade sql to cancel this task
  */
 @Slf4j
 @Component
@@ -24,14 +25,13 @@ import java.time.ZoneId;
 public class EipLogCountSyncTask extends EipAbstractScheduledJob {
 
     public static final String FUN_NAMESPACE = "eip.EipLogCountSyncTask";
-    public static final String TASK_DISPLAY_NAME = "接口日志汇总统计定时任务";
 
     @Resource
     private EipLogDailyCountService eipLogDailyCountService;
 
     @Override
     protected String getDisplayName() {
-        return TASK_DISPLAY_NAME;
+        return I18nUtils.getMessage("EipLogCountSyncTask.taskDisplayName");
     }
 
     @Override
@@ -62,7 +62,7 @@ public class EipLogCountSyncTask extends EipAbstractScheduledJob {
 
     @Override
     public void doExecute(ScheduleItem scheduleItem) {
-        log.error("接口日志汇总统计定时任务已废弃");
+        log.error("The scheduled task for interface log summary statistics has been deprecated");
     }
 
     @Override

@@ -8,6 +8,7 @@ import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
 import pro.shushi.pamirs.boot.web.utils.ClientActionUtils;
 import pro.shushi.pamirs.boot.web.utils.UiActionUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.ux.draft.constant.DraftConstants;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
@@ -41,7 +42,7 @@ public class DraftClientActionInit implements MetaDataEditor {
         String actionName = DraftConstants.SaveDraft.name;
         ClientActionUtils.makeDefaultClientAction(meta, module, model,
                 actionName,
-                DraftConstants.SaveDraft.displayName,
+                I18nUtils.getMessage(DraftConstants.SaveDraft.displayName),
                 DraftConstants.SaveDraft.fun,
                 ActionContextTypeEnum.SINGLE,
                 DraftConstants.SaveDraft.priority);

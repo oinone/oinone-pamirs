@@ -1,10 +1,10 @@
 package pro.shushi.pamirs.user.api.login;
 
 import org.apache.commons.lang3.ObjectUtils;
+import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
 import pro.shushi.pamirs.meta.api.dto.model.PamirsUserDTO;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.IdModel;
-import pro.shushi.pamirs.resource.api.constants.DefaultResourceConstants;
 import pro.shushi.pamirs.resource.api.model.ResourceLang;
 import pro.shushi.pamirs.user.api.cache.UserCache;
 import pro.shushi.pamirs.user.api.constants.UserConstant;
@@ -70,9 +70,8 @@ public abstract class UserTokenLogin<T extends IdModel> implements IUserLogin<T>
                     String langCode = Optional.ofNullable(user.getLangId())
                             .filter(ObjectUtils::isNotEmpty)
                             .map(_langId -> new ResourceLang().<ResourceLang>queryById(_langId))
-                            .map(_lang -> _lang.getCode())
-                            .orElse(DefaultResourceConstants.CHINESE_LANGUAGE_CODE);
-
+                            .map(ResourceLang::getCode)
+                            .orElse(TranslateServiceHolder.get().getCurrentLang());
                     return new PamirsUserDTO().setLogin(user.getLogin()).setUserName(user.getName()).setEmail(user.getEmail())
                             .setUserCode(user.getCode()).setPhone(user.getPhone()).setUserId(userId)
                             .setLangCode(langCode);

@@ -9,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 import pro.shushi.pamirs.framework.common.utils.ObjectUtils;
 import pro.shushi.pamirs.framework.compute.InheritedComputeTemplate;
 import pro.shushi.pamirs.framework.compute.emnu.ComputeExpEnumerate;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.Models;
@@ -126,8 +127,8 @@ public class DefaultRelationProcessor implements RelationProcessor {
             if (isPkId) {
                 if (!FieldConstants.ID.equals(modelField.getField())) {
                     if (null != modelField.getPk() && modelField.getPk()) {
-                        log.warn(MessageFormat.format("{0},errorCode:{1}，model:{2},field:{3}",
-                                BASE_THROUGH_MODEL_PK_ERROR.msg(), BASE_THROUGH_MODEL_PK_ERROR.code(), modelField.getModel(), modelField.getField()));
+                        log.warn(MessageFormat.format("{0},errorCode:{1}, model:{2}, field:{3}",
+                                I18nUtils.getMessage("pamirs-framework-compute.ComputeExpEnumerate.BASE_THROUGH_MODEL_PK_ERROR"), BASE_THROUGH_MODEL_PK_ERROR.code(), modelField.getModel(), modelField.getField()));
                     }
                     modelField.setPk(false);
                     modelField.setPkIndex(null);
@@ -138,8 +139,8 @@ public class DefaultRelationProcessor implements RelationProcessor {
              else {
              if (!throughRelationFields.contains(modelField.getField()) && !throughReferenceFields.contains(modelField.getField())) {
              if (null != modelField.getPk() && modelField.getPk()) {
-             log.warn(MessageFormat.format("{0},errorCode:{1}，model:{2},field:{3}",
-             BASE_THROUGH_MODEL_PK2_ERROR.msg(), BASE_THROUGH_MODEL_PK2_ERROR.code(), modelField.getModel(), modelField.getField()));
+             log.warn(MessageFormat.format("{0},errorCode:{1},model:{2},field:{3}",
+                    BASE_THROUGH_MODEL_PK2_ERROR.msg(), BASE_THROUGH_MODEL_PK2_ERROR.code(), modelField.getModel(), modelField.getField()));
              }
              modelField.setPk(false);
              modelField.setPkIndex(null);
@@ -222,7 +223,7 @@ public class DefaultRelationProcessor implements RelationProcessor {
             }
             if (fieldConfig == null) {
                 throw PamirsException.construct(BASE_M2M_RELATION_THROUGH_MODEL_ERROR)
-                        .appendMsg(MessageFormat.format("模型:{0},字段:{1},relationFields:{2}", entityModel.getModel(), relation.getField(), entityFields.get(i))).errThrow();
+                        .appendMsg(I18nUtils.getMessage("DefaultRelationProcessor.throughModelError", entityModel.getModel(), relation.getField(), entityFields.get(i))).errThrow();
             }
 
             TtypeEnum ttypeEnum = TtypeEnum.getEnumByValue(TtypeEnum.class, fieldConfig.getTtype());
@@ -244,7 +245,7 @@ public class DefaultRelationProcessor implements RelationProcessor {
                 modelFieldList.add(modelField);
                 meta.addCrossingModelField(throughModel.getModule(), modelField);
                 if (!newModel) {
-                    log.warn("中间模型关系字段发生变更，model:" + relation.getModel() + ",field:" + relation.getField());
+                    log.warn("Intermediate model relation field changed, model:" + relation.getModel() + ", field:" + relation.getField());
                 }
             }
             i++;
@@ -295,8 +296,8 @@ public class DefaultRelationProcessor implements RelationProcessor {
                 if (TtypeEnum.O2M.value().equals(relation.getTtype().value())) {
                     ModelFieldConfig referenceModelField = PamirsSession.getContext().getModelField(relation.getReferences(), model.getName());
                     if (null == referenceModelField) {
-                        log.warn(MessageFormat.format("警告:{0},编码:{1},模型:{2},字段:{3}",
-                                BASE_RELATION_O2M_NO_REFERENCE_FIELDS_ERROR.msg(),
+                        log.warn(MessageFormat.format("Warning:{0}, Code:{1}, Model:{2}, Field:{3}",
+                                I18nUtils.getMessage("pamirs-framework-compute.ComputeExpEnumerate.BASE_RELATION_O2M_NO_REFERENCE_FIELDS_ERROR"),
                                 BASE_RELATION_O2M_NO_REFERENCE_FIELDS_ERROR.code() + CharacterConstants.SEPARATOR_EMPTY,
                                 model.getModel(), relation.getField()));
                     }

@@ -9,6 +9,7 @@ import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.InstallDataInit;
 import pro.shushi.pamirs.boot.common.api.init.UpgradeDataInit;
 import pro.shushi.pamirs.core.common.LifecycleExecutorHelper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.common.util.AppClassLoader;
@@ -50,7 +51,7 @@ public class ResourceIconInitLoader implements InstallDataInit, UpgradeDataInit 
             try {
                 initIcon();
             } catch (Throwable t) {
-                log.error("图标初始化失败，请高度关注！", t);
+                log.error("Icon initialization failed, please pay close attention!", t);
             }
         });
     }
@@ -68,16 +69,25 @@ public class ResourceIconInitLoader implements InstallDataInit, UpgradeDataInit 
     private void initIcon() {
         PathMatchingResourcePatternResolver finder = new PathMatchingResourcePatternResolver(AppClassLoader.getClassLoader(ResourceIconInitLoader.class));
         try {
-            Resource[] resources = finder.getResources(PATH);
+            Resource[] resources = finder.getResources("classpath*:/pamirs/init/icon/iconfont/*.zip");
             for (Resource resource : resources) {
                 try {
                     Spider.getExtension(ResourceSystemInitializationIcon.class, IconLibTypeEnum.ICONFONT.getValue()).writeData(resource);
                 } catch (Throwable e) {
-                    log.error("解压文件失败", e);
+                    log.error("Decompress file failed", e);
+                }
+            }
+            String language = I18nUtils.getLocale().getLanguage();
+            resources = finder.getResources(String.format("classpath*:/pamirs/init/icon/iconfont/%s/*.zip", language));
+            for (Resource resource : resources) {
+                try {
+                    Spider.getExtension(ResourceSystemInitializationIcon.class, IconLibTypeEnum.ICONFONT.getValue()).writeData(resource);
+                } catch (Throwable e) {
+                    log.error("Decompress file failed", e);
                 }
             }
         } catch (IOException e) {
-            log.error("读取资源失败", e);
+            log.error("Read resource failed", e);
         }
 
     }

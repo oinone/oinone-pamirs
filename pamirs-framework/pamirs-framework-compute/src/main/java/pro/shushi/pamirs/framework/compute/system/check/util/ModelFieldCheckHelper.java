@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.framework.compute.system.check.util;
 
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Field;
 import pro.shushi.pamirs.meta.api.Exp;
 import pro.shushi.pamirs.meta.api.core.faas.ExpressionApi;
@@ -52,14 +53,14 @@ public class ModelFieldCheckHelper {
             if (StringUtils.isNotBlank(modelField.getMin())) {
                 if (((String) fieldValue).length() < Long.parseLong(modelField.getMin())) {
                     PamirsSession.getMessageHub().msg(Message.init().error(BASE_CHECK_FIELD_SIZE_MIN_ERROR)
-                            .append(modelField.getMin() + CharacterConstants.SEPARATOR_EMPTY + "位字符"));
+                            .append(modelField.getMin() + CharacterConstants.SEPARATOR_EMPTY + I18nUtils.getMessage("pamirs-framework-compute.ModelFieldCheckHelper.characters")));
                     result = false;
                 }
             }
             if (StringUtils.isNotBlank(modelField.getMax())) {
                 if (((String) fieldValue).length() > Long.parseLong(modelField.getMax())) {
                     PamirsSession.getMessageHub().msg(Message.init().error(BASE_CHECK_FIELD_SIZE_MAX_ERROR)
-                            .append(modelField.getMax() + CharacterConstants.SEPARATOR_EMPTY + "位字符"));
+                            .append(modelField.getMax() + CharacterConstants.SEPARATOR_EMPTY + I18nUtils.getMessage("pamirs-framework-compute.ModelFieldCheckHelper.characters")));
                     result = false;
                 }
             }

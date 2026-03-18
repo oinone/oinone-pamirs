@@ -22,6 +22,7 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 import pro.shushi.pamirs.translate.visitor.AuthCompileHelper;
 import pro.shushi.pamirs.translate.visitor.DslNodeVisitor;
@@ -103,7 +104,7 @@ public class TranslationItemPageNodeVisitor implements DslNodeVisitor {
             if (currentContext.getTableEditable()) {
                 UIAction uiAction = new UIAction();
                 uiAction.setName(FunctionConstants.update);
-                uiAction.setLabel(AuthConstants.TABLE_EDITABLE_UPDATE);
+                uiAction.setLabel(I18nUtils.getMessage(AuthConstants.TABLE_EDITABLE_UPDATE));
                 visit(uiAction);
             }
             contextStack.pop();

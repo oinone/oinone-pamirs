@@ -2,6 +2,7 @@ package pro.shushi.pamirs.meta.dsl.definition.helper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.dsl.constants.DSLDefineConstants;
@@ -89,14 +90,14 @@ public class LogicTransformHelper {
     private static void transfer(Process p, To start, Code node, Map<String, Code> codeMap) {
         State s = null;
         if (StringUtils.isBlank(node.getId())) {
-            throw PamirsException.construct(BASE_TRANSFORM_NODE_ID_ERROR).appendMsg("节点配置错误，未配置ID，节点：" + node.toString()).errThrow();
+            throw PamirsException.construct(BASE_TRANSFORM_NODE_ID_ERROR).appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.idMissing", node.toString())).errThrow();
         }
         if (node instanceof If) {
             if (CollectionUtils.isEmpty(node.getTos()) && null == ((If) node).getEls()) {
-                throw PamirsException.construct(BASE_TRANSFORM_NODE_IF_ERROR).appendMsg("If节点配置错误，未配置分支，节点ID：" + node.getId()).errThrow();
+                throw PamirsException.construct(BASE_TRANSFORM_NODE_IF_ERROR).appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.if.branchMissing", node.getId())).errThrow();
             }
             if (node.getTos().size() > 1) {
-                throw PamirsException.construct(BASE_TRANSFORM_NODE_IF_BRANCH_ERROR).appendMsg("If节点配置错误，不允许配置多个分支，节点ID：" + node.getId()).errThrow();
+                throw PamirsException.construct(BASE_TRANSFORM_NODE_IF_BRANCH_ERROR).appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.if.multipleBranches", node.getId())).errThrow();
             }
             s = new State(node.getId());
             If code = (If) node;
@@ -300,7 +301,7 @@ public class LogicTransformHelper {
     private static void transferForeachTos(To start, State s, Foreach foreach, Map<String, Code> codeMap, Process process) {
         if (null == foreach.getEach()) {
             throw PamirsException.construct(BASE_TRANSFORM_NODE_FOR_ERROR)
-                    .appendMsg("Foreach节点配置错误，未配置分支，节点ID：" + foreach.getId()).errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.foreach.branchMissing", foreach.getId())).errThrow();
         }
         List<Code> endEachCodes = new ArrayList<>();
         findEndEach(endEachCodes, foreach.getEach().getId(), codeMap);
@@ -320,7 +321,7 @@ public class LogicTransformHelper {
         if (!CollectionUtils.isEmpty(foreach.getTos())) {
             if (foreach.getTos().size() > 1) {
                 throw PamirsException.construct(BASE_TRANSFORM_NODE_FOR_BRANCH_ERROR)
-                        .appendMsg("Foreach节点配置错误，不允许配置多个分支，节点ID：" + foreach.getId()).errThrow();
+                        .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.foreach.multipleBranches", foreach.getId())).errThrow();
             }
             foreach.getTos().get(0).setExp(foreach.getId() + DSLDefineConstants.CURRENT_ITERATOR_INDEX + " >= " + foreach.getEnd());
             transferTransition(start, s, foreach.getTos(), codeMap);
@@ -357,7 +358,7 @@ public class LogicTransformHelper {
     private static void transferTransition(State s, To to) {
         if (StringUtils.isBlank(to.getId())) {
             throw PamirsException.construct(BASE_TRANSFORM_NODE_TO_ERROR)
-                    .appendMsg("跳转配置错误，未配置跳转节点ID，节点ID：" + s.getName()).errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.jump.targetIdMissing", s.getName())).errThrow();
         }
         Path path = new Path();
         path.setExp(ParseHelper.decode(to.getExp()));
@@ -368,7 +369,7 @@ public class LogicTransformHelper {
     private static Integer checkTo(To code, String currentId, String toId, Map<String, Code> codeMap, boolean isCurrentFind) {
         if (null == code.getId()) {
             throw PamirsException.construct(BASE_TRANSFORM_NODE_TO_CHECK_ERROR)
-                    .appendMsg("跳转失败，未配置跳转节点ID：" + code.toString()).errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.jump.failed.targetIdMissing", code.toString())).errThrow();
         }
         if (code.getId().equals(toId)) {
             if (!isCurrentFind) {
@@ -383,7 +384,7 @@ public class LogicTransformHelper {
         Code next = codeMap.get(code.getId());
         if (null == next) {
             throw PamirsException.construct(BASE_TRANSFORM_NODE_TO_IS_NOT_EXISTS_ERROR)
-                    .appendMsg("跳转失败，未找到节点，节点ID：" + code.getId()).errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.jump.failed.targetNotFound", code.getId())).errThrow();
         }
         if (!CollectionUtils.isEmpty(next.getTos())) {
             for (To to : next.getTos()) {
@@ -407,12 +408,12 @@ public class LogicTransformHelper {
         Code each = codeMap.get(eachId);
         if (null == each) {
             throw PamirsException.construct(BASE_TRANSFORM_NODE_FOR_END_IS_NOT_EXISTS_ERROR)
-                    .appendMsg("跳转失败，未找到节点，节点ID：" + eachId).errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.jump.failed.targetNotFound", eachId)).errThrow();
         }
         if (each instanceof If) {
             if (CollectionUtils.isEmpty(each.getTos()) && null == ((If) each).getEls()) {
                 throw PamirsException.construct(BASE_TRANSFORM_NODE_IF_NO_BRANCH_ERROR)
-                        .appendMsg("If节点配置错误，未配置分支，节点ID：" + each.getId()).errThrow();
+                        .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.if.branchMissing", each.getId())).errThrow();
             }
             if (null != ((If) each).getEls()) {
                 if (StringUtils.isBlank(((If) each).getEls().getId())) {
@@ -457,11 +458,11 @@ public class LogicTransformHelper {
         for (To t : tos) {
             if (StringUtils.isBlank(t.getId())) {
                 throw PamirsException.construct(BASE_TRANSFORM_NODE_TO_ID_ERROR)
-                        .appendMsg("跳转配置错误，未配置跳转节点ID，节点ID：" + s.getName()).errThrow();
+                        .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.jump.targetIdMissing", s.getName())).errThrow();
             }
             if (!Boolean.TRUE.equals(t.isSys()) && -1 == checkTo(start, s.getName(), t.getId(), codeMap, Boolean.FALSE)) {
                 throw PamirsException.construct(BASE_TRANSFORM_NODE_TO_PRE_ERROR)
-                        .appendMsg("跳转配置错误，不允许跳转到前置节点，当前节点ID：" + s.getName() + "，跳转节点ID：" + t.getId()).errThrow();
+                        .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.node.jump.preNodeNotAllowed", s.getName(), t.getId())).errThrow();
             }
             Path path = new Path();
             path.setExp(ParseHelper.decode(t.getExp()));

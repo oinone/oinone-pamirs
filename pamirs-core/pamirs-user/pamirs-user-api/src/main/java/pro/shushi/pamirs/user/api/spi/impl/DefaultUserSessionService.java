@@ -36,7 +36,7 @@ public class DefaultUserSessionService implements UserSessionApi {
             try {
                 isLogin = setUser(function);
             } catch (Exception e) {
-                log.error("【用户状态异常】{},当前方法为{}工作空间为{}", BaseExpEnumerate.BASE_USER_NOT_LOGIN_ERROR.msg(), function.getFun(), function.getNamespace(), e);
+                log.error("[User status exception] {}, current method is {}, workspace is {}", BaseExpEnumerate.BASE_USER_NOT_LOGIN_ERROR.name(), function.getFun(), function.getNamespace(), e);
                 throw PamirsException.construct(BaseExpEnumerate.BASE_USER_NOT_LOGIN_ERROR, e).errThrow();
             }
         }

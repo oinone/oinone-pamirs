@@ -21,8 +21,8 @@ public class TimeAndMemoryWatcher {
         } finally {
             long endMem = r.freeMemory(); // 末尾Memory
             t = System.currentTimeMillis() - t;
-            log.info("用时消耗: " + t + " ms. " + StringUtils.join(tips, ","));
-            log.info("内存消耗: " + (startMem - endMem) / 1024 + "KB");
+            log.info("Time consumption: " + t + " ms. " + StringUtils.join(tips, ","));
+            log.info("Memory consumption: " + (startMem - endMem) / 1024 + "KB");
         }
 
         return result;
@@ -39,8 +39,8 @@ public class TimeAndMemoryWatcher {
         } finally {
             long endMem = r.freeMemory(); // 末尾Memory
             t = System.currentTimeMillis() - t;
-            log.info("用时消耗: " + t + " ms. " + StringUtils.join(tips, ","));
-            log.info("内存消耗: " + (startMem - endMem) / 1024 + "KB");
+            log.info("Time consumption: " + t + " ms. " + StringUtils.join(tips, ","));
+            log.info("Memory consumption: " + (startMem - endMem) / 1024 + "KB");
         }
     }
 

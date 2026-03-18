@@ -12,6 +12,7 @@ import pro.shushi.pamirs.file.api.format.RichTextFormat;
 import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.file.api.util.ExcelHelper;
 import pro.shushi.pamirs.file.api.util.ExcelTemplateInit;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,7 @@ public class EmployeeTemplate implements ExcelTemplateInit {
 
     @Override
     public List<ExcelWorkbookDefinition> generator() {
-        WorkbookDefinitionBuilder builder = WorkbookDefinitionBuilder.newInstance(PamirsEmployee.MODEL_MODEL, TEMPLATE_NAME).setDisplayName("员工-导入导出");
+        WorkbookDefinitionBuilder builder = WorkbookDefinitionBuilder.newInstance(PamirsEmployee.MODEL_MODEL, TEMPLATE_NAME).setDisplayName(I18nUtils.getMessage("business.template.employee.title"));
 
         EmployeeTemplate.createEmployeeSheet(builder);
 
@@ -32,7 +33,7 @@ public class EmployeeTemplate implements ExcelTemplateInit {
 
     private static void createEmployeeSheet(WorkbookDefinitionBuilder builder) {
         builder.setEachImport(true)
-                .createSheet().setName("员工")
+                .createSheet().setName(I18nUtils.getMessage("business.template.employee.sheet"))
                 .createBlock(PamirsEmployeeProxy.MODEL_MODEL, ExcelAnalysisTypeEnum.FIXED_HEADER, ExcelDirectionEnum.HORIZONTAL, "A1:K3")
                 .createMergeRange("A1:K1")
                 .createHeader().setStyleBuilder(ExcelHelper.createDefaultStyle()).setIsConfig(Boolean.TRUE)
@@ -52,12 +53,7 @@ public class EmployeeTemplate implements ExcelTemplateInit {
                 .setStyleBuilder(ExcelHelper.createDefaultStyle(v -> v.setBold(Boolean.TRUE))
                         .setWrapText(true)
                         .setVerticalAlignment(ExcelVerticalAlignmentEnum.TOP).setHeight(2600))
-                .createCell().setValue("1.红色为必填字段。\n" +
-                        "2.员工编码相同新数据直接覆盖旧数据。\n" +
-                        "3.若存在多个“所属部门”、多个“角色编码”用英文 “;” 分割，请确保填写的每个被绑定的编码都是系统中已存在的有效编码。\n" +
-                        "4.初始密码需为8至32位；如未填写，则默认为“Abcd@1234”。\n" +
-                        "5.登录账号和初始密码的作用是用于创建新用户或绑定现有用户。\n" +
-                        "6.同一公司下的员工不允许绑定相同账户。")
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.desc"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 179, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).build()))
                         .add(new RichTextFormat(0, 10, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
@@ -76,36 +72,36 @@ public class EmployeeTemplate implements ExcelTemplateInit {
                 .createCell().and()
                 .and()
                 .createHeader().setStyleBuilder(ExcelHelper.createDefaultStyle(v -> v.setBold(Boolean.TRUE)).setHorizontalAlignment(ExcelHorizontalAlignmentEnum.CENTER))
-                .createCell().setValue("员工编码")
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.code"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 4, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
                         .build()))
                 .and()
-                .createCell().setValue("员工名称")
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.name"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 4, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
                         .build()))
                 .and()
-                .createCell().setValue("所属公司编码")
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.companyCode"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 6, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
                         .build()))
                 .and()
-                .createCell().setValue("所属公司名称")
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.companyName"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 6, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
                         .build()))
                 .and()
-                .createCell().setValue("登录账号")
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.login"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 4, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
                         .build()))
                 .and()
-                .createCell().setValue("所属主部门编码").and()
-                .createCell().setValue("所属主部门名称").and()
-                .createCell().setValue("所属部门编码").and()
-                .createCell().setValue("所属部门名称").and()
-                .createCell().setValue("初始密码").and()
-                .createCell().setValue("角色编码");
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.mainDeptCode")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.mainDeptName")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.deptCode")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.deptName")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.password")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.employee.header.roleCode"));
     }
 }

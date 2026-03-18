@@ -10,32 +10,32 @@ package pro.shushi.pamirs.framework.compute.constants;
  */
 public interface TipsConstants {
 
-    String START_COMPUTE_MODUlE = "Thread id: {}, 开始计算模块元数据: {}, 所有参与计算的模块: {}";
+    String START_COMPUTE_MODUlE = "TipsConstants.startComputeModule";
 
-    String TIME_ALL = "总计耗时";
+    String TIME_ALL = "TipsConstants.timeAll";
 
-    String COMPLETE_ALL = "完成计算模块元数据";
+    String COMPLETE_ALL = "TipsConstants.completeAll";
 
-    String TIPS1 = "计算模型配置默认值";
+    String TIPS1 = "TipsConstants.tips1";
 
-    String TIPS2 = "计算字段配置";
+    String TIPS2 = "TipsConstants.tips2";
 
-    String TIPS3 = "计算继承，计算主键，计算多表继承自动生成字段";
+    String TIPS3 = "TipsConstants.tips3";
 
-    String TIPS4 = "计算多对多关系并为新生成模型与字段自动生成关系字段、关联关系自动生成字段";
+    String TIPS4 = "TipsConstants.tips4";
 
-    String TIPS5 = "计算乐观锁、引用字段、字段可选项";
+    String TIPS5 = "TipsConstants.tips5";
 
-    String TIPS6 = "模型定义检查";
+    String TIPS6 = "TipsConstants.tips6";
 
-    String TIPS7 = "字段定义检查";
+    String TIPS7 = "TipsConstants.tips7";
 
-    String TIPS7_DISABLED = "未开启字段定义检查";
+    String TIPS7_DISABLED = "TipsConstants.tips7Disabled";
 
-    String TIPS8 = "计算模块";
+    String TIPS8 = "TipsConstants.tips8";
 
-    String TIPS9 = "计算函数";
+    String TIPS9 = "TipsConstants.tips9";
 
-    String TIPS10 = "低无一体计算";
+    String TIPS10 = "TipsConstants.tips10";
 
 }

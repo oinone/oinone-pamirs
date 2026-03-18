@@ -26,6 +26,7 @@ import pro.shushi.pamirs.file.api.model.TaskMessage;
 import pro.shushi.pamirs.file.api.util.ExcelHelper;
 import pro.shushi.pamirs.file.api.util.ExcelTemplateInit;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Ext;
 import pro.shushi.pamirs.meta.annotation.ExtPoint;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -49,7 +50,7 @@ import static pro.shushi.pamirs.file.api.enmu.TaskMessageLevelEnum.ERROR;
 @Ext(ExcelImportTask.class)
 public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExtPointImpl<List<EipOpenIpBlacklistProxy>> implements ExcelTemplateInit, ExcelImportDataExtPoint<List<EipOpenIpBlacklistProxy>> {
 
-    public static final String TEMPLATE_NAME = "开放应用黑名单导入";
+    public static final String TEMPLATE_NAME = "openInterfaceBlankListImport";
 
     @Autowired
     private EipApplicationService eipApplicationService;
@@ -57,8 +58,8 @@ public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExt
     @Override
     public List<ExcelWorkbookDefinition> generator() {
         WorkbookDefinitionBuilder builder = WorkbookDefinitionBuilder.newInstance(MODEL_MODEL, TEMPLATE_NAME)
-                .setDisplayName(TEMPLATE_NAME).setEachImport(false);
-        SheetDefinitionBuilder sheetBuilder = builder.createSheet().setName(TEMPLATE_NAME);
+                .setDisplayName(I18nUtils.getMessage("EipOpenIpBlacklistImportTemplate.displayName")).setEachImport(false);
+        SheetDefinitionBuilder sheetBuilder = builder.createSheet().setName(I18nUtils.getMessage("EipOpenIpBlacklistImportTemplate.sheetName"));
 
         ExcelTypefaceDefinition boldType = TypefaceDefinitionBuilder.newInstance().setBold(true).build();
         ExcelTypefaceDefinition redType = TypefaceDefinitionBuilder.newInstance().setBold(true).setColor(0xa).build();
@@ -72,9 +73,7 @@ public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExt
                         .setVerticalAlignment(ExcelVerticalAlignmentEnum.TOP)
                         .setHeight(1100))
                 .createCell()
-                .setValue("暂不支持IPv6地址。\n" +
-                        "状态码：被IP黑名单规则限制时的响应状态码，默认403。\n" +
-                        "响应消息：被IP黑名单规则限制时的响应消息。")
+                .setValue(I18nUtils.getMessage("file.template.eip.ipBlacklist.tips"))
                 .and().createCell().and().createCell().and().createCell().and()
                 .and()
                 .createHeader()
@@ -96,7 +95,7 @@ public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExt
                 .createHeader()
                 .setStyleBuilder(ExcelHelper.createDefaultStyle())
                 .createCell()
-                .setValue("*开放应用编码")
+                .setValue(I18nUtils.getMessage("file.template.eip.ipBlacklist.appCode"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING)
                 .setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 7, boldType))
@@ -104,7 +103,7 @@ public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExt
                         .build()))
                 .and()
                 .createCell()
-                .setValue("*IP/IP网段")
+                .setValue(I18nUtils.getMessage("file.template.eip.ipBlacklist.ip"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING)
                 .setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 8, boldType))
@@ -112,11 +111,11 @@ public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExt
                         .build()))
                 .and()
                 .createCell()
-                .setValue("响应状态码")
+                .setValue(I18nUtils.getMessage("file.template.eip.ipBlacklist.httpCode"))
                 .setStyleBuilder(ExcelHelper.createDefaultStyle(v -> v.setBold(true)))
                 .and()
                 .createCell()
-                .setValue("响应结果")
+                .setValue(I18nUtils.getMessage("file.template.eip.ipBlacklist.httpResult"))
                 .setStyleBuilder(ExcelHelper.createDefaultStyle(v -> v.setBold(true)))
                 .and()
                 .createCell();
@@ -128,7 +127,7 @@ public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExt
     public Boolean importData(ExcelImportContext importContext, List<EipOpenIpBlacklistProxy> dataList) {
         ExcelImportTask importTask = importContext.getImportTask();
         if (CollectionUtils.isEmpty(dataList)) {
-            importTask.addTaskMessage(ERROR, "导入内容不能为空");
+            importTask.addTaskMessage(ERROR, I18nUtils.getMessage("file.template.eip.ipBlacklist.error.empty"));
             return Boolean.FALSE;
         }
 
@@ -156,7 +155,7 @@ public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExt
             EipOpenIpBlacklistProxy row = rows.get(i);
 
             if (StringUtils.isBlank(row.getApplicationCode())) {
-                addTaskMessage(importTask, buildRowErrorMsg(i, "开放应用编码不能为空"), i);
+                addTaskMessage(importTask, buildRowErrorMsg(i, I18nUtils.getMessage("file.template.eip.ipBlacklist.error.appCodeEmpty")), i);
                 isValid = false;
             } else {
                 row.setApplicationCode(row.getApplicationCode().trim());
@@ -190,7 +189,7 @@ public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExt
         for (String code : codes) {
             if (!found.contains(code)) {
                 Integer idx = fetchCodeErrorIndex(code, rows);
-                addTaskMessage(importTask, String.format("应用编码【%s】未查询到开放应用", code), idx);
+                addTaskMessage(importTask, I18nUtils.getMessage("file.template.eip.ipBlacklist.error.appNotFound", code), idx);
                 return false;
             }
         }
@@ -207,7 +206,7 @@ public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExt
     }
 
     private static String buildRowErrorMsg(int idx, String errorMsg) {
-        return "第" + (idx + 3) + "行" + errorMsg;
+        return I18nUtils.getMessage("file.template.eip.ipBlacklist.error.rowPrefix") + (idx + 3) + I18nUtils.getMessage("file.template.eip.ipBlacklist.error.rowSuffix") + errorMsg;
     }
 
     private Integer fetchCodeErrorIndex(String code, List<EipOpenIpBlacklistProxy> rows) {

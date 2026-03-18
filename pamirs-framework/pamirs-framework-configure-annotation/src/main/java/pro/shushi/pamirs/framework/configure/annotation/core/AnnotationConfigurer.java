@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.framework.configure.annotation.core;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -47,7 +48,6 @@ import pro.shushi.pamirs.meta.util.FieldUtils;
 import pro.shushi.pamirs.meta.util.NamespaceAndFunUtils;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
-import jakarta.annotation.Resource;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -645,8 +645,7 @@ public class AnnotationConfigurer implements DefinitionConfigurer {
         if (null == modelSigner) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                     .error(BASE_MODEL_NO_REFLECT_SIGNER_ERROR)
-                    .append(I18nUtils.translate("AnnotationConfigurer.modelSignerMissing",
-                            metaModelClazzName)));
+                    .append(I18nUtils.getMessage("AnnotationConfigurer.modelSignerMissing", metaModelClazzName)));
             return result.error();
         }
         result.setData(modelSigner);

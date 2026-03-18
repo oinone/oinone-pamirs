@@ -158,7 +158,7 @@ public class ModelDefinition extends MetaBaseModel implements MetaCheckConstants
     private String dsKey;
 
     @Base
-    @Field.String
+    @Field.String(size = 255)
     @Field(displayName = "备注", summary = "存储备注")
     private String remark;
 
@@ -214,7 +214,7 @@ public class ModelDefinition extends MetaBaseModel implements MetaCheckConstants
     private Boolean isRelationship;
 
     @Base
-    @Field.String
+    @Field.String(size = 255)
     @Field(displayName = "简介", translate = true, summary = "描述摘要")
     private String summary;
 

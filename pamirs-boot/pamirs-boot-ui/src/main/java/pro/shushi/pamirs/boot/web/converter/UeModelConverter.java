@@ -53,8 +53,7 @@ public class UeModelConverter implements ModelConverter<UeModel, Class> {
 
         if (0 == modelAnnotation.labelFields().length && StringUtils.isBlank(modelAnnotation.label())) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
-                    .append(I18nUtils.translate("UeModelConverter.labelMissing", source.getName())));
-//            result.error();
+                    .append(I18nUtils.getMessage("UeModelConverter.labelMissing", source.getName())));
         }
         return result;
     }

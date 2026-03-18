@@ -12,6 +12,7 @@ import pro.shushi.pamirs.meta.annotation.validation.Validation;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.WriteWithFieldApi;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 
 import static pro.shushi.pamirs.message.enmu.MessageExpEnumerate.BIZ_ERROR;
 
@@ -48,7 +49,7 @@ public class MessageSmsChannelConfigAction {
                 .eq(SmsChannelConfig::getChannel, data.getChannel())
                 .eq(SmsChannelConfig::getSignName, data.getSignName())
                 .eq(SmsChannelConfig::getAccessKeyId, data.getAccessKeyId())) > 0) {
-            throw PamirsException.construct(BIZ_ERROR).appendMsg("短信通道配置已经存在，不能重复").errThrow();
+            throw PamirsException.construct(BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.message.sms.channel.config.duplicate")).errThrow();
         }
         return defaultWriteWithFieldApi.createWithField(data);
     }
@@ -76,7 +77,7 @@ public class MessageSmsChannelConfigAction {
                 .ne(SmsChannelConfig::getId, data.getId())
                 .eq(SmsChannelConfig::getSignName, data.getSignName())
                 .eq(SmsChannelConfig::getAccessKeyId, data.getAccessKeyId())) > 0) {
-            throw PamirsException.construct(BIZ_ERROR).appendMsg("短信通道配置已经存在，不能重复").errThrow();
+            throw PamirsException.construct(BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.message.sms.channel.config.duplicate")).errThrow();
         }
         return defaultWriteWithFieldApi.updateWithField(data);
     }

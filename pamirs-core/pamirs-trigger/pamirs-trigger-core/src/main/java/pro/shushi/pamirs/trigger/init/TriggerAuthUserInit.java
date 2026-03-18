@@ -9,6 +9,7 @@ import pro.shushi.pamirs.boot.common.api.init.UpgradeDataInit;
 import pro.shushi.pamirs.resource.api.enmu.UserSignUpType;
 import pro.shushi.pamirs.trigger.TriggerModule;
 import pro.shushi.pamirs.trigger.constant.TriggerUserConfiguration;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.user.api.enmu.UserSourceEnum;
 import pro.shushi.pamirs.user.api.enmu.UserType;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
@@ -54,10 +55,10 @@ public class TriggerAuthUserInit implements InstallDataInit, UpgradeDataInit {
     private void initTriggerUser() {
         if (new PamirsUser().setCode(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_CODE).count() == 0) {
             PamirsUser triggerUser = (PamirsUser) new PamirsUser()
-                    .setNickname(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_NAME)
+                    .setNickname(I18nUtils.getMessage(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_NAME))
                     .setUserType(UserType.SYSTEM.name())
                     .setSignUpType(UserSignUpType.BACKSTAGE)
-                    .setName(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_NAME)
+                    .setName(I18nUtils.getMessage(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_NAME))
                     .setLogin(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_CODE)
                     .setSource(UserSourceEnum.BUILD_IN)
                     .setActive(Boolean.FALSE)

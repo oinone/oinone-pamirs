@@ -108,7 +108,7 @@ public class EipConnectorResourceServiceImpl implements EipConnectorResourceServ
                 val = String.format("'%s'", val);
             }
             if (StringUtils.isAnyBlank(entry.getKey(), val)) {
-                log.error("值传递异常:[{}:{}]", entry.getKey(), entry.getValue());
+                log.error("Value transfer exception:[{}:{}]", entry.getKey(), entry.getValue());
                 continue;
             }
 
@@ -140,13 +140,13 @@ public class EipConnectorResourceServiceImpl implements EipConnectorResourceServ
             String jdbcUrl = DbConnectionUtils.buildUrl(connector);
             ConnDbType dbType = connector.getDbType();
             if (null == dbType) {
-                log.error("未获取数据库类型");
+                log.error("Database type not obtained");
                 return new ArrayList<>();
             }
 
             String driver = dbType.getDriver();
             if (StringUtils.isBlank(driver)) {
-                log.error("未获取数据库驱动");
+                log.error("Database driver not obtained");
                 return new ArrayList<>();
             }
 
@@ -186,7 +186,7 @@ public class EipConnectorResourceServiceImpl implements EipConnectorResourceServ
             return mockFields;
 
         } catch (ClassNotFoundException | SQLException e) {
-            log.error("获取数据库连接失败！", e);
+            log.error("Failed to obtain database connection!", e);
             return new ArrayList<>();
         }
     }

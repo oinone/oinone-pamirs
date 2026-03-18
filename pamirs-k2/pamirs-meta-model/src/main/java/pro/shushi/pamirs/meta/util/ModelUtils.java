@@ -41,7 +41,7 @@ public class ModelUtils {
         try {
             clazz = TypeUtils.getClass(clazzName);
         } catch (Exception e) {
-            log.error(MessageFormat.format("类{0}不存在，请检查窗口动作是否存在脏数据，再次安装后该脏数据将被清理", clazzName), e);
+            log.error(MessageFormat.format("Class {0} does not exist, please check if window action has dirty data, which will be cleaned after re-installation", clazzName), e);
             return null;
         }
         if (!TypeUtils.isModelClass(clazz)) {

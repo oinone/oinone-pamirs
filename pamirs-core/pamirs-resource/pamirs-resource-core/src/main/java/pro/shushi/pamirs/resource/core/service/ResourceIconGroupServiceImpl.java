@@ -81,7 +81,7 @@ public class ResourceIconGroupServiceImpl implements ResourceIconGroupService {
     @Function
     public ResourceIconGroup deleteOne(ResourceIconGroup data) {
         //不能删除未分组
-        if (Objects.equals(data.getName(), UnGroupData.NAME)) {
+        if (Objects.equals(data.getName(), UnGroupData.getName())) {
             throw PamirsException.construct(ExpEnumerate.UNGROUPED_GROUPS).errThrow();
         }
         //将该分组下面的图标改为未分组

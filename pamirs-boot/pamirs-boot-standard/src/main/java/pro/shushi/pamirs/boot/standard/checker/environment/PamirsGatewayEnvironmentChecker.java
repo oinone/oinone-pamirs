@@ -18,9 +18,9 @@ public class PamirsGatewayEnvironmentChecker extends AbstractPlatformEnvironment
     @Override
     protected EnvironmentKeySet warningKeys() {
         return newEnvironmentKeySet(EnvironmentKey.Level.WARNING,
-                EnvironmentKey.warning("pamirs.framework.gateway.statistics", Boolean.FALSE.toString(), EnvironmentCheckConstants.PRODUCT_ENVIRONMENT_CLOSED_TIP, new BooleanChecker(false, true)),
-                EnvironmentKey.warning("pamirs.framework.gateway.show-doc", Boolean.FALSE.toString(), EnvironmentCheckConstants.PRODUCT_ENVIRONMENT_CLOSED_TIP, new BooleanChecker(false, true)),
-                EnvironmentKey.warning("pamirs.framework.gateway.async", Boolean.FALSE.toString(), EnvironmentCheckConstants.PRODUCT_ENVIRONMENT_ENABLED_TIP, new BooleanChecker(false, false))
+                EnvironmentKey.warning("pamirs.framework.gateway.statistics", Boolean.FALSE.toString(), EnvironmentCheckConstants.getProductEnvironmentClosedTip(), new BooleanChecker(false, true)),
+                EnvironmentKey.warning("pamirs.framework.gateway.show-doc", Boolean.FALSE.toString(), EnvironmentCheckConstants.getProductEnvironmentClosedTip(), new BooleanChecker(false, true)),
+                EnvironmentKey.warning("pamirs.framework.gateway.async", Boolean.FALSE.toString(), EnvironmentCheckConstants.getProductEnvironmentEnabledTip(), new BooleanChecker(false, false))
         );
     }
 }

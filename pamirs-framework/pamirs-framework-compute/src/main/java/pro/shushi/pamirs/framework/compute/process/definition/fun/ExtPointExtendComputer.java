@@ -7,6 +7,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import pro.shushi.pamirs.framework.common.utils.ObjectUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.core.compute.definition.MetaDataExtendComputer;
 import pro.shushi.pamirs.meta.api.core.compute.systems.inherit.InheritedProcessor;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
@@ -90,7 +91,7 @@ public class ExtPointExtendComputer implements MetaDataExtendComputer<ExtPointIm
                     extPoint = meta.getDataItem(ExtPoint.MODEL_MODEL, originSign);
                     if (null == extPoint) {
                         throw PamirsException.construct(BASE_MODULE_DEPENDENT_ERROR)
-                                .appendMsg(MessageFormat.format("当前模块：{0}，需要依赖接口[{1}]所在的模块或者配置当前模块的扫描路径包含该接口所在包",
+                                .appendMsg(I18nUtils.getMessage("ExtPointExtendComputer.moduleDependentError",
                                         meta.getCurrentModule().getName(), methodWithAnnotation.getDeclaringClass().getName())).errThrow();
                     }
                     extPoint = ObjectUtils.clone(extPoint);

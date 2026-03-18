@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.framework.gateways.graph.java.service;
 
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.util.TypeUtils;
 
@@ -16,16 +17,16 @@ public class SummaryGenerator {
 
     public static void generate(StringBuilder graphQLTypeSb, String displayName, String type, String summary, Boolean invisible) {
         graphQLTypeSb.append(CharacterConstants.SEPARATOR_OCTOTHORPE)
-                .append("显示名称：")
+                .append(I18nUtils.getMessage("pamirs-gateways-graph-java.SummaryGenerator.display_name"))
                 .append(TypeUtils.stringNullableValueOf(displayName));
         if (StringUtils.isNotBlank(type)) {
-            graphQLTypeSb.append("，类型：").append(TypeUtils.stringNullableValueOf(type));
+            graphQLTypeSb.append(I18nUtils.getMessage("pamirs-gateways-graph-java.SummaryGenerator.type")).append(TypeUtils.stringNullableValueOf(type));
         }
         if (null != invisible) {
-            graphQLTypeSb.append("，页面可见：").append(!invisible);
+            graphQLTypeSb.append(I18nUtils.getMessage("pamirs-gateways-graph-java.SummaryGenerator.page_visible")).append(!invisible);
         }
         if (StringUtils.isNotBlank(summary)) {
-            graphQLTypeSb.append("，说明：").append(TypeUtils.stringNullableValueOf(summary));
+            graphQLTypeSb.append(I18nUtils.getMessage("pamirs-gateways-graph-java.SummaryGenerator.description")).append(TypeUtils.stringNullableValueOf(summary));
         }
         graphQLTypeSb.append(StringUtils.LF);
     }

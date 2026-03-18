@@ -8,6 +8,7 @@ import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.file.api.template.entity.ExcelLocationData;
 import pro.shushi.pamirs.file.api.util.ExcelHelper;
 import pro.shushi.pamirs.file.api.util.ExcelTemplateInit;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,9 +28,9 @@ public class ExcelLocationTemplate implements ExcelTemplateInit {
         return Collections.singletonList(WorkbookDefinitionBuilder.newInstance(ExcelWorkbookDefinition.MODEL_MODEL, TEMPLATE_NAME)
                 .setType(ExcelTemplateTypeEnum.IMPORT_EXPORT)
                 .setExportStrategy(ExcelExportStrategyEnum.BLOCK)
-                .setDisplayName("导入导出模板翻译")
+                .setDisplayName(I18nUtils.getMessage("file.template.location.title"))
                 .setDefaultShow(Boolean.FALSE)
-                .createSheet().setName("国际化配置")
+                .createSheet().setName(I18nUtils.getMessage("file.template.location.sheet.i18n"))
                 .createBlock(ExcelLocationData.class.getName(), ExcelAnalysisTypeEnum.FIXED_HEADER, ExcelDirectionEnum.HORIZONTAL, "A1:G2")
                 .createHeader().setStyleBuilder(ExcelHelper.createDefaultStyle()).setIsConfig(Boolean.TRUE)
                 .createCell().setField("model").and()
@@ -41,13 +42,13 @@ public class ExcelLocationTemplate implements ExcelTemplateInit {
                 .createCell().setField("target").and()
                 .and()
                 .createHeader().setStyleBuilder(ExcelHelper.createDefaultStyle(typeface -> typeface.setBold(Boolean.TRUE)).setHorizontalAlignment(ExcelHorizontalAlignmentEnum.CENTER))
-                .createCell().setValue("模型编码").and()
-                .createCell().setValue("模板名称").and()
-                .createCell().setValue("模板显示名称").and()
-                .createCell().setValue("源语言").and()
-                .createCell().setValue("目标语言").and()
-                .createCell().setValue("源术语").and()
-                .createCell().setValue("翻译值").and()
+                .createCell().setValue(I18nUtils.getMessage("file.template.location.header.model")).and()
+                .createCell().setValue(I18nUtils.getMessage("file.template.location.header.name")).and()
+                .createCell().setValue(I18nUtils.getMessage("file.template.location.header.displayName")).and()
+                .createCell().setValue(I18nUtils.getMessage("file.template.location.header.originLang")).and()
+                .createCell().setValue(I18nUtils.getMessage("file.template.location.header.targetLang")).and()
+                .createCell().setValue(I18nUtils.getMessage("file.template.location.header.origin")).and()
+                .createCell().setValue(I18nUtils.getMessage("file.template.location.header.target")).and()
                 .and().and()
                 .and()
                 .build());

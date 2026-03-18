@@ -9,8 +9,8 @@ package pro.shushi.pamirs.framework.configure.contants;
  */
 public interface NameConstants {
 
-    String SEQUENCE_CONFIG_NAME_PREFIX = "的数据编码";
+    String SEQUENCE_CONFIG_NAME_PREFIX = "NameConstants.SequenceConfigNamePrefix";
 
-    String SEQUENCE_CONFIG_NAME_FIELD_PREFIX = "的数据编码(模型编码:";
+    String SEQUENCE_CONFIG_NAME_FIELD_PREFIX = "NameConstants.SequenceConfigNameFieldPrefix";
 
 }

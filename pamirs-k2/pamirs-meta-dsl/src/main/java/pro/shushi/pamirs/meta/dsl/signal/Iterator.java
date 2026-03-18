@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.meta.dsl.signal;
 
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.dsl.fun.LogicFunInvoker;
 
@@ -28,27 +29,27 @@ public class Iterator implements Exe {
             obj = LogicFunInvoker.exp(list, context);
         } catch (Exception ex) {
             throw PamirsException.construct(BASE_FOREACH_HANDLE_ERROR, ex)
-                    .appendMsg(currentStateName + "没有找到循环节点" + list + "相对应的值").errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.signal.iterator.valueNotFound", currentStateName, list)).errThrow();
         }
         // Object obj = context.get(list);
         if (null == obj) {
             throw PamirsException.construct(BASE_FOREACH_PARAMS_IS_EMPTY_ERROR)
-                    .appendMsg(currentStateName + "节点入参集合为空").errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.signal.iterator.collectionEmpty", currentStateName)).errThrow();
         }
         if (!(obj instanceof List)) {
             throw PamirsException.construct(BASE_FOREACH_PARAMS_IS_NOT_COLLECTION_ERROR)
-                    .appendMsg(currentStateName + "节点入参不是集合").errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.signal.iterator.notCollection", currentStateName)).errThrow();
         }
         if (!StringUtils.isNumeric(start) || !StringUtils.isNumeric(end)) {
             throw PamirsException.construct(BASE_FOREACH_PARAMS_ERROR)
-                    .appendMsg(currentStateName + "节点入参开始条件和终止条件不是数字，开始条件：" + start + "，结束条件：" + end).errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.signal.iterator.startEndNotNumeric", currentStateName, start, end)).errThrow();
         }
         List l = (List) obj;
         int i = Integer.valueOf(start);
         int e = Integer.valueOf(end);
         if (i >= e) {
             throw PamirsException.construct(BASE_FOREACH_PARAMS_ERROR)
-                    .appendMsg(currentStateName + "节点入参开始条件和终止条件配置错误，开始条件：" + start + "，结束条件：" + end).errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.signal.iterator.startEndConfigError", currentStateName, start, end)).errThrow();
         }
 
         currentIndex = null == currentIndex ? i : currentIndex + 1;

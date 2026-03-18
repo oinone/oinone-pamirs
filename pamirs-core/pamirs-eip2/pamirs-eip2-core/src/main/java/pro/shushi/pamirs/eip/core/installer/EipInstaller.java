@@ -74,7 +74,7 @@ public class EipInstaller implements IEipInstaller {
                         group.updateByCode();
                     }
                 } catch (Exception e) {
-                    log.error("集成设计器业务域导入失败，{}", JsonUtils.toJSONString(group), e);
+                    log.error("Integration designer business domain import failed, {}", JsonUtils.toJSONString(group), e);
                 }
             }
         }

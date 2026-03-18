@@ -40,14 +40,14 @@ public class State {
     }
 
     public void execute(Map<String, Object> context) {
-        log.error("开始执行节点:{}", this.getName());
+        log.error("Start executing node: {}", this.getName());
         for (Exe exe : this.exes) {
-            log.error("节点执行逻辑:{}", exe.getClass().getSimpleName());
+            log.error("Node execution logic: {}", exe.getClass().getSimpleName());
             exe.dispatch(context);
         }
 
         afterExecute(context);
-        log.error("节点执行结束:{} \r\n", this.getName());
+        log.error("Node execution finished: {} \r\n", this.getName());
     }
 
     private void afterExecute(Map<String, Object> context) {
@@ -80,7 +80,7 @@ public class State {
 
         allSuccess &= !hasFail;
         if (!allSuccess) {
-            throw new MachineException("当前节点为[" + name + "],执行失败");
+            throw new MachineException("Current node is [" + name + "], execution failed");
         }
     }
 

@@ -24,7 +24,6 @@ import pro.shushi.pamirs.meta.api.Exp;
 import pro.shushi.pamirs.meta.api.enmu.ScriptType;
 import pro.shushi.pamirs.meta.base.D;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
-import pro.shushi.pamirs.meta.common.enmu.IEnum;
 import pro.shushi.pamirs.ux.common.utils.NumberHelper;
 
 import java.math.BigDecimal;
@@ -177,26 +176,16 @@ public class DataConvertHelper {
             case BOOLEAN:
             case ENUMERATION:
                 Map<String, String> enumerationMap = (Map<String, String>) formatObject;
-                if (enumerationMap == null) {
-                    if (value instanceof Enum) {
-                        if (value instanceof IEnum) {
-                            return ((IEnum<?>) value).displayName();
-                        } else {
-                            return StringHelper.valueOf(value);
+                if (isSetValue) {
+                    String tempValue = enumerationMap.get(stringValue);
+                    if (tempValue == null) {
+                        if (!(value instanceof String)) {
+                            value = null;
                         }
+                    } else {
+                        value = tempValue;
                     }
-                } else {
-                    if (isSetValue) {
-                        String tempValue = enumerationMap.get(stringValue);
-                        if (tempValue == null) {
-                            if (!(value instanceof String)) {
-                                value = null;
-                            }
-                        } else {
-                            value = tempValue;
-                        }
-                        return value;
-                    }
+                    return value;
                 }
                 break;
             case DATETIME:
@@ -280,7 +269,7 @@ public class DataConvertHelper {
                     if (isFormat) {
                         integerFormat.applyLocalizedPattern(format);
                     } else {
-                        integerFormat.applyLocalizedPattern(valueType.getDefaultFormat());
+                        integerFormat.applyLocalizedPattern(valueType.defaultFormat());
                     }
                     cellDefinition.setFormatObject(integerFormat);
                     break;
@@ -290,7 +279,7 @@ public class DataConvertHelper {
                     if (isFormat) {
                         numberFormat.applyLocalizedPattern(format);
                     } else {
-                        numberFormat.applyLocalizedPattern(valueType.getDefaultFormat());
+                        numberFormat.applyLocalizedPattern(valueType.defaultFormat());
                     }
                     cellDefinition.setFormatObject(numberFormat);
                     break;
@@ -307,7 +296,7 @@ public class DataConvertHelper {
                     break;
                 case DATETIME:
                     if (!isFormat) {
-                        format = valueType.getDefaultFormat();
+                        format = valueType.defaultFormat();
                     }
                     cellDefinition.setFormatObject(new SimpleDateFormat(format));
                     break;
@@ -362,7 +351,7 @@ public class DataConvertHelper {
                 case INTEGER:
                     if (isFormat || isConfig) {
                         if (format == null) {
-                            format = type.getDefaultFormat();
+                            format = type.defaultFormat();
                         }
                         cellStyle.setDataFormat(workbook.createDataFormat().getFormat(format));
                     }
@@ -377,7 +366,7 @@ public class DataConvertHelper {
                 case NUMBER:
                     if (isFormat || isConfig) {
                         if (format == null) {
-                            format = type.getDefaultFormat();
+                            format = type.defaultFormat();
                         }
                         cellStyle.setDataFormat(workbook.createDataFormat().getFormat(format));
                     }
@@ -392,7 +381,7 @@ public class DataConvertHelper {
                 case DATETIME:
                     if (isFormat || isConfig) {
                         if (format == null) {
-                            format = type.getDefaultFormat();
+                            format = type.defaultFormat();
                         }
                         cellStyle.setDataFormat(workbook.createDataFormat().getFormat(format));
                     }
@@ -400,7 +389,7 @@ public class DataConvertHelper {
                         if (isConfig || isHeader || ignoredFormat) {
                             cell.setCellValue(value);
                         } else {
-                            cell.setCellValue(DateHelper.parse(value, type.getDefaultFormat()));
+                            cell.setCellValue(DateHelper.parse(value, type.defaultFormat()));
                         }
                     }
                     break;

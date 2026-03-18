@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.standard.checker.PlatformEnvironmentChecker;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentCheckContext;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentKey;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.spi.Holder;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 import pro.shushi.pamirs.meta.domain.PlatformEnvironment;
@@ -51,7 +52,7 @@ public class InstanceEnvironmentChecker extends AbstractPlatformEnvironmentCheck
         }
         if (historyEnvironment == null) {
             // 新的数据库，旧的Redis
-            context.addError(generatorImmutableEnvironmentProperty(INSTANCE_ID, instanceId), "请不要使用不同环境的Base数据库连接同一个Redis\n\n" + tip());
+            context.addError(generatorImmutableEnvironmentProperty(INSTANCE_ID, instanceId), I18nUtils.getMessage("InstanceEnvironmentChecker.redis.base.db.error") + tip());
             return false;
         } else {
             // 旧的数据库，旧的Redis
@@ -59,7 +60,7 @@ public class InstanceEnvironmentChecker extends AbstractPlatformEnvironmentCheck
             if (instanceId.equals(dbInstanceId)) {
                 return true;
             }
-            context.addError(generatorImmutableEnvironmentProperty(INSTANCE_ID, instanceId), "当前数据库和Redis不匹配，请检查Redis服务是否被其他环境使用\n\n" + tip());
+            context.addError(generatorImmutableEnvironmentProperty(INSTANCE_ID, instanceId), I18nUtils.getMessage("InstanceEnvironmentChecker.redis.mismatch.error") + tip());
             return false;
         }
     }
@@ -75,9 +76,6 @@ public class InstanceEnvironmentChecker extends AbstractPlatformEnvironmentCheck
     }
 
     private String tip() {
-        return "解决方案: (任选其一即可)\n" +
-                "1. 使用Redis的[spring.data.redis.database]或[spring.data.redis.prefix]进行Redis隔离。\n" +
-                "2. 若确定现有Redis仅当前环境中使用，请使用FLUSHALL命令清空当前Redis再尝试启动。\n" +
-                "3. 若现有Redis过度使用，请尝试使用新的Redis服务。\n\n";
+        return I18nUtils.getMessage("InstanceEnvironmentChecker.redis.solution.tip");
     }
 }

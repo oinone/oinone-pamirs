@@ -86,7 +86,7 @@ public class DBDemoMulti implements IScheduleTaskDealMulti<Long> {
             conn = dataSource.getConnection();
             for (int index = 0; index < tasks.length; index++) {
                 id = ((Long) tasks[index]).longValue();
-                log.debug("处理任务：" + id + " 成功！");
+                log.debug("Process task: " + id + " successfully!");
                 String sql = "update SCHEDULE_TEST SET STS ='Y' ,DEAL_COUNT = DEAL_COUNT + 1 WHERE ID = ? and STS ='N' ";
                 PreparedStatement statement = conn.prepareStatement(sql);
                 statement.setLong(1, id);
@@ -95,7 +95,7 @@ public class DBDemoMulti implements IScheduleTaskDealMulti<Long> {
             }
             conn.commit();
         } catch (Exception e) {
-            log.error("执行任务：" + id + "失败：" + e.getMessage(), e);
+            log.error("Execute task: " + id + " failed: " + e.getMessage(), e);
             if (conn != null) {
                 conn.rollback();
             }

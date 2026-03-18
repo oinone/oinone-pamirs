@@ -131,7 +131,7 @@ public class EipSceneInstanceServiceImpl extends DataStatusBehavior<EipSceneInst
         EipResult result = EipSceneInstanceExecutor
                 .newInstance(null)
                 .call(exits.getCode(), data.getInstanceBody());
-        log.debug("eip场景实例测试,实例id:{},编码:{},入参:{},结果:{}", exits.getId(), exits.getCode(), data.getInstanceBody(), JSON.toJSONString(result));
+        log.debug("EIP scene instance test, instance id:{}, code:{}, input param:{}, result:{}", exits.getId(), exits.getCode(), data.getInstanceBody(), JSON.toJSONString(result));
         return result.getSuccess();
     }
 

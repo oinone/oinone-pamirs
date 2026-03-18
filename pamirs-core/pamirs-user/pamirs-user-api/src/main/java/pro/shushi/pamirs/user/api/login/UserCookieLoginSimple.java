@@ -52,7 +52,7 @@ public class UserCookieLoginSimple extends UserCookieLogin<PamirsUser> {
             //清理下登录的cookie
             logout();
 
-            log.error("{}当前用户是{},{}", UserExpEnumerate.USER_CAN_NOT_ACTIVE_ERROR, pamirsUserDTO.getUserId(), pamirsUserDTO.getLogin());
+            log.error("{} current user is {},{}", UserExpEnumerate.USER_CAN_NOT_ACTIVE_ERROR, pamirsUserDTO.getUserId(), pamirsUserDTO.getLogin());
             throw PamirsException.construct(UserExpEnumerate.USER_CAN_NOT_ACTIVE_ERROR).errThrow();
         }
         return pamirsUserDTO;

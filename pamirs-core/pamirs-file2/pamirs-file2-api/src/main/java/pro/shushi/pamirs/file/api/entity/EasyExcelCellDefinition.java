@@ -22,6 +22,8 @@ public class EasyExcelCellDefinition implements Serializable {
 
     private ExcelValueTypeEnum type;
 
+    private String dictionary;
+
     private String format;
 
     private Boolean translate;

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.shushi.pamirs.eip.api.strategy.listener.EipOpenRateLimitStatusChangeListener;
 import pro.shushi.pamirs.eip.api.strategy.service.EipOpenRateLimitStateSyncService;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
@@ -24,7 +25,7 @@ public class EipOpenRateLimitStateSyncServiceImpl extends AbstractEipDistributed
 
     @Override
     protected String getDisplayName() {
-        return "开放接口流控";
+        return I18nUtils.getMessage("EipOpenRateLimitStateSyncServiceImpl.displayName");
     }
 
     @Override

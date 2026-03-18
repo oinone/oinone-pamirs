@@ -2,6 +2,7 @@ package pro.shushi.pamirs.record.sql.manager;
 
 import com.google.common.base.Splitter;
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 import pro.shushi.pamirs.record.sql.config.SQLRecordConfig;
@@ -45,25 +46,25 @@ public class SQLRecordManager {
         boolean isLOCK = sqlRecordConfig.isLock();
         if (StringUtils.isBlank(storePath)) {
             this.storePath = System.getProperty("user.dir");
-            log.info("未配置SQL记录存储目录 ！");
-            log.info("未配置SQL记录存储目录 ！");
-            log.info("未配置SQL记录存储目录 ！");
-            log.info("将使用默认存储目录: [{}]", this.storePath);
+            log.info("SQL record storage directory not configured!");
+            log.info("SQL record storage directory not configured!");
+            log.info("SQL record storage directory not configured!");
+            log.info("Default storage directory will be used: [{}]", this.storePath);
         } else {
             this.storePath = storePath;
-            log.info("[{}] 存储目录:[{}]", this.techName(), this.storePath);
+            log.info("[{}] Storage directory:[{}]", this.techName(), this.storePath);
         }
 
         File dir = new File(this.storePath);
         if (dir.exists()) {
             if (!dir.isDirectory() || !dir.canRead() || !dir.canWrite()) {
-                throw new RuntimeException(techName() + " SQL记录存储目录[" + this.storePath + "]异常,请设置正确的存储目录");
+                throw new RuntimeException(I18nUtils.getMessage("pamirs-sql-record-core.SQLRecordManager.storage_dir_error", techName(), this.storePath));
             }
         } else {
             try {
                 Files.createDirectory(Paths.get(this.storePath));
             } catch (IOException exp) {
-                throw new RuntimeException(techName() + " SQL记录存储目录[" + this.storePath + "]异常,请设置正确的存储目录", exp);
+                throw new RuntimeException(I18nUtils.getMessage("pamirs-sql-record-core.SQLRecordManager.storage_dir_error", techName(), this.storePath), exp);
             }
         }
 
@@ -99,7 +100,7 @@ public class SQLRecordManager {
                 this.pos = readPos;
             }
         } catch (IOException exp) {
-            throw new RuntimeException("Current记录存储文件[" + cDataPath + "]异常", exp);
+            throw new RuntimeException(I18nUtils.getMessage("pamirs-sql-record-core.SQLRecordManager.current_file_error", cDataPath), exp);
         }
 
         String currPath = storePath + File.separatorChar + getBinName() + "." + writeFilePos;
@@ -108,7 +109,7 @@ public class SQLRecordManager {
             try {
                 Files.createFile(currFilePath);
             } catch (IOException exp) {
-                throw new RuntimeException("SQL记录存储文件创建[" + currFilePath + "]异常", exp);
+                throw new RuntimeException(I18nUtils.getMessage("pamirs-sql-record-core.SQLRecordManager.create_file_error", currFilePath), exp);
             }
         }
     }
@@ -131,7 +132,7 @@ public class SQLRecordManager {
                 Files.createFile(writeFilePath);
             } catch (IOException exp) {
                 writeFile = this.storePath + File.separatorChar + getBinName() + "." + (writeFilePos - 1);
-                log.error("新建SQL记录存储文件错误[" + writeFile + "]异常", exp);
+                log.error("Create SQL record storage file error [" + writeFile + "] exception", exp);
             }
         }
         try (RandomAccessFile raf = new RandomAccessFile(writeFile, "rw")) {
@@ -143,7 +144,7 @@ public class SQLRecordManager {
                 hasNewFile = true;
             }
         } catch (IOException exp) {
-            throw new RuntimeException("刷盘失败:" + json, exp);
+            throw new RuntimeException(I18nUtils.getMessage("pamirs-sql-record-core.SQLRecordManager.flush_failed", json), exp);
         }
         return data;
     }
@@ -164,7 +165,7 @@ public class SQLRecordManager {
             line = new String(line.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             return new ReadResult(raf.getFilePointer(), line);
         } catch (IOException exp) {
-            log.error("读取行失败:", exp);
+            log.error("Read line failed:", exp);
             return ReadResult.empty();
         }
     }
@@ -179,7 +180,7 @@ public class SQLRecordManager {
             raf.write(write.getBytes(StandardCharsets.UTF_8));
             return true;
         } catch (IOException exp) {
-            throw new RuntimeException("Current记录存储文件[" + getCurrName() + "]异常", exp);
+            throw new RuntimeException(I18nUtils.getMessage("pamirs-sql-record-core.SQLRecordManager.current_file_error", getCurrName()), exp);
         }
     }
 

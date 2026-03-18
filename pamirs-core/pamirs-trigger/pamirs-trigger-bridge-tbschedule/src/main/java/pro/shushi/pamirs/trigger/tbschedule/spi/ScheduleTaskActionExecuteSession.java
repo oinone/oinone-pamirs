@@ -18,6 +18,7 @@ import pro.shushi.pamirs.middleware.schedule.common.Result;
 import pro.shushi.pamirs.middleware.schedule.domain.ScheduleItem;
 import pro.shushi.pamirs.middleware.schedule.spi.ScheduleTaskActionExecuteAroundApi;
 import pro.shushi.pamirs.trigger.constant.TriggerUserConfiguration;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -67,7 +68,7 @@ public class ScheduleTaskActionExecuteSession implements ScheduleTaskActionExecu
         PamirsTenantSession.setUserId(userId);
         String username = task.getUsername();
         if (username == null) {
-            username = TriggerUserConfiguration.TRIGGER_SYSTEM_USER_NAME;
+            username = I18nUtils.getMessage(TriggerUserConfiguration.TRIGGER_SYSTEM_USER_NAME);
         }
         PamirsTenantSession.setUserName(username);
     }

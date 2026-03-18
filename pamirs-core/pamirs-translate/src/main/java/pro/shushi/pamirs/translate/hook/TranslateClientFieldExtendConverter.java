@@ -122,7 +122,7 @@ public class TranslateClientFieldExtendConverter implements ClientFieldExtendCon
 
             log.debug("displayName: [{}] translate:[{}]", fieldConfig.getDisplayName(), fieldConfig.getModelField().getTranslate());
         } catch (Throwable throwable) {
-            log.error("翻译异常", throwable);
+            log.error("Translation exception", throwable);
         }
     }
 

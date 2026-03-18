@@ -20,6 +20,8 @@ import pro.shushi.pamirs.file.api.service.ExcelWorkbookDefinitionService;
 import pro.shushi.pamirs.file.api.util.ExcelFixedHeadHelper;
 import pro.shushi.pamirs.file.api.util.ExcelHelper;
 import pro.shushi.pamirs.file.api.util.ExcelWorkbookDefinitionUtil;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
+import pro.shushi.pamirs.file.api.util.ResourceFileHelper;
 import pro.shushi.pamirs.framework.connectors.cdn.client.FileClient;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.cdn.pojo.CdnFileForm;
@@ -31,20 +33,21 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
-import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 
+import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import java.util.Base64;
 import java.util.List;
-import java.util.Optional;
 
+import java.util.Optional;
 /**
  * @author Adamancy Zhang
  * @date 2020-11-10 12:25
  */
 @Slf4j
-public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
 
+public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
     // @see pro.shushi.pamirs.framework.gateways.hook.RsqDecodeHook.RSQL_ENCODE_PREFIX
+
     private static final String RSQL_ENCODE_PREFIX = "base64:";
 
     protected ExcelWorkbookDefinitionService excelWorkbookDefinitionService;
@@ -52,7 +55,6 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
     protected ExcelFileService excelFileService;
 
     protected FileProperties fileProperties;
-
     public AbstractExcelExportTaskAction() {
         this.excelWorkbookDefinitionService = BeanDefinitionUtils.getBean(ExcelWorkbookDefinitionService.class);
         this.excelFileService = BeanDefinitionUtils.getBean(ExcelFileService.class);
@@ -148,7 +150,7 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
             throw PamirsException.construct(FileExpEnumerate.EXPORT_FIELD_IS_NOT_SELECTED).errThrow();
         }
         ExcelFixedHeadHelper fixedHeadHelper = ExcelHelper.fixedHeader(model, ExcelConstant.SELECT_FIELD_AUTOMATIC_TEMPLATE)
-                .setDisplayName(modelConfig.getDisplayName() + ExcelConstant.EXPORT_NAME)
+                .setDisplayName(modelConfig.getDisplayName() + I18nUtils.getMessage(ExcelConstant.EXPORT_NAME))
                 .createBlock(modelConfig.getDisplayName(), model);
         MemoryListSearchCache<String, ModelFieldConfig> modelFieldCache = new MemoryListSearchCache<>(modelConfig.getModelFieldConfigList(), ModelFieldConfig::getField);
         for (ExcelModelField selectedField : selectedFields) {
@@ -207,13 +209,13 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
             if (StringUtils.isNotBlank(rsql)) {
                 if (rsql.startsWith(RSQL_ENCODE_PREFIX)) {
                     rsql = rsql.substring(RSQL_ENCODE_PREFIX.length());
-                    log.debug("rsql解密,密文:{}", rsql);
+                    log.debug("rsql decrypt, ciphertext: {}", rsql);
                     try {
                         rsql = new String(Base64.getMimeDecoder().decode(rsql));
                     } catch (Throwable e) {
                         throw new RuntimeException(e);
                     }
-                    log.debug("rsql解密,明文:{}", rsql);
+                    log.debug("rsql decrypt, plaintext: {}", rsql);
                 }
                 data.setRsql(rsql);
                 data.getConditionWrapper().setRsql(rsql);
@@ -228,7 +230,7 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
         if (translateService.needTranslate()) {
             taskName = ExcelConstant.EXPORT_TASK_NAME_TRANSLATE + context.translate(taskName);
         } else {
-            taskName = ExcelConstant.EXPORT_TASK_NAME + taskName;
+            taskName = I18nUtils.getMessage(ExcelConstant.EXPORT_TASK_NAME) + taskName;
         }
         data.setName(taskName)
                 .setWorkbookDefinition(workbookDefinition)

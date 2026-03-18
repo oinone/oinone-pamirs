@@ -9,23 +9,23 @@ import pro.shushi.pamirs.core.common.constant.CommonConstants;
  */
 public interface ExcelConstant {
 
-    String TEMPLATE_IS_NULL = "未找到正确的导出模板，无法执行导出";
+    String TEMPLATE_IS_NULL = "pamirs.file.excel.template.isNull";
 
-    String DEFAULT_ERROR_MESSAGE = "执行导入任务时出现异常";
+    String DEFAULT_ERROR_MESSAGE = "pamirs.file.excel.error.default";
 
-    String DEFAULT_ERROR_FILE_SUFFIX = "-错误信息";
+    String DEFAULT_ERROR_FILE_SUFFIX = "pamirs.file.excel.error.fileSuffix";
 
-    String IMPORT_NAME = "导入";
+    String IMPORT_NAME = "pamirs.file.excel.name.import";
 
-    String IMPORT_TASK_NAME = "【导入】";
+    String IMPORT_TASK_NAME = "pamirs.file.excel.task.name.import";
 
-    String IMPORT_TASK_NAME_TRANSLATE = "【" + CommonConstants.TRANSLATE_PREFIX + "导入" + CommonConstants.TRANSLATE_SUFFIX + "】";
+    String IMPORT_TASK_NAME_TRANSLATE = "【" + CommonConstants.TRANSLATE_PREFIX + IMPORT_NAME + CommonConstants.TRANSLATE_SUFFIX + "】";
 
-    String EXPORT_NAME = "导出";
+    String EXPORT_NAME = "pamirs.file.excel.name.export";
 
-    String EXPORT_TASK_NAME = "【导出】";
+    String EXPORT_TASK_NAME = "pamirs.file.excel.task.name.export";
 
-    String EXPORT_TASK_NAME_TRANSLATE = "【" + CommonConstants.TRANSLATE_PREFIX + "导出" + CommonConstants.TRANSLATE_SUFFIX + "】";
+    String EXPORT_TASK_NAME_TRANSLATE = "【" + CommonConstants.TRANSLATE_PREFIX + EXPORT_NAME + CommonConstants.TRANSLATE_SUFFIX + "】";
 
     /**
      * 【选择字段导出】使用的模版名称

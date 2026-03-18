@@ -27,6 +27,7 @@ import pro.shushi.pamirs.eip.api.config.PamirsEipProperties;
 import pro.shushi.pamirs.eip.api.constant.EipFunctionConstant;
 import pro.shushi.pamirs.eip.api.context.EipCamelContext;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
@@ -133,7 +134,7 @@ public class EipSystemBootAfterInit implements SystemBootAfterInit {
                 .setConverterFun(EipFunctionConstant.DEFAULT_OPEN_API_GET_ACCESS_TOKEN_FUN)
                 .setUri("rest:post:openapi/get/access-token")
                 .setModule(EipModule.MODULE_MODULE)
-                .setName("根据AppKey和AppSecret获取Token")
+                .setName(I18nUtils.getMessage("eip.core.init.access.token"))
                 .setInterfaceName(OpenApiConstant.OPEN_API_GET_ACCESS_TOKEN)
                 .construct());
         FetchUtil.onlyCreateBatch(eipOpenInterfaceList);
@@ -147,7 +148,7 @@ public class EipSystemBootAfterInit implements SystemBootAfterInit {
                 .setAuthenticationProcessorFun(EipFunctionConstant.DEFAULT_AUTHENTICATION_PROCESSOR_FUN)
                 .setUri(uri)
                 .setModule(EipModule.MODULE_MODULE)
-                .setName("使用加密的GET请求测试接口")
+                .setName(I18nUtils.getMessage("eip.core.init.test.get.encrypt"))
                 .setInterfaceName("test_get_open_api")
                 .construct());
 
@@ -157,7 +158,7 @@ public class EipSystemBootAfterInit implements SystemBootAfterInit {
                 .setAuthenticationProcessorFun(EipFunctionConstant.DEFAULT_AUTHENTICATION_PROCESSOR_FUN)
                 .setUri(uri)
                 .setModule(EipModule.MODULE_MODULE)
-                .setName("使用加密的POST请求测试接口")
+                .setName(I18nUtils.getMessage("eip.core.init.test.post.encrypt"))
                 .setInterfaceName("test_post_open_api")
                 .construct());
 
@@ -167,7 +168,7 @@ public class EipSystemBootAfterInit implements SystemBootAfterInit {
                 .setAuthenticationProcessorFun(EipFunctionConstant.DEFAULT_MD5_SIGNATURE_AUTHENTICATION_PROCESSOR_FUN)
                 .setUri(uri)
                 .setModule(EipModule.MODULE_MODULE)
-                .setName("使用验签的GET请求测试接口")
+                .setName(I18nUtils.getMessage("eip.core.init.test.get.sign"))
                 .setInterfaceName("test_get_signature_open_api")
                 .construct());
 
@@ -177,7 +178,7 @@ public class EipSystemBootAfterInit implements SystemBootAfterInit {
                 .setAuthenticationProcessorFun(EipFunctionConstant.DEFAULT_MD5_SIGNATURE_AUTHENTICATION_PROCESSOR_FUN)
                 .setUri(uri)
                 .setModule(EipModule.MODULE_MODULE)
-                .setName("使用验签的POST请求测试接口")
+                .setName(I18nUtils.getMessage("eip.core.init.test.post.sign"))
                 .setInterfaceName("test_post_signature_open_api")
                 .construct());
         FetchUtil.onlyCreateBatch(eipOpenInterfaceList);

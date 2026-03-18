@@ -2,6 +2,8 @@ package pro.shushi.pamirs.file.api.enmu;
 
 import com.alibaba.fastjson.JSON;
 import pro.shushi.pamirs.core.common.MapHelper;
+import pro.shushi.pamirs.file.api.FileModule;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Dict;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.common.enmu.IEnum;
@@ -66,26 +68,6 @@ public enum ExcelValueTypeEnum implements IEnum<String> {
     }
 
     public String defaultFormat() {
-        return this.defaultFormat;
-    }
-
-    @Deprecated
-    public String getValue() {
-        return value;
-    }
-
-    @Deprecated
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    @Deprecated
-    public String getHelp() {
-        return help;
-    }
-
-    @Deprecated
-    public String getDefaultFormat() {
-        return defaultFormat;
+        return I18nUtils.translateDataDictionaryItem(FileModule.MODULE_MODULE, ExcelValueTypeEnum.dictionary, name(), "defaultFormat", this.defaultFormat);
     }
 }

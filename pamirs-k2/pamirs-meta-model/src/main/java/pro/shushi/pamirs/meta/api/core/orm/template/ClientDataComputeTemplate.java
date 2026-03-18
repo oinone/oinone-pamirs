@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.meta.api.core.orm.template;
 
 import org.springframework.util.CollectionUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.core.compute.template.OrmComputer;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.FieldComputeContext;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.FieldComputeOp;
@@ -11,7 +12,6 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.D;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +71,7 @@ public class ClientDataComputeTemplate {
                         oOrigin = (R) modelBeforeComputeProcessor.before(totalContext, oModel, oOrigin);
                         ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getModelConfig(oModel);
                         if (null == modelConfig) {
-                            throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", oModel));
+                            throw new RuntimeException(I18nUtils.getMessage("DataComputeTemplate.modelConfigNotFound", oModel));
                         }
                         List<ModelFieldConfig> modelFieldConfigList = modelConfig.getModelFieldConfigList();
                         if (!CollectionUtils.isEmpty(modelFieldConfigList)) {

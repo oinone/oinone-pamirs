@@ -2,6 +2,7 @@ package pro.shushi.pamirs.meta.api.core.orm.template;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.FieldComputeContext;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.FieldComputeOp;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.ModelComputeContext;
@@ -54,7 +55,7 @@ public class PersistenceDataComputeTemplate {
         } else if (Map.class.isAssignableFrom(origin.getClass()) || D.class.isAssignableFrom(origin.getClass())) {
             ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
             if (null == modelConfig) {
-                throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", model));
+                throw new RuntimeException(MessageFormat.format(I18nUtils.getMessage("DataComputeTemplate.modelConfigNotFound"), model));
             }
             return computeDMap(context, modelConfig, origin,
                     (ctx, oModel, oOrigin) -> modelBeforeComputeProcessor.before(oModel, oOrigin),
@@ -66,7 +67,7 @@ public class PersistenceDataComputeTemplate {
             int i = 0;
             ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
             if (null == modelConfig) {
-                throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", model));
+                throw new RuntimeException(I18nUtils.getMessage("DataComputeTemplate.modelConfigNotFound", model));
             }
             FieldComputeContext subcontext = new FieldComputeContext();
             subcontext.setTotalContext(null);
@@ -85,7 +86,7 @@ public class PersistenceDataComputeTemplate {
             Object[] resultObjects = new Object[objects.length];
             ModelConfig modelConfig = Objects.requireNonNull(PamirsSession.getContext()).getSimpleModelConfig(model);
             if (null == modelConfig) {
-                throw new RuntimeException(MessageFormat.format("未找到对应的模型配置，model:{0}", model));
+                throw new RuntimeException(I18nUtils.getMessage("DataComputeTemplate.modelConfigNotFound", model));
             }
             FieldComputeContext subcontext = new FieldComputeContext();
             subcontext.setTotalContext(null);

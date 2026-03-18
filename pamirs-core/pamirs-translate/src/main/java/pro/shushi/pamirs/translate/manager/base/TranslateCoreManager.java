@@ -49,7 +49,7 @@ public class TranslateCoreManager {
 
         // 元数据
         long start = System.currentTimeMillis();
-        log.info("翻译元数据计算开始");
+        log.info("Translation metadata calculation started");
         @SuppressWarnings("rawtypes")
         List<TranslateMetaBaseService> serviceList = BeanDefinitionUtils.getBeansOfTypeByOrdered(TranslateMetaBaseService.class);
         CountDownLatch countDown = new CountDownLatch(serviceList.size());
@@ -67,7 +67,7 @@ public class TranslateCoreManager {
                         metaItemMap.put(key, item);
                     }
                 } catch (Throwable e) {
-                    log.error("获取翻译异常", e);
+                    log.error("Get translation exception", e);
                 } finally {
                     countDown.countDown();
                 }
@@ -75,13 +75,13 @@ public class TranslateCoreManager {
         }
         try {
             boolean await = countDown.await(10, TimeUnit.MINUTES);
-            log.info("获取翻译等待: {}", await);
+            log.info("Get translation wait: {}", await);
         } catch (InterruptedException e) {
-            log.error("获取翻译等待异常", e);
+            log.error("Get translation wait exception", e);
         }
 
         List<ResourceTranslationItem> result = hintTranslated(metaItemMap);
-        log.info("翻译元数据计算,总共元数据:{} 总共耗时:{} ms", result.size(), (System.currentTimeMillis() - start));
+        log.info("Translation metadata calculation, total metadata: {} total cost: {} ms", result.size(), (System.currentTimeMillis() - start));
         return result;
     }
 
@@ -106,7 +106,7 @@ public class TranslateCoreManager {
                     if (CollectionUtils.isEmpty(dbItemList)) {
                         return;
                     }
-                    log.info("第{}页: {}", fi, dbItemList.size());
+                    log.info("Page {}: {}", fi, dbItemList.size());
                     for (ResourceTranslationItem item : dbItemList) {
                         if (null == item) {
                             continue;
@@ -145,7 +145,7 @@ public class TranslateCoreManager {
                         }
                     }
                 } catch (Throwable e) {
-                    log.info("计算翻译异常", e);
+                    log.info("Calculate translation exception", e);
                 } finally {
                     countDown.countDown();
                 }
@@ -154,9 +154,9 @@ public class TranslateCoreManager {
 
         try {
             boolean await = countDown.await(10, TimeUnit.MINUTES);
-            log.error("计算翻译等待: {}", await);
+            log.error("Calculate translation wait: {}", await);
         } catch (InterruptedException e) {
-            log.error("计算翻译等待异常", e);
+            log.error("Calculate translation wait exception", e);
         }
 
         if (result.isEmpty() && MapUtils.isNotEmpty(metaItemMap)) {
@@ -208,7 +208,7 @@ public class TranslateCoreManager {
                     if (CollectionUtils.isEmpty(dbItemList)) {
                         return;
                     }
-                    log.info("第{}页: {}", fi, dbItemList.size());
+                    log.info("Page {}: {}", fi, dbItemList.size());
                     for (ResourceTranslationItem item : dbItemList) {
                         if (null == item) {
                             continue;
@@ -241,7 +241,7 @@ public class TranslateCoreManager {
                     }
 
                 } catch (Throwable e) {
-                    log.error("缓存元数据异常", e);
+                    log.error("Cache metadata exception", e);
                 } finally {
                     countDown.countDown();
                 }
@@ -250,17 +250,17 @@ public class TranslateCoreManager {
 
         try {
             boolean await = countDown.await(10, TimeUnit.MINUTES);
-            log.info("缓存翻译等待: {}", await);
+            log.info("Cache translation wait: {}", await);
         } catch (InterruptedException e) {
-            log.error("缓存翻译等待异常", e);
+            log.error("Cache translation wait exception", e);
         }
 
         translateRedisManager.delAllTranslation();
         translateRedisManager.delAllItem();
-        log.info("删除翻译元数据Redis缓存");
+        log.info("Delete translation metadata Redis cache");
         translateRedisManager.putAllItem(itemDbMap);
         translateRedisManager.putAllTranslation(translationDbMap);
-        log.info("初始化翻译元数据完成：key[{}] 翻译项{}条，翻译:{}条", itemDbMap.size(), totalA, translationDbMap.size());
+        log.info("Initialize translation metadata completed: key[{}] translation items {} entries, translation: {} entries", itemDbMap.size(), totalA, translationDbMap.size());
     }
 
 }

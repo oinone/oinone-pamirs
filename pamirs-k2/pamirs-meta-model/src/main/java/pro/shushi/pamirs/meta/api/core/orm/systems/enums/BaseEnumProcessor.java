@@ -2,6 +2,7 @@ package pro.shushi.pamirs.meta.api.core.orm.systems.enums;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotationUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Dict;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
@@ -169,7 +170,7 @@ public class BaseEnumProcessor implements EnumProcessor<DataDictionary> {
     public String fetchEnumValueTtype(Class enumClazz) {
         try {
             if (!TypeUtils.isIEnumClass(enumClazz)) {
-                throw PamirsException.construct(BASE_FIELD_NOT_ENUM_ERROR).appendMsg("不是枚举类型:" + enumClazz.getName()).errThrow();
+                throw PamirsException.construct(BASE_FIELD_NOT_ENUM_ERROR).appendMsg(I18nUtils.getMessage("pamirs.meta.model.notEnumType", enumClazz.getName())).errThrow();
             }
             String valueType;
             if (enumClazz.isEnum()) {

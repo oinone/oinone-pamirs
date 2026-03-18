@@ -46,10 +46,10 @@ public class TBScheduleManagerStatic extends TBScheduleManager {
             @SuppressWarnings("static-access")
             public void run() {
                 try {
-                    log.info("开始获取调度任务队列...... of " + currenScheduleServer.getUuid());
+                    log.info("Start getting schedule task queue...... of " + currenScheduleServer.getUuid());
                     while (isRuntimeInfoInitial == false) {
                         if (isStopSchedule == true) {
-                            log.debug("外部命令终止调度,退出调度队列获取：" + currenScheduleServer.getUuid());
+                            log.debug("External command terminated schedule, exit schedule queue retrieval: " + currenScheduleServer.getUuid());
                             return;
                         }
                         try {
@@ -69,7 +69,7 @@ public class TBScheduleManagerStatic extends TBScheduleManager {
                     lastReloadTaskItemListTime = scheduleCenter.getSystemTime();
                     while (getCurrentScheduleTaskItemListNow().size() <= 0) {
                         if (isStopSchedule == true) {
-                            log.debug("外部命令终止调度,退出调度队列获取：" + currenScheduleServer.getUuid());
+                            log.debug("External command terminated schedule, exit schedule queue retrieval: " + currenScheduleServer.getUuid());
                             return;
                         }
                         Thread.sleep(1000);
@@ -82,7 +82,7 @@ public class TBScheduleManagerStatic extends TBScheduleManager {
                         }
                         tmpStr = tmpStr + currentTaskItemList.get(i);
                     }
-                    log.info("获取到任务处理队列，开始调度：" + tmpStr + "  of  " + currenScheduleServer.getUuid());
+                    log.info("Got task processing queue, start scheduling: " + tmpStr + "  of  " + currenScheduleServer.getUuid());
 
                     // 任务总量
                     taskItemCount = scheduleCenter.queryTaskItemCount(currenScheduleServer.getTaskType());
@@ -158,7 +158,7 @@ public class TBScheduleManagerStatic extends TBScheduleManager {
         for (String key : statMap.keySet()) {
             Stat s = statMap.get(key);
             if (this.scheduleCenter.getSystemTime() - s.getMtime() > this.taskTypeInfo.getHeartBeatRate() * 40) {
-                log.error("zombie serverList exists! serv=" + key + " ,type=" + type + "超过40次心跳周期未更新");
+                log.error("zombie serverList exists! serv=" + key + " ,type=" + type + " not updated for over 40 heartbeat cycles");
                 exist = true;
             }
         }
@@ -186,7 +186,7 @@ public class TBScheduleManagerStatic extends TBScheduleManager {
 
         if (scheduleCenter.isLeader(this.currenScheduleServer.getUuid(), serverList) == false) {
             if (log.isDebugEnabled()) {
-                log.debug(this.currenScheduleServer.getUuid() + ":不是负责任务分配的Leader,直接返回");
+                log.debug(this.currenScheduleServer.getUuid() + ":Not the Leader responsible for task assignment, return directly");
             }
             return;
         }
@@ -245,7 +245,7 @@ public class TBScheduleManagerStatic extends TBScheduleManager {
             // server下面的机器节点的运行时环境是否在刷新，如果
             isExistZombieServ(this.currenScheduleServer.getTaskType(), statMap);
         } catch (Exception e) {
-            log.error("zombie serverList exists， Exception:", e);
+            log.error("zombie serverList exists, Exception:", e);
         }
 
         // 获取最新的版本号
@@ -264,11 +264,11 @@ public class TBScheduleManagerStatic extends TBScheduleManager {
             // 如果超过20个心跳周期还没有获取到调度队列，则报警
             if (this.currentTaskItemList.size() == 0 && scheduleCenter.getSystemTime() - this.lastReloadTaskItemListTime
                     > this.taskTypeInfo.getHeartBeatRate() * 20) {
-                String buf = "调度服务器" +
+                String buf = "Schedule server" +
                         this.currenScheduleServer.getUuid() +
                         "[TASK_TYPE=" +
                         this.currenScheduleServer.getTaskType() +
-                        "]自启动以来，超过20个心跳周期，还没有获取到分配的任务队列;" +
+                        "]since start, over 20 heartbeat cycles, still haven't got assigned task queue;" +
                         "  currentTaskItemList.size() =" + currentTaskItemList.size() +
                         " ,scheduleCenter.getSystemTime()=" + scheduleCenter.getSystemTime() +
                         " ,lastReloadTaskItemListTime=" + lastReloadTaskItemListTime +

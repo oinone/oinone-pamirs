@@ -11,17 +11,20 @@ import pro.shushi.pamirs.boot.common.extend.MetaDataEditor;
 import pro.shushi.pamirs.core.common.CollectionHelper;
 import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.InitializationUtil;
+import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
+import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 import pro.shushi.pamirs.resource.api.ResourceModule;
 import pro.shushi.pamirs.resource.api.constants.DefaultResourceConstants;
 import pro.shushi.pamirs.resource.api.model.*;
-import pro.shushi.pamirs.resource.api.pojo.UnGroup;
 import pro.shushi.pamirs.resource.api.tmodel.ResourceRegionProxyModel;
 import pro.shushi.pamirs.resource.api.tmodel.lang.ResourceDateFormat;
 import pro.shushi.pamirs.resource.api.tmodel.lang.ResourceTimeFormat;
+import pro.shushi.pamirs.resource.api.util.UnGroupData;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,7 +87,11 @@ public class ResourceInit implements MetaDataEditor, InstallDataInit, UpgradeDat
     }
 
     private void initResourceIcon() {
-        UnGroup.getUnGroup();
+        new ResourceIconGroup().setName(UnGroupData.getName())
+                .setSys(Boolean.FALSE)
+                .setBatchCode(0L)
+                .setId(UnGroupData.ID)
+                .createOrUpdate();
     }
 
     private void viewActionInit(InitializationUtil util) {
@@ -152,6 +159,11 @@ public class ResourceInit implements MetaDataEditor, InstallDataInit, UpgradeDat
     }
 
     private void initResourceCountryGroup() {
+        DefaultResourceConstants.ASIA.setName(I18nUtils.getMessage("resource.country.group.Asia"));
+        DefaultResourceConstants.EUROPE.setName(I18nUtils.getMessage("resource.country.group.Europe"));
+        DefaultResourceConstants.AMERICAS.setName(I18nUtils.getMessage("resource.country.group.Americas"));
+        DefaultResourceConstants.AFRICA.setName(I18nUtils.getMessage("resource.country.group.Africa"));
+        DefaultResourceConstants.OCEANIA.setName(I18nUtils.getMessage("resource.country.group.Oceania"));
         FetchUtil.onlyCreateBatch(CollectionHelper.<ResourceCountryGroup>newInstance()
                 .add(DefaultResourceConstants.ASIA)
                 .add(DefaultResourceConstants.EUROPE)
@@ -162,6 +174,9 @@ public class ResourceInit implements MetaDataEditor, InstallDataInit, UpgradeDat
     }
 
     private void initResourceCountry() {
+        DefaultResourceConstants.COUNTRY.setName(I18nUtils.getMessage("resource.country.China"));
+        DefaultResourceConstants.COUNTRY.setCompleteName(I18nUtils.getMessage("resource.country.ChinaFull"));
+        DefaultResourceConstants.COUNTRY_REGION.setName(DefaultResourceConstants.COUNTRY.getName());
         FetchUtil.onlyCreate(DefaultResourceConstants.COUNTRY);
         FetchUtil.onlyCreate(DefaultResourceConstants.COUNTRY_REGION);
     }
@@ -190,8 +205,8 @@ public class ResourceInit implements MetaDataEditor, InstallDataInit, UpgradeDat
                 updateLang.setResourceDateFormat(resourceLang.getResourceDateFormat());
                 updateLang.setResourceTimeFormat(resourceLang.getResourceTimeFormat());
                 updateLangs.add(updateLang);
-            }else if(resourceTimeFormat.getApColonNormalSssMap() == null
-                    || resourceTimeFormat.getColonNormalSssMap() == null){
+            } else if (resourceTimeFormat.getApColonNormalSssMap() == null
+                    || resourceTimeFormat.getColonNormalSssMap() == null) {
                 ResourceLang updateLang = new ResourceLang();
                 updateLang.setCode(resourceLang.getCode());
                 ResourceTimeFormat originalResourceTimeFormat = lang.getResourceTimeFormat();
@@ -209,6 +224,14 @@ public class ResourceInit implements MetaDataEditor, InstallDataInit, UpgradeDat
     }
 
     private void initResourceCurrency() {
+        DefaultResourceConstants.CNY.setName(I18nUtils.getMessage("resource.currency.CNY"));
+        DefaultResourceConstants.CNY.setCurrencyUnitLabel(I18nUtils.getMessage("resource.currency.CNY.unit"));
+        DefaultResourceConstants.CNY.setCurrencySubunitLabel(I18nUtils.getMessage("resource.currency.CNY.subunit"));
+
+        DefaultResourceConstants.USD.setName(I18nUtils.getMessage("resource.currency.USD"));
+        DefaultResourceConstants.USD.setCurrencyUnitLabel(I18nUtils.getMessage("resource.currency.USD.unit"));
+        DefaultResourceConstants.USD.setCurrencySubunitLabel(I18nUtils.getMessage("resource.currency.USD.subunit"));
+
         FetchUtil.onlyCreateBatch(CollectionHelper.<ResourceCurrency>newInstance()
                 .add(DefaultResourceConstants.CNY)
                 .add(DefaultResourceConstants.USD)
@@ -222,10 +245,22 @@ public class ResourceInit implements MetaDataEditor, InstallDataInit, UpgradeDat
                 .add(DefaultResourceConstants.DEFAULT_LANG)
                 .add(DefaultResourceConstants.DEFAULT_TIME_ZONE)
                 .add(DefaultResourceConstants.DEFAULT_BASE_TIME_ZONE)
-                .add(DefaultResourceConstants.CHART_URL)
-                .add(DefaultResourceConstants.CHANNEL_URL)
-                .add(DefaultResourceConstants.MODEL_MAIL_URL)
-                .add(DefaultResourceConstants.SYSTEM_MAIL_URL)
+                .add(new ResourceConfig()
+                        .setKey(DefaultResourceConstants.CHAT_URL_KEY)
+                        .setValue(FileClientFactory.getClient().getStaticUrl() + "/images/resource/default-avatar.png")
+                        .setTtype(TtypeEnum.TEXT))
+                .add(new ResourceConfig()
+                        .setKey(DefaultResourceConstants.CHANNEL_URL_KEY)
+                        .setValue(FileClientFactory.getClient().getStaticUrl() + "/images/resource/default-avatar.png")
+                        .setTtype(TtypeEnum.TEXT))
+                .add(new ResourceConfig()
+                        .setKey(DefaultResourceConstants.MODEL_MAIL_URL_KEY)
+                        .setValue(FileClientFactory.getClient().getStaticUrl() + "/images/resource/model-message-avatar.png")
+                        .setTtype(TtypeEnum.TEXT))
+                .add(new ResourceConfig()
+                        .setKey(DefaultResourceConstants.SYSTEM_MAIL_URL_KEY)
+                        .setValue(FileClientFactory.getClient().getStaticUrl() + "/images/resource/system-message-avatar.png")
+                        .setTtype(TtypeEnum.TEXT))
                 .build());
     }
 

@@ -8,6 +8,7 @@ import pro.shushi.pamirs.boot.common.spi.api.meta.MetaDataReLoaderApi;
 import pro.shushi.pamirs.framework.configure.db.service.MetaService;
 import pro.shushi.pamirs.framework.configure.simulate.service.MetaSimulator;
 import pro.shushi.pamirs.framework.connectors.data.infrastructure.api.LogicSchemaService;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.base.common.MetaBaseModel;
@@ -54,7 +55,7 @@ public class StandardMetaDataReLoader implements MetaDataReLoaderApi {
             }
             LogicSchemaService.get().buildTable(modelDefinitionList, false, diffTable);
             return true;
-        }), "从数据库加载元数据");
+        }), I18nUtils.getMessage("StandardMetaDataReLoader.loadMetaDataFromDB"));
     }
 
     @Override

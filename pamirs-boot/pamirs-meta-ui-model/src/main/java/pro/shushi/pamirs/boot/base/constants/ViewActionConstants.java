@@ -27,11 +27,11 @@ public interface ViewActionConstants {
         /**
          * 显示名称
          */
-        String displayName = "首页";
+        String displayName = "ViewActionConstants.homepage.displayName";
         /**
          * 标题
          */
-        String title = "首页";
+        String title = "ViewActionConstants.homepage.title";
     }
 
     /**
@@ -45,11 +45,11 @@ public interface ViewActionConstants {
         /**
          * 显示名称
          */
-        String displayName = "表格";
+        String displayName = "ViewActionConstants.redirectTablePage.displayName";
         /**
          * 标题
          */
-        String title = "列表";
+        String title = "ViewActionConstants.redirectTablePage.title";
     }
 
     /**
@@ -63,11 +63,11 @@ public interface ViewActionConstants {
         /**
          * 显示名称
          */
-        String displayName = "创建";
+        String displayName = "ViewActionConstants.redirectCreatePage.displayName";
         /**
          * 标题
          */
-        String title = "创建";
+        String title = "ViewActionConstants.redirectCreatePage.title";
         /**
          * 优先级
          */
@@ -85,11 +85,11 @@ public interface ViewActionConstants {
         /**
          * 显示名称
          */
-        String displayName = "编辑";
+        String displayName = "ViewActionConstants.redirectUpdatePage.displayName";
         /**
          * 标题
          */
-        String title = "编辑";
+        String title = "ViewActionConstants.redirectUpdatePage.title";
         /**
          * 优先级
          */
@@ -107,11 +107,11 @@ public interface ViewActionConstants {
         /**
          * 显示名称
          */
-        String displayName = "详情";
+        String displayName = "ViewActionConstants.redirectDetailPage.displayName";
         /**
          * 标题
          */
-        String title = "详情";
+        String title = "ViewActionConstants.redirectDetailPage.title";
         /**
          * 优先级
          */
@@ -129,11 +129,11 @@ public interface ViewActionConstants {
         /**
          * 显示名称
          */
-        String displayName = "内嵌视图创建";
+        String displayName = "ViewActionConstants.O2MCreate.displayName";
         /**
          * 标题
          */
-        String title = "创建";
+        String title = "ViewActionConstants.O2MCreate.title";
         /**
          * 类型
          */
@@ -152,11 +152,11 @@ public interface ViewActionConstants {
         /**
          * 显示名称
          */
-        String displayName = "内嵌视图创建";
+        String displayName = "ViewActionConstants.O2MEdit.displayName";
         /**
          * 标题
          */
-        String title = "编辑";
+        String title = "ViewActionConstants.O2MEdit.title";
         /**
          * 类型
          */
@@ -174,11 +174,11 @@ public interface ViewActionConstants {
         /**
          * 显示名称
          */
-        String displayName = "内嵌视图添加";
+        String displayName = "ViewActionConstants.M2MCreate.displayName";
         /**
          * 标题
          */
-        String title = "添加";
+        String title = "ViewActionConstants.M2MCreate.title";
         /**
          * 类型
          */
@@ -190,8 +190,8 @@ public interface ViewActionConstants {
      */
     interface Import {
         String name = "internalGotoListImportDialog";
-        String displayName = "导入";
-        String title = "导入";
+        String displayName = "ViewActionConstants.Import.displayName";
+        String title = "ViewActionConstants.Import.title";
         String type = "default";
         /**
          * 优先级
@@ -204,8 +204,8 @@ public interface ViewActionConstants {
      */
     interface Export {
         String name = "internalGotoListExportDialog";
-        String displayName = "导出";
-        String title = "导出";
+        String displayName = "ViewActionConstants.Export.displayName";
+        String title = "ViewActionConstants.Export.title";
         String type = "default";
         /**
          * 优先级
@@ -218,8 +218,8 @@ public interface ViewActionConstants {
      */
     interface Print {
         String name = "internalGotoPrintDialog";
-        String displayName = "打印";
-        String title = "打印";
+        String displayName = "ViewActionConstants.Print.displayName";
+        String title = "ViewActionConstants.Print.title";
         String type = "default";
         /**
          * 优先级

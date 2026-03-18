@@ -3,6 +3,7 @@ package pro.shushi.pamirs.eip.core.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.eip.api.strategy.service.EipCircuitBreakerRecordService;
 import pro.shushi.pamirs.eip.core.task.abs.EipAbstractScheduledJob;
 import pro.shushi.pamirs.meta.annotation.Fun;
@@ -23,14 +24,13 @@ import java.time.ZoneId;
 public class EipCircuitBreakerRecordSyncTask extends EipAbstractScheduledJob {
 
     public static final String FUN_NAMESPACE = "eip.EipCircuitBreakerRecordSyncTask";
-    public static final String TASK_DISPLAY_NAME = "熔断记录定时同步";
 
     @Autowired
     private EipCircuitBreakerRecordService eipCircuitBreakerRecordService;
 
     @Override
     protected String getDisplayName() {
-        return EipCircuitBreakerRecordSyncTask.TASK_DISPLAY_NAME;
+        return I18nUtils.getMessage("EipCircuitBreakerRecordSyncTask.taskDisplayName");
     }
 
     @Override

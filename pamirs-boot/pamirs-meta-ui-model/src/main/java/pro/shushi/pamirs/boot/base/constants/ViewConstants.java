@@ -53,19 +53,19 @@ public interface ViewConstants {
     interface DisplayName {
 
         // 表单视图
-        String formView = "表单视图";
+        String formView = "ViewConstants.DisplayName.formView";
 
         // 详情视图
-        String detailView = "详情视图";
+        String detailView = "ViewConstants.DisplayName.detailView";
 
         // 表格视图
-        String tableView = "表格视图";
+        String tableView = "ViewConstants.DisplayName.tableView";
 
         // 表格对话框视图
-        String dialogTableView = "表格对话框视图";
+        String dialogTableView = "ViewConstants.DisplayName.dialogTableView";
 
         // 表单对话框视图
-        String dialogFormView = "表单对话框视图";
+        String dialogFormView = "ViewConstants.DisplayName.dialogFormView";
 
     }
 

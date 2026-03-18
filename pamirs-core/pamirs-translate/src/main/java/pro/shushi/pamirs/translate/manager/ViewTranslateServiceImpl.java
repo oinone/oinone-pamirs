@@ -120,8 +120,8 @@ public class ViewTranslateServiceImpl implements TranslateMetaBaseService<View> 
 //                    subTemplate.substring(0, template.length());
 //                }
 //            }
-//            log.warn("templateConvert 异常,template解析失败，view.id:{},截取数据view.template:{}", view.getId(), subTemplate);
-            log.warn("templateConvert 异常,template解析失败，view.id:{}", view.getId());
+//            log.warn("templateConvert exception, template parsing failed, view.id:{}, truncated data view.template:{}", view.getId(), subTemplate);
+            log.warn("templateConvert exception, template parsing failed, view.id:{}", view.getId());
         }
     }
 
@@ -192,7 +192,7 @@ public class ViewTranslateServiceImpl implements TranslateMetaBaseService<View> 
                     continue;
                 }
                 String target = TranslateMetaBaseService.calcTarget(module, model, RES_LANG_CODE, langCode, String.valueOf(displayNameObj));
-                log.debug("枚举/数据字典的option属性值翻译：module:{},model:{},res_lang_code:{},lang_code:{},origin:{},target:{}", module, model, RES_LANG_CODE, langCode, displayNameObj, target);
+                log.debug("Enum/Data dictionary option attribute value translation: module:{},model:{},res_lang_code:{},lang_code:{},origin:{},target:{}", module, model, RES_LANG_CODE, langCode, displayNameObj, target);
                 if (StringUtils.isNotBlank(target)) {
                     jsonOption.put(FIELD_DISPLAY_NAME, target);
                     jsonOption.put(FIELD_LABEL, target);

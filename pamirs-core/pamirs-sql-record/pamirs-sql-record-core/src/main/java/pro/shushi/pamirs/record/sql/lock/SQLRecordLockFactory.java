@@ -192,7 +192,7 @@ public class SQLRecordLockFactory {
             try {
                 lock.close();
             } catch (IOException e) {
-                log.error("关闭锁资源异常", e);
+                log.error("Close lock resource exception", e);
             }
         }
     }

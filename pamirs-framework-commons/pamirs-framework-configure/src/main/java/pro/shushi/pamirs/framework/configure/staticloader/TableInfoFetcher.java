@@ -7,6 +7,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import pro.shushi.pamirs.framework.common.emnu.FwExpEnumerate;
 import pro.shushi.pamirs.framework.configure.contants.NameConstants;
 import pro.shushi.pamirs.framework.configure.util.InheritedUtil;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.annotation.sys.MetaSimulator;
@@ -67,10 +68,11 @@ public class TableInfoFetcher {
     }
 
     public static void initStaticModelConfig(Class<?> modelClazz) {
-        String modelModel = Models.api().getModel(modelClazz);
+        String originModelModel = Models.api().getModel(modelClazz);
+        String modelModel = originModelModel;
         MetaSimulator metaSimulatorAnnotation = AnnotationUtils.getAnnotation(modelClazz, MetaSimulator.class);
         if (null != metaSimulatorAnnotation) {
-            modelModel = MetaSimulator.SIMULATE_PREFIX + modelModel;
+            modelModel = MetaSimulator.SIMULATE_PREFIX + originModelModel;
         }
         final String finalModel = modelModel;
         ModelConfig modelConfig = Optional.ofNullable(PamirsSession.getContext()).map(v -> v.getModelConfig(finalModel)).orElse(null);
@@ -92,7 +94,7 @@ public class TableInfoFetcher {
                 if (ArrayUtils.isEmpty(field.getDeclaredAnnotations())) {
                     continue;
                 }
-                ModelFieldConfig modelFieldConfig = generateStaticModelFieldConfig(modelModel, modelClazz, field, modelConfig.isOnlyBasicTypeField());
+                ModelFieldConfig modelFieldConfig = generateStaticModelFieldConfig(modelConfig.getModule(), originModelModel, modelModel, modelClazz, field, modelConfig.isOnlyBasicTypeField());
                 if (null != modelFieldConfig) {
                     if (modelFieldConfig.getPk()) {
                         pkFieldConfig.add(modelFieldConfig);
@@ -151,6 +153,7 @@ public class TableInfoFetcher {
             module = ModuleConstants.MODULE_BASE;
         }
         Model modelAnnotation = AnnotationUtils.getAnnotation(modelClazz, Model.class);
+        assert modelAnnotation != null;
         Model.Advanced selfModelAdvancedAnnotation = AnnotationUtils.getAnnotation(modelClazz, Model.Advanced.class);
         Model.Advanced modelAdvancedAnnotation = AnnotationUtils.findAnnotation(modelClazz, Model.Advanced.class);
         Model.ChangeTableInherited changeTableInheritedAnnotation = AnnotationUtils.getAnnotation(modelClazz, Model.ChangeTableInherited.class);
@@ -159,9 +162,10 @@ public class TableInfoFetcher {
 
         ModelConfig model = new ModelConfig();
         // 模型编码
-        String modelModel = Models.api().getModel(modelClazz);
+        String originModelModel = Models.api().getModel(modelClazz);
+        String modelModel = originModelModel;
         if (isSimulator) {
-            modelModel = MetaSimulator.SIMULATE_PREFIX + modelModel;
+            modelModel = MetaSimulator.SIMULATE_PREFIX + originModelModel;
         }
         model.setModel(modelModel);
         // 处理继承
@@ -177,9 +181,6 @@ public class TableInfoFetcher {
         }
         String name = Optional.ofNullable(modelAdvancedAnnotation).map(Model.Advanced::name)
                 .filter(StringUtils::isNotBlank).map(StringUtils::uncapitalize).orElse(PStringUtils.camelCaseFromModel(modelModel));
-        String displayName = Optional.ofNullable(modelAnnotation).map(Model::displayName).filter(StringUtils::isNotBlank).orElse(name);
-        String summary = Optional.ofNullable(modelAnnotation).map(Model::summary).filter(StringUtils::isNotBlank).orElse(displayName);
-        String remark = Optional.ofNullable(modelAdvancedAnnotation).map(Model.Advanced::remark).filter(StringUtils::isNotBlank).orElse(summary);
         String dsKey;
         SystemSourceEnum systemSource = Optional.ofNullable(baseAnnotation).map(Base::value).orElse(null);
         if (SystemSourceEnum.KERNEL.equals(systemSource)) {
@@ -255,10 +256,10 @@ public class TableInfoFetcher {
         model.setOnlyBasicTypeField(onlyBasicTypeField)
                 .setLname(modelClazz.getName())
                 .setName(name)
-                .setDisplayName(displayName)
+                .setDisplayName(I18nUtils.translateModel(module, originModelModel, "displayName", StringUtils.defaultIfBlank(modelAnnotation.displayName(), name)))
                 .setTable(table)
-                .setSummary(summary)
-                .setRemark(remark)
+                .setSummary(I18nUtils.translateModel(module, originModelModel, "summary", StringUtils.defaultIfBlank(modelAnnotation.summary(), model.getDisplayName())))
+                .setRemark(I18nUtils.translateModel(module, originModelModel, "remark", Optional.ofNullable(modelAdvancedAnnotation).map(Model.Advanced::remark).filter(StringUtils::isNotBlank).orElse(model.getSummary())))
                 .setSuperModels(inherited)
                 .setType(modelType)
                 .setDsKey(dsKey)
@@ -327,7 +328,7 @@ public class TableInfoFetcher {
                 c -> Optional.ofNullable(AnnotationUtils.getAnnotation(c, Model.class))
                         .map(Model::labelFields).map(PStringUtils::trim)
                         .filter(CollectionUtils::isNotEmpty).orElse(null));
-        model.getModelDefinition().setLabel(label);
+        model.getModelDefinition().setLabel(I18nUtils.translateModel(module, originModelModel, "label", label));
         model.getModelDefinition().setLabelFields(labelFields);
 
         model.setStaticConfig(true);
@@ -415,7 +416,7 @@ public class TableInfoFetcher {
                 c -> !InheritedUtil.isTransientInherited(c), (c, v) -> !InheritedUtil.isTransientInherited(c));
     }
 
-    public static ModelFieldConfig generateStaticModelFieldConfig(String model, Class<?> clazz, Field field, boolean onlyBasicTypeField) {
+    public static ModelFieldConfig generateStaticModelFieldConfig(String module, String originModel, String model, Class<?> clazz, Field field, boolean onlyBasicTypeField) {
         pro.shushi.pamirs.meta.annotation.Field fieldAnnotation = AnnotationUtils.getAnnotation(field, pro.shushi.pamirs.meta.annotation.Field.class);
         if (null == fieldAnnotation) {
             return null;
@@ -427,7 +428,7 @@ public class TableInfoFetcher {
         String displayName = I18nUtils.translateField(module, originModel, fieldName, "displayName", StringUtils.defaultIfBlank(fieldAnnotation.displayName(), fieldName));
         boolean multi = TypeUtils.isCollection(field.getType()) || fieldAnnotation.multi();
         ModelFieldConfig modelField = new ModelFieldConfig();
-        modelField.setDisplayName(displayName)
+        modelField.setDisplayName(I18nUtils.translateField(module, originModel, fieldName, "displayName", displayName))
                 .setLname(field.getName())
                 .setColumn(Optional.ofNullable(fieldAdvancedAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Advanced::column).filter(StringUtils::isNotBlank).orElse(null))
                 .setColumnDefinition(Optional.ofNullable(fieldAdvancedAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Advanced::columnDefinition).filter(StringUtils::isNotBlank).orElse(null))
@@ -439,7 +440,7 @@ public class TableInfoFetcher {
                 .setWhereCondition(Optional.ofNullable(fieldAdvancedAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Advanced::whereCondition).filter(StringUtils::isNotBlank).orElse("%s = #{%s}"))
                 .setCharset(Optional.ofNullable(fieldAdvancedAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Advanced::charset).filter(v -> !CharsetEnum.DEFAULT.equals(v)).map(CharsetEnum::value).orElse(null))
                 .setCollation(Optional.ofNullable(fieldAdvancedAnnotation).map(pro.shushi.pamirs.meta.annotation.Field.Advanced::collate).filter(v -> !CollationEnum.DEFAULT.equals(v)).map(CollationEnum::value).orElse(null))
-                .setSummary(Optional.of(fieldAnnotation.summary()).filter(StringUtils::isNotBlank).orElse(displayName))
+                .setSummary(I18nUtils.translateField(module, originModel, fieldName, "summary", StringUtils.defaultIfBlank(fieldAnnotation.summary(), displayName)))
                 .setLtype(field.getType().getName())
                 .setLtypeT(Optional.ofNullable(TypeUtils.getGenericType(field)).map(Type::getTypeName).orElse(null))
                 .setIndex(fieldAnnotation.index())
@@ -485,7 +486,7 @@ public class TableInfoFetcher {
         }
         if (null != sequenceAnnotation) {
             SequenceConfig sequenceConfig = new SequenceConfig()
-                    .setDisplayName(modelField.getDisplayName() + NameConstants.SEQUENCE_CONFIG_NAME_FIELD_PREFIX + model + CharacterConstants.RIGHT_BRACKET)
+                    .setDisplayName(I18nUtils.getMessage(NameConstants.SEQUENCE_CONFIG_NAME_FIELD_PREFIX, modelField.getDisplayName(), model))
                     .setPrefix(sequenceAnnotation.prefix())
                     .setSuffix(sequenceAnnotation.suffix())
                     .setSequence(sequenceAnnotation.sequence())

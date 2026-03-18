@@ -7,6 +7,7 @@ import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.InstallDataInit;
 import pro.shushi.pamirs.eip.api.EipModule;
 import pro.shushi.pamirs.eip.api.model.EipConnGroup;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,16 +21,16 @@ import java.util.List;
 public class EipDataInit implements InstallDataInit {
 
     private void initConnGroup() {
-        // 只在安装时初始化一次,允许用户删除
+        // Initialize only once during installation, allowing user deletion
         new EipConnGroup().createOrUpdateBatch(
                 Lists.newArrayList(
-                        new EipConnGroup().setName("OA"),
-                        new EipConnGroup().setName("ERP"),
-                        new EipConnGroup().setName("物流仓储"),
-                        new EipConnGroup().setName("生产制造"),
-                        new EipConnGroup().setName("商业交易"),
-                        new EipConnGroup().setName("工具"),
-                        new EipConnGroup().setName("其他")
+                        new EipConnGroup().setName(I18nUtils.getMessage("pamirs.eip.connGroup.name.OA")),
+                        new EipConnGroup().setName(I18nUtils.getMessage("pamirs.eip.connGroup.name.ERP")),
+                        new EipConnGroup().setName(I18nUtils.getMessage("pamirs.eip.connGroup.name.Logistics")),
+                        new EipConnGroup().setName(I18nUtils.getMessage("pamirs.eip.connGroup.name.Manufacturing")),
+                        new EipConnGroup().setName(I18nUtils.getMessage("pamirs.eip.connGroup.name.Commerce")),
+                        new EipConnGroup().setName(I18nUtils.getMessage("pamirs.eip.connGroup.name.Tools")),
+                        new EipConnGroup().setName(I18nUtils.getMessage("pamirs.eip.connGroup.name.Others"))
                 )
         );
     }

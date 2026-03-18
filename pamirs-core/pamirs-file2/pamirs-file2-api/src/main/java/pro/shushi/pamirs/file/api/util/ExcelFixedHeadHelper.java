@@ -177,12 +177,12 @@ public class ExcelFixedHeadHelper {
 
     private void fillCellDefinition(String fieldKey, ExcelCellDefinition cellDefinition) {
         if (StringUtils.isBlank(fieldKey)) {
-            log.error("无效的属性配置 model: {}, key: {}, value: {}", model, fieldKey, cellDefinition.getValue());
+            log.error("Invalid attribute config model: {}, key: {}, value: {}", model, fieldKey, cellDefinition.getValue());
             return;
         }
         ModelFieldConfig modelFieldConfig = finderModelFieldConfig(model, fieldKey.split("\\."), 0);
         if (modelFieldConfig == null) {
-            log.error("无法自动填充单元格定义，请检查属性配置是否正确 model: {}, key: {}, value: {}", model, fieldKey, cellDefinition.getValue());
+            log.error("Cannot automatically fill cell definition, please check if attribute config is correct model: {}, key: {}, value: {}", model, fieldKey, cellDefinition.getValue());
             return;
         }
         fillCellDefinition(modelFieldConfig, cellDefinition);
@@ -230,12 +230,12 @@ public class ExcelFixedHeadHelper {
                     String dictionaryString = modelFieldConfig.getDictionary();
                     DataDictionary dictionary = PamirsSession.getContext().getDictionary(dictionaryString);
                     if (dictionary == null) {
-                        log.error("无效的数据字典配置 fieldKey: {}, model: {}, dictionary: {}", fieldKey, modelFieldConfig.getModel(), dictionaryString);
+                        log.error("Invalid data dictionary config fieldKey: {}, model: {}, dictionary: {}", fieldKey, modelFieldConfig.getModel(), dictionaryString);
                         return ExcelValueTypeEnum.STRING;
                     }
                     List<DataDictionaryItem> options = dictionary.getOptions();
                     if (CollectionUtils.isEmpty(options)) {
-                        log.error("无效的数据字典项配置 fieldKey: {}, model: {}, dictionary: {}", fieldKey, modelFieldConfig.getModel(), dictionaryString);
+                        log.error("Invalid data dictionary item config fieldKey: {}, model: {}, dictionary: {}", fieldKey, modelFieldConfig.getModel(), dictionaryString);
                         return ExcelValueTypeEnum.STRING;
                     }
                     Map<String, String> enumerationMap = new LinkedHashMap<>(options.size());

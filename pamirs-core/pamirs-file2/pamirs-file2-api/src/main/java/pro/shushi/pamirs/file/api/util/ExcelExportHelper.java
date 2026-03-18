@@ -4,6 +4,7 @@ import pro.shushi.pamirs.file.api.config.FileProperties;
 import pro.shushi.pamirs.file.api.enmu.TaskMessageLevelEnum;
 import pro.shushi.pamirs.file.api.model.ExcelExportTask;
 import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 
 /**
@@ -46,9 +47,9 @@ public class ExcelExportHelper {
 
     public static void addUnsupportedErrorMessage(ExcelExportTask exportTask, int maxSupportLength, boolean clearExportStyle) {
         if (clearExportStyle) {
-            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, String.format("CSV格式最大支持%d行数据导出，请添加过滤条件再进行导出操作", maxSupportLength));
+            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("ExcelExportHelper.csv_max_support_length", maxSupportLength));
         } else {
-            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, String.format("Excel格式最大支持%d行数据导出，请添加过滤条件再进行导出操作", maxSupportLength));
+            exportTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("ExcelExportHelper.excel_max_support_length", maxSupportLength));
         }
     }
 }

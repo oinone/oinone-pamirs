@@ -82,7 +82,7 @@ public class TopBarUserBlockAction {
             }
             ResourceLang lang = user.getLang();
             if (lang == null) {
-                Locale locale = I18nUtils.getCurrentLocale();
+                Locale locale = I18nUtils.getLocale();
                 lang = new ResourceLang();
                 user.setLang(lang);
                 if (locale == null) {

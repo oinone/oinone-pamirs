@@ -17,7 +17,7 @@ public class UserPatternCheckUtils {
     public static void checkPassword(String password, Boolean allowBlank) {
         if (checkBlank(password, allowBlank)) return;
         if (!UserInfoChecker.checkPassword(password)) {
-            log.info("{}，密码:{}", USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR.msg(), password);
+            log.info("{}, password:{}", USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR.msg(), password);
             throw PamirsException.construct(USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR).errThrow();
         }
     }
@@ -25,7 +25,7 @@ public class UserPatternCheckUtils {
     public static void checkEmail(String email, Boolean allowBlank) {
         if (checkBlank(email, allowBlank)) return;
         if (!UserInfoChecker.checkEmail(email)) {
-            log.info("{}，email:{}", USER_PARAM_EMAIL_ERROR.msg(), email);
+            log.info("{}, email:{}", USER_PARAM_EMAIL_ERROR.msg(), email);
             throw PamirsException.construct(USER_PARAM_EMAIL_ERROR).errThrow();
         }
     }
@@ -33,7 +33,7 @@ public class UserPatternCheckUtils {
     public static void checkLogin(String login, Boolean allowBlank) {
         if (checkBlank(login, allowBlank)) return;
         if (!UserInfoChecker.checkLogin(login)) {
-            log.info("{}，login:{}", USER_PARAM_LOGIN_ERROR.msg(), login);
+            log.info("{}, login:{}", USER_PARAM_LOGIN_ERROR.msg(), login);
             throw PamirsException.construct(USER_PARAM_LOGIN_ERROR).errThrow();
         }
     }
@@ -41,7 +41,7 @@ public class UserPatternCheckUtils {
     public static void checkPhone(String phone, Boolean allowBlank) {
         if (checkBlank(phone, allowBlank)) return;
         if (!UserInfoChecker.checkPhone(phone)) {
-            log.info("{}，phone:{}", USER_PARAM_PHONE_ERROR.msg(), phone);
+            log.info("{}, phone:{}", USER_PARAM_PHONE_ERROR.msg(), phone);
             throw PamirsException.construct(USER_PARAM_PHONE_ERROR).errThrow();
         }
     }
@@ -49,7 +49,7 @@ public class UserPatternCheckUtils {
     public static void checkName(String name, Boolean allowBlank) {
         if (checkBlank(name, allowBlank)) return;
         if (!UserInfoChecker.checkName(name)) {
-            log.info("{}，name:{}", USER_PARAM_NAME_ERROR.msg(), name);
+            log.info("{}, name:{}", USER_PARAM_NAME_ERROR.msg(), name);
             throw PamirsException.construct(USER_PARAM_NAME_ERROR).errThrow();
         }
     }
@@ -57,7 +57,7 @@ public class UserPatternCheckUtils {
     public static void checkNickName(String nickname, Boolean allowBlank) {
         if (checkBlank(nickname, allowBlank)) return;
         if (!UserInfoChecker.checkNickname(nickname)) {
-            log.info("{}，用户nickname是{}", USER_PARAM_NICKNAME_ERROR.msg(), nickname);
+            log.info("{}, user nickname is {}", USER_PARAM_NICKNAME_ERROR.msg(), nickname);
             throw PamirsException.construct(USER_PARAM_NICKNAME_ERROR).errThrow();
         }
     }
@@ -65,7 +65,7 @@ public class UserPatternCheckUtils {
     public static void checkRealName(String realname, Boolean allowBlank) {
         if (checkBlank(realname, allowBlank)) return;
         if (!UserInfoChecker.checkRealname(realname)) {
-            log.info("{}，realname:{}", USER_PARAM_REALNAME_ERROR.msg(), realname);
+            log.info("{}, realname:{}", USER_PARAM_REALNAME_ERROR.msg(), realname);
             throw PamirsException.construct(USER_PARAM_REALNAME_ERROR).errThrow();
         }
     }
@@ -83,7 +83,7 @@ public class UserPatternCheckUtils {
     public static void checkIdCard(String idCard, Boolean allowBlank) {
         if (checkBlank(idCard, allowBlank)) return;
         if (!isIDNumber(idCard)) {
-            log.info("{}，idCard:{}", USER_PARAM_IDCARD_ERROR.msg(), idCard);
+            log.info("{}, idCard:{}", USER_PARAM_IDCARD_ERROR.msg(), idCard);
             throw PamirsException.construct(USER_PARAM_IDCARD_ERROR).errThrow();
         }
     }

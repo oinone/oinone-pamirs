@@ -47,7 +47,7 @@ public class ModuleForHomepageConverter implements ModelConverter<ModuleDefiniti
         }
         if (StringUtils.isBlank(homepageAnnotation.value().model())) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
-                    .append(I18nUtils.translate("ModuleForHomepageConverter.homepageModelMissing", source.getName())));
+                    .append(I18nUtils.getMessage("ModuleForHomepageConverter.homepageModelMissing", source.getName())));
             result.error();
             context.error().broken();
         }

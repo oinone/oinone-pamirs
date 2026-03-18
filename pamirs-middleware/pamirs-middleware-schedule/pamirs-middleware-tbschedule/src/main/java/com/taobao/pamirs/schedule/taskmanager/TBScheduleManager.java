@@ -184,7 +184,7 @@ abstract class TBScheduleManager implements IStrategyTask {
         try {
             if (this.isStopSchedule) {
                 if (log.isDebugEnabled()) {
-                    log.debug("外部命令终止调度,不在注册调度服务，避免遗留垃圾数据：" + currenScheduleServer.getUuid());
+                    log.debug("External command terminated schedule, not registering schedule service to avoid garbage data: " + currenScheduleServer.getUuid());
                 }
                 return;
             }
@@ -244,7 +244,7 @@ abstract class TBScheduleManager implements IStrategyTask {
                                     tmpEndStr), firstEndTime);
                     this.currenScheduleServer.setNextRunEndTime(ScheduleUtil.transferDataToString(firstEndTime));
                 } catch (Exception e) {
-                    log.error("计算第一次执行时间出现异常:" + currenScheduleServer.getUuid(), e);
+                    log.error("Exception calculating first execution time:" + currenScheduleServer.getUuid(), e);
                     throw new Exception("计算第一次执行时间出现异常:" + currenScheduleServer.getUuid(), e);
                 }
             }
@@ -286,7 +286,7 @@ abstract class TBScheduleManager implements IStrategyTask {
             this.pauseMessage = message;
             if (log.isDebugEnabled()) {
                 log.debug(
-                        "暂停调度 ：" + this.currenScheduleServer.getUuid() + ":" + this.statisticsInfo.getDealDescription());
+                        "Pause schedule: " + this.currenScheduleServer.getUuid() + ":" + this.statisticsInfo.getDealDescription());
             }
             if (this.processor != null) {
                 this.processor.stopSchedule();
@@ -301,7 +301,7 @@ abstract class TBScheduleManager implements IStrategyTask {
     public void resume(String message) throws Exception {
         if (this.isPauseSchedule) {
             if (log.isDebugEnabled()) {
-                log.debug("恢复调度: {}", this.currenScheduleServer.getUuid());
+                log.debug("Resume schedule: {}", this.currenScheduleServer.getUuid());
             }
             this.isPauseSchedule = false;
             this.pauseMessage = message;
@@ -324,7 +324,7 @@ abstract class TBScheduleManager implements IStrategyTask {
     @Override
     public void stop(String strategyName) throws Exception {
         if (log.isInfoEnabled()) {
-            log.info("停止服务器 ：" + this.currenScheduleServer.getUuid());
+            log.info("Stop server: " + this.currenScheduleServer.getUuid());
         }
         this.isPauseSchedule = false;
         if (this.processor != null) {
@@ -348,7 +348,7 @@ abstract class TBScheduleManager implements IStrategyTask {
                 return;
             }
             if (log.isDebugEnabled()) {
-                log.debug("注销服务器 ：" + this.currenScheduleServer.getUuid());
+                log.debug("Unregister server: " + this.currenScheduleServer.getUuid());
             }
             this.isStopSchedule = true;
             // 取消心跳TIMER

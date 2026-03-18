@@ -80,15 +80,15 @@ public class ResourceTranslationImportNewExtPoint extends AbstractExcelImportDat
         if (!importContext.getCurrentListener().hasNext()) {
             try {
                 calcExcel(list, importTask);
-                log.info("翻译项导入完成");
+                log.info("Translation item import completed");
                 importTask.setState(ExcelTaskStateEnum.PROCESSING);
                 return true;
             } catch (PamirsException e) {
-                log.error("翻译项导入失败", e);
+                log.error("Translation item import failed", e);
                 importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, e.getMessage());
                 return true;
             } catch (Exception e) {
-                log.error("翻译项导入失败", e);
+                log.error("Translation item import failed", e);
                 importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "翻译项导入失败");
                 return true;
             }
@@ -125,7 +125,7 @@ public class ResourceTranslationImportNewExtPoint extends AbstractExcelImportDat
                         globalTranslationMap.putAll(collect);
                     }
                 } catch (Exception e) {
-                    log.info("导入翻译异常", e);
+                    log.info("Import translation exception", e);
                 } finally {
                     countDown.countDown();
                 }
@@ -144,7 +144,7 @@ public class ResourceTranslationImportNewExtPoint extends AbstractExcelImportDat
         try {
             countDown.await();
         } catch (InterruptedException e) {
-            log.error("导入翻译等待异常", e);
+            log.error("Import translation wait exception", e);
         }
         dataBufferList.add(0, globalTranslationMap);
         dataBufferList.add(1, resourceLangList);
@@ -157,7 +157,7 @@ public class ResourceTranslationImportNewExtPoint extends AbstractExcelImportDat
         if (CollectionUtils.isEmpty(excelItemList)) {
             return;
         }
-        log.info("翻译项导入Excel数据共有：{}", excelItemList.size());
+        log.info("Translation item import Excel data total: {}", excelItemList.size());
         Map<String, ResourceTranslationItem> itemMetaMap = new HashMap<>();
         Map<String, ResourceTranslation> translationMap = new HashMap<>();
 
@@ -174,12 +174,12 @@ public class ResourceTranslationImportNewExtPoint extends AbstractExcelImportDat
             translationMap.putIfAbsent(translationUniqueKey, resourceTranslation);
         }
 
-        log.info("翻译项导入Excel计算后共有数据:{}", itemMetaMap.size());
+        log.info("Translation item import Excel calculated total data: {}", itemMetaMap.size());
         List<List<ResourceTranslationItem>> itemMetaSplitList = Lists.partition(Lists.newArrayList(itemMetaMap.values()), 500);
         int threadMetaNum = itemMetaSplitList.size();
         CountDownLatch threadSignal = new CountDownLatch(threadMetaNum);
         for (List<ResourceTranslationItem> subMap : itemMetaSplitList) {
-            log.info("翻译项元数据导入切分单个任务处理数据:{}", subMap.size());
+            log.info("Translation item metadata import split single task processing data: {}", subMap.size());
             TranslateItemSaveRunnable translateItemSaveRunnable = new TranslateItemSaveRunnable(subMap, threadSignal);
             TtlAsyncTaskExecutor.getExecutorService().execute(translateItemSaveRunnable);
         }
@@ -192,9 +192,9 @@ public class ResourceTranslationImportNewExtPoint extends AbstractExcelImportDat
                 e.printStackTrace(expPWriter);
                 String error = expWriter.toString();
                 importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "导入翻译数据异常:" + error);
-                log.error("导入翻译数据异常:" + error);
+                log.error("Import translation data exception:" + error);
             } catch (IOException exp) {
-                log.error("导入翻译数据异常", exp);
+                log.error("Import translation data exception", exp);
             }
             updateImportTask(hasError, importTask);
         }
@@ -300,7 +300,7 @@ public class ResourceTranslationImportNewExtPoint extends AbstractExcelImportDat
 
         @Override
         public void run() {
-            log.info("开启子线程执行翻译项导入操作,线程名:{}", Thread.currentThread().getName());
+            log.info("Start sub-thread to execute translation item import operation, thread name: {}", Thread.currentThread().getName());
             try {
                 new ResourceTranslationItem().createOrUpdateBatch(itemList);
             } catch (Exception e) {
@@ -308,7 +308,7 @@ public class ResourceTranslationImportNewExtPoint extends AbstractExcelImportDat
             } finally {
                 threadsSignal.countDown();
             }
-            log.info("结束子线程执行翻译项导入操作,线程名:{}", Thread.currentThread().getName());
+            log.info("End sub-thread to execute translation item import operation, thread name: {}", Thread.currentThread().getName());
         }
     }
 }

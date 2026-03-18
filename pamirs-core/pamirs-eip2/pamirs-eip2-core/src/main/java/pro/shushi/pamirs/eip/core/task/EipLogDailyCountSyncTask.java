@@ -3,6 +3,7 @@ package pro.shushi.pamirs.eip.core.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.eip.api.config.PamirsEipProperties;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
 import pro.shushi.pamirs.eip.core.task.abs.EipAbstractScheduledJob;
@@ -33,7 +34,7 @@ public class EipLogDailyCountSyncTask extends EipAbstractScheduledJob {
 
     @Override
     protected String getDisplayName() {
-        return TASK_DISPLAY_NAME;
+        return I18nUtils.getMessage("EipLogDailyCountSyncTask.taskDisplayName");
     }
 
     @Override

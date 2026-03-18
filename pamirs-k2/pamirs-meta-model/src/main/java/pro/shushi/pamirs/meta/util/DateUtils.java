@@ -544,37 +544,4 @@ public class DateUtils {
         SimpleDateFormat dateFormat = getSdf("yy-MM-dd");
         return dateFormat.parse(dataStr);
     }
-
-    public static void main(String[] args) {
-        Date date1 = DateUtils.getMinTimeOfDay(DateUtils.formatDate("2022-07-18 23:00:10", DateUtils.yyyyMMddHHmmss));
-        Date date2 = DateUtils.getMinTimeOfDay(DateUtils.formatDate("2022-07-19 01:00:50", DateUtils.yyyyMMddHHmmss));
-        Long diffDay = (date2.getTime() - date1.getTime()) / (24 * 60 * 60 * 1000);
-        System.out.println(diffDay);
-        System.out.println("=================");
-        Date date31 = convertToDate("Tue Aug 21 2018 00:00:00 GMT+0800 (中国标准时间) 00:00:00");
-        Date date32 = convertFormatDate("Tue Aug 21 2018 00:00:00 GMT+0800 (中国标准时间) 00:00:00", DateFormatEnum.DATETIME.value());
-        System.out.println(date31);
-        System.out.println(date32);
-        System.out.println("=================");
-        Date date41 = convertToDate("Wed Jul 20 14:41:05 GMT+08:00 2022");
-        Date date42 = convertFormatDate("Wed Jul 20 14:41:05 GMT+08:00 2022", DateFormatEnum.DATETIME.value());
-        System.out.println(date41);
-        System.out.println(date42);
-        System.out.println("=================");
-        Date date51 = convertToDate("Sat Dec 12 00:00:00 CST 2022");
-        Date date52 = convertFormatDate("Sat Dec 12 00:00:00 CST 2022", DateFormatEnum.DATETIME.value());
-        System.out.println(date51);
-        System.out.println(date52);
-        System.out.println("=================");
-        Date date61 = convertToDate("2022-07-18 23:00:10");
-        Date date62 = convertToDate("2022-07-18");
-        System.out.println(date61);
-        System.out.println(date62);
-        System.out.println("=================");
-
-        System.out.printf(DateUtils.convertToDate("13:18:18") + "");
-        System.out.printf(DateUtils.convertToDate("2022-07-18") + "");
-        System.out.printf(DateUtils.convertToDate("22-07-18") + "");
-    }
-
 }

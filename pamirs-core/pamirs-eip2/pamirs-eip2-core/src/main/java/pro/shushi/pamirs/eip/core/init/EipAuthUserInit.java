@@ -10,6 +10,7 @@ import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.eip.api.constant.EipConfigurationConstant;
 import pro.shushi.pamirs.eip.api.model.AbstractEipApi;
 import pro.shushi.pamirs.eip.api.model.EipLib;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.resource.api.enmu.UserSignUpType;
@@ -38,11 +39,11 @@ public class EipAuthUserInit implements LifecycleCompletedInit {
 
     private void initEipUser() {
         Result<PamirsUser> userResult = FetchUtil.onlyCreate((PamirsUser) new PamirsUser()
-                .setNickname(EipConfigurationConstant.EIP_SYSTEM_USER_NAME)
+                .setNickname(I18nUtils.getMessage(EipConfigurationConstant.EIP_SYSTEM_USER_NAME))
                 .setSignUpType(UserSignUpType.BACKSTAGE)
                 .setUserType(UserType.SYSTEM.name())
-                .setName(EipConfigurationConstant.EIP_SYSTEM_USER_NAME)
-                .setRealname("EIP系统用户")
+                .setName(I18nUtils.getMessage(EipConfigurationConstant.EIP_SYSTEM_USER_NAME))
+                .setRealname(I18nUtils.getMessage("eip.core.init.user.realname"))
                 .setLogin(EipConfigurationConstant.EIP_SYSTEM_USER_CODE)
                 .setActive(Boolean.FALSE)
                 .setSource(UserSourceEnum.BUILD_IN)
@@ -56,6 +57,6 @@ public class EipAuthUserInit implements LifecycleCompletedInit {
     }
 
     private void initDefaultEipLib() {
-        FetchUtil.onlyCreate(new EipLib().setName("未分类").setCode(AbstractEipApi.DEFAULT_LIB_CODE));
+        FetchUtil.onlyCreate(new EipLib().setName(I18nUtils.getMessage("eip.core.init.lib.unclassified")).setCode(AbstractEipApi.DEFAULT_LIB_CODE));
     }
 }

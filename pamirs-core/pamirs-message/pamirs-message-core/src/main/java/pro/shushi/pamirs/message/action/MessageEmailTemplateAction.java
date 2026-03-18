@@ -11,6 +11,7 @@ import pro.shushi.pamirs.meta.annotation.validation.Validation;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.WriteWithFieldApi;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.constant.ExpConstants;
 
 import static pro.shushi.pamirs.message.enmu.MessageExpEnumerate.BIZ_ERROR;
@@ -38,7 +39,7 @@ public class MessageEmailTemplateAction {
                 .from(EmailTemplate.MODEL_MODEL)
 //                .ne(EmailTemplate::getId, data.getId())
                 .eq(EmailTemplate::getName, data.getName())) > 0) {
-            throw PamirsException.construct(BIZ_ERROR).appendMsg("邮件模板名称已经存在，不能重复").errThrow();
+            throw PamirsException.construct(BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.message.email.template.name.duplicate")).errThrow();
         }
         return defaultWriteWithFieldApi.createWithField(data);
     }
@@ -55,7 +56,7 @@ public class MessageEmailTemplateAction {
                 .from(EmailTemplate.MODEL_MODEL)
                 .ne(EmailTemplate::getId, data.getId())
                 .eq(EmailTemplate::getName, data.getName())) > 0) {
-            throw PamirsException.construct(BIZ_ERROR).appendMsg("邮件模板名称已经存在，不能重复").errThrow();
+            throw PamirsException.construct(BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.message.email.template.name.duplicate")).errThrow();
         }
         return defaultWriteWithFieldApi.updateWithField(data);
     }

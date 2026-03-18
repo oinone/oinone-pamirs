@@ -8,6 +8,7 @@ import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
 import pro.shushi.pamirs.boot.web.manager.MetaCacheManager;
 import pro.shushi.pamirs.boot.web.manager.UiIoManager;
 import pro.shushi.pamirs.boot.web.utils.PageLoadHelper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.faas.utils.ArgUtils;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -80,7 +81,9 @@ public class ModuleLoadAction extends AbstractLoadAction {
             returnModule.setHomePage(null);
             return returnModule;
         }
-        throw PamirsException.construct(BootUxdExpEnumerate.BASE_MODULE_CAN_NOT_ACCESS_ERROR).appendMsg("模块：" + returnModule.getDisplayName() + "（" + returnModule.getModule() + "）").errThrow();
+        throw PamirsException.construct(BootUxdExpEnumerate.BASE_MODULE_CAN_NOT_ACCESS_ERROR)
+                .appendMsg(I18nUtils.getMessage("pamirs.boot.ui.auth.moduleAccessDenied.module", returnModule.getDisplayName(), returnModule.getModule()))
+                .errThrow();
     }
 
     private void loadMenu(UeModule moduleDefinition) {

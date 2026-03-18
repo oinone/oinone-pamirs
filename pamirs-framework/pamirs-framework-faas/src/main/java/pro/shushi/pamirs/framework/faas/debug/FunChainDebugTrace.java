@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.common.api.FrontRequestInitDeal;
 import pro.shushi.pamirs.framework.common.api.SceneAnalysisDebugTraceApi;
 import pro.shushi.pamirs.framework.common.session.SceneAnalysisDebugSession;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.core.faas.computer.FunctionComputer;
 import pro.shushi.pamirs.meta.api.dto.fun.Function;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
@@ -28,7 +29,7 @@ import java.util.function.Supplier;
 @Component
 public class FunChainDebugTrace implements SceneAnalysisDebugTraceApi, FrontRequestInitDeal {
 
-    private static final String FUN_CHAIN_DEBUG_SCENE = "函数调用链追踪";
+    private static final String FUN_CHAIN_DEBUG_SCENE = I18nUtils.getMessage("pamirs-framework-faas.FunChainDebugTrace.trace_title");
     private static final TransmittableThreadLocal<Map<String, Deque<StringBuffer>>> DEBUG_DEQUE_LOCAL = new TransmittableThreadLocal<>();
 
     public static void debug(Function function, FunctionComputer computer, long startTime, int anchorIndex) {
@@ -40,7 +41,7 @@ public class FunChainDebugTrace implements SceneAnalysisDebugTraceApi, FrontRequ
             BeanDefinitionUtils.getBean(FunChainDebugTrace.class).addDebugTrace(anchorIndex, () -> {
                 StringBuilder sb = new StringBuilder();
                 sb.append(getS());
-                sb.append("耗时：[").append(time).append("]");
+                sb.append(I18nUtils.getMessage("pamirs-framework-faas.FunChainDebugTrace.time_elapsed")).append(time).append("]");
                 sb.append("namespace :[").append(function.getNamespace()).append("]");
                 sb.append(", fun :[").append(function.getFun()).append("]");
                 if (StringUtils.isNotBlank(function.getBeanName())) {
@@ -49,7 +50,7 @@ public class FunChainDebugTrace implements SceneAnalysisDebugTraceApi, FrontRequ
                 if (StringUtils.isNotBlank(function.getClazz())) {
                     sb.append(", clazz :[").append(function.getClazz()).append("]");
                 }
-                sb.append(", 函数执行器:[").append(computer.type().name()).append("]");
+                sb.append(", ").append(I18nUtils.getMessage("pamirs-framework-faas.FunChainDebugTrace.fun_computer")).append(computer.type().name()).append("]");
                 sb.append(System.lineSeparator());
                 return sb.toString();
             });
@@ -87,7 +88,7 @@ public class FunChainDebugTrace implements SceneAnalysisDebugTraceApi, FrontRequ
             } else {
                 sb.append(System.lineSeparator());
             }
-            sb.append("线程ID: ").append(entry.getKey()).append(System.lineSeparator());
+            sb.append(I18nUtils.getMessage("pamirs-framework-faas.FunChainDebugTrace.thread_id")).append(entry.getKey()).append(System.lineSeparator());
             for (Object s : entry.getValue()) {
                 sb.append(s.toString());
             }

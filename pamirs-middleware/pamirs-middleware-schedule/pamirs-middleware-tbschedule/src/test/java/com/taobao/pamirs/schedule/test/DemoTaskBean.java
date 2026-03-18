@@ -38,7 +38,7 @@ public class DemoTaskBean implements IScheduleTaskDealSingle<Long> {
         List<Long> result = new ArrayList<Long>();
         int num = fetchNum / queryCondition.size();
         Random random = new Random(System.currentTimeMillis());
-        String message = "获取数据...[ownSign=" + ownSign + ",taskParameter=\"" + taskParameter + "\"]:";
+        String message = "Get data...[ownSign=" + ownSign + ",taskParameter=\"" + taskParameter + "\"]:";
         boolean isFirst = true;
         for (TaskItemDefine s : queryCondition) {
             long taskItem = Integer.parseInt(s.getTaskItemId()) * 10000000L;
@@ -59,7 +59,7 @@ public class DemoTaskBean implements IScheduleTaskDealSingle<Long> {
     @Override
     public boolean execute(Long task, String ownSign) throws Exception {
         Thread.sleep(50);
-        log.info("处理任务[" + ownSign + "]:" + task);
+        log.info("Process task[" + ownSign + "]:" + task);
         return true;
     }
 }

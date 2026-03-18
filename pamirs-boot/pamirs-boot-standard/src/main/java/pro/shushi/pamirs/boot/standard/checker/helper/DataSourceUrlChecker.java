@@ -11,6 +11,7 @@ import pro.shushi.pamirs.boot.standard.utils.PlatformEnvironmentGenerator;
 import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.DsDialectComponent;
 import pro.shushi.pamirs.framework.connectors.data.entity.DataSourceInfo;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.lambda.Getter;
@@ -55,9 +56,9 @@ public class DataSourceUrlChecker implements EnvironmentKey.Checker {
 
         if (immutable && !result.getIsConnectionEqual()) {
             if (EnvironmentProtectedConfig.isStrict()) {
-                context.addError(currentEnvironment, EnvironmentCheckConstants.IMMUTABLE_TIP + oldInfo.getUrl());
+                context.addError(currentEnvironment, EnvironmentCheckConstants.getImmutableTip() + oldInfo.getUrl());
             } else {
-                context.addWarning(currentEnvironment, EnvironmentCheckConstants.IMMUTABLE_TIP + oldInfo.getUrl());
+                context.addWarning(currentEnvironment, EnvironmentCheckConstants.getImmutableTip() + oldInfo.getUrl());
             }
             if (context.isSaveEnvironments()) {
                 return currentEnvironment;
@@ -67,7 +68,7 @@ public class DataSourceUrlChecker implements EnvironmentKey.Checker {
 
         if (!immutable && context.isCollaborativeDevelopmentEnvironment()) {
             if (result.getIsConnectionEqual()) {
-                context.addWarning(currentEnvironment, "协同开发模式下，项目业务库应使用本地数据库进行开发测试，否则有可能造成由于DDL修改冲突导致的无法预知的问题");
+                context.addWarning(currentEnvironment, I18nUtils.getMessage("DataSourceUrlChecker.co.dev.mode.warn"));
             }
         }
 
@@ -114,7 +115,7 @@ public class DataSourceUrlChecker implements EnvironmentKey.Checker {
             List<String> oldValues = entry.getValue();
             List<String> newValues = newParameters.remove(key);
             if (!isListEquals(oldValues, newValues)) {
-                parameterMessages.put(key, String.format("连接参数不一致，可能造成无法预知的问题; oldValue: %s, newValue: %s", oldValues, newValues));
+                parameterMessages.put(key, I18nUtils.getMessage("DataSourceUrlChecker.param.inconsistent.warn", oldValues, newValues));
             }
         }
         return new PredictResult(isEqual, parameterMessages);

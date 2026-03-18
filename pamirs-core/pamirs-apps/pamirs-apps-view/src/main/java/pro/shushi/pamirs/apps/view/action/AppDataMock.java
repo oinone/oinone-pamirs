@@ -7,6 +7,7 @@ import pro.shushi.pamirs.apps.api.tmodel.AppTrialGuidanceProcess;
 import pro.shushi.pamirs.apps.api.tmodel.AppTrialGuidanceProcessNode;
 import pro.shushi.pamirs.auth.api.model.AuthRole;
 import pro.shushi.pamirs.core.common.MapHelper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 
@@ -39,15 +40,15 @@ public class AppDataMock {
             MapHelper.newInstance(new LinkedHashMap<String, AppTrialGuidanceProcess>())
                     //region 全员营销试用流程
                     .put(GEMINI_TRIAL_PROCESS, new AppTrialGuidanceProcess()
-                            .setProcessName("全员营销流程")
+                            .setProcessName(I18nUtils.getMessage("pamirs.apps.mock.process.name"))
                             .setIsDefault(true)
-                            .setRoles(Arrays.asList(new AuthRole().setName("平台运营"), new AuthRole().setName("员工")))
+                            .setRoles(Arrays.asList(new AuthRole().setName(I18nUtils.getMessage("pamirs.apps.mock.role.operation")), new AuthRole().setName(I18nUtils.getMessage("pamirs.apps.mock.role.employee"))))
                             .setNodeList(new ArrayList<AppTrialGuidanceProcessNode>() {{
-                                add(new AppTrialGuidanceProcessNode().setNodeName("上传素材").setNodeDepth(1).setNodeLink(genNodeLink(AppChannelEnum.GEMINI, "gemini.resource.GeminiMaterial", ViewTypeEnum.TABLE, "MenuuiMenu0000000000000003")).setRole(new AuthRole().setName("平台运营")));
-                                add(new AppTrialGuidanceProcessNode().setNodeName("创建任务").setNodeDepth(2).setNodeLink(genNodeLink(AppChannelEnum.GEMINI, "gemini.biz.GeminiTaskProxy", ViewTypeEnum.TABLE, "MenuuiMenu0000000000000002")).setRole(new AuthRole().setName("平台运营")));
-                                add(new AppTrialGuidanceProcessNode().setNodeName("接任务去小程序发布原创视频").setNodeDepth(3).setRole(new AuthRole().setName("员工")));
-                                add(new AppTrialGuidanceProcessNode().setNodeName("内容分析").setNodeDepth(4).setNodeLink(genNodeLink(AppChannelEnum.GEMINI, "gemini.sdk.GeminiDyVideoProxy", ViewTypeEnum.TABLE, "MenuuiMenu0000000000001002")).setRole(new AuthRole().setName("平台运营")));
-                                add(new AppTrialGuidanceProcessNode().setNodeName("账号分析").setNodeDepth(5).setNodeLink(genNodeLink(AppChannelEnum.GEMINI, "gemini.major.GeminiUserProxy", ViewTypeEnum.TABLE, "MenuuiMenu0000000000001501")).setRole(new AuthRole().setName("平台运营")));
+                                add(new AppTrialGuidanceProcessNode().setNodeName(I18nUtils.getMessage("pamirs.apps.mock.node.upload")).setNodeDepth(1).setNodeLink(genNodeLink(AppChannelEnum.GEMINI, "gemini.resource.GeminiMaterial", ViewTypeEnum.TABLE, "MenuuiMenu0000000000000003")).setRole(new AuthRole().setName(I18nUtils.getMessage("pamirs.apps.mock.role.operation"))));
+                                add(new AppTrialGuidanceProcessNode().setNodeName(I18nUtils.getMessage("pamirs.apps.mock.node.create")).setNodeDepth(2).setNodeLink(genNodeLink(AppChannelEnum.GEMINI, "gemini.biz.GeminiTaskProxy", ViewTypeEnum.TABLE, "MenuuiMenu0000000000000002")).setRole(new AuthRole().setName(I18nUtils.getMessage("pamirs.apps.mock.role.operation"))));
+                                add(new AppTrialGuidanceProcessNode().setNodeName(I18nUtils.getMessage("pamirs.apps.mock.node.publish")).setNodeDepth(3).setRole(new AuthRole().setName(I18nUtils.getMessage("pamirs.apps.mock.role.employee"))));
+                                add(new AppTrialGuidanceProcessNode().setNodeName(I18nUtils.getMessage("pamirs.apps.mock.node.analysis.content")).setNodeDepth(4).setNodeLink(genNodeLink(AppChannelEnum.GEMINI, "gemini.sdk.GeminiDyVideoProxy", ViewTypeEnum.TABLE, "MenuuiMenu0000000000001002")).setRole(new AuthRole().setName(I18nUtils.getMessage("pamirs.apps.mock.role.operation"))));
+                                add(new AppTrialGuidanceProcessNode().setNodeName(I18nUtils.getMessage("pamirs.apps.mock.node.analysis.account")).setNodeDepth(5).setNodeLink(genNodeLink(AppChannelEnum.GEMINI, "gemini.major.GeminiUserProxy", ViewTypeEnum.TABLE, "MenuuiMenu0000000000001501")).setRole(new AuthRole().setName(I18nUtils.getMessage("pamirs.apps.mock.role.operation"))));
                             }})
                     )
                     //endregion

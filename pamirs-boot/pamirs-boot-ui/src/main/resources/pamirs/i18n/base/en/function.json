@@ -1,0 +1,82 @@
+{
+  "base.MaskDefinition": {
+    "load": {
+      "description": "load"
+    }
+  },
+  "base.UeModel": {
+    "load": {
+      "displayName": "Get model metadata",
+      "description": "Provide metadata for frontend to load model"
+    },
+    "loadAction": {
+      "displayName": "Get model action metadata",
+      "description": "Provides actions for the front-end to load models"
+    },
+    "loadModelField": {
+      "displayName": "Get model field metadata",
+      "description": "Provide field metadata for frontend to load model"
+    }
+  },
+  "base.UeModule": {
+    "load": {
+      "displayName": "Get module metadata",
+      "description": "Provide metadata for frontend to load module"
+    }
+  },
+  "base.UrlAction": {
+    "load": {
+      "displayName": "Load URL action"
+    }
+  },
+  "base.View": {
+    "load": {
+      "description": "load"
+    }
+  },
+  "base.AppConfig": {
+    "queryListByWrapper": {
+      "displayName": "Query the record list based on conditions"
+    },
+    "save": {
+      "displayName": "Save application configuration"
+    }
+  },
+  "base.ClientAction": {
+    "load": {
+      "displayName": "Load client action"
+    }
+  },
+  "base.Function": {
+    "load": {
+      "displayName": "Load function"
+    }
+  },
+  "base.ServerAction": {
+    "load": {
+      "displayName": "Load server action"
+    }
+  },
+  "base.SharedPage": {
+    "construct": {
+      "displayName": "Initialize share data"
+    },
+    "load": {
+      "displayName": "Loading share page"
+    },
+    "shared": {
+      "displayName": "Share"
+    }
+  },
+  "base.ViewAction": {
+    "home": {
+      "displayName": "Get access to the application"
+    },
+    "homepage": {
+      "displayName": "Loading homepage"
+    },
+    "load": {
+      "displayName": "Loading page"
+    }
+  }
+}

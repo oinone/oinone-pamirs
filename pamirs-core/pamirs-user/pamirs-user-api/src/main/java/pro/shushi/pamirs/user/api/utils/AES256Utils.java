@@ -87,7 +87,7 @@ public class AES256Utils {
             String s = new String(plainBytes, StandardCharsets.UTF_8);
             return s;
         } catch (Exception e) {
-            log.warn("解密错误,错误信息:" + e.getMessage());
+            log.warn("Decryption error, error message:" + e.getMessage());
             return content;
         }
     }

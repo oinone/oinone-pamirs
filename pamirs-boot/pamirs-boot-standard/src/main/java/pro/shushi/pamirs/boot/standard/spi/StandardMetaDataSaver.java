@@ -17,6 +17,7 @@ import pro.shushi.pamirs.framework.compare.DiffService;
 import pro.shushi.pamirs.framework.compare.model.DiffModel;
 import pro.shushi.pamirs.framework.configure.db.service.MetaService;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.Models;
@@ -245,7 +246,7 @@ public class StandardMetaDataSaver implements MetaDataSaverApi {
                     MetaDataSupplier.addDiffModel(((FunctionDefinition) targetData).getNamespace());
                 }
             }
-        }, "差量安装计算: " + model, "total: " + size);
+        }, I18nUtils.getMessage("StandardMetaDataSaver.diffInstallCompute") + ": " + model, "total: " + size);
 
         if ((updateMeta || MetadataUpdateChecker.shouldUpdateMetadata(model)) && !dataList.isEmpty()) {
             TimeWatcher.watch(() -> Tx.build().executeWithoutResult((status) -> {
@@ -313,7 +314,7 @@ public class StandardMetaDataSaver implements MetaDataSaverApi {
                 }
 
                 MetaUpgradeCheckApi.get().saveMetadataToDB(model);
-            }), "保存元数据: " + model, "install count: " + dataList.size());
+            }), I18nUtils.getMessage("StandardMetaDataSaver.saveMetaData") + ": " + model, "install count: " + dataList.size());
         }
 
         // Session填充Redis操作, 更新缓存中的元数据; 更新元数据的操作需要放置到更新DB后面，更新DB存在修改数据的情况。
@@ -341,7 +342,7 @@ public class StandardMetaDataSaver implements MetaDataSaverApi {
                     dataList.add(data);
                 }
             }
-        }, "差量计算-模型变更的Model计算结果total: " + dataList.size());
+        }, I18nUtils.getMessage("StandardMetaDataSaver.diffComputeModelChangeTotal") + ": " + dataList.size());
 
         Spider.getDefaultExtension(SessionFillExtendApi.class).updateMetaData(ModelDefinition.MODEL_MODEL, dataList);
     }

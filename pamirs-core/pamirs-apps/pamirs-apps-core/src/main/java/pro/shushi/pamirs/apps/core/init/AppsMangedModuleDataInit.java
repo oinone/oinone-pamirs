@@ -14,6 +14,7 @@ import pro.shushi.pamirs.core.common.InitializationUtil;
 import pro.shushi.pamirs.core.common.cache.MemoryListSearchCache;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
@@ -72,7 +73,7 @@ public class AppsMangedModuleDataInit implements MetaDataEditor, SystemBootAfter
                     (AppsModuleCategory) new AppsModuleCategory()
                             .setScreenVisible(moduleCategoryType.getScreenVisible())
                             .setCode(moduleCategoryType.getValue())
-                            .setName(moduleCategoryType.getDisplayName())
+                            .setName(I18nUtils.translateDataDictionaryItem(AppsModule.MODULE_MODULE, ModuleCategoryType.dictionary, moduleCategoryType.name(), "displayName", moduleCategoryType.getDisplayName()))
                             .setParent(
                                     StringUtils.isBlank(moduleCategoryType.getParentCode()) ? null : new AppsModuleCategory().setCode(moduleCategoryType.getParentCode())
                             )
@@ -195,51 +196,51 @@ public class AppsMangedModuleDataInit implements MetaDataEditor, SystemBootAfter
         Map<String, UeModule> moduleMap = new HashMap<>();
 
         // 基础能力
-        moduleMap.put("base", (UeModule) new UeModule().setName("base").setDisplayName("基础").setSummary("Pamirs平台底座，元数据驱动的基石。").setApplication(Boolean.FALSE).setPriority(100L).setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
-        moduleMap.put("sequence", (UeModule) new UeModule().setName("sequence").setDisplayName("序列").setApplication(Boolean.FALSE).setPriority(100L).setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
-        moduleMap.put("common", (UeModule) new UeModule().setName("common").setDisplayName("公共资源").setApplication(Boolean.FALSE).setPriority(100L).setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
-        moduleMap.put("trigger", (UeModule) new UeModule().setName("trigger").setDisplayName("触发器").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
-        moduleMap.put("message", (UeModule) new UeModule().setName("message").setDisplayName("消息").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
+        moduleMap.put("base", (UeModule) new UeModule().setName("base").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.base.displayName")).setSummary(I18nUtils.getMessage("AppsMangedModuleDataInit.base.summary")).setApplication(Boolean.FALSE).setPriority(100L).setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
+        moduleMap.put("sequence", (UeModule) new UeModule().setName("sequence").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.sequence.displayName")).setApplication(Boolean.FALSE).setPriority(100L).setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
+        moduleMap.put("common", (UeModule) new UeModule().setName("common").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.common.displayName")).setApplication(Boolean.FALSE).setPriority(100L).setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
+        moduleMap.put("trigger", (UeModule) new UeModule().setName("trigger").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.trigger.displayName")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
+        moduleMap.put("message", (UeModule) new UeModule().setName("message").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.message.displayName")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
         moduleMap.put("workbench", (UeModule) new UeModule().setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));
 
         // 资源
-        moduleMap.put("resource", (UeModule) new UeModule().setName("resource").setDisplayName("资源").setApplication(Boolean.TRUE).setPriority(99L).setCategory(ModuleCategoryType.RESOURCE.getValue()));
-        moduleMap.put("file", (UeModule) new UeModule().setName("file").setDisplayName("文件").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.RESOURCE.getValue()));
+        moduleMap.put("resource", (UeModule) new UeModule().setName("resource").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.resource.displayName")).setApplication(Boolean.TRUE).setPriority(99L).setCategory(ModuleCategoryType.RESOURCE.getValue()));
+        moduleMap.put("file", (UeModule) new UeModule().setName("file").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.file.displayName")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.RESOURCE.getValue()));
 
         // 合作伙伴
-        moduleMap.put("business", (UeModule) new UeModule().setName("business").setDisplayName("合作伙伴中心").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.PARTNER.getValue()));
+        moduleMap.put("business", (UeModule) new UeModule().setName("business").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.business.displayName")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.PARTNER.getValue()));
 
         // 用户与权限
-        moduleMap.put("auth", (UeModule) new UeModule().setName("auth").setDisplayName("权限").setSummary("多角色的系统管理能力，使用安全的白名单机制，稳定全面的控制您的页面/数据/逻辑行为的安全").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.USER_AND_AUTH.getValue()));
-        moduleMap.put("user", (UeModule) new UeModule().setName("user").setDisplayName("用户中心").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.USER_AND_AUTH.getValue()));
+        moduleMap.put("auth", (UeModule) new UeModule().setName("auth").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.auth.displayName")).setSummary(I18nUtils.getMessage("AppsMangedModuleDataInit.auth.summary")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.USER_AND_AUTH.getValue()));
+        moduleMap.put("user", (UeModule) new UeModule().setName("user").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.user.displayName")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.USER_AND_AUTH.getValue()));
         moduleMap.put("management_center", (UeModule) new UeModule().setCategory(ModuleCategoryType.USER_AND_AUTH.getValue()));
 
         // 国际化
-        moduleMap.put("translate", (UeModule) new UeModule().setName("translate").setDisplayName("翻译").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.TRANSLATE.getValue()));
+        moduleMap.put("translate", (UeModule) new UeModule().setName("translate").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.translate.displayName")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.TRANSLATE.getValue()));
 
         // 集成
-        moduleMap.put("eip", (UeModule) new UeModule().setName("eip").setDisplayName("集成接口").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.OPEN_PLATFORM.getValue()));
-        moduleMap.put("tp_map", (UeModule) new UeModule().setName("tpMap").setDisplayName("第三方集成-地图").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.OPEN_PLATFORM.getValue()));
-        moduleMap.put("tp_communication", (UeModule) new UeModule().setName("tpCommunication").setDisplayName("第三方集成-通讯").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.OPEN_PLATFORM.getValue()));
+        moduleMap.put("eip", (UeModule) new UeModule().setName("eip").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.eip.displayName")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.OPEN_PLATFORM.getValue()));
+        moduleMap.put("tp_map", (UeModule) new UeModule().setName("tpMap").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.tpMap.displayName")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.OPEN_PLATFORM.getValue()));
+        moduleMap.put("tp_communication", (UeModule) new UeModule().setName("tpCommunication").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.tpCommunication.displayName")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.OPEN_PLATFORM.getValue()));
 //        moduleMap.put("tp_message", (UeModule) new UeModule().setName("tpMessage").setDisplayName("第三方集成-短信").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.OPEN_PLATFORM.getValue()));
 
         // 数据
-        moduleMap.put("data_audit", (UeModule) new UeModule().setName("dataAudit").setDisplayName("数据审计").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.DATA_PLATFORM.getValue()));
+        moduleMap.put("data_audit", (UeModule) new UeModule().setName("dataAudit").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.dataAudit.displayName")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.DATA_PLATFORM.getValue()));
 //        moduleMap.put("channel", (UeModule) new UeModule().setName("channel").setDisplayName("数据传输").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.DATA_PLATFORM.getValue()));
 
         // 流程自动化
         moduleMap.put("datavi", (UeModule) new UeModule().setCategory(ModuleCategoryType.PROCESS_AUTOMATION.getValue()));
-        moduleMap.put("workflow", (UeModule) new UeModule().setName("workflow").setDisplayName("工作流").setSummary("BPM业务流程管理平台涵盖从流程设计、执行、管理、优化的各个方面完整的流程生命周期支持。").setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.PROCESS_AUTOMATION.getValue()));
+        moduleMap.put("workflow", (UeModule) new UeModule().setName("workflow").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.workflow.displayName")).setSummary(I18nUtils.getMessage("AppsMangedModuleDataInit.workflow.summary")).setApplication(Boolean.TRUE).setPriority(100L).setCategory(ModuleCategoryType.PROCESS_AUTOMATION.getValue()));
 
         // 设计器
-        moduleMap.put("designer_common", (UeModule) new UeModule().setName("designerCommon").setDisplayName("设计器公共").setApplication(Boolean.FALSE).setPriority(100L).setCategory(ModuleCategoryType.DESIGNER_COMMON.getValue()));
-        moduleMap.put("model_designer", (UeModule) new UeModule().setName("modelDesigner").setDisplayName("模型设计器").setApplication(Boolean.TRUE).setPriority(210L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
-        moduleMap.put("ui_designer", (UeModule) new UeModule().setName("uiDesigner").setDisplayName("界面设计器").setApplication(Boolean.TRUE).setPriority(220L).setCategory(ModuleCategoryType.USER_EXPERIENCE.getValue()));
-        moduleMap.put("workflow_designer", (UeModule) new UeModule().setName("workflowDesigner").setDisplayName("流程设计器").setApplication(Boolean.TRUE).setPriority(230L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
-        moduleMap.put("eip_designer", (UeModule) new UeModule().setName("eipDesigner").setDisplayName("集成设计器").setApplication(Boolean.TRUE).setPriority(240L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
-        moduleMap.put("ai_designer", (UeModule) new UeModule().setName("aiDesigner").setDisplayName("智能应用设计").setApplication(Boolean.TRUE).setPriority(250L).setCategory(ModuleCategoryType.USER_EXPERIENCE.getValue()));
-        moduleMap.put("data_designer", (UeModule) new UeModule().setName("dataDesigner").setDisplayName("数据可视化").setApplication(Boolean.TRUE).setPriority(260L).setCategory(ModuleCategoryType.USER_EXPERIENCE.getValue()));
-        moduleMap.put("microflow_designer", (UeModule) new UeModule().setName("microflowDesigner").setDisplayName("微流设计器").setApplication(Boolean.TRUE).setPriority(270L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
+        moduleMap.put("designer_common", (UeModule) new UeModule().setName("designerCommon").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.designerCommon.displayName")).setApplication(Boolean.FALSE).setPriority(100L).setCategory(ModuleCategoryType.DESIGNER_COMMON.getValue()));
+        moduleMap.put("model_designer", (UeModule) new UeModule().setName("modelDesigner").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.modelDesigner.displayName")).setApplication(Boolean.TRUE).setPriority(210L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
+        moduleMap.put("ui_designer", (UeModule) new UeModule().setName("uiDesigner").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.uiDesigner.displayName")).setApplication(Boolean.TRUE).setPriority(220L).setCategory(ModuleCategoryType.USER_EXPERIENCE.getValue()));
+        moduleMap.put("workflow_designer", (UeModule) new UeModule().setName("workflowDesigner").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.workflowDesigner.displayName")).setApplication(Boolean.TRUE).setPriority(230L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
+        moduleMap.put("eip_designer", (UeModule) new UeModule().setName("eipDesigner").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.eipDesigner.displayName")).setApplication(Boolean.TRUE).setPriority(240L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
+        moduleMap.put("ai_designer", (UeModule) new UeModule().setName("aiDesigner").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.aiDesigner.displayName")).setApplication(Boolean.TRUE).setPriority(250L).setCategory(ModuleCategoryType.USER_EXPERIENCE.getValue()));
+        moduleMap.put("data_designer", (UeModule) new UeModule().setName("dataDesigner").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.dataDesigner.displayName")).setApplication(Boolean.TRUE).setPriority(260L).setCategory(ModuleCategoryType.USER_EXPERIENCE.getValue()));
+        moduleMap.put("microflow_designer", (UeModule) new UeModule().setName("microflowDesigner").setDisplayName(I18nUtils.getMessage("AppsMangedModuleDataInit.microflowDesigner.displayName")).setApplication(Boolean.TRUE).setPriority(270L).setCategory(ModuleCategoryType.BUSINESS_PROCESS.getValue()));
 
         // 应用中心
         moduleMap.put("apps", (UeModule) new UeModule().setCategory(ModuleCategoryType.BASE_CAPABILITY.getValue()));

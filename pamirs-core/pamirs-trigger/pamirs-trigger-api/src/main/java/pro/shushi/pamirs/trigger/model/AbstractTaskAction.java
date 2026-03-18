@@ -27,7 +27,7 @@ public abstract class AbstractTaskAction extends MetaBaseModel {
     private String displayName;
 
     @Base
-    @Field.String
+    @Field.String(size = 512)
     @Field(displayName = "描述", summary = "描述")
     private String description;
 

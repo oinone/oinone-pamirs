@@ -158,7 +158,7 @@ public class SQLUpdateInterceptor implements Interceptor {
                         .map(ModelFieldConfigWrapper::getColumn)
                         .orElse(null);
                 if (StringUtils.isBlank(idColumn)) {
-                    log.warn("没有ID列");
+                    log.warn("No ID column");
                     return invocation.proceed();
                 }
                 if (map.containsKey("param2")) {
@@ -170,13 +170,13 @@ public class SQLUpdateInterceptor implements Interceptor {
                 } else {
                     Object et = map.getOrDefault(ENTITY, null);
                     if (null == et) {
-                        log.warn("没有et");
+                        log.warn("No et");
                         result = invocation.proceed();
                         return result;
                     }
                     Object idObj = ((Map) et).get(ID);
                     if (null == idObj) {
-                        log.warn("没有ID");
+                        log.warn("No ID");
                         result = invocation.proceed();
                         return result;
                     }
@@ -243,7 +243,7 @@ public class SQLUpdateInterceptor implements Interceptor {
                         .map(ModelFieldConfigWrapper::getColumn)
                         .orElse(null);
                 if (StringUtils.isBlank(idColumn)) {
-                    log.warn("没有ID列");
+                    log.warn("No ID column");
                     return invocation.proceed();
                 }
                 if (null != collDel) {

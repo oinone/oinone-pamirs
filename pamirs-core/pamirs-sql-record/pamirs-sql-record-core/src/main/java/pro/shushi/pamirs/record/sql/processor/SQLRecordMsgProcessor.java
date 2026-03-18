@@ -59,7 +59,7 @@ public class SQLRecordMsgProcessor<SRM extends SQLRecordManager> implements Runn
                 try {
                     data = JsonUtils.parseObject(line, TR);
                 } catch (Throwable e) {
-                    log.error(techName + " 解析异常: [{}]", line, e);
+                    log.error(techName + " Parsing exception: [{}]", line, e);
                     failTimes = 10;
                     continue;
                 }
@@ -84,14 +84,14 @@ public class SQLRecordMsgProcessor<SRM extends SQLRecordManager> implements Runn
                 if (sendOk) {
                     boolean commitRt = sqlRecordManager.commit(readResult.getPosition());
                     if (!commitRt) {
-                        log.warn(techName + " commit pos失败...");
+                        log.warn(techName + " commit pos failed...");
                     }
                 } else {
-                    log.warn(techName + " 消息发送失败重试...");
+                    log.warn(techName + " Message sending failed, retrying...");
                     TimeUnit.MILLISECONDS.sleep(500L);
                 }
             } catch (Throwable throwable) {
-                log.error(techName + " SQL Record Msg 发生异常", throwable);
+                log.error(techName + " SQL Record Msg exception occurred", throwable);
             }
         }
     }

@@ -170,7 +170,7 @@ public class UniversalParser {
                     translationDslNodeVisitor.setCurrentContext(context);
                     DslParser.visit(uiView, translationDslNodeVisitor);
                 } catch (Exception e) {
-                    log.error("解析XML文件 模型为：{}", homePage.getModel(), e);
+                    log.error("Parse XML file model: {}", homePage.getModel(), e);
                 }
             }
 
@@ -199,7 +199,7 @@ public class UniversalParser {
                     translationDslNodeVisitor.setCurrentContext(context);
                     DslParser.visit(uiView, translationDslNodeVisitor);
                 } catch (Exception e) {
-                    log.error("解析XML文件 模型为：{} ", menu.getModel(), e);
+                    log.error("Parse XML file model: {} ", menu.getModel(), e);
                 }
             }
         }

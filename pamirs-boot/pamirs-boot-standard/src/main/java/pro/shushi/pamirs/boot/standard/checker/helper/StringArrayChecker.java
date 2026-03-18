@@ -3,6 +3,7 @@ package pro.shushi.pamirs.boot.standard.checker.helper;
 import com.alibaba.fastjson.JSONArray;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentCheckContext;
 import pro.shushi.pamirs.boot.standard.entity.EnvironmentKey;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.domain.PlatformEnvironment;
 
 import java.util.Iterator;
@@ -52,7 +53,7 @@ public class StringArrayChecker implements EnvironmentKey.Checker {
         onlyAdd(context, currentEnvironment, oldArray, newArray);
         for (Object newItem : newArray) {
             String newValue = String.valueOf(newItem);
-            context.addError(currentEnvironment, "不允许追加配置: " + newValue);
+            context.addError(currentEnvironment, I18nUtils.getMessage("StringArrayChecker.append.not.allowed", newValue));
         }
     }
 
@@ -61,7 +62,7 @@ public class StringArrayChecker implements EnvironmentKey.Checker {
             String oldValue = String.valueOf(oldItem);
             String newValue = remove(newArray, oldValue);
             if (newValue == null) {
-                context.addError(currentEnvironment, "缺少配置: " + oldValue);
+                context.addError(currentEnvironment, I18nUtils.getMessage("StringArrayChecker.missing.config", oldValue));
             }
         }
     }

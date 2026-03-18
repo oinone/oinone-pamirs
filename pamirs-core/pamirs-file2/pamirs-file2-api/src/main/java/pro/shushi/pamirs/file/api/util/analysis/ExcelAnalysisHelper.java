@@ -403,7 +403,7 @@ public class ExcelAnalysisHelper {
                     if (StringUtils.isBlank(format)) {
                         format = fieldCellDefinition.getFormat();
                         if (StringUtils.isBlank(format) && valueType != null) {
-                            format = valueType.getDefaultFormat();
+                            format = valueType.defaultFormat();
                         }
                     }
                     cell.setType(valueType)

@@ -102,7 +102,7 @@ public class EipJdbcDistributionSupportImpl implements EipJdbcDistributionSuppor
                 }
                 tenantRootPathList.add(rootPath);
             } catch (Exception e) {
-                log.error("Eip Jdbc 开启分布式支持失败，rootPath: {}, keys: {}", rootPath, keys, e);
+                log.error("Failed to enable Eip Jdbc distributed support, rootPath: {}, keys: {}", rootPath, keys, e);
             }
         }
 

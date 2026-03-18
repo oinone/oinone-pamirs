@@ -23,6 +23,7 @@ import pro.shushi.pamirs.file.api.util.EasyExcelHelper;
 import pro.shushi.pamirs.file.api.util.analysis.ExcelFixedHeaderAnalysisHelper;
 import pro.shushi.pamirs.framework.common.entry.TreeNode;
 import pro.shushi.pamirs.framework.gateways.util.BooleanHelper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
@@ -174,7 +175,7 @@ public class DefaultExcelAnalysisEventListener extends AnalysisEventListener<Map
                             return;
                         case -1:
                             this.hasNext.set(false);
-                            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("表头验证失败，中断导入过程").errThrow();
+                            throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.api.easyexcel.DefaultExcelAnalysisEventListener.headerVerificationFailed")).errThrow();
                         default:
                             break;
                     }
@@ -238,11 +239,11 @@ public class DefaultExcelAnalysisEventListener extends AnalysisEventListener<Map
                     originValue.addAll(entry.getValue());
                 }
             } else {
-                log.error("导入中检查出需要合并，但数据并不完全一致，请检查唯一键是否设置合理 sheet: {}; rowIndex: {}", currentSheet.getName(), rowIndex);
+                log.error("Merge needed detected during import, but data is not completely consistent, please check if unique key is set reasonably sheet: {}; rowIndex: {}", currentSheet.getName(), rowIndex);
                 interrupt();
                 currentBlockData.remove(blockNumber);
                 importTask.setRowIndex(lastedRowIndex);
-                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg("相邻数据行不一致，导入被中断，请矫正数据后重试").errThrow();
+                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.api.easyexcel.DefaultExcelAnalysisEventListener.inconsistentDataRows")).errThrow();
             }
         } else {
             importTask.setRowIndex(lastedRowIndex);
@@ -564,7 +565,7 @@ public class DefaultExcelAnalysisEventListener extends AnalysisEventListener<Map
                     }
                     return integerValue.longValue();
                 } catch (NumberFormatException | ParseException e) {
-                    throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(String.format("第%s行 第%s列 无法将 [%s] 转换为整数", importContext.getCurrentRow(), currentColumn, stringValue)).errThrow();
+                    throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.api.easyexcel.DefaultExcelAnalysisEventListener.convertIntegerError", importContext.getCurrentRow(), currentColumn, stringValue)).errThrow();
                 }
             case NUMBER:
                 try {
@@ -577,17 +578,17 @@ public class DefaultExcelAnalysisEventListener extends AnalysisEventListener<Map
 
                     return BigDecimal.valueOf(parsedNumber.doubleValue());
                 } catch (NumberFormatException | ParseException e) {
-                    throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(String.format("第%s行 第%s列 无法将 [%s] 转换为数字", importContext.getCurrentRow(), currentColumn, stringValue)).errThrow();
+                    throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.api.easyexcel.DefaultExcelAnalysisEventListener.convertNumberError", importContext.getCurrentRow(), currentColumn, stringValue)).errThrow();
                 }
             case DATETIME:
                 stringValue = stringValue.trim();
                 if (!isFormat) {
-                    format = valueType.getDefaultFormat();
+                    format = valueType.defaultFormat();
                 }
                 try {
                     return DateHelper.parse(stringValue, format);
                 } catch (ParseException e) {
-                    throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(String.format("第%s行 第%s列 无法将 [%s] 按照 [%s] 日期格式进行解析", importContext.getCurrentRow(), currentColumn, stringValue, format)).errThrow();
+                    throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.api.easyexcel.DefaultExcelAnalysisEventListener.parseDateError", importContext.getCurrentRow(), currentColumn, stringValue, format)).errThrow();
                 }
             case BOOLEAN:
             case ENUMERATION:
@@ -635,9 +636,9 @@ public class DefaultExcelAnalysisEventListener extends AnalysisEventListener<Map
                         String fileValue = data.get(i);
                         if (!StringHelper.equals(templateValue, fileValue)) {
                             if (result == 0) {
-                                importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "导入文件的表头行与模板不符");
+                                importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.api.easyexcel.DefaultExcelAnalysisEventListener.headerMismatch"));
                             }
-                            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, String.format("第%s行 第%s列 模板内容为: %s; 文件内容为: %s", rowIndex, LetterHelper.getUpperByIndex(i + 1), templateValue, fileValue));
+                            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.api.easyexcel.DefaultExcelAnalysisEventListener.templateContentMismatch", rowIndex, LetterHelper.getUpperByIndex(i + 1), templateValue, fileValue));
                             return -1;
                         }
                         i++;
@@ -712,7 +713,7 @@ public class DefaultExcelAnalysisEventListener extends AnalysisEventListener<Map
                 dataList.add(data);
             } else {
                 interrupt();
-                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(String.format("错误行数超过%s行，导入过程被强制中断，请检查文件内容后重试", maxErrorLength)).errThrow();
+                throw PamirsException.construct(ExpEnumerate.BIZ_ERROR).appendMsg(I18nUtils.getMessage("pamirs.file.api.easyexcel.DefaultExcelAnalysisEventListener.errorRowsExceeded", maxErrorLength)).errThrow();
             }
         }
     }

@@ -24,13 +24,13 @@ public class DbConnectionUtils {
                 ResultSet rs = dmd.getCatalogs();
                 while (rs.next()) {
                     String name = rs.getString("TABLE_CAT");
-                    log.info("读取数据库表:{}", name);
+                    log.info("Read database table:{}", name);
                 }
-                log.info("获取{}数据库连接成功！", connector.getConnDBType());
+                log.info("Get {} database connection successfully!", connector.getConnDBType());
                 return Boolean.TRUE;
             }
         } catch (ClassNotFoundException | SQLException e) {
-            log.error("获取数据库连接失败！", e);
+            log.error("Failed to get database connection!", e);
             return Boolean.FALSE;
         }
     }

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.compute.ModelDefinitionComputer;
 import pro.shushi.pamirs.meta.api.core.compute.context.ComputeContext;
@@ -125,41 +126,41 @@ public class DefaultModelDefinitionComputer extends ComputeTemplate implements M
         String module = meta.getModule();
 
         // 计算模型定义
-        log.info(START_COMPUTE_MODUlE, Thread.currentThread().getId(), module, meta.getData().keySet());
+        log.info(I18nUtils.getMessage(START_COMPUTE_MODUlE), Thread.currentThread().getId(), module, meta.getData().keySet());
 
         TimeWatcher.watch(() -> {
 
             // 计算模型配置默认值
-            TimeWatcher.watch(() -> computeModel(result, completedModuleSet, context, meta, CONSTRUCT_COMPUTER, DEFAULT_FIELD_COMPUTER), TIPS1, CharacterConstants.SEPARATOR_HYPHEN, module);
+            TimeWatcher.watch(() -> computeModel(result, completedModuleSet, context, meta, CONSTRUCT_COMPUTER, DEFAULT_FIELD_COMPUTER), I18nUtils.getMessage(TIPS1), CharacterConstants.SEPARATOR_HYPHEN, module);
 
             // 低无一体计算
-            TimeWatcher.watch(() -> computeModel(result, completedModuleSet, context, meta, FUSE_MODEL_COMPUTER), TIPS10, CharacterConstants.SEPARATOR_HYPHEN, module);
+            TimeWatcher.watch(() -> computeModel(result, completedModuleSet, context, meta, FUSE_MODEL_COMPUTER), I18nUtils.getMessage(TIPS10), CharacterConstants.SEPARATOR_HYPHEN, module);
 
             // 计算字段配置
-            TimeWatcher.watch(() -> constructField(result, completedModuleSet, context, meta), TIPS2, CharacterConstants.SEPARATOR_HYPHEN, module);
+            TimeWatcher.watch(() -> constructField(result, completedModuleSet, context, meta), I18nUtils.getMessage(TIPS2), CharacterConstants.SEPARATOR_HYPHEN, module);
 
             // 计算继承，计算主键，计算多表继承自动生成字段
-            TimeWatcher.watch(() -> computeModelDefinition(result, false, completedModuleSet, context, meta, INHERITED_MODEL_COMPUTER, INHERITED_FIELD_COMPUTER), TIPS3, CharacterConstants.SEPARATOR_HYPHEN, module);
+            TimeWatcher.watch(() -> computeModelDefinition(result, false, completedModuleSet, context, meta, INHERITED_MODEL_COMPUTER, INHERITED_FIELD_COMPUTER), I18nUtils.getMessage(TIPS3), CharacterConstants.SEPARATOR_HYPHEN, module);
 
             // 计算多对多关系并为新生成模型与字段自动生成关系字段、关联关系自动生成字段
-            TimeWatcher.watch(() -> computeModelDefinition(result, false, completedModuleSet, context, meta, null, RELATION_FIELD_COMPUTER, MANY_TO_MANY_FIELD_COMPUTER), TIPS4, CharacterConstants.SEPARATOR_HYPHEN, module);
+            TimeWatcher.watch(() -> computeModelDefinition(result, false, completedModuleSet, context, meta, null, RELATION_FIELD_COMPUTER, MANY_TO_MANY_FIELD_COMPUTER), I18nUtils.getMessage(TIPS4), CharacterConstants.SEPARATOR_HYPHEN, module);
 
             // 计算乐观锁、引用字段、字段可选项
-            TimeWatcher.watch(() -> computeModelDefinition(result, true, completedModuleSet, context, meta, OPTIMISTIC_LOCKER_MODEL_COMPUTER, RELATED_FIELD_COMPUTER, FIELD_OPTIONS_COMPUTER), TIPS5, CharacterConstants.SEPARATOR_HYPHEN, module);
+            TimeWatcher.watch(() -> computeModelDefinition(result, true, completedModuleSet, context, meta, OPTIMISTIC_LOCKER_MODEL_COMPUTER, RELATED_FIELD_COMPUTER, FIELD_OPTIONS_COMPUTER), I18nUtils.getMessage(TIPS5), CharacterConstants.SEPARATOR_HYPHEN, module);
 
             // 模型定义检查
-            TimeWatcher.watch(() -> computeModel(result, completedModuleSet, context, meta, CHECK_MODEL_COMPUTER, CHECK_FIELD_COMPUTER), TIPS6, CharacterConstants.SEPARATOR_HYPHEN, module);
+            TimeWatcher.watch(() -> computeModel(result, completedModuleSet, context, meta, CHECK_MODEL_COMPUTER, CHECK_FIELD_COMPUTER), I18nUtils.getMessage(TIPS6), CharacterConstants.SEPARATOR_HYPHEN, module);
 
             // 字段定义检查
-            TimeWatcher.watch(() -> checkField(result, completedModuleSet, context, meta), TIPS7, CharacterConstants.SEPARATOR_HYPHEN, module);
+            TimeWatcher.watch(() -> checkField(result, completedModuleSet, context, meta), I18nUtils.getMessage(TIPS7), CharacterConstants.SEPARATOR_HYPHEN, module);
 
             // 计算模块
-            TimeWatcher.watch(() -> computeModule(result, completedModuleSet, context, meta, CONSTRUCT_COMPUTER, DEFAULT_FIELD_COMPUTER, CHECK_FIELD_COMPUTER), TIPS8, CharacterConstants.SEPARATOR_HYPHEN, module);
+            TimeWatcher.watch(() -> computeModule(result, completedModuleSet, context, meta, CONSTRUCT_COMPUTER, DEFAULT_FIELD_COMPUTER, CHECK_FIELD_COMPUTER), I18nUtils.getMessage(TIPS8), CharacterConstants.SEPARATOR_HYPHEN, module);
 
             // 计算函数
-            TimeWatcher.watch(() -> computeFunction(result, completedModuleSet, context, meta, CONSTRUCT_COMPUTER, DEFAULT_FIELD_COMPUTER, CHECK_FIELD_COMPUTER), TIPS9, CharacterConstants.SEPARATOR_HYPHEN, module);
+            TimeWatcher.watch(() -> computeFunction(result, completedModuleSet, context, meta, CONSTRUCT_COMPUTER, DEFAULT_FIELD_COMPUTER, CHECK_FIELD_COMPUTER), I18nUtils.getMessage(TIPS9), CharacterConstants.SEPARATOR_HYPHEN, module);
 
-        }, COMPLETE_ALL, module, TIME_ALL);
+        }, I18nUtils.getMessage(COMPLETE_ALL), module, I18nUtils.getMessage(TIME_ALL));
 
         // 设置已完成计算模块
         completedModuleSet.addAll(meta.getData().keySet());
@@ -201,7 +202,7 @@ public class DefaultModelDefinitionComputer extends ComputeTemplate implements M
     @SuppressWarnings("unused")
     protected void checkField(Result<Void> result, Set<String> completedModuleSet, ComputeContext context, Meta meta) {
         if (!context.isCheckField()) {
-            log.info(TIPS7_DISABLED);
+            log.info(I18nUtils.getMessage(TIPS7_DISABLED));
             return;
         }
         computeField(result, completedModuleSet, context, meta, this::checkField);

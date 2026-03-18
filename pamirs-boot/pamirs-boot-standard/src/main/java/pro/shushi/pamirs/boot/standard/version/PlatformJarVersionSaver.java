@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.common.api.PlatformJarVersionCheckerApi;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.util.TimeWatcher;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 
 import jakarta.annotation.Resource;
 
@@ -27,7 +28,7 @@ public class PlatformJarVersionSaver implements ApplicationListener<ApplicationS
     public void onApplicationEvent(ApplicationStartedEvent applicationStartedEvent) {
         TimeWatcher.watch(
                 platformJarVersionCheckerApi::store,
-                "存储Jar版本信息"
+                I18nUtils.getMessage("PlatformJarVersionSaver.storeJarVersionInfo")
         );
     }
 }

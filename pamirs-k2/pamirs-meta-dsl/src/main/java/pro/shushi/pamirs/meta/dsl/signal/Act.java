@@ -40,7 +40,7 @@ public class Act extends Tx implements Exe {
                 Object param = LogicFunInvoker.getArg(arg, context);
                 if (null == param) {
                     throw PamirsException.construct(BASE_ACTION_PARAMS_IS_EMPTY_ERROR)
-                            .appendMsg("参数为空，参数名：" + arg)
+                            .appendMsg("Parameter is empty, parameter name: " + arg)
                             .errThrow();
                 }
 
@@ -66,7 +66,7 @@ public class Act extends Tx implements Exe {
                     }
                 } catch (Exception e) {
                     // 忽略异常
-                    log.error("动作入参处理异常", e);
+                    log.error("Action input parameter processing exception", e);
                     // TODO: 2021/10/25 先把异常抛出
                     throw e;
                 }

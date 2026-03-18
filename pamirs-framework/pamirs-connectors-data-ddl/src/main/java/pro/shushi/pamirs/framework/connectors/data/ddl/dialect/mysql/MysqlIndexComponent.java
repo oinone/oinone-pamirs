@@ -9,6 +9,7 @@ import pro.shushi.pamirs.framework.connectors.data.api.domain.wrapper.ModelWrapp
 import pro.shushi.pamirs.framework.connectors.data.ddl.dialect.api.IndexDialectComponent;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.Dialect;
 import pro.shushi.pamirs.framework.connectors.data.dialect.constants.DataProductVersion;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.common.spi.SPI;
@@ -48,7 +49,7 @@ public class MysqlIndexComponent implements IndexDialectComponent {
             } else {
                 if (null == modelDefinition.getIsRelationship() || !modelDefinition.getIsRelationship()) {
                     log.warn(MessageFormat.format(
-                            "复合主键不会适用全局配置keyGenerator，请在主键字段上明确配置,model:{0},field:{1}",
+                            I18nUtils.getMessage("MysqlIndexComponent.composite.pk.warn"),
                             modelDefinition.getModel(), modelField.getField())
                     );
                 }
@@ -57,7 +58,7 @@ public class MysqlIndexComponent implements IndexDialectComponent {
         } else {
             if (columnDefinition.contains("AUTO_INCREMENT")) {
                 log.error(MessageFormat.format(
-                        "AUTO_INCREMENT must only configure for primary key,model:{0},field:{1}",
+                        I18nUtils.getMessage("MysqlIndexComponent.auto.increment.error"),
                         modelDefinition.getModel(), modelField.getField())
                 );
                 return columnDefinition.replace(" AUTO_INCREMENT", CharacterConstants.SEPARATOR_EMPTY);

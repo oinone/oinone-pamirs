@@ -11,6 +11,7 @@ import pro.shushi.pamirs.file.api.format.RichTextFormat;
 import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.file.api.util.ExcelHelper;
 import pro.shushi.pamirs.file.api.util.ExcelTemplateInit;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,14 +23,14 @@ public class DepartmentTemplate implements ExcelTemplateInit {
 
     @Override
     public List<ExcelWorkbookDefinition> generator() {
-        WorkbookDefinitionBuilder builder = WorkbookDefinitionBuilder.newInstance(PamirsDepartment.MODEL_MODEL, TEMPLATE_NAME).setDisplayName("部门-导入导出");
+        WorkbookDefinitionBuilder builder = WorkbookDefinitionBuilder.newInstance(PamirsDepartment.MODEL_MODEL, TEMPLATE_NAME).setDisplayName(I18nUtils.getMessage("business.template.department.title"));
         DepartmentTemplate.createDepartmentSheet(builder);
         return Collections.singletonList(builder.build());
     }
 
     private static void createDepartmentSheet(WorkbookDefinitionBuilder builder) {
         builder.setEachImport(true)
-                .createSheet().setName("部门")
+                .createSheet().setName(I18nUtils.getMessage("business.template.department.sheet"))
                 .createBlock(PamirsDepartment.MODEL_MODEL, ExcelAnalysisTypeEnum.FIXED_HEADER, ExcelDirectionEnum.HORIZONTAL, "A1:G3")
                 .createMergeRange("A1:G1")
                 .createHeader().setStyleBuilder(ExcelHelper.createDefaultStyle()).setIsConfig(Boolean.TRUE)
@@ -45,11 +46,7 @@ public class DepartmentTemplate implements ExcelTemplateInit {
                 .setStyleBuilder(ExcelHelper.createDefaultStyle(v -> v.setBold(Boolean.TRUE))
                         .setWrapText(true)
                         .setVerticalAlignment(ExcelVerticalAlignmentEnum.TOP).setHeight(1200))
-                .createCell().setValue(
-                        "1.红色为必填字段\n" +
-                                "2.部门编码相同新数据直接覆盖旧数据\n" +
-                                "3.在同一公司内，同一级别的“部门名称”不允许重复 \n" +
-                                "4.请确保填写的每个被绑定的编码都是系统中已存在的有效编码。")
+                .createCell().setValue(I18nUtils.getMessage("business.template.department.desc"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 86, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).build()))
                         .add(new RichTextFormat(0, 9, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
@@ -64,24 +61,24 @@ public class DepartmentTemplate implements ExcelTemplateInit {
                 .and()
                 .createHeader()
                 .setStyleBuilder(ExcelHelper.createDefaultStyle(v -> v.setBold(Boolean.TRUE)).setHorizontalAlignment(ExcelHorizontalAlignmentEnum.CENTER))
-                .createCell().setValue("部门编码")
+                .createCell().setValue(I18nUtils.getMessage("business.template.department.header.code"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 4, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
                         .build()))
                 .and()
-                .createCell().setValue("部门名称")
+                .createCell().setValue(I18nUtils.getMessage("business.template.department.header.name"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 4, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
                         .build()))
                 .and()
-                .createCell().setValue("所属公司编码")
+                .createCell().setValue(I18nUtils.getMessage("business.template.department.header.companyCode"))
                 .setType(ExcelValueTypeEnum.RICH_TEXT_STRING).setFormat(JSONArray.toJSONString(CollectionHelper.<RichTextFormat>newInstance()
                         .add(new RichTextFormat(0, 6, TypefaceDefinitionBuilder.newInstance().setBold(Boolean.TRUE).setColor(0xa).build()))
                         .build()))
                 .and()
-                .createCell().setValue("所属公司名称").and()
-                .createCell().setValue("上级部门编码").and()
-                .createCell().setValue("上级部门名称").and()
-                .createCell().setValue("备注");
+                .createCell().setValue(I18nUtils.getMessage("business.template.department.header.companyName")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.department.header.parentCode")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.department.header.parentName")).and()
+                .createCell().setValue(I18nUtils.getMessage("business.template.department.header.remark"));
     }
 }

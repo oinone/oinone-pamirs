@@ -33,7 +33,7 @@ public class MessageModuleInit implements LifecycleCompletedInit {
     @Autowired
     private EmailSmtpConfig emailSmtpConfig;
 
-    private static final String DEFAULT_EMAIL_NAME = "邮件发送服务";
+    private static final String DEFAULT_EMAIL_NAME = "Email Sending Service";
 
     @Override
     public void process(AppLifecycleCommand command, List<ModuleDefinition> installModules, List<ModuleDefinition> upgradeModules, List<ModuleDefinition> reloadModules) {
@@ -47,14 +47,14 @@ public class MessageModuleInit implements LifecycleCompletedInit {
 
     private void initEmailConfig() {
         if (null == emailSmtpConfig) {
-            log.warn("没有配置邮箱服务器。");
+            log.warn("No email server configured.");
             return;
         }
 
         if (StringUtils.isBlank(emailSmtpConfig.getSmtpHost()) || StringUtils.isBlank(emailSmtpConfig.getSmtpPassword())
                 || StringUtils.isBlank(emailSmtpConfig.getSmtpUser())
                 || Objects.isNull(emailSmtpConfig.getSmtpPort())) {
-            log.warn("邮箱服务器配置不合法。");
+            log.warn("The email server configuration is invalid.");
             return;
         }
         EmailSenderSource senderSource = new EmailSenderSource().setSmtpUser(emailSmtpConfig.getSmtpUser()).setSmtpHost(emailSmtpConfig.getSmtpHost()).queryOne();
@@ -88,7 +88,7 @@ public class MessageModuleInit implements LifecycleCompletedInit {
                     .collect(Collectors.toList());
 
             if (CollectionUtils.isEmpty(emailTemplates)) {
-                log.warn("没有配置邮件模板。");
+                log.warn("No email template configured.");
                 return;
             }
 
@@ -120,12 +120,12 @@ public class MessageModuleInit implements LifecycleCompletedInit {
 
     private void initSmsConfig() {
         if (null == smsAliyunConfig) {
-            log.warn("没有配置短信渠道。");
+            log.warn("No SMS channel configured.");
             return;
         }
 
         if (StringUtils.isBlank(smsAliyunConfig.getAccessKeyId()) || StringUtils.isBlank(smsAliyunConfig.getSignName())) {
-            log.warn("短信渠道配置不合法。");
+            log.warn("The SMS channel configuration is invalid.");
             return;
         }
 
@@ -167,7 +167,7 @@ public class MessageModuleInit implements LifecycleCompletedInit {
                 .collect(Collectors.toList());
 
         if (CollectionUtils.isEmpty(smsTemplates)) {
-            log.warn("没有配置短信模板。");
+            log.warn("No SMS template configured.");
             return;
         }
 

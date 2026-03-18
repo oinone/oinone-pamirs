@@ -673,7 +673,7 @@ public class TypeUtils {
             Class<?> clazz = TypeUtils.getClass(ltype);
             return isIEnumClass(clazz);
         } catch (Exception e) {
-            log.error("{} 不支持的类型: {}", MetaExpEnumerate.BASE_ENUM_CLASS_IS_NOT_EXISTS_ERROR, ltype, e);
+            log.error("{} Unsupported type: {}", MetaExpEnumerate.BASE_ENUM_CLASS_IS_NOT_EXISTS_ERROR, ltype, e);
             return false;
         }
     }

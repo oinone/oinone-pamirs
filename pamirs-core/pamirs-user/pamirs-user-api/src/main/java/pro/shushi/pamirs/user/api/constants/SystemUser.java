@@ -6,6 +6,7 @@ import pro.shushi.pamirs.user.api.configure.UserConfigure;
 import pro.shushi.pamirs.user.api.enmu.UserSourceEnum;
 import pro.shushi.pamirs.user.api.enmu.UserType;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 
 /**
  * 系统用户
@@ -27,7 +28,7 @@ public class SystemUser {
                 .setActive(Boolean.FALSE)
                 .setName(UserConstants.ANONYMOUS_USER_LOGIN)
                 .setNickname(UserConstants.ANONYMOUS_USER_LOGIN)
-                .setRealname(UserConstants.ANONYMOUS_USER_NICKNAME)
+                .setRealname(I18nUtils.getMessage(UserConstants.ANONYMOUS_USER_NICKNAME))
                 .setCode(UserConstants.ANONYMOUS_USER_CODE)
                 .setId(UserConstants.ANONYMOUS_USER_ID);
         return anonymous;

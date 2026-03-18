@@ -14,6 +14,7 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.session.Sessions;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaData;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
@@ -80,7 +81,7 @@ public class DefaultMetaDataLoader implements MetaDataLoaderApi {
                         annotationConfigurer.extractDefinition(command.getOptions().isLoadMeta(),
                                 includeModules, excludeModules, moduleInfoMap,
                                 updateModuleMap, reloadModuleMap),
-                "扫描元数据全部完成.");
+                I18nUtils.getMessage("DefaultMetaDataLoader.scan_meta_completed"));
         platformJarVersionCheckerApi.compare();
         if (!metaDataResult.isSuccess()) {
             metaDataResult.logMessages(metaConfiguration.getLogLevel());

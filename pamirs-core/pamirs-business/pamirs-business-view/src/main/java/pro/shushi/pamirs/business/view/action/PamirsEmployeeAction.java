@@ -12,6 +12,7 @@ import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
 import pro.shushi.pamirs.business.api.tmodel.EmployeeQueryFilter;
 import pro.shushi.pamirs.core.common.check.UserInfoChecker;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -102,19 +103,19 @@ public class PamirsEmployeeAction {
         if (checkBlank(name, true)) return;
         UserPatternCheckApi checkApi = Spider.getLoader(UserPatternCheckApi.class).getDefaultExtension();
         if (!checkApi.checkRealName(name)) {
-            log.info("{}，员工名称{}", EMPLOYEE_NAME_ERROR.msg(), name);
+            log.info("{}, employee name {}", EMPLOYEE_NAME_ERROR.msg(), name);
             throw PamirsException.construct(EMPLOYEE_NAME_ERROR).errThrow();
         }
     }
 
     public void checkParamPattern(PamirsEmployee data) {
         if (!UserInfoChecker.checkLogin(data.getLogin())) {
-            log.info("{}，登录账号{}", USER_PARAM_LOGIN_ERROR.msg(), data.getLogin());
+            log.info("{}, login account {}", USER_PARAM_LOGIN_ERROR.msg(), data.getLogin());
             throw PamirsException.construct(USER_PARAM_LOGIN_ERROR).errThrow();
         }
         if (!UserInfoChecker.checkName(data.getLogin())) {
-            log.info("{}，账号用户是{}", USER_PARAM_NAME_ERROR.msg(), data.getLogin());
-            throw PamirsException.construct(USER_PARAM_NAME_ERROR).appendMsg(",员工账号名称，默认使用登录账号").errThrow();
+            log.info("{}, account user is {}", USER_PARAM_NAME_ERROR.msg(), data.getLogin());
+            throw PamirsException.construct(USER_PARAM_NAME_ERROR).appendMsg(I18nUtils.getMessage("pamirs.business.employee.name.default")).errThrow();
         }
     }
 

@@ -16,7 +16,7 @@ public interface ClientActionConstants {
     interface GoBack {
         String name = "internalGotoListTableRouter";
         String fun = "$$internal_GotoListTableRouter";
-        String label = "返回";
+        String label = "ClientActionConstants.GoBack.label";
         String propNameType = "type";
         String propValueType = "default";
     }
@@ -27,7 +27,7 @@ public interface ClientActionConstants {
     interface X2MDelete {
         String name = "internalDeleteOne";
         String fun = "$$internal_DeleteOne";
-        String label = "删除";
+        String label = "ClientActionConstants.X2MDelete.label";
         String propNameType = "type";
         String propValueType = "primary";
     }
@@ -38,7 +38,7 @@ public interface ClientActionConstants {
     interface Import {
         String name = "$$internal_GotoListImportDialog";
         String fun = "$$internal_GotoListImportDialog";
-        String label = "导入";
+        String label = "ClientActionConstants.Import.label";
         String propNameType = "type";
         String propValueType = "default";
     }
@@ -49,7 +49,7 @@ public interface ClientActionConstants {
     interface Export {
         String name = "$$internal_GotoListExportDialog";
         String fun = "$$internal_GotoListExportDialog";
-        String label = "导出";
+        String label = "ClientActionConstants.Export.label";
         String propNameType = "type";
         String propValueType = "default";
     }
@@ -60,7 +60,7 @@ public interface ClientActionConstants {
     interface TableAddRow {
         String name = "$$internal_AddOne";
         String fun = "$$internal_AddOne";
-        String label = "插入";
+        String label = "ClientActionConstants.TableAddRow.label";
         String propNameType = "type";
         String propValueType = "default";
     }
@@ -71,7 +71,7 @@ public interface ClientActionConstants {
     interface TableCopyRow {
         String name = "$$internal_CopyOne";
         String fun = "$$internal_CopyOne";
-        String label = "复制";
+        String label = "ClientActionConstants.TableCopyRow.label";
         String propNameType = "type";
         String propValueType = "default";
     }

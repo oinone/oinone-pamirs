@@ -131,7 +131,7 @@ public class DataDictionaryTranslateServiceImpl implements TranslateMetaBaseServ
 
         long start2 = System.currentTimeMillis();
 
-        log.info("翻译项数据计算,耗时:{}", (start2 - start1) + "ms");
+        log.info("Translation item data calculation, cost: {}", (start2 - start1) + "ms");
 
         return itemList;
     }

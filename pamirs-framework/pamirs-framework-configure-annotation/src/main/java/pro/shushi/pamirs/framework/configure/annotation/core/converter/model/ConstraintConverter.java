@@ -61,7 +61,7 @@ public class ConstraintConverter implements ModelConverter<Map<String, ModelFiel
             if (StringUtils.isBlank(references)) {
                 result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                         .error(BASE_CONSTRAINT_NO_REFERENCE_ERROR)
-                        .append(I18nUtils.translate("ConstraintConverter.referencesMissing", names.getModel())));
+                        .append(I18nUtils.getMessage("ConstraintConverter.referencesMissing", names.getModel())));
                 result.error();
                 context.error().broken();
             }

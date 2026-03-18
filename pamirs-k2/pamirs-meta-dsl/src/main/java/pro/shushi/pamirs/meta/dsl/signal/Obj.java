@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.meta.dsl.signal;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.base.BaseModel;
@@ -31,7 +32,7 @@ public class Obj implements Exe {
             }
             if (obj instanceof List) {
                 throw PamirsException.construct(BASE_OBJ_PARAMS_ERROR)
-                        .appendMsg(LogicFunInvoker.fetchCurrentStateName(context) + "节点入参格式错误，不能为集合").errThrow();
+                        .appendMsg(I18nUtils.getMessage("pamirs.meta.dsl.signal.obj.invalidFormat", LogicFunInvoker.fetchCurrentStateName(context))).errThrow();
             }
             for (Field field : fields) {
                 Object value = LogicFunInvoker.exp(field.getExp(), context);

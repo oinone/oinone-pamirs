@@ -1,6 +1,8 @@
 package pro.shushi.pamirs.user.api.login;
 
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.boot.web.spi.api.TranslateService;
+import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.core.orm.OrmApi;
@@ -86,7 +88,7 @@ public abstract class UserCookieLogin<T extends IdModel> implements IUserLogin<T
                 .map(Long::parseLong)
                 .map(_langId -> new ResourceLang().<ResourceLang>queryById(_langId))
                 .map(_lang -> _lang.getCode())
-                .orElse(DefaultResourceConstants.CHINESE_LANGUAGE_CODE);
+                .orElse(TranslateServiceHolder.get().getCurrentLang());
         PamirsUserDTO pamirsUserDTO = new PamirsUserDTO().setLogin(login).setUserName(userName).setPhone(phone)
                 .setUserCode(userCode).setEmail(email).setUserId(Long.valueOf(userId))
                 .setLangCode(langCode);

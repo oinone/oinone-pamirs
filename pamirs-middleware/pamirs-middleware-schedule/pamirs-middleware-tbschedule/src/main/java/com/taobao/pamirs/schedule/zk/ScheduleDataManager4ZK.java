@@ -50,7 +50,7 @@ public class ScheduleDataManager4ZK implements IScheduleDataManager {
         zkBaseTime = tempStat.getCtime();
         ZKTools.deleteTree(getZooKeeper(), tempPath);
         if (Math.abs(this.zkBaseTime - this.loclaBaseTime) > 5000) {
-            log.error("请注意，Zookeeper服务器时间与本地时间相差 ： " + Math.abs(this.zkBaseTime - this.loclaBaseTime) + " ms");
+            log.error("Please note, Zookeeper server time difference with local time : " + Math.abs(this.zkBaseTime - this.loclaBaseTime) + " ms");
         }
     }
 
@@ -110,7 +110,7 @@ public class ScheduleDataManager4ZK implements IScheduleDataManager {
             // 需要处理zookeeper session过期异常
             if (e instanceof KeeperException
                     && ((KeeperException) e).code().intValue() == KeeperException.Code.SESSIONEXPIRED.intValue()) {
-                log.warn("delete : zookeeper session已经过期，需要重新连接zookeeper");
+                log.warn("delete : zookeeper session expired, need to reconnect zookeeper");
                 zkManager.reConnection();
                 ZKTools.deleteTree(this.getZooKeeper(), zkPath);
             }
@@ -676,12 +676,12 @@ public class ScheduleDataManager4ZK implements IScheduleDataManager {
             throws Exception {
         if (this.isLeader(currentUuid, taskServerList) == false) {
             if (log.isDebugEnabled()) {
-                log.debug(currentUuid + ":不是负责任务分配的Leader,直接返回");
+                log.debug(currentUuid + ":Not the Leader responsible for task assignment, return directly");
             }
             return;
         }
         if (log.isDebugEnabled()) {
-            log.debug(currentUuid + ":开始重新分配任务......");
+            log.debug(currentUuid + ":Start reassigning tasks......");
         }
         if (taskServerList.size() <= 0) {
             // 在服务器动态调整的时候，可能出现服务器列表为空的清空
@@ -739,7 +739,7 @@ public class ScheduleDataManager4ZK implements IScheduleDataManager {
         }
 
         if (unModifyCount < children.size()) { // 设置需要所有的服务器重新装载任务
-            log.info("设置需要所有的服务器重新装载任务:updateReloadTaskItemFlag......" + taskType + "  ,currentUuid " + currentUuid);
+            log.info("Set all servers to reload tasks:updateReloadTaskItemFlag......" + taskType + "  ,currentUuid " + currentUuid);
 
             this.updateReloadTaskItemFlag(taskType);
         }
@@ -755,12 +755,12 @@ public class ScheduleDataManager4ZK implements IScheduleDataManager {
     public void assignTaskItem22(String taskType, String currentUuid, List<String> serverList) throws Exception {
         if (this.isLeader(currentUuid, serverList) == false) {
             if (log.isDebugEnabled()) {
-                log.debug(currentUuid + ":不是负责任务分配的Leader,直接返回");
+                log.debug(currentUuid + ":Not the Leader responsible for task assignment, return directly");
             }
             return;
         }
         if (log.isDebugEnabled()) {
-            log.debug(currentUuid + ":开始重新分配任务......");
+            log.debug(currentUuid + ":Start reassigning tasks......");
         }
         if (serverList.size() <= 0) {
             // 在服务器动态调整的时候，可能出现服务器列表为空的清空

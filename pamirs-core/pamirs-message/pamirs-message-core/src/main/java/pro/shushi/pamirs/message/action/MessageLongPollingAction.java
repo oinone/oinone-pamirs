@@ -41,7 +41,7 @@ public class MessageLongPollingAction {
         //获取一个频道的增量消息,并添加到大消息list中
         if (null == PamirsSession.getUserId() || null == new PamirsUser().setId(PamirsSession.getUserId()).queryById()) {
 //            throw PamirsException.construct(pro.shushi.pamirs.user.api.enmu.ExpEnumerate.USER_NOT_LOGIN_ERROR).appendMsg("请重新登录").errThrow();
-            log.warn("没有用户信息。可能是用户退出登录 导致 ");
+            log.warn("No user info. Maybe caused by user logout");
             return pollingTransient;
         }
         String[] channelIdList = null;

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.configure.MetaConfiguration;
 import pro.shushi.pamirs.framework.configure.MetaRelationConfigModel;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.core.compute.ModelDefinitionComputer;
 import pro.shushi.pamirs.meta.api.core.compute.context.ComputeContext;
 import pro.shushi.pamirs.meta.api.core.compute.systems.relation.ThroughModelProcessor;
@@ -71,14 +72,14 @@ public class DefaultThroughModelProcessor implements ThroughModelProcessor {
             String dsKey = sourceModel.getDsKey();
             String configDisplayName = AttributesUtils.get(relation, ModelField::getAttributes, FieldAttributeConstants.THROUGH_DISPLAY_NAME);
             if (null == modelReferences) {
-                displayName = null != configDisplayName ? configDisplayName : (sourceModel.getDisplayName() + DISPLAY_NAME_END);
+                displayName = null != configDisplayName ? configDisplayName : I18nUtils.getMessage("pamirs-framework-compute.DefaultThroughModelProcessor.relation_display_name", sourceModel.getDisplayName());
             } else if (StringUtils.isNotBlank(sourceModel.getDisplayName()) && StringUtils.isNotBlank(modelReferences.getDisplayName())) {
                 Map<String, String> nameMap = new HashMap<>(2);
                 nameMap.put(sourceModel.getModel(), sourceModel.getDisplayName());
                 nameMap.put(modelReferences.getModel(), modelReferences.getDisplayName());
                 List<String> models = ModelUtils.sortNames(sourceModel.getModel(), modelReferences.getModel());
                 displayName = null != configDisplayName
-                        ? configDisplayName : (nameMap.get(models.get(0)) + DISPLAY_NAME_MIDDLE + nameMap.get(models.get(1)) + DISPLAY_NAME_END);
+                        ? configDisplayName : I18nUtils.getMessage("pamirs-framework-compute.DefaultThroughModelProcessor.relation_between_display_name", nameMap.get(models.get(0)), nameMap.get(models.get(1)));
                 ModelConfig modelConfig = PamirsSession.getContext().getModelConfig(sourceModel.getModel());
                 module = modelConfig.getModule();
                 moduleAbbr = modelConfig.getModuleAbbr();

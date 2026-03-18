@@ -11,6 +11,7 @@ import pro.shushi.pamirs.boot.standard.entity.EnvironmentKeySet;
 import pro.shushi.pamirs.framework.configure.MetaConfiguration;
 import pro.shushi.pamirs.framework.connectors.data.configure.sharding.ShardingDefineConfiguration;
 import pro.shushi.pamirs.framework.connectors.data.configure.sharding.model.ShardingTableDefinition;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.domain.PlatformEnvironment;
 
 import java.util.List;
@@ -57,23 +58,23 @@ public class TriggerEnvironmentChecker extends AbstractSceneEnvironmentChecker i
         List<String> metaPackages = metaConfiguration.getMetaPackages();
         boolean printTriggerTip = false;
         if (CollectionUtils.isEmpty(metaPackages) || !metaPackages.contains(TRIGGER_META_PACKAGE)) {
-            addError(context, generatorEnvironmentProperty(PAMIRS_META_PACKAGES_KEY, null), "请配置元数据包路径: " + PAMIRS_META_PACKAGES_KEY + "=" + TRIGGER_META_PACKAGE);
+            addError(context, generatorEnvironmentProperty(PAMIRS_META_PACKAGES_KEY, null), I18nUtils.getMessage("TriggerEnvironmentChecker.meta.packages.error", PAMIRS_META_PACKAGES_KEY, TRIGGER_META_PACKAGE));
             printTriggerTip = true;
         }
         String pamirsScheduleShardingDefine = Optional.ofNullable(shardingDefineConfiguration.getDefinitionForModel("trigger.PamirsSchedule"))
                 .map(ShardingTableDefinition::getTables)
                 .orElse(null);
         if (StringUtils.isBlank(pamirsScheduleShardingDefine) || !PAMIRS_SCHEDULE_SHARDING_DEFINE_VALUE.equals(pamirsScheduleShardingDefine)) {
-            addError(context, generatorEnvironmentProperty(PAMIRS_SCHEDULE_SHARDING_DEFINE_KEY, pamirsScheduleShardingDefine), "请配置PamirsSchedule分表定义: " + PAMIRS_SCHEDULE_SHARDING_DEFINE_KEY + "=" + PAMIRS_SCHEDULE_SHARDING_DEFINE_VALUE);
+            addError(context, generatorEnvironmentProperty(PAMIRS_SCHEDULE_SHARDING_DEFINE_KEY, pamirsScheduleShardingDefine), I18nUtils.getMessage("TriggerEnvironmentChecker.sharding.error", PAMIRS_SCHEDULE_SHARDING_DEFINE_KEY, PAMIRS_SCHEDULE_SHARDING_DEFINE_VALUE));
             printTriggerTip = true;
         }
         String eventEnabled = getProperty(PAMIRS_EVENT_ENABLED_KEY, Boolean.TRUE.toString());
         if (!Boolean.TRUE.toString().equals(eventEnabled)) {
-            addWarning(context, generatorEnvironmentProperty(PAMIRS_EVENT_ENABLED_KEY, eventEnabled), "未开启PamirsEvent功能，消息队列、工作流等功能将无法使用");
+            addWarning(context, generatorEnvironmentProperty(PAMIRS_EVENT_ENABLED_KEY, eventEnabled), I18nUtils.getMessage("TriggerEnvironmentChecker.event.disabled.warn"));
         }
         String scheduleEnabled = getProperty(PAMIRS_EVENT_SCHEDULE_ENABLED_KEY, Boolean.TRUE.toString());
         if (!Boolean.TRUE.toString().equals(scheduleEnabled)) {
-            addWarning(context, generatorEnvironmentProperty(PAMIRS_EVENT_SCHEDULE_ENABLED_KEY, scheduleEnabled), "未开启PamirsSchedule功能，异步执行、导出、工作流等功能将无法正常使用");
+            addWarning(context, generatorEnvironmentProperty(PAMIRS_EVENT_SCHEDULE_ENABLED_KEY, scheduleEnabled), I18nUtils.getMessage("TriggerEnvironmentChecker.schedule.disabled.warn"));
         } else {
             checkScheduleDialect(allEnvironments);
         }
@@ -93,36 +94,13 @@ public class TriggerEnvironmentChecker extends AbstractSceneEnvironmentChecker i
         String newValue = currentEnvironment.getValue();
         if (context.isCollaborativeDevelopmentEnvironment()) {
             if (newValue.equals(oldValue)) {
-                context.addWarning(currentEnvironment, "协同开发模式下，pamirs.event.schedule.ownSign需要与公共环境配置不一致。如果配置相同，将无法正常调试异步任务、定时任务相关功能");
+                context.addWarning(currentEnvironment, I18nUtils.getMessage("TriggerEnvironmentChecker.ownSign.warn"));
             }
         }
         return currentEnvironment;
     }
 
     private String triggerModuleTip() {
-        return "\n\ntrigger模块启动时需要添加如下配置项\n\n" +
-                "启动工程pom:\n\n" +
-                "<dependency>\n" +
-                "    <groupId>pro.shushi.pamirs.core</groupId>\n" +
-                "    <artifactId>pamirs-trigger-core</artifactId>\n" +
-                "</dependency>\n" +
-                "<dependency>\n" +
-                "    <groupId>pro.shushi.pamirs.core</groupId>\n" +
-                "    <artifactId>pamirs-trigger-bridge-tbschedule</artifactId>\n" +
-                "</dependency>\n\n" +
-                "yaml:\n\n" +
-                "pamirs:\n" +
-                "  meta:\n" +
-                "    metaPackages:\n" +
-                "      - pro.shushi.pamirs.trigger.model\n" +
-                "  sharding:\n" +
-                "    define:\n" +
-                "      models:\n" +
-                "        \"[trigger.PamirsSchedule]\":\n" +
-                "          tables: 0..13\n" +
-                "  event:\n" +
-                "    enabled: true\n" +
-                "    schedule:\n" +
-                "      enabled: true\n\n";
+        return I18nUtils.getMessage("TriggerEnvironmentChecker.triggerModuleTip");
     }
 }

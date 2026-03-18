@@ -13,22 +13,22 @@ public interface AuthConstants {
 
     Long SUPER_ROLE_ID = 10001L;
     String SUPER_ROLE_CODE = "R00001";
-    String SUPER_ROLE_NAME = "超级管理员";
-    String SUPER_ROLE_COMMENT = "系统角色,拥有系统所有的权限";
+    String SUPER_ROLE_NAME = "SystemRole.super_role_name";
+    String SUPER_ROLE_COMMENT = "SystemRole.super_role_comment";
 
     Long BUSINESS_ROLE_ID = 10002L;
     String BUSINESS_ROLE_CODE = "R00002";
-    String BUSINESS_ROLE_NAME = "系统基础角色";
-    String BUSINESS_ROLE_COMMENT = "系统角色,拥有系统基础角色的权限";
+    String BUSINESS_ROLE_NAME = "SystemRole.business_role_name";
+    String BUSINESS_ROLE_COMMENT = "SystemRole.business_role_comment";
 
     Long BASE_ROLE_ID = 10003L;
     String BASE_ROLE_CODE = "R00003";
-    String BASE_ROLE_NAME = "平台基础角色";
-    String BASE_ROLE_COMMENT = "系统角色,平台的基础角色";
+    String BASE_ROLE_NAME = "SystemRole.base_role_name";
+    String BASE_ROLE_COMMENT = "SystemRole.base_role_comment";
 
     Long SYSTEM_ROLE_TYPE_ID = 10000L;
     String SYSTEM_ROLE_TYPE_CODE = "SYSTEM";
-    String SYSTEM_ROLE_TYPE_NAME = "系统角色";
+    String SYSTEM_ROLE_TYPE_NAME = "SystemRoleType.system_role_type_name";
 
     String REDIS_TEMPLATE_BEAN_NAME = "authRedisTemplate";
 
@@ -76,13 +76,13 @@ public interface AuthConstants {
 
     Long ALL_FLAG_LONG = -1L;
 
-    String ALL_FLAG_DISPLAY_NAME = "全部";
+    String ALL_FLAG_DISPLAY_NAME = "AuthConstants.AllFlag.DisplayName";
 
-    String ALL_FLAG_FIELD_DESCRIPTION = "授予当前模型下所有字段权限";
+    String ALL_FLAG_FIELD_DESCRIPTION = "AuthConstants.AllFlag.FieldDescription";
 
     String ALL_FLAG_PATH_SUFFIX = ResourcePath.PATH_SPLIT + ResourcePath.ALL_FLAG;
 
     String HOMEPAGE_PATH_SUFFIX = ResourcePath.PATH_SPLIT + HOMEPAGE_TYPE;
 
-    String TABLE_EDITABLE_UPDATE = "行内编辑更新";
+    String TABLE_EDITABLE_UPDATE = "AuthConstants.TableEditable.Update";
 }

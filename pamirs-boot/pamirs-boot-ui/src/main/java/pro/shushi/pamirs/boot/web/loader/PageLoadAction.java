@@ -18,6 +18,7 @@ import pro.shushi.pamirs.boot.web.spi.api.HomepageFetcherApi;
 import pro.shushi.pamirs.boot.web.spi.holder.AuthVerificationApiHolder;
 import pro.shushi.pamirs.boot.web.utils.PageLoadHelper;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.framework.faas.utils.ArgUtils;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -304,7 +305,7 @@ public class PageLoadAction {
         ModelConfig mainViewModelConfig = PamirsSession.getContext().getModelConfig(model);
         if (mainViewModelConfig == null) {
             throw PamirsException.construct(BootUxdExpEnumerate.BASE_VIEW_ACTION_MODEL_CONFIG_ERROR)
-                    .appendMsg("model: " + model).errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.boot.ui.view.modelConfigError", model)).errThrow();
         }
         ModelDefinition modelDefinition = new ModelDefinition();
         modelDefinition.setModel(mainViewModelConfig.getModel());
@@ -399,7 +400,7 @@ public class PageLoadAction {
         }
         if (StringUtils.isAnyBlank(homepageModel, homepageName)) {
             throw PamirsException.construct(BaseExpEnumerate.BASE_HOME_PAGE_IS_NOT_EXISTS_ERROR)
-                    .appendMsg("应用名：" + home.getDisplayName() + "（" + home.getModule() + "）").errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.boot.ui.auth.moduleAccessDenied", home.getDisplayName(), home.getModule())).errThrow();
         }
         ViewAction action = null;
         Action cacheAction = PamirsSession.getContext().getExtendCache(ActionCacheApi.class).get(homepageModel, homepageName);
@@ -409,7 +410,7 @@ public class PageLoadAction {
         if (null == action) {
             log.error("Homepage not found, module:{}, homepageModel:{}, homepageName:{}", home.getModule(), homepageModel, homepageName);
             throw PamirsException.construct(BaseExpEnumerate.BASE_HOME_PAGE_IS_NOT_EXISTS_ERROR)
-                    .appendMsg("module:" + home.getModule()).errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.boot.ui.view.homepageNotFound", home.getModule())).errThrow();
         }
 
         action.setModuleDefinition(home);

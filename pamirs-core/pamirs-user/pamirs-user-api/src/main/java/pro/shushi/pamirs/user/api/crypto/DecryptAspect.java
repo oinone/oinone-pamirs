@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.base.AbstractModel;
@@ -55,8 +56,8 @@ public class DecryptAspect {
                 }
             }
         } catch (Throwable e) {
-            log.error("参数请求异常,请求的参数是{}", JsonUtils.toJSONString(joinPoint.getArgs()));
-            throw new RuntimeException("参数解密异常", e);
+            log.error("Parameter request exception, requested parameters are {}", JsonUtils.toJSONString(joinPoint.getArgs()));
+            throw new RuntimeException(I18nUtils.getMessage("DecryptAspect.param_decrypt_error"), e);
         }
         result = joinPoint.proceed(args);
         return result;

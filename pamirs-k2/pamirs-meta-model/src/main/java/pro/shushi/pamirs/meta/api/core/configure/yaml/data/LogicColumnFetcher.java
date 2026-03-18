@@ -1,6 +1,7 @@
 package pro.shushi.pamirs.meta.api.core.configure.yaml.data;
 
 import org.apache.commons.lang3.StringUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.ColumnInfo;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
@@ -95,7 +96,7 @@ public interface LogicColumnFetcher {
                     ColumnInfo columnInfo = new ColumnInfo();
                     columnInfo.setColumn(pamirsTableInfo.getLogicDeleteColumn());
                     columnInfo.setColumnDefinition("bigint default " + pamirsTableInfo.getLogicNotDeleteValue());
-                    columnInfo.setSummary("逻辑删除");
+                    columnInfo.setSummary(I18nUtils.getMessage("LogicColumnFetcher.logicDelete"));
                     columnInfoList.add(columnInfo);
                 }
             }

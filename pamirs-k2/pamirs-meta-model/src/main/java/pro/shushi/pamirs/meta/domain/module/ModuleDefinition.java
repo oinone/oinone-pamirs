@@ -70,7 +70,7 @@ public class ModuleDefinition extends MetaBaseModel implements MetaCheckConstant
     private String dsKey;
 
     @Base
-    @Field.String
+    @Field.String(size = 512)
     @Field(displayName = "简介", summary = "描述摘要")
     private String summary;
 

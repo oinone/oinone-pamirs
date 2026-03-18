@@ -94,7 +94,7 @@ public class EipParamMappingServiceImpl implements EipParamMappingService {
                 exp = String.join(FileConstants.POINT, strings);
             }
         } catch (Exception e) {
-            log.error("JSON数据解析失败", e);
+            log.error("JSON data parsing failed", e);
             throw PamirsException.construct(EipExpEnumerate.EIP_JSON_PARSING_ERROR).errThrow();
         }
         return exp.replace("activeRecord.", "");

@@ -93,10 +93,10 @@ public class DBDemoSingle implements IScheduleTaskDealSingle<Long> {
             statement.executeUpdate();
             statement.close();
             conn.commit();
-            log.debug("处理任务：" + id + " 成功！");
+            log.debug("Process task: " + id + " successfully!");
             return true;
         } catch (Exception e) {
-            log.error("执行任务：" + task + "失败：" + e.getMessage(), e);
+            log.error("Execute task: " + task + " failed: " + e.getMessage(), e);
             if (conn != null) {
                 conn.rollback();
             }

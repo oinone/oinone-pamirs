@@ -20,6 +20,7 @@ import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.file.api.util.CSVWorkbookHelper;
 import pro.shushi.pamirs.file.api.util.EasyExcelHelper;
 import pro.shushi.pamirs.file.api.util.ExcelWorkbookDefinitionUtil;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.Ext;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
@@ -51,7 +52,7 @@ public class StandardExcelExportExecutor extends AbstractExcelExportExecutor imp
             try {
                 return doExport0ByPOI(exportTask, context, dataList, consumer);
             } catch (OutOfMemoryError e) {
-                exportTask.addTaskMessage(TaskMessageLevelEnum.WARNING, "导出数据量过大，自动尝试转为CSV格式进行导出");
+                exportTask.addTaskMessage(TaskMessageLevelEnum.WARNING, I18nUtils.getMessage("StandardExcelExportExecutor.export_data_too_large_try_csv"));
                 workbookDefinition.setClearExportStyle(true);
                 doExport0ByCSV(exportTask, context, dataList, consumer);
             }

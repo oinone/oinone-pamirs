@@ -9,6 +9,7 @@ import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
 import pro.shushi.pamirs.boot.web.spi.api.AuthVerificationApi;
 import pro.shushi.pamirs.boot.web.spi.holder.UserIdentityHolder;
 import pro.shushi.pamirs.boot.web.utils.PageLoadHelper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.core.auth.AuthApi;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.SPI;
@@ -54,7 +55,7 @@ public class DefaultAuthVerificationService implements AuthVerificationApi {
         boolean canAccess = AuthApi.get().canAccessModule(moduleDefinition.getModule()).getSuccess();
         if (!canAccess) {
             throw PamirsException.construct(BootUxdExpEnumerate.BASE_MODULE_CAN_NOT_ACCESS_ERROR)
-                    .appendMsg("应用名：" + moduleDefinition.getDisplayName() + "（" + moduleDefinition.getModule() + "）").errThrow();
+                    .appendMsg(I18nUtils.getMessage("pamirs.boot.ui.auth.moduleAccessDenied", moduleDefinition.getDisplayName(), moduleDefinition.getModule())).errThrow();
         }
     }
 

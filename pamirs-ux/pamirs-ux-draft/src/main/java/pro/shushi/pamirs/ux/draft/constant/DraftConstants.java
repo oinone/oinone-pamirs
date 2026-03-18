@@ -22,7 +22,7 @@ public interface DraftConstants {
     String DRAFT_CODE_FILED = "draftCode";
 
     interface SaveDraft {
-        String displayName = "保存为草稿";
+        String displayName = "DraftConstants.SaveDraft.displayName";
         String name = "internalSaveDraft";
         String fun = "$$internal_SaveDraft";
         int priority = MetaDefaultConstants.PRIORITY_VALUE_INT + 1;

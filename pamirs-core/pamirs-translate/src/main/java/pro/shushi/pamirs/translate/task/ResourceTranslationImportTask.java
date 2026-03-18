@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.file.api.enmu.ExcelTaskStateEnum;
 import pro.shushi.pamirs.file.api.enmu.TaskMessageLevelEnum;
 import pro.shushi.pamirs.file.api.model.ExcelImportTask;
@@ -67,8 +68,9 @@ public class ResourceTranslationImportTask {
         taskAction.setPeriodTimeUnit(TimeUnitEnum.SECOND);
         taskAction.setPeriodTimeAnchor(TriggerTimeAnchorEnum.START);
         taskAction.setLimitRetryNumber(0);
-        taskAction.setDisplayName("翻译导入任务开启：任务id:" + importTaskId);
-        taskAction.setDescription("翻译导入任务开启：任务id:" + importTaskId);
+        String desc = I18nUtils.getMessage("ResourceTranslationImportTask.importTaskStart", importTaskId);
+        taskAction.setDisplayName(desc);
+        taskAction.setDescription(desc);
         taskAction.setExecuteNamespace(ResourceTranslationImportTask.FUN_NAMESPACE);
         taskAction.setExecuteFun(DEPLOYMENT_STATUS_CHECK);
         taskAction.setTaskType(TaskType.REMOTE_SCHEDULE_TASK.getValue());
@@ -121,7 +123,7 @@ public class ResourceTranslationImportTask {
             return;
         }
 
-        log.info("翻译项导入Excel数据共有：{}", excelItemList.size());
+        log.info("Translation item import Excel data total: {}", excelItemList.size());
 
         Map<String, ResourceTranslationItem> itemMetaMap = new HashMap<>();
         Map<String, ResourceTranslation> translationMap = new HashMap<>();
@@ -187,18 +189,18 @@ public class ResourceTranslationImportTask {
                 translationMap.putIfAbsent(translationUniqueKey, resourceTranslation);
 
             } catch (Exception e) {
-                log.error("翻译项导入异常信息", e);
+                log.error("Translation item import exception info", e);
                 hasError = true;
                 importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "导入数据异常，数据已经被过滤掉，数据所在行：" + i + "，查看数据:" + excelItem);
             }
         }
 
-        log.info("翻译项导入Excel计算后共有数据:{}", itemMetaMap.size());
+        log.info("Translation item import Excel calculated total data: {}", itemMetaMap.size());
         List<List<ResourceTranslationItem>> itemMetaSplitList = Lists.partition(Lists.newArrayList(itemMetaMap.values()), 500);
         int threadMetaNum = itemMetaSplitList.size();
         CountDownLatch threadSignal = new CountDownLatch(threadMetaNum);
         for (List<ResourceTranslationItem> subMap : itemMetaSplitList) {
-            log.info("翻译项元数据导入切分单个任务处理数据:{}", subMap.size());
+            log.info("Translation item metadata import split single task processing data: {}", subMap.size());
             TranslateItemSaveRunnable translateItemSaveRunnable = new TranslateItemSaveRunnable(subMap, threadSignal);
             TtlAsyncTaskExecutor.getExecutorService().execute(translateItemSaveRunnable);
         }
@@ -213,9 +215,9 @@ public class ResourceTranslationImportTask {
                 e.printStackTrace(expPWriter);
                 String error = expWriter.toString();
                 importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "导入翻译数据异常:" + error);
-                log.error("导入翻译数据异常:" + error);
+                log.error("Import translation data exception:" + error);
             } catch (IOException exp) {
-                log.error("导入翻译数据异常", exp);
+                log.error("Import translation data exception", exp);
             }
         } finally {
             translateRedisManager.delLockImportKey();
@@ -236,7 +238,7 @@ public class ResourceTranslationImportTask {
 
         @Override
         public void run() {
-            log.info("开启子线程执行翻译项导入操作,线程名:{}", Thread.currentThread().getName());
+            log.info("Start sub-thread to execute translation item import operation, thread name: {}", Thread.currentThread().getName());
             try {
                 new ResourceTranslationItem().createOrUpdateBatch(itemList);
                 Map<String, Map<String, String>> cachaMap = new HashMap<>();
@@ -257,7 +259,7 @@ public class ResourceTranslationImportTask {
             } finally {
                 threadsSignal.countDown();
             }
-            log.info("结束子线程执行翻译项导入操作,线程名:{}", Thread.currentThread().getName());
+            log.info("End sub-thread execution of translation item import operation, thread name: {}", Thread.currentThread().getName());
         }
     }
 }

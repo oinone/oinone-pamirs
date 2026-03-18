@@ -22,6 +22,7 @@ import pro.shushi.pamirs.framework.configure.simulate.service.MetaSimulator;
 import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
 import pro.shushi.pamirs.framework.connectors.data.dialect.api.TableMetaDialectService;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.data.DsApi;
@@ -97,7 +98,7 @@ public class EnvironmentProtectedChecker implements LifecycleBeginInit, Lifecycl
     }
 
     private UnsupportedOperationException throwInterruptedException() {
-        return new UnsupportedOperationException("环境信息检查不通过，请根据以上提示信息进行修改");
+        return new UnsupportedOperationException(I18nUtils.getMessage("EnvironmentProtectedChecker.check.failed"));
     }
 
     private Map<String, PlatformEnvironmentChecker> collectionCheckers() {
@@ -189,13 +190,13 @@ public class EnvironmentProtectedChecker implements LifecycleBeginInit, Lifecycl
     }
 
     private void printCheckMessage(EnvironmentCheckContext context) {
-        printCheckMessage("错误的环境信息", context.getError().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::error), StdPrinter.INSTANCE);
-        printCheckMessage("过时的环境信息", context.getDeprecated().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::warn), StdPrinter.INSTANCE);
-        printCheckMessage("警告的环境信息", context.getWarning().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::warn), StdPrinter.INSTANCE);
+        printCheckMessage(I18nUtils.getMessage("EnvironmentProtectedChecker.msg.error"), context.getError().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::error), StdPrinter.INSTANCE);
+        printCheckMessage(I18nUtils.getMessage("EnvironmentProtectedChecker.msg.deprecated"), context.getDeprecated().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::warn), StdPrinter.INSTANCE);
+        printCheckMessage(I18nUtils.getMessage("EnvironmentProtectedChecker.msg.warning"), context.getWarning().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::warn), StdPrinter.INSTANCE);
 
-        printCheckMessage("创建的环境信息", context.getCreate().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::info), StdPrinter.INSTANCE);
-        printCheckMessage("更新的环境信息", context.getUpdate().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::info), StdPrinter.INSTANCE);
-        printCheckMessage("删除的环境信息", context.getDelete().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::info), StdPrinter.INSTANCE);
+        printCheckMessage(I18nUtils.getMessage("EnvironmentProtectedChecker.msg.create"), context.getCreate().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::info), StdPrinter.INSTANCE);
+        printCheckMessage(I18nUtils.getMessage("EnvironmentProtectedChecker.msg.update"), context.getUpdate().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::info), StdPrinter.INSTANCE);
+        printCheckMessage(I18nUtils.getMessage("EnvironmentProtectedChecker.msg.delete"), context.getDelete().values().stream().flatMap(Collection::stream).collect(Collectors.toList()), new Slf4jPrinter(log, Logger::info), StdPrinter.INSTANCE);
     }
 
     private void printCheckMessage(String title, List<EnvironmentCheckResult> results, Printer... printers) {

@@ -1,4 +1,4 @@
-package pro.shushi.pamirs.translate.template.imports;
+package pro.shushi.pamirs.translate.template.exports;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;

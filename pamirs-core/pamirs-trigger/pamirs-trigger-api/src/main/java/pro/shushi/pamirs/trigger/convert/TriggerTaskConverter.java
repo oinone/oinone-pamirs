@@ -1,8 +1,6 @@
 package pro.shushi.pamirs.trigger.convert;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.enmu.TimeUnitEnum;
 import pro.shushi.pamirs.framework.session.tenant.component.PamirsTenantSession;
@@ -14,6 +12,7 @@ import pro.shushi.pamirs.meta.api.core.configure.annotation.ModelConverter;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.api.dto.meta.ExecuteContext;
 import pro.shushi.pamirs.meta.api.dto.meta.MetaNames;
+import pro.shushi.pamirs.meta.common.constants.AppName;
 import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 import pro.shushi.pamirs.meta.util.NamespaceAndFunUtils;
 import pro.shushi.pamirs.middleware.schedule.eunmeration.TaskType;
@@ -31,9 +30,6 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class TriggerTaskConverter implements ModelConverter<TriggerTaskAction, Method> {
-
-    @Autowired
-    private ApplicationContext context;
 
     @Override
     public Result validate(ExecuteContext context, MetaNames names, Method source) {
@@ -54,27 +50,28 @@ public class TriggerTaskConverter implements ModelConverter<TriggerTaskAction, M
     }
 
     @Override
-    public TriggerTaskAction convert(MetaNames names, Method source, TriggerTaskAction metaModelObject) {
+    public TriggerTaskAction convert(MetaNames names, Method source, TriggerTaskAction triggerTaskAction) {
         Trigger trigger = source.getAnnotation(Trigger.class);
         String namespace = NamespaceAndFunUtils.namespace(source);
         String fun = NamespaceAndFunUtils.fun(source);
-        return (TriggerTaskAction) metaModelObject.setModel(names.getModel())
+        triggerTaskAction.setModel(names.getModel())
                 .setTechnicalName(trigger.name())
                 .setCondition(trigger.condition())
                 .setWiredContext(Optional.of(trigger.wiredContext()).filter(StringUtils::isNotBlank).orElse(CharacterConstants.SEPARATOR_EMPTY))
                 .setEventParameter(Optional.of(trigger.eventParameter()).filter(StringUtils::isNotBlank).orElse(CharacterConstants.SEPARATOR_EMPTY))
                 .setLimitRetryNumber(-1)
                 .setNextRetryTimeValue(3)
-                .setTaskType(Optional.ofNullable(trigger.taskType()).map(t -> t.getValue()).orElse(TaskType.BASE_SCHEDULE_TASK.getValue()))
+                .setTaskType(Optional.ofNullable(trigger.taskType()).map(TaskType::getValue).orElse(TaskType.BASE_SCHEDULE_TASK.getValue()))
                 .setNextRetryTimeUnit(TimeUnitEnum.SECOND)
-                .setDisplayName(I18nUtils.translateTrigger(names.getModule(), namespace, trigger.name(), "displayName", trigger.displayName()))
-                .setDescription(trigger.displayName() + ":" + namespace + "$$" + fun)
+                .setDisplayName(I18nUtils.translateTrigger(names.getModule(), namespace, fun, "displayName", trigger.displayName()))
+                .setDescription(triggerTaskAction.getDisplayName() + ":" + namespace + "$$" + fun)
                 .setTenant(PamirsTenantSession.getTenant())
                 .setEnv(PamirsTenantSession.getEnv())
-                .setApplication(this.context.getEnvironment().getProperty("spring.application.name"))
+                .setApplication(AppName.get())
                 .setExecuteNamespace(namespace)
                 .setExecuteFun(fun)
                 .setActive(trigger.active());
+        return triggerTaskAction;
     }
 
     @Override

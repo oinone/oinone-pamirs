@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import pro.shushi.pamirs.framework.common.utils.ObjectUtils;
 import pro.shushi.pamirs.framework.compute.emnu.ComputeExpEnumerate;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.CommonApiFactory;
 import pro.shushi.pamirs.meta.api.Models;
@@ -297,7 +298,7 @@ public class DefaultInheritedProcessor implements InheritedProcessor {
             newTypeField = new ModelField();
         }
         newTypeField.setStore(Boolean.TRUE)
-                .setDisplayName(modelDefinition.getDisplayName() + TYPE_DISPLAY_NAME)
+                .setDisplayName(modelDefinition.getDisplayName() + I18nUtils.getMessage("InheritedProcessor.TYPE_DISPLAY_NAME"))
                 .setLtype(String.class.getName())
                 .setSize(Spider.getDefaultExtension(TypeProcessor.class).fetchDefaultSize(TtypeEnum.STRING, String.class.getName(), false))
                 .setPk(Boolean.FALSE)
@@ -436,7 +437,7 @@ public class DefaultInheritedProcessor implements InheritedProcessor {
 
                 convertSuperModelToCurrentModelForFunction(selfFunction.getArgumentList(), selfFunction.getReturnType(), self);
                 if (StringUtils.equals(EnhanceModel.MODEL_MODEL, otherFunction.getNamespace()) && FunctionConstants.queryPage.equals(otherFunction.getFun())) {
-                    log.debug("处理EnhanceModel Func");
+                    log.debug("Processing EnhanceModel Func");
                     selfFunction.setClazz(otherFunction.getClazz());
                     selfFunction.setBeanName(otherFunction.getBeanName());
                 }

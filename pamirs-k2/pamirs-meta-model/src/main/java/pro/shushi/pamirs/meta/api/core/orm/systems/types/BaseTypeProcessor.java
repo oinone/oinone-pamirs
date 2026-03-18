@@ -2,6 +2,7 @@ package pro.shushi.pamirs.meta.api.core.orm.systems.types;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.core.compute.systems.type.TypeProcessor;
 import pro.shushi.pamirs.meta.base.K2;
@@ -90,7 +91,7 @@ public class BaseTypeProcessor implements TypeProcessor {
                 return VOID.value();
             default:
                 throw PamirsException.construct(BASE_FIELD_LTTYPE_CONFIG_ERROR)
-                        .appendMsg("不支持的类型,ltype:" + ltype + ",ltypeT:" + ltypeT).errThrow();
+                        .appendMsg(I18nUtils.getMessage("pamirs.meta.model.unsupportedType", ltype, ltypeT)).errThrow();
         }
     }
 
@@ -199,7 +200,7 @@ public class BaseTypeProcessor implements TypeProcessor {
                 }),
                 cases(EMAIL).to(() -> "varchar(" + DEFAULT_EMAIL + ")"),
                 defaults(() -> {
-                    throw PamirsException.construct(BASE_FIELD_TCTYPE_CONFIG_ERROR).appendMsg("不支持的类型:" + ttype).errThrow();
+                    throw PamirsException.construct(BASE_FIELD_TCTYPE_CONFIG_ERROR).appendMsg(I18nUtils.getMessage("pamirs.meta.model.unsupportedType.ttype", ttype)).errThrow();
                 })
         );
     }

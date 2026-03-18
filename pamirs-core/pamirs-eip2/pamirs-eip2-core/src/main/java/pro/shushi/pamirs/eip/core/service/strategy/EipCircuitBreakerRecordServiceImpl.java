@@ -105,7 +105,7 @@ public class EipCircuitBreakerRecordServiceImpl implements EipCircuitBreakerReco
                 .setIfAbsent(EipCircuitBreakerConstant.SYNC_SAVE_RECORD_LOCK, "1", 10, TimeUnit.SECONDS));
 
         if (!lockAcquired) {
-            log.warn("无法获取分布式锁，跳过本次同步熔断记录");
+            log.warn("Unable to acquire distributed lock, skip this synchronization of circuit breaker records");
             return;
         }
 
@@ -126,7 +126,7 @@ public class EipCircuitBreakerRecordServiceImpl implements EipCircuitBreakerReco
                     if (record != null) {
                         recordList.add(record);
                     } else {
-                        log.error("缓存中接口熔断记录为空，跳过创建");
+                        log.error("The interface circuit breaker record in the cache is empty, skip creation");
                     }
                 }
 

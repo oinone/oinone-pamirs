@@ -87,23 +87,20 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
         } else {
             if (0 == modelAnnotation.labelFields().length && StringUtils.isBlank(modelAnnotation.label())) {
                 result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
-                        .append(I18nUtils.translate("ModelDefinitionConverter.labelMissing", source.getName())));
-//            result.error();
+                        .append(I18nUtils.getMessage("ModelDefinitionConverter.labelMissing", source.getName())));
             }
         }
 
         if (null == modelModelAnnotation) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
                     .msg(BASE_MODEL_NO_MODEL_VALUE_INFO)
-                    .append(I18nUtils.translate("ModelDefinitionConverter.modelValueAutoFill",
-                            source.getName())));
+                    .append(I18nUtils.getMessage("ModelDefinitionConverter.modelValueAutoFill", source.getName())));
         }
 
         if (StringUtils.isNotBlank(Optional.ofNullable(modelAdvancedAnnotation).map(Model.Advanced::table).orElse(null))) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
                     .msg(BASE_MODEL_HAS_TABLE_INFO)
-                    .append(I18nUtils.getMessage("ModelDefinitionConverter.tableAutoFill",
-                            source.getName(), modelAdvancedAnnotation.table())));
+                    .append(I18nUtils.getMessage("ModelDefinitionConverter.tableAutoFill", source.getName(), modelAdvancedAnnotation.table())));
 
         }
 
@@ -111,14 +108,12 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
         if (ArrayUtils.isNotEmpty(inherited)) {
             result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
                     .msg(BASE_MODEL_HAS_INHERITED_INFO)
-                    .append(I18nUtils.getMessage("ModelDefinitionConverter.inheritedAutoFill",
-                            source.getName(), inherited)));
+                    .append(I18nUtils.getMessage("ModelDefinitionConverter.inheritedAutoFill", source.getName(), inherited)));
         } else {
             if (null != modelAnnotation && StringUtils.isBlank(modelAnnotation.displayName())) {
                 result.addMessage(new Message().setLevel(InformationLevelEnum.INFO)
                         .msg(BASE_MODEL_NO_DISPLAY_NAME_ERROR)
-                        .append(I18nUtils.translate("ModelDefinitionConverter.displayNameSuggestion",
-                                source.getName())));
+                        .append(I18nUtils.getMessage("ModelDefinitionConverter.displayNameSuggestion", source.getName())));
             }
 
         }
@@ -133,8 +128,7 @@ public class ModelDefinitionConverter implements ModelConverter<ModelDefinition,
                     || null != funAnnotation || null != dictAnnotation) {
                 result.addMessage(new Message().setLevel(InformationLevelEnum.ERROR)
                         .error(BASE_MODEL_CONFIG_CONFLICT_ERROR)
-                        .append(I18nUtils.translate("ModelDefinitionConverter.conflictingAnnotations",
-                                source.getName())));
+                        .append(I18nUtils.getMessage("ModelDefinitionConverter.conflictingAnnotations", source.getName())));
                 context.broken().error();
                 return result.error();
             }

@@ -1,6 +1,5 @@
 package pro.shushi.pamirs.resource.api.constants;
 
-import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.meta.enmu.ActiveEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
@@ -174,38 +173,10 @@ public interface DefaultResourceConstants {
 
     String CHAT_URL_KEY = "chatUrl";
 
-    ResourceConfig CHART_URL = new ResourceConfig()
-            .setKey(CHAT_URL_KEY)
-            .setValue(FileClientFactory.getClient().getStaticUrl() + "/upload/2020/05/15/1589523634776-%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F.png")
-            .setTtype(TtypeEnum.TEXT);
-
     String CHANNEL_URL_KEY = "channelUrl";
-
-    ResourceConfig CHANNEL_URL = new ResourceConfig()
-            .setKey(CHANNEL_URL_KEY)
-            .setValue(FileClientFactory.getClient().getStaticUrl() + "/upload/2020/05/15/1589523634776-%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F.png")
-            .setTtype(TtypeEnum.TEXT);
 
     String MODEL_MAIL_URL_KEY = "modelMailUrl";
 
-    ResourceConfig MODEL_MAIL_URL = new ResourceConfig()
-            .setKey(MODEL_MAIL_URL_KEY)
-            .setValue(FileClientFactory.getClient().getStaticUrl() + "/upload/2019/09/03/1567523460690-模型消息.png")
-            .setTtype(TtypeEnum.TEXT);
-
     String SYSTEM_MAIL_URL_KEY = "systemMailUrl";
-
-    ResourceConfig SYSTEM_MAIL_URL = new ResourceConfig()
-            .setKey(SYSTEM_MAIL_URL_KEY)
-            .setValue(FileClientFactory.getClient().getStaticUrl() + "/upload/2019/09/03/1567523507231-系统消息.png")
-            .setTtype(TtypeEnum.TEXT);
-
-    String DEFAULT_BRAND_LOGO = FileClientFactory.getClient().getStaticUrl() + "/pamirs/image/default_brand_logo.png";
-
-    /**
-     * @deprecated please using CommonConstants#getDefaultAppLogoUrl
-     */
-    @Deprecated
-    String DEFAULT_APP_LOGO = FileClientFactory.getClient().getStaticUrl() + "/pamirs/image/logo/default.png";
 
 }
