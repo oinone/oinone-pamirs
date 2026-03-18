@@ -60,7 +60,6 @@ public class BaseModule implements PamirsModule, InitializingBean {
                 "pro.shushi.pamirs.boot.common.enmu",
                 "pro.shushi.pamirs.sid",
                 "pro.shushi.pamirs.sequence",
-                "pro.shushi.pamirs.metadata.manager",
                 "pro.shushi.pamirs.ux"
         };
     }

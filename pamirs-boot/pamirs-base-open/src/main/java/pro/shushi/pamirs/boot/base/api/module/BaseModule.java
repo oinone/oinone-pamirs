@@ -50,8 +50,7 @@ public class BaseModule implements PamirsModule {
                 "pro.shushi.pamirs.framework.gateways.hook",
                 "pro.shushi.pamirs.boot.base",
                 "pro.shushi.pamirs.boot.web.loader",
-                "pro.shushi.pamirs.sid",
-                "pro.shushi.pamirs.metadata.manager",
+                "pro.shushi.pamirs.sid"
         };
     }
 
