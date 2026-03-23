@@ -8,7 +8,7 @@
     <artifactId>pamirs</artifactId>
     <name>oinone-pamirs</name>
     <packaging>pom</packaging>
-    <version>7.1.0</version>
+    <version>7.2.0</version>
     <description>oinone pamirs</description>
     <url>https://github.com/oinone</url>
 
