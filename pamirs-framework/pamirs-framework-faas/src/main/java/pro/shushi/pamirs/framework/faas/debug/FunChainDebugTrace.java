@@ -29,7 +29,7 @@ import java.util.function.Supplier;
 @Component
 public class FunChainDebugTrace implements SceneAnalysisDebugTraceApi, FrontRequestInitDeal {
 
-    private static final String FUN_CHAIN_DEBUG_SCENE = I18nUtils.getMessage("pamirs-framework-faas.FunChainDebugTrace.trace_title");
+    private static final String FUN_CHAIN_DEBUG_SCENE = "pamirs-framework-faas.FunChainDebugTrace.trace_title";
     private static final TransmittableThreadLocal<Map<String, Deque<StringBuffer>>> DEBUG_DEQUE_LOCAL = new TransmittableThreadLocal<>();
 
     public static void debug(Function function, FunctionComputer computer, long startTime, int anchorIndex) {
@@ -147,6 +147,6 @@ public class FunChainDebugTrace implements SceneAnalysisDebugTraceApi, FrontRequ
 
     @Override
     public String scene() {
-        return FUN_CHAIN_DEBUG_SCENE;
+        return I18nUtils.getMessage(FUN_CHAIN_DEBUG_SCENE);
     }
 }
