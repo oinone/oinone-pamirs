@@ -275,5 +275,20 @@
   "翻译项": "Translation Item",
   "角色授权": "Role Authorization",
   "请填写当前需要重置密码的用户账号,账号为": "Please fill in the user account to reset password, account is",
-  "选择条件字段": "Select condition field"
+  "选择条件字段": "Select condition field",
+  "待选择": "To be selected",
+  "翻译工具箱": "Translation Toolbox",
+  "取消批量": "Cancel Batch",
+  "批量操作": "Batch Operation",
+  "批量操作下只能操作角色": "Only roles can be operated under batch operation",
+  "搜索": "Search",
+  "重置": "Reset",
+  "由高级模式切换为快捷模式，将去掉条件中的括号和未选中行，是否切换？": "Switching from advanced mode to quick mode will remove brackets and unselected rows from conditions. Do you want to switch?",
+  "源码": "Source Code",
+  "存储字段": "Storage Field",
+  "输入名称搜索": "Search by name",
+  "且": "And",
+  "点击添加条件": "Click to add condition",
+  "点击添加括号": "Click to add bracket",
+  "点击删除条件": "Click to delete condition"
 }
