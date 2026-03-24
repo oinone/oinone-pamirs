@@ -4,6 +4,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.web.spi.api.TranslateService;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.spi.SPI;
 
@@ -19,6 +20,11 @@ import java.util.function.Function;
 @Order(Ordered.LOWEST_PRECEDENCE)
 @SPI.Service
 public class TranslateServiceImpl implements TranslateService {
+
+    @Override
+    public String getDefaultLang() {
+        return I18nUtils.getDefaultLocale().toLanguageTag();
+    }
 
     @Override
     public String getCurrentLang() {

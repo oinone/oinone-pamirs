@@ -21,6 +21,13 @@ import java.util.function.Function;
 public interface TranslateService {
 
     /**
+     * 获取默认语言编码
+     *
+     * @return 语言编码
+     */
+    String getDefaultLang();
+
+    /**
      * 获取当前语言编码
      *
      * @return 语言编码
