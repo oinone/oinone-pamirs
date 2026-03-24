@@ -1,0 +1,21 @@
+{
+  "Redis模型信息": "Redis Model Info",
+  "ServerAction列表": "Server Action List",
+  "ServerAction对比": "Server Action Comparison",
+  "UrlAction对比": "URL Action Comparison",
+  "ViewAction列表": "View Action List",
+  "ViewAction对比": "View Action Comparison",
+  "db字段信息": "DB Field Info",
+  "db模型信息": "DB Model Info",
+  "redis字段信息": "Redis Field Info",
+  "redis字段信息列表": "Redis Field Info List",
+  "urlAction列表": "URL Action List",
+  "viewAction名称": "View Action Name",
+  "命令空间": "Command Space",
+  "字段对比": "Field Comparison",
+  "差异": "Difference",
+  "差异内容": "Difference Content",
+  "执行函数命名空间": "Execution Function Namespace",
+  "执行函数编码": "Execution Function Code",
+  "扩展列表": "Extension List"
+}

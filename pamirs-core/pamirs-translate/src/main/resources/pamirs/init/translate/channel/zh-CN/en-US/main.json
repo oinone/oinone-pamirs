@@ -1,0 +1,22 @@
+{
+  "上游继承": "Upstream Inheritance",
+  "全量单批次容量": "Full Sync Single Batch Capacity",
+  "全量同步成功时间": "Full Sync Success Time",
+  "分片数": "Shard Count",
+  "分词器": "Tokenizer",
+  "别名": "Alias",
+  "副本数": "Replica Count",
+  "同步状态": "Sync Status",
+  "增强模型创建方式": "Enhanced Model Creation Method",
+  "增强模型名称": "Enhanced Model Name",
+  "增强模型所在模块": "Module of Enhanced Model",
+  "增强模型显示名称": "Enhanced Model Display Name",
+  "增强模型标识": "Enhanced Model Identifier",
+  "已开启": "Opened",
+  "是否开启增量同步": "Enable Incremental Sync",
+  "索引": "Index",
+  "索引后缀": "Index Suffix",
+  "索引映射": "Index Mapping",
+  "被增强模型": "Enhanced Model",
+  "迁移别名": "Migration Alias"
+}
