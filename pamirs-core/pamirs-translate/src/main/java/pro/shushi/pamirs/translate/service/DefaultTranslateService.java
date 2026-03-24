@@ -63,35 +63,40 @@ public class DefaultTranslateService implements TranslateService {
     @Override
     public Boolean needTranslate() {
         String lang = getCurrentLang();
-
-        // 都是中文：不翻译
         if (StringUtils.equalsIgnoreCase(lang, DefaultResourceConstants.CHINESE_LANGUAGE_CODE)) {
             return Boolean.FALSE;
         }
-
         return Boolean.TRUE;
+    }
+
+    @Override
+    public String getDefaultLang() {
+        return getLangCode(I18nUtils.getDefaultLocale());
     }
 
     @Override
     public String getCurrentLang() {
         String lang = PamirsSession.getLang();
         if (StringUtils.isBlank(lang)) {
-            Locale locale = I18nUtils.getLocale();
-            String language = locale.getLanguage();
-            String country = locale.getCountry();
-            if (Locale.SIMPLIFIED_CHINESE.getLanguage().equals(language) && StringUtils.isBlank(country)) {
-                // 兼容语言初始化
-                country = Locale.SIMPLIFIED_CHINESE.getCountry();
-            } else if (Locale.US.getLanguage().equals(language) && StringUtils.isBlank(country)) {
-                // 兼容语言初始化
-                country = Locale.US.getCountry();
-            }
-            if (StringUtils.isBlank(country)) {
-                return language;
-            }
-            return language + CharacterConstants.SEPARATOR_HYPHEN + country;
+            return getLangCode(I18nUtils.getLocale());
         }
         return lang;
+    }
+
+    protected String getLangCode(Locale locale) {
+        String language = locale.getLanguage();
+        String country = locale.getCountry();
+        if (Locale.SIMPLIFIED_CHINESE.getLanguage().equals(language) && StringUtils.isBlank(country)) {
+            // 兼容语言初始化
+            country = Locale.SIMPLIFIED_CHINESE.getCountry();
+        } else if (Locale.US.getLanguage().equals(language) && StringUtils.isBlank(country)) {
+            // 兼容语言初始化
+            country = Locale.US.getCountry();
+        }
+        if (StringUtils.isBlank(country)) {
+            return language;
+        }
+        return language + CharacterConstants.SEPARATOR_HYPHEN + country;
     }
 
     @Override

@@ -57,6 +57,10 @@ public class I18nUtils {
         return locale;
     }
 
+    public static Locale getDefaultLocale() {
+        return Locale.getDefault();
+    }
+
     public static boolean isZh() {
         return Locale.CHINESE.getLanguage().equals(LocaleContextHolder.getLocale().getLanguage());
     }

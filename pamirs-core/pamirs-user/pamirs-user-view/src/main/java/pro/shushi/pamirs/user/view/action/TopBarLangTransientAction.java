@@ -1,13 +1,13 @@
 package pro.shushi.pamirs.user.view.action;
 
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.dto.model.PamirsUserDTO;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
-import pro.shushi.pamirs.resource.api.constants.DefaultResourceConstants;
 import pro.shushi.pamirs.resource.api.model.ResourceCurrency;
 import pro.shushi.pamirs.resource.api.model.ResourceLang;
 import pro.shushi.pamirs.user.api.cache.UserCache;
@@ -76,7 +76,7 @@ public class TopBarLangTransientAction {
         String sessionId = PamirsSession.getSessionApi().getSessionId();
         PamirsUserDTO user = UserCache.get(sessionId);
         if (user != null) {
-            String langCode = Optional.ofNullable(pamirsUser.getLang()).map(ResourceLang::getCode).orElse(DefaultResourceConstants.CHINESE_LANGUAGE_CODE);
+            String langCode = Optional.ofNullable(pamirsUser.getLang()).map(ResourceLang::getCode).orElse(TranslateServiceHolder.get().getCurrentLang());
             PamirsSession.setLang(langCode);
             user.setLangCode(langCode);
             String cacheKey = UserCache.parseSessionId(sessionId);
