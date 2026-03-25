@@ -576,7 +576,6 @@
   "下拉多选": "Multiple Select",
   "无代码字段": "No code field",
   "按钮样式": "Button style",
-  "当前模型:": "Current model:",
   "启用复选框": "Enable check box",
   "不允许拖入其他视图": "Do not allow dragging into other views",
   "差量更新": "Differential renewal",
@@ -1014,7 +1013,12 @@
   "恢复默认": "Restore Default",
   "设置的字段可以在当前视图中被使用 (如表达式)": "The set fields can be used in the current view (e.g. expressions)",
   "当指定加载函数时，将不再自动识别加载函数": "When a load function is specified, the system will no longer automatically recognize the load function",
-  "由高级模式切换为快捷模式，将去掉条件中的括号和未选中行，是否切换？": "Switching from advanced mode to quick mode will remove brackets and unselected rows from conditions. Do you want to switch?",
   "开始年份": "Start Year",
-  "结束年份": "End Year"
+  "结束年份": "End Year",
+  "该字段已被选择": "This field has been selected",
+  "该动作已被选择": "This action has been selected",
+  "下钻路径": "Drill-down path",
+  "返回上一级": "Return to previous level",
+  "返回到初始模型": "Return to initial model",
+  "使用名称或显示名称搜索": "Search using name or display name"
 }

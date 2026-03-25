@@ -283,7 +283,6 @@
   "批量操作下只能操作角色": "Only roles can be operated under batch operation",
   "搜索": "Search",
   "重置": "Reset",
-  "由高级模式切换为快捷模式，将去掉条件中的括号和未选中行，是否切换？": "Switching from advanced mode to quick mode will remove brackets and unselected rows from conditions. Do you want to switch?",
   "源码": "Source Code",
   "存储字段": "Storage Field",
   "输入名称搜索": "Search by name",
