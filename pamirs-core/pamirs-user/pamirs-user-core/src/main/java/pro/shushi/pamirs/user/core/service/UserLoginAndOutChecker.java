@@ -52,8 +52,8 @@ public class UserLoginAndOutChecker implements IUserDataChecker {
             user = new PamirsUser().setLogin(userTransient.getLogin()).queryOne();
         }
         if (null == user) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(USER_PHONE_NO_SIGN_UP_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_PHONE_OR_VERIFICATION_CODE_ERROR))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(USER_PHONE_NO_SIGN_UP_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_PHONE_OR_VERIFICATION_CODE_ERROR))
                     .setErrorCode(UserExpEnumerate.USER_PHONE_OR_VERIFICATION_CODE_ERROR.code())
                     .setErrorField(UserConstant.FIELD_VERIFICATION_CODE));
             return null;
@@ -73,8 +73,8 @@ public class UserLoginAndOutChecker implements IUserDataChecker {
         if (userTransient.getBroken()) return null;
         PamirsUser user = new PamirsUser().setPhone(phone).queryOne();
         if (null == user) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(USER_PHONE_NO_SIGN_UP_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_PHONE_OR_VERIFICATION_CODE_ERROR))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(USER_PHONE_NO_SIGN_UP_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_PHONE_OR_VERIFICATION_CODE_ERROR))
                     .setErrorCode(UserExpEnumerate.USER_PHONE_OR_VERIFICATION_CODE_ERROR.code())
                     .setErrorField(UserConstant.FIELD_VERIFICATION_CODE));
             return null;
@@ -87,16 +87,16 @@ public class UserLoginAndOutChecker implements IUserDataChecker {
         if (userTransient.getBroken()) return;
         String login = userTransient.getLogin();
         if (StringUtils.isBlank(login)) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_NAME_NULL_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_NAME_NULL_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR))
                     .setErrorCode(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR.code())
                     .setErrorField(UserConstant.FIELD_PASSWORD));
             return;
         }
         List<PamirsUser> list = new PamirsUser().setLogin(login).queryList();
         if (CollectionUtils.isNotEmpty(list)) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_NAME_EXIST_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_NAME_EXIST_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR))
                     .setErrorCode(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR.code())
                     .setErrorField(UserConstant.FIELD_PASSWORD));
         }
@@ -107,16 +107,16 @@ public class UserLoginAndOutChecker implements IUserDataChecker {
         if (userTransient.getBroken()) return null;
         String login = userTransient.getLogin();
         if (StringUtils.isBlank(login)) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_NAME_NULL_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_NAME_NULL_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR))
                     .setErrorCode(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR.code())
                     .setErrorField(UserConstant.FIELD_PASSWORD));
             return null;
         }
         PamirsUser user = new PamirsUser().setLogin(login).queryOne();
         if (null == user) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_NAME_NOT_EXIST_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_NAME_NOT_EXIST_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR))
                     .setErrorCode(UserExpEnumerate.USER_USERNAME_OR_PASSWORD_ERROR.code())
                     .setErrorField(UserConstant.FIELD_PASSWORD));
             return null;
@@ -126,8 +126,8 @@ public class UserLoginAndOutChecker implements IUserDataChecker {
 
     protected PamirsUser checkActive(PamirsUser user, PamirsUserTransient userTransient, UserExpEnumerate expEnumerate, String errorField) {
         if (!Boolean.TRUE.equals(user.getActive())) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(UserExpEnumerate.USER_NOT_ACTIVE_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(expEnumerate))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(UserExpEnumerate.USER_NOT_ACTIVE_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(expEnumerate))
                     .setErrorCode(expEnumerate.code())
                     .setErrorField(errorField));
             return null;
@@ -148,10 +148,10 @@ public class UserLoginAndOutChecker implements IUserDataChecker {
         }
         PamirsUser rUser = new PamirsUser().setEmail(email).queryOne();
         if (null == rUser) {
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(USER_EMAIL_OR_VERIFICATION_CODE_ERROR))
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(USER_EMAIL_OR_VERIFICATION_CODE_ERROR))
                     .setErrorCode(USER_EMAIL_OR_VERIFICATION_CODE_ERROR.code())
                     .setErrorField(UserConstant.FIELD_VERIFICATION_CODE));
-            log.error("{}, Email login failed, user does not exist for current email, email is {}", userTransient.getEmail(), CommonI18nUtils.translateErrorDefinitionMsg(USER_EMAIL_NOT_EXISTED_ERROR));
+            log.error("{}, Email login failed, user does not exist for current email, email is {}", userTransient.getEmail(), CommonI18nUtils.translateErrorDefinition(USER_EMAIL_NOT_EXISTED_ERROR));
             return null;
         }
         return checkActive(rUser, userTransient, USER_EMAIL_OR_VERIFICATION_CODE_ERROR, UserConstant.FIELD_VERIFICATION_CODE);
@@ -180,8 +180,8 @@ public class UserLoginAndOutChecker implements IUserDataChecker {
         }
         PamirsUser rUser = new PamirsUser().setEmail(email).queryOne();
         if (null != rUser) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(USER_EMAIL_EXIST_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(USER_EMAIL_EXIST_ERROR))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(USER_EMAIL_EXIST_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(USER_EMAIL_EXIST_ERROR))
                     .setErrorCode(USER_EMAIL_EXIST_ERROR.code())
                     .setErrorField("email"));
         }
@@ -200,7 +200,7 @@ public class UserLoginAndOutChecker implements IUserDataChecker {
             return;
         }
         if (new PamirsUser().setPhone(phone).count() > 0) {
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(USER_PHONE_EXIST_ERROR))
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(USER_PHONE_EXIST_ERROR))
                     .setErrorCode(USER_PHONE_EXIST_ERROR.code())
                     .setErrorField(UserConstant.FIELD_LOGIN));
         }
@@ -219,7 +219,7 @@ public class UserLoginAndOutChecker implements IUserDataChecker {
             return;
         }
         if (new PamirsUser().setPhone(email).count() > 0) {
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(USER_EMAIL_EXIST_ERROR))
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(USER_EMAIL_EXIST_ERROR))
                     .setErrorCode(USER_EMAIL_EXIST_ERROR.code())
                     .setErrorField(UserConstant.FIELD_EMAIL));
         }

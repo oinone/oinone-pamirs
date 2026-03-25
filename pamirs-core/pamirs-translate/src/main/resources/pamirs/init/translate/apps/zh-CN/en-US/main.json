@@ -279,5 +279,12 @@
   "将元数据标品导出后，仅能通过技术接口完成导入。标品导出的元数据在新环境中除标品升级外不可对其进行更改。": "After exporting metadata standard product, import only via technical API. It cannot be modified in new environment except for upgrades.",
   "异步导入": "Asynchronous Import",
   "异步导出": "Asynchronous Export",
-  "模型设计器": "Model Designer"
+  "模型设计器": "Model Designer",
+  "仅支持使用数字、字母、下划线，且以字母开头": "Only numbers, letters and underscores are allowed, and must start with a letter",
+  "依赖模块": "Dependency Module",
+  "应用、模块": "Applications, Modules",
+  "上游模块只能在依赖模块列表中选择": "Upstream modules can only be selected from the dependency module list",
+  "模型设计器、界面设计器、流程设计器、微流设计器、集成设计器、数据可视化、打印设计器": "Model Designer, Interface Designer, Process Designer, Microflow Designer, Integration Designer, Data Visualization, Print Designer",
+  "查看更多": "View More",
+  "更新成功": "Update Successful"
 }
