@@ -2,13 +2,16 @@ package pro.shushi.pamirs.ux.draft.metadata;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
 import pro.shushi.pamirs.meta.api.dto.config.api.ModelConfigExtendApi;
+import pro.shushi.pamirs.meta.common.constants.ModuleConstants;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.enmu.FieldStrategyEnum;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
 import pro.shushi.pamirs.ux.draft.constant.DraftConstants;
+import pro.shushi.pamirs.ux.draft.model.Draft;
 
 import java.util.List;
 
@@ -40,7 +43,7 @@ public class DraftCodeMetadataExtend implements ModelConfigExtendApi {
         modelField.setTtype(TtypeEnum.STRING);
         modelField.setMulti(false);
         modelField.setLtype(String.class.getName());
-        modelField.setDisplayName("草稿编码");
+        modelField.setDisplayName(I18nUtils.translateField(ModuleConstants.MODULE_BASE, Draft.MODEL_MODEL, "code", "displayName", "草稿编码"));
         modelField.setInvisible(true);
         modelField.setStore(false);
         modelField.setRelationStore(false);
