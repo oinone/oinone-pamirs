@@ -1960,5 +1960,10 @@
   "表单数据补充": "Form Data Supplement",
   "对话消息": "Conversation Message",
   "确认要切换为编辑已有数据吗？": "Are you sure you want to switch to editing existing data?",
-  "确认要切换为新增数据吗？": "Are you sure you want to switch to adding new data?"
+  "确认要切换为新增数据吗？": "Are you sure you want to switch to adding new data?",
+  "数式科技": "shushi",
+  "陈鹏程": "CPC",
+  "支持将Excel内容粘贴至本表格，粘贴后内容将自动追加至表格末尾": "Supports pasting Excel content into this table, pasted content will be automatically appended to the end of the table",
+  "六月": "June",
+  "上午/下午": "AM/PM"
 }
