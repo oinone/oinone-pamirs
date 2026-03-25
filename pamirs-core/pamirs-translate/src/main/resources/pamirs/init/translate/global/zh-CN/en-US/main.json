@@ -1959,6 +1959,6 @@
   "耗时": "Time Consumed",
   "表单数据补充": "Form Data Supplement",
   "对话消息": "Conversation Message",
-  "确认要切换为编辑已有数据吗？": "",
-  "确认要切换为新增数据吗？": ""
+  "确认要切换为编辑已有数据吗？": "Are you sure you want to switch to editing existing data?",
+  "确认要切换为新增数据吗？": "Are you sure you want to switch to adding new data?"
 }
