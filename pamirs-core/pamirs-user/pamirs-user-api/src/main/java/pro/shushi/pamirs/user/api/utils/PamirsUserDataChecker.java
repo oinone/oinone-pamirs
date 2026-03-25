@@ -59,8 +59,8 @@ public class PamirsUserDataChecker {
         String phone = userTransient.getPhone();
         String phoneCode = UserServiceUtils.getPhoneCode(userTransient);
         if (null == phone || !checkApi.checkPhone(phone, phoneCode)) {
-            log.error(CommonI18nUtils.translateErrorDefinitionMsg(USER_PHONE_CODE_NOT_RIGHT_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(USER_PHONE_OR_VERIFICATION_CODE_ERROR))
+            log.error(CommonI18nUtils.translateErrorDefinition(USER_PHONE_CODE_NOT_RIGHT_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(USER_PHONE_OR_VERIFICATION_CODE_ERROR))
                     .setErrorCode(USER_PHONE_CODE_NOT_RIGHT_ERROR.code())
                     .setErrorField("phone"));
         }
@@ -76,8 +76,8 @@ public class PamirsUserDataChecker {
         if (userTransient.getBroken()) return;
         UserPatternCheckApi checkApi = Spider.getLoader(UserPatternCheckApi.class).getDefaultExtension();
         if (null == userTransient.getPassword() || !checkApi.checkPassword(userTransient.getPassword())) {
-            log.error(CommonI18nUtils.translateErrorDefinitionMsg(USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR))
+            log.error(CommonI18nUtils.translateErrorDefinition(USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR))
                     .setErrorCode(USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR.code())
                     .setErrorField("password"));
 
@@ -95,7 +95,7 @@ public class PamirsUserDataChecker {
         UserPatternCheckApi checkApi = Spider.getLoader(UserPatternCheckApi.class).getDefaultExtension();
         if (null == pwd || !checkApi.checkPassword(pwd)) {
             //密码 验证码错误
-            log.info("{}, user input data is {}, user account is {}", CommonI18nUtils.translateErrorDefinitionMsg(USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR), pwd, login);
+            log.info("{}, user input data is {}, user account is {}", CommonI18nUtils.translateErrorDefinition(USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR), pwd, login);
             throw PamirsException.construct(USER_PASSWORD_SIMPLE_OR_SIZE_NOT_MATCH_ERROR).errThrow();
         }
     }
@@ -110,8 +110,8 @@ public class PamirsUserDataChecker {
         String password = userTransient.getPassword();
         String confirmPassword = userTransient.getConfirmPassword();
         if (!password.equals(confirmPassword)) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(USER_DO_NOT_MATCH_PASSWORD_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(USER_DO_NOT_MATCH_PASSWORD_ERROR))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(USER_DO_NOT_MATCH_PASSWORD_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(USER_DO_NOT_MATCH_PASSWORD_ERROR))
                     .setErrorCode(USER_DO_NOT_MATCH_PASSWORD_ERROR.code())
                     .setErrorField("confirmPassword"));
         }
@@ -121,8 +121,8 @@ public class PamirsUserDataChecker {
         if (userTransient.getBroken() || null == rUser) return;
         //如果是初始化密码，用初始化密码比较
         if (!PasswordEncoder.matches(userTransient.getRawPassword(), null == rUser.getPassword() ? rUser.getInitialPassword() : rUser.getPassword())) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(USER_OLD_NEW_PASSWORD_RAW_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(USER_OLD_NEW_PASSWORD_RAW_ERROR))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(USER_OLD_NEW_PASSWORD_RAW_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(USER_OLD_NEW_PASSWORD_RAW_ERROR))
                     .setErrorCode(USER_OLD_NEW_PASSWORD_RAW_ERROR.code())
                     .setErrorField("rawPassword"));
         }
@@ -138,8 +138,8 @@ public class PamirsUserDataChecker {
         if (!UserBehaviorEventEnum.SIGN_UP_PHONE.equals(userTransient.getUserBehaviorEvent())) return;
         UserPatternCheckApi checkApi = Spider.getLoader(UserPatternCheckApi.class).getDefaultExtension();
         if (StringUtils.isBlank(userTransient.getEmail()) || !checkApi.checkEmail(userTransient.getEmail())) {
-            log.error("{}", CommonI18nUtils.translateErrorDefinitionMsg(USER_EMAIL_NOT_EXISTED_ERROR));
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(USER_EMAIL_NOT_EXISTED_ERROR))
+            log.error("{}", CommonI18nUtils.translateErrorDefinition(USER_EMAIL_NOT_EXISTED_ERROR));
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(USER_EMAIL_NOT_EXISTED_ERROR))
                     .setErrorCode(USER_EMAIL_NOT_EXISTED_ERROR.code())
                     .setErrorField("email"));
         }
@@ -155,7 +155,7 @@ public class PamirsUserDataChecker {
             return;
         }
         if (!BeanDefinitionUtils.getBean(PasswordService.class).checkUserPassword(resourceUser.getId(), userTransient.getPassword())) {
-            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinitionMsg(USER_USERNAME_OR_PASSWORD_ERROR))
+            broken(userTransient.setErrorMsg(CommonI18nUtils.translateErrorDefinition(USER_USERNAME_OR_PASSWORD_ERROR))
                     .setErrorCode(USER_USERNAME_OR_PASSWORD_ERROR.code())
                     .setErrorField(UserConstant.FIELD_PASSWORD));
         }
