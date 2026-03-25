@@ -2,6 +2,7 @@ package pro.shushi.pamirs.core.common;
 
 import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
+import pro.shushi.pamirs.meta.common.enmu.IEnum;
 
 /**
  * common i18n utils
@@ -14,7 +15,11 @@ public class CommonI18nUtils {
         // reject create object
     }
 
-    public static String translateErrorDefinitionMsg(ExpBaseEnum expEnum) {
+    public static String translateDataDictionaryItem(String module, String dictionary, IEnum<?> iEnum) {
+        return I18nUtils.translateDataDictionaryItem(module, dictionary, iEnum.name(), "displayName", iEnum.displayName());
+    }
+
+    public static String translateErrorDefinition(ExpBaseEnum expEnum) {
         return I18nUtils.translateErrorDefinitionItem(expEnum.getClass().getName(), expEnum.name(), "msg", expEnum.msg());
     }
 }
