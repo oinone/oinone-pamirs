@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.apps.api.enmu;
 
+import pro.shushi.pamirs.meta.annotation.Errors;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
 
@@ -8,6 +9,7 @@ import pro.shushi.pamirs.meta.common.enmu.ExpBaseEnum;
  * @date 2019-08-17
  */
 @Base
+@Errors(displayName = "Apps异常枚举")
 public enum AppsExpEnumerate implements ExpBaseEnum {
 
     SYSTEM_ERROR(ERROR_TYPE.SYSTEM_ERROR, 10040000, "系统异常"),
