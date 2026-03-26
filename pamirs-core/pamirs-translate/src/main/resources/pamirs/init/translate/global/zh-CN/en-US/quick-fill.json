@@ -1,0 +1,19 @@
+{
+  "添加一行": "Add Row",
+  "快速填报": "Quick Fill",
+  "上一步": "Previous Step",
+  "继续填报": "Continue Filling",
+  "编辑已有": "Edit Existing",
+  "不粘贴": "Do not paste",
+  "支持将 Excel 内容粘贴至本表格，粘贴后内容将自动追加至表格末尾": "Supports pasting Excel content into this table; the pasted content will be automatically appended to the end of the table",
+  "系统已自动隐藏不支持粘贴的字段列": "The system has automatically hidden field columns that do not support pasting",
+  "可在当前页面调整字段与数据的对应关系，确认后数据将追加至对应列中": "You can adjust the correspondence between fields and data on the current page; after confirmation, the data will be appended to the corresponding columns",
+  "支持将 Excel 内容粘贴至本表格": "Supports pasting Excel content into this table",
+  "执行粘贴操作时，系统将自动跳过不可编辑的字段列，请注意核对字段的排列顺序": "When pasting, the system will automatically skip uneditable field columns. Please check the order of the fields.",
+  "以下数据不符合规则，请修改后继续": "The following data does not meet the rules, please modify it before continuing",
+  "确认要切换为编辑已有数据吗?": "Are you sure you want to switch to editing existing data?",
+  "确认要切换为新增数据吗?": "Are you sure you want to switch to adding new data?",
+  "切换后，本页数据将丢失，请确认后再继续": "After switching, the data on this page will be lost. Please confirm before continuing.",
+  "本页数据将丢失，请确认后再继续": "The data on this page will be lost. Please confirm before continuing.",
+  "确认关闭?": "Are you sure you want to close?"
+}

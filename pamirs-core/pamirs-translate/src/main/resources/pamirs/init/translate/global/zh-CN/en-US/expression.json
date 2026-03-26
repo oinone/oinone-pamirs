@@ -1,0 +1,16 @@
+{
+  "数据类型": "Data Type",
+  "最多只能选${maxVariableNum}个字段": "A maximum of ${maxVariableNum} fields can be selected",
+  "请选择变量": "Please select a variable",
+  "请选择表达式": "Please select an expression",
+  "请选择选项": "Please select an option",
+  "请选择上下文": "Please select context",
+  "请选择字段": "Please select a field",
+  "请选择固定值": "Please select a fixed value",
+  "请输入变量": "Please enter a variable",
+  "请输入表达式": "Please enter an expression",
+  "请输入选项": "Please enter an option",
+  "请输入上下文": "Please enter context",
+  "请输入字段": "Please enter a field",
+  "请输入固定值": "Please enter a fixed value"
+}
