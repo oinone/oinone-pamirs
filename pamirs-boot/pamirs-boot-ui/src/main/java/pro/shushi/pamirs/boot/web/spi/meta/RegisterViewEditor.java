@@ -827,7 +827,7 @@ public class RegisterViewEditor implements MetaDataEditor {
                     if (newGroup) {
                         uiGroup.setTitle(uiWidget.getNewGroup());
                     } else {
-                        uiGroup.setTitle(Optional.ofNullable(uiView.getDefaultGroup()).orElse(GroupConstants.DEFAULT_TITLE));
+                        uiGroup.setTitle(Optional.ofNullable(uiView.getDefaultGroup()).orElse(I18nUtils.getMessage(GroupConstants.DEFAULT_TITLE)));
                     }
                     if (depth > 1) {
                         uiGroup.setBorder(false);

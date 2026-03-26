@@ -12,5 +12,8 @@
   "编辑": "Edit",
   "删除": "Delete",
   "启用": "Enable",
-  "禁用": "Disable"
+  "禁用": "Disable",
+  "搜索": "Search",
+  "移除": "Remove",
+  "发布": "Publish"
 }

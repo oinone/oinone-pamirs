@@ -365,5 +365,8 @@
   "展示回退路线": "Show Rollback Route",
   "服务器正忙，请稍后再试": "Server is busy, please try again later",
   "全部记录": "All Records",
-  "仅显示发布过的记录": "Show Only Published Records"
+  "仅显示发布过的记录": "Show Only Published Records",
+  "电话": "Phone",
+  "批量刷新视图数据": "Batch refresh view data",
+  "批量刷新视图数据可能引发数据权限异常，请确认执行此操作": "Batch refreshing view data may cause data permission anomalies. Please confirm this action."
 }

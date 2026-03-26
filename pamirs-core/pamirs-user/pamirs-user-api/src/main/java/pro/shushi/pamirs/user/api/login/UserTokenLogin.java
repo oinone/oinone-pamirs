@@ -71,7 +71,7 @@ public abstract class UserTokenLogin<T extends IdModel> implements IUserLogin<T>
                             .filter(ObjectUtils::isNotEmpty)
                             .map(_langId -> new ResourceLang().<ResourceLang>queryById(_langId))
                             .map(ResourceLang::getCode)
-                            .orElse(TranslateServiceHolder.get().getCurrentLang());
+                            .orElse(TranslateServiceHolder.get().getDefaultLang());
                     return new PamirsUserDTO().setLogin(user.getLogin()).setUserName(user.getName()).setEmail(user.getEmail())
                             .setUserCode(user.getCode()).setPhone(user.getPhone()).setUserId(userId)
                             .setLangCode(langCode);

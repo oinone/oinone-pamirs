@@ -10,6 +10,6 @@ package pro.shushi.pamirs.boot.web.constants;
  */
 public interface GroupConstants {
 
-    String DEFAULT_TITLE = "基础信息";
+    String DEFAULT_TITLE = "pamirs.boot.GroupConstants.DEFAULT_TITLE";
 
 }
