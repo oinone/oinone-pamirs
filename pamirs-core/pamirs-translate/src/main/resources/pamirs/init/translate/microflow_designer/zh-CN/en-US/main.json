@@ -39,7 +39,6 @@
   "向上级数": "Levels Up",
   "启用自动审批": "Enable Auto Approval",
   "回复邮箱": "Reply Email",
-  "填写人": "Filler",
   "填写即将截止，请您尽快处理": "Filling deadline is approaching, please process ASAP",
   "填写开始前执行函数": "Execute Function Before Filling Starts",
   "填写截止": "Fill In Deadline",
@@ -56,7 +55,6 @@
   "子微流执行完毕后，再开始下一节点": "Start next node after Sub-Microflow finishes",
   "子微流执行方式": "Sub-Microflow Execution Method",
   "子节点设置": "Sub-node Settings",
-  "审批人": "Approver",
   "审批人为空时": "When Approver is Empty",
   "审批人数据节点": "Approver Data Node",
   "审批人高级设置": "Approver Advanced Settings",
@@ -209,7 +207,6 @@
   "数据节点": "Data Node",
   "选择函数": "Select Function",
   "站内信": "Internal Message",
-  "接收人": "Recipient",
   "所有公司": "All Companies",
   "电话": "Phone",
   "继续添加": "Add More",
@@ -218,5 +215,6 @@
   "输入通知接收人手机号，回车保存": "Enter recipient phone number for notification, press Enter to save",
   "节点说明": "Node Description",
   "添加节点说明": "Add Node Description",
-  "取消": "Cancel"
+  "配置微流参数，作为临时字段，可以存放某个字段值，或计算结果，或接收其他微流中传过来的值；": "Configure microflow parameters as temporary fields to store field values, calculation results, or values passed from other microflows;",
+  "参数名称规则：参数名称必须以字母开头，支持输入数字和下划线，不支持输入汉字": "Parameter name rule: must start with a letter, support numbers and underscores, Chinese characters are not allowed"
 }

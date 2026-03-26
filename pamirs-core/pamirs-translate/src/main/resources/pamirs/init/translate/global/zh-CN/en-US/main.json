@@ -1425,7 +1425,6 @@
   "请输入名称": "Please enter a name",
   "页面背景": "Page Background",
   "帮助文档": "Help Documents",
-  "确 定": "Confirm",
   "浅色": "Light color",
   "不能输入超过最小安全值的数": "Cannot enter a number that exceeds the minimum safe value",
   "序号": "Serial number",
@@ -1874,5 +1873,6 @@
   "表单数据补充": "Form Data Supplement",
   "对话消息": "Conversation Message",
   "六月": "June",
-  "上午/下午": "AM/PM"
+  "上午/下午": "AM/PM",
+  "后端服务可能未启动或者正在启动中，请检查后端服务状态。": "The backend service may not be started or is starting up. Please check the backend service status."
 }
