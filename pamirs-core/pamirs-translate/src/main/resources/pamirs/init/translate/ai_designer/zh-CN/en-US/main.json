@@ -477,10 +477,6 @@
   "视图类型": "View Type",
   "请选择视图类型": "Please select view type",
   "输入视图名称搜索": "Enter view name to search",
-  "表格": "Table",
-  "表单": "Form",
-  "详情": "Detail",
-  "画廊": "Gallery",
   "所属应用": "Belonging Application",
   "关联模型": "Associated Model",
   "视图名称": "View Name",
@@ -501,7 +497,10 @@
   "当前没有元数据": "No metadata currently",
   "使用「新增元数据」添加第一条元数据": "Use \"Add Metadata\" to add the first metadata",
   "从左侧选择一个元数据以查看详情": "Select a metadata from the left to view details",
-  "${value.lines}行": "${value.lines} lines",
+  "${value}行": "${value} lines",
   "请输入人设与回复逻辑（提示词）": "Please enter character setting and reply logic (prompt)",
-  "参数说明": "Parameter Description"
+  "参数说明": "Parameter Description",
+  "${value}个工具": "${value} tools",
+  "未设置任何角色时，所有用户可访问；设置后，仅限绑定下方角色的用户访问。": "When no roles are set, all users can access; when set, only users bound to the following roles can access.",
+  "未指定时，默认在应用侧不可见。指定后，将取按类型和指定视图的集合发布。": "When not specified, it is invisible on the application side by default. Once specified, the collection will be published according to the type and the specified views."
 }
