@@ -1,14 +1,10 @@
 package pro.shushi.pamirs.apps.api.enmu;
 
-import org.apache.commons.collections4.CollectionUtils;
-import pro.shushi.pamirs.boot.web.spi.api.TranslateService;
-import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
+import pro.shushi.pamirs.apps.AppsModule;
+import pro.shushi.pamirs.core.common.CommonI18nUtils;
 import pro.shushi.pamirs.meta.annotation.Dict;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
-import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.enmu.IEnum;
-import pro.shushi.pamirs.meta.domain.model.DataDictionary;
-import pro.shushi.pamirs.meta.domain.model.DataDictionaryItem;
 
 /**
  * @author shier
@@ -71,7 +67,6 @@ public enum TechniqueViConstantEnum implements IEnum<Integer> {
         this.help = help;
     }
 
-
     public int getValue() {
         return value;
     }
@@ -81,13 +76,7 @@ public enum TechniqueViConstantEnum implements IEnum<Integer> {
     }
 
     public String getTranslate() {
-        TranslateService translateService = TranslateServiceHolder.get();
-        DataDictionary dictionary = PamirsSession.getContext().getDictionary(TechniqueViConstantEnum.DICTIONARY);
-        dictionary = translateService.translateDictionary(dictionary);
-        if (dictionary != null && CollectionUtils.isNotEmpty(dictionary.getOptions())) {
-            return dictionary.getOptions().stream().filter(t -> t.getValue().equals(String.valueOf(value))).findFirst().map(DataDictionaryItem::getDisplayName).orElse(displayName);
-        }
-        return displayName;
+        return CommonI18nUtils.translateDataDictionaryItem(AppsModule.MODULE_MODULE, DICTIONARY, this);
     }
 
     public String getHelp() {
