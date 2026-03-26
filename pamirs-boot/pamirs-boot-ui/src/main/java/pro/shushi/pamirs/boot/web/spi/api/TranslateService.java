@@ -165,7 +165,6 @@ public interface TranslateService {
         translateMenus(getCurrentLang(), menus);
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
     /**
      * 翻译窗口动作元数据
      *
@@ -243,7 +242,6 @@ public interface TranslateService {
         translateServerActions(getCurrentLang(), serverActions);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////
     /**
      * 翻译客户端动作元数据
      *
@@ -320,7 +318,6 @@ public interface TranslateService {
     default <T extends UrlAction> void translateUrlActions(List<T> urlActions) {
         translateUrlActions(getCurrentLang(), urlActions);
     }
-    ////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * 翻译视图元数据
@@ -341,7 +338,6 @@ public interface TranslateService {
         translateViews(getCurrentLang(), Collections.singletonList(view));
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
     /**
      * 翻译枚举字典元数据
      *
@@ -383,7 +379,6 @@ public interface TranslateService {
         translateDictionaries(getCurrentLang(), dictionaries);
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * 翻译视图元数据

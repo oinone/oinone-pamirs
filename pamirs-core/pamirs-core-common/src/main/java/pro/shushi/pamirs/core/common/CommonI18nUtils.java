@@ -15,6 +15,10 @@ public class CommonI18nUtils {
         // reject create object
     }
 
+    public static String translateModel(String module, String modelModel, String defaultMessage) {
+        return I18nUtils.translateModel(module, modelModel, "displayName", defaultMessage);
+    }
+
     public static String translateDataDictionaryItem(String module, String dictionary, IEnum<?> iEnum) {
         return I18nUtils.translateDataDictionaryItem(module, dictionary, iEnum.name(), "displayName", iEnum.displayName());
     }
