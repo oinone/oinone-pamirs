@@ -76,7 +76,7 @@ public class TopBarLangTransientAction {
         String sessionId = PamirsSession.getSessionApi().getSessionId();
         PamirsUserDTO user = UserCache.get(sessionId);
         if (user != null) {
-            String langCode = Optional.ofNullable(pamirsUser.getLang()).map(ResourceLang::getCode).orElse(TranslateServiceHolder.get().getCurrentLang());
+            String langCode = Optional.ofNullable(pamirsUser.getLang()).map(ResourceLang::getCode).orElse(TranslateServiceHolder.get().getDefaultLang());
             PamirsSession.setLang(langCode);
             user.setLangCode(langCode);
             String cacheKey = UserCache.parseSessionId(sessionId);

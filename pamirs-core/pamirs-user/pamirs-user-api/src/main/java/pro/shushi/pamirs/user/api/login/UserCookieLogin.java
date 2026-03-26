@@ -88,7 +88,7 @@ public abstract class UserCookieLogin<T extends IdModel> implements IUserLogin<T
                 .map(Long::parseLong)
                 .map(_langId -> new ResourceLang().<ResourceLang>queryById(_langId))
                 .map(_lang -> _lang.getCode())
-                .orElse(TranslateServiceHolder.get().getCurrentLang());
+                .orElse(TranslateServiceHolder.get().getDefaultLang());
         PamirsUserDTO pamirsUserDTO = new PamirsUserDTO().setLogin(login).setUserName(userName).setPhone(phone)
                 .setUserCode(userCode).setEmail(email).setUserId(Long.valueOf(userId))
                 .setLangCode(langCode);
