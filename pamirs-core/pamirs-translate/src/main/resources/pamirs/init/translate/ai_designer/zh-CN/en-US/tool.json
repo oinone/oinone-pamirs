@@ -1,0 +1,6 @@
+{
+  "${value}个工具": "${value} tools",
+  "已选择${value}项工具": "Selected ${value} tools",
+  "已添加工具": "Added tools",
+  "已删除工具": "Deleted tools"
+}
