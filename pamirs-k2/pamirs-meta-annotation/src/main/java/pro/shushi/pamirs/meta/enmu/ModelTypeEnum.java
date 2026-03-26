@@ -12,13 +12,15 @@ import pro.shushi.pamirs.meta.common.enmu.IEnum;
  * date 2020/2/23 5:53 下午
  */
 @Base
-@Dict(dictionary = "base.ModelType", displayName = "模型类型")
+@Dict(dictionary = ModelTypeEnum.DICTIONARY, displayName = "模型类型")
 public enum ModelTypeEnum implements IEnum<String> {
 
     STORE("store", "存储模型", "存储模型"),
     TRANSIENT("transient", "传输模型", "传输模型"),
     ABSTRACT("abstract", "抽象模型", "抽象模型"),
     PROXY("proxy", "代理模型", "代理模型");
+
+    public static final String DICTIONARY = "base.ModelType";
 
     private final String value;
 
