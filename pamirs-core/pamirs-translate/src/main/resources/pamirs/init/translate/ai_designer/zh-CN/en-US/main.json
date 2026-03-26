@@ -497,5 +497,11 @@
   "执行失败：GraphQL error：校验失败，数据错误": "Execution failed: GraphQL error: Validation failed, data error",
   "请输入 MCP 地址": "Please enter MCP address",
   "输入 MCP 地址，支持": "Enter MCP address, supports",
-  "保存失败：请至少添加一个工具或函数": "Save failed: Please add at least one tool or function"
+  "保存失败：请至少添加一个工具或函数": "Save failed: Please add at least one tool or function",
+  "当前没有元数据": "No metadata currently",
+  "使用「新增元数据」添加第一条元数据": "Use \"Add Metadata\" to add the first metadata",
+  "从左侧选择一个元数据以查看详情": "Select a metadata from the left to view details",
+  "${value.lines}行": "${value.lines} lines",
+  "请输入人设与回复逻辑（提示词）": "Please enter character setting and reply logic (prompt)",
+  "参数说明": "Parameter Description"
 }

@@ -1874,5 +1874,6 @@
   "对话消息": "Conversation Message",
   "六月": "June",
   "上午/下午": "AM/PM",
-  "后端服务可能未启动或者正在启动中，请检查后端服务状态。": "The backend service may not be started or is starting up. Please check the backend service status."
+  "后端服务可能未启动或者正在启动中，请检查后端服务状态。": "The backend service may not be started or is starting up. Please check the backend service status.",
+  "我是有底线的": "I have a bottom line"
 }
