@@ -972,6 +972,7 @@
   "存在引用关系的视图、存在引用关系的菜单": "Views with Reference Relationships, Menus with Reference Relationships",
   "是否浮动操作栏": "Floating Action Bar Enabled",
   "重新生成默认视图": "Regenerate Default View",
+  "默认视图": "Default View",
   "涵盖平台内置的通用组件与用户自定义组件": "Covers Platform-built-in General Components and User-defined Components",
   "当前页面所绑定模型中所包含的相关组件，当选中 “表格组件” 时会自动切换为表格所关联的模型": "Relevant components contained in the model bound to the current page. When \"Table Component\" is selected, it will automatically switch to the model associated with the table",
   "配置字段类组件时，若模型中已经存在，绑定原字段并展示组件为当前组件。如果不存在则为模型新增字段并与当前组件绑定": "When configuring field-type components, if the field already exists in the model, bind the original field and display the component as the current component. If it does not exist, add a new field to the model and bind it to the current component",
