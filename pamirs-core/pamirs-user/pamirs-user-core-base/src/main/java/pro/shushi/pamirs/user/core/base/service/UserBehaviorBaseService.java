@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.user.core.base.service;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ObjectUtils;
 import pro.shushi.pamirs.auth.api.cache.PermissionCache;
@@ -324,7 +325,7 @@ public abstract class UserBehaviorBaseService {
         logoutByCookie(user, Boolean.TRUE);
         PamirsSession.getMessageHub()
                 .msg(Message.init().setLevel(InformationLevelEnum.SUCCESS)
-                        .setMessage("修改密码成功"));
+                        .setMessage(I18nUtils.getMessage("pamirs-user-core-base.UserBehaviorBaseService.passwordChangedSuccessfully")));
         return success(user);
     }
 
@@ -333,7 +334,7 @@ public abstract class UserBehaviorBaseService {
         logoutByCookie(user, Boolean.TRUE);
         PamirsSession.getMessageHub()
                 .msg(Message.init().setLevel(InformationLevelEnum.SUCCESS)
-                        .setMessage("修改密码成功"));
+                        .setMessage(I18nUtils.getMessage("pamirs-user-core-base.UserBehaviorBaseService.passwordChangedSuccessfully")));
         return success(user);
     }
 
@@ -341,7 +342,7 @@ public abstract class UserBehaviorBaseService {
         Spider.getLoader(PasswordBehaviorService.class).getOrderedExtensions().get(0).firstResetPassword(user);
         PamirsSession.getMessageHub()
                 .msg(Message.init().setLevel(InformationLevelEnum.SUCCESS)
-                        .setMessage("修改初始密码成功"));
+                        .setMessage(I18nUtils.getMessage("pamirs-user-core-base.UserBehaviorBaseService.initialPasswordChangedSuccessf")));
         user.setRedirect(UserLoginHelper.getRedirectMenu());
         return success(user);
     }
