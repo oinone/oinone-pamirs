@@ -415,7 +415,7 @@
       },
       "roleCodes" : {
         "summary" : "Role Code",
-        "displayName" : "Character Encoding"
+        "displayName" : "Role Encoding"
       },
       "userDeptAndChildren" : {
         "summary" : "Employees in Current User Department and Sub-departments",
@@ -561,7 +561,7 @@
         "displayName" : "Department name list"
       },
       "roleCodes" : {
-        "displayName" : "Character Encoding List"
+        "displayName" : "Role Encoding List"
       },
       "departmentCodeList" : {
         "displayName" : "Department Code List"

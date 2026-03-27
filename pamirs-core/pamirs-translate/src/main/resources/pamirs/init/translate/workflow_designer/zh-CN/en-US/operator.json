@@ -1,0 +1,3 @@
+{
+  "剪切审批节点会删除其下的审批分支；剪切条件/并行分支后若仅剩一条，该分支将被删除。": "Cutting an approval node will delete its underlying approval branches; if only one condition/parallel branch remains after cutting, that branch will be deleted."
+}

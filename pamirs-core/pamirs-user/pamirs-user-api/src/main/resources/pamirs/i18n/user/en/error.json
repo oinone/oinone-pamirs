@@ -130,7 +130,7 @@
     "USER_USERNAME_OR_PASSWORD_ERROR" : "Incorrect username or password",
     "USER_PHONE_OR_VERIFICATION_CODE_ERROR" : "Incorrect phone number or verification code",
     "USER_EMAIL_OR_VERIFICATION_CODE_ERROR" : "Email or verification code is incorrect",
-    "INVALID_ROLE_CODE" : "Character encoding is invalid",
+    "INVALID_ROLE_CODE" : "Role encoding is invalid",
     "NAME_CANNOT_BE_EMPTY" : "Name cannot be empty",
     "INVALID_ROLE_CODE_EXCEPTION" : "{} Invalid role code, please modify it and re-import it."
   }

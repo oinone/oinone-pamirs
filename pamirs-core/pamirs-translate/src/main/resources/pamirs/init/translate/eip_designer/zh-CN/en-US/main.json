@@ -211,7 +211,6 @@
   "错误描述": "Error description",
   "由Oinone官方提供": "Officially provided by Oinone",
   "参数名称规则：参数名称必须以字母开头，支持输入数字和下划线，不支持输入汉字": "Parameter name rule: Parameter names must start with a letter, support inputting numbers and underscores, and do not support inputting Chinese characters",
-  "单个文件大小不允许超过1MB": "Single file size cannot exceed 1MB",
   "该节点未运行，暂无日志记录": "This node is not running and currently has no logging",
   "请输入应用名称": "Please enter an application name",
   "数据传输加密密钥类型": "Data transmission encryption key type",

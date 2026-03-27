@@ -318,7 +318,6 @@
   "下拉单选，可选项为：存储模型、传输模型、抽象模型、代理模型": "Drop-down radio selection, available options are: storage model, transmission model, abstract model, proxy model",
   "编码描述": "encoding description",
   "不继承字段": "Do not inherit fields",
-  "支持扩展名": "Support extension",
   "传输模型": "Transmission model",
   "编辑模型": "Edit model",
   "可见性": "visibility",

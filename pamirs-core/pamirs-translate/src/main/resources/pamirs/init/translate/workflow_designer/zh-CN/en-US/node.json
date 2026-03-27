@@ -10,5 +10,8 @@
   "添加转交人": "Add Transfer User",
   "添加填写人": "Add Filler",
   "添加审批人": "Add Approver",
-  "添加接收人": "Add Recipient"
+  "添加接收人": "Add Recipient",
+  "当前节点与上一节点人重复时，默认同意": "Default agree if current node handler duplicates previous node",
+  "当前节点与历史节点人重复，默认同意": "Default agree if current node handler duplicates historical node",
+  "当前节点与发起人重复时，默认同意": "Default agree if current node handler duplicates initiator"
 }
