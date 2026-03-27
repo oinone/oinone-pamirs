@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.framework.connectors.data.elastic.rest;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.SortOptions;
@@ -122,14 +123,14 @@ public class ElasticRestSearchApi implements ElasticSearchApi {
             PamirsSession.getMessageHub()
                     .msg(Message.init()
                             .setLevel(InformationLevelEnum.WARN)
-                            .msg("索引异常"));
+                            .msg(I18nUtils.getMessage("pamirs-connectors-data-elastic-rest.ElasticRestSearchApi.indexException")));
             return page;
         } catch (IOException e) {
             log.error("ElasticSearch runtime status exception", e);
             PamirsSession.getMessageHub()
                     .msg(Message.init()
                             .setLevel(InformationLevelEnum.WARN)
-                            .msg("ElasticSearch运行状态异常"));
+                            .msg(I18nUtils.getMessage("pamirs-connectors-data-elastic-rest.ElasticRestSearchApi.elasticsearchIsOperatingAbnorm")));
             return page;
         }
 
