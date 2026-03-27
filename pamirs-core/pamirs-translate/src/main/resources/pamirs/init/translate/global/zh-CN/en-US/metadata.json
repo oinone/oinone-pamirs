@@ -9,5 +9,17 @@
   "表单视图": "Form View",
   "详情视图": "Detail View",
   "画廊视图": "Gallery View",
-  "树视图": "Tree View"
+  "树视图": "Tree View",
+  "模块": "Module",
+  "模型": "Model",
+  "函数": "Function",
+  "动作": "Action",
+  "提交动作": "Server Action",
+  "跳转动作": "View Action",
+  "链接动作": "URL Action",
+  "客户端动作": "Client Action",
+  "页面": "View",
+  "菜单": "Menu",
+  "组件": "Component",
+  "元件": "Component Instance"
 }

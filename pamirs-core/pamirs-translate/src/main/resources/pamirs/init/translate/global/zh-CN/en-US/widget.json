@@ -1,3 +1,12 @@
 {
-  "全部员工": "All Employee"
+  "全部员工": "All Employee",
+  "所有角色": "All Roles",
+  "选项卡": "Tabs",
+  "选项页": "Tab",
+  "根据图标名称、fontClass查询": "Search by icon name, fontClass",
+  "不支持上传${contentType}格式的文件: ${filename}": "Uploading files in ${contentType} format is not supported: ${filename}",
+  "单个文件大小不允许超过${limitSize}MB": "Single file size cannot exceed ${limitSize}MB",
+  "点击 或 拖拽文件到这里上传": "Click or drag files here to upload",
+  "支持扩展名: ${fileExtensions}": "Support extensions: ${fileExtensions}",
+  "支持扩展名": "Support extensions"
 }
