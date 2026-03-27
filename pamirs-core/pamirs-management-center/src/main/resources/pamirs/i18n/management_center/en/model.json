@@ -2,11 +2,11 @@
   "managementCenter.RoleUserManager" : {
     "base.Field" : {
       "roleId" : {
-        "displayName" : "Character ID",
+        "displayName" : "Role ID",
         "summary" : "Role ID"
       },
       "roleName" : {
-        "displayName" : "Character Name",
+        "displayName" : "Role Name",
         "summary" : "Role Name"
       },
       "users" : {
@@ -23,7 +23,7 @@
         "summary" : "User List"
       },
       "roles" : {
-        "displayName" : "Character List",
+        "displayName" : "Role List",
         "summary" : "Role List"
       }
     },

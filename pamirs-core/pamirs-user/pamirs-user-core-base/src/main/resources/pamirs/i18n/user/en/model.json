@@ -55,7 +55,7 @@
   "user.PamirsUserProxy" : {
     "base.Field" : {
       "roleCode" : {
-        "displayName" : "Character Encoding",
+        "displayName" : "Role Encoding",
         "summary" : "Role Code"
       },
       "avatarBig" : {
@@ -132,7 +132,7 @@
       },
       "roles" : {
         "summary" : "Role",
-        "displayName" : "Character"
+        "displayName" : "Role"
       },
       "source" : {
         "summary" : "User Source",

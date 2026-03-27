@@ -1,6 +1,6 @@
 {
   "auth.RoleQueryFilter" : {
-    "displayName" : "Character Query Condition Model",
+    "displayName" : "Role Query Condition Model",
     "base.Field" : {
       "rsql" : {
         "summary" : "RSQL Filter Condition",
@@ -8,7 +8,7 @@
       },
       "roleCodes" : {
         "summary" : "Role Code",
-        "displayName" : "Character Encoding"
+        "displayName" : "Role Encoding"
       },
       "userRole" : {
         "summary" : "Current User Bound Role",
@@ -27,7 +27,7 @@
       },
       "role" : {
         "summary" : "Role",
-        "displayName" : "Character"
+        "displayName" : "Role"
       },
       "permissionSubtype" : {
         "displayName" : "Resource Permission Item Subtype"
@@ -151,7 +151,7 @@
     }
   },
   "auth.AuthRoleType" : {
-    "displayName" : "Character type",
+    "displayName" : "Role type",
     "base.Field" : {
       "code" : {
         "displayName" : "Type Code"

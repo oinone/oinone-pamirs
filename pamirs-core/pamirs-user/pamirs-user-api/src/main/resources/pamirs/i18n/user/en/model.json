@@ -141,7 +141,7 @@
         "summary" : "Register Date"
       },
       "roles" : {
-        "displayName" : "Character",
+        "displayName" : "Role",
         "summary" : "Role"
       },
       "signUpType" : {
@@ -198,7 +198,7 @@
   "user.PamirsUserRoleTransient" : {
     "base.Field" : {
       "roleList" : {
-        "displayName" : "Character List",
+        "displayName" : "Role List",
         "summary" : "Role List"
       },
       "userList" : {

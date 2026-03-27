@@ -60,7 +60,7 @@
     "USER_PARAM_LOGIN_ERROR" : "Login account verification failed. Rule: The account only supports a combination of numbers, letters, and underscores.@-, and does not support other characters. The account length should be 1-35 characters.",
     "MAIN_DEPARTMENT_NOT_FOUND_EXCEPTION" : "The main department does not exist",
     "DEPARTMENT_NOT_FOUND_EXCEPTION" : "The department does not exist {}",
-    "ROLE_NOT_FOUND_EXCEPTION" : "Character does not exist {}",
+    "ROLE_NOT_FOUND_EXCEPTION" : "Role does not exist {}",
     "DEPARTMENT_CODE_NOT_EMPTY_EXCEPTION" : "Department code cannot be empty",
     "DIRECT_POSITION_NOT_FOUND_EXCEPTION" : "Direct position code does not exist",
     "DEPARTMENT_CODE_NOT_FOUND_EXCEPTION" : "The department code does not exist",

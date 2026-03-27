@@ -22,7 +22,7 @@
       },
       "roles" : {
         "summary" : "Role",
-        "displayName" : "Character"
+        "displayName" : "Role"
       },
       "state" : {
         "summary" : "State",

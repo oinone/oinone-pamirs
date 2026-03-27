@@ -114,8 +114,8 @@
       "help": "URL Action"
     },
     "CLIENT_ACTION": {
-      "displayName": "Client-side action",
-      "help": "Client-side action"
+      "displayName": "Client Action",
+      "help": "Client Action"
     },
     "FUNCTION": {
       "displayName": "function",

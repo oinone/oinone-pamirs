@@ -386,8 +386,8 @@
       "help": "Window action"
     },
     "CLIENT": {
-      "displayName": "Client-side action",
-      "help": "Client-side action"
+      "displayName": "Client Action",
+      "help": "Client Action"
     },
     "COMPOSITION": {
       "displayName": "Combination move",

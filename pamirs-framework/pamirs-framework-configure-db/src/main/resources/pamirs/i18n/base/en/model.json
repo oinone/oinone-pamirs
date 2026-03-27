@@ -12,8 +12,8 @@
     "summary" : "Install Registry"
   },
   "static.DataDictionary" : {
-    "displayName" : "data dictionary",
-    "summary" : "data dictionary"
+    "displayName" : "Data Dictionary",
+    "summary" : "Data Dictionary"
   },
   "static.ModelField" : {
     "displayName" : "Field Definition",
