@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.framework.gateways.graph.java.utils;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -93,7 +94,7 @@ public class RequestHelper {
             log.warn("System starting up, please try again later...");
             Map<Object, Object> extMap = new HashMap<>();
             extMap.put("success", true);
-            extMap.put(ClientGraphQLError.MESSAGES, Collections.singletonList(Message.init().setMessage("系统启动中,稍后再试...")
+            extMap.put(ClientGraphQLError.MESSAGES, Collections.singletonList(Message.init().setMessage(I18nUtils.getMessage("pamirs-gateways-graph-java.RequestHelper.systemStartingPleaseTryAgainLa"))
                     .setLevel(InformationLevelEnum.WARN).setErrorType(null)));
             return result.setExtensions(extMap);
         }

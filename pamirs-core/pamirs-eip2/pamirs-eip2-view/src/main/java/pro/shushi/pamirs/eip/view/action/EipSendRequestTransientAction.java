@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.view.action;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,7 @@ public class EipSendRequestTransientAction {
         EipSendRequestTransient result = eipSendRequestTransientService
                 .sendEipRequest(eipInterface, eipParamMapping, data.getRequestData(), data.getModel());
         data.setResponseData(result.getResponseData());
-        PamirsSession.getMessageHub().success("成功");
+        PamirsSession.getMessageHub().success(I18nUtils.getMessage("pamirs-eip2-view.EipSendRequestTransientAction.success"));
         return data;
     }
 

@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.message.action;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -74,9 +75,9 @@ public class MessageEmailSourceAction {
         return data;
     }
 
-    private static final String MULTI_MSG_FORMAT = "邮件服务器已启用多个，将选择最新创建的作为发送方，邮件通过将[%s]服务器发送。";
-    private static final String NO_CONFIG_MSG = "当前没有已启用的服务器，邮件节点无法正常提供发送通知服务。";
-    private static final String SUCCESS_CONFIG_MSG = "邮件服务器配置成功";
+    private static final String MULTI_MSG_FORMAT = I18nUtils.getMessage("pamirs-message-core.MessageEmailSourceAction.moreThanOneMailServerIsEnabled");
+    private static final String NO_CONFIG_MSG = I18nUtils.getMessage("pamirs-message-core.MessageEmailSourceAction.theMailNodeCannotProvideTheNot");
+    private static final String SUCCESS_CONFIG_MSG = I18nUtils.getMessage("pamirs-message-core.MessageEmailSourceAction.emailServerConfiguredSuccessfu");
 
     private void prompt() {
         Long count = new EmailSenderSource().setType(MessageEngineTypeEnum.EMAIL_SEND).setActive(Boolean.TRUE).count();

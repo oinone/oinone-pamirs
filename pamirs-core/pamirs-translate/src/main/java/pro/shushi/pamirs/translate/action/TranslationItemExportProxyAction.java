@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.translate.action;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -63,7 +64,7 @@ public class TranslationItemExportProxyAction extends AbstractExcelExportTaskAct
                 .setWorkbookDefinition(new ExcelWorkbookDefinition().setName(TranslateTemplate.TEMPLATE_NAME).setModel(ResourceTranslation.MODEL_MODEL));
         super.createExportTask(excelExportTask);
 
-        PamirsSession.getMessageHub().msg(Message.init().setLevel(InformationLevelEnum.SUCCESS).setMessage("导出成功：文件导出成功，请至 文件模块/导出任务 查看已导出文件"));
+        PamirsSession.getMessageHub().msg(Message.init().setLevel(InformationLevelEnum.SUCCESS).setMessage(I18nUtils.getMessage("pamirs-translate.TranslationItemExportProxyAction.exportSuccessfulTheFileHasBeen")));
         return data;
     }
 

@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.core.common.standard.action.impl;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
@@ -51,11 +52,11 @@ public abstract class AbstractStandardModelAction<T extends BaseModel, S extends
         if (data == null) {
             PamirsSession.getMessageHub()
                     .msg(Message.init().setLevel(InformationLevelEnum.ERROR)
-                            .setMessage("创建失败"));
+                            .setMessage(I18nUtils.getMessage("pamirs-core-common.AbstractStandardModelAction.creationFailed")));
         } else {
             PamirsSession.getMessageHub()
                     .msg(Message.init().setLevel(InformationLevelEnum.SUCCESS)
-                            .setMessage("创建成功"));
+                            .setMessage(I18nUtils.getMessage("pamirs-core-common.AbstractStandardModelAction.createdSuccessfully")));
         }
         return data;
     }
@@ -70,11 +71,11 @@ public abstract class AbstractStandardModelAction<T extends BaseModel, S extends
         if (data == null) {
             PamirsSession.getMessageHub()
                     .msg(Message.init().setLevel(InformationLevelEnum.ERROR)
-                            .setMessage("更新失败"));
+                            .setMessage(I18nUtils.getMessage("pamirs-core-common.AbstractStandardModelAction.updateFailed")));
         } else {
             PamirsSession.getMessageHub()
                     .msg(Message.init().setLevel(InformationLevelEnum.SUCCESS)
-                            .setMessage("更新成功"));
+                            .setMessage(I18nUtils.getMessage("pamirs-core-common.AbstractStandardModelAction.updateSuccessful")));
         }
         return data;
     }
@@ -88,11 +89,11 @@ public abstract class AbstractStandardModelAction<T extends BaseModel, S extends
         if (total == deleteSize) {
             PamirsSession.getMessageHub()
                     .msg(Message.init().setLevel(InformationLevelEnum.SUCCESS)
-                            .setMessage("批量删除全部成功"));
+                            .setMessage(I18nUtils.getMessage("pamirs-core-common.AbstractStandardModelAction.batchDeletionOfAllSuccessful")));
         } else {
             PamirsSession.getMessageHub()
                     .msg(Message.init().setLevel(InformationLevelEnum.SUCCESS)
-                            .setMessage("批量删除部分成功。需删除" + total + "条记录，成功删除" + deleteSize + "条记录"));
+                            .setMessage(I18nUtils.getMessage("pamirs-core-common.AbstractStandardModelAction.batchDeleteSuccess", total, deleteSize)));
         }
         return list;
     }
@@ -104,11 +105,11 @@ public abstract class AbstractStandardModelAction<T extends BaseModel, S extends
         if (data == null) {
             PamirsSession.getMessageHub()
                     .msg(Message.init().setLevel(InformationLevelEnum.ERROR)
-                            .setMessage("删除失败"));
+                            .setMessage(I18nUtils.getMessage("pamirs-core-common.AbstractStandardModelAction.deletionFailed")));
         } else {
             PamirsSession.getMessageHub()
                     .msg(Message.init().setLevel(InformationLevelEnum.SUCCESS)
-                            .setMessage("删除成功"));
+                            .setMessage(I18nUtils.getMessage("pamirs-core-common.AbstractStandardModelAction.deletedSuccessfully")));
         }
         return data;
     }
@@ -129,7 +130,7 @@ public abstract class AbstractStandardModelAction<T extends BaseModel, S extends
         if (query == null) {
             PamirsSession.getMessageHub()
                     .msg(Message.init().setLevel(InformationLevelEnum.SUCCESS)
-                            .setMessage("查询记录不存在，请刷新页面后重试"));
+                            .setMessage(I18nUtils.getMessage("pamirs-core-common.AbstractStandardModelAction.theQueryRecordDoesNotExistPlea")));
         } else {
             queryAfterProperties(Collections.singletonList(query));
         }

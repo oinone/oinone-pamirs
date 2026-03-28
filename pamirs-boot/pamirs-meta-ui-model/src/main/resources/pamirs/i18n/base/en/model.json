@@ -216,7 +216,8 @@
         "displayName" : "Check code"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "createUid" : {
         "displayName" : "Creator ID"
@@ -320,7 +321,8 @@
         "displayName" : "Update Time"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "sign" : {
         "displayName" : "Metadata Signature"
@@ -465,7 +467,8 @@
         "displayName" : "Metadata Signature"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "sys" : {
         "displayName" : "System metadata",
@@ -761,7 +764,8 @@
         "displayName" : "Low no unified name"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "priority" : {
         "displayName" : "Priority"
@@ -988,7 +992,8 @@
         "displayName" : "Creation Time"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "attributes" : {
         "displayName" : "Attribute"
@@ -1249,7 +1254,8 @@
         "displayName" : "Creation Time"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "attributes" : {
         "displayName" : "Attribute"
@@ -1383,7 +1389,8 @@
         "summary" : "ID field, unique auto-increment index"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "sys" : {
         "displayName" : "System Metadata",
@@ -1494,7 +1501,8 @@
         "summary" : "ID field, unique auto-increment index"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "sys" : {
         "displayName" : "System metadata",
@@ -1848,7 +1856,8 @@
         "displayName" : "Updater ID"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "attributes" : {
         "displayName" : "Attribute"
@@ -1991,7 +2000,8 @@
         "displayName" : "Metadata Signature"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "createDate" : {
         "displayName" : "Creation Time"
@@ -2259,7 +2269,8 @@
         "displayName" : "Creator ID"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "attributes" : {
         "displayName" : "Attribute"
@@ -2376,7 +2387,8 @@
         "displayName" : "Attribute"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "hash" : {
         "displayName" : "Check code"
@@ -2415,7 +2427,8 @@
         "displayName" : "Update Time"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "sign" : {
         "displayName" : "Metadata Signature"
@@ -2650,7 +2663,8 @@
         "displayName" : "Check code"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "createDate" : {
         "displayName" : "Creation Time"
@@ -2882,7 +2896,8 @@
         "displayName" : "Creator ID"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "sys" : {
         "displayName" : "System metadata",
@@ -2964,7 +2979,8 @@
         "displayName" : "Updater ID"
       },
       "bitOptions" : {
-        "displayName" : "position"
+        "displayName" : "Bit",
+        "summary" : "Bit"
       },
       "writeDate" : {
         "displayName" : "Update Time"

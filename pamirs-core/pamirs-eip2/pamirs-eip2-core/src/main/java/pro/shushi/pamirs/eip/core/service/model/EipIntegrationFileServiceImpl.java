@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.core.service.model;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.exception.ExcelRuntimeException;
@@ -163,12 +164,12 @@ public class EipIntegrationFileServiceImpl implements EipIntegrationFileService 
                                 }
                                 String targetType = colErrorMsgList.get(0).getTargetType();
                                 TtypeEnum targetTtype = BaseEnum.getEnumByValue(TtypeEnum.class, targetType);
-                                String warnMsg = String.format("Sheet【%s】字段【%s】识别为【%s】失败：共 %s 条数据中有 %s 条格式不符合，已填充为 null",
+                                String warnMsg = String.format(I18nUtils.getMessage("pamirs-eip2-core.EipIntegrationFileServiceImpl.sheetSFieldSFailedToBeRecogniz"),
                                         sheetName,
                                         name, targetTtype != null ? targetTtype.displayName() : targetType,
                                         excelSheet.getData().size(), colErrorMsgList.size()
                                 );
-                                PamirsSession.getMessageHub().warn("字段识别异常提醒：\n" + warnMsg);
+                                PamirsSession.getMessageHub().warn(I18nUtils.getMessage("pamirs-eip2-core.EipIntegrationFileServiceImpl.fieldRecException", warnMsg));
                             });
                         });
                         convertErrorMessageHub.clear();

@@ -61,7 +61,7 @@ public interface TableDialectComponent {
         String deprecatedName = DdlUtils.fixIdentifyLength(tableName,
                 fetchMaxDbIdentifierLength() - DEPRECATED_TEMPLATE.length(), true);
         ddlList.add(DdlUtils.buildString("ALTER TABLE `", tableName, "` COMMENT '",
-                deprecatedTable.getTableComment(), "，!!废弃表';\n"));
+                deprecatedTable.getTableComment(), ",废弃表';\n"));
         ddlList.add(DdlUtils.buildString("RENAME TABLE `", tableName, "` TO `",
                 deprecated, deprecatedName, CharacterConstants.SEPARATOR_UNDERLINE + System.currentTimeMillis(), "`;\n"));
         return ddlList;

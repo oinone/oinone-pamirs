@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.framework.compute.process.common;
 
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.dto.common.Message;
 import pro.shushi.pamirs.meta.api.dto.common.Result;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
@@ -38,7 +39,7 @@ public class ComputeHelper {
             messageList.add(Message.init().setLevel(InformationLevelEnum.ERROR).setMessage(infoSupplier.get()));
             addMessageList(messageList, PamirsSession.getMessageHub().getErrorMessages());
             messageList.add(Message.init().setLevel(InformationLevelEnum.ERROR)
-                    .setMessage("以上错误请参考错误数据并对其进行修正。"));
+                    .setMessage(I18nUtils.getMessage("pamirs-framework-compute.ComputeHelper.pleaseReferToTheErrorDataAbove")));
         }
         result.addMessages(messageList);
         return result;
