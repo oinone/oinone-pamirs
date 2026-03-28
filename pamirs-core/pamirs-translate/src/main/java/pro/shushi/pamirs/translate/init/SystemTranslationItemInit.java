@@ -10,8 +10,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.core.common.CommonModule;
-import pro.shushi.pamirs.core.common.DataShardingHelper;
 import pro.shushi.pamirs.core.common.StringHelper;
+import pro.shushi.pamirs.core.common.cache.MemoryListSearchCache;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -26,7 +26,6 @@ import pro.shushi.pamirs.resource.api.model.ResourceTranslationItem;
 import pro.shushi.pamirs.translate.constant.TranslateConstants;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -60,15 +59,18 @@ public class SystemTranslationItemInit {
             log.error("translate init data resolve error.", e);
             return;
         }
-        Map<String, Map<TranslationItemKey, ResourceTranslationItem>> moduleTranslateItemsMap = new HashMap<>(32);
+        Map<String, Map<String, ResourceTranslationItem>> moduleTranslateItemsMap = new HashMap<>(32);
         for (Resource resource : resources) {
             collectionTranslateItems(moduleTranslateItemsMap, resource);
+        }
+        if (moduleTranslateItemsMap.isEmpty()) {
+            return;
         }
         fillModuleTranslateItems(moduleTranslateItemsMap);
         createNotExistItems(moduleTranslateItemsMap);
     }
 
-    private void collectionTranslateItems(Map<String, Map<TranslationItemKey, ResourceTranslationItem>> moduleTranslateItemsMap, Resource resource) {
+    private void collectionTranslateItems(Map<String, Map<String, ResourceTranslationItem>> moduleTranslateItemsMap, Resource resource) {
         Map<String, Object> map;
         try {
             String content = IOUtils.toString(resource.getInputStream(), String.valueOf(StandardCharsets.UTF_8));
@@ -98,11 +100,10 @@ public class SystemTranslationItemInit {
                 continue;
             }
             Object targetObject = entry.getValue();
-            if (!(targetObject instanceof String)) {
+            if (!(targetObject instanceof String target)) {
                 log.error("Invalid translate item target. module: {}, origin: {}", module, origin);
                 continue;
             }
-            String target = (String) targetObject;
             if (StringUtils.isBlank(target)) {
                 target = null;
             }
@@ -138,7 +139,7 @@ public class SystemTranslationItemInit {
         return config;
     }
 
-    private void fillModuleTranslateItems(Map<String, Map<TranslationItemKey, ResourceTranslationItem>> moduleTranslateItemsMap) {
+    private void fillModuleTranslateItems(Map<String, Map<String, ResourceTranslationItem>> moduleTranslateItemsMap) {
         LambdaQueryWrapper<ModuleDefinition> qw = Pops.<ModuleDefinition>lambdaQuery()
                 .from(ModuleDefinition.MODEL_MODEL)
                 .select(ModuleDefinition::getModule, ModuleDefinition::getDisplayName)
@@ -154,74 +155,63 @@ public class SystemTranslationItemInit {
         }
     }
 
-    private void createNotExistItems(Map<String, Map<TranslationItemKey, ResourceTranslationItem>> moduleTranslateItemsMap) {
-        if (MapUtils.isEmpty(moduleTranslateItemsMap)) {
-            return;
-        }
+    private void createNotExistItems(Map<String, Map<String, ResourceTranslationItem>> moduleTranslateItemsMap) {
+        List<ResourceTranslationItem> existTranslationItems = Models.origin().queryListByWrapper(Pops.<ResourceTranslationItem>lambdaQuery()
+                .from(ResourceTranslationItem.MODEL_MODEL)
+                .select(ResourceTranslationItem::getId,
+                        ResourceTranslationItem::getModule,
+                        ResourceTranslationItem::getScope,
+                        ResourceTranslationItem::getResLangCode,
+                        ResourceTranslationItem::getLangCode,
+                        ResourceTranslationItem::getOriginCode)
+                .in(ResourceTranslationItem::getModule, new HashSet<>(moduleTranslateItemsMap.keySet())));
+        MemoryListSearchCache<String, ResourceTranslationItem> cache = new MemoryListSearchCache<>(existTranslationItems, this::generatorUniqueKey);
         Map<String, ResourceTranslation> createTranslationMap = new HashMap<>(32);
-        for (Map.Entry<String, Map<TranslationItemKey, ResourceTranslationItem>> entry : moduleTranslateItemsMap.entrySet()) {
+        List<ResourceTranslationItem> createTranslationItems = new ArrayList<>();
+        for (Map.Entry<String, Map<String, ResourceTranslationItem>> entry : moduleTranslateItemsMap.entrySet()) {
             String module = entry.getKey();
-            Map<TranslationItemKey, ResourceTranslationItem> createTranslationItems = entry.getValue();
-            List<ResourceTranslationItem> existTranslationItems = DataShardingHelper.build().collectionSharding(createTranslationItems.keySet(), (sublist) -> {
-                List<String> originCodes = new ArrayList<>();
-                List<String> resLangCodes = new ArrayList<>();
-                List<String> langCodes = new ArrayList<>();
-                for (TranslationItemKey key : sublist) {
-                    String resLangCode = key.getResLangCode();
-                    String langCode = key.getLangCode();
-                    String translationKey = StringHelper.join(CharacterConstants.SEPARATOR_OCTOTHORPE, module, resLangCode, langCode);
-                    createTranslationMap.computeIfAbsent(translationKey, (k) -> {
-                        ResourceTranslation resourceTranslation = new ResourceTranslation();
-                        resourceTranslation.setModule(module);
-                        resourceTranslation.setResLangCode(resLangCode);
-                        resourceTranslation.setLangCode(langCode);
-                        resourceTranslation.setState(Boolean.TRUE);
-                        return resourceTranslation;
-                    });
-                    originCodes.add(key.getOriginCode());
-                    resLangCodes.add(resLangCode);
-                    langCodes.add(langCode);
+            Map<String, ResourceTranslationItem> translationItems = entry.getValue();
+            for (ResourceTranslationItem translateItem : translationItems.values()) {
+                if (cache.get(generatorUniqueKey(translateItem)) == null) {
+                    createTranslationItems.add(translateItem);
                 }
-                return Models.origin().queryListByWrapper(Pops.<ResourceTranslationItem>lambdaQuery()
-                        .from(ResourceTranslationItem.MODEL_MODEL)
-                        .select(ResourceTranslationItem::getId, ResourceTranslationItem::getModule, ResourceTranslationItem::getOriginCode, ResourceTranslationItem::getResLangCode, ResourceTranslationItem::getLangCode)
-                        .eq(ResourceTranslationItem::getModule, module)
-                        .in(Arrays.asList(ResourceTranslationItem::getOriginCode, ResourceTranslationItem::getResLangCode, ResourceTranslationItem::getLangCode), originCodes, resLangCodes, langCodes)
-                );
-            });
-            for (ResourceTranslationItem existTranslationItem : existTranslationItems) {
-                createTranslationItems.remove(new TranslationItemKey(existTranslationItem));
             }
-            if (!createTranslationItems.isEmpty()) {
-                Models.origin().createBatch(new ArrayList<>(createTranslationItems.values()));
+            for (ResourceTranslationItem translateItem : translationItems.values()) {
+                String resLangCode = translateItem.getResLangCode();
+                String langCode = translateItem.getResLangCode();
+                String key = StringHelper.join(CharacterConstants.SEPARATOR_OCTOTHORPE, module, resLangCode, langCode);
+                if (!createTranslationMap.containsKey(key)) {
+                    ResourceTranslation resourceTranslation = new ResourceTranslation();
+                    resourceTranslation.setModule(module);
+                    resourceTranslation.setResLangCode(resLangCode);
+                    resourceTranslation.setLangCode(langCode);
+                    resourceTranslation.setState(Boolean.TRUE);
+                    createTranslationMap.put(key, resourceTranslation);
+                }
             }
         }
         if (!createTranslationMap.isEmpty()) {
-            createNotExistTranslations(createTranslationMap);
+            createNotExistTranslations(moduleTranslateItemsMap.keySet(), createTranslationMap.values());
+        }
+        if (!createTranslationItems.isEmpty()) {
+            Models.origin().createBatch(createTranslationItems);
         }
     }
 
-    private void createNotExistTranslations(Map<String, ResourceTranslation> createTranslations) {
-        List<ResourceTranslation> existTranslations = DataShardingHelper.build().collectionSharding(createTranslations.values(), (sublist) -> {
-            List<String> modules = new ArrayList<>();
-            List<String> resLangCodes = new ArrayList<>();
-            List<String> langCodes = new ArrayList<>();
-            for (ResourceTranslation translation : sublist) {
-                modules.add(translation.getModule());
-                resLangCodes.add(translation.getResLangCode());
-                langCodes.add(translation.getLangCode());
+    private void createNotExistTranslations(Set<String> modules, Collection<ResourceTranslation> translations) {
+        List<ResourceTranslation> existTranslations = Models.origin().queryListByWrapper(Pops.<ResourceTranslation>lambdaQuery()
+                .from(ResourceTranslation.MODEL_MODEL)
+                .select(ResourceTranslation::getId, ResourceTranslation::getModule, ResourceTranslation::getResLangCode, ResourceTranslation::getLangCode)
+                .in(ResourceTranslation::getModule, new ArrayList<>(modules)));
+        MemoryListSearchCache<String, ResourceTranslation> cache = new MemoryListSearchCache<>(existTranslations, this::generatorUniqueKey);
+        List<ResourceTranslation> createTranslates = new ArrayList<>();
+        for (ResourceTranslation translate : translations) {
+            if (cache.get(this.generatorUniqueKey(translate)) == null) {
+                createTranslates.add(translate);
             }
-            return Models.origin().queryListByWrapper(Pops.<ResourceTranslation>lambdaQuery()
-                    .from(ResourceTranslation.MODEL_MODEL)
-                    .select(ResourceTranslation::getId, ResourceTranslation::getModule, ResourceTranslation::getResLangCode, ResourceTranslation::getLangCode)
-                    .in(Arrays.asList(ResourceTranslation::getModule, ResourceTranslation::getResLangCode, ResourceTranslation::getLangCode), modules, resLangCodes, langCodes));
-        });
-        for (ResourceTranslation existTranslation : existTranslations) {
-            String translationKey = StringHelper.join(CharacterConstants.SEPARATOR_OCTOTHORPE, existTranslation.getModule(), existTranslation.getResLangCode(), existTranslation.getLangCode());
-            createTranslations.remove(translationKey);
         }
-        if (!createTranslations.isEmpty()) {
-            Models.origin().createBatch(new ArrayList<>(createTranslations.values()));
+        if (!createTranslates.isEmpty()) {
+            Models.origin().createBatch(createTranslates);
         }
     }
 
@@ -255,59 +245,26 @@ public class SystemTranslationItemInit {
         return resourceTranslationItem;
     }
 
-    private void addTranslationItem(Map<String, Map<TranslationItemKey, ResourceTranslationItem>> moduleTranslateItemsMap, ResourceTranslationItem translationItem) {
-        moduleTranslateItemsMap.computeIfAbsent(translationItem.getModule(), k -> new HashMap<>(32)).putIfAbsent(new TranslationItemKey(translationItem), translationItem);
+    private void addTranslationItem(Map<String, Map<String, ResourceTranslationItem>> moduleTranslateItemsMap, ResourceTranslationItem translationItem) {
+        moduleTranslateItemsMap.computeIfAbsent(translationItem.getModule(), k -> new HashMap<>(32))
+                .putIfAbsent(generatorUniqueKey(translationItem), translationItem);
     }
 
-    private static final class TranslationItemKey implements Serializable {
+    private String generatorUniqueKey(ResourceTranslation translation) {
+        return StringHelper.join(CharacterConstants.SEPARATOR_OCTOTHORPE,
+                translation.getModule(),
+                translation.getResLangCode(),
+                translation.getLangCode()
+        );
+    }
 
-        private static final long serialVersionUID = -7229729038789169058L;
-
-        private final String originCode;
-
-        private final String resLangCode;
-
-        private final String langCode;
-
-        public TranslationItemKey(ResourceTranslationItem translationItem) {
-            this(translationItem.getOriginCode(), translationItem.getResLangCode(), translationItem.getLangCode());
-        }
-
-        public TranslationItemKey(String originCode, String resLangCode, String langCode) {
-            this.originCode = originCode;
-            this.resLangCode = resLangCode;
-            this.langCode = langCode;
-        }
-
-        public String getOriginCode() {
-            return originCode;
-        }
-
-        public String getResLangCode() {
-            return resLangCode;
-        }
-
-        public String getLangCode() {
-            return langCode;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (!(o instanceof TranslationItemKey)) {
-                return false;
-            }
-            TranslationItemKey that = (TranslationItemKey) o;
-            return Objects.equals(originCode, that.originCode) &&
-                    Objects.equals(resLangCode, that.resLangCode) &&
-                    Objects.equals(langCode, that.langCode);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(originCode, resLangCode, langCode);
-        }
+    private String generatorUniqueKey(ResourceTranslationItem translationItem) {
+        return StringHelper.join(CharacterConstants.SEPARATOR_OCTOTHORPE,
+                translationItem.getScope().getValue(),
+                translationItem.getModule(),
+                translationItem.getResLangCode(),
+                translationItem.getLangCode(),
+                translationItem.getOriginCode()
+        );
     }
 }
