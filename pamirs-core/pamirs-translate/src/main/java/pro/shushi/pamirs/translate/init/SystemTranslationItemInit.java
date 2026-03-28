@@ -77,6 +77,10 @@ public class SystemTranslationItemInit {
             log.error("translate json parse error.", e);
             return;
         }
+        try {
+            log.info("read translate json: {}", resource.getURL());
+        } catch (Throwable ignored) {
+        }
         if (MapUtils.isEmpty(map)) {
             return;
         }

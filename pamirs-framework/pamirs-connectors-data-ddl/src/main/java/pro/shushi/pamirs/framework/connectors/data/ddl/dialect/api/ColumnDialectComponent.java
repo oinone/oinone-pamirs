@@ -248,7 +248,7 @@ public interface ColumnDialectComponent {
                 deleteColumn.getColumnName(), "`", CharacterConstants.SEPARATOR_BLANK, "`",
                 deprecated, deprecatedName, CharacterConstants.SEPARATOR_UNDERLINE + System.currentTimeMillis(), "`", CharacterConstants.SEPARATOR_BLANK,
                 columnDefinition(deleteColumn, false).replace(SqlConstants.AUTO_INCREMENT, CharacterConstants.SEPARATOR_EMPTY),
-                " COMMENT '", deleteColumn.getColumnComment(), "，!!废弃字段';\n");
+                " COMMENT '", deleteColumn.getColumnComment(), ",deprecated';\n");
     }
 
 }

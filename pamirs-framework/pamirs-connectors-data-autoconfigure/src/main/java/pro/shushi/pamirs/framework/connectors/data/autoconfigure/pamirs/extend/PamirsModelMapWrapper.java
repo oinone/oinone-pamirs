@@ -49,9 +49,10 @@ public class PamirsModelMapWrapper extends BaseWrapper {
 
     @Override
     public Object get(PropertyTokenizer prop) {
-        if (prop.getIndex() != null) {
-            Object collection = resolveCollection(prop, map);
-            return getCollectionValue(prop, collection);
+        if (prop.hasNext()) {
+            return getChildValue(prop);
+        } else if (prop.getIndex() != null) {
+            return getCollectionValue(prop, resolveCollection(prop, map));
         } else {
             return map.get(prop.getName());
         }
@@ -59,9 +60,10 @@ public class PamirsModelMapWrapper extends BaseWrapper {
 
     @Override
     public void set(PropertyTokenizer prop, Object value) {
-        if (prop.getIndex() != null) {
-            Object collection = resolveCollection(prop, map);
-            setCollectionValue(prop, collection, value);
+        if (prop.hasNext()) {
+            setChildValue(prop, value);
+        } else if (prop.getIndex() != null) {
+            setCollectionValue(prop, resolveCollection(prop, map), value);
         } else {
             map.put(prop.getName(), value);
         }
@@ -202,5 +204,27 @@ public class PamirsModelMapWrapper extends BaseWrapper {
     @Override
     public <E> void addAll(List<E> element) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected Object getChildValue(PropertyTokenizer prop) {
+        MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
+        if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
+            return null;
+        }
+        return metaValue.getValue(prop.getChildren());
+    }
+
+    @Override
+    protected void setChildValue(PropertyTokenizer prop, Object value) {
+        MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
+        if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
+            if (value == null) {
+                // don't instantiate child path if value is null
+                return;
+            }
+            metaValue = instantiatePropertyValue(null, new PropertyTokenizer(prop.getName()), metaObject.getObjectFactory());
+        }
+        metaValue.setValue(prop.getChildren(), value);
     }
 }
