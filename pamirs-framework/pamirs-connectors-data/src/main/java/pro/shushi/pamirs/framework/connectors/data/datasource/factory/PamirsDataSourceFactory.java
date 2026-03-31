@@ -56,7 +56,7 @@ public class PamirsDataSourceFactory {
         String useDefaultProperties = properties.getProperty(DbConstants.USE_DEFAULT_PROPERTIES);
         if (!Boolean.FALSE.toString().equals(useDefaultProperties)) {
             properties.putIfAbsent("initialSize", "5");
-            properties.putIfAbsent("maxActive", "200");
+            properties.putIfAbsent("maxActive", "20");
             properties.putIfAbsent("minIdle", "5");
             properties.putIfAbsent("maxWait", "60000");
             properties.putIfAbsent("timeBetweenEvictionRunsMillis", "60000");
