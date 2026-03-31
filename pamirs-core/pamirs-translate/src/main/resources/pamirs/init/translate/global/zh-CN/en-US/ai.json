@@ -3,5 +3,7 @@
   "思考中": "Thinking",
   "耗时": "Time Consumed",
   "表单数据补充": "Form Data Supplement",
-  "对话消息": "Conversation Message"
+  "对话消息": "Conversation Message",
+  "清空对话": "Clear",
+  "可通过 \"#\" 选择上下文 \"/\" 选择变量": "Use \"#\" to select context and \"/\" to select variables"
 }
