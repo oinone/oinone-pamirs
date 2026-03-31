@@ -1,9 +1,9 @@
 package pro.shushi.pamirs.message.action;
 
-import pro.shushi.pamirs.locale.utils.I18nUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.message.enmu.MessageEngineTypeEnum;
 import pro.shushi.pamirs.message.enmu.MessageExpEnumerate;
 import pro.shushi.pamirs.message.model.EmailSenderSource;
@@ -75,19 +75,15 @@ public class MessageEmailSourceAction {
         return data;
     }
 
-    private static final String MULTI_MSG_FORMAT = I18nUtils.getMessage("pamirs-message-core.MessageEmailSourceAction.moreThanOneMailServerIsEnabled");
-    private static final String NO_CONFIG_MSG = I18nUtils.getMessage("pamirs-message-core.MessageEmailSourceAction.theMailNodeCannotProvideTheNot");
-    private static final String SUCCESS_CONFIG_MSG = I18nUtils.getMessage("pamirs-message-core.MessageEmailSourceAction.emailServerConfiguredSuccessfu");
-
     private void prompt() {
         Long count = new EmailSenderSource().setType(MessageEngineTypeEnum.EMAIL_SEND).setActive(Boolean.TRUE).count();
         if (count > 1) {
             EmailSenderSource emailSenderSourceConfig = MessageEmailUtils.fetchEmailSendConfig();
-            PamirsSession.getMessageHub().warn(String.format(MULTI_MSG_FORMAT, emailSenderSourceConfig.getName()));
+            PamirsSession.getMessageHub().warn(String.format(I18nUtils.getMessage("pamirs-message-core.MessageEmailSourceAction.moreThanOneMailServerIsEnabled"), emailSenderSourceConfig.getName()));
         } else if (count == 0) {
-            PamirsSession.getMessageHub().warn(NO_CONFIG_MSG);
+            PamirsSession.getMessageHub().warn(I18nUtils.getMessage("pamirs-message-core.MessageEmailSourceAction.theMailNodeCannotProvideTheNot"));
         } else {
-            PamirsSession.getMessageHub().success(SUCCESS_CONFIG_MSG);
+            PamirsSession.getMessageHub().success(I18nUtils.getMessage("pamirs-message-core.MessageEmailSourceAction.emailServerConfiguredSuccess"));
         }
     }
 }
