@@ -1,0 +1,21 @@
+{
+  "资源": "Resource",
+  "业务审计": "Business Audit",
+  "集成应用": "EIP Application",
+  "集成接口": "Integration Interface",
+  "翻译": "Translate",
+  "单点登录": "Single Sign-On",
+  "文件": "File",
+  "国际化": "Internationalization",
+  "工作台": "Workbench",
+  "应用中心": "Application Center",
+  "合作伙伴中心": "Partner Center",
+  "工作流": "Workflow",
+  "触发器": "Trigger",
+  "管理中心": "Management Center",
+  "集成应用 - MCP": "Integrated Application - MCP",
+  "设计器公共": "Designer Commons",
+  "微流设计器": "Microflow Designer",
+  "打印设计器": "Print Designer",
+  "打印设计器基础模块": "Print Designer Basic Module"
+}
