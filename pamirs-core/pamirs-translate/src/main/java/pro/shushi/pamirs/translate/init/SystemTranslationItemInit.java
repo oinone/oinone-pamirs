@@ -178,7 +178,7 @@ public class SystemTranslationItemInit {
             }
             for (ResourceTranslationItem translateItem : translationItems.values()) {
                 String resLangCode = translateItem.getResLangCode();
-                String langCode = translateItem.getResLangCode();
+                String langCode = translateItem.getLangCode();
                 String key = StringHelper.join(CharacterConstants.SEPARATOR_OCTOTHORPE, module, resLangCode, langCode);
                 if (!createTranslationMap.containsKey(key)) {
                     ResourceTranslation resourceTranslation = new ResourceTranslation();
