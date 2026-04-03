@@ -42,7 +42,7 @@ public abstract class AbstractMappingExtPoint<T> extends DefaultReadWriteExtPoin
             return;
         }
         Map<String, ResourceRegionMapping> keywords2MappingMap = mappings.stream()
-                .filter(i -> i != null && StringUtils.isBlank(i.getKeywords()))
+                .filter(i -> i != null && StringUtils.isNotBlank(i.getKeywords()))
                 .collect(Collectors.toMap(i -> i.getKeywords().trim(), i -> i, (a, b) -> a.getId() != null ? a : b));
         setMapping(data, new ArrayList<>(keywords2MappingMap.values()));
     }
