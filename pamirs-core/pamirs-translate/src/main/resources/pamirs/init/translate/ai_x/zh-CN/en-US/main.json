@@ -291,7 +291,6 @@
   "暂无协同智能体，请点击 \"选择\" 添加": "No collaborative agents available, please click \"Select\" to add",
   "每次对话开始前，发送一个初始内容。支持标准 Markdown 语法，可使用的额外标记 [快捷按键]：用户点击后可以直接发送该问题": "Send an initial content before each conversation starts. Support standard Markdown syntax, available extra tag [Shortcut Key]: user can send the question directly after clicking",
   "预览与调试": "Preview and Debug",
-  "按下 Cmd + Enter 换行，Option + ↑/↓ 切换历史消息": "Press Cmd + Enter to wrap, Option + ↑/↓ to switch historical messages",
   "回复上限": "Max Reply Count",
   "温度": "Temperature",
   "范围：0~10。值越大，代表模型回答越发散；值越小，代表回答越严谨。": "Range: 0~10. The larger the value, the more divergent the model's answers; the smaller the value, the more rigorous the answers.",

@@ -5,5 +5,6 @@
   "表单数据补充": "Form Data Supplement",
   "对话消息": "Conversation Message",
   "清空对话": "Clear",
-  "可通过 \"#\" 选择上下文 \"/\" 选择变量": "Use \"#\" to select context and \"/\" to select variables"
+  "可通过 \"#\" 选择上下文 \"/\" 选择变量": "Use \"#\" to select context and \"/\" to select variables",
+  "按下 Cmd + Enter 换行，Option + ↑/↓ 切换历史消息": "Press Cmd + Enter to wrap, Option + ↑/↓ to switch historical messages"
 }
