@@ -1,0 +1,15 @@
+<view type="DETAIL" widget="detail" model="eip.EipAlarmHistory" name="detailView">
+
+    <template slot="fields">
+        <field data="id" widget="Input" invisible="true"/>
+
+        <field data="alertTime" label="告警时间"/>
+        <field data="eipInterface" label="接口名称"/>
+        <field data="alertRuleName" label="告警规则名称"/>
+        <field data="notifyStatus" label="通知状态"/>
+
+        <template slot="rowActions">
+            <action name="redirectDetailPage" label="查看详情" displayName="查看详情"/>
+        </template>
+    </template>
+</view>

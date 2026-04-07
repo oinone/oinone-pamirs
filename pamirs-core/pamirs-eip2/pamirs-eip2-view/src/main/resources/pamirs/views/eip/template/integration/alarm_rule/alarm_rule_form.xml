@@ -1,0 +1,42 @@
+<view model="eip.EipAlarmRuleProxy" type="form" name="formView">
+    <template colSpan="FULL" disabled="false" invisible="false" readonly="false" required="false" slot="actionBar">
+        <action name="$$internal_DialogCancel" label="取消" type="default"/>
+        <action closeAllDialog="true" closeAllDrawer="true" closeDialog="true" closeDrawer="true" disabled="false" goBack="true" invisible="!activeRecord.id" label="确定" name="update" readonly="false" refreshData="true" required="false" validateForm="true"/>
+        <action closeAllDialog="true" closeAllDrawer="true" closeDialog="true" closeDrawer="true" disabled="false" goBack="true" invisible="activeRecord.id" label="确定" name="create" readonly="false" refreshData="true" required="false" validateForm="true"/>
+    </template>
+    <template colSpan="FULL" disabled="false" invisible="false" readonly="false" required="false" slot="form">
+        <pack colSpan="FULL" cols="24" disabled="false" invisible="false" readonly="false" required="false" title="基础信息" widget="group">
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="FULL" data="name" disabled="false" invisible="false" label="规则名称" patternType="NONE" readonly="false" required="true" showCount="false" type="TEXT" widget="Input"/>
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="FULL" data="eipInterface" disabled="false" invisible="false" label="集成接口" readonly="false" required="true" widget="Select"/>
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="enabled" defaultValue="false" disabled="false" invisible="false" label="是否启用" readonly="false" required="true" widget="Switch">
+                <options>
+                    <option displayName="是" invisible="false" name="true"/>
+                    <option displayName="否" invisible="false" name="false"/>
+                </options>
+            </field>
+        </pack>
+        <pack colSpan="FULL" cols="24" disabled="false" invisible="false" readonly="false" required="false" title="触发条件" widget="group">
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="metricType" disabled="false" invisible="false" label="指标类型" readonly="false" required="true" widget="Select"/>
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="timeWindow" disabled="false" invisible="false" label="时间窗口(秒)" readonly="false" required="true" showThousandth="false" statistics="false" widget="Integer"/>
+
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="thresholdForRate" disabled="false" invisible="activeRecord.metricType != 'FAILURE_RATE'" label="阈值" readonly="false" required="true" showThousandth="false" statistics="false" widget="Integer"/>
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="thresholdForCount" disabled="false" invisible="activeRecord.metricType != 'FAILURE_COUNT'" label="阈值" max="9999" min="1" readonly="false" required="true" showThousandth="false" statistics="false" validatorMessage="请输入失败次数阈值（正整数，范围：1-9999）" widget="Integer"/>
+
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="minCallCount" disabled="false" invisible="activeRecord.metricType != 'FAILURE_RATE'" label="最小调用次数" readonly="false" required="true" showThousandth="false" statistics="false" widget="Integer"/>
+        </pack>
+        <pack colSpan="FULL" cols="24" disabled="false" invisible="false" readonly="false" required="false" title="通知配置" widget="group">
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="notifyType" disabled="false" invisible="false" label="通知方式" readonly="false" required="true" widget="Select"/>
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="repeatInterval" disabled="false" invisible="false" label="重复发送间隔(分钟)" readonly="false" required="true" showThousandth="false" statistics="false" widget="Integer"/>
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="FULL" data="receivers" disabled="false" invisible="activeRecord.notifyType == 'WEBHOOK'" label="告警接收人" readonly="false" required="true" widget="Select"/>
+
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="emailTemplate" disabled="false" invisible="activeRecord.notifyType != 'EMAIL'" label="邮件模板" readonly="false" required="activeRecord.notifyType == 'EMAIL'" widget="Select"/>
+
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="webhookUrl" disabled="false" invisible="activeRecord.notifyType != 'WEBHOOK'" label="Webhook 地址" patternType="NONE" readonly="false" required="activeRecord.notifyType == 'WEBHOOK'" showCount="false" type="TEXT" widget="Input"/>
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="signSecret" disabled="false" invisible="activeRecord.notifyType != 'WEBHOOK'" label="加签密钥" patternType="NONE" readonly="false" required="false" showCount="false" type="TEXT" widget="Input"/>
+
+            <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="notifyContent" disabled="false" invisible="activeRecord.notifyType != 'WEBHOOK'" label="通知内容" readonly="false" required="false" showCount="false" widget="TextArea"/>
+        </pack>
+        <field data="id" invisible="true"/>
+        <field data="techName" invisible="true"/>
+    </template>
+</view>
