@@ -18,17 +18,15 @@
 
         <pack widget="group" title="执行信息" cols="2">
             <pack widget="row">
-                <field span="1" data="isSuccess" widget="Select" label="响应结果">
-                    <options>
-                        <option label="成功" name="true"/>
-                        <option label="失败" name="false"/>
-                    </options>
-                </field>
+                <field span="1" data="logStatus" label="响应结果"/>
             </pack>
 
             <field span="1" data="invokeDate" label="调用时间" timeFormat="COLON_NORMAL_SSS"/>
             <field span="1" data="invokeEndDate" label="调用完成时间" timeFormat="COLON_NORMAL_SSS"/>
             <field span="1" data="invokeMillisecond" label="执行时长" hint="单位毫秒"/>
+            <field span="1" data="retryCount" label="重试次数"/>
+            <field span="1" data="retrySuccessCount" label="重试成功次数"/>
+            <field span="1" data="retryFailCount" label="重试失败次数"/>
         </pack>
 
         <pack widget="group" title="参数信息">
