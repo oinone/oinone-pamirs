@@ -113,6 +113,8 @@ public enum EipExpEnumerate implements ExpBaseEnum {
     EIP_DB_DRIVER_IS_NULL(ERROR_TYPE.BIZ_ERROR, 10051104, "未获取数据库驱动"),
     EIP_EXCEL_DATA_TYPE_ERROR(ERROR_TYPE.BIZ_ERROR, 10051105, "解析excel数据类型错误"),
     EIP_MCP_SUBMIT_ERROR(ERROR_TYPE.BIZ_ERROR, 10051106, "MCP提交校验失败"),
+    EIP_RETRY_LOCK_FAILED(ERROR_TYPE.BIZ_ERROR, 10051107, "日志正在被重试，请稍后再试"),
+    EIP_RETRY_PARAM_NULL(ERROR_TYPE.BIZ_ERROR, 10051108, "日志无原始请求参数，无法发起重试"),
     ;
 
     private final ERROR_TYPE type;

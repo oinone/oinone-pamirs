@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.eip.api.pmodel;
 
+import pro.shushi.pamirs.eip.api.enmu.EipRetryStatusEnum;
 import pro.shushi.pamirs.eip.api.model.AbstractSingleInterface;
 import pro.shushi.pamirs.eip.api.model.EipConnGroup;
 import pro.shushi.pamirs.eip.api.model.EipLog;
@@ -49,4 +50,14 @@ public class EipLogProxy extends EipLog {
     @Field.Integer
     @Field(displayName = "调用时长")
     private Long invokeMillisecond;
+
+    @Base
+    @Field.Enum
+    @Field(displayName = "日志状态")
+    private EipRetryStatusEnum logStatus;
+
+    @Base
+    @Field.Integer
+    @Field(displayName = "重试次数", summary = "该日志被重试的累计次数")
+    private Integer retryCount;
 }
