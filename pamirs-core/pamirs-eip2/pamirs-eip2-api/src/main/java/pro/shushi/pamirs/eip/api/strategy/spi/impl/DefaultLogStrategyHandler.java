@@ -20,6 +20,7 @@ import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.helper.EipRetryHelper;
 import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
+import pro.shushi.pamirs.eip.api.service.alarm.EipAlarmService;
 import pro.shushi.pamirs.eip.api.strategy.context.EipLogStrategyContext;
 import pro.shushi.pamirs.eip.api.strategy.entity.EipLogStrategyEntity;
 import pro.shushi.pamirs.eip.api.strategy.spi.EipLogSaveApi;
@@ -155,6 +156,9 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
             EipLog savedLog = eipLog;
             savedLog.setIsSuccess(true);
             savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog, (IEipContext<SuperMap>) context);
+
+            // alarm
+            Spider.getDefaultExtension(EipAlarmService.class).alarm(savedLog, (IEipContext<SuperMap>) context);
         });
     }
 
@@ -173,7 +177,10 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
         }
         Tx.build(new TxConfig().setPropagation(Propagation.REQUIRES_NEW.value())).executeWithoutResult(status -> {
             Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(eipLog, (IEipContext<SuperMap>) context);
+            // alarm
+            Spider.getDefaultExtension(EipAlarmService.class).alarm(eipLog, (IEipContext<SuperMap>) context);
         });
+
     }
 
     @Override

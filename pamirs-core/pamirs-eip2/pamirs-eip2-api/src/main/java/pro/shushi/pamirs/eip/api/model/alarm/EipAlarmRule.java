@@ -66,23 +66,33 @@ public class EipAlarmRule extends IdModel {
     @Field.many2many(through = EipAlarmRuleRelInterface.MODEL_MODEL, relationFields = "ruleTechName", referenceFields = "interfaceName")
     private List<EipIntegrationInterface> eipInterface;
 
+    @Field(displayName = "发送人邮箱")
+    @Field.String
+    private String sender;
+
     @Field(displayName = "告警接收人", summary = "邮件时必填，Webhook 时非必填，用于机器人消息中@指定人员")
-    @Field.many2many
+    @Field.Relation(relationFields = "techName", referenceFields = "code")
+    @Field.many2many(through = EipAlarmRuleRelEmployee.MODEL_MODEL, relationFields = "ruleTechName", referenceFields = "employeeCode")
     private List<PamirsEmployee> receivers;
+
+    @Field(displayName = "邮件模板名称")
+    @Field.String
+    private String emailTemplateName;
 
     @Field(displayName = "邮件模板", summary = "仅当通知方式为邮件时显示")
     @Field.many2one
+    @Field.Relation(relationFields = "emailTemplateName", referenceFields = "name")
     private EmailTemplate emailTemplate;
 
     @Field(displayName = "Webhook 地址", summary = "仅当通知方式为 Webhook 时显示，机器人的 Webhook 回调地址")
     @Field.String
     private String webhookUrl;
 
-    @Field(displayName = "加签秘钥", summary = "仅当通知类型为钉钉机器人时显示")
+    @Field(displayName = "加签秘钥")
     @Field.String
     private String signSecret;
 
-    @Field(displayName = "通知内容", summary = "仅当通知方式为 Webhook 时显示，支持变量模板")
+    @Field(displayName = "通知内容", summary = "仅当通知方式为 Webhook 时显示")
     @Field.Text
     private String notifyContent;
 

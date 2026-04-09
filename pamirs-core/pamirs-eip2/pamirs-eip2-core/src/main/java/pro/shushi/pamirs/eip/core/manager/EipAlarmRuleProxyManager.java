@@ -1,11 +1,13 @@
-package pro.shushi.pamirs.eip.view.manager.alarm;
+package pro.shushi.pamirs.eip.core.manager;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pro.shushi.pamirs.eip.api.enmu.alarm.AlarmMetricType;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
+import pro.shushi.pamirs.eip.api.model.alarm.EipAlarmRuleRelEmployee;
 import pro.shushi.pamirs.eip.api.model.alarm.EipAlarmRuleRelInterface;
 import pro.shushi.pamirs.eip.api.pmodel.alarm.EipAlarmRuleProxy;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
@@ -15,7 +17,11 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.util.UUIDUtil;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate.*;
 
@@ -27,6 +33,9 @@ import static pro.shushi.pamirs.eip.api.enmu.EipExpEnumerate.*;
 @Slf4j
 @Component
 public class EipAlarmRuleProxyManager {
+
+    @Autowired
+    private EipAlarmRuleRefreshManager eipAlarmRuleRefreshManager;
 
     @Transactional
     public EipAlarmRuleProxy createOrUpdate(EipAlarmRuleProxy data) {
@@ -58,7 +67,7 @@ public class EipAlarmRuleProxyManager {
         if (AlarmMetricType.FAILURE_COUNT.equals(metricType)) {
             data.setThreshold(data.getThresholdForCount());
         } else if (AlarmMetricType.FAILURE_RATE.equals(metricType)) {
-            data.setThreshold(data.getThresholdForRate());
+            data.setThreshold(new BigDecimal(data.getThresholdForRate() + "").multiply(new BigDecimal("100")).intValue());
         }
 
         if (!isUpdate) {
@@ -69,25 +78,42 @@ public class EipAlarmRuleProxyManager {
 
         List<EipIntegrationInterface> eipInterfaceList = data.getEipInterface();
 
-        if (CollectionUtils.isEmpty(eipInterfaceList)) {
-            throw PamirsException.construct(EIP_ALARM_INTERFACE_EMPTY)
-                    .errThrow();
+        if (CollectionUtils.isNotEmpty(eipInterfaceList)) {
+            Set<String> interfaceNames = new HashSet<>();
+            for (EipIntegrationInterface eipInterface : eipInterfaceList) {
+                String interfaceName = eipInterface.getInterfaceName();
+                interfaceNames.add(interfaceName);
+            }
+
+            IWrapper<EipAlarmRuleRelInterface> otherRelQw = Pops.<EipAlarmRuleRelInterface>lambdaQuery()
+                    .from(EipAlarmRuleRelInterface.MODEL_MODEL)
+                    .ne(EipAlarmRuleRelInterface::getRuleTechName, data.getTechName())
+                    .in(EipAlarmRuleRelInterface::getInterfaceName, interfaceNames);
+            Long otherCount = new EipAlarmRuleRelInterface().count(otherRelQw);
+            if (null != otherCount && otherCount > 0) {
+                throw PamirsException.construct(EIP_ALARM_INTERFACE_OTHER_REL)
+                        .errThrow();
+            }
         }
 
         data.fieldSaveOnCascade(EipAlarmRuleProxy::getEipInterface);
+        data.fieldSaveOnCascade(EipAlarmRuleProxy::getReceivers);
+
+        eipAlarmRuleRefreshManager.refresh();
 
         return data;
     }
-
 
     public EipAlarmRuleProxy queryOne(EipAlarmRuleProxy query) {
 
         query = query.queryById();
         query.fieldQuery(EipAlarmRuleProxy::getEipInterface);
+        query.fieldQuery(EipAlarmRuleProxy::getReceivers);
 
         AlarmMetricType metricType = query.getMetricType();
         if (AlarmMetricType.FAILURE_RATE.equals(metricType)) {
-            query.setThresholdForRate(query.getThreshold());
+            query.setThresholdForRate(new BigDecimal(query.getThreshold())
+                    .divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP).floatValue());
         } else if (AlarmMetricType.FAILURE_COUNT.equals(metricType)) {
             query.setThresholdForCount(query.getThreshold());
         }
@@ -96,7 +122,6 @@ public class EipAlarmRuleProxyManager {
     }
 
     public Pagination<EipAlarmRuleProxy> queryPage(Pagination<EipAlarmRuleProxy> page, IWrapper<EipAlarmRuleProxy> queryWrapper) {
-
 
         page = new EipAlarmRuleProxy().queryPage(page, queryWrapper);
 
@@ -119,10 +144,15 @@ public class EipAlarmRuleProxyManager {
 
         String ruleTechName = data.getTechName();
 
-        IWrapper<EipAlarmRuleRelInterface> relQw = Pops.<EipAlarmRuleRelInterface>lambdaQuery()
+        IWrapper<EipAlarmRuleRelInterface> relInterfaceQw = Pops.<EipAlarmRuleRelInterface>lambdaQuery()
                 .from(EipAlarmRuleRelInterface.MODEL_MODEL)
                 .eq(EipAlarmRuleRelInterface::getRuleTechName, ruleTechName);
-        new EipAlarmRuleRelInterface().deleteByWrapper(relQw);
+        new EipAlarmRuleRelInterface().deleteByWrapper(relInterfaceQw);
+
+        IWrapper<EipAlarmRuleRelEmployee> relEmployeeQw = Pops.<EipAlarmRuleRelEmployee>lambdaQuery()
+                .from(EipAlarmRuleRelEmployee.MODEL_MODEL)
+                .eq(EipAlarmRuleRelEmployee::getRuleTechName, ruleTechName);
+        new EipAlarmRuleRelEmployee().deleteByWrapper(relEmployeeQw);
 
         data.deleteById();
         return data;

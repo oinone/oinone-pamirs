@@ -1,15 +1,23 @@
-<view type="DETAIL" widget="detail" model="eip.EipAlarmHistory" name="detailView">
-
-    <template slot="fields">
-        <field data="id" widget="Input" invisible="true"/>
-
-        <field data="alertTime" label="告警时间"/>
-        <field data="eipInterface" label="接口名称"/>
-        <field data="alertRuleName" label="告警规则名称"/>
-        <field data="notifyStatus" label="通知状态"/>
-
-        <template slot="rowActions">
-            <action name="redirectDetailPage" label="查看详情" displayName="查看详情"/>
-        </template>
+<view model="eip.EipAlarmHistory" type="detail" name="detailView">
+    <template colSpan="FULL" slot="detail">
+        <field colSpan="FULL" data="alertTime" disabled="false" invisible="false" label="告警时间" layout="HORIZONTAL" widget="DateTimePicker"/>
+        <field colSpan="FULL" data="interfaceName" disabled="false" invisible="false" label="接口名称" type="TEXT" layout="HORIZONTAL" widget="Input"/>
+        <field colSpan="FULL" data="interfaceTechName" disabled="false" invisible="false" label="接口技术名称" type="TEXT" layout="HORIZONTAL" widget="Input"/>
+        <field colSpan="FULL" data="ruleName" disabled="false" invisible="false" label="触发规则" type="TEXT" layout="HORIZONTAL" widget="Input"/>
+        <field colSpan="FULL" data="metricType" disabled="false" invisible="false" label="指标类型" optionColorStyle="COLORFUL" layout="HORIZONTAL" widget="Select"/>
+        <field colSpan="HALF" data="totalSum" disabled="false" invisible="false" label="总调用次数" showThousandth="false" statistics="false" layout="HORIZONTAL" widget="Integer"/>
+        <field colSpan="HALF" data="successSum" disabled="false" invisible="false" label="成功次数" class="eip-runtime-success-text" showThousandth="false" statistics="false" layout="HORIZONTAL" widget="Integer"/>
+        <field colSpan="HALF" data="failSum" disabled="false" invisible="false" label="失败次数" class="eip-runtime-error-text" showThousandth="false" statistics="false" layout="HORIZONTAL" widget="Integer"/>
+        <field colSpan="HALF" data="failRate" disabled="false" invisible="false" label="失败率" class="eip-runtime-warning-text" type="TEXT" layout="HORIZONTAL" widget="Input"/>
+        <field colSpan="FULL" data="threshold" disabled="false" invisible="false" label="阈值" class="eip-runtime-error-text" type="TEXT" layout="HORIZONTAL" widget="Input"/>
+        <field colSpan="FULL" data="notifyType" disabled="false" invisible="false" label="通知方式" optionColorStyle="COLORFUL" layout="HORIZONTAL" widget="Select"/>
+        <field autoFillOptions="false" colSpan="FULL" data="notifyStatus" disabled="false" invisible="false" label="通知状态" optionColorStyle="COLORFUL" layout="HORIZONTAL" widget="Select">
+            <options>
+                <option backgroundColor="rgba(109, 212, 0, 0.1)" color="#6DD400" displayName="已发送" label="已发送" name="SENT"/>
+                <option backgroundColor="rgba(224, 32, 32, 0.1)" color="#E02020" displayName="发送失败" label="发送失败" name="SEND_FAILED"/>
+            </options>
+        </field>
+        <field data="errorMsg" layout="HORIZONTAL" label="发送失败原因"/>
+        <field data="id" invisible="true"/>
     </template>
 </view>

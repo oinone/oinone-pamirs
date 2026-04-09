@@ -13,6 +13,8 @@ public enum AlarmNotifyStatus implements IEnum<String> {
 
     SENT("SENT", "已发送", "已发送"),
     SEND_FAILED("SEND_FAILED", "发送失败", "发送失败"),
+    NOT_NEED_SENT("NOT_NEED_SENT", "无需发送", "无需发送"),
+    NOT_SENT("NOT_SENT", "未发送", "未发送"),
     ;
 
     public static final String dictionary = "eip.AlarmNotifyStatus";

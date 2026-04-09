@@ -19,10 +19,7 @@ import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
-import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
-import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
-import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
-import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
+import pro.shushi.pamirs.meta.enmu.*;
 
 @Component
 @Model.model(EipIntegrationInterface.MODEL_MODEL)
@@ -118,4 +115,11 @@ public class EipIntegrationInterfaceAction extends DataStatusBehavior<EipIntegra
         eipLogDailyCountService.syncYesterday();
         return data;
     }
+
+    @Function(openLevel = {FunctionOpenEnum.API})
+    @Function.Advanced(type = FunctionTypeEnum.QUERY, category = FunctionCategoryEnum.QUERY_PAGE)
+    public Pagination<EipIntegrationInterface> loadForAlarmRule(Pagination<EipIntegrationInterface> page, IWrapper<EipIntegrationInterface> queryWrapper) {
+        return eipIntegrationInterfaceService.loadForAlarmRule(page, queryWrapper);
+    }
+
 }

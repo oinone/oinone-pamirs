@@ -23,7 +23,7 @@ public class EipAlarmRuleProxy extends EipAlarmRule {
     @Field(displayName = "阈值", summary = "请输入失败次数阈值（正整数，范围：1-9999）")
     private Integer thresholdForCount;
 
-    @Field.Integer
+    @Field.Float
     @Field(displayName = "阈值", summary = "请输入失败率阈值（0~100%）")
-    private Integer thresholdForRate;
+    private Float thresholdForRate;
 }

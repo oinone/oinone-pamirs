@@ -7,7 +7,7 @@ import pro.shushi.pamirs.boot.base.ux.annotation.action.UxAction;
 import pro.shushi.pamirs.boot.base.ux.annotation.action.UxRoute;
 import pro.shushi.pamirs.boot.base.ux.annotation.button.UxRouteButton;
 import pro.shushi.pamirs.eip.api.pmodel.alarm.EipAlarmRuleProxy;
-import pro.shushi.pamirs.eip.view.manager.alarm.EipAlarmRuleProxyManager;
+import pro.shushi.pamirs.eip.api.service.alarm.EipAlarmRuleProxyService;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -34,10 +34,13 @@ import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 @UxRouteButton(
         action = @UxAction(name = "redirectUpdatePage", displayName = "编辑", label = "编辑", contextType = ActionContextTypeEnum.SINGLE),
         value = @UxRoute(model = EipAlarmRuleProxy.MODEL_MODEL, viewName = "formView", openType = ActionTargetEnum.DIALOG))
+@UxRouteButton(
+        action = @UxAction(name = "redirectDetailPage", displayName = "详情", label = "详情", contextType = ActionContextTypeEnum.SINGLE),
+        value = @UxRoute(model = EipAlarmRuleProxy.MODEL_MODEL, viewName = "detailView", openType = ActionTargetEnum.DIALOG))
 public class EipAlarmRuleProxyAction {
 
     @Autowired
-    private EipAlarmRuleProxyManager eipAlarmRuleProxyManager;
+    private EipAlarmRuleProxyService eipAlarmRuleProxyService;
 
     @Function(name = FunctionConstants.create)
     @Function.fun(FunctionConstants.create)
@@ -45,7 +48,7 @@ public class EipAlarmRuleProxyAction {
     @Action.Advanced(name = FunctionConstants.create, type = FunctionTypeEnum.CREATE)
     public EipAlarmRuleProxy create(EipAlarmRuleProxy data) {
 
-        return eipAlarmRuleProxyManager.createOrUpdate(data);
+        return eipAlarmRuleProxyService.createOrUpdate(data);
     }
 
     @Function(name = FunctionConstants.update)
@@ -54,7 +57,7 @@ public class EipAlarmRuleProxyAction {
     @Action.Advanced(name = FunctionConstants.update, type = FunctionTypeEnum.UPDATE)
     public EipAlarmRuleProxy update(EipAlarmRuleProxy data) {
 
-        return eipAlarmRuleProxyManager.createOrUpdate(data);
+        return eipAlarmRuleProxyService.createOrUpdate(data);
     }
 
     @Function(openLevel = {FunctionOpenEnum.API})
@@ -62,7 +65,7 @@ public class EipAlarmRuleProxyAction {
     @Function.Advanced(type = FunctionTypeEnum.QUERY)
     public EipAlarmRuleProxy queryOne(EipAlarmRuleProxy query) {
 
-        return eipAlarmRuleProxyManager.queryOne(query);
+        return eipAlarmRuleProxyService.queryOne(query);
     }
 
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
@@ -70,13 +73,13 @@ public class EipAlarmRuleProxyAction {
     @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)
     public Pagination<EipAlarmRuleProxy> queryPage(Pagination<EipAlarmRuleProxy> page, IWrapper<EipAlarmRuleProxy> queryWrapper) {
 
-        return eipAlarmRuleProxyManager.queryPage(page, queryWrapper);
+        return eipAlarmRuleProxyService.queryPage(page, queryWrapper);
     }
 
     @Action(displayName = "删除", contextType = ActionContextTypeEnum.SINGLE)
     public EipAlarmRuleProxy deleteOne(EipAlarmRuleProxy data) {
 
-        return eipAlarmRuleProxyManager.deleteOne(data);
+        return eipAlarmRuleProxyService.deleteOne(data);
     }
 
 }
