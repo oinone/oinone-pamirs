@@ -50,17 +50,17 @@ Aino, which stands for AI Innovation and is a near-homophone of I Know, An ontol
 |<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/Oinone%E5%B0%8F%E5%8A%A9%E6%89%8B.png" alt="Assistant" width="150"><br>| 1. ⭐ Star this project<br>2. Scan the QR code on the left to add the assistant<br>3. Send a screenshot (proof of starring) to the assistant<br>4. The assistant will invite the Star user to the exclusive communication group<br>5. Limited-time application for the enterprise edition trial authorization |
 
 ### 8. Quickstart & Documentation
-| Quickstart                                                                                                                   |Documentation     | Package                     | Package Content |
-|------------------------------------------------------------------------------------------------------------------------|----------------|-----------------------------|----------|
-| ⚡ [Installation or Upgrade](https://guide.oinone.top/en/InstallOrUpgrade/)                                                           |[📗 User Manual](https://guide.oinone.top/en/UserManual) | 📦 pamirs-k2                | 🌟 Metadata Core |
-| ⚡ [Development Environments](https://guide.oinone.top/en/InstallOrUpgrade/Dev-ENV/)                                                     |[📗 DEV Manual](https://guide.oinone.top/en/DevManual)| 📦 pamirs-framework         | 🌟 Framework-Core Package |
-| ⚡ [Community Edition - Source Code Installation](https://guide.oinone.top/en/InstallOrUpgrade/CommunityEdition/source-code-installation.html)           | [📗 White Paper](https://www.oinone.top/whitePaper)|📦 pamirs-framework-commons | 🌟 Framework-Commons Package |
-| ⚡ [Enterprise Edition - Docker-full Installation](https://guide.oinone.top/en/InstallOrUpgrade/EnterpriseEdition/docker-full-installation.html) |[📗 R&D Paradigm](https://guide.oinone.top/en/DevManual/R_DParadigm)| 📦 pamirs-framework-adaptor | 🌟 Framework-Extension Package |
-| ⚡ [Enterprise Edition - Docker-mini Installation](https://guide.oinone.top/en/InstallOrUpgrade/EnterpriseEdition/docker-mini-installation.html) | [📗 Common Solutions](https://guide.oinone.top/en/DevManual/CommonSolutions)|📦 pamirs-spi               | 🌟 SPI Package  |
-| ⚡ [Enterprise Edition - Package Installation](https://guide.oinone.top/en/InstallOrUpgrade/EnterpriseEdition/docker-full-installation.html)     |[📗 FAQ](https://guide.oinone.top/en/DevManual/FAQ)| 📦 pamirs-boot              | 🌟 Startup Package |
-| ⚡ [Tutorials](https://guide.oinone.top/en/DevManual/Tutorials/)                                                  ||📦 pamirs-core              | 🌟 Common Features Package |
-| ⚡ [Debug Tools](https://guide.oinone.top/en/DevManual/Tutorials/debug-tools.html)                                          | |📦 pamirs-middleware        | 🌟 Middleware-Core Package |
-|                                                                                                                        | |📦 pamirs-ux                | 🌟 User Experience Package  |
+| Quickstart                                                                                        | Documentation                                                                                      | Package                     | Package Content |
+|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|-----------------------------|----------|
+| ⚡ [Installation or Upgrade](https://guide.oinone.top/en/InstallOrUpgrade/CommunityEdition.html)   | [📗 User Manual](https://guide.oinone.top/en/UserManual/README.html)                               | 📦 pamirs-k2                | 🌟 Metadata Core |
+| ⚡ [Development Environments](https://guide.oinone.top/en/DevManual/Tutorials/Dev-ENV/README.html) | [📗 DEV Manual](https://guide.oinone.top/en/DevManual/README.html)                                 | 📦 pamirs-framework         | 🌟 Framework-Core Package |
+| ⚡ [Enterprise Edition](https://guide.oinone.top/en/InstallOrUpgrade/EnterpriseEdition.html)       | [📗 R&D Paradigm](https://guide.oinone.top/en/DevManual/R&DParadigm/R&D-paradigm-R&D-process.html) |📦 pamirs-framework-commons | 🌟 Framework-Commons Package |
+| ⚡ [Tutorials](https://guide.oinone.top/en/DevManual/Tutorials/README.html)                        | [📗 Common Solutions](https://guide.oinone.top/en/DevManual/CommonSolutions/README.html)           | 📦 pamirs-framework-adaptor | 🌟 Framework-Extension Package |
+| ⚡ [Debug Tools](https://guide.oinone.top/en/DevManual/Tutorials/debug-tools.html)                 | [📗 FAQ](https://guide.oinone.top/en/DevManual/FAQ/README.html)                                    |📦 pamirs-spi               | 🌟 SPI Package  |
+|                                                                                                   |                                                                                                    | 📦 pamirs-boot              | 🌟 Startup Package |
+|                                                                                                   |                                                                                                    |📦 pamirs-core              | 🌟 Common Features Package |
+|                                                                                                   |                                                                                                    |📦 pamirs-middleware        | 🌟 Middleware-Core Package |
+|                                                                                                   |                                                                                                    |📦 pamirs-ux                | 🌟 User Experience Package  |
 
 ### 9. License
 - Oinone Pamirs repository is licensed under AGPL-3.0.
@@ -68,7 +68,7 @@ Aino, which stands for AI Innovation and is a near-homophone of I Know, An ontol
 
 ### 10. Community Participation
 - Join the community: Go to [⚡Oinone Community](https://doc.oinone.top)❤️
-- [How to contribute](https://guide.oinone.top/en/Contribute)
+- [How to contribute](https://guide.oinone.top/en/Contribute/cla.html)
 
 ### 11. Contact Us
 - Website：https://www.oinone.top

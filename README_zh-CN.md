@@ -48,17 +48,17 @@ Aino 寓意 AI Innovation，谐音`I Know`，是基于本体论（Ontology）的
 |<img src="http://oinone-jar.oss-cn-zhangjiakou.aliyuncs.com/welcome-document/Open%20Source/zh-cn/Oinone%E5%B0%8F%E5%8A%A9%E6%89%8B.png" alt="Assistant" width="150"><br>| 1. ⭐ Star 本项目<br>2. 扫码左侧二维码添加小助手<br>3. 截图（已 Star 凭证）发给小助手<br>4. 小助手邀请 Star 用户进入专属交流群<br>5. 限时申请企业版试用授权 |
 
 ### 8、入门与文档
-| 快速入门                                                                                                                     |文档链接     | Package                     | Package 内容 |
-|--------------------------------------------------------------------------------------------------------------------------|----------------|-----------------------------|----------|
-| ⚡ [安装与升级](https://guide.oinone.top/zh-cn/InstallOrUpgrade/)                                                              |[📗 用户手册](https://guide.oinone.top/zh-cn/UserManual/) | 📦 pamirs-k2                | 🌟 元数据核心功能 |
-| ⚡ [环境准备](https://guide.oinone.top/zh-cn/InstallOrUpgrade/Dev-ENV/)                                                       |[📗 研发手册](https://guide.oinone.top/zh-cn/DevManual/)| 📦 pamirs-framework         | 🌟 核心功能包 |
-| ⚡ [社区版：源码安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/CommunityEdition/source-code-installation.html)             | [📗 产品白皮书](https://www.oinone.top/whitePaper)|📦 pamirs-framework-commons | 🌟 核心功能公共包 |
-| ⚡ [企业版：docker-full 方式安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/EnterpriseEdition/docker-full-installation.html) |[📗 最佳范式](https://guide.oinone.top/zh-cn/DevManual/R_DParadigm)| 📦 pamirs-framework-adaptor | 🌟 核心功能扩展包 |
-| ⚡ [企业版：docker-mini 方式安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/EnterpriseEdition/docker-mini-installation.html) | [📗 常见解决方案](https://guide.oinone.top/zh-cn/DevManual/CommonSolutions)|📦 pamirs-spi               | 🌟 SPI基础功能包 |
-| ⚡ [企业版：运行程序包方式安装](https://guide.oinone.top/zh-cn/InstallOrUpgrade/EnterpriseEdition/docker-full-installation.html)       |[📗 常见问题](https://guide.oinone.top/zh-cn/DevManual/FAQ)| 📦 pamirs-boot              | 🌟 应用启动包 |
-| ⚡ [入门教程`建议完整学习` ](https://guide.oinone.top/zh-cn/DevManual/Tutorials/)                                                   ||📦 pamirs-core              | 🌟 基础功能包 |
-| ⚡ [调试工具](https://guide.oinone.top/zh-cn/DevManual/Tutorials/debug-tools.html)                                            | |📦 pamirs-middleware        | 🌟 中间件功能包 |
-|                                                                                                                          | |📦 pamirs-ux                | 🌟 用户体验功能包 |
+| 快速入门                                                                                                                 | 文档链接                                                                           | Package                     | Package 内容 |
+|----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|-----------------------------|----------|
+| ⚡ [安装与升级](https://guide.oinone.top/zh/InstallOrUpgrade/CommunityEdition.html)                                                          | [📗 用户手册](https://guide.oinone.top/zh/UserManual/README.html)                  | 📦 pamirs-k2                | 🌟 元数据核心功能 |
+| ⚡ [环境准备](https://guide.oinone.top/zh/DevManual/Tutorials/Dev-ENV/README.html)                                                   | [📗 研发手册](https://guide.oinone.top/zh/DevManual/README.html)                   | 📦 pamirs-framework         | 🌟 核心功能包 |
+| ⚡ [企业版](https://guide.oinone.top/zh/InstallOrUpgrade/EnterpriseEdition.html) | [📗 最佳范式](https://guide.oinone.top/zh/DevManual/R&DParadigm/R&D-paradigm-R&D-process.html)                |📦 pamirs-framework-commons | 🌟 核心功能公共包 |
+| ⚡ [入门教程`建议完整学习` ](https://guide.oinone.top/zh/DevManual/Tutorials/README.html) | [📗 常见解决方案](https://guide.oinone.top/zh/DevManual/CommonSolutions/README.html) | 📦 pamirs-framework-adaptor | 🌟 核心功能扩展包 |
+| ⚡ [调试工具](https://guide.oinone.top/zh/DevManual/Tutorials/debug-tools.html) | [📗 常见问题](https://guide.oinone.top/zh/DevManual/FAQ/README.html)               |📦 pamirs-spi               | 🌟 SPI基础功能包 |
+|         |                                                                                | 📦 pamirs-boot              | 🌟 应用启动包 |
+|                                                   |                                                                                |📦 pamirs-core              | 🌟 基础功能包 |
+|                                            |                                                                                |📦 pamirs-middleware        | 🌟 中间件功能包 |
+|                                                                                                                      |                                                                                |📦 pamirs-ux                | 🌟 用户体验功能包 |
 
 ### 9、许可协议
 - Oinone Pamirs 遵循 AGPL-3.0 协议。
@@ -66,7 +66,7 @@ Aino 寓意 AI Innovation，谐音`I Know`，是基于本体论（Ontology）的
 
 ### 10、如何参与
 - 参与社区：您可以前往 <a href="https://doc.oinone.top/" target="_blank" rel="noopener noreferrer">⚡Oinone 社区</a> 与大家互动哦❤️
-- <a href="https://guide.oinone.top/zh-cn/Contribute" target="_blank" rel="noopener noreferrer">参与贡献</a>
+- <a href="https://guide.oinone.top/zh/Contribute/cla.html" target="_blank" rel="noopener noreferrer">参与贡献</a>
 
 ### 11、联系我们
 - 官网：https://www.oinone.top
