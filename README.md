@@ -6,7 +6,7 @@ Oinone is an AI-Powered Low-Code Framework positioned as infrastructure for AI-N
 
 Oinone phonetically resonating with "All in one," symbolizing: One-stop solutions, agile responsiveness, continuous innovation.
 
-To learn more，please visit【[🍀 Website](https://www.oinone.top) | [🍀 Gitee-中文](https://gitee.com/oinone) | [🍀AtomGit-中文](https://gitcode.com/oinone) | [🍀 Github-EN](https://github.com/Oinone)】.
+To learn more，please visit【[🍀 Website](https://www.oinone.ai) | [🍀 Gitee-中文](https://gitee.com/oinone) | [🍀AtomGit-中文](https://gitcode.com/oinone) | [🍀 Github-EN](https://github.com/Oinone)】.
 
 【[⚡ 后端-Gitee](https://gitee.com/oinone/oinone-pamirs) | [⚡ 前端-Gitee](https://gitee.com/oinone/oinone-kunlun) | [⚡ 后端-AtomGit](https://gitcode.com/oinone/oinone-pamirs) | [⚡ 前端-AtomGit](https://gitcode.com/oinone/oinone-kunlun) | [⚡ Back-end Framework-Github](https://github.com/oinone/oinone-pamirs) | [⚡ Front-end Framework-Github](https://github.com/oinone/oinone-kunlun)】
 
@@ -46,11 +46,11 @@ Aino, which stands for AI Innovation and is a near-homophone of I Know, An ontol
 ### 7. Quickstart & Documentation
 | Quickstart                                                                                        | Documentation                                                                                      | Package                     | Package Content |
 |---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|-----------------------------|----------|
-| ⚡ [Installation or Upgrade](https://guide.oinone.top/en/InstallOrUpgrade/CommunityEdition.html)   | [📗 User Manual](https://guide.oinone.top/en/UserManual/README.html)                               | 📦 pamirs-k2                | 🌟 Metadata Core |
-| ⚡ [Development Environments](https://guide.oinone.top/en/DevManual/Tutorials/Dev-ENV/README.html) | [📗 DEV Manual](https://guide.oinone.top/en/DevManual/README.html)                                 | 📦 pamirs-framework         | 🌟 Framework-Core Package |
-| ⚡ [Enterprise Edition](https://guide.oinone.top/en/InstallOrUpgrade/EnterpriseEdition.html)       | [📗 R&D Paradigm](https://guide.oinone.top/en/DevManual/R&DParadigm/R&D-paradigm-R&D-process.html) |📦 pamirs-framework-commons | 🌟 Framework-Commons Package |
-| ⚡ [Tutorials](https://guide.oinone.top/en/DevManual/Tutorials/README.html)                        | [📗 Common Solutions](https://guide.oinone.top/en/DevManual/CommonSolutions/README.html)           | 📦 pamirs-framework-adaptor | 🌟 Framework-Extension Package |
-| ⚡ [Debug Tools](https://guide.oinone.top/en/DevManual/Tutorials/debug-tools.html)                 | [📗 FAQ](https://guide.oinone.top/en/DevManual/FAQ/README.html)                                    |📦 pamirs-spi               | 🌟 SPI Package  |
+| ⚡ [Installation or Upgrade](https://guide.oinone.ai/en/InstallOrUpgrade/CommunityEdition.html)   | [📗 User Manual](https://guide.oinone.ai/en/UserManual/README.html)                               | 📦 pamirs-k2                | 🌟 Metadata Core |
+| ⚡ [Development Environments](https://guide.oinone.ai/en/DevManual/Tutorials/Dev-ENV/README.html) | [📗 DEV Manual](https://guide.oinone.ai/en/DevManual/README.html)                                 | 📦 pamirs-framework         | 🌟 Framework-Core Package |
+| ⚡ [Enterprise Edition](https://guide.oinone.ai/en/InstallOrUpgrade/EnterpriseEdition.html)       | [📗 R&D Paradigm](https://guide.oinone.ai/en/DevManual/R&DParadigm/R&D-paradigm-R&D-process.html) |📦 pamirs-framework-commons | 🌟 Framework-Commons Package |
+| ⚡ [Tutorials](https://guide.oinone.ai/en/DevManual/Tutorials/README.html)                        | [📗 Common Solutions](https://guide.oinone.ai/en/DevManual/CommonSolutions/README.html)           | 📦 pamirs-framework-adaptor | 🌟 Framework-Extension Package |
+| ⚡ [Debug Tools](https://guide.oinone.ai/en/DevManual/Tutorials/debug-tools.html)                 | [📗 FAQ](https://guide.oinone.ai/en/DevManual/FAQ/README.html)                                    |📦 pamirs-spi               | 🌟 SPI Package  |
 |                                                                                                   |                                                                                                    | 📦 pamirs-boot              | 🌟 Startup Package |
 |                                                                                                   |                                                                                                    |📦 pamirs-core              | 🌟 Common Features Package |
 |                                                                                                   |                                                                                                    |📦 pamirs-middleware        | 🌟 Middleware-Core Package |
@@ -58,11 +58,10 @@ Aino, which stands for AI Innovation and is a near-homophone of I Know, An ontol
 
 ### 8. License
 - Oinone Pamirs repository is licensed under AGPL-3.0.
-- [Third Party Open Source Software and License Notice](https://guide.oinone.top/en/Third-Party-Open-Source-Software-And-License-Notice.html).
+- [Third Party Open Source Software and License Notice](https://guide.oinone.ai/en/Third-Party-Open-Source-Software-And-License-Notice.html).
 
 ### 9. Community Participation
-- Join the community: Go to [⚡Oinone Community](https://doc.oinone.top)❤️
-- [How to contribute](https://guide.oinone.top/en/Contribute/cla.html)
+- [How to contribute](https://guide.oinone.ai/en/Contribute/cla.html)
 
 ### 10. Contact Us
 - Website：https://www.oinone.ai
