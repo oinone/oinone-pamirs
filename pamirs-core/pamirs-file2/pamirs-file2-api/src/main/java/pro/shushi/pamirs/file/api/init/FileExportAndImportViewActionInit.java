@@ -12,6 +12,7 @@ import pro.shushi.pamirs.boot.web.utils.ViewActionUtils;
 import pro.shushi.pamirs.file.api.FileModule;
 import pro.shushi.pamirs.file.api.model.ExcelExportTask;
 import pro.shushi.pamirs.file.api.model.ExcelImportTask;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.api.dto.meta.Meta;
 import pro.shushi.pamirs.meta.domain.model.ModelDefinition;
 import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
@@ -64,7 +65,7 @@ public class FileExportAndImportViewActionInit implements MetaDataEditor {
         // 创建 跳转导入页 viewAction
         ViewActionUtils.makeDefaultViewAction(meta, data,
                 ViewActionConstants.Import.name,
-                ViewActionConstants.Import.displayName,
+                I18nUtils.getMessage(ViewActionConstants.Import.displayName),
                 null,
                 ActionContextTypeEnum.CONTEXT_FREE,
                 ViewTypeEnum.FORM, ViewActionConstants.Import.priority,
@@ -74,7 +75,7 @@ public class FileExportAndImportViewActionInit implements MetaDataEditor {
         // 创建 跳转导出页 viewAction
         ViewActionUtils.makeDefaultViewAction(meta, data,
                 ViewActionConstants.Export.name,
-                ViewActionConstants.Export.displayName,
+                I18nUtils.getMessage(ViewActionConstants.Export.displayName),
                 null,
                 ActionContextTypeEnum.CONTEXT_FREE,
                 ViewTypeEnum.FORM, ViewActionConstants.Export.priority,
