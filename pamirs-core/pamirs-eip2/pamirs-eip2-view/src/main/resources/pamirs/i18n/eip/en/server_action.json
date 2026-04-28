@@ -167,5 +167,38 @@
     "sendRequest": {
       "displayName": "Send request"
     }
+  },
+  "pamirs.eip.proxy.EipLogProxy": {
+    "retry": {
+      "displayName": "Retry"
+    },
+    "batchRetry": {
+      "displayName": "Retry"
+    }
+  },
+
+  "eip.EipAlarmRuleProxy": {
+    "create": {
+      "displayName": "Create/Update",
+      "label": "Confirm",
+      "description": "Create or update alarm rule"
+    },
+    "update": {
+      "displayName": "Update",
+      "label": "Confirm",
+      "description": "Modify alarm rule"
+    },
+    "queryOne": {
+      "displayName": "Query One",
+      "description": "Query single alarm rule"
+    },
+    "queryPage": {
+      "displayName": "Query Page",
+      "description": "Query alarm rules with pagination"
+    },
+    "deleteOne": {
+      "displayName": "Delete",
+      "description": "Delete single alarm rule"
+    }
   }
 }

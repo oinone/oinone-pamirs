@@ -91,5 +91,29 @@
     "redirectTestPage": {
       "displayName": "Test"
     }
+  },
+  "eip.EipAlarmHistory": {
+    "redirectDetailPage": {
+      "displayName": "View Details",
+      "label": "View Details"
+    }
+  },
+  "eip.EipAlarmRuleProxy": {
+    "redirectCreatePage": {
+      "displayName": "Create Alarm Rule",
+      "label": "Create Alarm Rule"
+    },
+    "redirectUpdatePage": {
+      "displayName": "Edit Alarm Rule",
+      "label": "Edit Alarm Rule"
+    },
+    "redirectDetailPage": {
+      "displayName": "View Alarm Rule Details",
+      "label": "View Alarm Rule Details"
+    },
+    "deleteOne": {
+      "displayName": "Delete Alarm Rule",
+      "label": "Delete Alarm Rule"
+    }
   }
 }

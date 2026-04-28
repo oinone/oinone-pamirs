@@ -12,10 +12,16 @@
             </options>
         </field>
     </template>
+    <template slot="actions">
+        <action name="batchRetry" disabled="LIST_IS_EMPTY(activeRecords)
+                                            || LIST_CONTAINS(LIST_FIELD_NOT_EQUALS(activeRecords, 'pamirs.eip.proxy.EipLogProxy', 'interfaceType', 'INTEGRATION'), true)
+                                            || LIST_CONTAINS(LIST_FIELD_VALUES(activeRecords, 'pamirs.eip.proxy.EipLogProxy', 'logStatus'), 'RETRYING')"/>
+    </template>
     <template slot="rowActions">
         <action name="EipLogDetail">
             <template slot="default" width="MEDIUM"/>
         </action>
+        <action name="retry" disabled="activeRecord.logStatus == 'RETRYING' || activeRecord.interfaceType != 'INTEGRATION'"/>
     </template>
     <template slot="fields">
         <field data="id" widget="Input" invisible="true"/>
@@ -32,12 +38,6 @@
         <field data="invokeDate" label="调用时间" timeFormat="COLON_NORMAL_SSS"/>
         <field data="invokeEndDate" label="调用完成时间" timeFormat="COLON_NORMAL_SSS"/>
         <field data="invokeMillisecond" label="执行时长(ms)"/>
-        <field data="isSuccess" widget="Select" label="响应结果">
-            <options>
-                <option label="成功" name="true"/>
-                <option label="失败" name="false"/>
-            </options>
-        </field>
-
+        <field data="logStatus" widget="Select" label="响应结果"/>
     </template>
 </view>

@@ -1,0 +1,25 @@
+<view type="table" model="eip.EipAlarmHistory" name="tableView">
+
+    <template slot="search">
+        <field data="interfaceName" label="接口名称"/>
+        <field data="ruleName" label="告警规则名称"/>
+        <field data="notifyStatus" label="通知状态"/>
+    </template>
+    <template slot="table">
+        <field data="id" invisible="true"/>
+
+        <field data="alertTime" label="告警时间"/>
+        <field data="interfaceName" label="接口名称"/>
+        <field data="ruleName" label="告警规则名称"/>
+        <field data="notifyStatus" label="通知状态" optionColorStyle="COLORFUL" widget="Select">
+            <options>
+                <option backgroundColor="rgba(109, 212, 0, 0.1)" color="#6DD400" displayName="已发送" label="已发送" name="SENT"/>
+                <option backgroundColor="rgba(224, 32, 32, 0.1)" color="#E02020" displayName="发送失败" label="发送失败" name="SEND_FAILED"/>
+            </options>
+        </field>
+
+        <template slot="rowActions">
+            <action name="redirectDetailPage" label="查看详情"/>
+        </template>
+    </template>
+</view>

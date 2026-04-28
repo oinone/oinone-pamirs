@@ -66,5 +66,24 @@
     "EipIntegrationInterfaceEditFormCreate": {
       "title": "Create"
     }
+  },
+  "eip.EipAlarmHistory": {
+    "tableView": {
+      "title": "Alarm History Table"
+    },
+    "detailView": {
+      "title": "Alarm History Detail"
+    }
+  },
+  "eip.EipAlarmRuleProxy": {
+    "tableView": {
+      "title": "Alarm Rule Table"
+    },
+    "formView": {
+      "title": "Alarm Rule Form"
+    },
+    "detailView": {
+      "title": "Alarm Rule Detail"
+    }
   }
 }

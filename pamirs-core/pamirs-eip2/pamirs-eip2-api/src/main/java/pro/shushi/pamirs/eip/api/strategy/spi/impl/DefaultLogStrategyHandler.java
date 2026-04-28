@@ -15,9 +15,12 @@ import pro.shushi.pamirs.eip.api.IEipContext;
 import pro.shushi.pamirs.eip.api.IEipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.IEipOpenInterface;
 import pro.shushi.pamirs.eip.api.auth.OpenApiConstant;
+import pro.shushi.pamirs.eip.api.constant.EipLogConstant;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
+import pro.shushi.pamirs.eip.api.helper.EipRetryHelper;
 import pro.shushi.pamirs.eip.api.model.EipLog;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
+import pro.shushi.pamirs.eip.api.service.alarm.EipAlarmService;
 import pro.shushi.pamirs.eip.api.strategy.context.EipLogStrategyContext;
 import pro.shushi.pamirs.eip.api.strategy.entity.EipLogStrategyEntity;
 import pro.shushi.pamirs.eip.api.strategy.spi.EipLogSaveApi;
@@ -55,8 +58,8 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
     private static final String LOG_FILENAME_RESP_PREFIX = "eip_response";
     private static final String LOG_FILENAME_ERROR_PREFIX = "eip_error";
 
-    private static final String MULTIPART_MSG = "通过 multipart/form-data 方式传输的数据会转化成流的形式进行传递为二进制数据，不在此展示";
-    private static final String FREQUENCY_LOG_MSG_PREFIX = "本次请求因频率限制未记录请求和返回报文日志详情，当前频率：";
+    private static final String MULTIPART_MSG = EipLogConstant.MULTIPART_MSG;
+    private static final String FREQUENCY_LOG_MSG_PREFIX = EipLogConstant.FREQUENCY_LOG_MSG_PREFIX;
     private static final String ALL_NUMBER_LIST = "0123456789";
 
     @Override
@@ -72,6 +75,16 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
 
     @Override
     public EipLog create(IEipContext<?> context, Exchange exchange) {
+        EipLog retryLog = EipRetryHelper.getRetryLog();
+        if (retryLog != null) {
+            retryLog.setInvokeDate(new Date());
+            retryLog.setRequestHeaderData(EipHelper.getStringJSONString(exchange.getMessage().getHeaders()));
+            String requestOriginData = buildRequestData(context.getInterfaceContext());
+            retryLog.setRequestOriginData(requestOriginData);
+            context.putExecutorContextValue(IEipContext.LOG_STORE_KEY, retryLog);
+            return retryLog;
+        }
+
         IEipApi eipApi = context.getApi();
         String interfaceName = eipApi.getInterfaceName();
         InterfaceTypeEnum type = null;
@@ -124,6 +137,12 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
         if (eipLog == null) {
             return;
         }
+
+        if (EipRetryHelper.isRetrying()) {
+            uploadEipLog(eipLog, true, null);
+            eipLog.setIsSuccess(true);
+            return;
+        }
         IEipApi eipApi = context.getApi();
         EipLogStrategyEntity logStrategy = EipLogStrategyContext.get(eipApi.getType(), eipApi.getInterfaceName());
         if (logStrategy.isIgnoreLogFrequency()) {
@@ -137,6 +156,9 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
             EipLog savedLog = eipLog;
             savedLog.setIsSuccess(true);
             savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog, (IEipContext<SuperMap>) context);
+
+            // alarm
+            Spider.getDefaultExtension(EipAlarmService.class).alarm(savedLog, (IEipContext<SuperMap>) context);
         });
     }
 
@@ -147,13 +169,18 @@ public class DefaultLogStrategyHandler implements EipLogStrategyHandler {
             return;
         }
         uploadEipLog(eipLog, true, null);
+        eipLog.setIsSuccess(false)
+                .setErrorMsg(EipHelper.getStringBody(exchange))
+                .setInvokeEndDate(new Date());
+        if (EipRetryHelper.isRetrying()) {
+            return;
+        }
         Tx.build(new TxConfig().setPropagation(Propagation.REQUIRES_NEW.value())).executeWithoutResult(status -> {
-            EipLog savedLog = eipLog;
-            savedLog.setIsSuccess(false)
-                    .setErrorMsg(EipHelper.getStringBody(exchange))
-                    .setInvokeEndDate(new Date());
-            savedLog = Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(savedLog, (IEipContext<SuperMap>) context);
+            Spider.getDefaultExtension(EipLogSaveApi.class).saveLog(eipLog, (IEipContext<SuperMap>) context);
+            // alarm
+            Spider.getDefaultExtension(EipAlarmService.class).alarm(eipLog, (IEipContext<SuperMap>) context);
         });
+
     }
 
     @Override

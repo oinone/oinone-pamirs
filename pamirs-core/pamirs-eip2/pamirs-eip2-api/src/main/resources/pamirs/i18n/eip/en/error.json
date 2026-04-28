@@ -107,6 +107,11 @@
     "EIP_UNSUPPORTED_INTERFACE_TYPE" : "Unsupported interface type",
     "EIP_DB_DRIVER_IS_NULL" : "Database driver not obtained",
     "EIP_EXCEL_DATA_TYPE_ERROR" : "Analyze Excel data type errors",
-    "EIP_MCP_SUBMIT_ERROR" : "MCP submission verification failed"
+    "EIP_MCP_SUBMIT_ERROR" : "MCP submission verification failed",
+    "EIP_RETRY_LOCK_FAILED" : "The log is being retried, please try again later",
+    "EIP_RETRY_PARAM_NULL" : "The log has no original request parameters and cannot initiate a retry",
+    "EIP_ALARM_NAME_EMPTY" : "Please enter a name",
+    "EIP_ALARM_NAME_DUP" : "Duplicate name",
+    "EIP_ALARM_INTERFACE_OTHER_REL" : "The integration interface has duplicate rule configuration, please refresh and retry"
   }
 }

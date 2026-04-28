@@ -99,7 +99,89 @@
         "invokeDate": "Invocation Time",
         "invokeEndDate": "Invocation Completion Time",
         "invokeMillisecond": "Execution Duration (ms)",
-        "isSuccess": "Response Result"
+        "isSuccess": "Response Result",
+        "logStatus": "Response Result"
+      }
+    }
+  },
+  "eip.EipAlarmHistory": {
+    "tableView": {
+      "base.Field": {
+        "alertTime": "Alert Time",
+        "interfaceName": "Interface Name",
+        "ruleName": "Alarm Rule Name",
+        "notifyStatus": "Notification Status"
+      }
+    },
+    "detailView": {
+      "base.Field": {
+        "alertTime": "Alert Time",
+        "interfaceName": "Interface Name",
+        "interfaceTechName": "Interface Technical Name",
+        "ruleName": "Triggered Rule",
+        "metricType": "Metric Type",
+        "totalSum": "Total Calls",
+        "successSum": "Success Count",
+        "failSum": "Failure Count",
+        "failRate": "Failure Rate",
+        "threshold": "Threshold",
+        "notifyType": "Notification Method",
+        "errorMsg": "Failure Reason"
+      }
+    }
+  },
+  "eip.EipAlarmRuleProxy": {
+    "tableView": {
+      "base.Field": {
+        "name": "Rule Name",
+        "metricType": "Metric Type",
+        "threshold": "Threshold",
+        "timeWindow": "Time Window",
+        "repeatInterval": "Repeat Interval",
+        "enabled": "Is Enabled",
+        "notifyType": "Notification Method",
+        "createDate": "Creation Time",
+        "writeDate": "Update Time"
+      }
+    },
+    "formView": {
+      "base.Field": {
+        "name": "Rule Name",
+        "eipInterface": "Integrated Interface",
+        "enabled": "Is Enabled",
+        "metricType": "Metric Type",
+        "timeWindow": "Time Window",
+        "thresholdForRate": "Threshold",
+        "thresholdForCount": "Threshold",
+        "minCallCount": "Minimum Call Count",
+        "notifyType": "Notification Method",
+        "repeatInterval": "Repeat Interval",
+        "receivers": "Alarm Recipients",
+        "emailTemplate": "Email Template",
+        "sender": "Sender",
+        "webhookUrl": "Webhook Address",
+        "signSecret": "Signing Secret",
+        "notifyContent": "Notification Content"
+      }
+    },
+    "detailView": {
+      "base.Field": {
+        "name": "Rule Name",
+        "eipInterface": "Integrated Interface",
+        "enabled": "Is Enabled",
+        "metricType": "Metric Type",
+        "timeWindow": "Time Window",
+        "thresholdForRate": "Threshold",
+        "thresholdForCount": "Threshold",
+        "minCallCount": "Minimum Call Count",
+        "notifyType": "Notification Method",
+        "repeatInterval": "Repeat Interval",
+        "receivers": "Alarm Recipients",
+        "emailTemplate": "Email Template",
+        "sender": "Sender",
+        "webhookUrl": "Webhook Address",
+        "signSecret": "Signing Secret",
+        "notifyContent": "Notification Content"
       }
     }
   }

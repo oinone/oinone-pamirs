@@ -93,4 +93,14 @@ public class EipLog extends IdModel {
     @Field(displayName = "调用完成时间")
     private Date invokeEndDate;
 
+    @Base
+    @Field.Integer
+    @Field(displayName = "重试成功次数", summary = "该日志重试后成功的累计次数")
+    private Integer retrySuccessCount;
+
+    @Base
+    @Field.Integer
+    @Field(displayName = "重试失败次数", summary = "该日志重试后失败的累计次数")
+    private Integer retryFailCount;
+
 }

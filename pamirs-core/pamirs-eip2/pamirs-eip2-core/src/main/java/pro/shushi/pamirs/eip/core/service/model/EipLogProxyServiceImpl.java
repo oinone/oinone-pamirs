@@ -2,16 +2,22 @@ package pro.shushi.pamirs.eip.core.service.model;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import pro.shushi.pamirs.eip.api.enmu.EipRetryStatusEnum;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.AbstractSingleInterface;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
 import pro.shushi.pamirs.eip.api.pmodel.EipLogProxy;
+import pro.shushi.pamirs.eip.api.service.EipLogRetryService;
 import pro.shushi.pamirs.eip.api.service.model.EipLogProxyService;
+import pro.shushi.pamirs.eip.api.strategy.cache.EipLongRedisTemplate;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
@@ -21,8 +27,13 @@ import pro.shushi.pamirs.meta.common.util.PStringUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class EipLogProxyServiceImpl implements EipLogProxyService {
+
+    @Autowired
+    @Qualifier(EipLongRedisTemplate.REDIS_TEMPLATE_BEAN_NAME)
+    private EipLongRedisTemplate eipLongRedisTemplate;
 
     @Override
     public <T extends EipLogProxy> Pagination<T> queryPage(Pagination<T> page, IWrapper<T> queryWrapper) {
@@ -110,6 +121,38 @@ public class EipLogProxyServiceImpl implements EipLogProxyService {
                 eipLogProxy.setInterfaceUri(eipInterface.getUri());
                 eipLogProxy.setInterfaceModuleDefinition(eipInterface.getModuleDefinition());
                 eipLogProxy.setInterfaceConnGroup(eipInterface.getConnGroup());
+            }
+        }
+        fillLogStatus(eipLogProxyList);
+        for (EipLogProxy proxy : eipLogProxyList) {
+            int successCount = Optional.ofNullable(proxy.getRetrySuccessCount()).orElse(0);
+            int failCount = Optional.ofNullable(proxy.getRetryFailCount()).orElse(0);
+            proxy.setRetryCount(successCount + failCount);
+            proxy.setRetrySuccessCount(successCount);
+            proxy.setRetryFailCount(failCount);
+        }
+    }
+
+    private <T extends EipLogProxy> void fillLogStatus(List<T> eipLogProxyList) {
+        List<String> lockKeys = new ArrayList<>();
+        for (EipLogProxy proxy : eipLogProxyList) {
+            lockKeys.add(EipLogRetryService.RETRY_LOCK_KEY_PREFIX + proxy.getId());
+        }
+        List<Long> lockValues = null;
+        try {
+            lockValues = eipLongRedisTemplate.opsForValue().multiGet(lockKeys);
+        } catch (Exception e) {
+            log.warn("Failed to fetch retry lock status, falling back to 'isSuccess': {}", e.getMessage());
+        }
+        for (int i = 0; i < eipLogProxyList.size(); i++) {
+            EipLogProxy proxy = eipLogProxyList.get(i);
+            boolean locked = lockValues != null && lockValues.get(i) != null;
+            if (locked) {
+                proxy.setLogStatus(EipRetryStatusEnum.RETRYING);
+            } else if (Boolean.TRUE.equals(proxy.getIsSuccess())) {
+                proxy.setLogStatus(EipRetryStatusEnum.SUCCESS);
+            } else if (Boolean.FALSE.equals(proxy.getIsSuccess())) {
+                proxy.setLogStatus(EipRetryStatusEnum.FAILURE);
             }
         }
     }

@@ -43,6 +43,10 @@
             <artifactId>jakarta.mail-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>jakarta.mail</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.ganshane.specs</groupId>
             <artifactId>dingtalk-sdk</artifactId>
             <version>20210115</version>

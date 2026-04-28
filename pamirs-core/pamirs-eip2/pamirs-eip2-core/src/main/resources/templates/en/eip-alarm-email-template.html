@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【Interface Alert】${interfaceName}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+
+        .email-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .header > img {
+            width: 180px;
+            height: auto;
+        }
+
+        .content {
+            padding: 40px 48px;
+            background: #FFFFFF;
+        }
+
+        .alert-badge {
+            display: inline-block;
+            background-color: #FFF2F0;
+            border: 1px solid #FFCCC7;
+            color: #FF4D4F;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .title {
+            font-size: 22px;
+            color: #2B2F36;
+            margin-bottom: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .greeting {
+            font-size: 15px;
+            color: #2B2F36;
+            line-height: 24px;
+            margin-bottom: 12px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #636A72;
+            line-height: 22px;
+            margin-bottom: 24px;
+            padding: 12px;
+            background: #F8F9FB;
+            border-left: 4px solid #035DFF;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+            table-layout: fixed;
+        }
+
+        .info-table th {
+            background-color: #F5F7FA;
+            color: #2B2F36;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 16px;
+            border: 1px solid #E6E9ED;
+            font-size: 14px;
+        }
+
+        .info-table td {
+            border: 1px solid #E6E9ED;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #595959;
+            word-break: break-all;
+        }
+
+        .info-table .label-cell {
+            background-color: #FAFAFA;
+            width: 140px;
+            color: #8C8C8C;
+        }
+
+        .value-high-light {
+            color: #FF4D4F;
+            font-weight: 600;
+        }
+
+        .system-tip {
+            font-size: 12px;
+            color: #999999;
+            padding: 24px 48px;
+            background-color: #fafafa;
+            border-top: 1px solid #eeeeee;
+            text-align: center;
+        }
+
+        @media (max-width: 640px) {
+            .content {
+                padding: 24px;
+            }
+
+            .info-table .label-cell {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <img src="https://pamirs.oss-cn-hangzhou.aliyuncs.com/oinone/market/oinone-logo.png" alt="Oinone">
+    </div>
+
+    <div class="content">
+        <div class="alert-badge">Alert Notification</div>
+        <div class="title">【Interface Alert】${interfaceName} Failed Continuously ${alarmDesc} in ${timeWindow}</div>
+
+        <div class="greeting">Hello,</div>
+        <div class="description">
+            The system has detected multiple exceptions in the integration interface <strong>${interfaceName}</strong> within a short period of time. To avoid affecting business operations, please pay immediate attention.
+        </div>
+
+        <table class="info-table">
+            <thead>
+            <tr>
+                <th colspan="2">Alert Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="label-cell">Alert Time</td>
+                <td>${alarmTime}</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Interface Name</td>
+                <td>${interfaceName}</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Technical Name</td>
+                <td>${interfaceTechName}</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Trigger Rule</td>
+                <td>${ruleName}</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Time Window</td>
+                <td>${windowStart} ~ ${windowEnd}</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Total Calls</td>
+                <td>${totalSum} times</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Success Count</td>
+                <td>${successSum} times</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Failure Count/Rate</td>
+                <td class="value-high-light">${failSum} times (exceeds threshold)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="system-tip">This email is sent automatically by the system. Please do not reply directly. For assistance, contact your technical support.</div>
+</div>
+</body>
+</html>

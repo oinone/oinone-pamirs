@@ -387,5 +387,64 @@
     "File": {
       "help": "File type, field length is not editable, essentially a string, will be converted into a binary stream during parameter conversion"
     }
+  },
+  "eip.EipRetryStatusEnum": {
+    "displayName": "Log Status",
+    "RETRYING": {
+      "displayName": "In Progress",
+      "help": "In Progress"
+    },
+    "SUCCESS": {
+      "displayName": "Success",
+      "help": "Success"
+    },
+    "FAILURE": {
+      "displayName": "Failure",
+      "help": "Failure"
+    }
+  },
+  "eip.AlarmMetricType": {
+    "displayName": "Metric Type",
+    "summary": "Type of metric for alarm evaluation",
+    "FAILURE_COUNT": {
+      "displayName": "Failure Count",
+      "help": "Number of failed calls"
+    },
+    "FAILURE_RATE": {
+      "displayName": "Failure Rate",
+      "help": "Percentage of failed calls"
+    }
+  },
+  "eip.AlarmNotifyType": {
+    "displayName": "Alarm Notification Method",
+    "summary": "Method for sending alarm notifications",
+    "EMAIL": {
+      "displayName": "Email",
+      "help": "Send alarm notifications via email"
+    },
+    "WEBHOOK": {
+      "displayName": "Webhook",
+      "help": "Send alarm notifications via webhook callback"
+    }
+  },
+  "eip.AlarmNotifyStatus": {
+    "displayName": "Alarm Notification Status",
+    "summary": "Status of alarm notification delivery",
+    "SENT": {
+      "displayName": "Sent",
+      "help": "Notification has been successfully sent"
+    },
+    "SEND_FAILED": {
+      "displayName": "Send Failed",
+      "help": "Failed to send notification"
+    },
+    "NOT_NEED_SENT": {
+      "displayName": "Not Needed to Send",
+      "help": "No need to send notification"
+    },
+    "NOT_SENT": {
+      "displayName": "Not Sent",
+      "help": "Notification was not sent"
+    }
   }
 }

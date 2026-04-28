@@ -901,5 +901,6 @@
   "流程完成": "Process Completed",
   "流程审批": "Process Approval",
   "流程发起": "Process Initiation",
-  "超级管理员": "Super Administrator"
+  "超级管理员": "Super Administrator",
+  "请求失败时处理": "Request Failure Handling"
 }

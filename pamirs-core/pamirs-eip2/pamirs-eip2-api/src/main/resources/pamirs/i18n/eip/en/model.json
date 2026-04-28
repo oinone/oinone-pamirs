@@ -1404,6 +1404,14 @@
       "responseHeaderData" : {
         "displayName" : "Response header data",
         "summary" : "Response Header Data"
+      },
+      "retrySuccessCount" : {
+        "displayName" : "Retry Success Count",
+        "summary" : "Cumulative count of successful retries for this log"
+      },
+      "retryFailCount" : {
+        "displayName" : "Retry Failure Count",
+        "summary" : "Cumulative count of failed retries for this log"
       }
     },
     "displayName" : "API call log"
@@ -2091,6 +2099,13 @@
       "invokeMillisecond" : {
         "displayName" : "Call duration",
         "summary" : "Call Duration"
+      },
+      "logStatus" : {
+        "displayName" : "Log Status"
+      },
+      "retryCount" : {
+        "displayName" : "Retry Count",
+        "summary" : "Cumulative retry count for this log"
       }
     },
     "displayName" : "Interface Log Proxy Model",
@@ -2259,5 +2274,244 @@
       }
     },
     "displayName" : "Integrated interface Excel type conversion"
+  },
+  "eip.EipLogRetryHistory" : {
+    "displayName" : "Interface Log Retry Invocation Record",
+    "base.Field" : {
+      "logId" : {
+        "displayName" : "Log ID"
+      },
+      "requestHeaderData" : {
+        "displayName" : "Request Header Data"
+      },
+      "requestOriginData" : {
+        "displayName" : "Original Request Data"
+      },
+      "requestTargetData" : {
+        "displayName" : "Actual Request Data"
+      },
+      "responseHeaderData" : {
+        "displayName" : "Response Header Data"
+      },
+      "responseData" : {
+        "displayName" : "Response Data"
+      },
+      "isSuccess" : {
+        "displayName" : "Is Invocation Successful"
+      },
+      "errorMsg" : {
+        "displayName" : "Error Message"
+      },
+      "invokeDate" : {
+        "displayName" : "Invocation Time"
+      },
+      "invokeEndDate" : {
+        "displayName" : "Invocation Completion Time"
+      },
+      "invokeMillisecond" : {
+        "displayName" : "Invocation Duration (ms)"
+      }
+    }
+  },
+  "eip.EipAlarmRule": {
+    "displayName": "Integration Interface Alarm Rule",
+    "summary": "Rule for monitoring integration interface metrics and triggering alerts",
+    "base.Field": {
+      "techName": {
+        "displayName": "Rule Technical Name",
+        "summary": "Technical name of the alarm rule"
+      },
+      "name": {
+        "displayName": "Rule Name",
+        "summary": "Human-readable name for the alarm rule"
+      },
+      "metricType": {
+        "displayName": "Metric Type",
+        "summary": "Type of metric being monitored (failure count or failure rate)"
+      },
+      "threshold": {
+        "displayName": "Threshold Value",
+        "summary": "Threshold value for triggering alarms"
+      },
+      "minCallCount": {
+        "displayName": "Minimum Call Count",
+        "summary": "Minimum number of calls required in time window to trigger alarm (only for failure rate)"
+      },
+      "timeWindow": {
+        "displayName": "Time Window (seconds)",
+        "summary": "Statistical window duration in seconds"
+      },
+      "repeatInterval": {
+        "displayName": "Repeat Interval (minutes)",
+        "summary": "Interval for repeating alarm notifications"
+      },
+      "enabled": {
+        "displayName": "Is Enabled",
+        "summary": "Whether this alarm rule is active"
+      },
+      "notifyType": {
+        "displayName": "Notification Method",
+        "summary": "Method for sending alarm notifications"
+      },
+      "eipInterface": {
+        "displayName": "Integrated Interface",
+        "summary": "The integration interface this rule monitors"
+      },
+      "sender": {
+        "displayName": "Sender Email",
+        "summary": "Email address for sending alarm notifications"
+      },
+      "receivers": {
+        "displayName": "Alarm Recipients",
+        "summary": "People who will receive alarm notifications"
+      },
+      "emailTemplateName": {
+        "displayName": "Email Template Name",
+        "summary": "Name of the email template for alarm notifications"
+      },
+      "emailTemplate": {
+        "displayName": "Email Template",
+        "summary": "Email template used for alarm notifications (only when notification type is email)"
+      },
+      "webhookUrl": {
+        "displayName": "Webhook URL",
+        "summary": "Webhook callback URL for robot messages (only when notification type is webhook)"
+      },
+      "signSecret": {
+        "displayName": "Signing Secret",
+        "summary": "Secret key for webhook message signing"
+      },
+      "notifyContent": {
+        "displayName": "Notification Content",
+        "summary": "Content of the alarm notification message (only when notification type is webhook)"
+      }
+    }
+  },
+  "eip.EipAlarmHistory": {
+    "displayName": "Alarm Record",
+    "summary": "Record of triggered alarm events",
+    "base.Field": {
+      "alertTime": {
+        "displayName": "Alert Time",
+        "summary": "Timestamp when the alarm rule was triggered"
+      },
+      "interfaceName": {
+        "displayName": "Interface Name",
+        "summary": "Name of the interface that triggered the alarm"
+      },
+      "interfaceTechName": {
+        "displayName": "Interface Technical Name",
+        "summary": "Technical name of the interface that triggered the alarm"
+      },
+      "eipInterface": {
+        "displayName": "Alarm Interface",
+        "summary": "The interface that was monitored and triggered the alarm"
+      },
+      "ruleTechName": {
+        "displayName": "Rule Technical Name",
+        "summary": "Technical name of the alarm rule that was triggered"
+      },
+      "ruleName": {
+        "displayName": "Rule Name",
+        "summary": "Human-readable name of the alarm rule that was triggered"
+      },
+      "alarmRule": {
+        "displayName": "Alarm Rule",
+        "summary": "The specific alarm rule that was triggered"
+      },
+      "metricType": {
+        "displayName": "Metric Type",
+        "summary": "Type of metric that exceeded the threshold"
+      },
+      "notifyStatus": {
+        "displayName": "Notification Status",
+        "summary": "Status of the notification delivery attempt"
+      },
+      "totalSum": {
+        "displayName": "Total Calls",
+        "summary": "Total number of interface calls in the monitoring period"
+      },
+      "successSum": {
+        "displayName": "Success Count",
+        "summary": "Number of successful interface calls"
+      },
+      "failSum": {
+        "displayName": "Failure Count",
+        "summary": "Number of failed interface calls"
+      },
+      "failRate": {
+        "displayName": "Failure Rate",
+        "summary": "Percentage of failed calls compared to total calls"
+      },
+      "threshold": {
+        "displayName": "Threshold Value",
+        "summary": "Threshold value that was exceeded to trigger the alarm"
+      },
+      "timeWindow": {
+        "displayName": "Time Window",
+        "summary": "Time range during which the metric was measured"
+      },
+      "notifyType": {
+        "displayName": "Notification Method",
+        "summary": "Method used for sending the alarm notification"
+      },
+      "errorMsg": {
+        "displayName": "Error Message",
+        "summary": "Error details if notification delivery failed"
+      }
+    }
+  },
+  "eip.EipAlarmStat": {
+    "displayName": "Alarm Statistics",
+    "summary": "Statistical data for alarm rule evaluation",
+    "base.Field": {
+      "ruleName": {
+        "displayName": "Rule Name",
+        "summary": "Name of the alarm rule these statistics belong to"
+      },
+      "interfaceName": {
+        "displayName": "Interface Name",
+        "summary": "Name of the interface being monitored"
+      },
+      "interfaceTechName": {
+        "displayName": "Interface Technical Name",
+        "summary": "Technical name of the interface being monitored"
+      },
+      "ruleTechName": {
+        "displayName": "Rule Technical Name",
+        "summary": "Technical name of the alarm rule"
+      },
+      "start": {
+        "displayName": "Statistics Start Time",
+        "summary": "Start timestamp for the statistical period (Unix timestamp)"
+      },
+      "end": {
+        "displayName": "Statistics End Time",
+        "summary": "End timestamp for the statistical period (Unix timestamp)"
+      },
+      "totalSum": {
+        "displayName": "Total Calls",
+        "summary": "Total number of interface invocations during the period"
+      },
+      "failSum": {
+        "displayName": "Failure Count",
+        "summary": "Number of failed interface invocations during the period"
+      }
+    }
+  },
+
+  "eip.EipAlarmRuleProxy": {
+    "displayName": "Integration Interface Alarm Rule Proxy",
+    "summary": "Proxy model for integration interface alarm rules with additional threshold fields",
+    "base.Field": {
+      "thresholdForCount": {
+        "displayName": "Threshold",
+        "summary": "Please enter failure count threshold (positive integer, range: 1-9999)"
+      },
+      "thresholdForRate": {
+        "displayName": "Threshold",
+        "summary": "Please enter failure rate threshold (0~100%)"
+      }
+    }
   }
 }

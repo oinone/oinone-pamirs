@@ -1,0 +1,42 @@
+<view model="eip.EipAlarmRuleProxy" type="form" name="formView">
+    <template colSpan="FULL" slot="actionBar">
+        <action name="$$internal_DialogCancel" label="取消" type="default"/>
+        <action closeAllDialog="true" closeAllDrawer="true" closeDialog="true" closeDrawer="true" goBack="true" invisible="!activeRecord.id" label="确定" name="update" refreshData="true" validateForm="true"/>
+        <action closeAllDialog="true" closeAllDrawer="true" closeDialog="true" closeDrawer="true" goBack="true" invisible="activeRecord.id" label="确定" name="create" refreshData="true" validateForm="true"/>
+    </template>
+    <template colSpan="FULL" slot="form">
+        <pack colSpan="FULL" cols="24" title="基础信息" widget="group">
+            <field colSpan="FULL" data="name" label="规则名称" patternType="NONE" required="true" type="TEXT" widget="Input"/>
+            <field colSpan="FULL" data="eipInterface" label="集成接口" required="true" widget="Select" load="loadForAlarmRule"/>
+            <field colSpan="HALF" data="enabled" defaultValue="false" label="是否启用" required="true" widget="Switch">
+                <options>
+                    <option displayName="是" name="true"/>
+                    <option displayName="否" name="false"/>
+                </options>
+            </field>
+        </pack>
+        <pack colSpan="FULL" cols="24" title="触发条件" widget="group">
+            <field colSpan="HALF" data="metricType" label="指标类型" required="true" widget="Select"/>
+            <field colSpan="HALF" data="timeWindow" label="时间窗口" hint="单位：秒（1分钟~24小时）" required="true" min="60" max="86400" showThousandth="false" statistics="false" widget="Integer"/>
+
+            <field colSpan="HALF" data="thresholdForRate" invisible="activeRecord.metricType != 'FAILURE_RATE'" label="阈值" max="100" min="0" decimal="2" hint="百分比，支持小数点后两位" required="true" showThousandth="false" statistics="false" widget="Integer"/>
+            <field colSpan="HALF" data="thresholdForCount" invisible="activeRecord.metricType != 'FAILURE_COUNT'" label="阈值" max="9999" min="1" required="true" showThousandth="false" statistics="false" validatorMessage="请输入失败次数阈值（正整数，范围：1-9999）" widget="Integer"/>
+
+            <field colSpan="HALF" data="minCallCount" invisible="activeRecord.metricType != 'FAILURE_RATE'" label="最小调用次数" required="true" showThousandth="false" statistics="false" widget="Integer"/>
+        </pack>
+        <pack colSpan="FULL" cols="24" title="通知配置" widget="group">
+            <field colSpan="HALF" data="notifyType" label="通知方式" required="true" widget="Select"/>
+            <field colSpan="HALF" data="repeatInterval" label="重复发送间隔" hint="单位：分钟（1分钟~24小时）" min="1" max="1440" required="true" showThousandth="false" statistics="false" widget="Integer"/>
+            <field colSpan="FULL" data="receivers" invisible="activeRecord.notifyType != 'EMAIL'" label="告警接收人" required="true" widget="Select"/>
+            <field colSpan="HALF" data="emailTemplate" invisible="activeRecord.notifyType != 'EMAIL'" label="邮件模板" required="activeRecord.notifyType == 'EMAIL'" widget="Select"/>
+            <field colSpan="HALF" data="sender" invisible="activeRecord.notifyType != 'EMAIL'" label="发送人" required="activeRecord.notifyType == 'EMAIL'" widget="Input"/>
+
+            <field colSpan="HALF" data="webhookUrl" invisible="activeRecord.notifyType != 'WEBHOOK'" label="Webhook 地址" patternType="NONE" required="activeRecord.notifyType == 'WEBHOOK'" type="TEXT" widget="Input"/>
+            <field colSpan="HALF" data="signSecret" invisible="activeRecord.notifyType != 'WEBHOOK'" label="加签密钥" patternType="NONE" type="TEXT" widget="Input"/>
+
+            <field colSpan="HALF" data="notifyContent" invisible="activeRecord.notifyType != 'WEBHOOK'" label="通知内容" widget="TextArea"/>
+        </pack>
+        <field data="id" invisible="true"/>
+        <field data="techName" invisible="true"/>
+    </template>
+</view>

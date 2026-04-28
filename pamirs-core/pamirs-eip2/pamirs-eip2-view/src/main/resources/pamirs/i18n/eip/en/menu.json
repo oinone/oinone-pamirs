@@ -3,6 +3,8 @@
   "EipMenus_EipMenu_EipIntegrationInterfaceMenu" : "Integrated interface",
   "EipMenus_EipMenu_EipCircuitBreakerRuleProxyMenu" : "Circuit Breaker Configuration",
   "EipMenus_EipMenu_CircuitBreakerRecordProxyMenu" : "Circuit breaker record",
+  "EipMenus_EipMenu_EipAlarmRuleMenu" : "Alarm Configuration",
+  "EipMenus_EipMenu_EipAlarmHistoryMenu" : "Alarm Record",
   "EipMenus_EipOpenMenu" : "Open management",
   "EipMenus_EipOpenMenu_EipOpenInterfaceMenu" : "Open interface",
   "EipMenus_EipOpenMenu_EipApplicationProxyMenu" : "Application",

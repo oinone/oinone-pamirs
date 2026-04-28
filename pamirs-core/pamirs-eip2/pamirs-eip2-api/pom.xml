@@ -85,7 +85,10 @@
             <groupId>jakarta.xml.soap</groupId>
             <artifactId>jakarta.xml.soap-api</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>pro.shushi.pamirs.core</groupId>
+            <artifactId>pamirs-message-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

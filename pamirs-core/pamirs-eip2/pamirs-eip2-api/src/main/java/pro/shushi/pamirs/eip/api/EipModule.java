@@ -7,6 +7,7 @@ import pro.shushi.pamirs.business.api.BusinessModule;
 import pro.shushi.pamirs.core.common.CommonModule;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.file.api.FileModule;
+import pro.shushi.pamirs.message.MessageModule;
 import pro.shushi.pamirs.meta.annotation.Module;
 import pro.shushi.pamirs.meta.annotation.sys.Boot;
 import pro.shushi.pamirs.meta.base.PamirsModule;
@@ -27,7 +28,8 @@ import pro.shushi.pamirs.user.api.UserModule;
                 UserModule.MODULE_MODULE,
                 FileModule.MODULE_MODULE,
                 TriggerModule.MODULE_MODULE,
-                BusinessModule.MODULE_MODULE
+                BusinessModule.MODULE_MODULE,
+                MessageModule.MODULE_MODULE,
         },
         clientTypes = {ClientTypeEnum.PC}
 )
