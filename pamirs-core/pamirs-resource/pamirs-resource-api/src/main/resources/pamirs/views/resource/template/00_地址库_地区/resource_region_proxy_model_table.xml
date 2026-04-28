@@ -1,21 +1,13 @@
-<view widget="table" type="TABLE" title="地区" name="地区table" model="resource.ResourceRegionProxyModel"
-      invisibleTopSearch="true" checkable="false"
-      showInlineActions="false"
-      excluded-actions="redirectCreatePage,redirectUpdatePage,redirectDetailPage,delete">
+<view widget="table" type="TABLE" title="地区" name="ResourceRegionProxyModelTable" model="resource.ResourceRegionProxyModel">
     <template slot="actions">
-        <!-- <action name="synchronization" label="同步" model="resource.ResourceRegionProxyModel" refreshData="true" text="同步" widget="ServerAction"/>-->
-        <action allowClear="true" cancelText="取消" closeDialog="true" confirm="确认要执行动作吗？" confirmPosition="BM" confirmType="POPPER" disabled="false" enableConfirm="false" enterText="确定" goBack="false" invisible="false" label="高德地址同步" model="resource.ResourceRegionProxyModel" name="synchronization" readonly="false" refreshData="true" required="false" type="PRIMARY" validateForm="true" widget="ServerAction"/>
-        <!--
-        <action name="$$internal_GotoListImportDialog" label="导入" model="resource.ResourceRegionProxyModel" text="导入"/>
-        <action name="$$internal_GotoListExportDialog" label="导出" model="resource.ResourceRegionProxyModel" text="导出"/>
-        -->
+        <action name="synchronization" label="高德地址同步" refreshData="true" widget="ServerAction"/>
     </template>
     <template slot="fields">
-        <field name="id" invisible="true" model="resource.ResourceRegionProxyModel" data="id"/>
-        <field name="country" widget="Select" model="resource.ResourceRegionProxyModel" data="country" label="国家"/>
-        <field name="province" widget="Select" model="resource.ResourceRegionProxyModel" data="province" label="省/州"/>
-        <field name="city" widget="Select" model="resource.ResourceRegionProxyModel" data="city" label="市"/>
-        <field name="district" widget="Select" model="resource.ResourceRegionProxyModel" data="district" label="区"/>
-        <field name="street" widget="Select" model="resource.ResourceRegionProxyModel" data="street" label="街道"/>
+        <field data="id" invisible="true"/>
+        <field data="country" widget="Select" label="国家"/>
+        <field data="province" widget="Select" label="省/州"/>
+        <field data="city" widget="Select" label="市"/>
+        <field data="district" widget="Select" label="区"/>
+        <field data="street" widget="Select" label="街道"/>
     </template>
 </view>
