@@ -50,7 +50,7 @@ public class LogicDeleteInterceptor implements Interceptor {
             if (!logicDelete) {
                 return invocation.proceed();
             }
-            LogicDeleteUtils.fillLogicDelete(pamirsTableInfo, map);
+            LogicDeleteUtils.fillLogicDelete(pamirsTableInfo, map, model);
             return invocation.proceed();
         }
         return invocation.proceed();

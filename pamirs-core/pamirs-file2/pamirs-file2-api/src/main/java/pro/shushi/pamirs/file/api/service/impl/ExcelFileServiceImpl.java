@@ -369,7 +369,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
                 e = e.getCause();
             }
             log.error("do import error. url: {}", url, e);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, ExcelConstant.DEFAULT_ERROR_MESSAGE);
+            importTask.addTaskMessage(TaskMessageLevelEnum.INFO, ExcelConstant.DEFAULT_ERROR_MESSAGE);
             importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, EasyExcelHelper.getErrorMessage(e));
         }
         return updateImportTask(importTask, importContext);
@@ -386,7 +386,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         }
         if (isNeedGeneratorErrorFile) {
             generatorErrorFile0(importTask, importContext.getDefinitionContext(), errorDataList);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "请根据错误数据后面的提示内容进行修正");
+            importTask.addTaskMessage(TaskMessageLevelEnum.INFO, "请根据错误数据后面的提示内容进行修正");
         }
         return isNeedGeneratorErrorFile;
     }
@@ -395,7 +395,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     private void generatorErrorFile0(ExcelImportTask importTask, ExcelDefinitionContext context, List<List<Map<Integer, String>>> errorDataList) {
         Result<List<List<Map<String, String>>>> result = ExcelImportErrorFileHelper.generatorErrorFile(context).get(errorDataList);
         if (!result.isSuccess()) {
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, "错误信息收集失败");
+            importTask.addTaskMessage(TaskMessageLevelEnum.INFO, "错误信息收集失败");
             importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, result.getErrorMessage());
             return;
         }
@@ -479,7 +479,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
                     .addTaskMessage(TaskMessageLevelEnum.INFO, "导入成功");
         } else {
             importTask.setState(ExcelTaskStateEnum.FAILURE)
-                    .addTaskMessage(TaskMessageLevelEnum.ERROR, "导入失败");
+                    .addTaskMessage(TaskMessageLevelEnum.INFO, "导入失败");
         }
         if (importTask.getId() != null) {
             importTask.updateById();
