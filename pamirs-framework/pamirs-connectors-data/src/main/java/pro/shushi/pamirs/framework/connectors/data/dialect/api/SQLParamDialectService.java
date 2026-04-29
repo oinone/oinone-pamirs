@@ -17,4 +17,14 @@ public interface SQLParamDialectService {
     void resolveIfWriteDate(Map<String, Object> map);
 
     void resolveWriteDate(Map<String, Object> map);
+
+    /**
+     * 逻辑删除时填充额外参数（如 writeDateColumn），默认空实现，各方言按需 override
+     *
+     * @param map   逻辑删除参数 map
+     * @param model 当前模型名
+     */
+    default void fillLogicDeleteParam(Map<String, Object> map, String model) {
+        // default: do nothing
+    }
 }

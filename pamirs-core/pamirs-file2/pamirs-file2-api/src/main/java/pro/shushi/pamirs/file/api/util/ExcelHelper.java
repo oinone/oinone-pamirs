@@ -93,6 +93,17 @@ public class ExcelHelper {
         return new ExcelFixedHeadHelper(model, name);
     }
 
+    /**
+     * 创建固定表头 Helper，支持全局列宽自适应默认值。
+     *
+     * @param model            模型编码
+     * @param name             模板名称
+     * @param autoColumnWidth  全局列宽自适应默认值；仅在单元格未显式配置 {@code autoColumnWidth} 时生效，单元格配置优先
+     */
+    public static ExcelFixedHeadHelper fixedHeader(String model, String name, boolean autoColumnWidth) {
+        return new ExcelFixedHeadHelper(model, name, autoColumnWidth);
+    }
+
     public static String generatorSingleObjectFormatExpression(String optionLabelField) {
         return ExpressionConstant.ACTIVE_RECORD + CharacterConstants.SEPARATOR_DOT + optionLabelField;
     }

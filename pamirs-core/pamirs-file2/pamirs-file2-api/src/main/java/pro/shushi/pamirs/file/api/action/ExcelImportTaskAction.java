@@ -153,9 +153,8 @@ public class ExcelImportTaskAction extends AbstractExcelImportTaskAction<ExcelIm
             isSuccess = excelFileService.doImport(importTask, context, DefaultExcelReadCallback::new);
         }
         if (!isSuccess) {
-            if (PamirsSession.getMessageHub().isSuccess()) {
-                PamirsSession.getMessageHub().error(I18nUtils.getMessage("pamirs.file.excel.import.error.checkRecord"));
-            }
+            // 导入失败时将错误信息推送到页面
+            notifyImportFailure(importTask);
         }
     }
 }
