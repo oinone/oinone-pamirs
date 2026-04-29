@@ -68,6 +68,12 @@ public class FileProperties {
         @Min(0)
         private int maxErrorLength = 100;
 
+        /**
+         * 导入失败时是否将具体错误原因通过 MessageHub 推送到页面，默认 false
+         * 配置项：pamirs.file.import-property.notify-import-error
+         */
+        private boolean notifyImportError = false;
+
         public boolean getDefaultEachImport() {
             return defaultEachImport;
         }
@@ -82,6 +88,14 @@ public class FileProperties {
 
         public void setMaxErrorLength(int maxErrorLength) {
             this.maxErrorLength = maxErrorLength;
+        }
+
+        public boolean getNotifyImportError() {
+            return notifyImportError;
+        }
+
+        public void setNotifyImportError(boolean notifyImportError) {
+            this.notifyImportError = notifyImportError;
         }
     }
 

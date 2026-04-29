@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.file.api.action;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.boot.base.resource.PamirsFile;
 import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
@@ -11,6 +12,7 @@ import pro.shushi.pamirs.file.api.enmu.FileExpEnumerate;
 import pro.shushi.pamirs.file.api.enmu.TaskMessageLevelEnum;
 import pro.shushi.pamirs.file.api.model.ExcelImportTask;
 import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
+import pro.shushi.pamirs.file.api.model.TaskMessage;
 import pro.shushi.pamirs.file.api.service.ExcelFileService;
 import pro.shushi.pamirs.file.api.util.EasyExcelHelper;
 import pro.shushi.pamirs.file.api.util.ExcelWorkbookDefinitionUtil;
@@ -18,7 +20,9 @@ import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Adamancy Zhang
@@ -67,6 +71,9 @@ public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
                 data.setState(ExcelTaskStateEnum.FAILURE);
                 data.addTaskMessage(TaskMessageLevelEnum.ERROR, EasyExcelHelper.getErrorMessage(t));
                 data.updateById();
+
+                // 导入失败时将错误信息推送到页面
+                notifyImportFailure(data);
             }
         } catch (Throwable t) {
             PamirsSession.getMessageHub().info("导入文件异常");
@@ -74,6 +81,31 @@ public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
         }
 
         return data;
+    }
+
+    /**
+     * 导入失败时向页面推送错误信息。开启 {@code notifyImportError} 时聚合 ERROR 级别消息，否则推送通用兜底文案。
+     */
+    protected void notifyImportFailure(T importTask) {
+        if (!PamirsSession.getMessageHub().isSuccess()) {
+            return;
+        }
+        if (fileProperties.getImportProperty().getNotifyImportError()) {
+            List<TaskMessage> messages = importTask.getMessages();
+            if (CollectionUtils.isNotEmpty(messages)) {
+                String combined = messages.stream()
+                        .filter(m -> TaskMessageLevelEnum.ERROR == m.getLevel()
+                                && StringUtils.isNotBlank(m.getMessage()))
+                        .map(TaskMessage::getMessage)
+                        .collect(Collectors.joining("；\n"));
+                if (StringUtils.isNotBlank(combined)) {
+                    PamirsSession.getMessageHub().error(combined);
+                    return;
+                }
+            }
+        }
+
+        PamirsSession.getMessageHub().error("导入失败，请查看导入记录中的错误信息进行更正");
     }
 
     protected abstract void doImport(T importTask, ExcelDefinitionContext context);
