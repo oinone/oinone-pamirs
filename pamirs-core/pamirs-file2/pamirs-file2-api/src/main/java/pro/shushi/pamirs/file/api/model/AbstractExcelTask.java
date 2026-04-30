@@ -93,7 +93,7 @@ public abstract class AbstractExcelTask extends IdModel implements IUserNameMode
     private Integer rowIndex;
 
     public void addTaskMessage(TaskMessageLevelEnum level, String message) {
-        addTaskMessage(level, message, null);
+        addTaskMessage(level, message, Boolean.FALSE);
     }
 
     public void addTaskMessage(TaskMessageLevelEnum level, String message, Boolean sys) {
