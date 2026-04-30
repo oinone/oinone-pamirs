@@ -71,9 +71,6 @@ public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
                 data.setState(ExcelTaskStateEnum.FAILURE);
                 data.addTaskMessage(TaskMessageLevelEnum.ERROR, EasyExcelHelper.getErrorMessage(t));
                 data.updateById();
-
-                // 导入失败时将错误信息推送到页面
-                notifyImportFailure(data);
             }
         } catch (Throwable t) {
             PamirsSession.getMessageHub().info("导入文件异常");
@@ -84,7 +81,9 @@ public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
     }
 
     /**
-     * 导入失败时向页面推送错误信息。开启 {@code notifyImportError} 时聚合 ERROR 级别消息，否则推送通用兜底文案。
+     * Push error information to the page when import fails. When {@code notifyImportError} is enabled,
+     * aggregates ERROR-level messages with {@code sys=false} among the first 3 entries (deduplicated);
+     * otherwise pushes the generic fallback text.
      */
     protected void notifyImportFailure(T importTask) {
         if (!PamirsSession.getMessageHub().isSuccess()) {
@@ -94,9 +93,13 @@ public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
             List<TaskMessage> messages = importTask.getMessages();
             if (CollectionUtils.isNotEmpty(messages)) {
                 String combined = messages.stream()
-                        .filter(m -> TaskMessageLevelEnum.ERROR == m.getLevel()
+                        .limit(3)
+                        .filter(m -> m != null
+                                && Boolean.FALSE.equals(m.getSys())
+                                && TaskMessageLevelEnum.ERROR == m.getLevel()
                                 && StringUtils.isNotBlank(m.getMessage()))
                         .map(TaskMessage::getMessage)
+                        .distinct()
                         .collect(Collectors.joining("；\n"));
                 if (StringUtils.isNotBlank(combined)) {
                     PamirsSession.getMessageHub().error(combined);

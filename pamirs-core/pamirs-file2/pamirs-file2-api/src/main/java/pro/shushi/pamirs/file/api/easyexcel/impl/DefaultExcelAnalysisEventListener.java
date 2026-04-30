@@ -372,7 +372,7 @@ public class DefaultExcelAnalysisEventListener extends AnalysisEventListener<Map
             }
             data.put(currentBlock.getDesignRange().getEndColumnIndex() + 1, errorMessage);
             collectionErrorData(blockNumber, data);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, errorMessage);
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, errorMessage, Boolean.FALSE);
             importContext.setCurrentRow(-1);
             importTask.setRowIndex(null);
         } else {
