@@ -387,7 +387,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         }
         if (isNeedGeneratorErrorFile) {
             generatorErrorFile0(importTask, importContext.getDefinitionContext(), errorDataList);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.error.fix.hint"));
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.error.fix.hint"), Boolean.TRUE);
         }
         return isNeedGeneratorErrorFile;
     }
@@ -396,7 +396,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     private void generatorErrorFile0(ExcelImportTask importTask, ExcelDefinitionContext context, List<List<Map<Integer, String>>> errorDataList) {
         Result<List<List<Map<String, String>>>> result = ExcelImportErrorFileHelper.generatorErrorFile(context).get(errorDataList);
         if (!result.isSuccess()) {
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.error.collect.failed"));
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.error.collect.failed"), Boolean.TRUE);
             importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, result.getErrorMessage());
             return;
         }
@@ -428,7 +428,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
             }
         } catch (Throwable e) {
             log.error("Failed to collect error information: importTaskId: {}", importTask.getId(), e);
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.error.collect.failed"));
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.error.collect.failed"), Boolean.TRUE);
             importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, EasyExcelHelper.getErrorMessage(e));
         }
     }
@@ -480,7 +480,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
                     .addTaskMessage(TaskMessageLevelEnum.INFO, I18nUtils.getMessage("pamirs.file.excel.import.success"));
         } else {
             importTask.setState(ExcelTaskStateEnum.FAILURE)
-                    .addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.import.failure"));
+                    .addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.import.failure"), Boolean.TRUE);
         }
         if (importTask.getId() != null) {
             importTask.updateById();
@@ -499,7 +499,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
             } else {
                 isSuccess = false;
                 exportTask.setState(ExcelTaskStateEnum.FAILURE)
-                        .addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.export.failure"));
+                        .addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage("pamirs.file.excel.export.failure"), Boolean.TRUE);
             }
         } else {
             isSuccess = ExcelTaskStateEnum.SUCCESS.equals(state);
