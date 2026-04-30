@@ -110,7 +110,7 @@ public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
             }
         }
 
-        PamirsSession.getMessageHub().error("导入失败，请查看导入记录中的错误信息进行更正");
+        PamirsSession.getMessageHub().error(I18nUtils.getMessage("pamirs.file.excel.import.error.checkRecord"));
     }
 
     protected abstract void doImport(T importTask, ExcelDefinitionContext context);
