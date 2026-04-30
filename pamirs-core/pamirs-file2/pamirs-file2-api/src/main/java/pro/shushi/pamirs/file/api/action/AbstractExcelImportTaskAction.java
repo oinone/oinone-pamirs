@@ -93,10 +93,10 @@ public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
             List<TaskMessage> messages = importTask.getMessages();
             if (CollectionUtils.isNotEmpty(messages)) {
                 String combined = messages.stream()
-                        .limit(3)
                         .filter(m -> !Boolean.TRUE.equals(m.getSys())
                                 && TaskMessageLevelEnum.ERROR.equals(m.getLevel())
                                 && StringUtils.isNotBlank(m.getMessage()))
+                        .limit(3)
                         .map(TaskMessage::getMessage)
                         .distinct()
                         .collect(Collectors.joining("; \n"));
