@@ -94,13 +94,12 @@ public abstract class AbstractExcelImportTaskAction<T extends ExcelImportTask> {
             if (CollectionUtils.isNotEmpty(messages)) {
                 String combined = messages.stream()
                         .limit(3)
-                        .filter(m -> m != null
-                                && Boolean.FALSE.equals(m.getSys())
-                                && TaskMessageLevelEnum.ERROR == m.getLevel()
+                        .filter(m -> !Boolean.TRUE.equals(m.getSys())
+                                && TaskMessageLevelEnum.ERROR.equals(m.getLevel())
                                 && StringUtils.isNotBlank(m.getMessage()))
                         .map(TaskMessage::getMessage)
                         .distinct()
-                        .collect(Collectors.joining("；\n"));
+                        .collect(Collectors.joining("; \n"));
                 if (StringUtils.isNotBlank(combined)) {
                     PamirsSession.getMessageHub().error(combined);
                     return;
