@@ -14,7 +14,9 @@ import pro.shushi.pamirs.file.api.enmu.ExcelExportStrategyEnum;
 import pro.shushi.pamirs.file.api.enmu.TaskMessageLevelEnum;
 import pro.shushi.pamirs.file.api.executor.ExcelExportExecutor;
 import pro.shushi.pamirs.file.api.extpoint.ExcelExportFetchDataExtPoint;
+import pro.shushi.pamirs.file.api.model.ExcelBlockDefinition;
 import pro.shushi.pamirs.file.api.model.ExcelExportTask;
+import pro.shushi.pamirs.file.api.model.ExcelSheetDefinition;
 import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.file.api.util.CSVWorkbookHelper;
 import pro.shushi.pamirs.file.api.util.EasyExcelHelper;
@@ -62,10 +64,28 @@ public class StandardExcelExportExecutor extends AbstractExcelExportExecutor imp
 
     protected List<Object> fetchExportData(ExcelExportTask exportTask, ExcelDefinitionContext context) {
         List<Object> dataList = singleFetchExportData(exportTask, context);
-        if (dataList == null) {
-            return null;
+        if (dataList == null || dataList.isEmpty()) {
+            dataList = new ArrayList<>();
+            List<ExcelSheetDefinition> originSheetList = context.getOriginSheetList();
+            for (ExcelSheetDefinition sheetDefinition : originSheetList) {
+                List<ExcelBlockDefinition> blockDefinitionList = sheetDefinition.getBlockDefinitionList();
+                for (ExcelBlockDefinition blockDefinition : blockDefinitionList) {
+                    switch (blockDefinition.getAnalysisType()) {
+                        case FIXED_HEADER:
+                            List<Object> blockData = new ArrayList<>();
+                            blockData.add(new HashMap<>());
+                            dataList.add(blockData);
+                            break;
+                        case FIXED_FORMAT:
+                            dataList.add(new HashMap<>());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         }
-        // 数据为空时不抛出异常，返回空列表，由 doExport0ByPOI 生成只含表头的文件
+
         return dataList;
     }
 
@@ -81,19 +101,11 @@ public class StandardExcelExportExecutor extends AbstractExcelExportExecutor imp
     }
 
     private Workbook doExport0ByPOI(ExcelExportTask exportTask, ExcelDefinitionContext context, List<Object> dataList, StreamConsumer<ByteArrayOutputStream> consumer) throws IOException {
-        final List<Object> effectiveDataList;
-        if (dataList == null || dataList.isEmpty()) {
-            effectiveDataList = new ArrayList<>();
-            effectiveDataList.add(new HashMap<>());
-        } else {
-            effectiveDataList = dataList;
-        }
-
         return withTemplateStream(context, (inputStream) -> {
             DefaultEasyExcelWriteHandler writeHandler = new DefaultEasyExcelWriteHandler(context);
             try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
                 ExcelExportContext exportContext = new ExcelExportContext(EasyExcelHelper.generatorWriteBuilder(outputStream, inputStream, writeHandler).build(), context, exportTask);
-                exportContext.setDataList(effectiveDataList);
+                exportContext.setDataList(dataList);
                 ExcelWorkbookDefinitionUtil.fillTemplate(exportContext);
                 consumer.accept(outputStream);
             }
