@@ -371,7 +371,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
             }
             log.error("do import error. url: {}", url, e);
             importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, I18nUtils.getMessage(ExcelConstant.DEFAULT_ERROR_MESSAGE));
-            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, EasyExcelHelper.getErrorMessage(e));
+            importTask.addTaskMessage(TaskMessageLevelEnum.ERROR, EasyExcelHelper.getErrorMessage(e), Boolean.FALSE);
         }
         return updateImportTask(importTask, importContext);
     }

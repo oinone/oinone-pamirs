@@ -93,12 +93,16 @@ public abstract class AbstractExcelTask extends IdModel implements IUserNameMode
     private Integer rowIndex;
 
     public void addTaskMessage(TaskMessageLevelEnum level, String message) {
+        addTaskMessage(level, message, null);
+    }
+
+    public void addTaskMessage(TaskMessageLevelEnum level, String message, Boolean sys) {
         List<TaskMessage> taskMessages = getMessages();
         if (taskMessages == null) {
             taskMessages = new ArrayList<>();
             setMessages(taskMessages);
         }
-        TaskMessage taskMessage = new TaskMessage().setLevel(level).setMessage(message).setRecordDate(new Date());
+        TaskMessage taskMessage = new TaskMessage().setLevel(level).setMessage(message).setSys(sys).setRecordDate(new Date());
         Integer rowIndex = getRowIndex();
         if (rowIndex != null) {
             taskMessage.setRowIndex(rowIndex + 1);

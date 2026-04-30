@@ -153,7 +153,7 @@ public class ExcelImportTaskAction extends AbstractExcelImportTaskAction<ExcelIm
             isSuccess = excelFileService.doImport(importTask, context, DefaultExcelReadCallback::new);
         }
         if (!isSuccess) {
-            // 导入失败时将错误信息推送到页面
+            // Push error information to the page when import fails
             notifyImportFailure(importTask);
         }
     }
