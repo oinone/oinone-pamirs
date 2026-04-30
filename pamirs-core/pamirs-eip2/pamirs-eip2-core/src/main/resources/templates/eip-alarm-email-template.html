@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【接口告警】${interfaceName}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "PingFang SC", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+
+        .email-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .header > img {
+            width: 180px;
+            height: auto;
+        }
+
+        .content {
+            padding: 40px 48px;
+            background: #FFFFFF;
+        }
+
+        .alert-badge {
+            display: inline-block;
+            background-color: #FFF2F0;
+            border: 1px solid #FFCCC7;
+            color: #FF4D4F;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .title {
+            font-size: 22px;
+            color: #2B2F36;
+            margin-bottom: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .greeting {
+            font-size: 15px;
+            color: #2B2F36;
+            line-height: 24px;
+            margin-bottom: 12px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #636A72;
+            line-height: 22px;
+            margin-bottom: 24px;
+            padding: 12px;
+            background: #F8F9FB;
+            border-left: 4px solid #035DFF;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+            table-layout: fixed;
+        }
+
+        .info-table th {
+            background-color: #F5F7FA;
+            color: #2B2F36;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 16px;
+            border: 1px solid #E6E9ED;
+            font-size: 14px;
+        }
+
+        .info-table td {
+            border: 1px solid #E6E9ED;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #595959;
+            word-break: break-all;
+        }
+
+        .info-table .label-cell {
+            background-color: #FAFAFA;
+            width: 140px;
+            color: #8C8C8C;
+        }
+
+        .value-high-light {
+            color: #FF4D4F;
+            font-weight: 600;
+        }
+
+        .system-tip {
+            font-size: 12px;
+            color: #999999;
+            padding: 24px 48px;
+            background-color: #fafafa;
+            border-top: 1px solid #eeeeee;
+            text-align: center;
+        }
+
+        @media (max-width: 640px) {
+            .content {
+                padding: 24px;
+            }
+
+            .info-table .label-cell {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <img src="https://pamirs.oss-cn-hangzhou.aliyuncs.com/oinone/market/oinone-logo.png" alt="Oinone">
+    </div>
+
+    <div class="content">
+        <div class="alert-badge">异常告警通知</div>
+        <div class="title">【接口告警】${interfaceName} 在 ${timeWindow} 内连续失败 ${alarmDesc}</div>
+
+        <div class="greeting">您好，</div>
+        <div class="description">
+            系统检测到集成接口 <strong>${interfaceName}</strong> 在短时间内发生大量异常，为避免影响业务，请您立即关注。
+        </div>
+
+        <table class="info-table">
+            <thead>
+            <tr>
+                <th colspan="2">告警指标详情</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="label-cell">告警时间</td>
+                <td>${alarmTime}</td>
+            </tr>
+            <tr>
+                <td class="label-cell">接口名称</td>
+                <td>${interfaceName}</td>
+            </tr>
+            <tr>
+                <td class="label-cell">技术名称</td>
+                <td>${interfaceTechName}</td>
+            </tr>
+            <tr>
+                <td class="label-cell">触发规则</td>
+                <td>${ruleName}</td>
+            </tr>
+            <tr>
+                <td class="label-cell">时间窗口</td>
+                <td>${windowStart} ~ ${windowEnd}</td>
+            </tr>
+            <tr>
+                <td class="label-cell">总调用次数</td>
+                <td>${totalSum} 次</td>
+            </tr>
+            <tr>
+                <td class="label-cell">成功次数</td>
+                <td>${successSum} 次</td>
+            </tr>
+            <tr>
+                <td class="label-cell">失败次数/率</td>
+                <td class="value-high-light">${failSum} 次（超过阈值）</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="system-tip">本邮件由系统自动发送，请勿直接回复。如需帮助请联系您的技术支持。</div>
+</div>
+</body>
+</html>

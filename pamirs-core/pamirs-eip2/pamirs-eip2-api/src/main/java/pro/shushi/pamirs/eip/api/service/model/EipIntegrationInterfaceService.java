@@ -34,6 +34,9 @@ public interface EipIntegrationInterfaceService {
     Pagination<EipIntegrationInterface> queryPage(Pagination<EipIntegrationInterface> page, IWrapper<EipIntegrationInterface> queryWrapper);
 
     @Function
+    Pagination<EipIntegrationInterface> loadForAlarmRule(Pagination<EipIntegrationInterface> page, IWrapper<EipIntegrationInterface> queryWrapper);
+
+    @Function
     EipIntegrationInterface queryByInterfaceName(String interfaceName);
 
     @Function

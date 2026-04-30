@@ -1,11 +1,13 @@
 package pro.shushi.pamirs.eip.core.service.model;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.eip.api.enmu.InterfaceTypeEnum;
 import pro.shushi.pamirs.eip.api.model.EipIntegrate;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
+import pro.shushi.pamirs.eip.api.model.alarm.EipAlarmRuleRelInterface;
 import pro.shushi.pamirs.eip.api.service.model.EipIntegrationInterfaceService;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogDailyCountService;
 import pro.shushi.pamirs.eip.api.strategy.service.EipLogStrategyService;
@@ -19,10 +21,12 @@ import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
 
 import pro.shushi.pamirs.meta.enmu.DateFormatEnum;
 import pro.shushi.pamirs.meta.util.DateUtils;
+import pro.shushi.pamirs.ux.common.utils.WrapperHelper;
 
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -98,6 +102,29 @@ public class EipIntegrationInterfaceImpl implements EipIntegrationInterfaceServi
         // 填充应用名称
         fillEipIntegrate(resultList);
         return result;
+    }
+
+    @Override
+    @Function
+    public Pagination<EipIntegrationInterface> loadForAlarmRule(Pagination<EipIntegrationInterface> page, IWrapper<EipIntegrationInterface> queryWrapper) {
+
+        IWrapper<EipAlarmRuleRelInterface> relRuleQw = Pops.<EipAlarmRuleRelInterface>lambdaQuery()
+                .from(EipAlarmRuleRelInterface.MODEL_MODEL)
+                .select(EipAlarmRuleRelInterface::getInterfaceName);
+        List<EipAlarmRuleRelInterface> relRuleList = new EipAlarmRuleRelInterface().queryList(relRuleQw);
+        Set<String> interfaceNames = Optional.ofNullable(relRuleList)
+                .map(List::stream)
+                .orElse(Stream.empty())
+                .map(EipAlarmRuleRelInterface::getInterfaceName)
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.toSet());
+
+        if (CollectionUtils.isNotEmpty(interfaceNames)) {
+            queryWrapper = WrapperHelper.lambda(queryWrapper)
+                    .notIn(EipIntegrationInterface::getInterfaceName, interfaceNames);
+        }
+
+        return new EipIntegrationInterface().queryPage(page, queryWrapper);
     }
 
     private void fillEipIntegrate(List<EipIntegrationInterface> resultList) {

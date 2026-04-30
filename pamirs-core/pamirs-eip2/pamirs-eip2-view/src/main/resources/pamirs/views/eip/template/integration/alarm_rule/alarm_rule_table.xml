@@ -1,0 +1,34 @@
+<view model="eip.EipAlarmRuleProxy" type="table" name="tableView">
+    <template slot="search">
+        <field colSpan="QUARTER" data="name" widget="Input"/>
+        <field colSpan="QUARTER" data="metricType" widget="Select"/>
+        <field colSpan="QUARTER" data="enabled" widget="Select"/>
+        <field colSpan="QUARTER" data="notifyType" widget="Select"/>
+    </template>
+    <template slot="tableGroup"/>
+    <template slot="actionBar">
+        <action name="redirectCreatePage" label="创建"/>
+    </template>
+    <template slot="table">
+        <field data="name" disabled="false" invisible="false" label="规则名称" readonly="false" required="false" widget="Input"/>
+        <field data="metricType" disabled="false" invisible="false" label="指标类型" readonly="false" required="false" widget="Select"/>
+        <field data="threshold" disabled="false" invisible="false" label="阈值" readonly="false" required="false" widget="Integer"/>
+        <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="timeWindow" disabled="false" invisible="false" label="时间窗口" readonly="false" required="false" showThousandth="false" statistics="false" widget="Integer"/>
+        <field allowClear="true" allowSearch="true" autoFillOptions="true" colSpan="HALF" data="repeatInterval" disabled="false" invisible="false" label="重复发送间隔" readonly="false" required="false" showThousandth="false" statistics="false" widget="Integer"/>
+        <field data="enabled" disabled="false" invisible="false" label="是否启用" readonly="false" required="false" widget="Select">
+            <options>
+                <option displayName="是" invisible="false" name="true"/>
+                <option displayName="否" invisible="false" name="false"/>
+            </options>
+        </field>
+        <field data="notifyType" disabled="false" invisible="false" label="通知方式" readonly="false" required="false" widget="Select"/>
+        <field data="createDate" disabled="false" invisible="false" label="创建时间" readonly="true" required="false" widget="DateTimePicker"/>
+        <field data="writeDate" disabled="false" invisible="false" label="更新时间" readonly="true" required="false" widget="DateTimePicker"/>
+        <template slot="rowActions">
+            <action name="redirectUpdatePage" label="编辑"/>
+            <action name="deleteOne" confirm="确定要删除吗？" label="删除"/>
+            <action name="redirectDetailPage" label="详情"/>
+        </template>
+        <field data="id" invisible="true"/>
+    </template>
+</view>

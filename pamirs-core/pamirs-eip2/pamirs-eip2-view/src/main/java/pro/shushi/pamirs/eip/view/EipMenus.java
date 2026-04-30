@@ -7,7 +7,9 @@ import pro.shushi.pamirs.eip.api.EipModule;
 import pro.shushi.pamirs.eip.api.model.EipConnGroup;
 import pro.shushi.pamirs.eip.api.model.EipIntegrationInterface;
 import pro.shushi.pamirs.eip.api.model.EipOpenInterface;
+import pro.shushi.pamirs.eip.api.model.alarm.EipAlarmHistory;
 import pro.shushi.pamirs.eip.api.pmodel.*;
+import pro.shushi.pamirs.eip.api.pmodel.alarm.EipAlarmRuleProxy;
 
 /**
  * 可以注解到该模块的任意类上，建议同一个模块中只配置一处
@@ -30,6 +32,16 @@ class EipMenus {
         @UxMenu("熔断记录")
         @UxRoute(model = CircuitBreakerRecordProxy.MODEL_MODEL, module = EipModule.MODULE_MODULE)
         class CircuitBreakerRecordProxyMenu {
+        }
+
+        @UxMenu("告警配置")
+        @UxRoute(model = EipAlarmRuleProxy.MODEL_MODEL, module = EipModule.MODULE_MODULE)
+        class EipAlarmRuleMenu {
+        }
+
+        @UxMenu("告警记录")
+        @UxRoute(model = EipAlarmHistory.MODEL_MODEL, module = EipModule.MODULE_MODULE)
+        class EipAlarmHistoryMenu {
         }
     }
 
