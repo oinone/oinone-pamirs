@@ -81,12 +81,11 @@ public class StandardExcelExportExecutor extends AbstractExcelExportExecutor imp
                             dataList.add(new HashMap<>());
                             break;
                         default:
-                            break;
+                            throw new IllegalStateException("Unexpected value: " + blockDefinition.getAnalysisType());
                     }
                 }
             }
         }
-
         return dataList;
     }
 
