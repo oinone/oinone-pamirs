@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-business</artifactId>
-        <version>6.3.12</version>
+        <version>6.3.13</version>
     </parent>
     <artifactId>pamirs-business-api</artifactId>
     <name>pamirs-business-api</name>
