@@ -127,8 +127,10 @@ public class DefaultRelationProcessor implements RelationProcessor {
             if (isPkId) {
                 if (!FieldConstants.ID.equals(modelField.getField())) {
                     if (null != modelField.getPk() && modelField.getPk()) {
-                        log.warn(MessageFormat.format("{0},errorCode:{1}, model:{2}, field:{3}",
-                                I18nUtils.getMessage("pamirs-framework-compute.ComputeExpEnumerate.BASE_THROUGH_MODEL_PK_ERROR"), BASE_THROUGH_MODEL_PK_ERROR.code(), modelField.getModel(), modelField.getField()));
+                        log.warn(I18nUtils.getMessage("pamirs-framework-compute.ComputeExpEnumerate.BASE_THROUGH_MODEL_PK_ERROR")
+                                + ",errorCode:" + BASE_THROUGH_MODEL_PK_ERROR.code()
+                                + ", model:" + modelField.getModel()
+                                + ", field:" + modelField.getField());
                     }
                     modelField.setPk(false);
                     modelField.setPkIndex(null);
@@ -296,10 +298,10 @@ public class DefaultRelationProcessor implements RelationProcessor {
                 if (TtypeEnum.O2M.value().equals(relation.getTtype().value())) {
                     ModelFieldConfig referenceModelField = PamirsSession.getContext().getModelField(relation.getReferences(), model.getName());
                     if (null == referenceModelField) {
-                        log.warn(MessageFormat.format("Warning:{0}, Code:{1}, Model:{2}, Field:{3}",
-                                I18nUtils.getMessage("pamirs-framework-compute.ComputeExpEnumerate.BASE_RELATION_O2M_NO_REFERENCE_FIELDS_ERROR"),
-                                BASE_RELATION_O2M_NO_REFERENCE_FIELDS_ERROR.code() + CharacterConstants.SEPARATOR_EMPTY,
-                                model.getModel(), relation.getField()));
+                        log.warn("Warning:" + I18nUtils.getMessage("pamirs-framework-compute.ComputeExpEnumerate.BASE_RELATION_O2M_NO_REFERENCE_FIELDS_ERROR")
+                                + ", Code:" + BASE_RELATION_O2M_NO_REFERENCE_FIELDS_ERROR.code() + CharacterConstants.SEPARATOR_EMPTY
+                                + ", Model:" + model.getModel()
+                                + ", Field:" + relation.getField());
                     }
                     List<String> referenceFields = new ArrayList<>();
                     for (String pk : model.getPk()) {
