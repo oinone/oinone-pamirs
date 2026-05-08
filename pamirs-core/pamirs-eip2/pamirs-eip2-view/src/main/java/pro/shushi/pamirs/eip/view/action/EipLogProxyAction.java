@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Model.model(EipLogProxy.MODEL_MODEL)
 @UxRouteButton(
         action = @UxAction(name = "EipLogDetail", displayName = "接口日志详情", label = "详情", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = EipLogProxy.MODEL_MODEL, viewName = "EipLogProxyProxyDetail", openType = ActionTargetEnum.DRAWER))
+        value = @UxRoute(model = EipLogProxy.MODEL_MODEL, viewName = "EipLogProxyDetail", openType = ActionTargetEnum.DRAWER))
 public class EipLogProxyAction {
 
     @Autowired

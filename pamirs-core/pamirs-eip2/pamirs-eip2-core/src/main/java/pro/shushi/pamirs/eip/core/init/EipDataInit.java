@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StreamUtils;
 import pro.shushi.pamirs.boot.common.api.command.AppLifecycleCommand;
 import pro.shushi.pamirs.boot.common.api.init.InstallDataInit;
 import pro.shushi.pamirs.boot.common.api.init.UpgradeDataInit;
@@ -13,8 +14,9 @@ import pro.shushi.pamirs.eip.api.model.alarm.EipAlarmRule;
 import pro.shushi.pamirs.eip.core.manager.EipAlarmNotifyManager;
 import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.message.model.EmailTemplate;
-import pro.shushi.pamirs.meta.common.util.FileUtils;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,26 +62,19 @@ public class EipDataInit implements InstallDataInit, UpgradeDataInit {
         template.setName(EipAlarmNotifyManager.EIP_ALARM_EMAIL_TEMPLATE);
         template.setTitle(I18nUtils.getMessage("pamirs.eip.alarm.email.template.title"));
         template.setModel(EipAlarmRule.MODEL_MODEL);
-
-        String lang = I18nUtils.getLocale().getLanguage();
-        String path = "templates/" + lang + "/" + EipAlarmNotifyManager.EIP_ALARM_EMAIL_TEMPLATE + ".html";
-        try {
-            ClassPathResource resource = new ClassPathResource(path);
-            String body = null;
-            if (!resource.exists() && !"zh".equals(lang)) {
-                String bodyFilePath = "templates/zh" + EipAlarmNotifyManager.EIP_ALARM_EMAIL_TEMPLATE + ".html";
-                body = FileUtils.read("classpath:" + bodyFilePath);
-            }
-
-            if (resource.exists()) {
-                body = FileUtils.read("classpath:" + path);
-            }
-
+        String path;
+        if (I18nUtils.isZh()) {
+            path = "templates/zh/" + EipAlarmNotifyManager.EIP_ALARM_EMAIL_TEMPLATE + ".html";
+        } else {
+            path = "templates/en/" + EipAlarmNotifyManager.EIP_ALARM_EMAIL_TEMPLATE + ".html";
+        }
+        ClassPathResource resource = new ClassPathResource(path);
+        try (InputStream is = resource.getInputStream()) {
+            String body = StreamUtils.copyToString(is, StandardCharsets.UTF_8);
             template.setBody(body);
         } catch (Exception e) {
             throw new RuntimeException(I18nUtils.getMessage("pamirs.eip.alarm.email.template.read.error", path), e);
         }
-
         template.createOrUpdate();
     }
 

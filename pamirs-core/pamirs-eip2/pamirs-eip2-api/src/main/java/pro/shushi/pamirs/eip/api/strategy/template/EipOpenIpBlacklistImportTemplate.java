@@ -206,7 +206,7 @@ public class EipOpenIpBlacklistImportTemplate extends AbstractExcelImportDataExt
     }
 
     private static String buildRowErrorMsg(int idx, String errorMsg) {
-        return I18nUtils.getMessage("file.template.eip.ipBlacklist.error.rowPrefix") + (idx + 3) + I18nUtils.getMessage("file.template.eip.ipBlacklist.error.rowSuffix") + errorMsg;
+        return I18nUtils.getMessage("file.template.eip.ipBlacklist.error.rowMessage", (idx + 3), errorMsg);
     }
 
     private Integer fetchCodeErrorIndex(String code, List<EipOpenIpBlacklistProxy> rows) {

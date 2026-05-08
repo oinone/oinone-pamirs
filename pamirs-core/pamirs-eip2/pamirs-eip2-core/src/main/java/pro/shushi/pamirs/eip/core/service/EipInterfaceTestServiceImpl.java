@@ -180,7 +180,7 @@ public class EipInterfaceTestServiceImpl implements EipInterfaceTestService {
         if (result.getSuccess()) {
             data.setTip(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.call_success"));
         } else {
-            data.setTip(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.call_failed") + result.getErrorCode() + " - " + result.getErrorMessage());
+            data.setTip(I18nUtils.getMessage("pamirs-eip2-core.EipInterfaceTestServiceImpl.call_failed", result.getErrorCode(), result.getErrorMessage()));
         }
         try {
             String responseData = result.getResult(String.class);
