@@ -14,6 +14,7 @@ import pro.shushi.pamirs.eip.api.model.alarm.EipAlarmRule;
 import pro.shushi.pamirs.eip.core.manager.EipAlarmNotifyManager;
 import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.message.model.EmailTemplate;
+import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +26,7 @@ import java.util.List;
  *
  * @author yakir on 2023/03/30 10:46.
  */
+@Slf4j
 @Component
 public class EipDataInit implements InstallDataInit, UpgradeDataInit {
 
@@ -73,7 +75,7 @@ public class EipDataInit implements InstallDataInit, UpgradeDataInit {
             String body = StreamUtils.copyToString(is, StandardCharsets.UTF_8);
             template.setBody(body);
         } catch (Exception e) {
-            throw new RuntimeException(I18nUtils.getMessage("pamirs.eip.alarm.email.template.read.error", path), e);
+            log.error(I18nUtils.getMessage("pamirs.eip.alarm.email.template.read.error", path), e);
         }
         template.createOrUpdate();
     }
