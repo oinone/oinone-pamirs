@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs</groupId>
         <artifactId>pamirs-framework</artifactId>
-        <version>7.2.2</version>
+        <version>7.2.3</version>
     </parent>
     <groupId>pro.shushi.pamirs.framework</groupId>
     <artifactId>pamirs-connectors-data-elastic-rest</artifactId>

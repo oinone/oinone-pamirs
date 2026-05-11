@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-expression</artifactId>
-        <version>7.2.2</version>
+        <version>7.2.3</version>
     </parent>
     <artifactId>pamirs-expression-core</artifactId>
     <name>pamirs-expression-core</name>
