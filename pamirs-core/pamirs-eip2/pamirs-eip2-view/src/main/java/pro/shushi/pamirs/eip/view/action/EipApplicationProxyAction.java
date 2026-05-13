@@ -35,7 +35,7 @@ import java.util.List;
         value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "EipApplicationProxyFormAuth", openType = ActionTargetEnum.DRAWER))
 @UxRouteButton(
         action = @UxAction(name = "EipApplicationPrivateDetail", displayName = "查看集成应用密钥", label = "查看密钥", contextType = ActionContextTypeEnum.SINGLE),
-        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "EipApplicationProxyProxyDetail", openType = ActionTargetEnum.DIALOG))
+        value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "EipApplicationProxyDetail", openType = ActionTargetEnum.DIALOG))
 @UxRouteButton(
         action = @UxAction(name = "EipApplicationOperationRateLimit", displayName = "流控配置", label = "流控配置", contextType = ActionContextTypeEnum.SINGLE),
         value = @UxRoute(model = EipApplicationProxy.MODEL_MODEL, viewName = "EipApplicationProxyFormFlowCtrl", openType= ActionTargetEnum.ROUTER))
