@@ -12,6 +12,7 @@ import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.orm.convert.ClientDataConverter;
 import pro.shushi.pamirs.meta.api.core.orm.template.ClientDataComputeTemplate;
 import pro.shushi.pamirs.meta.api.core.orm.template.context.ModelComputeContext;
+import pro.shushi.pamirs.meta.api.core.orm.template.function.PersistenceFieldComputeApi;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.entity.DataMap;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
@@ -72,6 +73,19 @@ public class RemoteClientDataConverter implements ClientDataConverter {
     @Resource
     private LnameToNameProcessor lnameToNameProcessor;
 
+    // Lambda 表达式提取为 final 字段，避免重复创建
+    private final PersistenceFieldComputeApi inName = (context, modelConfig, fieldConfig, dMap) -> nameToLnameProcessor.convert(fieldConfig, dMap);
+    private final PersistenceFieldComputeApi inExtend = (context, modelConfig, fieldConfig, dMap) -> clientExtendProcessor.in(context, fieldConfig, dMap);
+    private final PersistenceFieldComputeApi inSerialize = (context, modelConfig, fieldConfig, dMap) -> clientSerializeProcessor.in(context, fieldConfig, dMap);
+    private final PersistenceFieldComputeApi inType = (context, modelConfig, fieldConfig, dMap) -> remoteClientTypeProcessor.in(context, fieldConfig, dMap);
+    private final PersistenceFieldComputeApi inArray = (context, modelConfig, fieldConfig, dMap) -> clientArrayProcessor.in(context, fieldConfig, dMap);
+
+    private final PersistenceFieldComputeApi outExtend = (context, modelConfig, fieldConfig, dMap) -> clientExtendProcessor.out(context, fieldConfig, dMap);
+    private final PersistenceFieldComputeApi outType = (context, modelConfig, fieldConfig, dMap) -> remoteClientTypeProcessor.out(context, fieldConfig, dMap);
+    private final PersistenceFieldComputeApi outArray = (context, modelConfig, fieldConfig, dMap) -> clientArrayProcessor.out(context, fieldConfig, dMap);
+    private final PersistenceFieldComputeApi outSerialize = (context, modelConfig, fieldConfig, dMap) -> clientSerializeProcessor.out(context, fieldConfig, dMap);
+    private final PersistenceFieldComputeApi outName = (context, modelConfig, fieldConfig, dMap) -> lnameToNameProcessor.convert(fieldConfig, dMap);
+
     @Override
     public <T> T in(ModelComputeContext totalContext, String model, Object obj) {
         if (obj == null) return null;
@@ -124,11 +138,7 @@ public class RemoteClientDataConverter implements ClientDataConverter {
                     }
                     return res;
                 },
-                (context, modelConfig, fieldConfig, dMap) -> nameToLnameProcessor.convert(fieldConfig, dMap),// 技术名称转化
-                (context, modelConfig, fieldConfig, dMap) -> clientExtendProcessor.in(context, fieldConfig, dMap),// 字段处理扩展点
-                (context, modelConfig, fieldConfig, dMap) -> clientSerializeProcessor.in(context, fieldConfig, dMap),// 前端反序列化转换
-                (context, modelConfig, fieldConfig, dMap) -> remoteClientTypeProcessor.in(context, fieldConfig, dMap),// 前端类型处理
-                (context, modelConfig, fieldConfig, dMap) -> clientArrayProcessor.in(context, fieldConfig, dMap)// 前端数组处理
+                inName, inExtend, inSerialize, inType, inArray
         );
     }
 
@@ -164,12 +174,9 @@ public class RemoteClientDataConverter implements ClientDataConverter {
                     });
                     return res;
                 },
-                (context, modelConfig, fieldConfig, dMap) -> clientExtendProcessor.out(context, fieldConfig, dMap),// 字段处理扩展点
-                (context, modelConfig, fieldConfig, dMap) -> remoteClientTypeProcessor.out(context, fieldConfig, dMap),// 前端类型处理
-                (context, modelConfig, fieldConfig, dMap) -> clientArrayProcessor.out(context, fieldConfig, dMap),// 前端数组处理
-                (context, modelConfig, fieldConfig, dMap) -> clientSerializeProcessor.out(context, fieldConfig, dMap),// 前端序列化转换
-                (context, modelConfig, fieldConfig, dMap) -> lnameToNameProcessor.convert(fieldConfig, dMap)// 技术名称转化
+                outExtend, outType, outArray, outSerialize, outName
         );
     }
 
 }
+

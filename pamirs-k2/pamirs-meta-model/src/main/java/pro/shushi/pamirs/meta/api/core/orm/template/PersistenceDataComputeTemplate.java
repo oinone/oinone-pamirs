@@ -147,7 +147,7 @@ public class PersistenceDataComputeTemplate {
                 }
             }
         }
+
         return (R) modelAfterComputeProcessor.after(totalContext, modelConfig, result);
     }
 }
-
