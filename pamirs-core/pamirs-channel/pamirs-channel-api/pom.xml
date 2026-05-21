@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.core</groupId>
         <artifactId>pamirs-channel</artifactId>
-        <version>6.4.6</version>
+        <version>6.4.7</version>
     </parent>
     <artifactId>pamirs-channel-api</artifactId>
     <name>pamirs-channel-api</name>

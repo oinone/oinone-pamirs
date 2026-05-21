@@ -6,7 +6,7 @@
     <parent>
         <groupId>pro.shushi.pamirs.middleware.schedule</groupId>
         <artifactId>pamirs-middleware-schedule</artifactId>
-        <version>6.4.6</version>
+        <version>6.4.7</version>
     </parent>
     <artifactId>pamirs-middleware-schedule-core</artifactId>
     <name>pamirs-middleware-schedule-core</name>
