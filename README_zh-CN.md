@@ -1,3 +1,38 @@
+<h1 align="center">Oinone · AI 原生低代码研发框架</h1>
+
+<p align="center">
+  <b>AI 负责速度，Oinone 负责尺度</b><br>
+  100% 元数据 / 模型驱动 · AI 原生企业应用的基础设施
+</p>
+
+<p align="center">
+  <a href="https://github.com/oinone/oinone-pamirs/stargazers"><img src="https://img.shields.io/github/stars/oinone/oinone-pamirs?style=social" alt="GitHub stars"></a>
+  <a href="https://gitee.com/oinone/oinone-pamirs"><img src="https://gitee.com/oinone/oinone-pamirs/badge/star.svg?theme=dark" alt="Gitee stars"></a>
+  <img src="https://img.shields.io/github/license/oinone/oinone-pamirs" alt="License">
+  <img src="https://img.shields.io/github/last-commit/oinone/oinone-pamirs" alt="Last commit">
+</p>
+
+<p align="center">
+  <a href="https://www.oinone.top">🍀 官网</a> ·
+  <a href="https://guide.oinone.top/zh/InstallOrUpgrade/CommunityEdition.html">📗 文档</a> ·
+  <a href="#-快速开始一条命令约-5-分钟">⚡ 快速开始</a> ·
+  <a href="https://github.com/oinone/oinone-pamirs">GitHub</a>
+</p>
+
+> ⭐ **如果 Oinone 对你有帮助，点个 Star 支持一下** —— 帮更多开发者发现 AI 原生低代码，也是对团队最大的鼓励。
+
+## ⚡ 快速开始（一条命令，约 5 分钟）
+
+```bash
+curl -L https://gitee.com/oinone/oinone-docker-shared/raw/master/oinone/docker-compose.yml -o docker-compose.yml
+docker compose -p oinone up -d
+# open http://127.0.0.1:88   admin / admin
+```
+
+首次启动需几分钟，可用 `docker logs -f oinone-backend` 观察进度。
+
+---
+
 ### 1、仓库简介
 
 欢迎访问 Oinone Pamirs，与我们一起完善 AI 驱动的低代码研发框架，此仓库为 Oinone 后端框架。
@@ -71,3 +106,9 @@ Aino 寓意 AI Innovation，谐音`I Know`，是基于本体论（Ontology）的
 ### 11、联系我们
 - 官网：https://www.oinone.top
 - 邮箱：oinone@shushi.pro
+
+## ⭐ Star 趋势
+
+[![Star History Chart](https://api.star-history.com/svg?repos=oinone/oinone-pamirs&type=Date)](https://star-history.com/#oinone/oinone-pamirs&Date)
+
+> 觉得 Oinone 有用？点个 Star ⭐ 能帮更多开发者发现它，谢谢支持！
