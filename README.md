@@ -1,3 +1,38 @@
+<h1 align="center">Oinone · AI-Powered Low-Code Framework</h1>
+
+<p align="center">
+  <b>AI 负责速度，Oinone 负责尺度</b><br>
+  100% metadata-driven framework · infrastructure for AI-native enterprise applications
+</p>
+
+<p align="center">
+  <a href="https://github.com/oinone/oinone-pamirs/stargazers"><img src="https://img.shields.io/github/stars/oinone/oinone-pamirs?style=social" alt="GitHub stars"></a>
+  <a href="https://gitee.com/oinone/oinone-pamirs"><img src="https://gitee.com/oinone/oinone-pamirs/badge/star.svg?theme=dark" alt="Gitee stars"></a>
+  <img src="https://img.shields.io/github/license/oinone/oinone-pamirs" alt="License">
+  <img src="https://img.shields.io/github/last-commit/oinone/oinone-pamirs" alt="Last commit">
+</p>
+
+<p align="center">
+  <a href="https://www.oinone.ai">🍀 Website</a> ·
+  <a href="https://guide.oinone.ai/en/InstallOrUpgrade/CommunityEdition.html">📗 Docs</a> ·
+  <a href="#-quickstart-one-command-5-min">⚡ Quickstart</a> ·
+  <a href="https://gitee.com/oinone/oinone-pamirs">Gitee (中文)</a>
+</p>
+
+> ⭐ **If Oinone helps you, give it a Star** — it helps more developers discover AI-native low-code, and it's the biggest encouragement for the team.
+
+## ⚡ Quickstart (one command, ~5 min)
+
+```bash
+curl -L https://gitee.com/oinone/oinone-docker-shared/raw/master/oinone/docker-compose.yml -o docker-compose.yml
+docker compose -p oinone up -d
+# open http://127.0.0.1:88   admin / admin
+```
+
+First boot takes a few minutes — watch with `docker logs -f oinone-backend`.
+
+---
+
 ### 1. Repository
 
 Welcome to the Oinone Pamirs Repository, Oinone Pamirs is the back-end repository. Join and help us improve the AI-Powered Low-Code Framework.
@@ -66,3 +101,10 @@ Aino, which stands for AI Innovation and is a near-homophone of I Know, An ontol
 ### 10. Contact Us
 - Website：https://www.oinone.ai
 - Email：oinone@shushi.pro
+
+
+## ⭐ Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=oinone/oinone-pamirs&type=Date)](https://star-history.com/#oinone/oinone-pamirs&Date)
+
+> Found Oinone useful? A Star ⭐ helps more developers discover AI-native low-code. Thank you!
