@@ -24,7 +24,7 @@
 ## ⚡ 快速开始（一条命令，约 5 分钟）
 
 ```bash
-curl -L https://gitee.com/oinone/oinone-docker-shared/raw/master/oinone/docker-compose.yml -o docker-compose.yml
+curl -L https://gitee.com/oinone/oinone-docker-shared/raw/master/oinone/docker-compose-zh.yml -o docker-compose.yml
 docker compose -p oinone up -d
 # open http://127.0.0.1:88   admin / admin
 ```
