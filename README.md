@@ -1,7 +1,7 @@
 <h1 align="center">Oinone · AI-Powered Low-Code Framework</h1>
 
 <p align="center">
-  <b>AI 负责速度，Oinone 负责尺度</b><br>
+  <b>Speed by AI, Rigor by Oinone</b><br>
   100% metadata-driven framework · infrastructure for AI-native enterprise applications
 </p>
 
