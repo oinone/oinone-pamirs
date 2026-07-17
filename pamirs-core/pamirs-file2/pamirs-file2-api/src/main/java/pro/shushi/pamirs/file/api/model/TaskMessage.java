@@ -31,4 +31,7 @@ public class TaskMessage extends TransientModel {
 
     @Field(displayName = "消息内容", translate = true)
     private String message;
+
+    @Field(displayName = "是否系统消息")
+    private Boolean sys;
 }

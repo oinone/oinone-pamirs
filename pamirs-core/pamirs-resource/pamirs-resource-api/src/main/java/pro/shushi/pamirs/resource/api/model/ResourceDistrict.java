@@ -41,6 +41,11 @@ public class ResourceDistrict extends BaseResourceModel {
     @Field(displayName = "国家编码")
     private String countryCode;
 
+    @Field.Related(related = {"country", "name"})
+    @Field.String
+    @Field(displayName = "国家名称", invisible = true)
+    private String countryName;
+
     @Field.many2one
     @Field.Relation(relationFields = {"provinceCode"}, referenceFields = {"code"})
     @Field(displayName = "省")
@@ -50,6 +55,11 @@ public class ResourceDistrict extends BaseResourceModel {
     @Field(displayName = "省编码")
     private String provinceCode;
 
+    @Field.Related(related = {"province", "name"})
+    @Field.String
+    @Field(displayName = "省名称", invisible = true)
+    private String provinceName;
+
     @Field.many2one
     @Field.Relation(relationFields = {"cityCode"}, referenceFields = {"code"})
     @Field(displayName = "市")
@@ -58,6 +68,11 @@ public class ResourceDistrict extends BaseResourceModel {
     @Field.String
     @Field(displayName = "市编码")
     private String cityCode;
+
+    @Field.Related(related = {"city", "name"})
+    @Field.String
+    @Field(displayName = "市名称", invisible = true)
+    private String cityName;
 
     @Field.one2many
     @Field.Relation(relationFields = {"code"}, referenceFields = {"districtCode"})

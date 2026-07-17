@@ -50,8 +50,23 @@ public class ExcelFixedHeadHelper {
 
     private int endColumnIndex;
 
+    /**
+     * 全局列宽自适应默认值（仅在单元格未显式配置 {@code autoColumnWidth} 时生效）。
+     * <ul>
+     *   <li>优先级：单元格配置（{@code cellDefinition.getAutoSizeColumn()}）非 {@code null} 时以单元格为准</li>
+     *   <li>单元格未配置（返回 {@code null}）时，回退到本全局默认值</li>
+     *   <li>{@code false}（默认）：与原行为等价 —— 未配置时最终交给底层 API 按 false 处理</li>
+     * </ul>
+     */
+    private final boolean autoColumnWidth;
+
     ExcelFixedHeadHelper(String model, String name) {
+        this(model, name, false);
+    }
+
+    ExcelFixedHeadHelper(String model, String name, boolean autoColumnWidth) {
         workbookDefinitionBuilder = WorkbookDefinitionBuilder.newInstance(model, name);
+        this.autoColumnWidth = autoColumnWidth;
     }
 
     public ExcelFixedHeadHelper setDisplayName(String displayName) {
@@ -132,7 +147,7 @@ public class ExcelFixedHeadHelper {
                 .setType(cellDefinition.getType())
                 .setFormat(cellDefinition.getFormat())
                 .setIsStatic(cellDefinition.getIsStatic())
-                .setAutoSizeColumn(cellDefinition.getAutoSizeColumn());
+                .setAutoSizeColumn(cellDefinition.getAutoSizeColumn() != null ? cellDefinition.getAutoSizeColumn() : autoColumnWidth);
         headerBuilder.createCell().setValue(cellDefinition.getValue());
         endColumnIndex++;
         int exampleSize = examples.length;

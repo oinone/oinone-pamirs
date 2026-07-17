@@ -208,7 +208,8 @@ public class PageLoadAction {
             if (cacheModule == null) {
                 cacheModule = new UeModule().setModule(module).queryOne();
                 if (cacheModule == null) {
-                    throw PamirsException.construct(BootUxdExpEnumerate.BASE_LOAD_MODULE_META_MODULE_DATA_ERROR).errThrow();
+                    throw PamirsException.construct(BootUxdExpEnumerate.BASE_LOAD_MODULE_META_MODULE_DATA_ERROR)
+                            .appendMsg("module:" + module).errThrow();
                 }
             }
         } else if (StringUtils.isNotBlank(moduleName)) {
@@ -216,7 +217,8 @@ public class PageLoadAction {
             if (cacheModule == null) {
                 cacheModule = new UeModule().setName(moduleName).queryOne();
                 if (cacheModule == null) {
-                    throw PamirsException.construct(BootUxdExpEnumerate.BASE_LOAD_MODULE_META_MODULE_DATA_ERROR).errThrow();
+                    throw PamirsException.construct(BootUxdExpEnumerate.BASE_LOAD_MODULE_META_MODULE_DATA_ERROR)
+                            .appendMsg("moduleName:" + moduleName).errThrow();
                 }
             }
         }

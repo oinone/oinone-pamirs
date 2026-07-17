@@ -12,10 +12,11 @@ import pro.shushi.pamirs.file.api.context.ExcelExportContext;
 import pro.shushi.pamirs.file.api.easyexcel.impl.DefaultEasyExcelWriteHandler;
 import pro.shushi.pamirs.file.api.enmu.ExcelExportStrategyEnum;
 import pro.shushi.pamirs.file.api.enmu.TaskMessageLevelEnum;
-import pro.shushi.pamirs.file.api.exception.NoDataException;
 import pro.shushi.pamirs.file.api.executor.ExcelExportExecutor;
 import pro.shushi.pamirs.file.api.extpoint.ExcelExportFetchDataExtPoint;
+import pro.shushi.pamirs.file.api.model.ExcelBlockDefinition;
 import pro.shushi.pamirs.file.api.model.ExcelExportTask;
+import pro.shushi.pamirs.file.api.model.ExcelSheetDefinition;
 import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.file.api.util.CSVWorkbookHelper;
 import pro.shushi.pamirs.file.api.util.EasyExcelHelper;
@@ -26,6 +27,8 @@ import pro.shushi.pamirs.meta.common.spi.SPI;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -62,11 +65,26 @@ public class StandardExcelExportExecutor extends AbstractExcelExportExecutor imp
 
     protected List<Object> fetchExportData(ExcelExportTask exportTask, ExcelDefinitionContext context) {
         List<Object> dataList = singleFetchExportData(exportTask, context);
-        if (dataList == null) {
-            return null;
-        }
-        if (dataList.isEmpty()) {
-            throw new NoDataException("No data");
+        if (dataList == null || dataList.isEmpty()) {
+            dataList = new ArrayList<>();
+            List<ExcelSheetDefinition> originSheetList = context.getOriginSheetList();
+            for (ExcelSheetDefinition sheetDefinition : originSheetList) {
+                List<ExcelBlockDefinition> blockDefinitionList = sheetDefinition.getBlockDefinitionList();
+                for (ExcelBlockDefinition blockDefinition : blockDefinitionList) {
+                    switch (blockDefinition.getAnalysisType()) {
+                        case FIXED_HEADER:
+                            List<Object> blockData = new ArrayList<>();
+                            blockData.add(new HashMap<>());
+                            dataList.add(blockData);
+                            break;
+                        case FIXED_FORMAT:
+                            dataList.add(new HashMap<>());
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + blockDefinition.getAnalysisType());
+                    }
+                }
+            }
         }
         return dataList;
     }

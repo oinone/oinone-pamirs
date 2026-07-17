@@ -69,9 +69,9 @@ public class BlockExcelExportExecutor extends StandardExcelExportExecutor implem
         ExcelAnalysisTypeEnum analysisType = context.getBlockDefinition().getAnalysisType();
         switch (analysisType) {
             case FIXED_HEADER:
-                return new HashMap<>();
-            case FIXED_FORMAT:
                 return new ArrayList<>();
+            case FIXED_FORMAT:
+                return new HashMap<>();
             default:
                 throw new IllegalArgumentException("Invalid block analysis type. type = " + analysisType);
         }

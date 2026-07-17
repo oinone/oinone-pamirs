@@ -1,6 +1,8 @@
 package pro.shushi.pamirs.framework.connectors.data.util;
 
 import pro.shushi.pamirs.framework.connectors.data.constant.DbConstants;
+import pro.shushi.pamirs.framework.connectors.data.dialect.Dialects;
+import pro.shushi.pamirs.framework.connectors.data.dialect.api.SQLParamDialectService;
 import pro.shushi.pamirs.meta.api.core.configure.yaml.data.model.PamirsTableInfo;
 
 import java.util.HashMap;
@@ -21,7 +23,10 @@ public class LogicDeleteUtils {
 
     public static final String NAME_LOGIC_NOT_DELETE_VALUE = "logicNotDeleteValue";
 
-    public static void fillLogicDelete(PamirsTableInfo pamirsTableInfo, Map map) {
+    public static final String NAME_WRITE_DATE_COLUMN = "writeDateColumn";
+
+    @SuppressWarnings("unchecked")
+    public static void fillLogicDelete(PamirsTableInfo pamirsTableInfo, Map map, String model) {
         String logicDeleteColumn = pamirsTableInfo.getLogicDeleteColumn();
         String logicDeleteValue = pamirsTableInfo.getLogicDeleteValue();
         String logicNotDeleteValue = pamirsTableInfo.getLogicNotDeleteValue();
@@ -30,6 +35,8 @@ public class LogicDeleteUtils {
         entity.put(NAME_LOGIC_DELETE_VALUE, logicDeleteValue);
         entity.put(NAME_LOGIC_NOT_DELETE_VALUE, logicNotDeleteValue);
         map.put(DbConstants.PARAM_ANNOTATION_LD, entity);
+        // model 由调用方 LogicDeleteInterceptor 保证非空（blank 时已提前返回），此处无需判空
+        Dialects.component(SQLParamDialectService.class, DataConfigurationHelper.getDsKey(model)).fillLogicDeleteParam(entity, model);
     }
 
 }
