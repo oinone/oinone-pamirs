@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
+import pro.shushi.pamirs.business.api.session.CompanySession;
 import pro.shushi.pamirs.business.api.session.DepartmentSession;
 import pro.shushi.pamirs.business.api.session.EmployeeSession;
 import pro.shushi.pamirs.business.api.spi.CurrentDepartmentFetcher;
@@ -44,9 +45,14 @@ public class DefaultCurrentEmployeeFetcher implements CurrentEmployeeFetcher {
         if (userId == null) {
             return null;
         }
+
+        // 多组织切换时，需要查询指定组织的员工
+        LambdaQueryWrapper<PamirsEmployee> wrapper = generatorWrapper().eq(PamirsEmployee::getBindingUserId, userId);
+        if (StringUtils.isNotBlank(CompanySession.getCompanyCode())) {
+            wrapper.eq(PamirsEmployee::getCompanyCode, CompanySession.getCompanyCode());
+        }
         List<PamirsEmployee> employeeList = Models.origin().queryListByWrapper(
-                new Pagination<>(1, 1),
-                generatorWrapper().eq(PamirsEmployee::getBindingUserId, userId)
+                new Pagination<>(1, 1), wrapper
         );
         if (CollectionUtils.isEmpty(employeeList)) {
             return null;
@@ -141,7 +147,8 @@ public class DefaultCurrentEmployeeFetcher implements CurrentEmployeeFetcher {
 
     protected LambdaQueryWrapper<PamirsEmployee> generatorWrapper() {
         return Pops.<PamirsEmployee>lambdaQuery().from(PamirsEmployee.MODEL_MODEL)
-                .select(PamirsEmployee::getId, PamirsEmployee::getCode, PamirsEmployee::getEmployeeType,
+                .select(PamirsEmployee::getId, PamirsEmployee::getCode, PamirsEmployee::getName,
+                        PamirsEmployee::getEmployeeType,
                         PamirsEmployee::getCompanyCode,
                         PamirsEmployee::getDepartmentCode, PamirsEmployee::getDepartmentTreeCode
                 )

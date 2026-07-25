@@ -9,9 +9,9 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
  */
 public class CompanySession {
 
-    private static final String ID_KEY = "CURRENT_EMPLOYEE_ID";
+    private static final String ID_KEY = "CURRENT_COMPANY_ID";
 
-    private static final String CODE_KEY = "CURRENT_EMPLOYEE_CODE";
+    private static final String CODE_KEY = "CURRENT_COMPANY_CODE";
 
     public static String getCompanyId() {
         return PamirsSession.getTransmittableExtend().get(ID_KEY);
@@ -27,5 +27,10 @@ public class CompanySession {
 
     public static void setCompanyCode(String code) {
         PamirsSession.getTransmittableExtend().put(CODE_KEY, code);
+    }
+
+    public static void clear() {
+        PamirsSession.getTransmittableExtend().remove(ID_KEY);
+        PamirsSession.getTransmittableExtend().remove(CODE_KEY);
     }
 }

@@ -87,4 +87,20 @@ public class DepartmentSession {
     public static void setDepartmentCodesWithChildren(Set<String> codes) {
         PamirsSession.getTransmittableExtend().put(CODES_WITH_CHILDREN_KEY, String.join(CharacterConstants.SEPARATOR_COMMA, codes));
     }
+
+    /**
+     * 清除当前部门身份（切换组织时需清，避免沿用旧公司部门）
+     */
+    public static void clearIdentity() {
+        PamirsSession.getTransmittableExtend().remove(ID_KEY);
+        PamirsSession.getTransmittableExtend().remove(CODE_KEY);
+        PamirsSession.getTransmittableExtend().remove(TREE_CODE_KEY);
+        PamirsSession.getTransmittableExtend().remove(TYPE_KEY);
+    }
+
+    public static void clear() {
+        clearIdentity();
+        PamirsSession.getTransmittableExtend().remove(CODES_KEY);
+        PamirsSession.getTransmittableExtend().remove(CODES_WITH_CHILDREN_KEY);
+    }
 }
