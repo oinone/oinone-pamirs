@@ -49,7 +49,9 @@
     "OUT_OF_SIZE_LIMIT" : "The file size cannot exceed 10MB",
     "FAILED_CREATE_DIRECTORY" : "Failed to create temporary directory",
     "FONT_CLASS_REPEAT" : "There is currently an icon library with the prefix \"{}\" named \"{}\", and an icon with the fontClass name \"{}\" cannot be uploaded. Please modify the icon library prefix or the icon fontClass in a third-party icon library, and then upload again.",
-    "FONT_CLASS_PREFIX_REPEAT" : "An icon library with the prefix \"{}\" already exists: \"{}\". Uploading is not possible. Please modify the icon library prefix in the third-party icon library and upload again."
+    "FONT_CLASS_PREFIX_REPEAT" : "An icon library with the prefix \"{}\" already exists: \"{}\". Uploading is not possible. Please modify the icon library prefix in the third-party icon library and upload again.",
+    "ICONFONT_JSON_REQUIRED_FIELD_EMPTY" : "iconfont.json is missing required field(s): {}",
+    "ICONFONT_GLYPH_REQUIRED_FIELD_EMPTY" : "iconfont.json glyphs is missing required field(s): {}"
   },
   "pro.shushi.pamirs.resource.api.enmu.ResourceEnumerate" : {
     "displayName" : "Resource Module Error Enumeration",

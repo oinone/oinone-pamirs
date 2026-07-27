@@ -105,10 +105,6 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
             }
         }
 
-
-        //TODO::
-
-
         PamirsEmployee employee = data;
         return Tx.build().execute(status -> {
             PamirsUser pamirsUser = createUser(employee);

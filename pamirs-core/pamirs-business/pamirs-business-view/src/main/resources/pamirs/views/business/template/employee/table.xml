@@ -10,9 +10,11 @@
         <action name="redirectUpdatePage" label="编辑"/>
         <action name="redirectDetailPage" label="详情"/>
         <action name="taskDelegationCreateByEmployee" label="委托"/>
-        <action name="taskHandoverCreateByEmployee" label="交接" />
-        <!--        <action name="dataStatusEnable"   label="审核通过" text="审核通过"/>-->
-        <!--        <action name="dataStatusDisable"  label="审核不通过" text="审核不通过"/>-->
+        <action name="taskHandoverCreateByEmployee" label="交接"/>
+        <action name="dataStatusEnable" label="启用" text="启用"
+                confirm="确定启用该员工吗？"/>
+        <action name="dataStatusDisable" label="停用" text="停用"
+                confirm="确定停用该员工吗？停用后将发起离职审批交接（如有绑定用户）。"/>
     </template>
     <template slot="search">
         <field data="code" label="员工编码" allowClear="true"/>

@@ -34,7 +34,7 @@ import java.util.Optional;
 
 @Model.model(PamirsUser.MODEL_MODEL)
 @Model.Advanced(name = "pamirsUser", unique = {"login"})
-@Model(displayName = "用户表", labelFields = {"name"})
+@Model(displayName = "用户表", labelFields = {"code", "name"})
 @Model.Code(sequence = "SEQ", prefix = "U", size = 8, initial = 8000000, isRandomStep = true)
 public class PamirsUser extends CodeModel implements IUserNameModel, AuthUser {
 

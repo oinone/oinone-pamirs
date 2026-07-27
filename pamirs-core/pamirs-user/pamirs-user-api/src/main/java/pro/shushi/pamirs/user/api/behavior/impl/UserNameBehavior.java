@@ -80,28 +80,30 @@ public class UserNameBehavior {
         UserSimpleService userService = CommonApiFactory.getApi(UserSimpleService.class);
         List<PamirsUser> userList = DataShardingHelper.build().collectionSharding(uidSet, (sublist) -> userService.queryListByWrapper(Pops.<PamirsUser>lambdaQuery()
                 .from(PamirsUser.MODEL_MODEL)
-                .select(PamirsUser::getId, PamirsUser::getName)
+                .select(PamirsUser::getId, PamirsUser::getCode, PamirsUser::getName)
                 .setBatchSize(-1)
                 .in(PamirsUser::getId, sublist)));
         if (userList.isEmpty()) {
             return;
         }
         for (PamirsUser user : userList) {
+            String code = user.getCode();
             String name = user.getName();
             if (StringUtils.isBlank(name)) {
                 continue;
             }
+            String displayName = code + "-" + name;
             Long id = user.getId();
             List<Object> createUserNameList = createUserNameMap.get(id);
             if (CollectionUtils.isNotEmpty(createUserNameList)) {
                 for (Object item : createUserNameList) {
-                    FieldUtils.setFieldValue(item, CREATE_USER_NAME, name);
+                    FieldUtils.setFieldValue(item, CREATE_USER_NAME, displayName);
                 }
             }
             List<Object> writeUserNameList = writeUserNameMap.get(id);
             if (CollectionUtils.isNotEmpty(writeUserNameList)) {
                 for (Object item : writeUserNameList) {
-                    FieldUtils.setFieldValue(item, WRITE_USER_NAME, name);
+                    FieldUtils.setFieldValue(item, WRITE_USER_NAME, displayName);
                 }
             }
         }

@@ -20,7 +20,7 @@ import java.util.List;
 @Model.model(PamirsEmployee.MODEL_MODEL)
 @Model.Advanced(name = "PamirsEmployee", unique = {"code", "companyCode,bindingUserId"},
         index = {"name", "bindingUserId", "phone"})
-@Model(displayName = "员工", labelFields = "name")
+@Model(displayName = "员工", labelFields = {"code","name"})
 @Model.Code(sequence = "SEQ", prefix = "E", size = 8)
 public class PamirsEmployee extends BizCodeModel implements IDataStatus {
 

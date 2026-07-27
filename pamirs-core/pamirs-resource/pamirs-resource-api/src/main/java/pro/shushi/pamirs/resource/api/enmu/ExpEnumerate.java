@@ -73,6 +73,8 @@ public enum ExpEnumerate implements ExpBaseEnum {
     FAILED_CREATE_DIRECTORY(ERROR_TYPE.SYSTEM_ERROR, 10023047, "创建临时目录失败"),
     FONT_CLASS_REPEAT(ERROR_TYPE.SYSTEM_ERROR, 10023048, "目前已存在图标库前缀为“{}”的图标库“{}”，图标fontClass名称为“{}”的图标，无法上传，请至第三方图标库修改图标库前缀或图标fontclass后，再次上传"),
     FONT_CLASS_PREFIX_REPEAT(ERROR_TYPE.SYSTEM_ERROR, 10023049, "目前已存在图标库前缀为“{}”的图标库“{}”，无法上传，请至第三方图标库修改图标库前缀后再次上传"),
+    ICONFONT_JSON_REQUIRED_FIELD_EMPTY(ERROR_TYPE.DATA_ERROR, 10023050, "iconfont.json 缺少必填字段：{}"),
+    ICONFONT_GLYPH_REQUIRED_FIELD_EMPTY(ERROR_TYPE.DATA_ERROR, 10023051, "iconfont.json glyphs 缺少必填字段：{}"),
 
     ;
 

@@ -14,4 +14,8 @@ public interface PlaceHolderParser {
 
     String namespace();
 
+    default String displayName() {
+        return "";
+    };
+
 }

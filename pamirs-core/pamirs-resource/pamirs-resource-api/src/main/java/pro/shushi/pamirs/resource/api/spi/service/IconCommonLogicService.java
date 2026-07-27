@@ -161,10 +161,18 @@ public class IconCommonLogicService {
                         .from(ResourceIconLib.MODEL_MODEL)
                         .eq(ResourceIconLib::getOutId, iconContext.getParse().getId())
                         .eq(ResourceIconLib::getType, IconLibTypeEnum.ICONFONT.getValue()));
-        if (StringUtils.isBlank(iconContext.getParse().getName())
-                || StringUtils.isBlank(iconContext.getParse().getId())
-                || StringUtils.isBlank(iconContext.getParse().getCss_prefix_text())) {
-            throw PamirsException.construct(ExpEnumerate.JSON_INVALID).errThrow();
+        List<String> missingFields = new ArrayList<>();
+        if (StringUtils.isBlank(iconContext.getParse().getId())) {
+            missingFields.add("id");
+        }
+        if (StringUtils.isBlank(iconContext.getParse().getName())) {
+            missingFields.add("name");
+        }
+        if (StringUtils.isBlank(iconContext.getParse().getCss_prefix_text())) {
+            missingFields.add("css_prefix_text");
+        }
+        if (!missingFields.isEmpty()) {
+            throw PamirsException.construct(ExpEnumerate.ICONFONT_JSON_REQUIRED_FIELD_EMPTY, String.join(", ", missingFields)).errThrow();
         }
         return iconLib;
     }
@@ -208,11 +216,21 @@ public class IconCommonLogicService {
     }
 
     public void checkoutIcon(Glyphs glyph) {
-        if (StringUtils.isBlank(glyph.getIcon_id())
-                || StringUtils.isBlank(glyph.getFont_class())
-                || StringUtils.isBlank(glyph.getName())
-                || StringUtils.isBlank(glyph.getUnicode())) {
-            throw PamirsException.construct(ExpEnumerate.JSON_INVALID).errThrow();
+        List<String> missingFields = new ArrayList<>();
+        if (StringUtils.isBlank(glyph.getIcon_id())) {
+            missingFields.add("icon_id");
+        }
+        if (StringUtils.isBlank(glyph.getName())) {
+            missingFields.add("name");
+        }
+        if (StringUtils.isBlank(glyph.getFont_class())) {
+            missingFields.add("font_class");
+        }
+        if (StringUtils.isBlank(glyph.getUnicode())) {
+            missingFields.add("unicode");
+        }
+        if (!missingFields.isEmpty()) {
+            throw PamirsException.construct(ExpEnumerate.ICONFONT_GLYPH_REQUIRED_FIELD_EMPTY, String.join(", ", missingFields)).errThrow();
         }
     }
 

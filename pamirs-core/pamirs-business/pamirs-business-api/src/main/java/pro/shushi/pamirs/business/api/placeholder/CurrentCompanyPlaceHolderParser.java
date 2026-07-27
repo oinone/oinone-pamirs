@@ -49,4 +49,9 @@ public class CurrentCompanyPlaceHolderParser extends AbstractPlaceHolderParser {
     public String namespace() {
         return PLACEHOLDER;
     }
+
+    @Override
+    public String displayName() {
+        return "当前用户所属公司编码";
+    }
 }

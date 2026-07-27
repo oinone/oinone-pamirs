@@ -17,6 +17,7 @@
     <properties>
         <upyun.version>4.2.1</upyun.version>
         <huaweicloud.obs.version>3.23.9.1</huaweicloud.obs.version>
+        <aws.sdk.version>2.25.16</aws.sdk.version>
     </properties>
 
     <dependencies>
@@ -78,6 +79,13 @@
                     <artifactId>mxparser</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- AWS S3 SDK -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <version>${aws.sdk.version}</version>
         </dependency>
 
         <dependency>

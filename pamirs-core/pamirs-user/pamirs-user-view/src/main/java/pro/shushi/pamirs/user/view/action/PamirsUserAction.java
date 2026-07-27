@@ -19,7 +19,10 @@ import pro.shushi.pamirs.meta.enmu.FunctionOpenEnum;
 import pro.shushi.pamirs.meta.enmu.FunctionTypeEnum;
 import pro.shushi.pamirs.meta.enmu.ViewTypeEnum;
 import pro.shushi.pamirs.user.api.enmu.UserExpEnumerate;
+import pro.shushi.pamirs.user.api.enmu.UserLoginTypeEnum;
 import pro.shushi.pamirs.user.api.enmu.UserSourceEnum;
+import pro.shushi.pamirs.user.api.login.UserLoginFactory;
+import pro.shushi.pamirs.user.api.login.UserTokenLogin;
 import pro.shushi.pamirs.user.api.model.PamirsUser;
 import pro.shushi.pamirs.user.api.service.PamirsUserConstructor;
 import pro.shushi.pamirs.user.api.service.UserService;
@@ -177,6 +180,15 @@ public class PamirsUserAction {
     private PamirsUser success(PamirsUser user) {
         return user.setPassword(null).setInitialPassword(null);
     }
+
+
+
+@SuppressWarnings({"rawtypes", "unchecked"})
+private String issuePlatformToken(PamirsUser user) {
+UserTokenLogin userTokenLogin = (UserTokenLogin) UserLoginFactory.getUserLogin(UserLoginTypeEnum.TOKEN.value());
+return userTokenLogin.login(user);
+ }
+
 
 }
 

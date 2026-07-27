@@ -57,4 +57,9 @@ public class CurrentDeptWithChildrenEmployeeCodesPlaceHolder extends AbstractPla
         return PLACEHOLDER;
     }
 
+    @Override
+    public String displayName() {
+        return "当前用户所属部门及子部门下员工编码";
+    }
+
 }

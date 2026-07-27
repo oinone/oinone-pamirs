@@ -4,13 +4,16 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pro.shushi.pamirs.business.api.entity.PamirsCompany;
+import org.springframework.transaction.annotation.Transactional;
 import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
 import pro.shushi.pamirs.business.api.tmodel.EmployeeQueryFilter;
+import pro.shushi.pamirs.core.common.FetchUtil;
+import pro.shushi.pamirs.core.common.behavior.impl.DataStatusBehavior;
 import pro.shushi.pamirs.core.common.check.UserInfoChecker;
+import pro.shushi.pamirs.core.common.enmu.CommonExpEnumerate;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
 import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Action;
@@ -19,7 +22,6 @@ import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
-import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.constant.ExpConstants;
@@ -45,7 +47,7 @@ import static pro.shushi.pamirs.user.api.enmu.UserExpEnumerate.*;
 @Slf4j
 @Component
 @Model.model(PamirsEmployee.MODEL_MODEL)
-public class PamirsEmployeeAction {
+public class PamirsEmployeeAction extends DataStatusBehavior<PamirsEmployee> {
 
     @Autowired
     private UserService userService;
@@ -55,6 +57,35 @@ public class PamirsEmployeeAction {
 
     @Autowired
     private DepartmentRelEmployeeService departmentRelEmployeeService;
+
+    @Override
+    protected PamirsEmployee fetchData(PamirsEmployee data) {
+        data = FetchUtil.fetchOne(data);
+        if (data == null) {
+            throw PamirsException.construct(CommonExpEnumerate.SELECT_NULL).errThrow();
+        }
+        return data;
+    }
+
+    @Override
+    @Transactional
+    @Action.Advanced(invisible = "context.activeRecord.dataStatus != 'NOT_ENABLED' && context.activeRecord.dataStatus != 'DISABLED'")
+    @Action(displayName = "启用", contextType = ActionContextTypeEnum.SINGLE)
+    public PamirsEmployee dataStatusEnable(PamirsEmployee data) {
+        data = super.dataStatusEnable(data);
+        data.updateById();
+        return data;
+    }
+
+    @Override
+    @Transactional
+    @Action.Advanced(invisible = "context.activeRecord.dataStatus != 'ENABLED'")
+    @Action(displayName = "停用", contextType = ActionContextTypeEnum.SINGLE)
+    public PamirsEmployee dataStatusDisable(PamirsEmployee data) {
+        data = super.dataStatusDisable(data);
+        data.updateById();
+        return data;
+    }
 
     @Function(openLevel = FunctionOpenEnum.API, summary = "员工构造")
     @Function.Advanced(type = FunctionTypeEnum.QUERY)
@@ -186,18 +217,6 @@ public class PamirsEmployeeAction {
     @Function(openLevel = {FunctionOpenEnum.API})
     public Pagination<PamirsEmployee> queryPageImmediateSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
         return pamirsEmployeeService.queryPageImmediateSupervisor(page, queryWrapper);
-    }
-
-    @Action(displayName = "pc端查询用户公司", summary = "临时用")
-    @Action.Advanced(type = FunctionTypeEnum.QUERY)
-    @Deprecated
-    public String userCompany(PamirsCompany query) {
-        Long userId = PamirsSession.getUserId();
-        if (null == userId || userId < 1) {
-            return "";
-        }
-
-        return "";
     }
 
     @Function(openLevel = {FunctionOpenEnum.API})

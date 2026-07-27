@@ -9,7 +9,7 @@ public enum EmailSendSecurityEnum implements IEnum<String> {
 
     NONE("none", "无", "无"),
     STARTTLS("starttls", "TLS", "TLS (STARTTLS)"),
-    SSL("ssl", "SSL/TLS", "SSL/TLS");
+    SSL("ssl", "'SSL/TLS'", "SSL/TLS");
 
     private String help;
 

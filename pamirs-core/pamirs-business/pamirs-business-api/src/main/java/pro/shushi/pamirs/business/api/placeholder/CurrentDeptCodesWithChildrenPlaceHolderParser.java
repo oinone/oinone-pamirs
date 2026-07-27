@@ -58,4 +58,9 @@ public class CurrentDeptCodesWithChildrenPlaceHolderParser extends AbstractPlace
     public String namespace() {
         return PLACEHOLDER;
     }
+
+    @Override
+    public String displayName() {
+        return "当前用户所属部门及子部门编码";
+    }
 }

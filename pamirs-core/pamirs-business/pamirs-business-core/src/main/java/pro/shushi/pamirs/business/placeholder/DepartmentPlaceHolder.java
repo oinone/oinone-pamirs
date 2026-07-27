@@ -34,4 +34,9 @@ public class DepartmentPlaceHolder extends AbstractPlaceHolderParser {
     public String namespace() {
         return DEPARTMENT_CODE_PLACEHOLDER;
     }
+
+    @Override
+    public String displayName() {
+        return "当前登录部门编码";
+    }
 }

@@ -24,7 +24,7 @@ public class EmailTemplate extends IdModel {
     @Field(required = true, displayName = "邮件标题")
     private String title;
 
-    @Field.Html
+    @Field.Html(size = 4096)
     @Field(required = true, displayName = "邮件内容")
     @Field.Advanced(columnDefinition = "MEDIUMTEXT")
     private String body;

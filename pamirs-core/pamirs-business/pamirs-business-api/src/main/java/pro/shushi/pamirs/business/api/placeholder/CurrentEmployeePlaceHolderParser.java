@@ -49,4 +49,9 @@ public class CurrentEmployeePlaceHolderParser extends AbstractPlaceHolderParser 
     public String namespace() {
         return PLACEHOLDER;
     }
+
+    @Override
+    public String displayName() {
+        return "前用户员工编码";
+    }
 }

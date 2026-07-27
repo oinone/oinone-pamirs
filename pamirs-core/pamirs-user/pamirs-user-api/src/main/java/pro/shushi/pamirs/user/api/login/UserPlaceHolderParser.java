@@ -31,6 +31,11 @@ public class UserPlaceHolderParser extends AbstractPlaceHolderParser {
     }
 
     @Override
+    public String displayName() {
+        return "当前用户ID";
+    }
+
+    @Override
     public Integer priority() {
         return 0;
     }

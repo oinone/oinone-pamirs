@@ -92,7 +92,7 @@ public interface ColumnDialectComponent {
         if (!SystemValueConstants.YES.equals(column.getNullable())) {
             defs.add(NOT_NULL);
         }
-        if (null != column.getDefaultValue()) {
+        if (null != column.getDefaultValue() && !"null".equals(column.getDefaultValue().toLowerCase())) {
             defs.add("DEFAULT");
             if (Boolean.TRUE.toString().equals(column.getDefaultValue())) {
                 defs.add("'1'");
