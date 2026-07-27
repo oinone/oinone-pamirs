@@ -158,7 +158,7 @@ public class DefaultCurrentDepartmentFetcher implements CurrentDepartmentFetcher
     protected LambdaQueryWrapper<PamirsDepartment> generatorWrapper() {
         return Pops.<PamirsDepartment>lambdaQuery()
                 .from(PamirsDepartment.MODEL_MODEL)
-                .select(PamirsDepartment::getId, PamirsDepartment::getCode, PamirsDepartment::getTreeCode, PamirsDepartment::getDepartmentType)
+                .select(PamirsDepartment::getId, PamirsDepartment::getCode, PamirsDepartment::getName, PamirsDepartment::getTreeCode, PamirsDepartment::getDepartmentType)
                 .eq(PamirsDepartment::getDataStatus, DataStatusEnum.ENABLED.value());
     }
 }

@@ -70,7 +70,7 @@ public class DefaultCurrentCompanyFetcher implements CurrentCompanyFetcher {
     protected LambdaQueryWrapper<PamirsCompany> generatorWrapper() {
         return Pops.<PamirsCompany>lambdaQuery()
                 .from(PamirsCompany.MODEL_MODEL)
-                .select(PamirsCompany::getId, PamirsCompany::getCode)
+                .select(PamirsCompany::getId, PamirsCompany::getCode, PamirsCompany::getName)
                 .eq(PamirsCompany::getDataStatus, DataStatusEnum.ENABLED);
     }
 }
