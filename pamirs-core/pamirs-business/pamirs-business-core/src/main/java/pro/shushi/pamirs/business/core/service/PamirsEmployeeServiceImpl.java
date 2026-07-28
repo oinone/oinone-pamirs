@@ -15,6 +15,9 @@ import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
 import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
+import pro.shushi.pamirs.business.api.model.PamirsPosition;
+import pro.shushi.pamirs.business.api.model.PositionRelEmployee;
+import pro.shushi.pamirs.business.api.model.relation.EmployeeRelRole;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
 import pro.shushi.pamirs.business.api.spi.CurrentDepartmentFetcher;
@@ -25,8 +28,8 @@ import pro.shushi.pamirs.core.common.DataShardingHelper;
 import pro.shushi.pamirs.core.common.enmu.DataStatusEnum;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
+import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
-import pro.shushi.pamirs.framework.gateways.rsql.RSQLHelper;
 import pro.shushi.pamirs.framework.gateways.rsql.RsqlParseHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -51,6 +54,10 @@ import java.util.stream.Collectors;
 @Service
 @Fun(PamirsEmployeeService.FUN_NAMESPACE)
 public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
+
+    private static final String SCOPE_DEPARTMENT_CODE = "departmentCode";
+    private static final String SCOPE_ROLE_CODE = "roleCode";
+    private static final String SCOPE_POSITION_CODE = "positionCode";
 
     @Autowired
     private UserService userService;
@@ -104,10 +111,6 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
                 }
             }
         }
-
-
-        //TODO::
-
 
         PamirsEmployee employee = data;
         return Tx.build().execute(status -> {
@@ -256,6 +259,69 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
     @Function
     @Override
+    public Pagination<PamirsEmployee> queryPageByEmployeeScope(Pagination<PamirsEmployee> page, QueryWrapper<PamirsEmployee> queryWrapper) {
+        Map<String, Object> queryData = Optional.ofNullable(queryWrapper.getQueryData()).orElse(Collections.emptyMap());
+        String departmentCode = (String) queryData.get(SCOPE_DEPARTMENT_CODE);
+        String roleCode = (String) queryData.get(SCOPE_ROLE_CODE);
+        String positionCode = (String) queryData.get(SCOPE_POSITION_CODE);
+        if (StringUtils.isAllBlank(departmentCode, roleCode, positionCode)) {
+            return new PamirsEmployee().queryPage(page, queryWrapper);
+        }
+
+        Set<String> departmentEmployeeCodes = new HashSet<>();
+        Set<Long> roleEmployeeIds = new HashSet<>();
+        Set<Long> roleUserIds = new HashSet<>();
+        Set<Long> positionEmployeeIds = new HashSet<>();
+
+        if (StringUtils.isNotBlank(departmentCode)) {
+            departmentEmployeeCodes.addAll(queryEmployeeCodesByDepartment(departmentCode));
+        }
+        if (StringUtils.isNotBlank(roleCode)) {
+            AuthRole role = new AuthRole().setCode(roleCode).queryOne();
+            if (role == null || role.getId() == null) {
+                return page;
+            }
+            roleEmployeeIds.addAll(queryEmployeeIdsByRoleId(role.getId()));
+            roleUserIds.addAll(queryUserIdsByRoleId(role.getId()));
+            if (roleEmployeeIds.isEmpty() && roleUserIds.isEmpty()) {
+                return page;
+            }
+        }
+        if (StringUtils.isNotBlank(positionCode)) {
+            positionEmployeeIds.addAll(queryEmployeeIdsByPosition(positionCode));
+            if (positionEmployeeIds.isEmpty()) {
+                return page;
+            }
+        }
+
+        // 多维度 AND；部门/角色内部为 OR（主部门∪关系表；员工角色∪用户角色）
+        LambdaQueryWrapper<PamirsEmployee> wrapper = queryWrapper.lambda();
+        if (StringUtils.isNotBlank(departmentCode)) {
+            if (CollectionUtils.isNotEmpty(departmentEmployeeCodes)) {
+                wrapper.and(w -> w.eq(PamirsEmployee::getDepartmentCode, departmentCode)
+                        .or()
+                        .in(PamirsEmployee::getCode, departmentEmployeeCodes));
+            } else {
+                wrapper.eq(PamirsEmployee::getDepartmentCode, departmentCode);
+            }
+        }
+        if (CollectionUtils.isNotEmpty(roleEmployeeIds) && CollectionUtils.isNotEmpty(roleUserIds)) {
+            wrapper.and(w -> w.in(PamirsEmployee::getId, roleEmployeeIds)
+                    .or()
+                    .in(PamirsEmployee::getBindingUserId, roleUserIds));
+        } else if (CollectionUtils.isNotEmpty(roleEmployeeIds)) {
+            wrapper.in(PamirsEmployee::getId, roleEmployeeIds);
+        } else if (CollectionUtils.isNotEmpty(roleUserIds)) {
+            wrapper.in(PamirsEmployee::getBindingUserId, roleUserIds);
+        }
+        if (CollectionUtils.isNotEmpty(positionEmployeeIds)) {
+            wrapper.in(PamirsEmployee::getId, positionEmployeeIds);
+        }
+        return Models.origin().queryPage(page, wrapper);
+    }
+
+    @Function
+    @Override
     public PamirsEmployee queryOne(PamirsEmployee query) {
         return query.queryOne();
     }
@@ -293,12 +359,10 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     @Function
     @Override
     public Pagination<PamirsEmployee> queryPageImmediateSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
-        Map<String, Object> rsqlValues = RSQLHelper.getRsqlValues(queryWrapper.getOriginRsql(),
-                PamirsEmployee::getDepartmentCode, PamirsEmployee::getName, PamirsEmployee::getCode);
-
-        String departmentCode = (String) rsqlValues.get(LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentCode));
-        String employeeName = (String) rsqlValues.get(LambdaUtil.fetchFieldName(PamirsEmployee::getName));
-        String myselfCode = (String) rsqlValues.get(LambdaUtil.fetchFieldName(PamirsEmployee::getCode));
+        Map<String, Object> queryData = Optional.ofNullable(queryWrapper.getQueryData()).orElse(Collections.emptyMap());
+        String departmentCode = (String) queryData.get(LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentCode));
+        String employeeName = (String) queryData.get(LambdaUtil.fetchFieldName(PamirsEmployee::getName));
+        String myselfCode = (String) queryData.get(LambdaUtil.fetchFieldName(PamirsEmployee::getCode));
 
         List<String> employeeCode = Models.data().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
                 .from(DepartmentRelEmployee.MODEL_MODEL)
@@ -499,4 +563,42 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
 
         return pamirsUser;
     }
+
+    private Set<String> queryEmployeeCodesByDepartment(String departmentCode) {
+        return Models.origin().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
+                        .from(DepartmentRelEmployee.MODEL_MODEL)
+                        .setBatchSize(-1)
+                        .eq(DepartmentRelEmployee::getDepartmentCode, departmentCode)
+                        .select(DepartmentRelEmployee::getEmployeeCode))
+                .stream().map(DepartmentRelEmployee::getEmployeeCode).filter(StringUtils::isNotBlank).collect(Collectors.toSet());
+    }
+
+    private Set<Long> queryEmployeeIdsByRoleId(Long roleId) {
+        return Models.origin().queryListByWrapper(Pops.<EmployeeRelRole>lambdaQuery()
+                        .from(EmployeeRelRole.MODEL_MODEL)
+                        .setBatchSize(-1)
+                        .eq(EmployeeRelRole::getAuthRoleId, roleId)
+                        .select(EmployeeRelRole::getEmployeeId))
+                .stream().map(EmployeeRelRole::getEmployeeId).filter(Objects::nonNull).collect(Collectors.toSet());
+    }
+
+    private Set<Long> queryUserIdsByRoleId(Long roleId) {
+        return Optional.ofNullable(authUserRoleService.queryListByRoleIds(Collections.singleton(roleId)))
+                .orElse(Collections.emptyList())
+                .stream().map(AuthUserRoleRel::getUserId).filter(Objects::nonNull).collect(Collectors.toSet());
+    }
+
+    private Set<Long> queryEmployeeIdsByPosition(String positionCode) {
+        PamirsPosition position = new PamirsPosition().setCode(positionCode).queryByCode();
+        if (position == null || position.getId() == null) {
+            return Collections.emptySet();
+        }
+        return Models.origin().queryListByWrapper(Pops.<PositionRelEmployee>lambdaQuery()
+                        .from(PositionRelEmployee.MODEL_MODEL)
+                        .setBatchSize(-1)
+                        .eq(PositionRelEmployee::getPositionId, position.getId())
+                        .select(PositionRelEmployee::getEmployeeId))
+                .stream().map(PositionRelEmployee::getEmployeeId).filter(Objects::nonNull).collect(Collectors.toSet());
+    }
+
 }

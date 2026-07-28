@@ -3,6 +3,7 @@ package pro.shushi.pamirs.business.api.service;
 import pro.shushi.pamirs.auth.api.model.AuthRole;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.tmodel.EmployeeQueryFilter;
+import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
@@ -72,5 +73,11 @@ public interface PamirsEmployeeService {
 
     @Function
     List<PamirsEmployee> queryListByFilter(EmployeeQueryFilter query);
+
+    /**
+     * 按组织维度（部门、岗位、角色）分页查询员工；角色匹配员工绑定与用户绑定的并集
+     */
+    @Function
+    Pagination<PamirsEmployee> queryPageByEmployeeScope(Pagination<PamirsEmployee> page, QueryWrapper<PamirsEmployee> queryWrapper);
 
 }

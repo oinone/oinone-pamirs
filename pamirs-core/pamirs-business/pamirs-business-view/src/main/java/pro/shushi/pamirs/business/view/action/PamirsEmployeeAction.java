@@ -12,6 +12,7 @@ import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
 import pro.shushi.pamirs.business.api.tmodel.EmployeeQueryFilter;
 import pro.shushi.pamirs.core.common.check.UserInfoChecker;
 import pro.shushi.pamirs.core.common.function.FunctionConstant;
+import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -160,6 +161,12 @@ public class PamirsEmployeeAction {
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public Pagination<PamirsEmployee> queryPage(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
         return pamirsEmployeeService.queryPageAndFillSupervisor(page, queryWrapper);
+    }
+
+    @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)
+    @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API}, summary = "按组织维度分页查询员工")
+    public Pagination<PamirsEmployee> queryPageByEmployeeScope(Pagination<PamirsEmployee> page, QueryWrapper<PamirsEmployee> queryWrapper) {
+        return pamirsEmployeeService.queryPageByEmployeeScope(page, queryWrapper);
     }
 
     @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)
