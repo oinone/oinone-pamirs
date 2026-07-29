@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.business.api.entity.PamirsCompany;
 import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
+import pro.shushi.pamirs.business.api.enumeration.EmployeeScopeConstants;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
 import pro.shushi.pamirs.business.api.service.DepartmentRelEmployeeService;
 import pro.shushi.pamirs.business.api.service.PamirsEmployeeService;
@@ -34,6 +35,7 @@ import pro.shushi.pamirs.user.api.service.UserService;
 import pro.shushi.pamirs.user.api.spi.UserPatternCheckApi;
 
 import java.util.List;
+import java.util.Map;
 
 import static pro.shushi.pamirs.business.api.enumeration.BusinessExpEnumerate.EMPLOYEE_NAME_ERROR;
 import static pro.shushi.pamirs.user.api.enmu.UserExpEnumerate.*;
@@ -160,13 +162,19 @@ public class PamirsEmployeeAction {
     @Function.fun(FunctionConstants.queryPage)
     @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API})
     public Pagination<PamirsEmployee> queryPage(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
+        if (queryWrapper instanceof QueryWrapper && hasEmployeeScope(queryWrapper.getQueryData())) {
+            return pamirsEmployeeService.queryPageByEmployeeScope(page, (QueryWrapper<PamirsEmployee>) queryWrapper);
+        }
         return pamirsEmployeeService.queryPageAndFillSupervisor(page, queryWrapper);
     }
 
-    @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)
-    @Function(openLevel = {FunctionOpenEnum.LOCAL, FunctionOpenEnum.REMOTE, FunctionOpenEnum.API}, summary = "按组织维度分页查询员工")
-    public Pagination<PamirsEmployee> queryPageByEmployeeScope(Pagination<PamirsEmployee> page, QueryWrapper<PamirsEmployee> queryWrapper) {
-        return pamirsEmployeeService.queryPageByEmployeeScope(page, queryWrapper);
+    private boolean hasEmployeeScope(Map<String, Object> queryData) {
+        if (queryData == null) {
+            return false;
+        }
+        return StringUtils.isNotBlank((String) queryData.get(EmployeeScopeConstants.DEPARTMENT_CODE))
+                || StringUtils.isNotBlank((String) queryData.get(EmployeeScopeConstants.POSITION_CODE))
+                || StringUtils.isNotBlank((String) queryData.get(EmployeeScopeConstants.ROLE_CODE));
     }
 
     @Function.Advanced(type = FunctionTypeEnum.QUERY, managed = true)

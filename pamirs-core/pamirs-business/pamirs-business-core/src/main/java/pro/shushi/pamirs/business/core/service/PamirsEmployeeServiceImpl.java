@@ -12,6 +12,7 @@ import pro.shushi.pamirs.auth.api.runtime.executor.DataPermissionExecutor;
 import pro.shushi.pamirs.auth.api.service.relation.AuthUserRoleService;
 import pro.shushi.pamirs.business.api.BusinessModule;
 import pro.shushi.pamirs.business.api.enumeration.BindingModeEnum;
+import pro.shushi.pamirs.business.api.enumeration.EmployeeScopeConstants;
 import pro.shushi.pamirs.business.api.model.DepartmentRelEmployee;
 import pro.shushi.pamirs.business.api.model.PamirsDepartment;
 import pro.shushi.pamirs.business.api.model.PamirsEmployee;
@@ -54,10 +55,6 @@ import java.util.stream.Collectors;
 @Service
 @Fun(PamirsEmployeeService.FUN_NAMESPACE)
 public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
-
-    private static final String SCOPE_DEPARTMENT_CODE = "departmentCode";
-    private static final String SCOPE_ROLE_CODE = "roleCode";
-    private static final String SCOPE_POSITION_CODE = "positionCode";
 
     @Autowired
     private UserService userService;
@@ -261,9 +258,9 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     @Override
     public Pagination<PamirsEmployee> queryPageByEmployeeScope(Pagination<PamirsEmployee> page, QueryWrapper<PamirsEmployee> queryWrapper) {
         Map<String, Object> queryData = Optional.ofNullable(queryWrapper.getQueryData()).orElse(Collections.emptyMap());
-        String departmentCode = (String) queryData.get(SCOPE_DEPARTMENT_CODE);
-        String roleCode = (String) queryData.get(SCOPE_ROLE_CODE);
-        String positionCode = (String) queryData.get(SCOPE_POSITION_CODE);
+        String departmentCode = (String) queryData.get(EmployeeScopeConstants.DEPARTMENT_CODE);
+        String roleCode = (String) queryData.get(EmployeeScopeConstants.ROLE_CODE);
+        String positionCode = (String) queryData.get(EmployeeScopeConstants.POSITION_CODE);
         if (StringUtils.isAllBlank(departmentCode, roleCode, positionCode)) {
             return new PamirsEmployee().queryPage(page, queryWrapper);
         }
