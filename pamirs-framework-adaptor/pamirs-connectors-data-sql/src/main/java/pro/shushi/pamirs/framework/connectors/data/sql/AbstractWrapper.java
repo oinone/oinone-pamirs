@@ -236,7 +236,7 @@ public abstract class AbstractWrapper<T, R, Children extends AbstractWrapper<T, 
 
     @Override
     public Children apply(boolean condition, String applySql, Object... value) {
-        return doIt(condition, APPLY, () -> formatSql(applySql, value));
+        return doIt(condition, APPLY, LEFT_BRACKET, () -> formatSql(applySql, value), RIGHT_BRACKET);
     }
 
     @Override

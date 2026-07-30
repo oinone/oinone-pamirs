@@ -165,6 +165,20 @@ public class InitializationUtil {
     }
 
     /**
+     * 获取指定模块的初始化工具类
+     *
+     * @param module     指定模块编码
+     * @param moduleName 指定模块名称
+     * @return 初始化工具类
+     */
+    public InitializationUtil getNewInstance(String module, String moduleName) {
+        if (this.module.equals(module)) {
+            return this;
+        }
+        return get(this.metaMap, module, moduleName);
+    }
+
+    /**
      * 清理启动过程中保留的元数据上下文引用
      */
     public static synchronized void gc() {
