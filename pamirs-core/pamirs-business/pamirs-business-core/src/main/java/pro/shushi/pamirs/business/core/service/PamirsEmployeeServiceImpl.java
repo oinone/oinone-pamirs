@@ -31,6 +31,7 @@ import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.LambdaQueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
+import pro.shushi.pamirs.framework.gateways.rsql.RSQLHelper;
 import pro.shushi.pamirs.framework.gateways.rsql.RsqlParseHelper;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
@@ -356,10 +357,12 @@ public class PamirsEmployeeServiceImpl implements PamirsEmployeeService {
     @Function
     @Override
     public Pagination<PamirsEmployee> queryPageImmediateSupervisor(Pagination<PamirsEmployee> page, IWrapper<PamirsEmployee> queryWrapper) {
-        Map<String, Object> queryData = Optional.ofNullable(queryWrapper.getQueryData()).orElse(Collections.emptyMap());
-        String departmentCode = (String) queryData.get(LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentCode));
-        String employeeName = (String) queryData.get(LambdaUtil.fetchFieldName(PamirsEmployee::getName));
-        String myselfCode = (String) queryData.get(LambdaUtil.fetchFieldName(PamirsEmployee::getCode));
+        Map<String, Object> rsqlValues = RSQLHelper.getRsqlValues(queryWrapper.getOriginRsql(),
+                PamirsEmployee::getDepartmentCode, PamirsEmployee::getName, PamirsEmployee::getCode);
+
+        String departmentCode = (String) rsqlValues.get(LambdaUtil.fetchFieldName(PamirsEmployee::getDepartmentCode));
+        String employeeName = (String) rsqlValues.get(LambdaUtil.fetchFieldName(PamirsEmployee::getName));
+        String myselfCode = (String) rsqlValues.get(LambdaUtil.fetchFieldName(PamirsEmployee::getCode));
 
         List<String> employeeCode = Models.data().queryListByWrapper(Pops.<DepartmentRelEmployee>lambdaQuery()
                 .from(DepartmentRelEmployee.MODEL_MODEL)
