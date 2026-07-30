@@ -31,6 +31,10 @@ public class DepartmentSession {
     }
 
     public static void setDepartmentId(Long employeeId) {
+        if (employeeId == null) {
+            PamirsSession.getTransmittableExtend().remove(ID_KEY);
+            return;
+        }
         PamirsSession.getTransmittableExtend().put(ID_KEY, String.valueOf(employeeId));
     }
 
@@ -39,6 +43,10 @@ public class DepartmentSession {
     }
 
     public static void setDepartmentCode(String code) {
+        if (code == null) {
+            PamirsSession.getTransmittableExtend().remove(CODE_KEY);
+            return;
+        }
         PamirsSession.getTransmittableExtend().put(CODE_KEY, code);
     }
 
@@ -47,6 +55,10 @@ public class DepartmentSession {
     }
 
     public static void setDepartmentTreeCode(String treeCode) {
+        if (treeCode == null) {
+            PamirsSession.getTransmittableExtend().remove(TREE_CODE_KEY);
+            return;
+        }
         PamirsSession.getTransmittableExtend().put(TREE_CODE_KEY, treeCode);
     }
 
@@ -55,6 +67,10 @@ public class DepartmentSession {
     }
 
     public static void setDepartmentType(String type) {
+        if (type == null) {
+            PamirsSession.getTransmittableExtend().remove(TYPE_KEY);
+            return;
+        }
         PamirsSession.getTransmittableExtend().put(TYPE_KEY, type);
     }
 

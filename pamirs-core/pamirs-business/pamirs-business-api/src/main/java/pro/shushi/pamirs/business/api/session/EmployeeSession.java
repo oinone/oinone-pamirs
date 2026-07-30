@@ -31,6 +31,10 @@ public class EmployeeSession {
     }
 
     public static void setEmployeeId(Long id) {
+        if (id == null) {
+            PamirsSession.getTransmittableExtend().remove(ID_KEY);
+            return;
+        }
         PamirsSession.getTransmittableExtend().put(ID_KEY, String.valueOf(id));
     }
 
@@ -39,6 +43,10 @@ public class EmployeeSession {
     }
 
     public static void setEmployeeCode(String code) {
+        if (code == null) {
+            PamirsSession.getTransmittableExtend().remove(CODE_KEY);
+            return;
+        }
         PamirsSession.getTransmittableExtend().put(CODE_KEY, code);
     }
 
@@ -47,6 +55,10 @@ public class EmployeeSession {
     }
 
     public static void setEmployeeType(String type) {
+        if (type == null) {
+            PamirsSession.getTransmittableExtend().remove(TYPE_KEY);
+            return;
+        }
         PamirsSession.getTransmittableExtend().put(TYPE_KEY, type);
     }
 

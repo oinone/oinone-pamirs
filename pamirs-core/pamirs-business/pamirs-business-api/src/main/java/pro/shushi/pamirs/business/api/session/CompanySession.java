@@ -18,6 +18,10 @@ public class CompanySession {
     }
 
     public static void setCompanyId(Long id) {
+        if (id == null) {
+            PamirsSession.getTransmittableExtend().remove(ID_KEY);
+            return;
+        }
         PamirsSession.getTransmittableExtend().put(ID_KEY, String.valueOf(id));
     }
 
@@ -26,6 +30,10 @@ public class CompanySession {
     }
 
     public static void setCompanyCode(String code) {
+        if (code == null) {
+            PamirsSession.getTransmittableExtend().remove(CODE_KEY);
+            return;
+        }
         PamirsSession.getTransmittableExtend().put(CODE_KEY, code);
     }
 
