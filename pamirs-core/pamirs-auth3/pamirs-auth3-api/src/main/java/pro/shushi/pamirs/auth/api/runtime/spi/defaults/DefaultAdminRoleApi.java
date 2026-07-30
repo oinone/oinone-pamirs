@@ -28,4 +28,9 @@ public class DefaultAdminRoleApi implements CurrentRolesCacheApi {
     public void set(Set<Long> roleIds) {
         // do nothing.
     }
+
+    @Override
+    public void clear(Long userId) {
+        // do nothing.
+    }
 }

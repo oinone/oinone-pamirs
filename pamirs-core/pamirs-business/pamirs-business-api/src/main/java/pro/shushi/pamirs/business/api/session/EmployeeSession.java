@@ -94,4 +94,27 @@ public class EmployeeSession {
     public static void setDeptWithChildrenEmployeeCodes(Set<String> codes) {
         PamirsSession.getTransmittableExtend().put(DEPT_WITH_CHILDREN_EMPLOYEE_CODES_KEY, String.join(CharacterConstants.SEPARATOR_COMMA, codes));
     }
+
+    /**
+     * 清除当前员工身份（切换组织时需先清，避免命中旧 employeeCode）
+     */
+    public static void clearIdentity() {
+        PamirsSession.getTransmittableExtend().remove(ID_KEY);
+        PamirsSession.getTransmittableExtend().remove(CODE_KEY);
+        PamirsSession.getTransmittableExtend().remove(TYPE_KEY);
+    }
+
+    /**
+     * 清除部门下员工编码集合
+     */
+    public static void clearDeptEmployeeCodes() {
+        PamirsSession.getTransmittableExtend().remove(DEPT_EMPLOYEE_CODES_KEY);
+        PamirsSession.getTransmittableExtend().remove(DEPT_WITH_CHILDREN_EMPLOYEE_CODES_KEY);
+    }
+
+    public static void clear() {
+        clearIdentity();
+        PamirsSession.getTransmittableExtend().remove(CODES_KEY);
+        clearDeptEmployeeCodes();
+    }
 }

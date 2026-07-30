@@ -26,4 +26,9 @@ public interface CurrentRolesCacheApi {
      * @param roleIds 角色列表
      */
     void set(Set<Long> roleIds);
+
+    /**
+     * 清除 用户角色 缓存
+     */
+    void clear(Long userId);
 }
