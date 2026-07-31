@@ -61,6 +61,6 @@ public class CurrentDeptCodesPlaceHolderParser extends AbstractPlaceHolderParser
 
     @Override
     public String displayName() {
-        return "当前用户所属部门编码";
+        return "当前用户所属部门列表编码";
     }
 }
