@@ -20,7 +20,7 @@
             <field span="1" name="smtpPort" widget="Integer" model="pamirs.message.EmailSenderSource" data="smtpPort"
                    label="SMTP服务器端口" required="true"/>
             <field span="1" name="active" widget="Select" model="pamirs.message.EmailSenderSource" data="active"
-                   label="是否启用"/
+                   label="是否启用"/>
         </pack>
     </template>
 </view>
