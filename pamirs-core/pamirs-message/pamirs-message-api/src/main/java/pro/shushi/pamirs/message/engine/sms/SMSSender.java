@@ -7,6 +7,7 @@ import pro.shushi.pamirs.message.tmodel.SmsTemplateAuditResponse;
 import pro.shushi.pamirs.message.tmodel.SmsTemplateResponse;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spi.SPI;
+import pro.shushi.pamirs.meta.common.spi.factory.SpringServiceLoaderFactory;
 
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import java.util.Map;
  *
  * @author yakir on 2019/08/23 16:49.
  */
-@SPI
+@SPI(factory = SpringServiceLoaderFactory.class)
 public interface SMSSender {
 
 

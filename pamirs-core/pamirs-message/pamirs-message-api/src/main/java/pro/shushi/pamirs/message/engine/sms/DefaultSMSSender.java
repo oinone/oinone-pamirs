@@ -2,6 +2,7 @@ package pro.shushi.pamirs.message.engine.sms;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.message.enmu.MessageEngineTypeEnum;
 import pro.shushi.pamirs.message.enmu.MessageExpEnumerate;
 import pro.shushi.pamirs.message.enmu.SMSChannelEnum;
@@ -25,6 +26,7 @@ import java.util.Optional;
  * @author yakir on 2019/08/22 15:44.
  */
 @Slf4j
+@Component
 @SPI.Service
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class DefaultSMSSender implements SMSSender {
