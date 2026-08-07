@@ -44,7 +44,6 @@ public class PlatformVersionFilter {
             "pamirs-auth-compatible",
             "pamirs-auth3-api",
             "pamirs-auth3-core",
-            "pamirs-auth3-view",
             "pamirs-boot-ui",
             "pamirs-business-api",
             "pamirs-business-core",
