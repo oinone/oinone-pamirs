@@ -35,7 +35,7 @@ public class AuthUserRoleDiffServiceImpl implements AuthUserRoleDiffService {
     @Autowired
     private AuthRoleService authRoleService;
 
-    @Autowired
+    @Autowired(required = false)
     private AuthUserAuthorizeService authUserAuthorizeService;
 
     @Override
