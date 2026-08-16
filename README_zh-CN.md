@@ -109,6 +109,6 @@ Aino 寓意 AI Innovation，谐音`I Know`，是基于本体论（Ontology）的
 
 ## ⭐ Star 趋势
 
-[![Star History Chart](https://api.star-history.com/svg?repos=oinone/oinone-pamirs&type=Date)](https://star-history.com/#oinone/oinone-pamirs&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=oinone/oinone-pamirs&type=Date)](https://star-history.dera.page/#oinone/oinone-pamirs&Date)
 
 > 觉得 Oinone 有用？点个 Star ⭐ 能帮更多开发者发现它，谢谢支持！
