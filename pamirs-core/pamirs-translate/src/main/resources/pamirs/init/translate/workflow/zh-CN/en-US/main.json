@@ -902,5 +902,21 @@
   "流程审批": "Process Approval",
   "流程发起": "Process Initiation",
   "超级管理员": "Super Administrator",
-  "请求失败时处理": "Request Failure Handling"
+  "请求失败时处理": "Request Failure Handling",
+  "仅进行中的流程实例可跳转": "Only in-progress process instances can jump",
+  "子流程实例不支持跳转，请在主流程操作": "Child process instances do not support jump; operate on the main process",
+  "存在多个进行中节点，暂不支持跳转": "Multiple in-progress nodes exist; jump is not supported",
+  "请选择跳转目标节点": "Please select a jump target node",
+  "目标节点不可跳转，请选择同路径上的人工节点": "Target node cannot be jumped to; select a manual node on the same path",
+  "目标节点与当前节点相同，无需跳转": "Target node is the same as the current node; jump is not needed",
+  "跳转路径包含并行/循环/子流程节点，暂不支持": "Jump path contains parallel/loop/child process nodes; not supported",
+  "当前实例无同路径可达的人工节点可跳转": "No same-path reachable manual node is available to jump to",
+  "请填写跳转原因": "Please enter the jump reason",
+  "目标节点绑定的数据源尚未进入流程上下文，无法跳转": "The data source bound to the target node is not in the process context; jump is not allowed",
+  "同路径人工节点的数据源均未进入流程上下文，暂无可跳转目标": "Data sources of same-path manual nodes are not in the process context; no jump target available",
+  "目标节点": "Target Node",
+  "跳转原因": "Jump Reason",
+  "仅可选同主干路径上的人工节点（审批/填写），且目标数据源须已进入流程上下文；含向后已完成节点与向前下游节点。并行/循环/子流程路径不可跳。": "Only same-main-path manual nodes (approval/write) whose data source is already in the process context; includes completed upstream and downstream nodes. Paths with parallel/loop/child process nodes cannot jump.",
+  "已跳转": "Jumped",
+  "跳转": "Jump"
 }
