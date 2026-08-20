@@ -18,7 +18,6 @@ public class PamirsEventEnvironmentChecker extends AbstractPlatformEnvironmentCh
     @Override
     protected EnvironmentKeySet propertyKeys() {
         return newEnvironmentKeySet(EnvironmentKey.Level.IMMUTABLE,
-                "pamirs.event.topic-prefix",
                 newEnvironmentKeySet(EnvironmentKey.Level.ADD_OR_DELETE,
                         EnvironmentKey.addOrDelete("spring.rocketmq.name-server", new StrictChecker(EnvironmentProtectedConfig.isStrict())),
                         EnvironmentKey.addOrDelete("spring.rabbitmq.host", new StrictChecker(EnvironmentProtectedConfig.isStrict())),
