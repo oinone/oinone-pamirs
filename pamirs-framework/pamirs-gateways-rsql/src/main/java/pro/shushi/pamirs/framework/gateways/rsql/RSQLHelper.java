@@ -12,6 +12,7 @@ import pro.shushi.pamirs.framework.gateways.rsql.computer.RSQLNodeComputer;
 import pro.shushi.pamirs.framework.gateways.rsql.connector.NodeConnector;
 import pro.shushi.pamirs.framework.gateways.rsql.connector.NodeConnectorType;
 import pro.shushi.pamirs.framework.gateways.rsql.connector.RSQLNodeConnector;
+import pro.shushi.pamirs.framework.gateways.rsql.connector.RSQLToSQLNodeConnector;
 import pro.shushi.pamirs.framework.gateways.rsql.optimizer.NodeOptimizer;
 import pro.shushi.pamirs.framework.gateways.rsql.optimizer.NodeOptimizerType;
 import pro.shushi.pamirs.framework.gateways.rsql.visitor.ModelRSQLParseVisitor;
@@ -331,7 +332,7 @@ public class RSQLHelper {
             });
             queryWrapper = Pops.f(Pops.query().from(queryWrapper.getModel())).get();
             //把RSQL转换成SQL
-            String sql = RsqlParseHelper.parseRsql2Sql(queryWrapper.getModel(), rsql);
+            String sql = RSQLHelper.toTargetString(RSQLHelper.parse(queryWrapper.getModel(), rsql), RSQLToSQLNodeConnector.INSTANCE);
             if (StringUtils.isNotBlank(sql)) {
                 queryWrapper.apply(sql);
             }

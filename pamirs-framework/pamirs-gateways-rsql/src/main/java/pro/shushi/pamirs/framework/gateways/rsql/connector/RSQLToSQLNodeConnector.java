@@ -205,7 +205,7 @@ public class RSQLToSQLNodeConnector extends SQLNodeConnector {
                 if (argument == null) {
                     break;
                 }
-                return makeVariable(CharacterConstants.PERCENT + argument + CharacterConstants.PERCENT).toString();
+                return "'" + CharacterConstants.PERCENT + makeVariable(argument, FUZZY_SEARCH_CHARACTERS, false) + CharacterConstants.PERCENT + "'";
             case STARTS:
             case NOT_STARTS:
                 if (isJsonFunction) {
@@ -224,7 +224,7 @@ public class RSQLToSQLNodeConnector extends SQLNodeConnector {
                 if (argument == null) {
                     break;
                 }
-                return makeVariable(argument + CharacterConstants.PERCENT).toString();
+                return "'" + makeVariable(argument, FUZZY_SEARCH_CHARACTERS, false) + CharacterConstants.PERCENT + "'";
             case ENDS:
             case NOT_ENDS:
                 if (isJsonFunction) {
@@ -243,7 +243,7 @@ public class RSQLToSQLNodeConnector extends SQLNodeConnector {
                 if (argument == null) {
                     break;
                 }
-                return makeVariable(CharacterConstants.PERCENT + argument).toString();
+                return "'" + CharacterConstants.PERCENT + makeVariable(argument, FUZZY_SEARCH_CHARACTERS, false) + "'";
             case HAS:
             case BIT:
             case NOT_HAS:
@@ -436,9 +436,16 @@ public class RSQLToSQLNodeConnector extends SQLNodeConnector {
     }
 
     private Object makeVariable(Object obj) {
+        return makeVariable(obj, PRECISE_SEARCH_CHARACTERS, true);
+    }
+
+    private Object makeVariable(Object obj, String[] characters, boolean usingQuote) {
         switch (obj.getClass().getName()) {
             case "java.lang.String":
-                return "'" + obj + "'";
+                if (usingQuote) {
+                    return "'" + serializableValue((String) obj, characters) + "'";
+                }
+                return serializableValue((String) obj, characters);
             case "java.util.List":
             case "java.util.ArrayList":
                 return makeVariables((List) obj);
@@ -465,6 +472,12 @@ public class RSQLToSQLNodeConnector extends SQLNodeConnector {
                 }
                 return obj;
         }
+    }
+
+    @Override
+    protected String serializableValue(String value, String[] characters) {
+        value = String.join("''", value.split("\\\\'", -1));
+        return super.serializableValue(value, characters);
     }
 
     protected String makeColumn(ModelConfig model, Object fieldLName) {

@@ -37,9 +37,14 @@ import static pro.shushi.pamirs.framework.gateways.rsql.enmu.RsqlExpEnumerate.*;
  *
  * @author deng
  */
+@Deprecated
 @Slf4j
 @Data
 public class RsqlSpecification {
+
+    protected static final String[] PRECISE_SEARCH_CHARACTERS = new String[]{"_", "%"};
+
+    protected static final String[] FUZZY_SEARCH_CHARACTERS = new String[0];
 
     private String originProperty;
     private String property;
@@ -195,7 +200,7 @@ public class RsqlSpecification {
                     }
                 }
                 if (argument != null) {
-                    return query.like((String) makeVariable(CharacterConstants.PERCENT + argument + CharacterConstants.PERCENT));
+                    return query.like("'" + CharacterConstants.PERCENT + makeVariable(argument, FUZZY_SEARCH_CHARACTERS, false) + CharacterConstants.PERCENT + "'");
                 } else {
                     return query.isNull();
                 }
@@ -209,7 +214,7 @@ public class RsqlSpecification {
                     }
                 }
                 if (argument != null) {
-                    return query.notLike((String) makeVariable(CharacterConstants.PERCENT + argument + CharacterConstants.PERCENT));
+                    return query.notLike("'" + CharacterConstants.PERCENT + makeVariable(argument, FUZZY_SEARCH_CHARACTERS, false) + CharacterConstants.PERCENT + "'");
                 } else {
                     return query.isNull();
                 }
@@ -247,7 +252,7 @@ public class RsqlSpecification {
                     }
                 }
                 if (argument != null) {
-                    return query.like((String) makeVariable(argument + CharacterConstants.PERCENT));
+                    return query.like("'" + makeVariable(argument, FUZZY_SEARCH_CHARACTERS, false) + CharacterConstants.PERCENT + "'");
                 } else {
                     return query.isNull();
                 }
@@ -261,7 +266,7 @@ public class RsqlSpecification {
                     }
                 }
                 if (argument != null) {
-                    return query.notLike((String) makeVariable(argument + CharacterConstants.PERCENT));
+                    return query.notLike("'" + makeVariable(argument, FUZZY_SEARCH_CHARACTERS, false) + CharacterConstants.PERCENT + "'");
                 } else {
                     return query.isNull();
                 }
@@ -275,7 +280,7 @@ public class RsqlSpecification {
                     }
                 }
                 if (argument != null) {
-                    return query.like((String) makeVariable(CharacterConstants.PERCENT + argument));
+                    return query.like("'" + CharacterConstants.PERCENT + makeVariable(argument, FUZZY_SEARCH_CHARACTERS, false) + "'");
                 } else {
                     return query.isNull();
                 }
@@ -289,7 +294,7 @@ public class RsqlSpecification {
                     }
                 }
                 if (argument != null) {
-                    return query.notLike((String) makeVariable(CharacterConstants.PERCENT + argument));
+                    return query.notLike("'" + CharacterConstants.PERCENT + makeVariable(argument, FUZZY_SEARCH_CHARACTERS, false) + "'");
                 } else {
                     return query.isNull();
                 }
@@ -526,10 +531,21 @@ public class RsqlSpecification {
         parent.add(argument);
     }
 
-    protected Object makeVariable(Object obj) {
+    protected String makeVariables(List list) {
+        return "(" + String.join(",", (Collection) list.stream().map(v -> makeVariable(v)).collect(Collectors.toList())) + ")";
+    }
+
+    private Object makeVariable(Object obj) {
+        return makeVariable(obj, PRECISE_SEARCH_CHARACTERS, true);
+    }
+
+    private Object makeVariable(Object obj, String[] characters, boolean usingQuote) {
         switch (obj.getClass().getName()) {
             case "java.lang.String":
-                return "'" + obj + "'";
+                if (usingQuote) {
+                    return "'" + serializableValue((String) obj, characters) + "'";
+                }
+                return serializableValue((String) obj, characters);
             case "java.util.List":
             case "java.util.ArrayList":
                 return makeVariables((List) obj);
@@ -558,6 +574,14 @@ public class RsqlSpecification {
         }
     }
 
+    protected String serializableValue(String value, String[] characters) {
+        value = String.join("''", value.split("\\\\'"));
+        for (String character : characters) {
+            value = String.join(String.format("%s", character), value.split(String.format("\\\\%s", character), -1));
+        }
+        return value;
+    }
+
     protected String makeFiled(Object fieldLName) {
         final String finalFieldLName = (String) fieldLName;
         List<ModelFieldConfig> fields = model.getModelFieldConfigList();
@@ -571,10 +595,6 @@ public class RsqlSpecification {
             throw PamirsException.construct(BASE_NO_MATCH_COLUMN_ERROR).errThrow();
         }
         return column;
-    }
-
-    protected String makeVariables(List list) {
-        return "(" + String.join(",", (Collection) list.stream().map(v -> makeVariable(v)).collect(Collectors.toList())) + ")";
     }
 
     protected String makeQuestionMarks(List list) {

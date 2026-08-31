@@ -6,6 +6,7 @@ import cz.jirutka.rsql.parser.ast.OrNode;
 import cz.jirutka.rsql.parser.ast.RSQLVisitor;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 
+@Deprecated
 public class PamirsRsqlVisitor implements RSQLVisitor<RsqlQuery, ModelConfig> {
 
     private PamirsSpecBuilder builder;

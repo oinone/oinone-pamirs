@@ -10,16 +10,43 @@ import java.util.function.Function;
 
 /**
  * 抽象节点连接器
+ * <ul>
+ *   <li>eq<br>
+ *     <sql>
+ *       select * from auth_auth_role where name == 'cs''5';    -- => cs'5
+ *       select * from auth_auth_role where name == 'cs%9';     -- => cs%9
+ *       select * from auth_auth_role where name == 'cs_8';     -- => cs_8
+ *     </sql>
+ *   </li>
+ *   <li>in<br>
+ *     <sql>
+ *       select * from auth_auth_role where name in ('cs''5');  -- => cs'5
+ *       select * from auth_auth_role where name in ('cs%9');   -- => cs%9
+ *       select * from auth_auth_role where name in ('cs_8');   -- => cs_8
+ *     </sql>
+ *   </li>
+ *   <li>like<br>
+ *     <sql>
+ *       select * from auth_auth_role where name like '%''%';   -- => cs'5
+ *       select * from auth_auth_role where name like '%cs\%%'; -- => cs%9
+ *       select * from auth_auth_role where name like '%cs\_8%'; -- => cs_8
+ *     </sql>
+ *   </li>
+ * </ul>
  *
  * @author Adamancy Zhang at 10:51 on 2024-09-27
  */
 public abstract class AbstractNodeConnector {
 
+    protected static final String[] PRECISE_SEARCH_CHARACTERS = new String[]{"_", "%"};
+
+    protected static final String[] FUZZY_SEARCH_CHARACTERS = new String[]{};
+
     protected String getArgumentString(ComparisonOperator operator, List<String> arguments) {
         if (operator.isMultiValue()) {
-            return CharacterConstants.LEFT_BRACKET + "'" + join("', '", arguments) + "'" + CharacterConstants.RIGHT_BRACKET;
+            return CharacterConstants.LEFT_BRACKET + "'" + joinSerializableValues("','", PRECISE_SEARCH_CHARACTERS, arguments) + "'" + CharacterConstants.RIGHT_BRACKET;
         } else {
-            return "'" + arguments.get(0) + "'";
+            return "'" + serializableValue(arguments.get(0), PRECISE_SEARCH_CHARACTERS) + "'";
         }
     }
 
@@ -41,6 +68,18 @@ public abstract class AbstractNodeConnector {
         }, elements);
     }
 
+    protected String joinSerializableValues(CharSequence delimiter, String[] characters, Iterable<? extends CharSequence> elements) {
+        return join(delimiter, element -> {
+            String value;
+            if (element instanceof String) {
+                value = ((String) element).trim();
+            } else {
+                value = String.valueOf(element).trim();
+            }
+            return serializableValue(value, characters);
+        }, elements);
+    }
+
     protected String concat(String split, String base, String... ss) {
         StringBuilder builder = new StringBuilder(base);
         for (String s : ss) {
@@ -50,5 +89,15 @@ public abstract class AbstractNodeConnector {
             builder.append(split).append(s);
         }
         return builder.toString();
+    }
+
+    /**
+     * Since the frontend has performed escaping on `_`, `%`, and `'`, the backend needs to perform special processing when generating RSQL or SQL
+     */
+    protected String serializableValue(String value, String[] characters) {
+        for (String character : characters) {
+            value = String.join(String.format("%s", character), value.split(String.format("\\\\%s", character), -1));
+        }
+        return value;
     }
 }
