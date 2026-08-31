@@ -1,5 +1,6 @@
 package pro.shushi.pamirs.boot.web.spi.service;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
@@ -30,16 +31,13 @@ import pro.shushi.pamirs.meta.api.Exp;
 import pro.shushi.pamirs.meta.api.Fun;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.auth.AuthApi;
-import pro.shushi.pamirs.meta.api.core.faas.boot.ModulesApi;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.common.spi.SPI;
-import pro.shushi.pamirs.meta.common.spi.Spider;
 import pro.shushi.pamirs.meta.domain.fun.FunctionDefinition;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.SortDirectionEnum;
 import pro.shushi.pamirs.meta.util.JsonUtils;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 
 import static pro.shushi.pamirs.meta.enmu.ModuleStateEnum.INSTALLED;
@@ -203,7 +201,6 @@ public class DefaultHomepageFetcher implements HomepageFetcherApi {
         LambdaQueryWrapper<ModuleDefinition> wrapper = Pops.<ModuleDefinition>lambdaQuery().from(ModuleDefinition.MODEL_MODEL)
                 .eq(ModuleDefinition::getApplication, true)
                 .in(ModuleDefinition::getState, TOUPGRADE.value(), INSTALLED.value())
-                .in(ModuleDefinition::getModule, Spider.getDefaultExtension(ModulesApi.class).modules())
                 .has(ModuleDefinition::getClientTypes, PageLoadHelper.getCurrentClientType());
         Pagination<ModuleDefinition> page = new Pagination<>();
         page.orderBy(SortDirectionEnum.ASC, ModuleDefinition::getPriority);
