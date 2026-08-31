@@ -3,7 +3,6 @@ package pro.shushi.pamirs.user.api.login;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.enmu.BaseExpEnumerate;
 import pro.shushi.pamirs.core.common.placeholder.AbstractPlaceHolderParser;
-import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
@@ -13,7 +12,6 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
  * @author shier
  * date  2020/5/7 3:34 下午
  */
-@Slf4j
 @Component
 public class UserPlaceHolderParser extends AbstractPlaceHolderParser {
 
