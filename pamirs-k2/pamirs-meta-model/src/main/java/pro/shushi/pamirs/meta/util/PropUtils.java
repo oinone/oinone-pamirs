@@ -1,12 +1,12 @@
 package pro.shushi.pamirs.meta.util;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import pro.shushi.pamirs.meta.annotation.Prop;
+import pro.shushi.pamirs.meta.common.constants.CharacterConstants;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 属性工具类
@@ -17,6 +17,11 @@ import java.util.Map;
  * @version 1.0.0
  */
 public class PropUtils {
+
+    private static final List<String> LIST_FIELDS = Lists.newArrayList(
+            "searchFields",
+            "optionFields"
+    );
 
     /**
      * 从注解获取属性列表
@@ -32,8 +37,13 @@ public class PropUtils {
         pro.shushi.pamirs.meta.domain.model.Prop prop;
         for (Prop uxKv : uxProps) {
             prop = new pro.shushi.pamirs.meta.domain.model.Prop();
-            prop.setName(uxKv.name());
-            prop.setValue(TypeUtils.valueOfPrimary(uxKv.type().getName(), uxKv.value(), null));
+            String name = uxKv.name();
+            prop.setName(name);
+            if (LIST_FIELDS.contains(name)) {
+                prop.setValue(Arrays.stream(uxKv.value().split(CharacterConstants.SEPARATOR_COMMA)).map(String::trim).collect(Collectors.toList()));
+            } else {
+                prop.setValue(TypeUtils.valueOfPrimary(uxKv.type().getName(), uxKv.value(), null));
+            }
             propList.add(prop);
         }
         return propList;
