@@ -916,7 +916,7 @@
   "同路径人工节点的数据源均未进入流程上下文，暂无可跳转目标": "Data sources of same-path manual nodes are not in the process context; no jump target available",
   "目标节点": "Target Node",
   "跳转原因": "Jump Reason",
-  "仅可选同主干路径上的人工节点（审批/填写），且目标数据源须已进入流程上下文；含向后已完成节点与向前下游节点。并行/循环/子流程路径不可跳。": "Only same-main-path manual nodes (approval/write) whose data source is already in the process context; includes completed upstream and downstream nodes. Paths with parallel/loop/child process nodes cannot jump.",
+  "仅可选同主干路径上的人工节点（审批/填写），且目标数据源须已进入流程上下文；含向上游已到达/已跳过节点与向前下游节点。并行/循环/子流程路径不可跳。": "Only same-main-path manual nodes (approval/write) whose data source is already in the process context; includes reached or skipped upstream nodes and downstream nodes. Paths with parallel/loop/child process nodes cannot jump.",
   "已跳转": "Jumped",
   "跳转": "Jump"
 }
