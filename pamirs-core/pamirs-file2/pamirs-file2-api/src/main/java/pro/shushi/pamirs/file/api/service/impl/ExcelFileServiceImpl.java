@@ -42,11 +42,11 @@ import pro.shushi.pamirs.file.api.service.ExcelFileService;
 import pro.shushi.pamirs.file.api.service.ExcelImportService;
 import pro.shushi.pamirs.file.api.service.ExcelWorkbookDefinitionService;
 import pro.shushi.pamirs.file.api.util.*;
-import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.framework.connectors.cdn.client.FileClient;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.cdn.pojo.CdnFile;
 import pro.shushi.pamirs.framework.connectors.cdn.pojo.CdnFileForm;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Fun;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
@@ -405,7 +405,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
             DefaultEasyExcelWriteHandler writeHandler = new DefaultEasyExcelWriteHandler(context);
             ExcelWorkbookDefinition workbookDefinition = importTask.getWorkbookDefinition();
             workbookDefinition.setClearExportStyle(false);
-            CdnFileForm formData = fileClient.getFormData(ExcelHelper.generatorFilename(workbookDefinition, ExcelConstant.DEFAULT_ERROR_FILE_SUFFIX));
+            CdnFileForm formData = fileClient.getFormData(ExcelHelper.generatorFilename(workbookDefinition, I18nUtils.getMessage(ExcelConstant.DEFAULT_ERROR_FILE_SUFFIX)));
             ExcelExportTask exportTask = (ExcelExportTask) new ExcelExportTask()
                     .setFile(new PamirsFile().setName(formData.getFileName())
                             .setUrl(formData.getDownloadUrl())

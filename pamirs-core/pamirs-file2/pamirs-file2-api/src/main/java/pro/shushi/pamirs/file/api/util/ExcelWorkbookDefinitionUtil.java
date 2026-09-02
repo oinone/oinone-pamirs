@@ -22,10 +22,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import pro.shushi.pamirs.boot.web.enmu.BootUxdExpEnumerate;
 import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
-import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.core.common.FetchUtil;
 import pro.shushi.pamirs.core.common.ObjectHelper;
 import pro.shushi.pamirs.core.common.TreeHelper;
+import pro.shushi.pamirs.core.common.constant.CommonConstants;
 import pro.shushi.pamirs.core.common.function.lambda.PamirsSupplier;
 import pro.shushi.pamirs.file.api.config.ExcelConstant;
 import pro.shushi.pamirs.file.api.config.FileConstant;
@@ -46,6 +46,7 @@ import pro.shushi.pamirs.file.api.util.analysis.ExcelFixedFormatAnalysisHelper;
 import pro.shushi.pamirs.file.api.util.analysis.ExcelFixedHeaderAnalysisHelper;
 import pro.shushi.pamirs.framework.common.utils.ObjectUtils;
 import pro.shushi.pamirs.framework.connectors.data.tx.transaction.Tx;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
@@ -53,21 +54,21 @@ import pro.shushi.pamirs.meta.api.dto.config.TxConfig;
 import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
-
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.function.BiFunction;
-
 import java.util.function.Consumer;
 
 import static pro.shushi.pamirs.meta.common.util.TypeReferences.TR_MAP_SS;
-@Slf4j
 
+@Slf4j
 public class ExcelWorkbookDefinitionUtil {
+
     public static final BiFunction<EasyExcelBlockDefinition, String[], String> EASY_EXCEL_FIXED_HEADER_FILL_KEY_GENERATOR = (blockDefinition, fields) -> {
         boolean isFirst = true;
         StringBuilder builder = new StringBuilder();
@@ -83,6 +84,7 @@ public class ExcelWorkbookDefinitionUtil {
         }
         return builder.toString();
     };
+
     /**
      * <h>获取Excel定义上下文</h>
      * 1、获取工作表定义的JSON字符串（以下简称定义）
@@ -164,7 +166,7 @@ public class ExcelWorkbookDefinitionUtil {
         String workbookName = workbookDefinition.getName();
         String taskName = Optional.ofNullable(workbookDefinition.getDisplayName()).filter(StringUtils::isNotBlank).orElse(workbookName);
         if (TranslateServiceHolder.get().needTranslate()) {
-            taskName = ExcelConstant.IMPORT_TASK_NAME_TRANSLATE + context.translate(taskName);
+            taskName = "【" + CommonConstants.TRANSLATE_PREFIX + I18nUtils.getMessage(ExcelConstant.IMPORT_NAME) + CommonConstants.TRANSLATE_SUFFIX + "】" + context.translate(taskName);
         } else {
             taskName = I18nUtils.getMessage(ExcelConstant.IMPORT_TASK_NAME) + taskName;
         }

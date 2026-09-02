@@ -7,6 +7,7 @@ import pro.shushi.pamirs.boot.base.resource.PamirsFile;
 import pro.shushi.pamirs.boot.web.spi.api.TranslateService;
 import pro.shushi.pamirs.boot.web.spi.holder.TranslateServiceHolder;
 import pro.shushi.pamirs.core.common.cache.MemoryListSearchCache;
+import pro.shushi.pamirs.core.common.constant.CommonConstants;
 import pro.shushi.pamirs.file.api.config.ExcelConstant;
 import pro.shushi.pamirs.file.api.config.FileProperties;
 import pro.shushi.pamirs.file.api.context.ExcelDefinitionContext;
@@ -20,11 +21,10 @@ import pro.shushi.pamirs.file.api.service.ExcelWorkbookDefinitionService;
 import pro.shushi.pamirs.file.api.util.ExcelFixedHeadHelper;
 import pro.shushi.pamirs.file.api.util.ExcelHelper;
 import pro.shushi.pamirs.file.api.util.ExcelWorkbookDefinitionUtil;
-import pro.shushi.pamirs.locale.utils.I18nUtils;
-import pro.shushi.pamirs.file.api.util.ResourceFileHelper;
 import pro.shushi.pamirs.framework.connectors.cdn.client.FileClient;
 import pro.shushi.pamirs.framework.connectors.cdn.factory.FileClientFactory;
 import pro.shushi.pamirs.framework.connectors.cdn.pojo.CdnFileForm;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.fun.extern.Slf4j;
 import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import pro.shushi.pamirs.meta.api.dto.config.ModelFieldConfig;
@@ -33,12 +33,12 @@ import pro.shushi.pamirs.meta.common.exception.PamirsException;
 import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
-
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
+
 import java.util.Base64;
 import java.util.List;
-
 import java.util.Optional;
+
 /**
  * @author Adamancy Zhang
  * @date 2020-11-10 12:25
@@ -55,6 +55,7 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
     protected ExcelFileService excelFileService;
 
     protected FileProperties fileProperties;
+
     public AbstractExcelExportTaskAction() {
         this.excelWorkbookDefinitionService = BeanDefinitionUtils.getBean(ExcelWorkbookDefinitionService.class);
         this.excelFileService = BeanDefinitionUtils.getBean(ExcelFileService.class);
@@ -228,7 +229,7 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
                 .filter(StringUtils::isNotBlank)
                 .orElse(workbookName);
         if (translateService.needTranslate()) {
-            taskName = ExcelConstant.EXPORT_TASK_NAME_TRANSLATE + context.translate(taskName);
+            taskName = "【" + CommonConstants.TRANSLATE_PREFIX + I18nUtils.getMessage(ExcelConstant.EXPORT_NAME) + CommonConstants.TRANSLATE_SUFFIX + "】" + context.translate(taskName);
         } else {
             taskName = I18nUtils.getMessage(ExcelConstant.EXPORT_TASK_NAME) + taskName;
         }

@@ -13,6 +13,7 @@ import pro.shushi.pamirs.file.api.enmu.FileExpEnumerate;
 import pro.shushi.pamirs.file.api.model.ExcelExportTask;
 import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
@@ -72,12 +73,13 @@ public class ExcelExportTaskAction extends AbstractExcelExportTaskAction<ExcelEx
                 excelWorkbookDefinitionMap = FetchUtil.fetchMapByIds(ExcelWorkbookDefinition.class, workbookDefinitionIds);
             }
         }
+        String exportTaskName = I18nUtils.getMessage(ExcelConstant.EXPORT_TASK_NAME);
         for (ExcelExportTask exportTask : pagination.getContent()) {
             String name = exportTask.getName();
             if (StringUtils.isNotBlank(name)) {
-                if (name.startsWith(ExcelConstant.EXPORT_TASK_NAME)) {
-                    name = name.substring(ExcelConstant.EXPORT_TASK_NAME.length());
-                    exportTask.setName(TranslateUtils.translateValues(ExcelConstant.EXPORT_TASK_NAME) + name);
+                if (name.startsWith(exportTaskName)) {
+                    name = name.substring(exportTaskName.length());
+                    exportTask.setName(TranslateUtils.translateValues(exportTaskName) + name);
                 }
             }
 
