@@ -52,4 +52,13 @@ public class RSQLNodeConnector extends AbstractNodeConnector implements NodeConn
                 nodeInfo.getOperator().getSymbol(),
                 argument);
     }
+
+    @Override
+    protected String serializableValue(String value, String[] characters) {
+        value = String.join("\\\\\\'", value.split("\\\\'", -1));
+        for (String character : characters) {
+            value = String.join(String.format("\\\\\\%s", character), value.split(String.format("\\\\%s", character), -1));
+        }
+        return value;
+    }
 }

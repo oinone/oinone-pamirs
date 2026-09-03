@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @author deng
  */
+@Deprecated
 @Data
 public class RsqlQuery {
 

@@ -1,19 +1,15 @@
 package pro.shushi.pamirs.ux.common.utils;
 
-import cz.jirutka.rsql.parser.RSQLParser;
-import cz.jirutka.rsql.parser.ast.Node;
 import org.apache.commons.collections4.CollectionUtils;
 import pro.shushi.pamirs.framework.connectors.data.sql.Pops;
 import pro.shushi.pamirs.framework.faas.hook.builtin.PlaceHolderHook;
-import pro.shushi.pamirs.framework.gateways.rsql.PamirsRsqlVisitor;
-import pro.shushi.pamirs.framework.gateways.rsql.RsqlQuery;
-import pro.shushi.pamirs.framework.gateways.rsql.RsqlSearchOperation;
+import pro.shushi.pamirs.framework.gateways.rsql.RSQLHelper;
+import pro.shushi.pamirs.framework.gateways.rsql.connector.RSQLToSQLNodeConnector;
 import pro.shushi.pamirs.meta.api.Models;
 import pro.shushi.pamirs.meta.api.core.faas.hook.HookApi;
 import pro.shushi.pamirs.meta.api.core.faas.hook.PlaceHolderParser;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
 import pro.shushi.pamirs.meta.api.dto.wrapper.IWrapper;
-import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.ux.common.entity.HoldSupplier;
 
@@ -86,9 +82,7 @@ public class QueryHelper {
 
     public static String rsqlToSql(String model, String rsql) {
         rsql = replacePlaceholder(rsql);
-        Node parse = new RSQLParser(RsqlSearchOperation.getOperators()).parse(rsql);
-        RsqlQuery query = parse.accept(new PamirsRsqlVisitor(), PamirsSession.getContext().getSimpleModelConfig(model));
-        return query.getWhere().toString();
+        return RSQLHelper.toTargetString(RSQLHelper.parse(model, rsql), RSQLToSQLNodeConnector.INSTANCE);
     }
 
     public enum Directive {

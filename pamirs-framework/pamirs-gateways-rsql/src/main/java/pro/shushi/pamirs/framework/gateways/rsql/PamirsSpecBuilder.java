@@ -9,6 +9,7 @@ import pro.shushi.pamirs.meta.api.dto.config.ModelConfig;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class PamirsSpecBuilder {
 
     public RsqlQuery createSpecification(LogicalNode logicalNode, ModelConfig model) {

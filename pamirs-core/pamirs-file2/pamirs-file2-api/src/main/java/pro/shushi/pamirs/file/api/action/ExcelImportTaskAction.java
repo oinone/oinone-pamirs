@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pro.shushi.pamirs.boot.base.resource.PamirsFile;
 import pro.shushi.pamirs.core.common.FetchUtil;
-import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.core.common.TranslateUtils;
 import pro.shushi.pamirs.file.api.config.ExcelConstant;
 import pro.shushi.pamirs.file.api.config.FileProperties;
@@ -22,13 +21,13 @@ import pro.shushi.pamirs.file.api.model.ExcelWorkbookDefinition;
 import pro.shushi.pamirs.file.api.service.ExcelFileService;
 import pro.shushi.pamirs.framework.connectors.data.sql.query.QueryWrapper;
 import pro.shushi.pamirs.framework.orm.json.PamirsDataUtils;
+import pro.shushi.pamirs.locale.utils.I18nUtils;
 import pro.shushi.pamirs.meta.annotation.Action;
 import pro.shushi.pamirs.meta.annotation.Function;
 import pro.shushi.pamirs.meta.annotation.Model;
 import pro.shushi.pamirs.meta.annotation.sys.Base;
 import pro.shushi.pamirs.meta.api.Ext;
 import pro.shushi.pamirs.meta.api.dto.condition.Pagination;
-import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.util.ListUtils;
 import pro.shushi.pamirs.meta.constant.FunctionConstants;
 import pro.shushi.pamirs.meta.enmu.ActionContextTypeEnum;
@@ -79,12 +78,13 @@ public class ExcelImportTaskAction extends AbstractExcelImportTaskAction<ExcelIm
                 excelWorkbookDefinitionMap = FetchUtil.fetchMapByIds(ExcelWorkbookDefinition.class, workbookDefinitionIds);
             }
         }
+        String importTaskName = I18nUtils.getMessage(ExcelConstant.IMPORT_TASK_NAME);
         for (ExcelImportTask importTask : pagination.getContent()) {
             String name = importTask.getName();
             if (StringUtils.isNotBlank(name)) {
-                if (name.startsWith(ExcelConstant.IMPORT_TASK_NAME)) {
-                    name = name.substring(ExcelConstant.IMPORT_TASK_NAME.length());
-                    importTask.setName(TranslateUtils.translateValues(ExcelConstant.IMPORT_TASK_NAME) + name);
+                if (name.startsWith(importTaskName)) {
+                    name = name.substring(importTaskName.length());
+                    importTask.setName(TranslateUtils.translateValues(importTaskName) + name);
                 }
             }
             ExcelWorkbookDefinition workbookDefinition = excelWorkbookDefinitionMap.get(importTask.getWorkbookDefinitionId());

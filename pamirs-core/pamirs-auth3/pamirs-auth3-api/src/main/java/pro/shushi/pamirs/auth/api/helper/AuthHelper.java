@@ -66,19 +66,24 @@ public class AuthHelper {
         WHITE_FUNCTION.put("resource.ResourceCountry", Arrays.asList("queryPhoneCodes"));
         WHITE_FUNCTION.put("resource.ResourceLang", Arrays.asList("queryLoginLanguage"));
 
-        WHITE_FUNCTION_WITH_LOGIN.put("user.PamirsUserTransient", Arrays.asList("firstResetPassword", "modifyCurrentUserPassword", "modifyMobilePassword"));
+        WHITE_FUNCTION_WITH_LOGIN.put("user.PamirsUserTransient", Arrays.asList("construct", "firstResetPassword", "modifyCurrentUserPassword", "modifyMobilePassword"));
         WHITE_FUNCTION_WITH_LOGIN.put("my.MyPamirsUserProxy", Arrays.asList("construct"));
         WHITE_FUNCTION_WITH_LOGIN.put("user.TopBarLangTransientModel", Arrays.asList("activeLang"));
         WHITE_FUNCTION_WITH_LOGIN.put("user.UserListFieldPreferStore", Arrays.asList("save"));
         WHITE_FUNCTION_WITH_LOGIN.put("user.UserQueryPreferStore", Arrays.asList("create", "update", "delete"));
         WHITE_FUNCTION_WITH_LOGIN.put("base.PamirsFile", Arrays.asList("create"));
-        WHITE_FUNCTION_WITH_LOGIN.put("base.UeModel", Arrays.asList("loadModelField"));
+        WHITE_FUNCTION_WITH_LOGIN.put("base.UeModel", Arrays.asList("load", "loadModelField"));
+        WHITE_FUNCTION_WITH_LOGIN.put("base.UeModule", Arrays.asList("load"));
+        WHITE_FUNCTION_WITH_LOGIN.put("base.Function", Arrays.asList("load", "queryByEntity"));
         WHITE_FUNCTION_WITH_LOGIN.put("base.ViewAction", Arrays.asList("homepage", "load", "home"));
         WHITE_FUNCTION_WITH_LOGIN.put("base.ServerAction", Arrays.asList("load"));
         WHITE_FUNCTION_WITH_LOGIN.put("base.UrlAction", Arrays.asList("load"));
         WHITE_FUNCTION_WITH_LOGIN.put("base.ClientAction", Arrays.asList("load"));
         WHITE_FUNCTION_WITH_LOGIN.put("user.TopBarUserBlock", Arrays.asList("construct"));
         WHITE_FUNCTION_WITH_LOGIN.put("file.ExcelWorkbookDefinition", Arrays.asList("queryByWrapper"));
+        WHITE_FUNCTION_WITH_LOGIN.put("pamirs.message.UnreadMessage", Arrays.asList("unreadCount"));
+        WHITE_FUNCTION_WITH_LOGIN.put("base.AppSwitcherModuleProxy", Arrays.asList("queryPage"));
+        WHITE_FUNCTION_WITH_LOGIN.put("resource.ResourceLang", Arrays.asList("queryListByWrapper", "queryByEntity"));
     }
 
     private AuthHelper() {

@@ -223,9 +223,13 @@ public class RegisterViewEditor implements MetaDataEditor {
                                 if (filterModel(modelDefinition)) {
                                     continue;
                                 }
-                                makeDefaultViews(meta, modelDefinition, actionMap);
-                                long end0 = System.currentTimeMillis();
-                                log.debug("[{}],time:[{}]ms", model, end0 - start0);
+                                try {
+                                    makeDefaultViews(meta, modelDefinition, actionMap);
+                                    long end0 = System.currentTimeMillis();
+                                    log.debug("[{}],time:[{}]ms", model, end0 - start0);
+                                } catch (Throwable e) {
+                                    log.error("Generate default view for window action error. model: {}", model, e);
+                                }
                             }
                         }
 
