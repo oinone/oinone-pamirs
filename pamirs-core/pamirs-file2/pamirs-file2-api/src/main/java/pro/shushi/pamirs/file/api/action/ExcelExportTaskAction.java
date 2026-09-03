@@ -44,9 +44,6 @@ import java.util.stream.Collectors;
 @Model.model(ExcelExportTask.MODEL_MODEL)
 public class ExcelExportTaskAction extends AbstractExcelExportTaskAction<ExcelExportTask> {
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-
     /**
      * workbookName改成存储字段，存在在导出过去中动态生成的ExcelWorkbookDefinition不落库的情况.
      * 兼容早期 workbookName 不存储问题.
@@ -107,18 +104,6 @@ public class ExcelExportTaskAction extends AbstractExcelExportTaskAction<ExcelEx
     public ExcelExportTask createExportTask(ExcelExportTask data) {
         data = fetchPrepareExportTask(data);
         return super.createExportTask(data);
-    }
-
-    protected ExcelExportTask fetchPrepareExportTask(ExcelExportTask data) {
-        String requestId = data.getRequestId();
-        if (StringUtils.isNotBlank(requestId)) {
-            String prepareString = stringRedisTemplate.opsForValue().get(requestId);
-            if (StringUtils.isBlank(prepareString)) {
-                throw PamirsException.construct(FileExpEnumerate.EXPORT_REQUEST_NOT_EXIST).errThrow();
-            }
-            data = JsonUtils.parseObject(prepareString, ExcelExportTask.class);
-        }
-        return data;
     }
 
     @Override
