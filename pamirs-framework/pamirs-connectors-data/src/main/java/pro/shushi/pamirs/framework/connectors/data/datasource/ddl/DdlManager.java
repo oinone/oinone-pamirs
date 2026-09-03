@@ -67,9 +67,70 @@ public class DdlManager {
         return DdlManager.getUriFromUrl(getUrl(dsKey));
     }
 
+    /**
+     * 将多主机 JDBC URI（已去除 "jdbc:" 前缀）标准化为单主机形式，仅保留第一个主机条目。
+     *
+     * <p>支持以下多主机格式：</p>
+     * <ul>
+     *   <li>{@code scheme://host1:port1,host2:port2/db?params} → {@code scheme://host1:port1/db?params}</li>
+     *   <li>{@code scheme://host1,host2:port/db?params}        → {@code scheme://host1:port/db?params}</li>
+     * </ul>
+     *
+     * <p>若第一个主机条目不含端口，则从后续条目中借用端口号。</p>
+     * <p><b>注意</b>：不支持 MySQL Connector/J {@code address=(host=...)(port=...)} 高级多主机格式。</p>
+     *
+     * @param uriWithoutJdbc 已去除 "jdbc:" 前缀的 URI 字符串
+     * @return 标准化后的单主机 URI 字符串；若不存在多主机（无逗号），则原样返回
+     */
+    public static String normalizeMultiHost(String uriWithoutJdbc) {
+        if (StringUtils.isBlank(uriWithoutJdbc)) {
+            return uriWithoutJdbc;
+        }
+        int schemeEnd = uriWithoutJdbc.indexOf("://");
+        if (schemeEnd < 0) {
+            return uriWithoutJdbc;
+        }
+
+        // 定位 authority 段：scheme:// 之后，首个 '/' 或 '?' 或字符串末尾之前
+        int authorityStart = schemeEnd + 3;
+        int pathStart      = uriWithoutJdbc.indexOf('/', authorityStart);
+        int queryStart     = uriWithoutJdbc.indexOf('?', authorityStart);
+        int authorityEnd   = uriWithoutJdbc.length();
+        if (pathStart  >= 0)                              { authorityEnd = pathStart; }
+        if (queryStart >= 0 && queryStart < authorityEnd) { authorityEnd = queryStart; }
+
+        String authority  = uriWithoutJdbc.substring(authorityStart, authorityEnd);
+        int firstCommaPos = authority.indexOf(',');
+        // 无逗号：单主机，直接返回
+        if (firstCommaPos < 0) {
+            return uriWithoutJdbc;
+        }
+
+        // 取第一个主机条目；若其不含端口（无 ':'），则从后续条目借用
+        String firstHost = authority.substring(0, firstCommaPos);
+        if (firstHost.indexOf(':') < 0) {
+            String[] remainingHosts = authority.substring(firstCommaPos + 1).split(",", -1);
+            for (String other : remainingHosts) {
+                int colonIdx = other.indexOf(':');
+                if (colonIdx >= 0) {
+                    firstHost = firstHost + other.substring(colonIdx);
+                    break;
+                }
+            }
+        }
+
+        return uriWithoutJdbc.substring(0, authorityStart) + firstHost + uriWithoutJdbc.substring(authorityEnd);
+    }
+
+    /**
+     * 将 JDBC URL 转换为 {@link URI}。
+     * <p>去除 "jdbc:" 前缀后，对多主机写法（authority 段含逗号）自动标准化为单主机。</p>
+     *
+     * @param url 完整 JDBC URL，必须以 "jdbc:" 开头
+     * @return 解析后的 {@link URI}
+     */
     public static URI getUriFromUrl(String url) {
-        String cleanURI = url.substring(5);
-        return URI.create(cleanURI);
+        return URI.create(normalizeMultiHost(url.substring(5)));
     }
 
     public DataSourceInfo getDataSourceInfo(String dsKey) {

@@ -14,4 +14,9 @@ public interface PlaceHolderParser {
 
     String namespace();
 
+    // 增加displayName同时兼容老的版本
+    default String displayName() {
+        return "";
+    };
+
 }

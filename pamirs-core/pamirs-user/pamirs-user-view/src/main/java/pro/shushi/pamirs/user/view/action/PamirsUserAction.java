@@ -177,6 +177,5 @@ public class PamirsUserAction {
     private PamirsUser success(PamirsUser user) {
         return user.setPassword(null).setInitialPassword(null);
     }
-
 }
 

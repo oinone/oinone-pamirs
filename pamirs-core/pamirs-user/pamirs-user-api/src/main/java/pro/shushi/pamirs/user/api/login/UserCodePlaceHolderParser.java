@@ -8,31 +8,28 @@ import pro.shushi.pamirs.meta.api.session.PamirsSession;
 import pro.shushi.pamirs.meta.common.exception.PamirsException;
 
 /**
- * 用户ID占位符转化
- *
- * @author shier
- * date  2020/5/7 3:34 下午
+ * 用户编码占位符转化
  */
 @Slf4j
 @Component
-public class UserPlaceHolderParser extends AbstractPlaceHolderParser {
+public class UserCodePlaceHolderParser extends AbstractPlaceHolderParser {
 
     @Override
     protected String value() {
-        if (PamirsSession.getUserId() == null) {
+        if (PamirsSession.getUserCode() == null) {
             throw PamirsException.construct(BaseExpEnumerate.BASE_USER_NOT_LOGIN_ERROR).errThrow();
         }
-        return PamirsSession.getUserId().toString();
+        return PamirsSession.getUserCode();
     }
 
     @Override
     public String namespace() {
-        return "${currentUser}";
+        return "${currentUserCode}";
     }
 
     @Override
     public String displayName() {
-        return "当前用户ID";
+        return "当前用户编码";
     }
 
     @Override

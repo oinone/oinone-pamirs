@@ -30,6 +30,11 @@ public class CdnConfig implements Serializable {
 
     private String bucket;
 
+    /**
+     * 对象存储区域（如 S3 的 ap-southeast-1），优先级高于从 uploadUrl 中解析
+     */
+    private String region;
+
     private String uploadUrl;
 
     private String uploadUrlFormat;

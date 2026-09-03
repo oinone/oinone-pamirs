@@ -8,6 +8,8 @@
             <field span="1" name="name" widget="Input" model="pamirs.message.EmailSenderSource" data="name" label="名称"/>
             <field span="1" name="smtpUser" widget="Input" model="pamirs.message.EmailSenderSource" data="smtpUser"
                    label="SMTP用户名"/>
+            <field span="1" name="smtpPassword" widget="Password" model="pamirs.message.EmailSenderSource"
+                   data="smtpPassword" label="SMTP密码"/>
             <field span="1" name="smtpSecurity" widget="Select" model="pamirs.message.EmailSenderSource"
                    data="smtpSecurity" label="加密类型"/>
             <field span="1" name="smtpHost" widget="Input" model="pamirs.message.EmailSenderSource" data="smtpHost"
