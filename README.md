@@ -105,6 +105,6 @@ Aino, which stands for AI Innovation and is a near-homophone of I Know, An ontol
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=oinone/oinone-pamirs&type=Date)](https://star-history.com/#oinone/oinone-pamirs&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=oinone/oinone-pamirs&type=Date)](https://star-history.dera.page/#oinone/oinone-pamirs&Date)
 
 > Found Oinone useful? A Star ⭐ helps more developers discover AI-native low-code. Thank you!
