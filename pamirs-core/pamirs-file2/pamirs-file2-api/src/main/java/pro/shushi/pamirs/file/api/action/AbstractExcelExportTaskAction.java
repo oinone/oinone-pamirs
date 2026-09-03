@@ -2,6 +2,7 @@ package pro.shushi.pamirs.file.api.action;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import pro.shushi.pamirs.boot.base.enmu.FileTypeEnum;
 import pro.shushi.pamirs.boot.base.resource.PamirsFile;
 import pro.shushi.pamirs.boot.web.spi.api.TranslateService;
@@ -34,6 +35,7 @@ import pro.shushi.pamirs.meta.common.spring.BeanDefinitionUtils;
 import pro.shushi.pamirs.meta.domain.model.ModelField;
 import pro.shushi.pamirs.meta.domain.module.ModuleDefinition;
 import pro.shushi.pamirs.meta.enmu.TtypeEnum;
+import pro.shushi.pamirs.meta.util.JsonUtils;
 
 import java.util.Base64;
 import java.util.List;
@@ -52,6 +54,8 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
 
     protected ExcelWorkbookDefinitionService excelWorkbookDefinitionService;
 
+    protected StringRedisTemplate stringRedisTemplate;
+
     protected ExcelFileService excelFileService;
 
     protected FileProperties fileProperties;
@@ -60,6 +64,7 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
         this.excelWorkbookDefinitionService = BeanDefinitionUtils.getBean(ExcelWorkbookDefinitionService.class);
         this.excelFileService = BeanDefinitionUtils.getBean(ExcelFileService.class);
         this.fileProperties = BeanDefinitionUtils.getBean(FileProperties.class);
+        this.stringRedisTemplate = BeanDefinitionUtils.getBean(StringRedisTemplate.class);
     }
 
     @Deprecated
@@ -76,6 +81,18 @@ public abstract class AbstractExcelExportTaskAction<T extends ExcelExportTask> {
      * @param context    EXCEL定义上下文
      */
     protected abstract void doExport(T exportTask, ExcelDefinitionContext context);
+
+    protected ExcelExportTask fetchPrepareExportTask(ExcelExportTask data) {
+        String requestId = data.getRequestId();
+        if (StringUtils.isNotBlank(requestId)) {
+            String prepareString = stringRedisTemplate.opsForValue().get(requestId);
+            if (StringUtils.isBlank(prepareString)) {
+                throw PamirsException.construct(FileExpEnumerate.EXPORT_REQUEST_NOT_EXIST).errThrow();
+            }
+            data = JsonUtils.parseObject(prepareString, ExcelExportTask.class);
+        }
+        return data;
+    }
 
     public T createExportTask(T data) {
         ExcelExportMethodEnum exportMethod = data.getExportMethod();
