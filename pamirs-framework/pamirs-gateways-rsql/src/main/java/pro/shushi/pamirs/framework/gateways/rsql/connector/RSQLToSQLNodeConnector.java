@@ -476,8 +476,17 @@ public class RSQLToSQLNodeConnector extends SQLNodeConnector {
 
     @Override
     protected String serializableValue(String value, String[] characters) {
-        value = String.join("''", value.split("\\\\'", -1));
-        return super.serializableValue(value, characters);
+        // Normalize the frontend escape marker (backslash + quote) to a bare single quote.
+        value = value.replace("\\'", "'");
+        // Preserve existing wildcard handling (backslash-underscore -> _, backslash-percent -> %).
+        value = super.serializableValue(value, characters);
+        // Escape residual backslashes so they cannot escape the closing quote
+        // (default MySQL treats a backslash as an escape character).
+        value = value.replace("\\", "\\\\");
+        // SQL-escape every single quote by doubling it. The previous logic only handled
+        // the backslash+quote sequence and let a bare quote break out of the literal.
+        value = value.replace("'", "''");
+        return value;
     }
 
     protected String makeColumn(ModelConfig model, Object fieldLName) {
